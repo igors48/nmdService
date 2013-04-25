@@ -1,0 +1,7 @@
+<project>
+
+  <property name="app.engine.sdk.directory" location="C:/devTools/appengine-java-sdk-1.7.7.1/" />
+  
+  <import file="${app.engine.sdk.directory}/config/user/ant-macros.xml" />
+
+</project>
