@@ -9,6 +9,11 @@
     <property name="dir.base" value="."/>
     <property name="dir.build" value="${dir.base}/build/"/>
     <property name="dir.release" value="${dir.base}/release/"/>
+
+    <property name="war.directory" value="${dir.release}/war/"/>
+    <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
+    <property name="lib.directory" value="${web.inf.directory}/lib/"/>
+    <property name="classes.directory" value="${web.inf.directory}/classes/"/>
 	
     <property name="dir.source" value="${dir.base}/src/"/>
     <property name="dir.source.main.java" value="${dir.source}/main/java"/>
@@ -254,34 +259,21 @@
 
         </javac>
 
-		<!--
-        <copy todir="${destination.directory}">
-            <fileset dir="${dir.base}/test">
-                <patternset refid="compiler.resources"/>
-                <type type="file"/>
-            </fileset>
-        </copy>
-		-->
-
     </target>
 
 	
     <target name="release">
-
-        <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
-        <property name="lib.directory" value="${web.inf.directory}/lib/"/>
-        <property name="classes.directory" value="${web.inf.directory}/classes/"/>
 
         <antcall target="-prepare_dir">
             <param name="param.dir" value="${dir.release}"/>
         </antcall>
         
         <antcall target="-prepare_dir">
-            <param name="param.dir" value="${dir.release}/war/"/>
+            <param name="param.dir" value="${war.directory}"/>
         </antcall>
 
         <antcall target="-prepare_dir">
-            <param name="param.dir" value="${dir.release}/war/WEB-INF/"/>
+            <param name="param.dir" value="${web.inf.directory}"/>
         </antcall>
 
         <antcall target="-prepare_dir">
@@ -308,54 +300,39 @@
             </fileset>
         </copy>
 
-<!--
-        <antcall target="-prepare_dir">
-            <param name="param.dir" value="${dir.build}"/>
-        </antcall>
-
-        <antcall target="-prepare_dir">
-            <param name="param.dir" value="${dir.release}"/>
-        </antcall>
-
-        <antcall target="-compile_to">
-            <param name="destination.directory" value="${dir.build}"/>
-        </antcall>
-		
-        <buildnumber/>
-
-        <propertyfile file="${dir.build}/${version.property.file.path}">
-            <entry key="build" default="" operation="=" value="${build.number}"/>
-        </propertyfile>
-
-        <property file="${dir.build}/${version.property.file.path}"/>		
-
-        <mkdir dir="${dir.release}/lib/"/>
-
-        <jar jarfile="${dir.release}/lib/${ant.project.name}.jar" compress="true">
-            <fileset dir="${dir.build}"/>
-        </jar>
-
-        <copy todir="${dir.release}/lib/">
-			<fileset dir="${dir.dependencies.compile}"/>
-			<fileset dir="${dir.dependencies.runtime}"/>
-        </copy>
-
-		<delete dir="${dir.build}" includeEmptyDirs="true" quiet="true"/>
-
-        <mkdir dir="${dir.release}/bin/"/>
-
-        <copy todir="${dir.release}/bin/">
-            <fileset dir="${dir.base}/scripts/"/>
-        </copy>
-		
-		<zip destfile="${dir.release}/${ant.project.name}-${version}.${build}.zip" basedir="${dir.release}"/>
--->		
    </target>
 
-   <target name="runserver">
+   <target name="run.dev.server">
    
-        <dev_appserver war="${dir.release}/war/" port="8888" >
+        <dev_appserver war="${war.directory}" port="8888" >
         </dev_appserver>
+        
+    </target>
+
+    <target name="update">
+   
+        <input message="Enter email : " addproperty="gae-email"/>
+        <input message="Enter password : " addproperty="gae-password">
+            <handler type="secure"/>
+        </input>
+        
+        <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae-password}"
+            classpath="${app.engine.sdk.directory}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
+            <arg value="--email=${gae-email}" />
+            <arg value="--passin" />
+            <arg value="update" />
+            <arg value="${war.directory}" />
+        </java> 
+        
+    </target>
+
+    <target name="rollback">
+   
+        <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae-password}"
+            classpath="${app.engine.sdk.directory}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
+            <arg value="rollback" />
+            <arg value="${war.directory}" />
+        </java>
         
     </target>
 
