@@ -1,7 +1,307 @@
-<project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="nmdService">
 
-  <property name="app.engine.sdk.directory" location="C:/devTools/appengine-java-sdk-1.7.7.1/" />
-  
-  <import file="${app.engine.sdk.directory}/config/user/ant-macros.xml" />
+    <property name="app.engine.sdk.directory" location="C:/devTools/appengine-java-sdk-1.7.7.1/" />
+    <import file="${app.engine.sdk.directory}/config/user/ant-macros.xml" />
+
+    <record name="build.log"/>
+
+    <property name="dir.base" value="."/>
+    <property name="dir.build" value="${dir.base}/build/"/>
+    <property name="dir.release" value="${dir.base}/release/"/>
+	
+    <property name="dir.source" value="${dir.base}/src/"/>
+    <property name="dir.source.main.java" value="${dir.source}/main/java"/>
+    <property name="dir.source.test.java" value="${dir.source}/test/java"/>
+	
+    <property name="dir.dependencies" value="${dir.base}/lib/"/>
+    <property name="dir.dependencies.compile" value="${dir.dependencies}/compile/"/>
+    <property name="dir.dependencies.provided" value="${dir.dependencies}/provided/"/>
+    <property name="dir.dependencies.runtime" value="${dir.dependencies}/runtime/"/>
+    <property name="dir.dependencies.test" value="${dir.dependencies}/test/"/>
+
+    <property name="version.property.file.path" value="swin/version.properties"/>
+
+
+    <property name="debug" value="off"/>
+
+    <property name="compiler.deprecation" value="off"/>
+    <property name="compiler.target" value="1.6"/>
+    <property name="compiler.source" value="1.6"/>
+    <property name="compiler.depend" value="off"/>
+    <property name="compiler.max.memory" value="128m"/>
+    <property name="compiler.debug" value="on"/>
+    <property name="compiler.optimize" value="off"/>
+    <property name="compiler.nowarn" value="off"/>
+    <property name="compiler.verbose" value="on"/>
+
+
+    <patternset id="ignored.files">
+        <exclude name="**/CVS/**"/>
+        <exclude name="**/SCCS/**"/>
+        <exclude name="**/RCS/**"/>
+        <exclude name="**/rcs/**"/>
+        <exclude name="**/.DS_Store/**"/>
+        <exclude name="**/.svn/**"/>
+        <exclude name="**/.sbas/**"/>
+        <exclude name="**/.IJI.*/**"/>
+        <exclude name="**/vssver.scc/**"/>
+        <exclude name="**/vssver2.scc/**"/>
+    </patternset>
+
+
+    <patternset id="compiler.resources">
+        <include name="**/?*.properties"/>
+        <include name="**/?*.xml"/>
+        <include name="**/?*.gif"/>
+        <include name="**/?*.png"/>
+        <include name="**/?*.jpeg"/>
+        <include name="**/?*.jpg"/>
+        <include name="**/?*.html"/>
+        <include name="**/?*.dtd"/>
+        <include name="**/?*.tld"/>
+    </patternset>
+
+	<fileset id="jar.files" dir="">
+		<include name="**/*.jar"/>
+    </fileset>
+    
+    <path id="compile.dependencies" path="${dir.dependencies.compile}">
+		<fileset refid="jar.files"/>
+	</path>
+
+	
+    <path id="provided.dependencies" path="${dir.dependencies.provided}">
+		<fileset refid="jar.files"/>
+	</path>
+
+	
+    <path id="runtime.dependencies" path="${dir.dependencies.runtime}">
+		<fileset refid="jar.files"/>
+	</path>
+
+	
+    <path id="test.dependencies" path="${dir.dependencies.test}">
+		<fileset refid="jar.files"/>
+	</path>
+
+	
+    <path id="execution.dependencies">
+        <path refid="compile.dependencies"/>
+        <path refid="provided.dependencies"/>
+        <path refid="runtime.dependencies"/>
+    </path>
+    
+
+    <path id="java.source.path" path="${dir.source.main.java}"/>
+
+    
+	<fileset id="source.main.java" dir="${dir.source.main.java}">
+		<include name="**/*.java"/>
+	</fileset>
+    
+    
+    <path id="java.test.path" path="${dir.source.test.java}"/>
+
+    
+	<fileset id="source.test.java" dir="${dir.source.test.java}">
+		<include name="**/*.java"/>
+	</fileset>
+
+    
+	<fileset id="source.test.filtered.java" dir="${dir.source.test.java}">
+		<include name="**/*Test.java"/>
+	</fileset>
+
+    
+    <fileset id="source.all.java" dir="${dir.source}">
+		<include name="**/*.java"/>
+    </fileset>
+    
+
+    <target name="-prepare_dir">
+        <delete dir="${param.dir}" includeEmptyDirs="true" quiet="true"/>
+        <mkdir dir="${param.dir}"/>
+    </target>
+
+    <target name="-init_compiler"
+            depends="-init_compilation_conditions, -set_production_compilation_if, -set_debug_compilation_if">
+
+        <property name="compiler.deprecation" value="off"/>
+        <property name="compiler.target" value="1.6"/>
+        <property name="compiler.source" value="1.6"/>
+        <property name="compiler.depend" value="off"/>
+        <property name="compiler.max.memory" value="128m"/>
+
+    </target>
+
+
+    <target name="-init_compilation_conditions">
+
+		<echo message="DEBUG MODE=${debug}"/>
+		
+        <condition property="is_debug" value="true">
+            <or>
+                <equals arg1="${debug}" arg2="true"/>
+                <equals arg1="${debug}" arg2="on"/>
+            </or>
+        </condition>
+
+        <condition property="is_production" value="true">
+            <not>
+                <or>
+                    <equals arg1="${debug}" arg2="true"/>
+                    <equals arg1="${debug}" arg2="on"/>
+                </or>
+            </not>
+        </condition>
+
+    </target>
+
+
+    <target name="-set_production_compilation_if" if="is_production">
+
+		<echo message="PRODUCTION MODE"/>
+		
+        <property name="compiler.debug" value="off"/>
+        <property name="compiler.debuglevel" value="none"/>
+        <property name="compiler.optimize" value="on"/>
+        <property name="compiler.nowarn" value="on"/>
+        <property name="compiler.verbose" value="off"/>
+
+    </target>
+
+
+    <target name="-set_debug_compilation_if" if="is_debug">
+
+		<echo message="DEBUG MODE"/>
+		
+        <property name="compiler.debug" value="on"/>
+        <property name="compiler.debuglevel" value="lines,source"/>
+        <property name="compiler.optimize" value="off"/>
+        <property name="compiler.nowarn" value="off"/>
+        <property name="compiler.verbose" value="on"/>
+
+    </target>
+
+    <target name="-compile_to" depends="-init_compiler">
+
+        <javac destdir="${destination.directory}"
+               debug="${compiler.debug}"
+               optimize="${compiler.optimize}"
+               nowarn="${compiler.nowarn}"
+               deprecation="${compiler.deprecation}"
+               source="${compiler.source}"
+               target="${compiler.target}"
+               verbose="${compiler.verbose}"
+               depend="${compiler.depend}"
+               memoryMaximumSize="${compiler.max.memory}"
+               fork="true">
+
+            <src refid="java.source.path"/>
+            <classpath refid="compile.dependencies"/>
+            <classpath refid="provided.dependencies"/>
+            <patternset refid="ignored.files"/>
+
+        </javac>
+
+        <copy todir="${destination.directory}">
+            <fileset dir="${dir.source.main.java}">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+
+    </target>
+
+	
+    <target name="-compile_with_tests_to">
+
+        <antcall target="-prepare_dir">
+            <param name="param.dir" value="${destination.directory}"/>
+        </antcall>
+
+        <antcall target="-compile_to">
+            <param name="destination.directory" value="${destination.directory}"/>
+        </antcall>
+
+        <javac destdir="${destination.directory}"
+               debug="${compiler.debug}"
+               optimize="${compiler.optimize}"
+               nowarn="${compiler.nowarn}"
+               deprecation="${compiler.deprecation}"
+               source="${compiler.source}"
+               target="${compiler.target}"
+               verbose="${compiler.verbose}"
+               depend="${compiler.depend}"
+               memoryMaximumSize="${compiler.max.memory}"
+               fork="true">
+
+            <classpath refid="compile.dependencies"/>
+            <classpath refid="provided.dependencies"/>
+            <classpath refid="test.dependencies"/>
+            <classpath location="${destination.directory}"/>
+            <src refid="java.test.path"/>
+            <patternset refid="ignored.files"/>
+
+        </javac>
+
+		<!--
+        <copy todir="${destination.directory}">
+            <fileset dir="${dir.base}/test">
+                <patternset refid="compiler.resources"/>
+                <type type="file"/>
+            </fileset>
+        </copy>
+		-->
+
+    </target>
+
+	
+    <target name="release">
+
+        <antcall target="-prepare_dir">
+            <param name="param.dir" value="${dir.build}"/>
+        </antcall>
+
+        <antcall target="-prepare_dir">
+            <param name="param.dir" value="${dir.release}"/>
+        </antcall>
+
+        <antcall target="-compile_to">
+            <param name="destination.directory" value="${dir.build}"/>
+        </antcall>
+		
+        <buildnumber/>
+
+        <propertyfile file="${dir.build}/${version.property.file.path}">
+            <entry key="build" default="" operation="=" value="${build.number}"/>
+        </propertyfile>
+
+        <property file="${dir.build}/${version.property.file.path}"/>		
+
+        <mkdir dir="${dir.release}/lib/"/>
+
+        <jar jarfile="${dir.release}/lib/${ant.project.name}.jar" compress="true">
+            <fileset dir="${dir.build}"/>
+        </jar>
+
+        <copy todir="${dir.release}/lib/">
+			<fileset dir="${dir.dependencies.compile}"/>
+			<fileset dir="${dir.dependencies.runtime}"/>
+        </copy>
+
+		<delete dir="${dir.build}" includeEmptyDirs="true" quiet="true"/>
+
+        <mkdir dir="${dir.release}/bin/"/>
+
+        <copy todir="${dir.release}/bin/">
+            <fileset dir="${dir.base}/scripts/"/>
+        </copy>
+		
+		<zip destfile="${dir.release}/${ant.project.name}-${version}.${build}.zip" basedir="${dir.release}"/>
+		
+   </target>
+
 
 </project>
