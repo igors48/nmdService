@@ -304,7 +304,7 @@
 
    <target name="run.dev.server">
    
-        <dev_appserver war="${war.directory}" port="8888" >
+        <dev_appserver war="${war.directory}" port="8888">
         </dev_appserver>
         
     </target>
