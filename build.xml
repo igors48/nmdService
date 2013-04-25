@@ -26,8 +26,8 @@
     <property name="debug" value="off"/>
 
     <property name="compiler.deprecation" value="off"/>
-    <property name="compiler.target" value="1.6"/>
-    <property name="compiler.source" value="1.6"/>
+    <property name="compiler.target" value="1.7"/>
+    <property name="compiler.source" value="1.7"/>
     <property name="compiler.depend" value="off"/>
     <property name="compiler.max.memory" value="128m"/>
     <property name="compiler.debug" value="on"/>
@@ -128,8 +128,8 @@
             depends="-init_compilation_conditions, -set_production_compilation_if, -set_debug_compilation_if">
 
         <property name="compiler.deprecation" value="off"/>
-        <property name="compiler.target" value="1.6"/>
-        <property name="compiler.source" value="1.6"/>
+        <property name="compiler.target" value="1.7"/>
+        <property name="compiler.source" value="1.7"/>
         <property name="compiler.depend" value="off"/>
         <property name="compiler.max.memory" value="128m"/>
 
