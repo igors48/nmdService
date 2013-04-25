@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="code-tools">
+
+    <property environment="environment"/>
+    <import file="${environment.CODE_TOOLS_HOME}/code-tools-launcher.xml"/>
+
+    <import file="build.xml"/>
+    
+    <property name="codetools.project.report.directory" value="reports/"/>
+
+    <property name="codetools.properties.base.dir" value="code-tools/"/>
+    
+    <property file="${codetools.properties.base.dir}/checkstyle/checkstyle.properties"/>
+    <property file="${codetools.properties.base.dir}/cobertura/cobertura.properties"/>
+    <property file="${codetools.properties.base.dir}/cpd/cpd.properties"/>
+    <property file="${codetools.properties.base.dir}/findbugs/findbugs.properties"/>
+    <property file="${codetools.properties.base.dir}/jdepend/jdepend.properties"/>
+    <property file="${codetools.properties.base.dir}/junit/junit.properties"/>
+    <property file="${codetools.properties.base.dir}/pmd/pmd.properties"/>
+    <property file="${codetools.properties.base.dir}/simian/simian.properties"/>
+    <property file="${codetools.properties.base.dir}/jacoco/jacoco.properties"/>
+
+</project>
