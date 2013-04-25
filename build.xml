@@ -81,8 +81,8 @@
 	</path>
 
     
-    <path id="app.engine.dependencies" path="${app.engine.sdk.directory}/lib/">
-		<fileset>
+    <path id="app.engine.dependencies" >
+		<fileset dir="${app.engine.sdk.directory}/lib/">
             <include name="shared/**/*.jar"/>
         </fileset>    
 	</path>
@@ -206,6 +206,7 @@
                fork="true">
 
             <src refid="java.source.path"/>
+            <classpath refid="app.engine.dependencies"/>
             <classpath refid="compile.dependencies"/>
             <classpath refid="provided.dependencies"/>
             <patternset refid="ignored.files"/>
@@ -267,6 +268,47 @@
 	
     <target name="release">
 
+        <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
+        <property name="lib.directory" value="${web.inf.directory}/lib/"/>
+        <property name="classes.directory" value="${web.inf.directory}/classes/"/>
+
+        <antcall target="-prepare_dir">
+            <param name="param.dir" value="${dir.release}"/>
+        </antcall>
+        
+        <antcall target="-prepare_dir">
+            <param name="param.dir" value="${dir.release}/war/"/>
+        </antcall>
+
+        <antcall target="-prepare_dir">
+            <param name="param.dir" value="${dir.release}/war/WEB-INF/"/>
+        </antcall>
+
+        <antcall target="-prepare_dir">
+            <param name="param.dir" value="${lib.directory}"/>
+        </antcall>
+
+        <antcall target="-prepare_dir">
+            <param name="param.dir" value="${classes.directory}"/>
+        </antcall>
+
+        <antcall target="-compile_to">
+            <param name="destination.directory" value="${classes.directory}"/>
+        </antcall>
+        
+        <copy todir="${lib.directory}" flatten="true">
+            <fileset dir="${app.engine.sdk.directory}/lib/user">
+                <include name="**/*.jar" />
+            </fileset>
+        </copy>
+
+        <copy todir="${web.inf.directory}" flatten="true">
+            <fileset dir="${dir.base}/war/WEB-INF">
+                <include name="*.xml" />
+            </fileset>
+        </copy>
+
+<!--
         <antcall target="-prepare_dir">
             <param name="param.dir" value="${dir.build}"/>
         </antcall>
@@ -307,8 +349,14 @@
         </copy>
 		
 		<zip destfile="${dir.release}/${ant.project.name}-${version}.${build}.zip" basedir="${dir.release}"/>
-		
+-->		
    </target>
 
+   <target name="runserver">
+   
+        <dev_appserver war="${dir.release}/war/" port="8888" >
+        </dev_appserver>
+        
+    </target>
 
 </project>
