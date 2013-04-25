@@ -80,6 +80,13 @@
 		<fileset refid="jar.files"/>
 	</path>
 
+    
+    <path id="app.engine.dependencies" path="${app.engine.sdk.directory}/lib/">
+		<fileset>
+            <include name="shared/**/*.jar"/>
+        </fileset>    
+	</path>
+
 	
     <path id="test.dependencies" path="${dir.dependencies.test}">
 		<fileset refid="jar.files"/>
