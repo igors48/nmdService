@@ -1,0 +1,11 @@
+.idea
+reports
+release
+build
+out
+*.log
+*.iml
+*.ipr
+*.iws
+*.rar
+
