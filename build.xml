@@ -14,6 +14,7 @@
     <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
     <property name="lib.directory" value="${web.inf.directory}/lib/"/>
     <property name="classes.directory" value="${web.inf.directory}/classes/"/>
+    <property name="meta.inf.directory" value="${classes.directory}/META-INF/"/>
 
     <property name="dir.source" value="${dir.base}/src/"/>
     <property name="dir.source.main.java" value="${dir.source}/main/java"/>
@@ -288,6 +289,8 @@
             <param name="destination.directory" value="${classes.directory}"/>
         </antcall>
 
+        <enhance_war war="${war.directory}" api="JPA"/>
+
         <copy todir="${lib.directory}" flatten="true">
             <fileset dir="${app.engine.sdk.directory}/lib/user">
                 <include name="**/*.jar"/>
@@ -304,6 +307,12 @@
 
         <copy todir="${web.inf.directory}">
             <fileset dir="${dir.base}/war/WEB-INF">
+                <include name="*.xml"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${meta.inf.directory}">
+            <fileset dir="${dir.base}/war/META-INF">
                 <include name="*.xml"/>
             </fileset>
         </copy>
