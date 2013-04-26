@@ -4,6 +4,7 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
+
     <servlet>
         <servlet-name>guestbook</servlet-name>
         <servlet-class>guestbook.GuestbookServlet</servlet-class>
@@ -12,7 +13,18 @@
         <servlet-name>guestbook</servlet-name>
         <url-pattern>/guestbook</url-pattern>
     </servlet-mapping>
+
+    <servlet>
+        <servlet-name>cron</servlet-name>
+        <servlet-class>cron.CronServlet</servlet-class>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>cron</servlet-name>
+        <url-pattern>/cron</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
+
 </web-app>
