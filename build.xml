@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="nmdService">
 
-    <property name="app.engine.sdk.directory" location="C:/devTools/appengine-java-sdk-1.7.7.1/" />
-    <import file="${app.engine.sdk.directory}/config/user/ant-macros.xml" />
+    <property name="app.engine.sdk.directory" location="C:/devTools/appengine-java-sdk-1.7.7.1/"/>
+    <import file="${app.engine.sdk.directory}/config/user/ant-macros.xml"/>
 
     <record name="build.log"/>
 
@@ -14,11 +14,11 @@
     <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
     <property name="lib.directory" value="${web.inf.directory}/lib/"/>
     <property name="classes.directory" value="${web.inf.directory}/classes/"/>
-	
+
     <property name="dir.source" value="${dir.base}/src/"/>
     <property name="dir.source.main.java" value="${dir.source}/main/java"/>
     <property name="dir.source.test.java" value="${dir.source}/test/java"/>
-	
+
     <property name="dir.dependencies" value="${dir.base}/lib/"/>
     <property name="dir.dependencies.compile" value="${dir.dependencies}/compile/"/>
     <property name="dir.dependencies.provided" value="${dir.dependencies}/provided/"/>
@@ -67,69 +67,69 @@
         <include name="**/?*.tld"/>
     </patternset>
 
-	<fileset id="jar.files" dir="">
-		<include name="**/*.jar"/>
+    <fileset id="jar.files" dir="">
+        <include name="**/*.jar"/>
     </fileset>
-    
+
     <path id="compile.dependencies" path="${dir.dependencies.compile}">
-		<fileset refid="jar.files"/>
-	</path>
+        <fileset refid="jar.files"/>
+    </path>
 
-	
+
     <path id="provided.dependencies" path="${dir.dependencies.provided}">
-		<fileset refid="jar.files"/>
-	</path>
+        <fileset refid="jar.files"/>
+    </path>
 
-	
+
     <path id="runtime.dependencies" path="${dir.dependencies.runtime}">
-		<fileset refid="jar.files"/>
-	</path>
+        <fileset refid="jar.files"/>
+    </path>
 
-    
-    <path id="app.engine.dependencies" >
-		<fileset dir="${app.engine.sdk.directory}/lib/">
+
+    <path id="app.engine.dependencies">
+        <fileset dir="${app.engine.sdk.directory}/lib/">
             <include name="shared/**/*.jar"/>
-        </fileset>    
-	</path>
+        </fileset>
+    </path>
 
-	
+
     <path id="test.dependencies" path="${dir.dependencies.test}">
-		<fileset refid="jar.files"/>
-	</path>
+        <fileset refid="jar.files"/>
+    </path>
 
-	
+
     <path id="execution.dependencies">
         <path refid="compile.dependencies"/>
         <path refid="provided.dependencies"/>
         <path refid="runtime.dependencies"/>
     </path>
-    
+
 
     <path id="java.source.path" path="${dir.source.main.java}"/>
 
-    
-	<fileset id="source.main.java" dir="${dir.source.main.java}">
-		<include name="**/*.java"/>
-	</fileset>
-    
-    
+
+    <fileset id="source.main.java" dir="${dir.source.main.java}">
+        <include name="**/*.java"/>
+    </fileset>
+
+
     <path id="java.test.path" path="${dir.source.test.java}"/>
 
-    
-	<fileset id="source.test.java" dir="${dir.source.test.java}">
-		<include name="**/*.java"/>
-	</fileset>
 
-    
-	<fileset id="source.test.filtered.java" dir="${dir.source.test.java}">
-		<include name="**/*Test.java"/>
-	</fileset>
-
-    
-    <fileset id="source.all.java" dir="${dir.source}">
-		<include name="**/*.java"/>
+    <fileset id="source.test.java" dir="${dir.source.test.java}">
+        <include name="**/*.java"/>
     </fileset>
-    
+
+
+    <fileset id="source.test.filtered.java" dir="${dir.source.test.java}">
+        <include name="**/*Test.java"/>
+    </fileset>
+
+
+    <fileset id="source.all.java" dir="${dir.source}">
+        <include name="**/*.java"/>
+    </fileset>
+
 
     <target name="-prepare_dir">
         <delete dir="${param.dir}" includeEmptyDirs="true" quiet="true"/>
@@ -150,8 +150,8 @@
 
     <target name="-init_compilation_conditions">
 
-		<echo message="DEBUG MODE=${debug}"/>
-		
+        <echo message="DEBUG MODE=${debug}"/>
+
         <condition property="is_debug" value="true">
             <or>
                 <equals arg1="${debug}" arg2="true"/>
@@ -173,8 +173,8 @@
 
     <target name="-set_production_compilation_if" if="is_production">
 
-		<echo message="PRODUCTION MODE"/>
-		
+        <echo message="PRODUCTION MODE"/>
+
         <property name="compiler.debug" value="off"/>
         <property name="compiler.debuglevel" value="none"/>
         <property name="compiler.optimize" value="on"/>
@@ -186,8 +186,8 @@
 
     <target name="-set_debug_compilation_if" if="is_debug">
 
-		<echo message="DEBUG MODE"/>
-		
+        <echo message="DEBUG MODE"/>
+
         <property name="compiler.debug" value="on"/>
         <property name="compiler.debuglevel" value="lines,source"/>
         <property name="compiler.optimize" value="off"/>
@@ -227,7 +227,7 @@
 
     </target>
 
-	
+
     <target name="-compile_with_tests_to">
 
         <antcall target="-prepare_dir">
@@ -261,13 +261,13 @@
 
     </target>
 
-	
+
     <target name="release">
 
         <antcall target="-prepare_dir">
             <param name="param.dir" value="${dir.release}"/>
         </antcall>
-        
+
         <antcall target="-prepare_dir">
             <param name="param.dir" value="${war.directory}"/>
         </antcall>
@@ -287,53 +287,57 @@
         <antcall target="-compile_to">
             <param name="destination.directory" value="${classes.directory}"/>
         </antcall>
-        
+
         <copy todir="${lib.directory}" flatten="true">
             <fileset dir="${app.engine.sdk.directory}/lib/user">
-                <include name="**/*.jar" />
+                <include name="**/*.jar"/>
             </fileset>
         </copy>
 
-        <copy todir="${web.inf.directory}" flatten="true">
+        <copy todir="${lib.directory}">
+            <fileset dir="${dir.dependencies.compile}"/>
+        </copy>
+
+        <copy todir="${web.inf.directory}">
             <fileset dir="${dir.base}/war/WEB-INF">
-                <include name="*.xml" />
+                <include name="*.xml"/>
             </fileset>
         </copy>
 
-   </target>
+    </target>
 
-   <target name="run.dev.server">
-   
+    <target name="run.dev.server">
+
         <dev_appserver war="${war.directory}" port="8888">
         </dev_appserver>
-        
+
     </target>
 
     <target name="update">
-   
+
         <input message="Enter email : " addproperty="gae-email"/>
         <input message="Enter password : " addproperty="gae-password">
             <handler type="secure"/>
         </input>
-        
+
         <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae-password}"
-            classpath="${app.engine.sdk.directory}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
-            <arg value="--email=${gae-email}" />
-            <arg value="--passin" />
-            <arg value="update" />
-            <arg value="${war.directory}" />
-        </java> 
-        
+              classpath="${app.engine.sdk.directory}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
+            <arg value="--email=${gae-email}"/>
+            <arg value="--passin"/>
+            <arg value="update"/>
+            <arg value="${war.directory}"/>
+        </java>
+
     </target>
 
     <target name="rollback">
-   
+
         <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae-password}"
-            classpath="${app.engine.sdk.directory}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
-            <arg value="rollback" />
-            <arg value="${war.directory}" />
+              classpath="${app.engine.sdk.directory}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
+            <arg value="rollback"/>
+            <arg value="${war.directory}"/>
         </java>
-        
+
     </target>
 
 </project>
