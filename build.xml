@@ -298,6 +298,10 @@
             <fileset dir="${dir.dependencies.compile}"/>
         </copy>
 
+        <copy todir="${lib.directory}">
+            <fileset dir="${dir.dependencies.runtime}"/>
+        </copy>
+
         <copy todir="${web.inf.directory}">
             <fileset dir="${dir.base}/war/WEB-INF">
                 <include name="*.xml"/>

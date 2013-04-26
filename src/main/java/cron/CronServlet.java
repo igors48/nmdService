@@ -1,5 +1,9 @@
 package cron;
 
+import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.FeedException;
+import com.sun.syndication.io.SyndFeedInput;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,20 +32,16 @@ public class CronServlet extends HttpServlet {
         try {
             URL url = new URL("http://www.3dnews.ru/news/rss");
             BufferedReader reader = new BufferedReader(new InputStreamReader(url.openStream()));
-            String line;
 
-            //while ((line = reader.readLine()) != null) {
-            //  response.getWriter().println(line);
-            //}
+            SyndFeedInput input = new SyndFeedInput();
+            SyndFeed feed = input.build(reader);
 
-            line = reader.readLine();
-            line = line == null ? "null" : line;
-
+            String line = String.format("[ %d ] feed items was read", feed.getEntries().size());
             response.getWriter().println(line);
 
             reader.close();
-        } catch (IOException e) {
-            // ...
+        } catch (IOException | FeedException exception) {
+            LOGGER.severe("Error");
         }
     }
 
