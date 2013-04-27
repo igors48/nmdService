@@ -292,9 +292,17 @@
         <enhance_war war="${war.directory}" api="JPA"/>
 
         <copy todir="${lib.directory}" flatten="true">
+
             <fileset dir="${app.engine.sdk.directory}/lib/user">
-                <include name="**/*.jar"/>
+                <include name="**/appengine-api-1.0-sdk*.jar"/>
             </fileset>
+
+            <fileset dir="${app.engine.sdk.directory}/lib/opt/user">
+                <include name="appengine-api-labs/v1/*.jar"/>
+                <include name="jsr107/v1/*.jar"/>
+                <include name="datanucleus/v2/*.jar"/>
+            </fileset>
+
         </copy>
 
         <copy todir="${lib.directory}">
@@ -316,13 +324,6 @@
                 <include name="*.xml"/>
             </fileset>
         </copy>
-
-    </target>
-
-    <target name="run.dev.server">
-
-        <dev_appserver war="${war.directory}" port="8888">
-        </dev_appserver>
 
     </target>
 
