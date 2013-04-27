@@ -340,7 +340,12 @@
             </fileset>
         </copy>
 
-        <enhance_war war="${war.directory}" api="JPA"/>
+        <enhance_war war="${war.directory}" api="JPA">
+            <args>
+                <arg value="-enhancerVersion"/>
+                <arg value="v2"/>
+            </args>
+        </enhance_war>
 
     </target>
 
