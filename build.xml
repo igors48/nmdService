@@ -88,11 +88,28 @@
 
 
     <path id="app.engine.dependencies">
+
         <fileset dir="${app.engine.sdk.directory}/lib/">
             <include name="shared/**/*.jar"/>
         </fileset>
-    </path>
 
+        <fileset dir="${app.engine.sdk.directory}/lib/opt/user/jsr107/v1/">
+            <include name="**/*.jar"/>
+        </fileset>
+
+        <fileset dir="${app.engine.sdk.directory}/lib/opt/user/datanucleus/v2/">
+            <include name="**/*.jar"/>
+        </fileset>
+
+        <fileset dir="${app.engine.sdk.directory}/lib/opt/user/appengine-api-labs/v1/">
+            <include name="**/*.jar"/>
+        </fileset>
+
+        <fileset dir="${app.engine.sdk.directory}/lib/user/">
+            <include name="**/appengine-api-1.0-sdk-1.7.7.1.jar"/>
+        </fileset>
+
+    </path>
 
     <path id="test.dependencies" path="${dir.dependencies.test}">
         <fileset refid="jar.files"/>
@@ -289,8 +306,6 @@
             <param name="destination.directory" value="${classes.directory}"/>
         </antcall>
 
-        <enhance_war war="${war.directory}" api="JPA"/>
-
         <copy todir="${lib.directory}" flatten="true">
 
             <fileset dir="${app.engine.sdk.directory}/lib/user">
@@ -324,6 +339,8 @@
                 <include name="*.xml"/>
             </fileset>
         </copy>
+
+        <enhance_war war="${war.directory}" api="JPA"/>
 
     </target>
 
