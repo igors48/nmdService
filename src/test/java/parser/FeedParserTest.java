@@ -1,8 +1,8 @@
 package parser;
 
+import nmd.rss.collector.Feed;
 import nmd.rss.collector.FeedParser;
 import nmd.rss.collector.FeedParserException;
-import nmd.rss.collector.ParsedFeed;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -37,13 +37,13 @@ public class FeedParserTest {
     @Test
     public void smoke() throws FeedParserException {
 
-        ParsedFeed parsedFeed = FeedParser.parse(RSS_FEED);
+        Feed feed = FeedParser.parse(RSS_FEED);
 
-        assertEquals("3DNews - Daily Digital Digest: Новости Hardware", parsedFeed.getHeader().getTitle());
-        assertEquals("Новости Hardware на 3DNews", parsedFeed.getHeader().getDescription());
-        assertEquals("http://www.3dnews.ru/", parsedFeed.getHeader().getLink());
+        assertEquals("3DNews - Daily Digital Digest: Новости Hardware", feed.getHeader().getTitle());
+        assertEquals("Новости Hardware на 3DNews", feed.getHeader().getDescription());
+        assertEquals("http://www.3dnews.ru/", feed.getHeader().getLink());
 
-        assertEquals(2, parsedFeed.getItems().size());
+        assertEquals(2, feed.getItems().size());
 
 
     }

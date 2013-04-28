@@ -20,7 +20,7 @@ import static nmd.rss.collector.util.Parameter.isValidUrl;
  */
 public final class FeedParser {
 
-    public static ParsedFeed parse(final String data) throws FeedParserException {
+    public static Feed parse(final String data) throws FeedParserException {
         assertStringIsValid(data);
 
         try {
@@ -45,7 +45,7 @@ public final class FeedParser {
                 }
             }
 
-            return new ParsedFeed(header, items);
+            return new Feed(header, items);
         } catch (FeedException exception) {
             throw new FeedParserException(exception);
         }
