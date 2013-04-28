@@ -3,7 +3,10 @@ package cron;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
+import persistense.EMF;
+import persistense.Record;
 
+import javax.persistence.EntityManager;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -23,7 +26,7 @@ public class CronServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(CronServlet.class.getName());
 
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException {
         LOGGER.info(String.format("doGet [ %d ]", System.currentTimeMillis()));
 
         response.setContentType("text/plain");
@@ -40,8 +43,20 @@ public class CronServlet extends HttpServlet {
             response.getWriter().println(line);
 
             reader.close();
+
+            EntityManager entityManager = EMF.get().createEntityManager();
+
+            try {
+                Record record = new Record(line + Long.toString(System.currentTimeMillis()));
+                entityManager.persist(record);
+            } catch (Exception e) {
+                throw new ServletException(e);
+            } finally {
+                entityManager.close();
+            }
+
         } catch (IOException | FeedException exception) {
-            LOGGER.severe("Error");
+            throw new ServletException(exception);
         }
     }
 
