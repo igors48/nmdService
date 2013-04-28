@@ -13,7 +13,7 @@ public class FeedHeader {
     private final String description;
     private final String link;
 
-    public FeedHeader(String title, String description, String link) {
+    public FeedHeader(final String title, final String description, final String link) {
         assertStringIsValid(title);
         this.title = title;
 
@@ -24,15 +24,15 @@ public class FeedHeader {
         this.link = link;
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return this.title;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return this.description;
     }
 
-    public String getLink() {
+    public final String getLink() {
         return this.link;
     }
 

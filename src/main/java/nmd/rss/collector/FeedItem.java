@@ -26,19 +26,19 @@ public class FeedItem {
         this.timestamp = timestamp;
     }
 
-    public String getTitle() {
+    public final String getTitle() {
         return this.title;
     }
 
-    public String getDescription() {
+    public final String getDescription() {
         return this.description;
     }
 
-    public String getLink() {
+    public final String getLink() {
         return this.link;
     }
 
-    public long getTimestamp() {
+    public final long getTimestamp() {
         return this.timestamp;
     }
 

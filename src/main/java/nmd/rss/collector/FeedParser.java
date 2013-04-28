@@ -18,7 +18,7 @@ import static nmd.rss.collector.util.Parameter.isValidUrl;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
-public class FeedParser {
+public final class FeedParser {
 
     public static ParsedFeed parse(final String data) throws FeedParserException {
         assertStringIsValid(data);
@@ -84,7 +84,7 @@ public class FeedParser {
     }
 
     private static String createTitle(final String title, final String feedLink) {
-        return ((title == null) || (title.isEmpty())) ? feedLink : title;
+        return (title == null) || (title.isEmpty()) ? feedLink : title;
     }
 
     private static String createDescription(final SyndEntry entry) {
@@ -92,7 +92,7 @@ public class FeedParser {
         List contentsList = entry.getContents();
         StringBuilder contents = new StringBuilder();
 
-        if (contentsList != null && (!contentsList.isEmpty())) {
+        if (contentsList != null && !contentsList.isEmpty()) {
 
             for (Object current : contentsList) {
                 contents.append(((SyndContent) current).getValue());
@@ -101,10 +101,14 @@ public class FeedParser {
 
         String description = entry.getDescription() == null ? "" : entry.getDescription().getValue();
 
-        String result = contents.length() != 0 ? contents.toString() : description;
+        String result = contents.length() == 0 ? description : contents.toString();
 
         return result.isEmpty() ? title : result;
     }
 
+
+    private FeedParser() {
+        // empty
+    }
 
 }

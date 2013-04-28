@@ -21,11 +21,11 @@ public class ParsedFeed {
         this.items = items;
     }
 
-    public FeedHeader getHeader() {
+    public final FeedHeader getHeader() {
         return this.header;
     }
 
-    public List<FeedItem> getItems() {
+    public final List<FeedItem> getItems() {
         return this.items;
     }
 
