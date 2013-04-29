@@ -20,15 +20,22 @@ public final class FeedMerger {
         assertPositive(maximumCount);
 
         List<FeedItem> removed = new ArrayList<>();
+        List<FeedItem> retained = new ArrayList<>();
         List<FeedItem> added = new ArrayList<>();
 
-        Map<String, FeedItem> oldItems = createUniqueFeedItemsLinkMap(old);
-        Map<String, FeedItem> youngItems = createUniqueFeedItemsLinkMap(young);
+        removePossibleDuplicates(old.items, young.items, removed, retained, added);
+        checkMaximumCount(removed, retained, added, maximumCount);
 
-        return createFeedMergeReport(removed, added, oldItems, youngItems);
+        return new FeedMergeReport(removed, added);
     }
 
-    private static FeedMergeReport createFeedMergeReport(final List<FeedItem> removed, final List<FeedItem> added, final Map<String, FeedItem> oldItems, final Map<String, FeedItem> youngItems) {
+    private static void checkMaximumCount(final List<FeedItem> removed, final List<FeedItem> retained, final List<FeedItem> added, final int maximumCount) {
+        //To change body of created methods use File | Settings | File Templates.
+    }
+
+    private static void removePossibleDuplicates(final List<FeedItem> olds, final List<FeedItem> youngs, final List<FeedItem> removed, final List<FeedItem> retained, final List<FeedItem> added) {
+        Map<String, FeedItem> oldItems = createUniqueFeedItemsLinkMap(olds);
+        Map<String, FeedItem> youngItems = createUniqueFeedItemsLinkMap(youngs);
 
         for (String link : youngItems.keySet()) {
             FeedItem oldItem = oldItems.get(link);
@@ -41,13 +48,13 @@ public final class FeedMerger {
             added.add(youngItems.get(link));
         }
 
-        return new FeedMergeReport(removed, added);
+        retained.addAll(oldItems.values());
     }
 
-    private static Map<String, FeedItem> createUniqueFeedItemsLinkMap(final Feed feed) {
+    private static Map<String, FeedItem> createUniqueFeedItemsLinkMap(final List<FeedItem> feedItems) {
         Map<String, FeedItem> result = new HashMap<>();
 
-        for (FeedItem current : feed.items) {
+        for (FeedItem current : feedItems) {
             result.put(current.link, current);
         }
 
