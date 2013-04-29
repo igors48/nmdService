@@ -9,9 +9,9 @@ import static nmd.rss.collector.util.Assert.assertValidUrl;
  */
 public class FeedHeader {
 
-    private final String title;
-    private final String description;
-    private final String link;
+    public final String title;
+    public final String description;
+    public final String link;
 
     public FeedHeader(final String title, final String description, final String link) {
         assertStringIsValid(title);
@@ -22,18 +22,6 @@ public class FeedHeader {
 
         assertValidUrl(link);
         this.link = link;
-    }
-
-    public final String getTitle() {
-        return this.title;
-    }
-
-    public final String getDescription() {
-        return this.description;
-    }
-
-    public final String getLink() {
-        return this.link;
     }
 
 }

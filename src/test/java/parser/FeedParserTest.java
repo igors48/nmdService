@@ -39,12 +39,10 @@ public class FeedParserTest {
 
         Feed feed = FeedParser.parse(RSS_FEED);
 
-        assertEquals("3DNews - Daily Digital Digest: Новости Hardware", feed.getHeader().getTitle());
-        assertEquals("Новости Hardware на 3DNews", feed.getHeader().getDescription());
-        assertEquals("http://www.3dnews.ru/", feed.getHeader().getLink());
+        assertEquals("3DNews - Daily Digital Digest: Новости Hardware", feed.header.title);
+        assertEquals("Новости Hardware на 3DNews", feed.header.description);
+        assertEquals("http://www.3dnews.ru/", feed.header.link);
 
-        assertEquals(2, feed.getItems().size());
-
-
+        assertEquals(2, feed.items.size());
     }
 }

@@ -45,8 +45,8 @@ public final class FeedMerger {
     private static Map<String, FeedItem> createUniqueFeedItemsLinkMap(final Feed feed) {
         Map<String, FeedItem> result = new HashMap<>();
 
-        for (FeedItem current : feed.getItems()) {
-            result.put(current.getLink(), current);
+        for (FeedItem current : feed.items) {
+            result.put(current.link, current);
         }
 
         return result;

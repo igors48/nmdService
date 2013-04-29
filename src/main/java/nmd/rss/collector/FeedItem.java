@@ -9,10 +9,10 @@ import static nmd.rss.collector.util.Parameter.isValidString;
  */
 public class FeedItem {
 
-    private final String title;
-    private final String description;
-    private final String link;
-    private final long timestamp;
+    public final String title;
+    public final String description;
+    public final String link;
+    public final long timestamp;
 
     public FeedItem(final String title, final String description, final String link, final long timestamp) {
         assertNotNull(title);
@@ -26,22 +26,6 @@ public class FeedItem {
 
         assertPositive(timestamp);
         this.timestamp = timestamp;
-    }
-
-    public final String getTitle() {
-        return this.title;
-    }
-
-    public final String getDescription() {
-        return this.description;
-    }
-
-    public final String getLink() {
-        return this.link;
-    }
-
-    public final long getTimestamp() {
-        return this.timestamp;
     }
 
 }

@@ -1,5 +1,6 @@
 package nmd.rss.collector;
 
+import java.util.Collections;
 import java.util.List;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -10,23 +11,15 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class Feed {
 
-    private final FeedHeader header;
-    private final List<FeedItem> items;
+    public final FeedHeader header;
+    public final List<FeedItem> items;
 
     public Feed(final FeedHeader header, final List<FeedItem> items) {
         assertNotNull(header);
         this.header = header;
 
         assertNotNull(items);
-        this.items = items;
-    }
-
-    public final FeedHeader getHeader() {
-        return this.header;
-    }
-
-    public final List<FeedItem> getItems() {
-        return this.items;
+        this.items = Collections.unmodifiableList(items);
     }
 
 }
