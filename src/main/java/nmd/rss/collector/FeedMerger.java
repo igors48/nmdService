@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertPositive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -13,9 +14,10 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public final class FeedMerger {
 
-    public static FeedMergeReport merge(final Feed old, final Feed young) {
+    public static FeedMergeReport merge(final Feed old, final Feed young, final int maximumCount) {
         assertNotNull(old);
         assertNotNull(young);
+        assertPositive(maximumCount);
 
         List<FeedItem> removed = new ArrayList<>();
         List<FeedItem> added = new ArrayList<>();
