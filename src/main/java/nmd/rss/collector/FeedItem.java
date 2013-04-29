@@ -15,6 +15,8 @@ public class FeedItem {
     private final long timestamp;
 
     public FeedItem(final String title, final String description, final String link, final long timestamp) {
+        assertNotNull(title);
+        assertNotNull(description);
         assertTrue(isValidString(title) || isValidString(description));
         this.title = title;
         this.description = description;

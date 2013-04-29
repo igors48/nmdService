@@ -23,6 +23,7 @@ public final class FeedParser {
     public static Feed parse(final String data) throws FeedParserException {
         assertStringIsValid(data);
 
+        //TODO try-with-resource
         try {
             StringReader reader = new StringReader(data);
             SyndFeedInput input = new SyndFeedInput();
