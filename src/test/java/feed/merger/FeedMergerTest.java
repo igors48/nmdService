@@ -1,4 +1,4 @@
-package merger;
+package feed.merger;
 
 import org.junit.Test;
 

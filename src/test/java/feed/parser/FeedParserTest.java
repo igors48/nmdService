@@ -1,4 +1,4 @@
-package parser;
+package feed.parser;
 
 import nmd.rss.collector.Feed;
 import nmd.rss.collector.FeedParser;
