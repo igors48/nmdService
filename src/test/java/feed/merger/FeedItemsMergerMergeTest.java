@@ -10,21 +10,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 29.04.13
  */
-public class FeedItemsMergerTest {
-
-    //test maximum count of item
-    //items sort from old to new
+public class FeedItemsMergerMergeTest {
 
     public static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", 48);
     public static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", 50);
 
     public static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "youngFirstLink", 58);
     public static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", 60);
+    public static final FeedItem OLD_SECOND_DUPLICATE = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", 52);
 
     private List<FeedItem> olds;
     private List<FeedItem> youngs;
@@ -51,19 +50,36 @@ public class FeedItemsMergerTest {
 
     @Test
     public void anyOfOldFeedsDidNotRemove() {
+        FeedItemsMergeReport report = FeedItemsMerger.merge(olds, youngs, 1000);
 
+        assertEquals(2, report.retained.size());
+        assertEquals(OLD_FIRST, report.retained.get(0));
+        assertEquals(OLD_SECOND, report.retained.get(1));
 
+        assertTrue(report.removed.isEmpty());
     }
 
     @Test
     public void newItemWithSameLinkAsOldItemAdded() {
+        this.youngs.add(OLD_SECOND_DUPLICATE);
 
+        FeedItemsMergeReport report = FeedItemsMerger.merge(olds, youngs, 1000);
 
+        assertEquals(3, report.added.size());
+
+        assertEquals(OLD_SECOND_DUPLICATE, report.added.get(0));
+        assertEquals(YOUNG_FIRST, report.added.get(1));
+        assertEquals(YOUNG_SECOND, report.added.get(2));
     }
 
     @Test
     public void oldItemWithSameLinkAsNewItemRemoved() {
+        this.youngs.add(OLD_SECOND_DUPLICATE);
 
+        FeedItemsMergeReport report = FeedItemsMerger.merge(olds, youngs, 1000);
 
+        assertEquals(1, report.removed.size());
+
+        assertEquals(OLD_SECOND, report.removed.get(0));
     }
 }
