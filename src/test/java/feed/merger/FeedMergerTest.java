@@ -9,6 +9,7 @@ import org.junit.Test;
 public class FeedMergerTest {
 
     //test maximum count of item
+    //items sort from old to new
     @Test
     public void allNewFeedsAdded() {
         //public static FeedMergeReport merge(final Feed old, final Feed young)
