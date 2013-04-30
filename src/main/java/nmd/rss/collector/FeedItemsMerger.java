@@ -9,11 +9,11 @@ import static nmd.rss.collector.util.Assert.assertPositive;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 29.04.13
  */
-public final class FeedMerger {
+public final class FeedItemsMerger {
 
     private static final TimestampComparator TIMESTAMP_COMPARATOR = new TimestampComparator();
 
-    public static FeedMergeReport merge(final List<FeedItem> olds, final List<FeedItem> youngs, final int maximumCount) {
+    public static FeedItemsMergeReport merge(final List<FeedItem> olds, final List<FeedItem> youngs, final int maximumCount) {
         assertNotNull(olds);
         assertNotNull(youngs);
         assertPositive(maximumCount);
@@ -29,7 +29,7 @@ public final class FeedMerger {
         sortByTimestamp(retained);
         sortByTimestamp(added);
 
-        return new FeedMergeReport(removed, retained, added);
+        return new FeedItemsMergeReport(removed, retained, added);
     }
 
     private static void checkMaximumCount(final List<FeedItem> removed, final List<FeedItem> retained, final List<FeedItem> added, final int maximumCount) {
@@ -105,11 +105,11 @@ public final class FeedMerger {
 
         @Override
         public int compare(FeedItem first, FeedItem second) {
-            return (int) (second.timestamp - first.timestamp);
+            return (int) (first.timestamp - second.timestamp);
         }
     }
 
-    private FeedMerger() {
+    private FeedItemsMerger() {
         // private
     }
 
