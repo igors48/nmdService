@@ -1,4 +1,4 @@
-package nmd.rss.collector;
+package nmd.rss.collector.feed;
 
 import static nmd.rss.collector.util.Assert.*;
 import static nmd.rss.collector.util.Parameter.isValidString;

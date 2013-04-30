@@ -1,8 +1,8 @@
 package feed.merger;
 
-import nmd.rss.collector.FeedItem;
-import nmd.rss.collector.FeedItemsMergeReport;
-import nmd.rss.collector.FeedItemsMerger;
+import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.feed.FeedItemsMergeReport;
+import nmd.rss.collector.feed.FeedItemsMerger;
 import org.junit.Before;
 import org.junit.Test;
 

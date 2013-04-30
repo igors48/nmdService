@@ -1,4 +1,4 @@
-package nmd.rss.collector;
+package nmd.rss.collector.feed;
 
 import java.util.Collections;
 import java.util.List;

@@ -1,4 +1,4 @@
-package nmd.rss.collector;
+package nmd.rss.collector.feed;
 
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;

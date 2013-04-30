@@ -1,8 +1,8 @@
 package feed.parser;
 
-import nmd.rss.collector.Feed;
-import nmd.rss.collector.FeedParser;
-import nmd.rss.collector.FeedParserException;
+import nmd.rss.collector.feed.Feed;
+import nmd.rss.collector.feed.FeedParser;
+import nmd.rss.collector.feed.FeedParserException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
