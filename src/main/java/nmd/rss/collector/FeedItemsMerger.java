@@ -39,7 +39,7 @@ public final class FeedItemsMerger {
             return;
         }
 
-        int delta = maximumCount - totalCount;
+        int delta = totalCount - maximumCount;
         removeOldest(retained, removed, delta);
 
         totalCount = retained.size() + added.size();
@@ -48,7 +48,7 @@ public final class FeedItemsMerger {
             return;
         }
 
-        delta = maximumCount - totalCount;
+        delta = totalCount - maximumCount;
         removeOldest(added, new ArrayList<FeedItem>(), delta);
     }
 
