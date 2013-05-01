@@ -32,6 +32,8 @@ public class FeedUpdater {
             List<FeedItem> olds = feedService.loadItems(task.feedId);
 
             FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, parsedFeed.items, maxItemsCount);
+
+            feedService.updateItems(task.feedId, mergeReport.removed, mergeReport.added);
         } catch (FeedUpdateTaskSchedulerException | FeedServiceException | UrlFetcherException | FeedParserException exception) {
             throw new FeedUpdaterException(exception);
         }
