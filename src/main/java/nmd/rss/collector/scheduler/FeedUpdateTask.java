@@ -21,4 +21,29 @@ public class FeedUpdateTask {
         this.feedId = feedId;
     }
 
+    @Override
+    public boolean equals(Object o) {
+
+        if (this == o) return true;
+
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FeedUpdateTask that = (FeedUpdateTask) o;
+
+        if (!this.feedId.equals(that.feedId)) return false;
+
+        if (!this.id.equals(that.id)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = this.id.hashCode();
+
+        result = 31 * result + this.feedId.hashCode();
+
+        return result;
+    }
+
 }

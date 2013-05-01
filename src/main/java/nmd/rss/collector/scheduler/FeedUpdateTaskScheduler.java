@@ -34,10 +34,10 @@ public class FeedUpdateTaskScheduler {
                 return null;
             }
 
-            int taskIndex = context.lastTaskIndex + 1;
+            int taskIndex = context.lastTaskIndex;
             taskIndex = taskIndex > tasks.size() - 1 ? 0 : taskIndex;
 
-            FeedUpdateTaskSchedulerContext newContext = new FeedUpdateTaskSchedulerContext(taskIndex);
+            FeedUpdateTaskSchedulerContext newContext = new FeedUpdateTaskSchedulerContext(taskIndex + 1);
             this.contextRepository.store(newContext);
 
             return tasks.get(taskIndex);

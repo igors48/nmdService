@@ -1,7 +1,16 @@
 package feed.scheduler;
 
+import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
+import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
+import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerException;
+import org.junit.Before;
 import org.junit.Test;
+
+import java.util.UUID;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -9,22 +18,80 @@ import org.junit.Test;
  */
 public class FeedUpdateTaskSchedulerTest {
 
-    @Test
-    public void whenNoContextStoredInRepositoryThenUseStartContext() throws Exception {
-        FeedUpdateTaskRepositoryStub taskRepositoryStub = new FeedUpdateTaskRepositoryStub();
-        FeedUpdateTaskSchedulerContextRepositoryStub contextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
-        FeedUpdateTaskScheduler scheduler = new FeedUpdateTaskScheduler(contextRepositoryStub, taskRepositoryStub);
+    private static final FeedUpdateTask FIRST_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+    private static final FeedUpdateTask SECOND_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+    private static final FeedUpdateTask THIRD_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
 
+    private FeedUpdateTaskRepositoryStub taskRepositoryStub;
+    private FeedUpdateTaskSchedulerContextRepositoryStub contextRepositoryStub;
+    private FeedUpdateTaskScheduler scheduler;
 
+    @Before
+    public void before() {
+        this.taskRepositoryStub = new FeedUpdateTaskRepositoryStub(FIRST_TASK, SECOND_TASK);
+
+        this.contextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
+
+        this.scheduler = new FeedUpdateTaskScheduler(this.contextRepositoryStub, this.taskRepositoryStub);
     }
 
     @Test
-    public void schedulerUpdatesItsContext() {
-
-
+    public void whenNoContextStoredInRepositoryThenUseStartContext() throws FeedUpdateTaskSchedulerException {
+        FeedUpdateTask updateTask = this.scheduler.getCurrentTask();
+        assertEquals(FIRST_TASK, updateTask);
     }
 
-    //cyclic behaviour
-    //behaviour when task added
-    //behaviour when task deleted
+    @Test
+    public void schedulerUpdatesItsContext() throws FeedUpdateTaskSchedulerException {
+        this.scheduler.getCurrentTask();
+
+        FeedUpdateTaskSchedulerContext context = this.contextRepositoryStub.load();
+
+        assertEquals(1, context.lastTaskIndex);
+    }
+
+    @Test
+    public void schedulerSelectsTasksCyclically() throws FeedUpdateTaskSchedulerException {
+        FeedUpdateTask first = this.scheduler.getCurrentTask();
+        FeedUpdateTask second = this.scheduler.getCurrentTask();
+        FeedUpdateTask third = this.scheduler.getCurrentTask();
+
+        assertEquals(FIRST_TASK, first);
+        assertEquals(SECOND_TASK, second);
+        assertEquals(FIRST_TASK, third);
+    }
+
+    @Test
+    public void afterTaskAddedItExecuted() throws FeedUpdateTaskSchedulerException {
+        this.scheduler.getCurrentTask();
+        this.scheduler.getCurrentTask();
+
+        this.taskRepositoryStub.addTask(THIRD_TASK);
+
+        FeedUpdateTask updateTask = this.scheduler.getCurrentTask();
+
+        assertEquals(THIRD_TASK, updateTask);
+    }
+
+    @Test
+    public void afterTaskRemovedItDidNotExecute() throws FeedUpdateTaskSchedulerException {
+        this.scheduler.getCurrentTask();
+        this.scheduler.getCurrentTask();
+
+        this.taskRepositoryStub.removeTask(SECOND_TASK);
+
+        FeedUpdateTask updateTask = this.scheduler.getCurrentTask();
+
+        assertEquals(FIRST_TASK, updateTask);
+    }
+
+    @Test
+    public void ifThereIsNoTasksThenNullReturns() throws FeedUpdateTaskSchedulerException {
+        this.taskRepositoryStub.removeTask(FIRST_TASK);
+        this.taskRepositoryStub.removeTask(SECOND_TASK);
+
+        FeedUpdateTask updateTask = this.scheduler.getCurrentTask();
+        assertNull(updateTask);
+    }
+
 }

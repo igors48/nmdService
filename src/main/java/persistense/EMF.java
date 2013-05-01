@@ -7,7 +7,7 @@ import javax.persistence.Persistence;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 26.04.13
  */
-public class EMF {
+public final class EMF {
 
     private static final EntityManagerFactory ENTITY_MANAGER_FACTORY = Persistence.createEntityManagerFactory("transactions-optional");
 

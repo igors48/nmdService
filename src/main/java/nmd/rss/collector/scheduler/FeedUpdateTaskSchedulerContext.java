@@ -12,7 +12,7 @@ public class FeedUpdateTaskSchedulerContext {
 
     public final int lastTaskIndex;
 
-    public FeedUpdateTaskSchedulerContext(int lastTaskIndex) {
+    public FeedUpdateTaskSchedulerContext(final int lastTaskIndex) {
         assertPositive(lastTaskIndex);
         this.lastTaskIndex = lastTaskIndex;
     }
