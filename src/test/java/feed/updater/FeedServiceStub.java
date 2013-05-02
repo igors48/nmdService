@@ -14,19 +14,48 @@ import java.util.UUID;
  */
 public class FeedServiceStub implements FeedService {
 
-    @Override
-    public FeedHeader loadHeader(UUID feedId) throws FeedServiceException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    private FeedHeader header;
+    private List<FeedItem> items;
+    private List<FeedItem> removed;
+    private List<FeedItem> retained;
+    private List<FeedItem> added;
+
+    public FeedServiceStub(final FeedHeader header, final List<FeedItem> items) {
+        this.header = header;
+        this.items = items;
+
+        this.removed = null;
+        this.retained = null;
+        this.added = null;
     }
 
     @Override
-    public List<FeedItem> loadItems(UUID feedId) throws FeedServiceException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public FeedHeader loadHeader(final UUID feedId) throws FeedServiceException {
+        return this.header;
     }
 
     @Override
-    public void updateItems(UUID feedId, List<FeedItem> removed, List<FeedItem> added) throws FeedServiceException {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public List<FeedItem> loadItems(final UUID feedId) throws FeedServiceException {
+        return this.items;
+    }
+
+    @Override
+    public void updateItems(final UUID feedId, final List<FeedItem> removed, final List<FeedItem> retained, final List<FeedItem> added) throws FeedServiceException {
+        this.removed = removed;
+        this.retained = retained;
+        this.added = added;
+    }
+
+    public List<FeedItem> getRemoved() {
+        return this.removed;
+    }
+
+    public List<FeedItem> getRetained() {
+        return this.retained;
+    }
+
+    public List<FeedItem> getAdded() {
+        return this.added;
     }
 
 }

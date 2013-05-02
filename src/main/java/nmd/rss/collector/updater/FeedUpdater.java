@@ -6,6 +6,7 @@ import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerException;
 
 import java.util.List;
+import java.util.logging.Logger;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertPositive;
@@ -16,6 +17,8 @@ import static nmd.rss.collector.util.Assert.assertPositive;
  */
 public class FeedUpdater {
 
+    private static final Logger LOGGER = Logger.getLogger(FeedUpdater.class.getName());
+
     public static void update(final FeedUpdateTaskScheduler scheduler, final FeedService feedService, final UrlFetcher fetcher, final int maxItemsCount) throws FeedUpdaterException {
         assertNotNull(scheduler);
         assertNotNull(feedService);
@@ -24,16 +27,25 @@ public class FeedUpdater {
 
         try {
             FeedUpdateTask task = scheduler.getCurrentTask();
-            FeedHeader header = feedService.loadHeader(task.feedId);
 
-            String feedData = fetcher.fetch(header.link);
-            Feed parsedFeed = FeedParser.parse(feedData);
+            if (task == null) {
+                LOGGER.info("There is no current task");
+            } else {
+                FeedHeader header = feedService.loadHeader(task.feedId);
 
-            List<FeedItem> olds = feedService.loadItems(task.feedId);
+                if (header == null) {
+                    LOGGER.warning(String.format("Feed header for id [ %s ] not found", task.feedId));
+                }
 
-            FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, parsedFeed.items, maxItemsCount);
+                String feedData = fetcher.fetch(header.link);
+                Feed parsedFeed = FeedParser.parse(feedData);
 
-            feedService.updateItems(task.feedId, mergeReport.removed, mergeReport.added);
+                List<FeedItem> olds = feedService.loadItems(task.feedId);
+
+                FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, parsedFeed.items, maxItemsCount);
+
+                feedService.updateItems(task.feedId, mergeReport.removed, mergeReport.retained, mergeReport.added);
+            }
         } catch (FeedUpdateTaskSchedulerException | FeedServiceException | UrlFetcherException | FeedParserException exception) {
             throw new FeedUpdaterException(exception);
         }

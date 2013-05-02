@@ -9,9 +9,15 @@ import nmd.rss.collector.updater.UrlFetcherException;
  */
 public class UrlFetcherStub implements UrlFetcher {
 
+    private String data;
+
     @Override
-    public String fetch(String link) throws UrlFetcherException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public String fetch(final String link) throws UrlFetcherException {
+        return this.data;
+    }
+
+    public void setData(final String data) {
+        this.data = data;
     }
 
 }
