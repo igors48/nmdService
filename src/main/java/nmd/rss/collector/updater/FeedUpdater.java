@@ -54,7 +54,7 @@ public final class FeedUpdater {
 
             feedService.updateItems(task.feedId, mergeReport.removed, mergeReport.retained, mergeReport.added);
 
-            LOGGER.info(String.format("Feed id [ %s ] updated. Url [ %s ] Items removed [ %d ] retained [ %d ] added [ %d ]", task.feedId, header.link, mergeReport.removed.size(), mergeReport.retained.size(), mergeReport.added.size()));
+            LOGGER.info(String.format("Task id [ %s ] completed. Feed id [ %s ] updated. Url [ %s ] Items removed [ %d ] retained [ %d ] added [ %d ]", task.id, task.feedId, header.link, mergeReport.removed.size(), mergeReport.retained.size(), mergeReport.added.size()));
         } catch (FeedUpdateTaskSchedulerException | FeedServiceException | UrlFetcherException | FeedParserException exception) {
             throw new FeedUpdaterException(exception);
         }
