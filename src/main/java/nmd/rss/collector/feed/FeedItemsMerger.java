@@ -1,5 +1,6 @@
 package nmd.rss.collector.feed;
 
+import java.io.Serializable;
 import java.util.*;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -18,9 +19,9 @@ public final class FeedItemsMerger {
         assertNotNull(youngs);
         assertPositive(maximumCount);
 
-        List<FeedItem> removed = new ArrayList<>();
-        List<FeedItem> retained = new ArrayList<>();
-        List<FeedItem> added = new ArrayList<>();
+        final List<FeedItem> removed = new ArrayList<>();
+        final List<FeedItem> retained = new ArrayList<>();
+        final List<FeedItem> added = new ArrayList<>();
 
         removePossibleDuplicates(olds, youngs, removed, retained, added);
         checkMaximumCount(removed, retained, added, maximumCount);
@@ -64,7 +65,7 @@ public final class FeedItemsMerger {
         sortByTimestamp(source);
 
         for (int index = 0; index < count; ++index) {
-            FeedItem victim = source.remove(index);
+            final FeedItem victim = source.remove(index);
             removed.add(victim);
         }
     }
@@ -74,37 +75,42 @@ public final class FeedItemsMerger {
     }
 
     private static void removePossibleDuplicates(final List<FeedItem> olds, final List<FeedItem> youngs, final List<FeedItem> removed, final List<FeedItem> retained, final List<FeedItem> added) {
-        Map<String, FeedItem> oldItems = createUniqueFeedItemsLinkMap(olds);
-        Map<String, FeedItem> youngItems = createUniqueFeedItemsLinkMap(youngs);
+        final Map<String, FeedItem> oldItems = createUniqueFeedItemsLinkMap(olds);
+        final Map<String, FeedItem> youngItems = createUniqueFeedItemsLinkMap(youngs);
 
-        for (String link : youngItems.keySet()) {
-            FeedItem oldItem = oldItems.get(link);
+        for (final String link : youngItems.keySet()) {
+            final FeedItem youngItem = youngItems.get(link);
+            final FeedItem oldItem = oldItems.get(link);
 
-            if (oldItem != null) {
-                removed.add(oldItem);
-                oldItems.remove(link);
+            if (oldItem == null) {
+                added.add(youngItem);
+            } else {
+
+                if (!youngItem.equals(oldItem)) {
+                    removed.add(oldItem);
+                    oldItems.remove(link);
+                    added.add(youngItem);
+                }
             }
-
-            added.add(youngItems.get(link));
         }
 
         retained.addAll(oldItems.values());
     }
 
     private static Map<String, FeedItem> createUniqueFeedItemsLinkMap(final List<FeedItem> feedItems) {
-        Map<String, FeedItem> result = new HashMap<>();
+        final Map<String, FeedItem> result = new HashMap<>();
 
-        for (FeedItem current : feedItems) {
+        for (final FeedItem current : feedItems) {
             result.put(current.link, current);
         }
 
         return result;
     }
 
-    private static class TimestampComparator implements Comparator<FeedItem> {
+    private static class TimestampComparator implements Comparator<FeedItem>, Serializable {
 
         @Override
-        public int compare(FeedItem first, FeedItem second) {
+        public int compare(final FeedItem first, final FeedItem second) {
             return (int) (first.timestamp - second.timestamp);
         }
     }

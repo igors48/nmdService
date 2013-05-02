@@ -84,4 +84,20 @@ public class FeedItemsMergerMergeTest {
 
         assertEquals(OLD_SECOND, report.removed.get(0));
     }
+
+    @Test
+    public void ifItemsIdenticalThenMergeNoNeeds() throws Exception {
+        this.youngs.clear();
+        this.youngs.add(OLD_FIRST);
+        this.youngs.add(OLD_SECOND);
+
+        FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
+
+        assertTrue(report.added.isEmpty());
+        assertTrue(report.removed.isEmpty());
+
+        assertEquals(2, report.retained.size());
+        assertTrue(report.retained.contains(OLD_FIRST));
+        assertTrue(report.retained.contains(OLD_SECOND));
+    }
 }
