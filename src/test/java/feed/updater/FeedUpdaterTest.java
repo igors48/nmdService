@@ -6,8 +6,8 @@ package feed.updater;
  */
 public class FeedUpdaterTest {
 
-    //    public FeedUpdateTaskScheduler(final FeedUpdateTaskSchedulerContextRepository contextRepository, final FeedUpdateTaskRepository taskRepository) {
+    //    public CycleFeedUpdateTaskScheduler(final FeedUpdateTaskSchedulerContextRepository contextRepository, final FeedUpdateTaskRepository taskRepository) {
 
-    //    public static void update(final FeedUpdateTaskScheduler scheduler, final FeedService feedService, final UrlFetcher fetcher, final int maxItemsCount) throws FeedUpdaterException {
+    //    public static void update(final CycleFeedUpdateTaskScheduler scheduler, final FeedService feedService, final UrlFetcher fetcher, final int maxItemsCount) throws FeedUpdaterException {
 
 }

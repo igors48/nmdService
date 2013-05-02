@@ -1,7 +1,7 @@
 package feed.scheduler;
 
+import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
-import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerException;
 import org.junit.Before;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.04.13
  */
-public class FeedUpdateTaskSchedulerTest {
+public class CycleFeedUpdateTaskSchedulerTest {
 
     private static final FeedUpdateTask FIRST_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
     private static final FeedUpdateTask SECOND_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
@@ -24,7 +24,7 @@ public class FeedUpdateTaskSchedulerTest {
 
     private FeedUpdateTaskRepositoryStub taskRepositoryStub;
     private FeedUpdateTaskSchedulerContextRepositoryStub contextRepositoryStub;
-    private FeedUpdateTaskScheduler scheduler;
+    private CycleFeedUpdateTaskScheduler scheduler;
 
     @Before
     public void before() {
@@ -32,7 +32,7 @@ public class FeedUpdateTaskSchedulerTest {
 
         this.contextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
 
-        this.scheduler = new FeedUpdateTaskScheduler(this.contextRepositoryStub, this.taskRepositoryStub);
+        this.scheduler = new CycleFeedUpdateTaskScheduler(this.contextRepositoryStub, this.taskRepositoryStub);
     }
 
     @Test
