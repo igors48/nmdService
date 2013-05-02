@@ -16,5 +16,6 @@ public interface FeedService {
 
     List<FeedItem> loadItems(UUID feedId) throws FeedServiceException;
 
-    void updateItems(UUID feedId, List<FeedItem> removed, List<FeedItem> added);
+    void updateItems(UUID feedId, List<FeedItem> removed, List<FeedItem> added) throws FeedServiceException;
+
 }
