@@ -5,4 +5,9 @@ package nmd.rss.collector.updater;
  * Date : 01.05.13
  */
 public class UrlFetcherException extends Exception {
+
+    public UrlFetcherException(final Throwable cause) {
+        super(cause);
+    }
+
 }
