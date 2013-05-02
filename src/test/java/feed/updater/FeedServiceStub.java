@@ -58,4 +58,12 @@ public class FeedServiceStub implements FeedService {
         return this.added;
     }
 
+    public void setItems(final List<FeedItem> items) {
+        this.items = items;
+    }
+
+    public void setHeader(final FeedHeader header) {
+        this.header = header;
+    }
+
 }

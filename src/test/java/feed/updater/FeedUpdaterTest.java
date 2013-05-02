@@ -75,8 +75,18 @@ public class FeedUpdaterTest {
         assertNoUpdate();
     }
 
-    // if header not found nothing updated
-    // new feed updates correctly
+    @Test
+    public void ifHeaderNotFoundNothingUpdated() throws FeedUpdaterException {
+        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+        this.taskSchedulerStub.setTask(task);
+
+        this.feedServiceStub.setHeader(null);
+
+        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub, MAX_FEED_ITEMS_COUNT);
+
+        assertNoUpdate();
+    }
+
     @Test
     public void existentFeedHandlesCorrectly() throws FeedUpdaterException {
         FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
@@ -90,6 +100,24 @@ public class FeedUpdaterTest {
 
         assertTrue(removed.isEmpty());
         assertEquals(1, retained.size());
+        assertEquals(2, added.size());
+    }
+
+    @Test
+    public void newFeedHandlesCorrectly() throws FeedUpdaterException {
+        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+        this.taskSchedulerStub.setTask(task);
+
+        this.feedServiceStub.setItems(null);
+
+        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub, MAX_FEED_ITEMS_COUNT);
+
+        List<FeedItem> removed = this.feedServiceStub.getRemoved();
+        List<FeedItem> retained = this.feedServiceStub.getRetained();
+        List<FeedItem> added = this.feedServiceStub.getAdded();
+
+        assertTrue(removed.isEmpty());
+        assertTrue(retained.isEmpty());
         assertEquals(2, added.size());
     }
 
