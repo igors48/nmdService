@@ -16,7 +16,7 @@ import static nmd.rss.collector.util.Assert.assertPositive;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 01.05.13
  */
-public class FeedUpdater {
+public final class FeedUpdater {
 
     private static final Logger LOGGER = Logger.getLogger(FeedUpdater.class.getName());
 
@@ -27,7 +27,7 @@ public class FeedUpdater {
         assertPositive(maxItemsCount);
 
         try {
-            FeedUpdateTask task = scheduler.getCurrentTask();
+            final FeedUpdateTask task = scheduler.getCurrentTask();
 
             if (task == null) {
                 LOGGER.info("There is no current task");
@@ -35,7 +35,7 @@ public class FeedUpdater {
                 return;
             }
 
-            FeedHeader header = feedService.loadHeader(task.feedId);
+            final FeedHeader header = feedService.loadHeader(task.feedId);
 
             if (header == null) {
                 LOGGER.warning(String.format("Feed header for id [ %s ] not found", task.feedId));
@@ -43,19 +43,25 @@ public class FeedUpdater {
                 return;
             }
 
-            String feedData = fetcher.fetch(header.link);
-            Feed parsedFeed = FeedParser.parse(feedData);
+            final String feedData = fetcher.fetch(header.link);
+            final Feed parsedFeed = FeedParser.parse(feedData);
 
             List<FeedItem> olds = feedService.loadItems(task.feedId);
             //TODO may be it is a responsibility of feed service ?
             olds = olds == null ? new ArrayList<FeedItem>() : olds;
 
-            FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, parsedFeed.items, maxItemsCount);
+            final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, parsedFeed.items, maxItemsCount);
 
             feedService.updateItems(task.feedId, mergeReport.removed, mergeReport.retained, mergeReport.added);
+
+            LOGGER.info(String.format("Feed id [ %s ] updated. Url [ %s ] Items removed [ %d ] retained [ %d ] added [ %d ]", task.feedId, header.link, mergeReport.removed.size(), mergeReport.retained.size(), mergeReport.added.size()));
         } catch (FeedUpdateTaskSchedulerException | FeedServiceException | UrlFetcherException | FeedParserException exception) {
             throw new FeedUpdaterException(exception);
         }
+    }
+
+    private FeedUpdater() {
+        //empty
     }
 
 }
