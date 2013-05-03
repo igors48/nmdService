@@ -10,6 +10,7 @@ import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.Parameter.isValidUrl;
@@ -77,7 +78,7 @@ public final class FeedParser {
         String link = entry.getLink();
         long timestamp = createTimestamp(entry.getPublishedDate(), new Date());
 
-        return new FeedItem(title, description, link, timestamp);
+        return new FeedItem(UUID.randomUUID(), title, description, link, timestamp);
     }
 
     private static long createTimestamp(final Date date, final Date currentDate) {

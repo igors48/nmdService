@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -20,12 +21,12 @@ public class FeedItemsMergerMergeTest {
 
     private static final int REALLY_BIG_FEED = 1000;
 
-    private static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", 48);
-    private static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", 50);
+    private static final FeedItem OLD_FIRST = new FeedItem(UUID.randomUUID(), "oldFirstTitle", "oldFirstDescription", "oldFirstLink", 48);
+    private static final FeedItem OLD_SECOND = new FeedItem(UUID.randomUUID(), "oldSecondTitle", "oldSecondDescription", "oldSecondLink", 50);
 
-    private static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "youngFirstLink", 58);
-    private static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", 60);
-    private static final FeedItem OLD_SECOND_DUPLICATE = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", 52);
+    private static final FeedItem YOUNG_FIRST = new FeedItem(UUID.randomUUID(), "youngFirstTitle", "youngFirstDescription", "youngFirstLink", 58);
+    private static final FeedItem YOUNG_SECOND = new FeedItem(UUID.randomUUID(), "youngSecondTitle", "youngSecondDescription", "youngSecondLink", 60);
+    private static final FeedItem OLD_SECOND_DUPLICATE = new FeedItem(UUID.randomUUID(), "oldSecondTitle", "oldSecondDescription", "oldSecondLink", 52);
 
     private List<FeedItem> olds;
     private List<FeedItem> youngs;

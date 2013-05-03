@@ -44,6 +44,7 @@ public class FeedUpdaterTest {
     private static final String HEADER_TITLE = "headerTitle";
     private static final String HEADER_DESCRIPTION = "headerDescription";
     private static final String HEADER_LINK = "headerLink";
+    private static final UUID ITEM_ID = UUID.randomUUID();
     private static final String ITEM_TITLE = "itemTitle";
     private static final String ITEM_DESCRIPTION = "itemDescription";
     private static final String ITEM_LINK = "itemLink";
@@ -59,7 +60,7 @@ public class FeedUpdaterTest {
         this.taskSchedulerStub = new FeedUpdateTaskSchedulerStub();
 
         FeedHeader header = new FeedHeader(HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
-        FeedItem item = new FeedItem(ITEM_TITLE, ITEM_DESCRIPTION, ITEM_LINK, ITEM_TIMESTAMP);
+        FeedItem item = new FeedItem(ITEM_ID, ITEM_TITLE, ITEM_DESCRIPTION, ITEM_LINK, ITEM_TIMESTAMP);
         List<FeedItem> items = new ArrayList<>();
         items.add(item);
         this.feedServiceStub = new FeedServiceStub(header, items);
