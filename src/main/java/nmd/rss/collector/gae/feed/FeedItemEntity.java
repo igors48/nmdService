@@ -1,10 +1,14 @@
 package nmd.rss.collector.gae.feed;
 
+import nmd.rss.collector.feed.FeedItem;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
+
+import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -18,6 +22,7 @@ public class FeedItemEntity {
     private com.google.appengine.api.datastore.Key key;
 
     private UUID id;
+    private UUID feedId;
     private String title;
     private String description;
     private String link;
@@ -27,8 +32,9 @@ public class FeedItemEntity {
 
     }
 
-    public FeedItemEntity(UUID id, String title, String description, String link, long timestamp) {
+    public FeedItemEntity(UUID id, UUID feedId, String title, String description, String link, long timestamp) {
         this.id = id;
+        this.feedId = feedId;
         this.title = title;
         this.description = description;
         this.link = link;
@@ -37,6 +43,10 @@ public class FeedItemEntity {
 
     public UUID getId() {
         return this.id;
+    }
+
+    public UUID getFeedId() {
+        return this.feedId;
     }
 
     public String getTitle() {
@@ -55,4 +65,16 @@ public class FeedItemEntity {
         return this.timestamp;
     }
 
+    public static FeedItem convert(final FeedItemEntity entity) {
+        assertNotNull(entity);
+
+        return new FeedItem(entity.getId(), entity.getTitle(), entity.getDescription(), entity.getLink(), entity.getTimestamp());
+    }
+
+    public static FeedItemEntity convert(final UUID feedId, final FeedItem item) {
+        assertNotNull(feedId);
+        assertNotNull(item);
+
+        return new FeedItemEntity(item.id, feedId, item.title, item.description, item.link, item.timestamp);
+    }
 }

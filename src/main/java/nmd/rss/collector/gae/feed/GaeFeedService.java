@@ -5,6 +5,8 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedService;
 import nmd.rss.collector.updater.FeedServiceException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityTransaction;
 import java.util.List;
 import java.util.UUID;
 
@@ -16,15 +18,38 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class GaeFeedService implements FeedService {
 
+    private final EntityManager entityManager;
+    private final GaeFeedItemsRepository feedItemsRepository;
+
+    public GaeFeedService(final EntityManager entityManager, final GaeFeedItemsRepository feedItemsRepository) {
+        assertNotNull(entityManager);
+        this.entityManager = entityManager;
+
+        assertNotNull(feedItemsRepository);
+        this.feedItemsRepository = feedItemsRepository;
+    }
+
     @Override
     public FeedHeader loadHeader(final UUID feedId) throws FeedServiceException {
         assertNotNull(feedId);
+
         return null;
     }
 
     @Override
     public List<FeedItem> loadItems(final UUID feedId) throws FeedServiceException {
         assertNotNull(feedId);
+
+        EntityTransaction transaction = this.entityManager.getTransaction();
+
+        try {
+
+        } catch (Exception exception) {
+
+        } finally {
+
+        }
+
         return null;
     }
 
