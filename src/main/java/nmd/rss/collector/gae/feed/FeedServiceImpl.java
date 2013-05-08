@@ -2,6 +2,7 @@ package nmd.rss.collector.gae.feed;
 
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.FeedService;
 import nmd.rss.collector.updater.FeedServiceException;
 
@@ -11,17 +12,18 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 02.05.13
  */
-public class GaeFeedService implements FeedService {
+public class FeedServiceImpl implements FeedService {
 
     private final EntityManager entityManager;
-    private final GaeFeedItemsRepository feedItemsRepository;
+    private final FeedItemsRepository feedItemsRepository;
 
-    public GaeFeedService(final EntityManager entityManager, final GaeFeedItemsRepository feedItemsRepository) {
+    public FeedServiceImpl(final EntityManager entityManager, final FeedItemsRepository feedItemsRepository) {
         assertNotNull(entityManager);
         this.entityManager = entityManager;
 
@@ -40,17 +42,21 @@ public class GaeFeedService implements FeedService {
     public List<FeedItem> loadItems(final UUID feedId) throws FeedServiceException {
         assertNotNull(feedId);
 
-        EntityTransaction transaction = this.entityManager.getTransaction();
+        EntityTransaction transaction = null;
 
         try {
+            transaction = this.entityManager.getTransaction();
 
+            final List<FeedItem> result = this.feedItemsRepository.loadItems(feedId);
+
+            transaction.commit();
+
+            return result;
         } catch (Exception exception) {
-
+            throw new FeedServiceException(exception);
         } finally {
-
+            rollbackIfActive(transaction);
         }
-
-        return null;
     }
 
     @Override
@@ -59,5 +65,26 @@ public class GaeFeedService implements FeedService {
         assertNotNull(removed);
         assertNotNull(retained);
         assertNotNull(added);
+
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = this.entityManager.getTransaction();
+
+            for (final FeedItem victim : removed) {
+                this.feedItemsRepository.removeItem(victim.id);
+            }
+
+            for (final FeedItem current : added) {
+                this.feedItemsRepository.addItem(feedId, current);
+            }
+
+            transaction.commit();
+        } catch (Exception exception) {
+            throw new FeedServiceException(exception);
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
+
 }

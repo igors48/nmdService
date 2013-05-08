@@ -7,8 +7,8 @@
     <persistence-unit name="transactions-optional">
         <provider>org.datanucleus.api.jpa.PersistenceProviderImpl</provider>
         <properties>
-            <property name="datanucleus.NontransactionalRead" value="true"/>
-            <property name="datanucleus.NontransactionalWrite" value="true"/>
+            <property name="datanucleus.NontransactionalRead" value="false"/>
+            <property name="datanucleus.NontransactionalWrite" value="false"/>
             <property name="datanucleus.ConnectionURL" value="appengine"/>
             <property name="datanucleus.singletonEMFForName" value="true"/>
             <property name="datanucleus.datastoreWriteTimeout" value="10000"/>

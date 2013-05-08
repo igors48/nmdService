@@ -1,6 +1,7 @@
 package nmd.rss.collector.gae.feed;
 
 import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.updater.FeedItemsRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -15,7 +16,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 03.05.13
  */
-public class GaeFeedItemsRepository {
+public class GaeFeedItemsRepository implements FeedItemsRepository {
 
     private final EntityManager entityManager;
 
@@ -24,6 +25,7 @@ public class GaeFeedItemsRepository {
         this.entityManager = entityManager;
     }
 
+    @Override
     public int removeItem(final UUID feedItemId) {
         assertNotNull(feedItemId);
 
@@ -33,6 +35,7 @@ public class GaeFeedItemsRepository {
         return query.executeUpdate();
     }
 
+    @Override
     public void addItem(final UUID feedId, final FeedItem feedItem) {
         assertNotNull(feedId);
         assertNotNull(feedItem);
@@ -42,10 +45,11 @@ public class GaeFeedItemsRepository {
         this.entityManager.persist(entity);
     }
 
+    @Override
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        List<FeedItem> result = new ArrayList<>();
+        final List<FeedItem> result = new ArrayList<>();
 
         final TypedQuery<FeedItemEntity> query = this.entityManager.createQuery("SELECT feedItemEntity FROM FeedItemEntity feedItemEntity WHERE feedItemEntity.feedId = :feedId", FeedItemEntity.class);
         query.setParameter("feedId", feedId);
