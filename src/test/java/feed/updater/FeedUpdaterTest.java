@@ -41,6 +41,7 @@ public class FeedUpdaterTest {
             "    </channel>\n" +
             "</rss>    ";
 
+    private static final UUID HEADER_ID = UUID.randomUUID();
     private static final String HEADER_TITLE = "headerTitle";
     private static final String HEADER_DESCRIPTION = "headerDescription";
     private static final String HEADER_LINK = "headerLink";
@@ -59,7 +60,7 @@ public class FeedUpdaterTest {
     public void before() {
         this.taskSchedulerStub = new FeedUpdateTaskSchedulerStub();
 
-        FeedHeader header = new FeedHeader(HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
+        FeedHeader header = new FeedHeader(HEADER_ID, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
         FeedItem item = new FeedItem(ITEM_ID, ITEM_TITLE, ITEM_DESCRIPTION, ITEM_LINK, ITEM_TIMESTAMP);
         List<FeedItem> items = new ArrayList<>();
         items.add(item);

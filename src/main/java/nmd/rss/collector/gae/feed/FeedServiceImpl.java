@@ -2,6 +2,7 @@ package nmd.rss.collector.gae.feed;
 
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.FeedService;
 import nmd.rss.collector.updater.FeedServiceException;
@@ -22,20 +23,38 @@ public class FeedServiceImpl implements FeedService {
 
     private final EntityManager entityManager;
     private final FeedItemsRepository feedItemsRepository;
+    private final FeedHeadersRepository feedHeadersRepository;
 
-    public FeedServiceImpl(final EntityManager entityManager, final FeedItemsRepository feedItemsRepository) {
+    public FeedServiceImpl(final EntityManager entityManager, final FeedItemsRepository feedItemsRepository, final FeedHeadersRepository feedHeadersRepository) {
         assertNotNull(entityManager);
         this.entityManager = entityManager;
 
         assertNotNull(feedItemsRepository);
         this.feedItemsRepository = feedItemsRepository;
+
+        assertNotNull(feedHeadersRepository);
+        this.feedHeadersRepository = feedHeadersRepository;
     }
 
     @Override
     public FeedHeader loadHeader(final UUID feedId) throws FeedServiceException {
         assertNotNull(feedId);
 
-        return null;
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = this.entityManager.getTransaction();
+
+            final FeedHeader result = this.feedHeadersRepository.loadHeader(feedId);
+
+            transaction.commit();
+
+            return result;
+        } catch (Exception exception) {
+            throw new FeedServiceException(exception);
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
     @Override

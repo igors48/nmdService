@@ -64,7 +64,7 @@ public final class FeedParser {
         String description = feed.getDescription() == null ? "" : feed.getDescription();
         String link = feed.getLink();
 
-        return new FeedHeader(title, description, link);
+        return new FeedHeader(UUID.randomUUID(), title, description, link);
     }
 
     private static FeedItem parseItem(final SyndEntry entry) {

@@ -42,7 +42,7 @@ public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
             this.contextRepository.store(newContext);
 
             return tasks.get(taskIndex);
-        } catch (FeedUpdateTaskSchedulerContextRepositoryException | FeedUpdateTaskRepositoryException exception) {
+        } catch (FeedUpdateTaskSchedulerContextRepositoryException exception) {
             throw new FeedUpdateTaskSchedulerException(exception);
         }
     }

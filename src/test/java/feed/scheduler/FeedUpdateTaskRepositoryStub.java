@@ -2,7 +2,6 @@ package feed.scheduler;
 
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
-import nmd.rss.collector.scheduler.FeedUpdateTaskRepositoryException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +37,7 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
     }
 
     @Override
-    public List<FeedUpdateTask> loadAllTasks() throws FeedUpdateTaskRepositoryException {
+    public List<FeedUpdateTask> loadAllTasks() {
         return this.tasks;
     }
 

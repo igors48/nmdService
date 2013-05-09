@@ -8,6 +8,6 @@ import java.util.List;
  */
 public interface FeedUpdateTaskRepository {
 
-    List<FeedUpdateTask> loadAllTasks() throws FeedUpdateTaskRepositoryException;
+    List<FeedUpdateTask> loadAllTasks();
 
 }
