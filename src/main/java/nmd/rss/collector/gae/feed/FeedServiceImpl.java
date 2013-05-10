@@ -44,6 +44,7 @@ public class FeedServiceImpl implements FeedService {
 
         try {
             transaction = this.entityManager.getTransaction();
+            transaction.begin();
 
             final FeedHeader result = this.feedHeadersRepository.loadHeader(feedId);
 
@@ -65,6 +66,7 @@ public class FeedServiceImpl implements FeedService {
 
         try {
             transaction = this.entityManager.getTransaction();
+            transaction.begin();
 
             final List<FeedItem> result = this.feedItemsRepository.loadItems(feedId);
 
@@ -89,6 +91,7 @@ public class FeedServiceImpl implements FeedService {
 
         try {
             transaction = this.entityManager.getTransaction();
+            transaction.begin();
 
             for (final FeedItem victim : removed) {
                 this.feedItemsRepository.removeItem(victim.id);

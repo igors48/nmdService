@@ -1,5 +1,6 @@
 package nmd.rss.collector.gae.feed;
 
+import com.google.appengine.api.datastore.Text;
 import nmd.rss.collector.feed.FeedItem;
 
 import javax.persistence.Entity;
@@ -21,11 +22,11 @@ public class FeedItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private com.google.appengine.api.datastore.Key key;
 
-    private UUID id;
-    private UUID feedId;
-    private String title;
-    private String description;
-    private String link;
+    private String id;
+    private String feedId;
+    private Text title;
+    private Text description;
+    private Text link;
     private long timestamp;
 
     protected FeedItemEntity() {
@@ -33,31 +34,31 @@ public class FeedItemEntity {
     }
 
     public FeedItemEntity(UUID id, UUID feedId, String title, String description, String link, long timestamp) {
-        this.id = id;
-        this.feedId = feedId;
-        this.title = title;
-        this.description = description;
-        this.link = link;
+        this.id = id.toString();
+        this.feedId = feedId.toString();
+        this.title = new Text(title);
+        this.description = new Text(description);
+        this.link = new Text(link);
         this.timestamp = timestamp;
     }
 
-    public UUID getId() {
+    public String getId() {
         return this.id;
     }
 
-    public UUID getFeedId() {
+    public String getFeedId() {
         return this.feedId;
     }
 
-    public String getTitle() {
+    public Text getTitle() {
         return this.title;
     }
 
-    public String getDescription() {
+    public Text getDescription() {
         return this.description;
     }
 
-    public String getLink() {
+    public Text getLink() {
         return this.link;
     }
 
@@ -68,7 +69,7 @@ public class FeedItemEntity {
     public static FeedItem convert(final FeedItemEntity entity) {
         assertNotNull(entity);
 
-        return new FeedItem(entity.getId(), entity.getTitle(), entity.getDescription(), entity.getLink(), entity.getTimestamp());
+        return new FeedItem(UUID.fromString(entity.getId()), entity.getTitle().getValue(), entity.getDescription().getValue(), entity.getLink().getValue(), entity.getTimestamp());
     }
 
     public static FeedItemEntity convert(final UUID feedId, final FeedItem item) {

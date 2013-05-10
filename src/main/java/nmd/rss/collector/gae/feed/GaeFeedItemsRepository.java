@@ -30,7 +30,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         assertNotNull(feedItemId);
 
         final Query query = this.entityManager.createQuery("DELETE FROM FeedItemEntity feedItemEntity WHERE feedItemEntity.id = :feedItemId");
-        query.setParameter("feedItemId", feedItemId);
+        query.setParameter("feedItemId", feedItemId.toString());
 
         return query.executeUpdate();
     }
@@ -52,7 +52,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         final List<FeedItem> result = new ArrayList<>();
 
         final TypedQuery<FeedItemEntity> query = this.entityManager.createQuery("SELECT feedItemEntity FROM FeedItemEntity feedItemEntity WHERE feedItemEntity.feedId = :feedId", FeedItemEntity.class);
-        query.setParameter("feedId", feedId);
+        query.setParameter("feedId", feedId.toString());
 
         final List<FeedItemEntity> entities = query.getResultList();
 

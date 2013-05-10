@@ -17,6 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.CloseableTools.close;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -31,28 +32,31 @@ public class FeedUpdaterServlet extends HttpServlet {
         assertNotNull(request);
         assertNotNull(response);
 
+        EntityManager entityManager = null;
+
         try {
             LOGGER.fine("Updater servlet initialization started");
 
-            InMemoryFeedHeadersAndUpdateTasksRepository feedHeadersAndUpdateTasksRepository = new InMemoryFeedHeadersAndUpdateTasksRepository();
-            FeedUpdateTaskSchedulerContextRepository contextRepository = new InMemoryFeedUpdateTaskSchedulerContextRepository();
-            FeedUpdateTaskScheduler taskScheduler = new CycleFeedUpdateTaskScheduler(contextRepository, feedHeadersAndUpdateTasksRepository);
+            final InMemoryFeedHeadersAndUpdateTasksRepository feedHeadersAndUpdateTasksRepository = new InMemoryFeedHeadersAndUpdateTasksRepository();
+            final FeedUpdateTaskSchedulerContextRepository contextRepository = new InMemoryFeedUpdateTaskSchedulerContextRepository();
+            final FeedUpdateTaskScheduler taskScheduler = new CycleFeedUpdateTaskScheduler(contextRepository, feedHeadersAndUpdateTasksRepository);
 
-            EntityManager entityManager = EMF.get().createEntityManager();
-            FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository(entityManager);
-            FeedService feedService = new FeedServiceImpl(entityManager, feedItemsRepository, feedHeadersAndUpdateTasksRepository);
+            entityManager = EMF.get().createEntityManager();
 
-            UrlFetcher urlFetcher = new GaeUrlFetcher();
+            final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository(entityManager);
+            final FeedService feedService = new FeedServiceImpl(entityManager, feedItemsRepository, feedHeadersAndUpdateTasksRepository);
+
+            final UrlFetcher urlFetcher = new GaeUrlFetcher();
 
             LOGGER.fine("Updater servlet initialization completed. Updating started");
 
-            FeedUpdater.update(taskScheduler, feedService, urlFetcher, 10);
-
-            super.doGet(request, response);
+            FeedUpdater.update(taskScheduler, feedService, urlFetcher, 4);
 
             LOGGER.fine("Update completed");
         } catch (Exception exception) {
             LOGGER.log(Level.SEVERE, "Update fault", exception);
+        } finally {
+            close(entityManager);
         }
     }
 

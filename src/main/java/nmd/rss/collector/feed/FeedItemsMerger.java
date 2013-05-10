@@ -65,7 +65,7 @@ public final class FeedItemsMerger {
         sortByTimestamp(source);
 
         for (int index = 0; index < count; ++index) {
-            final FeedItem victim = source.remove(index);
+            final FeedItem victim = source.remove(0);
             removed.add(victim);
         }
     }
