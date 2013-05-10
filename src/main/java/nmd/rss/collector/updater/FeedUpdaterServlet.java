@@ -10,11 +10,10 @@ import nmd.rss.collector.scheduler.InMemoryFeedUpdateTaskSchedulerContextReposit
 import persistense.EMF;
 
 import javax.persistence.EntityManager;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -28,26 +27,33 @@ public class FeedUpdaterServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(FeedUpdaterServlet.class.getName());
 
     @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
+    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
         assertNotNull(request);
         assertNotNull(response);
 
-        InMemoryFeedHeadersAndUpdateTasksRepository feedHeadersAndUpdateTasksRepository = new InMemoryFeedHeadersAndUpdateTasksRepository();
-        FeedUpdateTaskSchedulerContextRepository contextRepository = new InMemoryFeedUpdateTaskSchedulerContextRepository();
-        FeedUpdateTaskScheduler taskScheduler = new CycleFeedUpdateTaskScheduler(contextRepository, feedHeadersAndUpdateTasksRepository);
-
-        EntityManager entityManager = EMF.get().createEntityManager();
-        FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository(entityManager);
-        FeedService feedService = new FeedServiceImpl(entityManager, feedItemsRepository, feedHeadersAndUpdateTasksRepository);
-
-        UrlFetcher urlFetcher = new GaeUrlFetcher();
-
         try {
-            FeedUpdater.update(taskScheduler, feedService, urlFetcher, 10);
-        } catch (FeedUpdaterException e) {
-            e.printStackTrace();  //To change body of catch statement use File | Settings | File Templates.
-        }
+            LOGGER.fine("Updater servlet initialization started");
 
-        super.doGet(request, response);
+            InMemoryFeedHeadersAndUpdateTasksRepository feedHeadersAndUpdateTasksRepository = new InMemoryFeedHeadersAndUpdateTasksRepository();
+            FeedUpdateTaskSchedulerContextRepository contextRepository = new InMemoryFeedUpdateTaskSchedulerContextRepository();
+            FeedUpdateTaskScheduler taskScheduler = new CycleFeedUpdateTaskScheduler(contextRepository, feedHeadersAndUpdateTasksRepository);
+
+            EntityManager entityManager = EMF.get().createEntityManager();
+            FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository(entityManager);
+            FeedService feedService = new FeedServiceImpl(entityManager, feedItemsRepository, feedHeadersAndUpdateTasksRepository);
+
+            UrlFetcher urlFetcher = new GaeUrlFetcher();
+
+            LOGGER.fine("Updater servlet initialization completed. Updating started");
+
+            FeedUpdater.update(taskScheduler, feedService, urlFetcher, 10);
+
+            super.doGet(request, response);
+
+            LOGGER.fine("Update completed");
+        } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, "Update fault", exception);
+        }
     }
+
 }

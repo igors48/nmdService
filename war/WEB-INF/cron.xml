@@ -1,8 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <cronentries>
+    <!--
     <cron>
         <url>/cron</url>
         <description>Cron sample</description>
         <schedule>every 1 minutes</schedule>
     </cron>
+    -->
+    <cron>
+        <url>/updater</url>
+        <description>Feed updater servlet</description>
+        <schedule>every 1 minutes</schedule>
+    </cron>
+
 </cronentries>
