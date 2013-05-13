@@ -46,6 +46,11 @@ public class FeedServiceStub implements FeedService {
         this.added = added;
     }
 
+    @Override
+    public void clearAll() {
+        // empty
+    }
+
     public List<FeedItem> getRemoved() {
         return this.removed;
     }

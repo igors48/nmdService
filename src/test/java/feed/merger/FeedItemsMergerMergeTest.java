@@ -101,4 +101,5 @@ public class FeedItemsMergerMergeTest {
         assertTrue(report.retained.contains(OLD_FIRST));
         assertTrue(report.retained.contains(OLD_SECOND));
     }
+
 }

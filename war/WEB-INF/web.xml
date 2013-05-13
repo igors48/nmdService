@@ -35,6 +35,16 @@
         <url-pattern>/updater</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>clear</servlet-name>
+        <servlet-class>nmd.rss.collector.updater.ClearServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>clear</servlet-name>
+        <url-pattern>/clear</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

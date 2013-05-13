@@ -34,6 +34,14 @@ public class FeedItem {
         this.timestamp = timestamp;
     }
 
+    public boolean sameAs(FeedItem feedItem) {
+        return timestamp == feedItem.timestamp
+                && description.equals(feedItem.description)
+                && link.equals(feedItem.link)
+                && title.equals(feedItem.title);
+
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

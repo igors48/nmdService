@@ -90,18 +90,52 @@ public class FeedServiceImpl implements FeedService {
         EntityTransaction transaction = null;
 
         try {
-            transaction = this.entityManager.getTransaction();
-            transaction.begin();
 
             for (final FeedItem victim : removed) {
+                transaction = this.entityManager.getTransaction();
+                transaction.begin();
+
                 this.feedItemsRepository.removeItem(victim.id);
+
+                transaction.commit();
             }
 
             for (final FeedItem current : added) {
+                transaction = this.entityManager.getTransaction();
+                transaction.begin();
+
                 this.feedItemsRepository.addItem(feedId, current);
+
+                transaction.commit();
             }
 
+        } catch (Exception exception) {
+            throw new FeedServiceException(exception);
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    @Override
+    public void clearAll() throws FeedServiceException {
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = this.entityManager.getTransaction();
+            transaction.begin();
+
+            final List<FeedItemEntity> victims = this.feedItemsRepository.loadAllItemsKeys();
+
             transaction.commit();
+
+            for (final FeedItemEntity victim : victims) {
+                transaction = this.entityManager.getTransaction();
+                transaction.begin();
+
+                this.feedItemsRepository.removeEntity(victim);
+
+                transaction.commit();
+            }
         } catch (Exception exception) {
             throw new FeedServiceException(exception);
         } finally {

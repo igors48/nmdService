@@ -18,4 +18,6 @@ public interface FeedService {
 
     void updateItems(UUID feedId, List<FeedItem> removed, List<FeedItem> retained, List<FeedItem> added) throws FeedServiceException;
 
+    void clearAll() throws FeedServiceException;
+
 }

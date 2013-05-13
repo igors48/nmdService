@@ -49,12 +49,30 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final List<FeedItem> result = new ArrayList<>();
-
         final TypedQuery<FeedItemEntity> query = this.entityManager.createQuery("SELECT feedItemEntity FROM FeedItemEntity feedItemEntity WHERE feedItemEntity.feedId = :feedId", FeedItemEntity.class);
         query.setParameter("feedId", feedId.toString());
 
         final List<FeedItemEntity> entities = query.getResultList();
+
+        return createFeedItems(entities);
+    }
+
+    @Override
+    public List<FeedItemEntity> loadAllItemsKeys() {
+        final TypedQuery<FeedItemEntity> query = this.entityManager.createQuery("SELECT feedItemEntity FROM FeedItemEntity feedItemEntity", FeedItemEntity.class);
+
+        return query.getResultList();
+    }
+
+    @Override
+    public void removeEntity(final FeedItemEntity victim) {
+        assertNotNull(victim);
+
+        this.entityManager.remove(victim);
+    }
+
+    private List<FeedItem> createFeedItems(List<FeedItemEntity> entities) {
+        final List<FeedItem> result = new ArrayList<>();
 
         for (final FeedItemEntity entity : entities) {
             final FeedItem item = FeedItemEntity.convert(entity);
