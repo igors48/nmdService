@@ -1,7 +1,7 @@
 package feed.gae;
 
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.gae.feed.FeedItemEntity;
+import nmd.rss.collector.gae.feed.FeedItemHelper;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -18,8 +18,8 @@ public class FeedEntityConversionTest {
     public void roundtrip() {
         FeedItem origin = new FeedItem(UUID.randomUUID(), "title", "description", "link", 48);
 
-        FeedItemEntity feedEntity = FeedItemEntity.convert(UUID.randomUUID(), origin);
-        FeedItem restored = FeedItemEntity.convert(feedEntity);
+        FeedItemHelper itemHelper = FeedItemHelper.convert(origin);
+        FeedItem restored = FeedItemHelper.convert(itemHelper);
 
         assertEquals(origin, restored);
     }

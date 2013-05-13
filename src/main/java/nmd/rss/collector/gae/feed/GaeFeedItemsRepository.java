@@ -1,11 +1,14 @@
 package nmd.rss.collector.gae.feed;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -26,21 +29,22 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public int removeItem(final UUID feedItemId) {
-        assertNotNull(feedItemId);
-
-        final Query query = this.entityManager.createQuery("DELETE FROM FeedItemEntity feedItemEntity WHERE feedItemEntity.id = :feedItemId");
-        query.setParameter("feedItemId", feedItemId.toString());
-
-        return query.executeUpdate();
-    }
-
-    @Override
-    public void addItem(final UUID feedId, final FeedItem feedItem) {
+    public void storeItems(UUID feedId, List<FeedItem> feedItems) {
         assertNotNull(feedId);
-        assertNotNull(feedItem);
+        assertNotNull(feedItems);
 
-        final FeedItemEntity entity = FeedItemEntity.convert(feedId, feedItem);
+        final Query query = this.entityManager.createQuery("DELETE FROM FeedItemEntity feedItemEntity WHERE feedItemEntity.feedId = :feedId");
+        query.setParameter("feedId", feedId.toString());
+        query.executeUpdate();
+
+        final List<FeedItemHelper> helpers = new ArrayList<>();
+
+        for (final FeedItem current : feedItems) {
+            helpers.add(FeedItemHelper.convert(current));
+        }
+
+        String json = new Gson().toJson(helpers);
+        FeedItemEntity entity = new FeedItemEntity(feedId, json);
 
         this.entityManager.persist(entity);
     }
@@ -74,12 +78,17 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     private List<FeedItem> createFeedItems(List<FeedItemEntity> entities) {
         final List<FeedItem> result = new ArrayList<>();
 
-        for (final FeedItemEntity entity : entities) {
-            final FeedItem item = FeedItemEntity.convert(entity);
+        if (!entities.isEmpty()) {
+            Type collectionType = new TypeToken<ArrayList<FeedItemHelper>>() {
+            }.getType();
+            final List<FeedItemHelper> helpers = new Gson().fromJson(entities.get(0).getData().getValue(), collectionType);
 
-            result.add(item);
+            for (final FeedItemHelper helper : helpers) {
+                final FeedItem item = FeedItemHelper.convert(helper);
+
+                result.add(item);
+            }
         }
-
         return result;
     }
 

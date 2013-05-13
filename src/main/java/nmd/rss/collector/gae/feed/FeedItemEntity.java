@@ -1,7 +1,6 @@
 package nmd.rss.collector.gae.feed;
 
 import com.google.appengine.api.datastore.Text;
-import nmd.rss.collector.feed.FeedItem;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -22,60 +21,27 @@ public class FeedItemEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private com.google.appengine.api.datastore.Key key;
 
-    private String id;
     private String feedId;
-    private Text title;
-    private Text description;
-    private Text link;
-    private long timestamp;
+    private Text data;
 
     protected FeedItemEntity() {
 
     }
 
-    public FeedItemEntity(UUID id, UUID feedId, String title, String description, String link, long timestamp) {
-        this.id = id.toString();
+    public FeedItemEntity(UUID feedId, String data) {
+        assertNotNull(feedId);
         this.feedId = feedId.toString();
-        this.title = new Text(title);
-        this.description = new Text(description);
-        this.link = new Text(link);
-        this.timestamp = timestamp;
-    }
 
-    public String getId() {
-        return this.id;
+        assertNotNull(data);
+        this.data = new Text(data);
     }
 
     public String getFeedId() {
         return this.feedId;
     }
 
-    public Text getTitle() {
-        return this.title;
+    public Text getData() {
+        return this.data;
     }
 
-    public Text getDescription() {
-        return this.description;
-    }
-
-    public Text getLink() {
-        return this.link;
-    }
-
-    public long getTimestamp() {
-        return this.timestamp;
-    }
-
-    public static FeedItem convert(final FeedItemEntity entity) {
-        assertNotNull(entity);
-
-        return new FeedItem(UUID.fromString(entity.getId()), entity.getTitle().getValue(), entity.getDescription().getValue(), entity.getLink().getValue(), entity.getTimestamp());
-    }
-
-    public static FeedItemEntity convert(final UUID feedId, final FeedItem item) {
-        assertNotNull(feedId);
-        assertNotNull(item);
-
-        return new FeedItemEntity(item.id, feedId, item.title, item.description, item.link, item.timestamp);
-    }
 }

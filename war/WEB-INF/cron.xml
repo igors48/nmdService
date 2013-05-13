@@ -7,11 +7,11 @@
         <schedule>every 1 minutes</schedule>
     </cron>
     -->
-    <!--
+
     <cron>
         <url>/updater</url>
         <description>Feed updater servlet</description>
         <schedule>every 1 minutes</schedule>
     </cron>
-    -->
+
 </cronentries>

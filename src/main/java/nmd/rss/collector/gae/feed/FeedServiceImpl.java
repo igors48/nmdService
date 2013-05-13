@@ -9,9 +9,12 @@ import nmd.rss.collector.updater.FeedServiceException;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static nmd.rss.collector.feed.TimestampComparator.TIMESTAMP_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 
@@ -90,7 +93,19 @@ public class FeedServiceImpl implements FeedService {
         EntityTransaction transaction = null;
 
         try {
+            List<FeedItem> feedItems = new ArrayList<>();
+            feedItems.addAll(retained);
+            feedItems.addAll(added);
 
+            Collections.sort(feedItems, TIMESTAMP_COMPARATOR);
+
+            transaction = this.entityManager.getTransaction();
+            transaction.begin();
+
+            this.feedItemsRepository.storeItems(feedId, feedItems);
+
+            transaction.commit();
+            /*
             for (final FeedItem victim : removed) {
                 transaction = this.entityManager.getTransaction();
                 transaction.begin();
@@ -108,7 +123,7 @@ public class FeedServiceImpl implements FeedService {
 
                 transaction.commit();
             }
-
+            */
         } catch (Exception exception) {
             throw new FeedServiceException(exception);
         } finally {

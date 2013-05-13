@@ -1,8 +1,8 @@
 package nmd.rss.collector.feed;
 
-import java.io.Serializable;
 import java.util.*;
 
+import static nmd.rss.collector.feed.TimestampComparator.TIMESTAMP_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertPositive;
 
@@ -11,8 +11,6 @@ import static nmd.rss.collector.util.Assert.assertPositive;
  * Date : 29.04.13
  */
 public final class FeedItemsMerger {
-
-    private static final TimestampComparator TIMESTAMP_COMPARATOR = new TimestampComparator();
 
     public static FeedItemsMergeReport merge(final List<FeedItem> olds, final List<FeedItem> youngs, final int maximumCount) {
         assertNotNull(olds);
@@ -105,14 +103,6 @@ public final class FeedItemsMerger {
         }
 
         return result;
-    }
-
-    private static class TimestampComparator implements Comparator<FeedItem>, Serializable {
-
-        @Override
-        public int compare(final FeedItem first, final FeedItem second) {
-            return (int) (first.timestamp - second.timestamp);
-        }
     }
 
     private FeedItemsMerger() {
