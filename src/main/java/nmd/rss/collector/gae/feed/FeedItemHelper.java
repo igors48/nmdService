@@ -18,7 +18,7 @@ public class FeedItemHelper {
     private String link;
     private long timestamp;
 
-    private FeedItemHelper(UUID id, String title, String description, String link, long timestamp) {
+    private FeedItemHelper(final UUID id, final String title, final String description, final String link, final long timestamp) {
         this.id = id;
         this.title = title;
         this.description = description;

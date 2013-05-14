@@ -29,7 +29,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public void storeItems(UUID feedId, List<FeedItem> feedItems) {
+    public void updateItems(final UUID feedId, final List<FeedItem> feedItems) {
         assertNotNull(feedId);
         assertNotNull(feedItems);
 
@@ -43,8 +43,8 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
             helpers.add(FeedItemHelper.convert(current));
         }
 
-        String json = new Gson().toJson(helpers);
-        FeedItemEntity entity = new FeedItemEntity(feedId, json);
+        final String data = new Gson().toJson(helpers);
+        final FeedItemEntity entity = new FeedItemEntity(feedId, data);
 
         this.entityManager.persist(entity);
     }
@@ -62,7 +62,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public List<FeedItemEntity> loadAllItemsKeys() {
+    public List<FeedItemEntity> loadAllEntities() {
         final TypedQuery<FeedItemEntity> query = this.entityManager.createQuery("SELECT feedItemEntity FROM FeedItemEntity feedItemEntity", FeedItemEntity.class);
 
         return query.getResultList();
@@ -75,13 +75,13 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         this.entityManager.remove(victim);
     }
 
-    private List<FeedItem> createFeedItems(List<FeedItemEntity> entities) {
+    private List<FeedItem> createFeedItems(final List<FeedItemEntity> entities) {
         final List<FeedItem> result = new ArrayList<>();
 
         if (!entities.isEmpty()) {
-            Type collectionType = new TypeToken<ArrayList<FeedItemHelper>>() {
+            final Type listType = new TypeToken<ArrayList<FeedItemHelper>>() {
             }.getType();
-            final List<FeedItemHelper> helpers = new Gson().fromJson(entities.get(0).getData().getValue(), collectionType);
+            final List<FeedItemHelper> helpers = new Gson().fromJson(entities.get(0).getData().getValue(), listType);
 
             for (final FeedItemHelper helper : helpers) {
                 final FeedItem item = FeedItemHelper.convert(helper);
@@ -89,6 +89,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
                 result.add(item);
             }
         }
+
         return result;
     }
 

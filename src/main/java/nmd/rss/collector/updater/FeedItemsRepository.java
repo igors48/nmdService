@@ -11,16 +11,12 @@ import java.util.UUID;
  * Date : 08.05.13
  */
 public interface FeedItemsRepository {
-    /*
-    int removeItem(UUID feedItemId);
 
-    void addItem(UUID feedId, FeedItem feedItem);
-    */
-    void storeItems(UUID feedId, List<FeedItem> feedItems);
+    void updateItems(UUID feedId, List<FeedItem> feedItems);
 
     List<FeedItem> loadItems(UUID feedId);
 
-    List<FeedItemEntity> loadAllItemsKeys();
+    List<FeedItemEntity> loadAllEntities();
 
     void removeEntity(FeedItemEntity victim);
 

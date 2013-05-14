@@ -102,28 +102,9 @@ public class FeedServiceImpl implements FeedService {
             transaction = this.entityManager.getTransaction();
             transaction.begin();
 
-            this.feedItemsRepository.storeItems(feedId, feedItems);
+            this.feedItemsRepository.updateItems(feedId, feedItems);
 
             transaction.commit();
-            /*
-            for (final FeedItem victim : removed) {
-                transaction = this.entityManager.getTransaction();
-                transaction.begin();
-
-                this.feedItemsRepository.removeItem(victim.id);
-
-                transaction.commit();
-            }
-
-            for (final FeedItem current : added) {
-                transaction = this.entityManager.getTransaction();
-                transaction.begin();
-
-                this.feedItemsRepository.addItem(feedId, current);
-
-                transaction.commit();
-            }
-            */
         } catch (Exception exception) {
             throw new FeedServiceException(exception);
         } finally {
@@ -139,7 +120,7 @@ public class FeedServiceImpl implements FeedService {
             transaction = this.entityManager.getTransaction();
             transaction.begin();
 
-            final List<FeedItemEntity> victims = this.feedItemsRepository.loadAllItemsKeys();
+            final List<FeedItemEntity> victims = this.feedItemsRepository.loadAllEntities();
 
             transaction.commit();
 
