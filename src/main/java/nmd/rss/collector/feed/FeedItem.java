@@ -34,12 +34,13 @@ public class FeedItem {
         this.timestamp = timestamp;
     }
 
-    public boolean sameAs(FeedItem feedItem) {
+    public boolean sameAs(final FeedItem feedItem) {
+        assertNotNull(feedItem);
+
         return timestamp == feedItem.timestamp
                 && description.equals(feedItem.description)
                 && link.equals(feedItem.link)
                 && title.equals(feedItem.title);
-
     }
 
     @Override
@@ -69,4 +70,5 @@ public class FeedItem {
 
         return result;
     }
+
 }
