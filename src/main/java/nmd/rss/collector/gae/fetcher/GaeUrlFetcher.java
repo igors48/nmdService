@@ -6,9 +6,12 @@ import nmd.rss.collector.updater.UrlFetcherException;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
 import java.net.URL;
 
 import static nmd.rss.collector.util.Assert.assertValidUrl;
+import static nmd.rss.collector.util.CharsetTools.convertToUtf8;
+import static nmd.rss.collector.util.CharsetTools.detectCharSet;
 import static nmd.rss.collector.util.CloseableTools.close;
 
 /**
@@ -16,6 +19,9 @@ import static nmd.rss.collector.util.CloseableTools.close;
  * Date : 02.05.13
  */
 public class GaeUrlFetcher implements UrlFetcher {
+
+    private static final String UTF_8 = "UTF-8";
+    private static final String CONTENT_TYPE = "content-type";
 
     @Override
     public String fetch(final String link) throws UrlFetcherException {
@@ -28,18 +34,25 @@ public class GaeUrlFetcher implements UrlFetcher {
         try {
             URL url = new URL(link);
 
-            urlStream = url.openStream();
-            urlStreamReader = new InputStreamReader(urlStream);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.connect();
+
+            final String contentType = connection.getHeaderField(CONTENT_TYPE);
+            String charset = detectCharSet(contentType);
+            charset = charset == null ? UTF_8 : charset;
+
+            urlStream = connection.getInputStream();
+            urlStreamReader = new InputStreamReader(urlStream, charset);
             urlDataReader = new BufferedReader(urlStreamReader);
 
-            StringBuilder result = new StringBuilder();
+            final StringBuilder result = new StringBuilder();
             String line;
 
             while ((line = urlDataReader.readLine()) != null) {
                 result.append(line);
             }
 
-            return result.toString();
+            return convertToUtf8(result.toString());
         } catch (Exception exception) {
             throw new UrlFetcherException(exception);
         } finally {
