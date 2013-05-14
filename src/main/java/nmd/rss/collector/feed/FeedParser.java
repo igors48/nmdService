@@ -78,7 +78,7 @@ public final class FeedParser {
         String link = entry.getLink();
         long timestamp = createTimestamp(entry.getPublishedDate(), new Date());
 
-        return new FeedItem(UUID.randomUUID(), title, description, link, timestamp);
+        return new FeedItem(title, description, link, timestamp);
     }
 
     private static long createTimestamp(final Date date, final Date currentDate) {

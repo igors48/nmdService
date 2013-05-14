@@ -8,7 +8,6 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,13 +18,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class FeedItemsMergerCheckMaximumCountTest {
 
-    public static final FeedItem OLD_FIRST = new FeedItem(UUID.randomUUID(), "oldFirstTitle", "oldFirstDescription", "oldFirstLink", 48);
-    public static final FeedItem OLD_SECOND = new FeedItem(UUID.randomUUID(), "oldSecondTitle", "oldSecondDescription", "oldSecondLink", 50);
-    public static final FeedItem OLD_THIRD = new FeedItem(UUID.randomUUID(), "oldThirdTitle", "oldThirdDescription", "oldThirdLink", 50);
+    public static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", 48);
+    public static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", 50);
+    public static final FeedItem OLD_THIRD = new FeedItem("oldThirdTitle", "oldThirdDescription", "oldThirdLink", 50);
 
-    public static final FeedItem YOUNG_FIRST = new FeedItem(UUID.randomUUID(), "youngFirstTitle", "youngFirstDescription", "youngFirstLink", 58);
-    public static final FeedItem YOUNG_SECOND = new FeedItem(UUID.randomUUID(), "youngSecondTitle", "youngSecondDescription", "youngSecondLink", 60);
-    public static final FeedItem YOUNG_THIRD = new FeedItem(UUID.randomUUID(), "youngThirdTitle", "youngThirdDescription", "youngThirdLink", 62);
+    public static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "youngFirstLink", 58);
+    public static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", 60);
+    public static final FeedItem YOUNG_THIRD = new FeedItem("youngThirdTitle", "youngThirdDescription", "youngThirdLink", 62);
 
     private List<FeedItem> olds;
     private List<FeedItem> youngs;
