@@ -25,21 +25,21 @@ public final class FeedParser {
         assertStringIsValid(data);
 
         try {
-            StringReader reader = new StringReader(data);
-            SyndFeedInput input = new SyndFeedInput();
-            SyndFeed feed = input.build(reader);
+            final StringReader reader = new StringReader(data);
+            final SyndFeedInput input = new SyndFeedInput();
+            final SyndFeed feed = input.build(reader);
 
-            FeedHeader header = parseHeader(feed);
+            final FeedHeader header = parseHeader(feed);
 
             if (header == null) {
                 return null;
             }
 
-            List<FeedItem> items = new ArrayList<>();
+            final List<FeedItem> items = new ArrayList<>();
 
             for (int i = 0; i < feed.getEntries().size(); i++) {
-                SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
-                FeedItem item = parseItem(entry);
+                final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
+                final FeedItem item = parseItem(entry);
 
                 if (item != null) {
                     items.add(item);
@@ -59,9 +59,9 @@ public final class FeedParser {
             return null;
         }
 
-        String title = createTitle(feed.getTitle(), feed.getLink());
-        String description = feed.getDescription() == null ? "" : feed.getDescription();
-        String link = feed.getLink();
+        final String title = createTitle(feed.getTitle(), feed.getLink());
+        final String description = feed.getDescription() == null ? "" : feed.getDescription();
+        final String link = feed.getLink();
 
         return new FeedHeader(UUID.randomUUID(), title, description, link);
     }
@@ -72,10 +72,10 @@ public final class FeedParser {
             return null;
         }
 
-        String title = createTitle(entry.getTitle(), entry.getLink());
-        String description = createDescription(entry);
-        String link = entry.getLink();
-        long timestamp = createTimestamp(entry.getPublishedDate(), new Date());
+        final String title = createTitle(entry.getTitle(), entry.getLink());
+        final String description = createDescription(entry);
+        final String link = entry.getLink();
+        final long timestamp = createTimestamp(entry.getPublishedDate(), new Date());
 
         return new FeedItem(title, description, link, timestamp);
     }
@@ -89,20 +89,20 @@ public final class FeedParser {
     }
 
     private static String createDescription(final SyndEntry entry) {
-        String title = entry.getTitle();
-        List contentsList = entry.getContents();
-        StringBuilder contents = new StringBuilder();
+        final String title = entry.getTitle();
+        final List contentsList = entry.getContents();
+        final StringBuilder contents = new StringBuilder();
 
         if (contentsList != null && !contentsList.isEmpty()) {
 
-            for (Object current : contentsList) {
+            for (final Object current : contentsList) {
                 contents.append(((SyndContent) current).getValue());
             }
         }
 
-        String description = entry.getDescription() == null ? "" : entry.getDescription().getValue();
+        final String description = entry.getDescription() == null ? "" : entry.getDescription().getValue();
 
-        String result = contents.length() == 0 ? description : contents.toString();
+        final String result = contents.length() == 0 ? description : contents.toString();
 
         return result.isEmpty() ? title : result;
     }

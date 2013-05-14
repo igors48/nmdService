@@ -93,7 +93,7 @@ public class FeedServiceImpl implements FeedService {
         EntityTransaction transaction = null;
 
         try {
-            List<FeedItem> feedItems = new ArrayList<>();
+            final List<FeedItem> feedItems = new ArrayList<>();
             feedItems.addAll(retained);
             feedItems.addAll(added);
 

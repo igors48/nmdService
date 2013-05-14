@@ -29,13 +29,13 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
         HEADERS = new HashMap<>();
         TASKS = new ArrayList<>();
 
-        FeedHeader firstHeader = new FeedHeader(FIRST_HEADER_UUID, "3DNews - Daily Digital Digest: Новости Hardware", "3DNews - Daily Digital Digest: Новости Hardware", "http://www.3dnews.ru/news/rss");
-        FeedHeader secondHeader = new FeedHeader(SECOND_HEADER_UUID, "Bash.im", "Цитатник Рунета", "http://bash.im/rss/");
-        FeedHeader thirdHeader = new FeedHeader(THIRD_HEADER_UUID, "Inopressa", "Обзор иностранной прессы", "http://www.inopressa.ru/rss/");
+        final FeedHeader firstHeader = new FeedHeader(FIRST_HEADER_UUID, "3DNews - Daily Digital Digest: Новости Hardware", "3DNews - Daily Digital Digest: Новости Hardware", "http://www.3dnews.ru/news/rss");
+        final FeedHeader secondHeader = new FeedHeader(SECOND_HEADER_UUID, "Bash.im", "Цитатник Рунета", "http://bash.im/rss/");
+        final FeedHeader thirdHeader = new FeedHeader(THIRD_HEADER_UUID, "Inopressa", "Обзор иностранной прессы", "http://www.inopressa.ru/rss/");
 
-        FeedUpdateTask firstUpdateTask = new FeedUpdateTask(FIRST_TASK_UUID, FIRST_HEADER_UUID);
-        FeedUpdateTask secondUpdateTask = new FeedUpdateTask(SECOND_TASK_UUID, SECOND_HEADER_UUID);
-        FeedUpdateTask thirdUpdateTask = new FeedUpdateTask(THIRD_TASK_UUID, THIRD_HEADER_UUID);
+        final FeedUpdateTask firstUpdateTask = new FeedUpdateTask(FIRST_TASK_UUID, FIRST_HEADER_UUID);
+        final FeedUpdateTask secondUpdateTask = new FeedUpdateTask(SECOND_TASK_UUID, SECOND_HEADER_UUID);
+        final FeedUpdateTask thirdUpdateTask = new FeedUpdateTask(THIRD_TASK_UUID, THIRD_HEADER_UUID);
 
         HEADERS.put(FIRST_HEADER_UUID, firstHeader);
         HEADERS.put(SECOND_HEADER_UUID, secondHeader);

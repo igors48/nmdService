@@ -32,9 +32,9 @@ public class GaeUrlFetcher implements UrlFetcher {
         BufferedReader urlDataReader = null;
 
         try {
-            URL url = new URL(link);
+            final URL url = new URL(link);
 
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             connection.connect();
 
             final String contentType = connection.getHeaderField(CONTENT_TYPE);

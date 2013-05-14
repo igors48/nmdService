@@ -28,7 +28,7 @@ public class FeedItemEntity {
 
     }
 
-    public FeedItemEntity(UUID feedId, String data) {
+    public FeedItemEntity(final UUID feedId, final String data) {
         assertNotNull(feedId);
         this.feedId = feedId.toString();
 

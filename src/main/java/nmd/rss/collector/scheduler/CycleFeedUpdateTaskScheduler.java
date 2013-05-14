@@ -29,7 +29,7 @@ public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
             FeedUpdateTaskSchedulerContext context = this.contextRepository.load();
             context = context == null ? START_CONTEXT : context;
 
-            List<FeedUpdateTask> tasks = this.taskRepository.loadAllTasks();
+            final List<FeedUpdateTask> tasks = this.taskRepository.loadAllTasks();
 
             if (tasks.isEmpty()) {
                 return null;
@@ -38,7 +38,7 @@ public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
             int taskIndex = context.lastTaskIndex;
             taskIndex = taskIndex > tasks.size() - 1 ? 0 : taskIndex;
 
-            FeedUpdateTaskSchedulerContext newContext = new FeedUpdateTaskSchedulerContext(taskIndex + 1);
+            final FeedUpdateTaskSchedulerContext newContext = new FeedUpdateTaskSchedulerContext(taskIndex + 1);
             this.contextRepository.store(newContext);
 
             return tasks.get(taskIndex);

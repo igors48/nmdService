@@ -38,11 +38,11 @@ public class FeedItem {
     }
 
     @Override
-    public boolean equals(Object o) {
+    public boolean equals(final Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FeedItem feedItem = (FeedItem) o;
+        final FeedItem feedItem = (FeedItem) o;
 
         if (timestamp != feedItem.timestamp) return false;
         if (!description.equals(feedItem.description)) return false;
@@ -55,9 +55,11 @@ public class FeedItem {
     @Override
     public int hashCode() {
         int result = title.hashCode();
+
         result = 31 * result + description.hashCode();
         result = 31 * result + link.hashCode();
         result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
+
         return result;
     }
 
