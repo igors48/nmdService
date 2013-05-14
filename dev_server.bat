@@ -1,1 +1,1 @@
-call C:\devTools\appengine-java-sdk-1.7.7.1\bin\dev_appserver.cmd  --jvm_flag=-Ddatastore.default_high_rep_job_policy_unapplied_job_pct=20 --jvm_flag=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 .\release\war
+call C:\devTools\appengine-java-sdk-1.8.0\bin\dev_appserver.cmd  --jvm_flag=-Ddatastore.default_high_rep_job_policy_unapplied_job_pct=20 --jvm_flag=-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005 .\release\war
