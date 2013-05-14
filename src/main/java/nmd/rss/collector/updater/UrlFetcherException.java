@@ -6,8 +6,8 @@ package nmd.rss.collector.updater;
  */
 public class UrlFetcherException extends Exception {
 
-    public UrlFetcherException(final Throwable cause) {
-        super(cause);
+    public UrlFetcherException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
 }

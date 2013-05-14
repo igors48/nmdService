@@ -54,7 +54,7 @@ public class GaeUrlFetcher implements UrlFetcher {
 
             return convertToUtf8(result.toString());
         } catch (Exception exception) {
-            throw new UrlFetcherException(exception);
+            throw new UrlFetcherException(String.format("Error while fetching url [ %s ]", link), exception);
         } finally {
             close(urlDataReader);
             close(urlStream);

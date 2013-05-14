@@ -6,8 +6,8 @@ package nmd.rss.collector.feed;
  */
 public class FeedParserException extends Exception {
 
-    public FeedParserException(final Throwable cause) {
-        super(cause);
+    public FeedParserException(final String message, final Throwable cause) {
+        super(message, cause);
     }
 
 }

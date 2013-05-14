@@ -24,7 +24,6 @@ public final class FeedParser {
     public static Feed parse(final String data) throws FeedParserException {
         assertStringIsValid(data);
 
-        //TODO try-with-resource
         try {
             StringReader reader = new StringReader(data);
             SyndFeedInput input = new SyndFeedInput();
@@ -49,7 +48,7 @@ public final class FeedParser {
 
             return new Feed(header, items);
         } catch (FeedException exception) {
-            throw new FeedParserException(exception);
+            throw new FeedParserException(String.format("Error parsing data [ %s ]", data), exception);
         }
 
     }
