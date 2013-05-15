@@ -17,4 +17,21 @@ public class FeedUpdateTaskSchedulerContext {
         this.lastTaskIndex = lastTaskIndex;
     }
 
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FeedUpdateTaskSchedulerContext that = (FeedUpdateTaskSchedulerContext) o;
+
+        if (lastTaskIndex != that.lastTaskIndex) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return lastTaskIndex;
+    }
+
 }

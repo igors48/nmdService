@@ -5,8 +5,8 @@ import nmd.rss.collector.gae.feed.GaeFeedItemsRepository;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
-import nmd.rss.collector.scheduler.InMemoryFeedUpdateTaskSchedulerContextRepository;
+import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextService;
+import nmd.rss.collector.scheduler.InMemoryFeedUpdateTaskSchedulerContextService;
 import persistense.EMF;
 
 import javax.persistence.EntityManager;
@@ -38,8 +38,8 @@ public class FeedUpdaterServlet extends HttpServlet {
             LOGGER.fine("Updater servlet initialization started");
 
             final InMemoryFeedHeadersAndUpdateTasksRepository feedHeadersAndUpdateTasksRepository = new InMemoryFeedHeadersAndUpdateTasksRepository();
-            final FeedUpdateTaskSchedulerContextRepository contextRepository = new InMemoryFeedUpdateTaskSchedulerContextRepository();
-            final FeedUpdateTaskScheduler taskScheduler = new CycleFeedUpdateTaskScheduler(contextRepository, feedHeadersAndUpdateTasksRepository);
+            final FeedUpdateTaskSchedulerContextService contextService = new InMemoryFeedUpdateTaskSchedulerContextService();
+            final FeedUpdateTaskScheduler taskScheduler = new CycleFeedUpdateTaskScheduler(contextService, feedHeadersAndUpdateTasksRepository);
 
             entityManager = EMF.get().createEntityManager();
 

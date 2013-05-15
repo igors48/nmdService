@@ -11,12 +11,12 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
 
-    private final FeedUpdateTaskSchedulerContextRepository contextRepository;
+    private final FeedUpdateTaskSchedulerContextService contextService;
     private final FeedUpdateTaskRepository taskRepository;
 
-    public CycleFeedUpdateTaskScheduler(final FeedUpdateTaskSchedulerContextRepository contextRepository, final FeedUpdateTaskRepository taskRepository) {
-        assertNotNull(contextRepository);
-        this.contextRepository = contextRepository;
+    public CycleFeedUpdateTaskScheduler(final FeedUpdateTaskSchedulerContextService contextService, final FeedUpdateTaskRepository taskRepository) {
+        assertNotNull(contextService);
+        this.contextService = contextService;
 
         assertNotNull(taskRepository);
         this.taskRepository = taskRepository;
@@ -26,7 +26,7 @@ public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
     public FeedUpdateTask getCurrentTask() throws FeedUpdateTaskSchedulerException {
 
         try {
-            FeedUpdateTaskSchedulerContext context = this.contextRepository.load();
+            FeedUpdateTaskSchedulerContext context = this.contextService.load();
             context = context == null ? START_CONTEXT : context;
 
             final List<FeedUpdateTask> tasks = this.taskRepository.loadAllTasks();
@@ -39,7 +39,7 @@ public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
             taskIndex = taskIndex > tasks.size() - 1 ? 0 : taskIndex;
 
             final FeedUpdateTaskSchedulerContext newContext = new FeedUpdateTaskSchedulerContext(taskIndex + 1);
-            this.contextRepository.store(newContext);
+            this.contextService.store(newContext);
 
             return tasks.get(taskIndex);
         } catch (Exception exception) {

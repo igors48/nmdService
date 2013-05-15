@@ -1,7 +1,7 @@
 package feed.scheduler;
 
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
+import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextService;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
@@ -9,11 +9,11 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.04.13
  */
-public class FeedUpdateTaskSchedulerContextRepositoryStub implements FeedUpdateTaskSchedulerContextRepository {
+public class FeedUpdateTaskSchedulerContextServiceStub implements FeedUpdateTaskSchedulerContextService {
 
     private FeedUpdateTaskSchedulerContext context;
 
-    public FeedUpdateTaskSchedulerContextRepositoryStub() {
+    public FeedUpdateTaskSchedulerContextServiceStub() {
         this.context = null;
     }
 

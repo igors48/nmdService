@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 08.05.13
  */
-public class FeedEntityConversionTest {
+public class FeedItemConversionTest {
 
     @Test
     public void roundtrip() {

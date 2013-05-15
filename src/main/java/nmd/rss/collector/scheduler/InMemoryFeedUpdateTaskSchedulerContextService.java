@@ -6,7 +6,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 09.05.13
  */
-public class InMemoryFeedUpdateTaskSchedulerContextRepository implements FeedUpdateTaskSchedulerContextRepository {
+public class InMemoryFeedUpdateTaskSchedulerContextService implements FeedUpdateTaskSchedulerContextService {
 
     private FeedUpdateTaskSchedulerContext context;
 
