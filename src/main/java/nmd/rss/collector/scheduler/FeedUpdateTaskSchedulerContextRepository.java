@@ -6,8 +6,8 @@ package nmd.rss.collector.scheduler;
  */
 public interface FeedUpdateTaskSchedulerContextRepository {
 
-    void store(FeedUpdateTaskSchedulerContext context) throws FeedUpdateTaskSchedulerContextRepositoryException;
+    void store(FeedUpdateTaskSchedulerContext context);
 
-    FeedUpdateTaskSchedulerContext load() throws FeedUpdateTaskSchedulerContextRepositoryException;
+    FeedUpdateTaskSchedulerContext load();
 
 }

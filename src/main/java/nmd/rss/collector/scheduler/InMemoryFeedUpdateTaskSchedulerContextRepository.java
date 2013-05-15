@@ -11,14 +11,14 @@ public class InMemoryFeedUpdateTaskSchedulerContextRepository implements FeedUpd
     private FeedUpdateTaskSchedulerContext context;
 
     @Override
-    public void store(final FeedUpdateTaskSchedulerContext context) throws FeedUpdateTaskSchedulerContextRepositoryException {
+    public void store(final FeedUpdateTaskSchedulerContext context) {
         assertNotNull(context);
 
         this.context = context;
     }
 
     @Override
-    public FeedUpdateTaskSchedulerContext load() throws FeedUpdateTaskSchedulerContextRepositoryException {
+    public FeedUpdateTaskSchedulerContext load() {
         return this.context;
     }
 
