@@ -12,7 +12,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public final class CharsetTools {
 
-    private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=(.+?)\"", Pattern.CASE_INSENSITIVE);
+    private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=(.*)", Pattern.CASE_INSENSITIVE);
     private static final Pattern ENCODING_PATTERN = Pattern.compile("encoding=\"(.+?)\"", Pattern.CASE_INSENSITIVE);
 
     private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
