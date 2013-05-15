@@ -12,7 +12,7 @@ public interface FeedUpdateTaskSchedulerContextRepository {
 
     FeedUpdateTaskSchedulerContext load();
 
-    List<Object> loadAllEntities();
+    List loadAllEntities();
 
     void deleteEntity(Object victim);
 
