@@ -33,7 +33,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         assertNotNull(feedId);
         assertNotNull(feedItems);
 
-        final Query query = this.entityManager.createQuery("DELETE FROM FeedItemEntity feedItemEntity WHERE feedItemEntity.feedId = :feedId");
+        final Query query = this.entityManager.createQuery("DELETE FROM FeedItems feedItems WHERE feedItems.feedId = :feedId");
         query.setParameter("feedId", feedId.toString());
         query.executeUpdate();
 
@@ -44,7 +44,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         }
 
         final String data = new Gson().toJson(helpers);
-        final FeedItemEntity entity = new FeedItemEntity(feedId, data);
+        final FeedItems entity = new FeedItems(feedId, data);
 
         this.entityManager.persist(entity);
     }
@@ -53,29 +53,29 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final TypedQuery<FeedItemEntity> query = this.entityManager.createQuery("SELECT feedItemEntity FROM FeedItemEntity feedItemEntity WHERE feedItemEntity.feedId = :feedId", FeedItemEntity.class);
+        final TypedQuery<FeedItems> query = this.entityManager.createQuery("SELECT feedItems FROM FeedItems feedItems WHERE feedItems.feedId = :feedId", FeedItems.class);
         query.setParameter("feedId", feedId.toString());
 
-        final List<FeedItemEntity> entities = query.getResultList();
+        final List<FeedItems> entities = query.getResultList();
 
         return createFeedItems(entities);
     }
 
     @Override
-    public List<FeedItemEntity> loadAllEntities() {
-        final TypedQuery<FeedItemEntity> query = this.entityManager.createQuery("SELECT feedItemEntity FROM FeedItemEntity feedItemEntity", FeedItemEntity.class);
+    public List<FeedItems> loadAllEntities() {
+        final TypedQuery<FeedItems> query = this.entityManager.createQuery("SELECT feedItems FROM FeedItems feedItems", FeedItems.class);
 
         return query.getResultList();
     }
 
     @Override
-    public void removeEntity(final FeedItemEntity victim) {
+    public void removeEntity(final FeedItems victim) {
         assertNotNull(victim);
 
         this.entityManager.remove(victim);
     }
 
-    private List<FeedItem> createFeedItems(final List<FeedItemEntity> entities) {
+    private List<FeedItem> createFeedItems(final List<FeedItems> entities) {
         final List<FeedItem> result = new ArrayList<>();
 
         if (!entities.isEmpty()) {

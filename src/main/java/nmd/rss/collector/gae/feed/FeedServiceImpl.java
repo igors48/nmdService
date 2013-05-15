@@ -120,11 +120,11 @@ public class FeedServiceImpl implements FeedService {
             transaction = this.entityManager.getTransaction();
             transaction.begin();
 
-            final List<FeedItemEntity> victims = this.feedItemsRepository.loadAllEntities();
+            final List<FeedItems> victims = this.feedItemsRepository.loadAllEntities();
 
             transaction.commit();
 
-            for (final FeedItemEntity victim : victims) {
+            for (final FeedItems victim : victims) {
                 transaction = this.entityManager.getTransaction();
                 transaction.begin();
 

@@ -15,7 +15,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Date : 03.05.13
  */
 @Entity
-public class FeedItemEntity {
+public class FeedItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +24,11 @@ public class FeedItemEntity {
     private String feedId;
     private Text data;
 
-    protected FeedItemEntity() {
+    protected FeedItems() {
 
     }
 
-    public FeedItemEntity(final UUID feedId, final String data) {
+    public FeedItems(final UUID feedId, final String data) {
         assertNotNull(feedId);
         this.feedId = feedId.toString();
 
