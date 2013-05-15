@@ -2,6 +2,7 @@ package nmd.rss.collector.scheduler;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import java.util.List;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -43,16 +44,50 @@ public class FeedUpdateTaskSchedulerContextServiceImpl implements FeedUpdateTask
         } finally {
             rollbackIfActive(transaction);
         }
-
     }
 
     @Override
     public FeedUpdateTaskSchedulerContext load() throws FeedUpdateTaskSchedulerContextServiceException {
-        return null;
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = this.entityManager.getTransaction();
+            transaction.begin();
+
+            FeedUpdateTaskSchedulerContext result = this.contextRepository.load();
+
+            transaction.commit();
+
+            return result;
+        } catch (Exception exception) {
+            throw new FeedUpdateTaskSchedulerContextServiceException(exception);
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
     private void clear() {
+        EntityTransaction transaction = null;
 
+        try {
+            transaction = this.entityManager.getTransaction();
+            transaction.begin();
+
+            List victims = this.contextRepository.loadAllEntities();
+
+            transaction.commit();
+
+            for (Object victim : victims) {
+                transaction = this.entityManager.getTransaction();
+                transaction.begin();
+
+                this.contextRepository.deleteEntity(victim);
+
+                transaction.commit();
+            }
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
 }
