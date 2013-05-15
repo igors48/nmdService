@@ -1,7 +1,6 @@
 package nmd.rss.collector.updater;
 
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.gae.feed.FeedItems;
 
 import java.util.List;
 import java.util.UUID;
@@ -16,8 +15,8 @@ public interface FeedItemsRepository {
 
     List<FeedItem> loadItems(UUID feedId);
 
-    List<FeedItems> loadAllEntities();
+    List loadAllEntities();
 
-    void removeEntity(FeedItems victim);
+    void removeEntity(Object victim);
 
 }

@@ -62,14 +62,14 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public List<FeedItems> loadAllEntities() {
-        final TypedQuery<FeedItems> query = this.entityManager.createQuery("SELECT feedItems FROM FeedItems feedItems", FeedItems.class);
+    public List loadAllEntities() {
+        final Query query = this.entityManager.createQuery("SELECT feedItems FROM FeedItems feedItems");
 
         return query.getResultList();
     }
 
     @Override
-    public void removeEntity(final FeedItems victim) {
+    public void removeEntity(final Object victim) {
         assertNotNull(victim);
 
         this.entityManager.remove(victim);
