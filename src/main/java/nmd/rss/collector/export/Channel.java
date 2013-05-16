@@ -1,22 +1,18 @@
 package nmd.rss.collector.export;
 
-import java.util.Date;
-
-import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 16.05.13
  */
-class Item {
+class Channel {
 
     private String description;
-    private String link;
     private String title;
-    private Date date;
+    private String link;
 
-    private Item() {
+    private Channel() {
         // empty
     }
 
@@ -29,15 +25,6 @@ class Item {
         this.description = description;
     }
 
-    public String getLink() {
-        return this.link;
-    }
-
-    public void setLink(final String link) {
-        assertStringIsValid(link);
-        this.link = link;
-    }
-
     public String getTitle() {
         return this.title;
     }
@@ -47,13 +34,13 @@ class Item {
         this.title = title;
     }
 
-    public Date getDate() {
-        return this.date;
+    public String getLink() {
+        return this.link;
     }
 
-    public void setDate(final Date date) {
-        assertNotNull(date);
-        this.date = date;
+    public void setLink(final String link) {
+        assertStringIsValid(link);
+        this.link = link;
     }
 
 }

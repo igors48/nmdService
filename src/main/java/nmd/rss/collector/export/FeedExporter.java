@@ -13,6 +13,8 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public final class FeedExporter {
 
+    //private static final JAXBContext JAXB_CONTEXT = JAXBContext.newInstance(Channel.class, Item.class);
+
     public static String export(final FeedHeader header, final List<FeedItem> items) {
         assertNotNull(header);
         assertNotNull(items);
