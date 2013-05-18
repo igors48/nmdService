@@ -1,8 +1,16 @@
 package nmd.rss.collector.exporter;
 
+import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.updater.FeedService;
+import nmd.rss.collector.updater.FeedServiceException;
+
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -27,6 +35,33 @@ public final class ExporterServletTools {
 
             return null;
         }
+    }
+
+    public static String exportFeed(final UUID feedId, final FeedService feedService) throws FeedServiceException, FeedExporterException {
+        assertNotNull(feedId);
+        assertNotNull(feedService);
+
+        final FeedHeader header = feedService.loadHeader(feedId);
+
+        if (header == null) {
+            LOGGER.severe(String.format("Can not find feed header for feed id [ %s ]", feedId));
+
+            return "";
+        }
+
+        final List<FeedItem> items = feedService.loadItems(feedId);
+
+        if (items == null) {
+            LOGGER.severe(String.format("Can not find feed items for feed id [ %s ]", feedId));
+
+            return "";
+        }
+
+        final String generated = FeedExporter.export(header, items);
+
+        LOGGER.info(String.format("Feed for feed id [ %s ] generated successfully", feedId));
+
+        return generated;
     }
 
     private ExporterServletTools() {
