@@ -28,6 +28,7 @@ public class FeedItem {
         this.timestamp = timestamp;
     }
 
+    //TODO does it really need? can be equals used instead?
     public boolean sameAs(final FeedItem feedItem) {
         assertNotNull(feedItem);
 

@@ -1,4 +1,4 @@
-package nmd.rss.collector.export;
+package nmd.rss.collector.exporter;
 
 import java.util.Date;
 
@@ -16,7 +16,7 @@ class Item {
     private String title;
     private Date date;
 
-    private Item() {
+    public Item() {
         // empty
     }
 
