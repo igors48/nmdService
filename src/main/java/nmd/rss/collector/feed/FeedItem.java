@@ -1,5 +1,7 @@
 package nmd.rss.collector.feed;
 
+import java.util.Date;
+
 import static nmd.rss.collector.util.Assert.*;
 import static nmd.rss.collector.util.Parameter.isValidString;
 
@@ -12,9 +14,9 @@ public class FeedItem {
     public final String title;
     public final String description;
     public final String link;
-    public final long timestamp;
+    public final Date date;
 
-    public FeedItem(final String title, final String description, final String link, final long timestamp) {
+    public FeedItem(final String title, final String description, final String link, final Date date) {
         assertNotNull(title);
         assertNotNull(description);
         assertTrue(isValidString(title) || isValidString(description));
@@ -24,30 +26,30 @@ public class FeedItem {
         assertValidUrl(link);
         this.link = link;
 
-        assertPositive(timestamp);
-        this.timestamp = timestamp;
+        assertNotNull(date);
+        this.date = date;
     }
 
     //TODO does it really need? can be equals used instead?
     public boolean sameAs(final FeedItem feedItem) {
         assertNotNull(feedItem);
 
-        return timestamp == feedItem.timestamp
-                && description.equals(feedItem.description)
+        return description.equals(feedItem.description)
                 && link.equals(feedItem.link)
+                && date.equals(feedItem.date)
                 && title.equals(feedItem.title);
     }
 
     @Override
-    public boolean equals(final Object o) {
+    public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        final FeedItem feedItem = (FeedItem) o;
+        FeedItem feedItem = (FeedItem) o;
 
-        if (timestamp != feedItem.timestamp) return false;
         if (!description.equals(feedItem.description)) return false;
         if (!link.equals(feedItem.link)) return false;
+        if (!date.equals(feedItem.date)) return false;
         if (!title.equals(feedItem.title)) return false;
 
         return true;
@@ -56,12 +58,9 @@ public class FeedItem {
     @Override
     public int hashCode() {
         int result = title.hashCode();
-
         result = 31 * result + description.hashCode();
         result = 31 * result + link.hashCode();
-        result = 31 * result + (int) (timestamp ^ (timestamp >>> 32));
-
+        result = 31 * result + date.hashCode();
         return result;
     }
-
 }

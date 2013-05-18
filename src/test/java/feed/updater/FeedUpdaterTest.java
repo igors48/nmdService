@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -48,7 +49,7 @@ public class FeedUpdaterTest {
     private static final String ITEM_TITLE = "itemTitle";
     private static final String ITEM_DESCRIPTION = "itemDescription";
     private static final String ITEM_LINK = "itemLink";
-    private static final int ITEM_TIMESTAMP = 48;
+    private static final Date ITEM_DATE = new Date();
     private static final int MAX_FEED_ITEMS_COUNT = 1000;
 
     private FeedUpdateTaskSchedulerStub taskSchedulerStub;
@@ -60,7 +61,7 @@ public class FeedUpdaterTest {
         this.taskSchedulerStub = new FeedUpdateTaskSchedulerStub();
 
         FeedHeader header = new FeedHeader(HEADER_ID, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
-        FeedItem item = new FeedItem(ITEM_TITLE, ITEM_DESCRIPTION, ITEM_LINK, ITEM_TIMESTAMP);
+        FeedItem item = new FeedItem(ITEM_TITLE, ITEM_DESCRIPTION, ITEM_LINK, ITEM_DATE);
         List<FeedItem> items = new ArrayList<>();
         items.add(item);
         this.feedServiceStub = new FeedServiceStub(header, items);

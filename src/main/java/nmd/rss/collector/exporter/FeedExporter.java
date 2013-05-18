@@ -8,7 +8,6 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -32,7 +31,7 @@ public final class FeedExporter {
             for (final FeedItem current : items) {
                 final Item item = new Item();
 
-                item.setDate(new Date(current.timestamp));
+                item.setDate(current.date);
                 item.setDescription(current.description);
                 item.setLink(current.link);
                 item.setTitle(current.title);

@@ -75,13 +75,13 @@ public final class FeedParser {
         final String title = createTitle(entry.getTitle(), entry.getLink());
         final String description = createDescription(entry);
         final String link = entry.getLink();
-        final long timestamp = createTimestamp(entry.getPublishedDate(), new Date());
+        final Date date = createDate(entry.getPublishedDate(), new Date());
 
-        return new FeedItem(title, description, link, timestamp);
+        return new FeedItem(title, description, link, date);
     }
 
-    private static long createTimestamp(final Date date, final Date currentDate) {
-        return date == null ? currentDate.getTime() : date.getTime();
+    private static Date createDate(final Date date, final Date currentDate) {
+        return date == null ? currentDate : date;
     }
 
     private static String createTitle(final String title, final String feedLink) {

@@ -2,6 +2,8 @@ package nmd.rss.collector.gae.feed;
 
 import nmd.rss.collector.feed.FeedItem;
 
+import java.util.Date;
+
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -13,13 +15,13 @@ public class FeedItemHelper {
     private String title;
     private String description;
     private String link;
-    private long timestamp;
+    private Date date;
 
-    private FeedItemHelper(final String title, final String description, final String link, final long timestamp) {
+    private FeedItemHelper(final String title, final String description, final String link, final Date date) {
         this.title = title;
         this.description = description;
         this.link = link;
-        this.timestamp = timestamp;
+        this.date = date;
     }
 
     private FeedItemHelper() {
@@ -29,13 +31,13 @@ public class FeedItemHelper {
     public static FeedItemHelper convert(final FeedItem feedItem) {
         assertNotNull(feedItem);
 
-        return new FeedItemHelper(feedItem.title, feedItem.description, feedItem.link, feedItem.timestamp);
+        return new FeedItemHelper(feedItem.title, feedItem.description, feedItem.link, feedItem.date);
     }
 
     public static FeedItem convert(final FeedItemHelper feedItemHelper) {
         assertNotNull(feedItemHelper);
 
-        return new FeedItem(feedItemHelper.title, feedItemHelper.description, feedItemHelper.link, feedItemHelper.timestamp);
+        return new FeedItem(feedItemHelper.title, feedItemHelper.description, feedItemHelper.link, feedItemHelper.date);
     }
 
 }

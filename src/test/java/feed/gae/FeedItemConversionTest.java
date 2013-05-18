@@ -4,6 +4,8 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.feed.FeedItemHelper;
 import org.junit.Test;
 
+import java.util.Date;
+
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -14,7 +16,7 @@ public class FeedItemConversionTest {
 
     @Test
     public void roundtrip() {
-        FeedItem origin = new FeedItem("title", "description", "link", 48);
+        FeedItem origin = new FeedItem("title", "description", "link", new Date());
 
         FeedItemHelper itemHelper = FeedItemHelper.convert(origin);
         FeedItem restored = FeedItemHelper.convert(itemHelper);
