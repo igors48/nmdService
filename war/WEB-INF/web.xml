@@ -45,6 +45,16 @@
         <url-pattern>/clear</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>exporter</servlet-name>
+        <servlet-class>nmd.rss.collector.exporter.ExporterServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>exporter</servlet-name>
+        <url-pattern>/exporter/*</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
