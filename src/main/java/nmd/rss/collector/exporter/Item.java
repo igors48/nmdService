@@ -14,7 +14,7 @@ class Item {
     private String description;
     private String link;
     private String title;
-    private Date date;
+    private Date pubDate;
 
     public Item() {
         // empty
@@ -47,13 +47,13 @@ class Item {
         this.title = title;
     }
 
-    public Date getDate() {
-        return this.date;
+    public Date getPubDate() {
+        return this.pubDate;
     }
 
-    public void setDate(final Date date) {
-        assertNotNull(date);
-        this.date = date;
+    public void setPubDate(final Date pubDate) {
+        assertNotNull(pubDate);
+        this.pubDate = pubDate;
     }
 
 }

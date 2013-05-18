@@ -31,7 +31,7 @@ public final class FeedExporter {
             for (final FeedItem current : items) {
                 final Item item = new Item();
 
-                item.setDate(current.date);
+                item.setPubDate(current.date);
                 item.setDescription(current.description);
                 item.setLink(current.link);
                 item.setTitle(current.title);
