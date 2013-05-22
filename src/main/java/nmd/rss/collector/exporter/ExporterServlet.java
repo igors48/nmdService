@@ -42,6 +42,9 @@ public class ExporterServlet extends HttpServlet {
             return;
         }
 
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/xml");
+
         final String generatedFeed = generateFeed(feedId);
 
         response.getWriter().print(generatedFeed);
