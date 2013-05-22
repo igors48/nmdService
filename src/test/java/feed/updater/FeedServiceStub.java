@@ -1,5 +1,6 @@
 package feed.updater;
 
+import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedService;
@@ -27,6 +28,16 @@ public class FeedServiceStub implements FeedService {
         this.removed = null;
         this.retained = null;
         this.added = null;
+    }
+
+    @Override
+    public UUID findForLink(final String link) throws FeedServiceException {
+        return null;
+    }
+
+    @Override
+    public UUID addFeed(final Feed feed) throws FeedServiceException {
+        return null;
     }
 
     @Override

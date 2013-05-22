@@ -1,5 +1,6 @@
 package nmd.rss.collector.gae.feed;
 
+import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedHeadersRepository;
@@ -37,6 +38,16 @@ public class FeedServiceImpl implements FeedService {
 
         assertNotNull(feedHeadersRepository);
         this.feedHeadersRepository = feedHeadersRepository;
+    }
+
+    @Override
+    public UUID findForLink(final String link) throws FeedServiceException {
+        return null;
+    }
+
+    @Override
+    public UUID addFeed(final Feed feed) throws FeedServiceException {
+        return null;
     }
 
     @Override

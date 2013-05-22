@@ -1,6 +1,17 @@
 package nmd.rss.collector.controller;
 
+import nmd.rss.collector.feed.Feed;
+import nmd.rss.collector.feed.FeedParser;
+import nmd.rss.collector.feed.FeedParserException;
+import nmd.rss.collector.updater.FeedService;
+import nmd.rss.collector.updater.FeedServiceException;
+import nmd.rss.collector.updater.UrlFetcher;
+import nmd.rss.collector.updater.UrlFetcherException;
+
 import java.util.UUID;
+
+import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -8,12 +19,41 @@ import java.util.UUID;
  */
 public class Controller {
 
-    public UUID addFeed(final String feedUrl) throws ControllerException {
-        return null;
+    private final FeedService feedService;
+    private final UrlFetcher fetcher;
+
+    public Controller(final FeedService feedService, final UrlFetcher fetcher) {
+        assertNotNull(feedService);
+        this.feedService = feedService;
+
+        assertNotNull(fetcher);
+        this.fetcher = fetcher;
     }
 
-    public UUID removeFeed(final String feedUrl) throws ControllerException {
-        return null;
+    public UUID addFeed(final String feedUrl) throws ControllerException {
+        assertStringIsValid(feedUrl);
+
+        try {
+            final UUID feedId = this.feedService.findForLink(feedUrl);
+
+            return feedId == null ? createNewFeed(feedUrl) : feedId;
+        } catch (FeedServiceException | UrlFetcherException | FeedParserException exception) {
+            throw new ControllerException(exception);
+        }
+    }
+
+    public boolean removeFeed(final UUID feedId) throws ControllerException {
+        assertNotNull(feedId);
+
+
+        return false;
+    }
+
+    private UUID createNewFeed(final String feedUrl) throws UrlFetcherException, FeedParserException, FeedServiceException {
+        final String data = this.fetcher.fetch(feedUrl);
+        final Feed feed = FeedParser.parse(data);
+
+        return this.feedService.addFeed(feed);
     }
 
 }
