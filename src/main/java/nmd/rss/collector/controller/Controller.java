@@ -34,9 +34,10 @@ public class Controller {
         assertStringIsValid(feedUrl);
 
         try {
-            final UUID feedId = this.feedService.findForLink(feedUrl);
+            final String feedUrlInLowerCase = feedUrl.toLowerCase();
+            final UUID feedId = this.feedService.findForLink(feedUrlInLowerCase);
 
-            return feedId == null ? createNewFeed(feedUrl) : feedId;
+            return feedId == null ? createNewFeed(feedUrlInLowerCase) : feedId;
         } catch (FeedServiceException | UrlFetcherException | FeedParserException exception) {
             throw new ControllerException(exception);
         }
@@ -54,7 +55,7 @@ public class Controller {
 
     private UUID createNewFeed(final String feedUrl) throws UrlFetcherException, FeedParserException, FeedServiceException {
         final String data = this.fetcher.fetch(feedUrl);
-        final Feed feed = FeedParser.parse(data);
+        final Feed feed = FeedParser.parse(feedUrl, data);
 
         return this.feedService.addFeed(feed);
     }

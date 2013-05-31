@@ -29,9 +29,9 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
         HEADERS = new HashMap<>();
         TASKS = new ArrayList<>();
 
-        final FeedHeader firstHeader = new FeedHeader(FIRST_HEADER_UUID, "3DNews - Daily Digital Digest: Новости Hardware", "3DNews - Daily Digital Digest: Новости Hardware", "http://www.3dnews.ru/news/rss");
-        final FeedHeader secondHeader = new FeedHeader(SECOND_HEADER_UUID, "Bash.im", "Цитатник Рунета", "http://bash.im/rss/");
-        final FeedHeader thirdHeader = new FeedHeader(THIRD_HEADER_UUID, "Inopressa", "Обзор иностранной прессы", "http://www.inopressa.ru/rss/");
+        final FeedHeader firstHeader = new FeedHeader(FIRST_HEADER_UUID, "http://www.3dnews.ru/news/rss", "3DNews - Daily Digital Digest: Новости Hardware", "3DNews - Daily Digital Digest: Новости Hardware", "http://www.3dnews.ru/news/");
+        final FeedHeader secondHeader = new FeedHeader(SECOND_HEADER_UUID, "http://bash.im/rss/", "Bash.im", "Цитатник Рунета", "http://bash.im/");
+        final FeedHeader thirdHeader = new FeedHeader(THIRD_HEADER_UUID, "http://www.inopressa.ru/rss/", "Inopressa", "Обзор иностранной прессы", "http://www.inopressa.ru/");
 
         final FeedUpdateTask firstUpdateTask = new FeedUpdateTask(FIRST_TASK_UUID, FIRST_HEADER_UUID);
         final FeedUpdateTask secondUpdateTask = new FeedUpdateTask(SECOND_TASK_UUID, SECOND_HEADER_UUID);

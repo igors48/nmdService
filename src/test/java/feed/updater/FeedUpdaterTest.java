@@ -21,6 +21,7 @@ import static org.junit.Assert.*;
  */
 public class FeedUpdaterTest {
 
+    private static final String RSS_FEED_URL = "http://www.3dnews.ru/news/rss";
     private static final String RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
             "   <channel>\n" +
@@ -60,7 +61,7 @@ public class FeedUpdaterTest {
     public void before() {
         this.taskSchedulerStub = new FeedUpdateTaskSchedulerStub();
 
-        FeedHeader header = new FeedHeader(HEADER_ID, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
+        FeedHeader header = new FeedHeader(HEADER_ID, RSS_FEED_URL, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
         FeedItem item = new FeedItem(ITEM_TITLE, ITEM_DESCRIPTION, ITEM_LINK, ITEM_DATE);
         List<FeedItem> items = new ArrayList<>();
         items.add(item);

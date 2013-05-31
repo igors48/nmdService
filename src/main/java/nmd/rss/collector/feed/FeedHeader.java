@@ -11,13 +11,17 @@ import static nmd.rss.collector.util.Assert.*;
 public class FeedHeader {
 
     public final UUID id;
+    public final String feedLink;
     public final String title;
     public final String description;
     public final String link;
 
-    public FeedHeader(final UUID id, final String title, final String description, final String link) {
+    public FeedHeader(final UUID id, final String feedLink, final String title, final String description, final String link) {
         assertNotNull(id);
         this.id = id;
+
+        assertValidUrl(feedLink);
+        this.feedLink = feedLink;
 
         assertStringIsValid(title);
         this.title = title;

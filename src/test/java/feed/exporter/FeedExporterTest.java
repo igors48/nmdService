@@ -18,13 +18,14 @@ import static org.junit.Assert.assertEquals;
  */
 public class FeedExporterTest {
 
+    private static final String RSS_FEED_URL = "http://www.3dnews.ru/news/rss";
     private static final String HEADER_TITLE = "headerTitle";
     private static final String HEADER_DESCRIPTION = "headerDescription";
     private static final String HEADER_LINK = "headerLink";
 
     @Test
     public void roundtrip() throws FeedExporterException, FeedParserException {
-        final FeedHeader header = new FeedHeader(UUID.randomUUID(), HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
+        final FeedHeader header = new FeedHeader(UUID.randomUUID(), RSS_FEED_URL, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
         final FeedItem first = new FeedItem("firstTitle", "firstDescription", "firstLink", new Date(48));
         final FeedItem second = new FeedItem("secondTitle", "secondDescription", "secondLink", new Date(50));
         final List<FeedItem> items = new ArrayList<>();
@@ -33,7 +34,7 @@ public class FeedExporterTest {
 
         String exported = FeedExporter.export(header, items);
 
-        Feed parsed = FeedParser.parse(exported);
+        Feed parsed = FeedParser.parse(RSS_FEED_URL, exported);
 
         assertEquals(HEADER_TITLE, parsed.header.title);
         assertEquals(HEADER_DESCRIPTION, parsed.header.description);

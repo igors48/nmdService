@@ -43,8 +43,8 @@ public final class FeedUpdater {
                 return;
             }
 
-            final String feedData = fetcher.fetch(header.link);
-            final Feed parsedFeed = FeedParser.parse(feedData);
+            final String feedData = fetcher.fetch(header.feedLink);
+            final Feed parsedFeed = FeedParser.parse(header.feedLink, feedData);
 
             List<FeedItem> olds = feedService.loadItems(task.feedId);
             //TODO may be it is a responsibility of feed service ?

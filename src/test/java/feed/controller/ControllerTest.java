@@ -39,6 +39,21 @@ public class ControllerTest {
             "\t</item>\n" +
             "    </channel>\n" +
             "</rss>    ";
+    private static final String INVALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
+            "\t<item>\n" +
+            "\t\t<title>Смартфон LG Optimus F5 выходит во Франции 29 апреля, после чего появится и на других рынках</title>\n" +
+            "\t\t<link>http://www.3dnews.ru/news/644791/</link>\n" +
+            "\t\t<description><![CDATA[<img align=\"left\" hspace=\"15\" vspace=\"10\" src=\"http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg\" border=\"0\" height=\"85\" width=\"120\"/>Аппараты LG серии F рассчитаны на более массовый рынок, чем флагманы вроде HTC One или Samsung Galaxy S4, но это не мешает корейской компании обеспечить их хорошими характеристиками и поддержкой сетей LTE. Смартфон LG Optimus F5 был представлен вместе с...]]></description>\n" +
+            "\t\t<pubDate>Sun, 28 Apr 2013 18:26:00 +0400</pubDate>\n" +
+            "\t</item>\n" +
+            "\t<item>\n" +
+            "\t\t<title>Google Glass уже взломали</title>\n" +
+            "\t\t<link>http://www.3dnews.ru/news/644778/</link>\n" +
+            "\t\t<description><![CDATA[<img align=\"left\" hspace=\"15\" vspace=\"10\" src=\"http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg\" border=\"0\" height=\"85\" width=\"120\"/>ChromeOS-разработчик и хакер Лиам МакЛафлин (Liam McLoughlin) рассказал в своем Twitter, что не только понял, как получить root-доступ к Google Glass, но также сообщил, что сделать это очень просто.Так как Google Glass работает на операционной системе Android, это дает независимым...]]></description>\n" +
+            "\t\t<pubDate>Sun, 28 Apr 2013 18:26:00 +0400</pubDate>\n" +
+            "\t</item>\n" +
+            "    </channel>\n" +
+            "</rss>    ";
 
     private UrlFetcherStub fetcherStub;
     private FeedServiceStub feedServiceStub;
@@ -66,8 +81,25 @@ public class ControllerTest {
         assertEquals(firstId, secondId);
     }
 
-    private UUID addValidRssFeed(final String feedLink) throws ControllerException {
-        this.fetcherStub.setData(feedLink);
+    @Test
+    public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ControllerException {
+        this.fetcherStub.setData(VALID_RSS_FEED);
+
+        final UUID firstId = controller.addFeed(VALID_RSS_FEED_LINK.toUpperCase());
+        final UUID secondId = controller.addFeed(VALID_RSS_FEED_LINK);
+
+        assertEquals(firstId, secondId);
+    }
+
+    @Test(expected = ControllerException.class)
+    public void whenFeedCanNotBeParsedThenExceptionOccurs() throws ControllerException {
+        this.fetcherStub.setData(INVALID_RSS_FEED);
+
+        controller.addFeed(VALID_RSS_FEED_LINK);
+    }
+
+    private UUID addValidRssFeed(final String feedData) throws ControllerException {
+        this.fetcherStub.setData(feedData);
 
         return controller.addFeed(VALID_RSS_FEED_LINK);
     }

@@ -20,11 +20,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class ExporterServletToolsExportFeedTest {
 
+    private static final String RSS_FEED_URL = "http://www.3dnews.ru/news/rss";
+
     private FeedServiceStub feedService;
 
     @Before
     public void before() {
-        final FeedHeader header = new FeedHeader(UUID.randomUUID(), "title", "description", "link");
+        final FeedHeader header = new FeedHeader(UUID.randomUUID(), RSS_FEED_URL, "title", "description", "link");
 
         final FeedItem item = new FeedItem("title", "description", "link", new Date());
         final List<FeedItem> items = new ArrayList<>();

@@ -32,7 +32,7 @@ public class FeedServiceStub implements FeedService {
 
     @Override
     public UUID findForLink(final String link) throws FeedServiceException {
-        return this.header == null ? null : (this.header.link.equals(link) ? header.id : null);
+        return this.header == null ? null : (this.header.feedLink.equals(link) ? header.id : null);
     }
 
     @Override

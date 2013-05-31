@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.assertValidUrl;
 import static nmd.rss.collector.util.Parameter.isValidUrl;
 
 /**
@@ -21,15 +22,16 @@ import static nmd.rss.collector.util.Parameter.isValidUrl;
  */
 public final class FeedParser {
 
-    public static Feed parse(final String data) throws FeedParserException {
-        assertStringIsValid(data);
+    public static Feed parse(final String feedUrl, final String feedData) throws FeedParserException {
+        assertValidUrl(feedUrl);
+        assertStringIsValid(feedData);
 
         try {
-            final StringReader reader = new StringReader(data);
+            final StringReader reader = new StringReader(feedData);
             final SyndFeedInput input = new SyndFeedInput();
             final SyndFeed feed = input.build(reader);
 
-            final FeedHeader header = parseHeader(feed);
+            final FeedHeader header = parseHeader(feedUrl, feed);
 
             if (header == null) {
                 return null;
@@ -48,12 +50,12 @@ public final class FeedParser {
 
             return new Feed(header, items);
         } catch (FeedException exception) {
-            throw new FeedParserException(String.format("Error parsing data [ %s ]", data), exception);
+            throw new FeedParserException(String.format("Error parsing data [ %s ]", feedData), exception);
         }
 
     }
 
-    private static FeedHeader parseHeader(final SyndFeed feed) {
+    private static FeedHeader parseHeader(final String feedUrl, final SyndFeed feed) {
 
         if (!isValidUrl(feed.getLink())) {
             return null;
@@ -63,7 +65,7 @@ public final class FeedParser {
         final String description = feed.getDescription() == null ? "" : feed.getDescription();
         final String link = feed.getLink();
 
-        return new FeedHeader(UUID.randomUUID(), title, description, link);
+        return new FeedHeader(UUID.randomUUID(), feedUrl, title, description, link);
     }
 
     private static FeedItem parseItem(final SyndEntry entry) {

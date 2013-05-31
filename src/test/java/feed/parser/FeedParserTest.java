@@ -33,15 +33,17 @@ public class FeedParserTest {
             "\t</item>\n" +
             "    </channel>\n" +
             "</rss>    ";
+    private static final String RSS_FEED_URL = "http://www.3dnews.ru/news/rss";
 
     @Test
     public void smoke() throws FeedParserException {
 
-        Feed feed = FeedParser.parse(RSS_FEED);
+        Feed feed = FeedParser.parse(RSS_FEED_URL, RSS_FEED);
 
         assertEquals("3DNews - Daily Digital Digest: Новости Hardware", feed.header.title);
         assertEquals("Новости Hardware на 3DNews", feed.header.description);
         assertEquals("http://www.3dnews.ru/", feed.header.link);
+        assertEquals(RSS_FEED_URL, feed.header.feedLink);
 
         assertEquals(2, feed.items.size());
     }
