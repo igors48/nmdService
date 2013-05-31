@@ -45,8 +45,11 @@ public class Controller {
     public boolean removeFeed(final UUID feedId) throws ControllerException {
         assertNotNull(feedId);
 
-
-        return false;
+        try {
+            return this.feedService.removeFeed(feedId);
+        } catch (FeedServiceException exception) {
+            throw new ControllerException(exception);
+        }
     }
 
     private UUID createNewFeed(final String feedUrl) throws UrlFetcherException, FeedParserException, FeedServiceException {

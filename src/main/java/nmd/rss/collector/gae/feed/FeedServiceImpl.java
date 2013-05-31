@@ -17,6 +17,7 @@ import java.util.UUID;
 
 import static nmd.rss.collector.feed.TimestampComparator.TIMESTAMP_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertValidUrl;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 
 /**
@@ -42,12 +43,23 @@ public class FeedServiceImpl implements FeedService {
 
     @Override
     public UUID findForLink(final String link) throws FeedServiceException {
+        assertValidUrl(link);
+
         return null;
     }
 
     @Override
     public UUID addFeed(final Feed feed) throws FeedServiceException {
+        assertNotNull(feed);
+
         return null;
+    }
+
+    @Override
+    public boolean removeFeed(final UUID feedId) throws FeedServiceException {
+        assertNotNull(feedId);
+
+        return false;
     }
 
     @Override

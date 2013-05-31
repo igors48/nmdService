@@ -17,6 +17,8 @@ public interface FeedService {
 
     UUID addFeed(Feed feed) throws FeedServiceException;
 
+    boolean removeFeed(UUID feedId) throws FeedServiceException;
+
     FeedHeader loadHeader(UUID feedId) throws FeedServiceException;
 
     List<FeedItem> loadItems(UUID feedId) throws FeedServiceException;
