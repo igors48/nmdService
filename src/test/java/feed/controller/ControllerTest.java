@@ -2,15 +2,14 @@ package feed.controller;
 
 import feed.updater.FeedServiceStub;
 import feed.updater.UrlFetcherStub;
-import nmd.rss.collector.controller.Controller;
+import nmd.rss.collector.controller.ControlService;
 import nmd.rss.collector.controller.ControllerException;
 import org.junit.Before;
 import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -57,13 +56,13 @@ public class ControllerTest {
 
     private UrlFetcherStub fetcherStub;
     private FeedServiceStub feedServiceStub;
-    private Controller controller;
+    private ControlService controlService;
 
     @Before
     public void before() {
         this.fetcherStub = new UrlFetcherStub();
         this.feedServiceStub = new FeedServiceStub(null, null);
-        this.controller = new Controller(feedServiceStub, fetcherStub);
+        this.controlService = new ControlService(feedServiceStub, fetcherStub);
     }
 
     @Test
@@ -85,8 +84,8 @@ public class ControllerTest {
     public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ControllerException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        final UUID firstId = controller.addFeed(VALID_RSS_FEED_LINK.toUpperCase());
-        final UUID secondId = controller.addFeed(VALID_RSS_FEED_LINK);
+        final UUID firstId = controlService.addFeed(VALID_RSS_FEED_LINK.toUpperCase());
+        final UUID secondId = controlService.addFeed(VALID_RSS_FEED_LINK);
 
         assertEquals(firstId, secondId);
     }
@@ -95,13 +94,27 @@ public class ControllerTest {
     public void whenFeedCanNotBeParsedThenExceptionOccurs() throws ControllerException {
         this.fetcherStub.setData(INVALID_RSS_FEED);
 
-        controller.addFeed(VALID_RSS_FEED_LINK);
+        controlService.addFeed(VALID_RSS_FEED_LINK);
+    }
+
+    @Test
+    public void whenExistentFeedDeletedThenTrueReturns() throws Exception {
+        final UUID uuid = addValidRssFeed(VALID_RSS_FEED);
+
+        assertTrue(this.controlService.removeFeed(uuid));
+    }
+
+    @Test
+    public void whenNotExistentFeedDeletedThenFalseReturns() throws Exception {
+        addValidRssFeed(VALID_RSS_FEED);
+
+        assertFalse(this.controlService.removeFeed(UUID.randomUUID()));
     }
 
     private UUID addValidRssFeed(final String feedData) throws ControllerException {
         this.fetcherStub.setData(feedData);
 
-        return controller.addFeed(VALID_RSS_FEED_LINK);
+        return controlService.addFeed(VALID_RSS_FEED_LINK);
     }
 
 }

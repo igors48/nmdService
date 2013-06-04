@@ -10,4 +10,6 @@ public interface FeedUpdateTaskRepository {
 
     List<FeedUpdateTask> loadAllTasks();
 
+    void storeTask(FeedUpdateTask feedUpdateTask);
+
 }

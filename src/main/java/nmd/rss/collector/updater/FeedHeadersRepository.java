@@ -2,6 +2,7 @@ package nmd.rss.collector.updater;
 
 import nmd.rss.collector.feed.FeedHeader;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -11,5 +12,13 @@ import java.util.UUID;
 public interface FeedHeadersRepository {
 
     FeedHeader loadHeader(UUID feedId);
+
+    FeedHeader loadHeader(String feedLink);
+
+    void storeHeader(FeedHeader feedHeader);
+
+    List loadAllEntities();
+
+    void removeEntity(Object victim);
 
 }

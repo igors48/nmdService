@@ -1,7 +1,7 @@
 package feed.gae;
 
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.gae.feed.FeedItemHelper;
+import nmd.rss.collector.gae.feed.item.FeedItemHelper;
 import org.junit.Test;
 
 import java.util.Date;

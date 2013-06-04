@@ -3,6 +3,8 @@ package nmd.rss.collector.gae.feed;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.gae.feed.item.FeedItemHelper;
+import nmd.rss.collector.gae.feed.item.FeedItems;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
 import javax.persistence.EntityManager;

@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.feed;
+package nmd.rss.collector.gae.feed.item;
 
 import nmd.rss.collector.feed.FeedItem;
 
@@ -17,15 +17,15 @@ public class FeedItemHelper {
     private String link;
     private Date date;
 
+    private FeedItemHelper() {
+        // empty
+    }
+
     private FeedItemHelper(final String title, final String description, final String link, final Date date) {
         this.title = title;
         this.description = description;
         this.link = link;
         this.date = date;
-    }
-
-    private FeedItemHelper() {
-        // empty
     }
 
     public static FeedItemHelper convert(final FeedItem feedItem) {

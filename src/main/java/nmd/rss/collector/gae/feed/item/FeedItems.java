@@ -1,5 +1,6 @@
-package nmd.rss.collector.gae.feed;
+package nmd.rss.collector.gae.feed.item;
 
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
 import javax.persistence.Entity;
@@ -19,13 +20,13 @@ public class FeedItems {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private com.google.appengine.api.datastore.Key key;
+    private Key key;
 
     private String feedId;
     private Text data;
 
     protected FeedItems() {
-
+        // empty
     }
 
     public FeedItems(final UUID feedId, final String data) {

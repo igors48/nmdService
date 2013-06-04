@@ -54,8 +54,31 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
     }
 
     @Override
+    public FeedHeader loadHeader(String feedLink) {
+        return null;
+    }
+
+    @Override
+    public void storeHeader(final FeedHeader feedHeader) {
+        assertNotNull(feedHeader);
+    }
+
+    @Override
+    public List loadAllEntities() {
+        return null;
+    }
+
+    @Override
+    public void removeEntity(Object victim) {
+    }
+
+    @Override
     public List<FeedUpdateTask> loadAllTasks() {
         return TASKS;
+    }
+
+    @Override
+    public void storeTask(final FeedUpdateTask feedUpdateTask) {
     }
 
 }

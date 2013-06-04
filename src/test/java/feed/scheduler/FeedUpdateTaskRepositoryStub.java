@@ -41,4 +41,9 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
         return this.tasks;
     }
 
+    @Override
+    public void storeTask(final FeedUpdateTask feedUpdateTask) {
+
+    }
+
 }
