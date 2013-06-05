@@ -3,13 +3,6 @@ package feed.controller;
 import feed.updater.FeedServiceStub;
 import feed.updater.UrlFetcherStub;
 import nmd.rss.collector.controller.ControlService;
-import nmd.rss.collector.controller.ControllerException;
-import org.junit.Before;
-import org.junit.Test;
-
-import java.util.UUID;
-
-import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -57,7 +50,7 @@ public class ControllerTest {
     private UrlFetcherStub fetcherStub;
     private FeedServiceStub feedServiceStub;
     private ControlService controlService;
-
+    /*
     @Before
     public void before() {
         this.fetcherStub = new UrlFetcherStub();
@@ -116,5 +109,5 @@ public class ControllerTest {
 
         return controlService.addFeed(VALID_RSS_FEED_LINK);
     }
-
+      */
 }
