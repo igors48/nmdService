@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertPositive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -20,11 +19,10 @@ public final class FeedUpdater {
 
     private static final Logger LOGGER = Logger.getLogger(FeedUpdater.class.getName());
 
-    public static void update(final FeedUpdateTaskScheduler scheduler, final FeedService feedService, final UrlFetcher fetcher, final int maxItemsCount) throws FeedUpdaterException {
+    public static void update(final FeedUpdateTaskScheduler scheduler, final FeedService feedService, final UrlFetcher fetcher) throws FeedUpdaterException {
         assertNotNull(scheduler);
         assertNotNull(feedService);
         assertNotNull(fetcher);
-        assertPositive(maxItemsCount);
 
         try {
             final FeedUpdateTask task = scheduler.getCurrentTask();
@@ -50,7 +48,7 @@ public final class FeedUpdater {
             //TODO may be it is a responsibility of feed service ?
             olds = olds == null ? new ArrayList<FeedItem>() : olds;
 
-            final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, parsedFeed.items, maxItemsCount);
+            final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, parsedFeed.items, task.maxFeedItemsCount);
 
             feedService.updateItems(task.feedId, mergeReport.removed, mergeReport.retained, mergeReport.added);
 

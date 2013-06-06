@@ -18,9 +18,11 @@ import static org.junit.Assert.assertNull;
  */
 public class CycleFeedUpdateTaskSchedulerTest {
 
-    private static final FeedUpdateTask FIRST_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
-    private static final FeedUpdateTask SECOND_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
-    private static final FeedUpdateTask THIRD_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+    private static final int MAX_FEED_ITEMS_COUNT = 10;
+
+    private static final FeedUpdateTask FIRST_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
+    private static final FeedUpdateTask SECOND_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
+    private static final FeedUpdateTask THIRD_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
 
     private FeedUpdateTaskRepositoryStub taskRepositoryStub;
     private FeedUpdateTaskSchedulerContextServiceStub contextServiceStub;

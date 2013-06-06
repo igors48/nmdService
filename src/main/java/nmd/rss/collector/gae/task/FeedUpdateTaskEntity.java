@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertPositive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -24,29 +25,33 @@ public class FeedUpdateTaskEntity {
 
     private UUID id;
     private UUID feedId;
+    private int maxFeedItemsCount;
 
     private FeedUpdateTaskEntity() {
         // empty
     }
 
-    private FeedUpdateTaskEntity(final UUID id, final UUID feedId) {
+    private FeedUpdateTaskEntity(final UUID id, final UUID feedId, final int maxFeedItemsCount) {
         assertNotNull(id);
         this.id = id;
 
         assertNotNull(feedId);
         this.feedId = feedId;
+
+        assertPositive(maxFeedItemsCount);
+        this.maxFeedItemsCount = maxFeedItemsCount;
     }
 
     public static FeedUpdateTaskEntity convert(final FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
-        return new FeedUpdateTaskEntity(feedUpdateTask.id, feedUpdateTask.feedId);
+        return new FeedUpdateTaskEntity(feedUpdateTask.id, feedUpdateTask.feedId, feedUpdateTask.maxFeedItemsCount);
     }
 
     public static FeedUpdateTask convert(final FeedUpdateTaskEntity feedUpdateTaskEntity) {
         assertNotNull(feedUpdateTaskEntity);
 
-        return new FeedUpdateTask(feedUpdateTaskEntity.id, feedUpdateTaskEntity.feedId);
+        return new FeedUpdateTask(feedUpdateTaskEntity.id, feedUpdateTaskEntity.feedId, feedUpdateTaskEntity.maxFeedItemsCount);
     }
 
 }

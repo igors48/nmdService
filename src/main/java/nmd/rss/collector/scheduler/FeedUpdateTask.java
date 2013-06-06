@@ -3,6 +3,7 @@ package nmd.rss.collector.scheduler;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertPositive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -12,38 +13,38 @@ public class FeedUpdateTask {
 
     public final UUID id;
     public final UUID feedId;
+    public final int maxFeedItemsCount;
 
-    public FeedUpdateTask(final UUID id, final UUID feedId) {
+    public FeedUpdateTask(final UUID id, final UUID feedId, final int maxFeedItemsCount) {
         assertNotNull(id);
         this.id = id;
 
         assertNotNull(feedId);
         this.feedId = feedId;
+
+        assertPositive(maxFeedItemsCount);
+        this.maxFeedItemsCount = maxFeedItemsCount;
     }
 
     @Override
     public boolean equals(Object o) {
-
         if (this == o) return true;
-
         if (o == null || getClass() != o.getClass()) return false;
 
         FeedUpdateTask that = (FeedUpdateTask) o;
 
-        if (!this.feedId.equals(that.feedId)) return false;
-
-        if (!this.id.equals(that.id)) return false;
+        if (maxFeedItemsCount != that.maxFeedItemsCount) return false;
+        if (!feedId.equals(that.feedId)) return false;
+        if (!id.equals(that.id)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = this.id.hashCode();
-
-        result = 31 * result + this.feedId.hashCode();
-
+        int result = id.hashCode();
+        result = 31 * result + feedId.hashCode();
+        result = 31 * result + maxFeedItemsCount;
         return result;
     }
-
 }

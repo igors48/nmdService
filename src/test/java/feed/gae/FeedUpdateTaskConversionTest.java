@@ -16,7 +16,7 @@ public class FeedUpdateTaskConversionTest {
 
     @Test
     public void roundtrip() {
-        final FeedUpdateTask origin = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+        final FeedUpdateTask origin = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), 10);
 
         final FeedUpdateTaskEntity entity = FeedUpdateTaskEntity.convert(origin);
         final FeedUpdateTask restored = FeedUpdateTaskEntity.convert(entity);

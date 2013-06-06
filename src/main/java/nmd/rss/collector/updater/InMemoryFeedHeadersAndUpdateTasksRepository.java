@@ -25,6 +25,8 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
     private static final UUID SECOND_TASK_UUID = UUID.fromString("2723098d-df51-4c9b-b1b9-079d65c27ecf");
     private static final UUID THIRD_TASK_UUID = UUID.fromString("d9fa1dc2-bba0-43a6-bc85-b7554234591d");
 
+    public static final int MAX_FEED_ITEMS_COUNT = 10;
+
     static {
         HEADERS = new HashMap<>();
         TASKS = new ArrayList<>();
@@ -33,9 +35,9 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
         final FeedHeader secondHeader = new FeedHeader(SECOND_HEADER_UUID, "http://bash.im/rss/", "Bash.im", "Цитатник Рунета", "http://bash.im/");
         final FeedHeader thirdHeader = new FeedHeader(THIRD_HEADER_UUID, "http://www.inopressa.ru/rss/", "Inopressa", "Обзор иностранной прессы", "http://www.inopressa.ru/");
 
-        final FeedUpdateTask firstUpdateTask = new FeedUpdateTask(FIRST_TASK_UUID, FIRST_HEADER_UUID);
-        final FeedUpdateTask secondUpdateTask = new FeedUpdateTask(SECOND_TASK_UUID, SECOND_HEADER_UUID);
-        final FeedUpdateTask thirdUpdateTask = new FeedUpdateTask(THIRD_TASK_UUID, THIRD_HEADER_UUID);
+        final FeedUpdateTask firstUpdateTask = new FeedUpdateTask(FIRST_TASK_UUID, FIRST_HEADER_UUID, MAX_FEED_ITEMS_COUNT);
+        final FeedUpdateTask secondUpdateTask = new FeedUpdateTask(SECOND_TASK_UUID, SECOND_HEADER_UUID, MAX_FEED_ITEMS_COUNT);
+        final FeedUpdateTask thirdUpdateTask = new FeedUpdateTask(THIRD_TASK_UUID, THIRD_HEADER_UUID, MAX_FEED_ITEMS_COUNT);
 
         HEADERS.put(FIRST_HEADER_UUID, firstHeader);
         HEADERS.put(SECOND_HEADER_UUID, secondHeader);

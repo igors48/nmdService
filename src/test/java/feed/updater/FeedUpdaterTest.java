@@ -73,29 +73,29 @@ public class FeedUpdaterTest {
 
     @Test
     public void ifNoScheduledTasksNothingUpdated() throws FeedUpdaterException {
-        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub, MAX_FEED_ITEMS_COUNT);
+        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub);
 
         assertNoUpdate();
     }
 
     @Test
     public void ifHeaderNotFoundNothingUpdated() throws FeedUpdaterException {
-        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
         this.taskSchedulerStub.setTask(task);
 
         this.feedServiceStub.setHeader(null);
 
-        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub, MAX_FEED_ITEMS_COUNT);
+        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub);
 
         assertNoUpdate();
     }
 
     @Test
     public void existentFeedHandlesCorrectly() throws FeedUpdaterException {
-        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
         this.taskSchedulerStub.setTask(task);
 
-        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub, MAX_FEED_ITEMS_COUNT);
+        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub);
 
         List<FeedItem> removed = this.feedServiceStub.getRemoved();
         List<FeedItem> retained = this.feedServiceStub.getRetained();
@@ -108,12 +108,12 @@ public class FeedUpdaterTest {
 
     @Test
     public void newFeedHandlesCorrectly() throws FeedUpdaterException {
-        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID());
+        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
         this.taskSchedulerStub.setTask(task);
 
         this.feedServiceStub.setItems(null);
 
-        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub, MAX_FEED_ITEMS_COUNT);
+        FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub);
 
         List<FeedItem> removed = this.feedServiceStub.getRemoved();
         List<FeedItem> retained = this.feedServiceStub.getRetained();

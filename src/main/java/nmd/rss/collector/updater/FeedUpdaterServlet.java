@@ -50,7 +50,7 @@ public class FeedUpdaterServlet extends HttpServlet {
 
             LOGGER.fine("Updater servlet initialization completed. Updating started");
 
-            FeedUpdater.update(taskScheduler, feedService, urlFetcher, 10);
+            FeedUpdater.update(taskScheduler, feedService, urlFetcher);
 
             LOGGER.fine("Update completed");
         } catch (Exception exception) {

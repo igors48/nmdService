@@ -100,7 +100,7 @@ public class ControlService {
         final String data = this.fetcher.fetch(feedUrl);
         final Feed feed = FeedParser.parse(feedUrl, data);
         final UUID feedId = feed.header.id;
-        final FeedUpdateTask feedUpdateTask = new FeedUpdateTask(UUID.randomUUID(), feedId);
+        final FeedUpdateTask feedUpdateTask = new FeedUpdateTask(UUID.randomUUID(), feedId, 10);
 
         this.feedUpdateTaskRepository.storeTask(feedUpdateTask);
         this.feedHeadersRepository.storeHeader(feed.header);
