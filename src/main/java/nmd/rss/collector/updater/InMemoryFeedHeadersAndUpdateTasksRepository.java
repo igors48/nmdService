@@ -25,7 +25,7 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
     private static final UUID SECOND_TASK_UUID = UUID.fromString("2723098d-df51-4c9b-b1b9-079d65c27ecf");
     private static final UUID THIRD_TASK_UUID = UUID.fromString("d9fa1dc2-bba0-43a6-bc85-b7554234591d");
 
-    public static final int MAX_FEED_ITEMS_COUNT = 10;
+    private static final int MAX_FEED_ITEMS_COUNT = 10;
 
     static {
         HEADERS = new HashMap<>();

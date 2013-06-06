@@ -22,18 +22,11 @@ import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
  */
 public class ControlService {
 
-    /*
-    UUID findForLink(String link) throws FeedServiceException;
-
-    UUID addFeed(Feed feed) throws FeedServiceException;
-
-    boolean removeFeed(UUID feedId) throws FeedServiceException;
-     */
+    private static final int MAX_FEED_ITEMS_COUNT = 10;
 
     //TODO append task to scheduler after feed added
     //TODO remove task from scheduler after feed deleted
 
-    //private final FeedService feedService;
     private final Transactions transactions;
     private final FeedHeadersRepository feedHeadersRepository;
     private final FeedItemsRepository feedItemsRepository;
@@ -100,7 +93,7 @@ public class ControlService {
         final String data = this.fetcher.fetch(feedUrl);
         final Feed feed = FeedParser.parse(feedUrl, data);
         final UUID feedId = feed.header.id;
-        final FeedUpdateTask feedUpdateTask = new FeedUpdateTask(UUID.randomUUID(), feedId, 10);
+        final FeedUpdateTask feedUpdateTask = new FeedUpdateTask(UUID.randomUUID(), feedId, MAX_FEED_ITEMS_COUNT);
 
         this.feedUpdateTaskRepository.storeTask(feedUpdateTask);
         this.feedHeadersRepository.storeHeader(feed.header);
