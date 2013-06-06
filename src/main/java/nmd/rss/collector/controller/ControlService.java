@@ -70,7 +70,8 @@ public class ControlService {
             final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
 
             //TODO URL Fetch in transaction -- is not so good
-            UUID feedId = feedHeader == null ? createNewFeed(feedUrlInLowerCase) : feedHeader.id;
+            //TODO Actually we should get feed items and update feed if exists or just put items in repo
+            final UUID feedId = feedHeader == null ? createNewFeed(feedUrlInLowerCase) : feedHeader.id;
 
             transaction.commit();
 
