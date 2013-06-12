@@ -56,7 +56,11 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
     }
 
     @Override
-    public FeedHeader loadHeader(String feedLink) {
+    public void deleteHeader(final UUID feedId) {
+    }
+
+    @Override
+    public FeedHeader loadHeader(final String feedLink) {
         return null;
     }
 
@@ -81,6 +85,16 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
 
     @Override
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
+    }
+
+    @Override
+    public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
+        return null;
+    }
+
+    @Override
+    public void deleteTaskForFeedId(UUID feedId) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
 }

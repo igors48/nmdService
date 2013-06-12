@@ -5,6 +5,7 @@ import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
@@ -44,6 +45,24 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
     @Override
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
 
+    }
+
+    @Override
+    public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
+        return null;
+    }
+
+    @Override
+    public void deleteTaskForFeedId(final UUID feedId) {
+    }
+
+    @Override
+    public List loadAllEntities() {
+        return null;
+    }
+
+    @Override
+    public void removeEntity(Object victim) {
     }
 
 }

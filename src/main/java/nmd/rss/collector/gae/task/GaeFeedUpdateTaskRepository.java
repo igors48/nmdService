@@ -8,6 +8,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
@@ -49,6 +50,24 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
 
         final FeedUpdateTaskEntity entity = FeedUpdateTaskEntity.convert(feedUpdateTask);
         this.entityManager.persist(entity);
+    }
+
+    @Override
+    public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
+        return null;
+    }
+
+    @Override
+    public void deleteTaskForFeedId(final UUID feedId) {
+    }
+
+    @Override
+    public List loadAllEntities() {
+        return null;
+    }
+
+    @Override
+    public void removeEntity(Object victim) {
     }
 
 }

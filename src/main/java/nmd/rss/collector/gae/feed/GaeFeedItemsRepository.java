@@ -64,17 +64,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public List loadAllEntities() {
-        final Query query = this.entityManager.createQuery("SELECT feedItems FROM FeedItems feedItems");
-
-        return query.getResultList();
-    }
-
-    @Override
-    public void removeEntity(final Object victim) {
-        assertNotNull(victim);
-
-        this.entityManager.remove(victim);
+    public void deleteItems(final UUID feedId) {
     }
 
     private List<FeedItem> createFeedItems(final List<FeedItems> entities) {
@@ -95,4 +85,13 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         return result;
     }
 
+    @Override
+    public List loadAllEntities() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void removeEntity(Object victim) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
 }

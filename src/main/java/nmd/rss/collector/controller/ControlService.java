@@ -1,15 +1,18 @@
 package nmd.rss.collector.controller;
 
 import nmd.rss.collector.Transactions;
-import nmd.rss.collector.feed.Feed;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedParser;
-import nmd.rss.collector.feed.FeedParserException;
+import nmd.rss.collector.feed.*;
+import nmd.rss.collector.gae.feed.FeedServiceImpl;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
-import nmd.rss.collector.updater.*;
+import nmd.rss.collector.updater.FeedHeadersRepository;
+import nmd.rss.collector.updater.FeedItemsRepository;
+import nmd.rss.collector.updater.UrlFetcher;
+import nmd.rss.collector.updater.UrlFetcherException;
 
 import javax.persistence.EntityTransaction;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -24,13 +27,12 @@ public class ControlService {
 
     private static final int MAX_FEED_ITEMS_COUNT = 10;
 
-    //TODO append task to scheduler after feed added
-    //TODO remove task from scheduler after feed deleted
-
     private final Transactions transactions;
+
     private final FeedHeadersRepository feedHeadersRepository;
     private final FeedItemsRepository feedItemsRepository;
     private final FeedUpdateTaskRepository feedUpdateTaskRepository;
+
     private final UrlFetcher fetcher;
 
     public ControlService(final Transactions transactions, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final UrlFetcher fetcher) {
@@ -55,22 +57,36 @@ public class ControlService {
 
         EntityTransaction transaction = null;
 
+        final Feed feed = fetchFeed(feedUrl);
+
         try {
             transaction = this.transactions.getOne();
             transaction.begin();
 
             final String feedUrlInLowerCase = feedUrl.toLowerCase();
-            final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
+            FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
 
-            //TODO URL Fetch in transaction -- is not so good
-            //TODO Actually we should get feed items and update feed if exists or just put items in repo
-            final UUID feedId = feedHeader == null ? createNewFeed(feedUrlInLowerCase) : feedHeader.id;
+            final UUID feedId;
+
+            if (feedHeader == null) {
+                feedId = UUID.randomUUID();
+                feedHeader = feed.header;
+
+                this.feedHeadersRepository.storeHeader(feedHeader);
+            } else {
+                feedId = feedHeader.id;
+            }
+
+            List<FeedItem> olds = getFeedOldItems(feedHeader);
+
+            createFeedUpdateTask(feedId, feedHeader);
+
+            final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, MAX_FEED_ITEMS_COUNT);
+            FeedServiceImpl.updateFeedItems(feedId, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
 
             transaction.commit();
 
             return feedId;
-        } catch (FeedServiceException | UrlFetcherException | FeedParserException exception) {
-            throw new ControllerException(exception);
         } finally {
             rollbackIfActive(transaction);
         }
@@ -79,27 +95,52 @@ public class ControlService {
     public boolean removeFeed(final UUID feedId) throws ControllerException {
         assertNotNull(feedId);
 
-        return false;
-        /*
+        EntityTransaction transaction = null;
+
         try {
-            return this.feedService.removeFeed(feedId);
-        } catch (FeedServiceException exception) {
-            throw new ControllerException(exception);
+            transaction = this.transactions.getOne();
+            transaction.begin();
+
+            this.feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
+            this.feedHeadersRepository.deleteHeader(feedId);
+            this.feedItemsRepository.deleteItems(feedId);
+
+            transaction.commit();
+
+            return true;
+        } catch (final Exception exception) {
+            return false;
+        } finally {
+            rollbackIfActive(transaction);
         }
-        */
     }
 
-    private UUID createNewFeed(final String feedUrl) throws UrlFetcherException, FeedParserException, FeedServiceException {
-        final String data = this.fetcher.fetch(feedUrl);
-        final Feed feed = FeedParser.parse(feedUrl, data);
-        final UUID feedId = feed.header.id;
-        final FeedUpdateTask feedUpdateTask = new FeedUpdateTask(UUID.randomUUID(), feedId, MAX_FEED_ITEMS_COUNT);
+    private void createFeedUpdateTask(final UUID feedId, final FeedHeader feedHeader) {
+        FeedUpdateTask feedUpdateTask = null;
 
-        this.feedUpdateTaskRepository.storeTask(feedUpdateTask);
-        this.feedHeadersRepository.storeHeader(feed.header);
-        this.feedItemsRepository.updateItems(feedId, feed.items);
+        if (feedHeader != null) {
+            feedUpdateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedHeader.id);
+        }
 
-        return feedId;
+        if (feedUpdateTask == null) {
+            feedUpdateTask = new FeedUpdateTask(UUID.randomUUID(), feedId, MAX_FEED_ITEMS_COUNT);
+            this.feedUpdateTaskRepository.storeTask(feedUpdateTask);
+        }
+    }
+
+    private List<FeedItem> getFeedOldItems(final FeedHeader feedHeader) {
+        return feedHeader == null ? new ArrayList<FeedItem>() : this.feedItemsRepository.loadItems(feedHeader.id);
+    }
+
+    private Feed fetchFeed(String feedUrl) throws ControllerException {
+
+        try {
+            final String data = this.fetcher.fetch(feedUrl);
+
+            return FeedParser.parse(feedUrl, data);
+        } catch (UrlFetcherException | FeedParserException exception) {
+            throw new ControllerException(exception);
+        }
     }
 
 }

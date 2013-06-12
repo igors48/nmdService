@@ -93,16 +93,10 @@ public class FeedServiceImpl implements FeedService {
         EntityTransaction transaction = null;
 
         try {
-            final List<FeedItem> feedItems = new ArrayList<>();
-            feedItems.addAll(retained);
-            feedItems.addAll(added);
-
-            Collections.sort(feedItems, TIMESTAMP_COMPARATOR);
-
             transaction = this.entityManager.getTransaction();
             transaction.begin();
 
-            this.feedItemsRepository.updateItems(feedId, feedItems);
+            updateFeedItems(feedId, retained, added, this.feedItemsRepository);
 
             transaction.commit();
         } catch (Exception exception) {
@@ -137,6 +131,21 @@ public class FeedServiceImpl implements FeedService {
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    public static void updateFeedItems(final UUID feedId, final List<FeedItem> retained, final List<FeedItem> added, final FeedItemsRepository feedItemsRepository) {
+        assertNotNull(feedId);
+        assertNotNull(retained);
+        assertNotNull(added);
+        assertNotNull(feedItemsRepository);
+
+        final List<FeedItem> feedItems = new ArrayList<>();
+        feedItems.addAll(retained);
+        feedItems.addAll(added);
+
+        Collections.sort(feedItems, TIMESTAMP_COMPARATOR);
+
+        feedItemsRepository.updateItems(feedId, feedItems);
     }
 
 }

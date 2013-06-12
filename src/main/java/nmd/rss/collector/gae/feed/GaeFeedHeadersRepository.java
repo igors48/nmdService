@@ -38,6 +38,10 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
     }
 
     @Override
+    public void deleteHeader(final UUID feedId) {
+    }
+
+    @Override
     public nmd.rss.collector.feed.FeedHeader loadHeader(final String feedLink) {
         assertStringIsValid(feedLink);
 
