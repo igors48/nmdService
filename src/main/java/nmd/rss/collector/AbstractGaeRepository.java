@@ -30,10 +30,14 @@ public abstract class AbstractGaeRepository implements Repository {
     }
 
     @Override
-    public void removeEntity(final Object victim) {
+    public void remove(final Object victim) {
         assertNotNull(victim);
 
         this.entityManager.remove(victim);
+    }
+
+    protected void persist(final Object object) {
+        this.entityManager.persist(object);
     }
 
     protected <T> TypedQuery<T> buildSelectWhereQuery(final String field, final String parameter, final Class<T> clazz) {

@@ -62,7 +62,7 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
     }
 
     @Override
-    public void removeEntity(Object victim) {
+    public void remove(Object victim) {
     }
 
 }

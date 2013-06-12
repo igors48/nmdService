@@ -2,13 +2,13 @@ package nmd.rss.collector.gae.feed;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import nmd.rss.collector.AbstractGaeRepository;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.feed.item.FeedItemHelper;
 import nmd.rss.collector.gae.feed.item.FeedItems;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
 import javax.persistence.EntityManager;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -21,13 +21,12 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 03.05.13
  */
-public class GaeFeedItemsRepository implements FeedItemsRepository {
+public class GaeFeedItemsRepository extends AbstractGaeRepository implements FeedItemsRepository {
 
-    private final EntityManager entityManager;
+    private static final String FEED_ID = "feedId";
 
     public GaeFeedItemsRepository(final EntityManager entityManager) {
-        assertNotNull(entityManager);
-        this.entityManager = entityManager;
+        super(entityManager, FeedItems.class.getSimpleName());
     }
 
     @Override
@@ -35,9 +34,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         assertNotNull(feedId);
         assertNotNull(feedItems);
 
-        final Query query = this.entityManager.createQuery("DELETE FROM FeedItems feedItems WHERE feedItems.feedId = :feedId");
-        query.setParameter("feedId", feedId.toString());
-        query.executeUpdate();
+        deleteItems(feedId);
 
         final List<FeedItemHelper> helpers = new ArrayList<>();
 
@@ -48,15 +45,15 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         final String data = new Gson().toJson(helpers);
         final FeedItems entity = new FeedItems(feedId, data);
 
-        this.entityManager.persist(entity);
+        persist(entity);
     }
 
     @Override
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final TypedQuery<FeedItems> query = this.entityManager.createQuery("SELECT feedItems FROM FeedItems feedItems WHERE feedItems.feedId = :feedId", FeedItems.class);
-        query.setParameter("feedId", feedId.toString());
+        final TypedQuery<FeedItems> query = buildSelectWhereQuery(FEED_ID, FEED_ID, FeedItems.class);
+        query.setParameter(FEED_ID, feedId.toString());
 
         final List<FeedItems> entities = query.getResultList();
 
@@ -65,6 +62,11 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
 
     @Override
     public void deleteItems(final UUID feedId) {
+        assertNotNull(feedId);
+
+        final TypedQuery<FeedItems> query = buildDeleteWhereQuery(FEED_ID, FEED_ID, FeedItems.class);
+        query.setParameter(FEED_ID, feedId.toString());
+        query.executeUpdate();
     }
 
     private List<FeedItem> createFeedItems(final List<FeedItems> entities) {
@@ -85,13 +87,4 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         return result;
     }
 
-    @Override
-    public List loadAllEntities() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
-    public void removeEntity(Object victim) {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
 }

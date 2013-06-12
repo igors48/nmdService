@@ -122,7 +122,7 @@ public class FeedServiceImpl implements FeedService {
                 transaction = this.entityManager.getTransaction();
                 transaction.begin();
 
-                this.feedItemsRepository.removeEntity(victim);
+                this.feedItemsRepository.remove(victim);
 
                 transaction.commit();
             }

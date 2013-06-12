@@ -10,6 +10,6 @@ public interface Repository {
 
     List loadAllEntities();
 
-    void removeEntity(Object victim);
+    void remove(Object victim);
 
 }

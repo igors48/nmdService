@@ -75,7 +75,7 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
     }
 
     @Override
-    public void removeEntity(Object victim) {
+    public void remove(Object victim) {
     }
 
     @Override

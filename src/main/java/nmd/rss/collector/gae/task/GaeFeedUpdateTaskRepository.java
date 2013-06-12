@@ -67,7 +67,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     }
 
     @Override
-    public void removeEntity(Object victim) {
+    public void remove(Object victim) {
     }
 
 }
