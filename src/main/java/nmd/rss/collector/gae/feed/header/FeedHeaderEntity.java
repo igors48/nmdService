@@ -13,8 +13,10 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 31.05.13
  */
-@Entity
-public class FeedHeader {
+@Entity(name = FeedHeaderEntity.NAME)
+public class FeedHeaderEntity {
+
+    public static final String NAME = "FeedHeader";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,11 +26,11 @@ public class FeedHeader {
     private String link;
     private String data;
 
-    protected FeedHeader() {
+    protected FeedHeaderEntity() {
         // empty
     }
 
-    public FeedHeader(final String id, final String link, final String data) {
+    public FeedHeaderEntity(final String id, final String link, final String data) {
         assertStringIsValid(id);
         this.id = id;
 

@@ -14,8 +14,10 @@ import static nmd.rss.collector.util.Assert.assertPositive;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 15.05.13
  */
-@Entity
-public class SchedulerContext {
+@Entity(name = SchedulerContextEntity.NAME)
+public class SchedulerContextEntity {
+
+    public static final String NAME = "SchedulerContext";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,25 +25,25 @@ public class SchedulerContext {
 
     private int lastTaskIndex;
 
-    private SchedulerContext() {
+    private SchedulerContextEntity() {
         this.lastTaskIndex = 0;
     }
 
-    private SchedulerContext(final int lastTaskIndex) {
+    private SchedulerContextEntity(final int lastTaskIndex) {
         assertPositive(lastTaskIndex);
         this.lastTaskIndex = lastTaskIndex;
     }
 
-    public static FeedUpdateTaskSchedulerContext convert(final SchedulerContext context) {
+    public static FeedUpdateTaskSchedulerContext convert(final SchedulerContextEntity context) {
         assertNotNull(context);
 
         return new FeedUpdateTaskSchedulerContext(context.lastTaskIndex);
     }
 
-    public static SchedulerContext convert(final FeedUpdateTaskSchedulerContext context) {
+    public static SchedulerContextEntity convert(final FeedUpdateTaskSchedulerContext context) {
         assertNotNull(context);
 
-        return new SchedulerContext(context.lastTaskIndex);
+        return new SchedulerContextEntity(context.lastTaskIndex);
     }
 
 }

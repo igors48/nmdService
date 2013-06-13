@@ -2,11 +2,13 @@ package nmd.rss.collector.gae.feed;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.AbstractGaeRepository;
-import nmd.rss.collector.gae.feed.header.FeedHeader;
+import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.gae.feed.header.FeedHeaderEntity;
 import nmd.rss.collector.gae.feed.header.FeedHeaderHelper;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.UUID;
@@ -21,15 +23,14 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
 public class GaeFeedHeadersRepository extends AbstractGaeRepository implements FeedHeadersRepository {
 
     public GaeFeedHeadersRepository(final EntityManager entityManager) {
-        super(entityManager, FeedHeader.class.getSimpleName());
+        super(entityManager, FeedHeaderEntity.NAME);
     }
 
     @Override
-    public nmd.rss.collector.feed.FeedHeader loadHeader(final UUID feedId) {
+    public FeedHeader loadHeader(final UUID feedId) {
         assertNotNull(feedId);
 
-        final TypedQuery<FeedHeader> query = buildSelectWhereQuery("id", "id", FeedHeader.class);
-        query.setParameter("id", feedId.toString());
+        final TypedQuery<FeedHeaderEntity> query = buildSelectWhereQuery("id", feedId.toString(), FeedHeaderEntity.class);
 
         return getFirstResultItemFrom(query);
     }
@@ -38,18 +39,16 @@ public class GaeFeedHeadersRepository extends AbstractGaeRepository implements F
     public void deleteHeader(final UUID feedId) {
         assertNotNull(feedId);
 
-        final TypedQuery<FeedHeader> query = buildDeleteWhereQuery("id", "id", FeedHeader.class);
-        query.setParameter("id", feedId.toString());
+        final Query query = buildDeleteWhereQuery("id", feedId.toString());
 
         query.executeUpdate();
     }
 
     @Override
-    public nmd.rss.collector.feed.FeedHeader loadHeader(final String feedLink) {
+    public FeedHeader loadHeader(final String feedLink) {
         assertStringIsValid(feedLink);
 
-        final TypedQuery<FeedHeader> query = buildSelectWhereQuery("feedLink", "feedLink", FeedHeader.class);
-        query.setParameter("feedLink", feedLink);
+        final TypedQuery<FeedHeaderEntity> query = buildSelectWhereQuery("feedLink", feedLink, FeedHeaderEntity.class);
 
         return getFirstResultItemFrom(query);
     }
@@ -63,13 +62,13 @@ public class GaeFeedHeadersRepository extends AbstractGaeRepository implements F
         final FeedHeaderHelper feedItemHelper = FeedHeaderHelper.convert(feedHeader);
         final String data = new Gson().toJson(feedItemHelper);
 
-        final FeedHeader entity = new FeedHeader(feedHeader.id.toString(), feedHeader.feedLink, data);
+        final FeedHeaderEntity entity = new FeedHeaderEntity(feedHeader.id.toString(), feedHeader.feedLink, data);
 
         persist(entity);
     }
 
-    private nmd.rss.collector.feed.FeedHeader getFirstResultItemFrom(final TypedQuery<FeedHeader> query) {
-        final List<FeedHeader> headers = query.getResultList();
+    private FeedHeader getFirstResultItemFrom(final TypedQuery<FeedHeaderEntity> query) {
+        final List<FeedHeaderEntity> headers = query.getResultList();
 
         if (headers.isEmpty()) {
             return null;

@@ -1,6 +1,7 @@
 package nmd.rss.collector;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -40,20 +41,28 @@ public abstract class AbstractGaeRepository implements Repository {
         this.entityManager.persist(object);
     }
 
-    protected <T> TypedQuery<T> buildSelectWhereQuery(final String field, final String parameter, final Class<T> clazz) {
-        final String query = QueryTools.buildSelectWhereQuery(this.entityName, field, parameter);
+    protected <T> TypedQuery<T> buildSelectWhereQuery(final String field, final Object value, final Class<T> clazz) {
+        final String template = QueryTools.buildSelectWhereQuery(this.entityName, field, field);
+        final TypedQuery<T> query = this.entityManager.createQuery(template, clazz);
+        query.setParameter(field, value);
 
-        return this.entityManager.createQuery(query, clazz);
+        return query;
     }
 
-    protected <T> TypedQuery<T> buildDeleteWhereQuery(final String field, final String parameter, final Class<T> clazz) {
-        final String query = QueryTools.buildDeleteWhereQuery(this.entityName, field, parameter);
+    protected Query buildDeleteWhereQuery(final String field, final Object value) {
+        final String template = QueryTools.buildDeleteWhereQuery(this.entityName, field, field);
+        final Query query = this.entityManager.createQuery(template);
+        query.setParameter(field, value);
 
-        return this.entityManager.createQuery(query, clazz);
+        return query;
     }
 
     protected <T> TypedQuery<T> buildSelectAllQuery(final Class<T> clazz) {
-        final String query = QueryTools.buildSelectAllQuery(this.entityName);
+        return buildSelectAllQuery(clazz, 0);
+    }
+
+    protected <T> TypedQuery<T> buildSelectAllQuery(final Class<T> clazz, int limit) {
+        final String query = QueryTools.buildSelectAllQuery(this.entityName, limit);
 
         return this.entityManager.createQuery(query, clazz);
     }

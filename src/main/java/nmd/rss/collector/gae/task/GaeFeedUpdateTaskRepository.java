@@ -1,5 +1,6 @@
 package nmd.rss.collector.gae.task;
 
+import nmd.rss.collector.AbstractGaeRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 
@@ -16,18 +17,15 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 31.05.13
  */
-public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
-
-    private final EntityManager entityManager;
+public class GaeFeedUpdateTaskRepository extends AbstractGaeRepository implements FeedUpdateTaskRepository {
 
     public GaeFeedUpdateTaskRepository(final EntityManager entityManager) {
-        assertNotNull(entityManager);
-        this.entityManager = entityManager;
+        super(entityManager, FeedUpdateTaskEntity.NAME);
     }
 
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
-        final TypedQuery<FeedUpdateTaskEntity> query = this.entityManager.createQuery("SELECT entity FROM FeedUpdateTask entity", FeedUpdateTaskEntity.class);
+        final TypedQuery<FeedUpdateTaskEntity> query = buildSelectAllQuery(FeedUpdateTaskEntity.class);
 
         final List<FeedUpdateTaskEntity> entities = query.getResultList();
 
@@ -44,30 +42,31 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
-        final Query query = this.entityManager.createQuery("DELETE FROM FeedUpdateTask entity WHERE entity.id = :id");
-        query.setParameter("id", feedUpdateTask.id.toString());
+        final Query query = buildDeleteWhereQuery("id", feedUpdateTask.id.toString());
+
         query.executeUpdate();
 
         final FeedUpdateTaskEntity entity = FeedUpdateTaskEntity.convert(feedUpdateTask);
-        this.entityManager.persist(entity);
+        persist(entity);
     }
 
     @Override
     public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
-        return null;
+        assertNotNull(feedId);
+
+        final TypedQuery<FeedUpdateTaskEntity> query = buildSelectWhereQuery("feedId", feedId.toString(), FeedUpdateTaskEntity.class);
+        final List<FeedUpdateTaskEntity> result = query.getResultList();
+
+        return result.isEmpty() ? null : FeedUpdateTaskEntity.convert(result.get(0));
     }
 
     @Override
     public void deleteTaskForFeedId(final UUID feedId) {
-    }
+        assertNotNull(feedId);
 
-    @Override
-    public List loadAllEntities() {
-        return null;
-    }
+        final Query query = buildDeleteWhereQuery("feedId", feedId.toString());
 
-    @Override
-    public void remove(Object victim) {
+        query.executeUpdate();
     }
 
 }

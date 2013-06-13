@@ -1,19 +1,15 @@
 package nmd.rss.collector.scheduler;
 
-import java.util.List;
+import nmd.rss.collector.Repository;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.04.13
  */
-public interface FeedUpdateTaskSchedulerContextRepository {
+public interface FeedUpdateTaskSchedulerContextRepository extends Repository {
 
     void store(FeedUpdateTaskSchedulerContext context);
 
     FeedUpdateTaskSchedulerContext load();
-
-    List loadAllEntities();
-
-    void deleteEntity(Object victim);
 
 }

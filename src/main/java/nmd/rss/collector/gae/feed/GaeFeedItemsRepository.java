@@ -5,10 +5,11 @@ import com.google.gson.reflect.TypeToken;
 import nmd.rss.collector.AbstractGaeRepository;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.feed.item.FeedItemHelper;
-import nmd.rss.collector.gae.feed.item.FeedItems;
+import nmd.rss.collector.gae.feed.item.FeedItemsEntity;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
@@ -26,7 +27,7 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
     private static final String FEED_ID = "feedId";
 
     public GaeFeedItemsRepository(final EntityManager entityManager) {
-        super(entityManager, FeedItems.class.getSimpleName());
+        super(entityManager, FeedItemsEntity.NAME);
     }
 
     @Override
@@ -43,7 +44,7 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
         }
 
         final String data = new Gson().toJson(helpers);
-        final FeedItems entity = new FeedItems(feedId, data);
+        final FeedItemsEntity entity = new FeedItemsEntity(feedId, data);
 
         persist(entity);
     }
@@ -52,10 +53,9 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final TypedQuery<FeedItems> query = buildSelectWhereQuery(FEED_ID, FEED_ID, FeedItems.class);
-        query.setParameter(FEED_ID, feedId.toString());
+        final TypedQuery<FeedItemsEntity> query = buildSelectWhereQuery(FEED_ID, feedId.toString(), FeedItemsEntity.class);
 
-        final List<FeedItems> entities = query.getResultList();
+        final List<FeedItemsEntity> entities = query.getResultList();
 
         return createFeedItems(entities);
     }
@@ -64,12 +64,12 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
     public void deleteItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final TypedQuery<FeedItems> query = buildDeleteWhereQuery(FEED_ID, FEED_ID, FeedItems.class);
-        query.setParameter(FEED_ID, feedId.toString());
+        final Query query = buildDeleteWhereQuery(FEED_ID, feedId.toString());
+
         query.executeUpdate();
     }
 
-    private List<FeedItem> createFeedItems(final List<FeedItems> entities) {
+    private List<FeedItem> createFeedItems(final List<FeedItemsEntity> entities) {
         final List<FeedItem> result = new ArrayList<>();
 
         if (!entities.isEmpty()) {

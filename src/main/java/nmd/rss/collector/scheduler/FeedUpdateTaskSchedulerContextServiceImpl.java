@@ -81,7 +81,7 @@ public class FeedUpdateTaskSchedulerContextServiceImpl implements FeedUpdateTask
                 transaction = this.entityManager.getTransaction();
                 transaction.begin();
 
-                this.contextRepository.deleteEntity(victim);
+                this.contextRepository.remove(victim);
 
                 transaction.commit();
             }

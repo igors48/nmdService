@@ -16,8 +16,10 @@ import static nmd.rss.collector.util.Assert.assertPositive;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 31.05.13
  */
-@Entity(name = "FeedUpdateTask")
+@Entity(name = FeedUpdateTaskEntity.NAME)
 public class FeedUpdateTaskEntity {
+
+    public static final String NAME = "FeedUpdateTask";
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

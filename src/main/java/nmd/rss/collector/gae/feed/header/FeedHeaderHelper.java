@@ -21,7 +21,7 @@ public class FeedHeaderHelper {
         // empty
     }
 
-    public FeedHeaderHelper(final UUID id, final String feedLink, final String title, final String description, final String link) {
+    private FeedHeaderHelper(final UUID id, final String feedLink, final String title, final String description, final String link) {
         this.id = id;
         this.feedLink = feedLink;
         this.title = title;
