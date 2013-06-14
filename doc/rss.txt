@@ -1,0 +1,443 @@
+<?xml version="1.0"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+   <channel>
+	   <title>3DNews - Daily Digital Digest: Новости Hardware</title>
+	  <link>http://www.3dnews.ru/</link>
+	  <description>Новости Hardware на 3DNews</description>
+	  <language>ru</language>
+	  <pubDate>Fri, 14 Jun 2013 06:30:18 +0400</pubDate>
+	  <lastBuildDate>Fri, 14 Jun 2013 06:30:18 +0400</lastBuildDate>
+	  <docs>http://www.3dnews.ru/news/rss</docs>
+	  <generator>3DNews - Sippet LWP</generator>
+	  <managingEditor>nivnikov@3dnews.ru (Денис Нивников)</managingEditor>
+	  <webMaster>admin@3dnews.ru (Алексей Зарубин)</webMaster>
+	  <image>
+		  <url>http://www.3dnews.ru/i/3dn.gif</url>
+		  <title>3DNews - Daily Digital Digest: Новости Hardware</title>
+		  <link>http://www.3dnews.ru/</link>
+	  </image>
+	  <atom:link href="http://www.3dnews.ru/news/rss" rel="self" type="application/rss+xml" />
+
+	  
+	<item>
+		<title>Reuters: Apple выпустит 4,7” и 5,7” iPhone в течение следующего года</title>
+		<link>http://www.3dnews.ru/news/646651/</link>
+		<guid>http://www.3dnews.ru/news/646651/#646651</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>По сообщению Reuters, компания Apple может попытаться укрепить свои позиции на рынке смартфонов, выпустив в течение следующего года 4,7&rdquo; и 5,7&rdquo; модели iPhone. Кроме того, компания из Купертино может представить бюджетный вариант культового смартфона, который будет выпускаться в корпусах разных...]]></description>
+		<pubDate>Fri, 14 Jun 2013 05:00:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+		<category domain="http://www.3dnews.ru/development">разработка и производство электроники</category>
+		<category domain="http://www.3dnews.ru/itmarket">рынок IT</category>
+		<category domain="http://www.3dnews.ru/rumors">слухи</category>
+	</item>
+	<item>
+		<title>Открыт предзаказ на смартфон Sony Xperia M в Германии</title>
+		<link>http://www.3dnews.ru/news/646630/</link>
+		<guid>http://www.3dnews.ru/news/646630/#646630</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>В ходе презентации в начале этого месяца смартфона Xperia M компания Sony Mobile Communications предпочла&nbsp; умолчать о его цене, хотя релиз новинки не за горами &mdash; планируется начать реализацию устройства в третьем квартале.В Германии уже открыт предзаказ на новинку. Ретейлер...]]></description>
+		<pubDate>Fri, 14 Jun 2013 03:19:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+	</item>
+	<item>
+		<title>Шухей Йошида объяснил отсутствие камеры в комплекте с Playstation 4</title>
+		<link>http://www.3dnews.ru/news/646628/</link>
+		<guid>http://www.3dnews.ru/news/646628/#646628</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Тот факт, что в комплект с Playstation 4 не войдет камера, несколько озадачил потенциальных покупателей консоли. Особенно на фоне того, что в случае с Xbox One Kinect в коробке с консолью будет. Президент Sony Worldwide Studios Шухей Йошида объяснил это...]]></description>
+		<pubDate>Fri, 14 Jun 2013 01:06:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/gameconsole">игровые консоли</category>
+	</item>
+	<item>
+		<title>В разобранных Google Glass обнаружили аккумулятор на 570 мАч</title>
+		<link>http://www.3dnews.ru/news/646603/</link>
+		<guid>http://www.3dnews.ru/news/646603/#646603</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Разобрать Google Glass уже пытались многие, однако не всегда эти попытки были успешны. Стар Симпсон (Star Simpson) и Скотт Торборг (Scott Torborg) в этом деле преуспели едва ли не лучше других.Энтузиасты разобрали устройство практически полностью до самых мельчайших компонентов. Они...]]></description>
+		<pubDate>Fri, 14 Jun 2013 00:01:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/comment">комментарии последних событий</category>
+		<category domain="http://www.3dnews.ru/science">на острие науки</category>
+		<category domain="http://www.3dnews.ru/development">разработка и производство электроники</category>
+	</item>
+	<item>
+		<title>Стив Джобс не отправлял письмо, на которое ссылается министерство юстиции США</title>
+		<link>http://www.3dnews.ru/news/646678/</link>
+		<guid>http://www.3dnews.ru/news/646678/#646678</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Электронное письмо сооснователя Apple&nbsp; Стива Джобса (Steve Jobs), считавшееся в министерстве юстиции главной уликой в процессе по поводу ценового сговора, как оказалось, не было отправлено в данной редакции. Это был лишь проект письма старшему вице-президенту компании Apple по программному обеспечению...]]></description>
+		<pubDate>Thu, 13 Jun 2013 23:05:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/inet">Новости сети</category>
+	</item>
+	<item>
+		<title>Живое фото и приглашение на презентацию Sony Xperia Z Ultra</title>
+		<link>http://www.3dnews.ru/news/646682/</link>
+		<guid>http://www.3dnews.ru/news/646682/#646682</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Фаблет Sony Xperia Z Ultra (гибрид планшета и смартфона), уже не раз появлявшийся в слухах, циркулирующих в Интернете, вскоре будет официально представлен общественности. Компанией разосланы приглашения представителям СМИ на мероприятие, которое состоится в Париже четвертого июля.На приглашении есть изображение боковой...]]></description>
+		<pubDate>Thu, 13 Jun 2013 22:27:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+	</item>
+	<item>
+		<title>Этим летом Nokia завершит поставки устройств на Symbian</title>
+		<link>http://www.3dnews.ru/news/646640/</link>
+		<guid>http://www.3dnews.ru/news/646640/#646640</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Этим летом компания Nokia поставит на рынок последнюю партию смартфонов под управлением ОС Symbian. Впрочем, о завершении продаж Symbian-смартфонов говорить пока рано, так как на складах, по данным Financial Times, имеется определенное количество устройств. В 2011 году Nokia приняла решение...]]></description>
+		<pubDate>Thu, 13 Jun 2013 20:08:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+	</item>
+	<item>
+		<title>SoftBank увеличила сумму предложения за слияние с оператором Sprint до $21,6 млрд</title>
+		<link>http://www.3dnews.ru/news/646632/</link>
+		<guid>http://www.3dnews.ru/news/646632/#646632</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>В борьбе за обладание контрольным пакетом американского оператора Sprint Nextel японская телекоммуникационная компания SoftBank решила повысить ставки.&nbsp; Теперь SoftBank предлагает $21,6 млрд за 78% уставного капитала третьего по величине сотового оператора США, в то время как прежде предложение составляло $20,1...]]></description>
+		<pubDate>Thu, 13 Jun 2013 19:27:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/comment">комментарии последних событий</category>
+		<category domain="http://www.3dnews.ru/itmarket">рынок IT</category>
+	</item>
+	<item>
+		<title>Самый тонкий и самый компактный Fisheye-объектив от Samsung</title>
+		<link>http://www.3dnews.ru/news/646626/</link>
+		<guid>http://www.3dnews.ru/news/646626/#646626</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Samsung Electronics заявила о выпуске, как утверждается, самого тонкого и самого компактного на сегодняшний день объектива категории Fisheye.Модель Samsung 10mm F3.5 Fisheye с фокусным расстоянием 15,4 мм (в 35-миллиметровом эквиваленте) изготовлена под крепление Samsung NX Mount, имеет диаметр 58,8...]]></description>
+		<pubDate>Thu, 13 Jun 2013 18:49:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/digitalcam">цифровые фото-/видеокамеры, DSLR, объективы, фоторамки, вспышки</category>
+	</item>
+	<item>
+		<title>3DNews Daily, выпуск #65: Видеоновости за день</title>
+		<link>http://www.3dnews.ru/news/646680/</link>
+		<guid>http://www.3dnews.ru/news/646680/#646680</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>В этом выпуске: приложение Flipboard позволит пользователям объединять ряд статей в свой собственный журнал и делиться им с друзьями; подробности об операционной системе OS X Mavericks]]></description>
+		<pubDate>Thu, 13 Jun 2013 18:15:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/medias">Видеоматериалы</category>
+		<category domain="http://www.3dnews.ru/comment">комментарии последних событий</category>
+		<category domain="http://www.3dnews.ru/dphoto">фото, видео, фраза дня</category>
+	</item>
+	<item>
+		<title>Pentax K-50 и K-500: зеркальные фотоаппараты с 16-Мп матрицей</title>
+		<link>http://www.3dnews.ru/news/646644/</link>
+		<guid>http://www.3dnews.ru/news/646644/#646644</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Линейка зеркальных фотоаппаратов Pentax пополнилась моделью K-50 среднего уровня, представляющей собой улучшенную версию камеры K-30.В новинке применена КМОП-матрица APS-C (23,7x15,7 мм) с 16,3 млн эффективных пикселей. Фотоаппарат совместим с объективами Pentax KAF2. Имеются 3-дюймовый дисплей, оптический видоискатель, слот для карт...]]></description>
+		<pubDate>Thu, 13 Jun 2013 18:13:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/digitalcam">цифровые фото-/видеокамеры, DSLR, объективы, фоторамки, вспышки</category>
+	</item>
+	<item>
+		<title>Подробности о видеокарте ASUS GeForce GTX 780 DirectCU II OC</title>
+		<link>http://www.3dnews.ru/news/646617/</link>
+		<guid>http://www.3dnews.ru/news/646617/#646617</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>На прошедшей в Тайбэе международной выставке Computex 2013 компания ASUSTeK Computer впервые показала видеокарту ASUS GeForce GTX 780 DirectCU II OC на базе созданного по 28-нм проектным нормам чипа GK110 с 2304 ядрами CUDA и архитектурой Kepler. А теперь в...]]></description>
+		<pubDate>Thu, 13 Jun 2013 17:47:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/video">видеокарты</category>
+	</item>
+	<item>
+		<title>Ноутбук Lenovo IdeaPad S210 Touch с 11,6&quot; сенсорным экраном</title>
+		<link>http://www.3dnews.ru/news/646597/</link>
+		<guid>http://www.3dnews.ru/news/646597/#646597</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Lenovo в июле выпустит портативный компьютер IdeaPad S210 Touch, выполненный на аппаратной платформе Intel Ivy Bridge. Для ноутбука будет предложен выбор из двухъядерных процессоров Celeron 1007U и Core i3-3227U с тактовой частотой соответственно 1,5 и 1,9 ГГц. Старшая модель...]]></description>
+		<pubDate>Thu, 13 Jun 2013 17:21:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/notebook">ноутбуки и нетбуки</category>
+	</item>
+	<item>
+		<title>Новый ноутбук MacBook Air разобрали на части</title>
+		<link>http://www.3dnews.ru/news/646656/</link>
+		<guid>http://www.3dnews.ru/news/646656/#646656</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Не успела компания Apple начать приём заказов на новейший портативный компьютер MacBook Air, как сотрудники iFixit разобрали его на части, изучив электронную начинку и оценив ремонтопригодность.Напомним, что представленный на днях MacBook Air оснащён процессором Intel Core четвёртого поколения, 4 или...]]></description>
+		<pubDate>Thu, 13 Jun 2013 16:52:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/pcmac">компьютеры и ноутбуки Apple</category>
+		<category domain="http://www.3dnews.ru/notebook">ноутбуки и нетбуки</category>
+	</item>
+	<item>
+		<title>Прочная видеокамера Sony Handycam HDR-GWP88 со встроенным проектором</title>
+		<link>http://www.3dnews.ru/news/646599/</link>
+		<guid>http://www.3dnews.ru/news/646599/#646599</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>21 июня компания Sony начнёт продажи всепогодной видеокамеры Handycam HDR-GWP88 для поклонников активных видов отдыха и спортсменов. Новинка выполнена в герметичном корпусе: он защищает электронику от пыли и воды (на глубине до 10 метров). Гарантировано сохранение работоспособности при падениях с...]]></description>
+		<pubDate>Thu, 13 Jun 2013 16:06:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/digitalcam">цифровые фото-/видеокамеры, DSLR, объективы, фоторамки, вспышки</category>
+	</item>
+	<item>
+		<title>Новые подробности о гибридных накопителях WD</title>
+		<link>http://www.3dnews.ru/news/646671/</link>
+		<guid>http://www.3dnews.ru/news/646671/#646671</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>На мероприятии для прессы и партнеров компании &ndash; WD Executive Summit 2013, которое недавно прошло в Стамбуле, сотрудники Western Digital поделились информацией о новых гибридных накопителях для ноутбуков серии WD Black.Первые подробности о &laquo;гибридах&raquo; от WD мы узнали еще до...]]></description>
+		<pubDate>Thu, 13 Jun 2013 15:47:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/hdd">жесткие диски, системы хранения данных, интерфейсы, NAS</category>
+	</item>
+	<item>
+		<title>Fiujifilm и Panasonic разработали органический КМОП-сенсор</title>
+		<link>http://www.3dnews.ru/news/646596/</link>
+		<guid>http://www.3dnews.ru/news/646596/#646596</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компании Fujifilm Corporation и Panasonic Corporation заявили о совместной разработке так называемого органического КМОП-сенсора изображения. Новинка отличается использованием органического слоя для фотоэлектрического преобразования вместо кремниевого фотодиода и по своим характеристикам опережает традиционные решения. Органический слой позволяет уменьшить ширину секции светоприемного...]]></description>
+		<pubDate>Thu, 13 Jun 2013 15:44:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/digitalcam">цифровые фото-/видеокамеры, DSLR, объективы, фоторамки, вспышки</category>
+	</item>
+	<item>
+		<title>Дежурыне по Рунету: Турагентства в Красную книгу?</title>
+		<link>http://www.3dnews.ru/news/646668/</link>
+		<guid>http://www.3dnews.ru/news/646668/#646668</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Загрузка...                                       ...]]></description>
+		<pubDate>Thu, 13 Jun 2013 15:32:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/comment">комментарии последних событий</category>
+	</item>
+	<item>
+		<title>Объявлена предположительная цена Huawei Ascend P6</title>
+		<link>http://www.3dnews.ru/news/646595/</link>
+		<guid>http://www.3dnews.ru/news/646595/#646595</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>На следующей неделе 18 июня в Лондоне состоится официальная презентация Huawei Ascend P6, самого тонкого смартфона в мире &mdash; толщина его корпуса равна всего 6,18 мм.Ресурс @evleaks, информация которого нередко подтверждается спустя время в официальных сообщениях, опубликовал последние сведения о...]]></description>
+		<pubDate>Thu, 13 Jun 2013 15:08:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+	</item>
+	<item>
+		<title>Видео: демонстрация интерфейса и принципов работы PS4</title>
+		<link>http://www.3dnews.ru/news/646594/</link>
+		<guid>http://www.3dnews.ru/news/646594/#646594</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>На своей пресс-конференции во время игровой выставки E3 2013 в Лос-Анджелесе компания Sony преимущественно говорила о бизнесе и демонстрировала самое интересное в новой игровой консоли &mdash; игры следующего поколения. Из-за этого многие вопросы, касающиеся PlayStation 4, конечно, не были полностью...]]></description>
+		<pubDate>Thu, 13 Jun 2013 14:43:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/gameconsole">игровые консоли</category>
+	</item>
+	<item>
+		<title>Corning Gorilla Glass будет использоваться в автомобилях</title>
+		<link>http://www.3dnews.ru/news/646588/</link>
+		<guid>http://www.3dnews.ru/news/646588/#646588</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Крепкое стекло Gorilla Glass от Corning, использующееся в 1,5 миллиардах потребительских устройств по всему миру, позволит вскоре создавать более тихие и экономные автомобили.Corning собирается выпускать куда более габаритные продукты, которые позволят заменять ряд стандартных стёкол в автомобилях. Сегодня большинство автопроизводителей...]]></description>
+		<pubDate>Thu, 13 Jun 2013 14:10:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/autoht">автомобили, мотоциклы, транспортные средства</category>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+		<category domain="http://www.3dnews.ru/smart-handhelds">планшетные компьютеры и смартбуки</category>
+		<category domain="http://www.3dnews.ru/development">разработка и производство электроники</category>
+	</item>
+	<item>
+		<title>ASUS раскрыла характеристики мини-компьютера ViVoPC</title>
+		<link>http://www.3dnews.ru/news/646648/</link>
+		<guid>http://www.3dnews.ru/news/646648/#646648</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания ASUS обнародовала технические характеристики компактного мультимедийнного компьютера ViVoPC, продемонстрированного на выставке Computex 2013.Устройство выполнено на процессоре Intel. Модель пока не уточняется, но, вероятнее всего, речь идёт о чипе Core четвёртого поколения из состава платформы Haswell. В два разъёма для...]]></description>
+		<pubDate>Thu, 13 Jun 2013 13:47:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/barebone">barebone-системы, неттопы,  all-in-one PC,  медиацентры</category>
+	</item>
+	<item>
+		<title>Кроссовер Renault Duster превратится в Nissan Terrano</title>
+		<link>http://www.3dnews.ru/news/646571/</link>
+		<guid>http://www.3dnews.ru/news/646571/#646571</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Распространенный в России компактный кроссовер Renault Duster станет основой для еще одного небольшого внедорожника &mdash; Nissan Terrano четвертого поколения. Сначала это были всего лишь слухи, но теперь они получили официальное подтверждение. Превращение француза в японца будет завершено ближе к концу...]]></description>
+		<pubDate>Thu, 13 Jun 2013 13:19:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/autoht">автомобили, мотоциклы, транспортные средства</category>
+	</item>
+	<item>
+		<title>Беззеркальный фотоаппарат Pentax Q7 анонсирован официально</title>
+		<link>http://www.3dnews.ru/news/646643/</link>
+		<guid>http://www.3dnews.ru/news/646643/#646643</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Pentax анонсировала беззеркальный фотоаппарат Q7 со сменной оптикой, который будет доступен для заказа в 120 цветовых комбинациях оформления корпуса.В новинке применена 1/1,7-дюймовая (7,44x5,58 мм) КМОП-матрица с обратной засветкой, имеющая 12,4 млн эффективных пикселей. Камера оборудована байонетным креплением PENTAX&nbsp;Q-mount, дисплеем...]]></description>
+		<pubDate>Thu, 13 Jun 2013 13:00:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/digitalcam">цифровые фото-/видеокамеры, DSLR, объективы, фоторамки, вспышки</category>
+	</item>
+	<item>
+		<title>Спорткупе Peugeot RCZ R покажут на фестивале в Гудвуде</title>
+		<link>http://www.3dnews.ru/news/646570/</link>
+		<guid>http://www.3dnews.ru/news/646570/#646570</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Спортивное купе Peugeot RCZ R, являющейся заряженной версией модели Peugeot RCZ, перестанет быть концептом &mdash; его анонс состоится буквально на днях на Фестивале скорости в Гудвуде. Автомобиль, согласно официальному описанию, является самым мощным во всем модельном ряду компании Peugeot.По сравнению...]]></description>
+		<pubDate>Thu, 13 Jun 2013 12:46:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/autoht">автомобили, мотоциклы, транспортные средства</category>
+	</item>
+	<item>
+		<title>На E3 показали прототип Oculus Rift 1080p HD</title>
+		<link>http://www.3dnews.ru/news/646636/</link>
+		<guid>http://www.3dnews.ru/news/646636/#646636</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>В рамках игровой выставки Е3 в Лос-Анджелесе была продемонстрирована улучшенная версия очков виртуальной реальности Oculus Rift. Если ранние образцы поддерживали разрешение 1280х800, то новый прототип выдает 1920х1080.По сравнению с экземплярами Oculus Rift, которые были разосланы разработчикам, новый вариант очков содержит...]]></description>
+		<pubDate>Thu, 13 Jun 2013 12:32:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/3dtech">3D-технологии</category>
+	</item>
+	<item>
+		<title>Acer и ASUS придерживаются разной стратегии для усиления слабого бизнеса смартфонов</title>
+		<link>http://www.3dnews.ru/news/646458/</link>
+		<guid>http://www.3dnews.ru/news/646458/#646458</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компании Acer и ASUS стремятся компенсировать сокращение рынка ПК расширением бизнеса в сектор планшетов и смартфонов. Но пока заметных успехов на рынке смартфонов добиться не удалось ни той, ни другой компании. В настоящее время они придерживаются разных стратегий: ASUS концентрирует усилия на дорогих и средних аппаратах, а Acer — на средних и дешёвых]]></description>
+		<pubDate>Thu, 13 Jun 2013 12:30:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+	</item>
+	<item>
+		<title>Оперативной памяти в смартфонах станет еще больше</title>
+		<link>http://www.3dnews.ru/news/646569/</link>
+		<guid>http://www.3dnews.ru/news/646569/#646569</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Смартфоны образца 2013 года в ряде случаев имеют по 2 Гбайт оперативной памяти, и скоро это станет уже не исключением, а нормой, считают западные эксперты. Согласно прогнозам, в следующем году 1-гигабайтные модели станут частью бюджетного сегмента, а 2-гигабайтные перейдут в...]]></description>
+		<pubDate>Thu, 13 Jun 2013 12:23:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+	</item>
+	<item>
+		<title>Смартфон Acer Liquid S1 готовится к релизу в России</title>
+		<link>http://www.3dnews.ru/news/646568/</link>
+		<guid>http://www.3dnews.ru/news/646568/#646568</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Acer раскрыла последние подробности о своем новом смартфоне Liquid S1. Она поведала самую важную информацию о нем, сообщив, что в Россию он прибудет в течение третьего квартала, а также уточнив его рекомендуемую розничную стоимость.Следует заметить, что Acer Liquid S1...]]></description>
+		<pubDate>Thu, 13 Jun 2013 11:57:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+	</item>
+	<item>
+		<title>NEC представила коммерческий дисплей MultiSync V801</title>
+		<link>http://www.3dnews.ru/news/646566/</link>
+		<guid>http://www.3dnews.ru/news/646566/#646566</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания NEC официально анонсировала свой самый последний коммерческий ЖК-дисплей MultiSync V801, предназначенный для использования в рекламе или в качестве информационной панели. Новинка получила 80-дюймовую диагональ и светодиодную подсветку. В пресс-релизе NEC представлены наиболее очевидные места использования панели MultiSync V801: это...]]></description>
+		<pubDate>Thu, 13 Jun 2013 11:21:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mp">мониторы, проекторы, ТВ-тюнеры, телевизоры</category>
+	</item>
+	<item>
+		<title>Беззеркальная камера Pentax Q7 на первых фотографиях</title>
+		<link>http://www.3dnews.ru/news/646564/</link>
+		<guid>http://www.3dnews.ru/news/646564/#646564</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Pentax ведет разработку нового цифрового фотоаппарата Q7, относящегося к семейству компактных и беззеркальных, но пока что не торопится сообщить об этом всему миру. Тем не менее, инсайдеры в Pentax получили несколько фотографий этого аппарата и распространили их в Интернете.Согласно...]]></description>
+		<pubDate>Thu, 13 Jun 2013 10:59:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/digitalcam">цифровые фото-/видеокамеры, DSLR, объективы, фоторамки, вспышки</category>
+	</item>
+	<item>
+		<title>Turtle Beach представила специальные гарнитуры для Xbox One</title>
+		<link>http://www.3dnews.ru/news/646535/</link>
+		<guid>http://www.3dnews.ru/news/646535/#646535</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>В мае Turtle Beach сообщила, что получила одобрение от Microsoft на выпуск специальной гарнитуры для приставки Xbox One, и вот теперь компания показала готовые продукты.Гарнитуры выполнены на основе уже существующих Ear Force XO Seven и Ear Force XO Four. Стоимость...]]></description>
+		<pubDate>Thu, 13 Jun 2013 10:34:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/avperiphery">аудио/видео периферия, наушники, веб-камеры</category>
+		<category domain="http://www.3dnews.ru/gameconsole">игровые консоли</category>
+		<category domain="http://www.3dnews.ru/itmarket">рынок IT</category>
+	</item>
+	<item>
+		<title>Linksys выпустила комплект для организации сети по технологии HomePlug AV2</title>
+		<link>http://www.3dnews.ru/news/646592/</link>
+		<guid>http://www.3dnews.ru/news/646592/#646592</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Linksys заявила о поступлении в продажу комплекта Powerline HomePlug AV2 Kit (PLEK500). Новинка позволяет организовать высокоскоростную сеть с возможностью трансляции HD/3D-видео, используя существующую в доме электропроводку. Для этого используется технология HomePlug AV2.Устройство поддерживает передачу данных на скорости до 500...]]></description>
+		<pubDate>Thu, 13 Jun 2013 10:05:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/wireless">сети и коммуникации</category>
+	</item>
+	<item>
+		<title>Mad Catz анонсировала беспроводной игровой контроллер C.T.R.L.</title>
+		<link>http://www.3dnews.ru/news/646587/</link>
+		<guid>http://www.3dnews.ru/news/646587/#646587</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Одновременно с выпуском наушников TRITTON компания Mad Catz Interactive выпустила ещё одну новинку для любителей игр &mdash; беспроводной игровой контроллер C.T.R.L.R Wireless GamePad. Этот манипулятор нацелен на использование с мобильными устройствами.C.T.R.L.R Wireless GamePad поддерживает три режима работы. GameSmart Mode предоставляет...]]></description>
+		<pubDate>Thu, 13 Jun 2013 09:48:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/manipulator">манипуляторы, устройства ввода графики</category>
+	</item>
+	<item>
+		<title>Buffalo выпустила линейку NAS LinkStation 400 Series</title>
+		<link>http://www.3dnews.ru/news/646586/</link>
+		<guid>http://www.3dnews.ru/news/646586/#646586</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Buffalo Technology анонсировала выпуск новой линейки высокопроизводительных сетевых накопителей LinkStation 400 Series. Производитель уверен, что его решения подойдут как для новичков, так и для опытных пользователей.Модели 400-й серии характеризуются ёмкостью до 8 Тбайт. Новинки оснащены мощным процессором и позволяют...]]></description>
+		<pubDate>Thu, 13 Jun 2013 09:29:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/hdd">жесткие диски, системы хранения данных, интерфейсы, NAS</category>
+	</item>
+	<item>
+		<title>Seagate представила накопители NAS HDD</title>
+		<link>http://www.3dnews.ru/news/646585/</link>
+		<guid>http://www.3dnews.ru/news/646585/#646585</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>В ассортименте компании Seagate Technology появились жесткие диски NAS HDD, нацеленные на использование в сетевых хранилищах данных. Производитель предлагает использовать свои HDD в NAS с количеством отсеков от одного до пяти. При оснащении NAS 4-Тбайт жесткими дисками совокупная ёмкость системы...]]></description>
+		<pubDate>Thu, 13 Jun 2013 09:00:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/hdd">жесткие диски, системы хранения данных, интерфейсы, NAS</category>
+	</item>
+	<item>
+		<title>Пользователи смогут сами обновить или заменить 500-Гбайт жёсткий диск в PS4</title>
+		<link>http://www.3dnews.ru/news/646581/</link>
+		<guid>http://www.3dnews.ru/news/646581/#646581</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Благодаря старту игровой выставки E3 2013 стали известны технические подробности относительно PS4. Например, тот факт, что приставка получит не очень вместительный для игр и контента нового поколения 500-Гбайт жёсткий диск. Однако как насчёт его замены игроками на более ёмкий или...]]></description>
+		<pubDate>Thu, 13 Jun 2013 07:22:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/gameconsole">игровые консоли</category>
+	</item>
+	<item>
+		<title>Alienware планирует выйти на рынок смартфонов и планшетов</title>
+		<link>http://www.3dnews.ru/news/646582/</link>
+		<guid>http://www.3dnews.ru/news/646582/#646582</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Сегодня производители ПК стараются найти новые рыночные ниши, компенсирующие сокращение спроса на их продукцию. Alienware, дочернее предприятие Dell, специализирующееся на производстве производительных игровых компьютеров, готовится к завоеванию рынка смартфонов, ожидая только для этого подходящего момента. Впрочем, похоже, в ближайшее время...]]></description>
+		<pubDate>Thu, 13 Jun 2013 04:53:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+		<category domain="http://www.3dnews.ru/smart-handhelds">планшетные компьютеры и смартбуки</category>
+	</item>
+	<item>
+		<title>Intel представила линейку SSD DC S5300 Series</title>
+		<link>http://www.3dnews.ru/news/646583/</link>
+		<guid>http://www.3dnews.ru/news/646583/#646583</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>В рамках выставки Cloud Computing Expo 2013, проходящей в Нью-Йорке, компания Intel Corporation представила новую линейку твердотельных накопителей DC S3500 Series. Эти новинки нацелены, в первую очередь, на дата-центры и &laquo;облачную&raquo; инфраструктуру.Как отметил главный технический директор Intel Ким Стивенсон (Kim...]]></description>
+		<pubDate>Thu, 13 Jun 2013 02:05:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/memory">модули ОЗУ, карты памяти, флеш-накопители, кардридеры</category>
+	</item>
+	<item>
+		<title>NVIDIA продемонстрировала таинственный смартфон на базе Tegra 4i</title>
+		<link>http://www.3dnews.ru/news/646578/</link>
+		<guid>http://www.3dnews.ru/news/646578/#646578</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>NVIDIA показала смартфон на базе Tegra 4i, который поставляется неназванным контрактным производителем. Непривычная надпись Brand, разумеется, будет заменена на марку оператора или компании. По сравнению с эталонной платформой Phoenix этот аппарат получил другую уменьшенную PCB, оптимизированную для снижения стоимости производства....]]></description>
+		<pubDate>Thu, 13 Jun 2013 01:03:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mobile">мобильные телефоны, смартфоны, сотовая связь, коммуникаторы, КПК</category>
+		<category domain="http://www.3dnews.ru/dphoto">фото, видео, фраза дня</category>
+	</item>
+	<item>
+		<title>Intel сняла с производства чипы Xeon серий 5600 и E3-1200</title>
+		<link>http://www.3dnews.ru/news/646609/</link>
+		<guid>http://www.3dnews.ru/news/646609/#646609</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Intel распространила официальное уведомление о прекращении производства серверных процессоров Xeon серий 5600 и E3-1200.В обнародованном документе сообщается о том, что из ассортимента исчезнут модели Xeon E5603/E5606/E5607/E5620/E5630/E5640/E5645/E5649, Xeon L5609/L5630/L5640 и Xeon X5647/X5650/X5660/X5667/X5670/X5672/X5675/X5677/X5680/X5687/X5690, а также Xeon E3-1225/E3-1230/E3-1235/E3-1240/E3-1245/E3-1260L/E3-1270/E3-1275/E3-1280/E3-1290.Заказы на все указанные выше...]]></description>
+		<pubDate>Thu, 13 Jun 2013 00:29:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/cpu">процессоры</category>
+	</item>
+	<item>
+		<title>Видео дня: руководство Sony подшутило над правилами Xbox в отношении бывших в употреблении игр</title>
+		<link>http://www.3dnews.ru/news/646575/</link>
+		<guid>http://www.3dnews.ru/news/646575/#646575</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Как известно, правила обмена играми для Xbox One представляют собой довольно сложную схему, не говоря уже об их перепродаже, которая поддерживается не всегда и только через особые авторизированные каналы (при этом вторичный рынок игр весьма популярен у многих пользователей игровых...]]></description>
+		<pubDate>Wed, 12 Jun 2013 23:13:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/gameconsole">игровые консоли</category>
+		<category domain="http://www.3dnews.ru/dphoto">фото, видео, фраза дня</category>
+	</item>
+	<item>
+		<title>GIGABYTE увеличит поставки материнских плат на 15%</title>
+		<link>http://www.3dnews.ru/news/646572/</link>
+		<guid>http://www.3dnews.ru/news/646572/#646572</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>По предварительным оценкам компании GIGABYTE Technology, ей удалось отгрузить пять миллионов материнских плат во втором квартале. В третьем квартале она надеется увеличить объемы поставок ещё на 15%.В первом полугодии поставки плат GIGABYTE составят около 10 млн. В целом за весь...]]></description>
+		<pubDate>Wed, 12 Jun 2013 22:10:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mb">материнские платы</category>
+	</item>
+	<item>
+		<title>После Е3 PlayStation 4 резко обогнала Xbox One по количеству предзаказов на Amazon</title>
+		<link>http://www.3dnews.ru/news/646579/</link>
+		<guid>http://www.3dnews.ru/news/646579/#646579</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Ресурс MCV сообщил, что в британском подразделении интернет-магазина Amazon зафиксирован стремительный рост количества предварительных заказов PlayStation 4. Это произошло сразу же после пресс-конференции Sony на игровой выставке Е3, на которой и была впервые показана консоль.Примечательно, что до этого по всем...]]></description>
+		<pubDate>Wed, 12 Jun 2013 21:10:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/gameconsole">игровые консоли</category>
+	</item>
+	<item>
+		<title>LG добавила поддержку облачных игр для своих Smart TV</title>
+		<link>http://www.3dnews.ru/news/646534/</link>
+		<guid>http://www.3dnews.ru/news/646534/#646534</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания LG всерьез решила заняться продвижением своих Smart TV. В частности, компания анонсировала запуск сервиса Ubitus GameNow для своих пользователей в США.Сервис позволяет играть в консольные игры прямо на совместимом телевизоре LG. В настоящее время облачный сервис дает возможность поиграть...]]></description>
+		<pubDate>Wed, 12 Jun 2013 17:44:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/gameconsole">игровые консоли</category>
+		<category domain="http://www.3dnews.ru/mp">мониторы, проекторы, ТВ-тюнеры, телевизоры</category>
+		<category domain="http://www.3dnews.ru/development">разработка и производство электроники</category>
+	</item>
+	<item>
+		<title>Qualcomm перечислит Sharp оставшиеся $60 млн 24 июня</title>
+		<link>http://www.3dnews.ru/news/646513/</link>
+		<guid>http://www.3dnews.ru/news/646513/#646513</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Спустя полгода после того, как было объявлено о планах инвестировать $120 млн в переживающую сложные времена Sharp, компания Qualcomm подтвердила намерение перечислить оставшуюся часть суммы в размере $60 млн. Эти деньги предполагалось перечислить в марте, однако Qualcomm решила повременить, так...]]></description>
+		<pubDate>Wed, 12 Jun 2013 17:23:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mp">мониторы, проекторы, ТВ-тюнеры, телевизоры</category>
+		<category domain="http://www.3dnews.ru/itmarket">рынок IT</category>
+	</item>
+	<item>
+		<title>Acer начала принимать предварительные заказы на первый 8,1&quot; планшет с Windows 8</title>
+		<link>http://www.3dnews.ru/news/646499/</link>
+		<guid>http://www.3dnews.ru/news/646499/#646499</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Американские покупатели, собирающиеся купить небольшой планшет на базе Windows 8, могут теперь оформить предварительный заказ на Acer Iconia W3 через Amazon или Staples. Решение является первым в мире планшетом на основе Windows 8 с диагональю 8,1 дюймов. 32-Гбайт версия доступна...]]></description>
+		<pubDate>Wed, 12 Jun 2013 16:33:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/smart-handhelds">планшетные компьютеры и смартбуки</category>
+	</item>
+	<item>
+		<title>Чемодан Airbus Bag2Go не потеряется в аэропорту</title>
+		<link>http://www.3dnews.ru/news/646492/</link>
+		<guid>http://www.3dnews.ru/news/646492/#646492</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Проблема потери багажа в аэропорту встречается во многих странах, в том числе и в России, и решить ее традиционными способами едва ли когда-нибудь станет возможным. Поэтому компания Airbus прибегла к высоким технологиям и разработала чемодан Bag2Go, потерять который будет действительно...]]></description>
+		<pubDate>Wed, 12 Jun 2013 15:42:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/itworld">интересности из мира хай-тек</category>
+	</item>
+	<item>
+		<title>Компьютерный корпус X2.6017 для ценителей минимализма</title>
+		<link>http://www.3dnews.ru/news/646491/</link>
+		<guid>http://www.3dnews.ru/news/646491/#646491</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания Х2 разработала новый компьютерный корпус башенного типа X2.6017, наделив его крайне минималистичным дизайном. Оформление этого дома для комплектующих ярким точно не назовешь: ни одной лишней детали, все просто и очень строго, однако при этом стильно и даже по-своему красиво.Корпус...]]></description>
+		<pubDate>Wed, 12 Jun 2013 15:12:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/case">корпуса, настольные компьютеры</category>
+	</item>
+	<item>
+		<title>MSI разработала материнскую плату E1-2500I-E33 со встроенным CPU от AMD</title>
+		<link>http://www.3dnews.ru/news/646490/</link>
+		<guid>http://www.3dnews.ru/news/646490/#646490</guid>
+		<description><![CDATA[<img align="left" hspace="15" vspace="10" src="http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg" border="0" height="85" width="120"/>Компания MSI анонсировала материнскую плату E1-2500I-E33 в форм-факторе mini-ITX для сборки компактного компьютера. Прямо с завода она комплектуется встроенным гибридным процессором AMD E1-2500, так что о покупке CPU беспокоиться не придется.Центральный процессор AMD E1-2500 включает в себя два 1,4-гигагерцевых ядра...]]></description>
+		<pubDate>Wed, 12 Jun 2013 14:38:00 +0400</pubDate>
+		<category domain="http://www.3dnews.ru/mb">материнские платы</category>
+	</item>
+   </channel>
+</rss>
