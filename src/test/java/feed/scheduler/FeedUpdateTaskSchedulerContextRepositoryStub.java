@@ -1,7 +1,9 @@
 package feed.scheduler;
 
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextService;
+import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
+
+import java.util.List;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
@@ -9,11 +11,11 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.04.13
  */
-public class FeedUpdateTaskSchedulerContextServiceStub implements FeedUpdateTaskSchedulerContextService {
+public class FeedUpdateTaskSchedulerContextRepositoryStub implements FeedUpdateTaskSchedulerContextRepository {
 
     private FeedUpdateTaskSchedulerContext context;
 
-    public FeedUpdateTaskSchedulerContextServiceStub() {
+    public FeedUpdateTaskSchedulerContextRepositoryStub() {
         this.context = null;
     }
 
@@ -26,6 +28,16 @@ public class FeedUpdateTaskSchedulerContextServiceStub implements FeedUpdateTask
     @Override
     public FeedUpdateTaskSchedulerContext load() {
         return this.context;
+    }
+
+    @Override
+    public List loadAllEntities() {
+        return null;
+    }
+
+    @Override
+    public void remove(final Object victim) {
+
     }
 
 }

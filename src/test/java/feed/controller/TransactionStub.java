@@ -2,8 +2,7 @@ package feed.controller;
 
 import javax.persistence.EntityTransaction;
 
-import static feed.controller.TransactionState.ACTIVE;
-import static feed.controller.TransactionState.NOT_ACTIVE;
+import static feed.controller.TransactionState.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -23,6 +22,8 @@ public class TransactionStub implements EntityTransaction {
         if (isActive()) {
             throw new IllegalStateException();
         }
+
+        this.state = ACTIVE;
     }
 
     @Override
@@ -31,6 +32,8 @@ public class TransactionStub implements EntityTransaction {
         if (!isActive()) {
             throw new IllegalStateException();
         }
+
+        this.state = COMMITTED;
     }
 
     @Override
@@ -39,6 +42,8 @@ public class TransactionStub implements EntityTransaction {
         if (!isActive()) {
             throw new IllegalStateException();
         }
+
+        this.state = ROLLED_BACK;
     }
 
     @Override

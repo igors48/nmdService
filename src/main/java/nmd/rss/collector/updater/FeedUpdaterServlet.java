@@ -1,5 +1,6 @@
 package nmd.rss.collector.updater;
 
+import nmd.rss.collector.EntityManagerTransactions;
 import nmd.rss.collector.gae.feed.FeedServiceImpl;
 import nmd.rss.collector.gae.feed.GaeFeedItemsRepository;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
@@ -37,11 +38,12 @@ public class FeedUpdaterServlet extends HttpServlet {
 
             entityManager = EMF.get().createEntityManager();
 
+            final EntityManagerTransactions entityManagerTransactions = new EntityManagerTransactions(entityManager);
             final InMemoryFeedHeadersAndUpdateTasksRepository feedHeadersAndUpdateTasksRepository = new InMemoryFeedHeadersAndUpdateTasksRepository();
 
             final FeedUpdateTaskSchedulerContextRepository contextRepository = new GaeFeedUpdateTaskSchedulerContextRepository(entityManager);
             final FeedUpdateTaskSchedulerContextService contextService = new FeedUpdateTaskSchedulerContextServiceImpl(entityManager, contextRepository);
-            final FeedUpdateTaskScheduler taskScheduler = new CycleFeedUpdateTaskScheduler(contextService, feedHeadersAndUpdateTasksRepository);
+            final FeedUpdateTaskScheduler taskScheduler = new CycleFeedUpdateTaskScheduler(contextRepository, feedHeadersAndUpdateTasksRepository, entityManagerTransactions);
 
             final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository(entityManager);
             final FeedService feedService = new FeedServiceImpl(entityManager, feedItemsRepository, feedHeadersAndUpdateTasksRepository);

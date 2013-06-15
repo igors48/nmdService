@@ -1,5 +1,6 @@
 package feed.scheduler;
 
+import feed.controller.TransactionsStub;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
@@ -25,16 +26,17 @@ public class CycleFeedUpdateTaskSchedulerTest {
     private static final FeedUpdateTask THIRD_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
 
     private FeedUpdateTaskRepositoryStub taskRepositoryStub;
-    private FeedUpdateTaskSchedulerContextServiceStub contextServiceStub;
+    private FeedUpdateTaskSchedulerContextRepositoryStub contextRepositoryStub;
+    private TransactionsStub transactionsStub;
     private CycleFeedUpdateTaskScheduler scheduler;
 
     @Before
     public void before() {
         this.taskRepositoryStub = new FeedUpdateTaskRepositoryStub(FIRST_TASK, SECOND_TASK);
+        this.contextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
+        this.transactionsStub = new TransactionsStub();
 
-        this.contextServiceStub = new FeedUpdateTaskSchedulerContextServiceStub();
-
-        this.scheduler = new CycleFeedUpdateTaskScheduler(this.contextServiceStub, this.taskRepositoryStub);
+        this.scheduler = new CycleFeedUpdateTaskScheduler(this.contextRepositoryStub, this.taskRepositoryStub, this.transactionsStub);
     }
 
     @Test
@@ -47,7 +49,7 @@ public class CycleFeedUpdateTaskSchedulerTest {
     public void schedulerUpdatesItsContext() throws FeedUpdateTaskSchedulerException {
         this.scheduler.getCurrentTask();
 
-        FeedUpdateTaskSchedulerContext context = this.contextServiceStub.load();
+        FeedUpdateTaskSchedulerContext context = this.contextRepositoryStub.load();
 
         assertEquals(1, context.lastTaskIndex);
     }
