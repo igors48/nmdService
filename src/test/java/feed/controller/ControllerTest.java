@@ -1,8 +1,15 @@
 package feed.controller;
 
-import feed.updater.FeedServiceStub;
+import feed.scheduler.FeedUpdateTaskRepositoryStub;
 import feed.updater.UrlFetcherStub;
 import nmd.rss.collector.controller.ControlService;
+import nmd.rss.collector.controller.ControllerException;
+import org.junit.Before;
+import org.junit.Test;
+
+import java.util.UUID;
+
+import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -48,14 +55,21 @@ public class ControllerTest {
             "</rss>    ";
 
     private UrlFetcherStub fetcherStub;
-    private FeedServiceStub feedServiceStub;
+    private TransactionsStub transactionsStub;
+    private FeedHeadersRepositoryStub feedHeadersRepositoryStub;
+    private FeedItemsRepositoryStub feedItemsRepositoryStub;
+    private FeedUpdateTaskRepositoryStub feedUpdateTaskRepositoryStub;
     private ControlService controlService;
-    /*
+
     @Before
     public void before() {
         this.fetcherStub = new UrlFetcherStub();
-        this.feedServiceStub = new FeedServiceStub(null, null);
-        this.controlService = new ControlService(feedServiceStub, fetcherStub);
+        this.transactionsStub = new TransactionsStub();
+        this.feedHeadersRepositoryStub = new FeedHeadersRepositoryStub();
+        this.feedItemsRepositoryStub = new FeedItemsRepositoryStub();
+        this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
+
+        this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.fetcherStub, this.transactionsStub);
     }
 
     @Test
@@ -65,6 +79,7 @@ public class ControllerTest {
         assertNotNull(id);
     }
 
+    /*
     @Test
     public void whenFeedWithSameLinkAddedSecondTimeThenPreviousIdReturns() throws ControllerException {
         final UUID firstId = addValidRssFeed(VALID_RSS_FEED);
@@ -103,11 +118,11 @@ public class ControllerTest {
 
         assertFalse(this.controlService.removeFeed(UUID.randomUUID()));
     }
-
+    */
     private UUID addValidRssFeed(final String feedData) throws ControllerException {
         this.fetcherStub.setData(feedData);
 
         return controlService.addFeed(VALID_RSS_FEED_LINK);
     }
-      */
+
 }

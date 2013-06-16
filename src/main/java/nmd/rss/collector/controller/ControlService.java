@@ -35,10 +35,7 @@ public class ControlService {
 
     private final UrlFetcher fetcher;
 
-    public ControlService(final Transactions transactions, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final UrlFetcher fetcher) {
-        assertNotNull(transactions);
-        this.transactions = transactions;
-
+    public ControlService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final UrlFetcher fetcher, final Transactions transactions) {
         assertNotNull(feedHeadersRepository);
         this.feedHeadersRepository = feedHeadersRepository;
 
@@ -50,6 +47,9 @@ public class ControlService {
 
         assertNotNull(fetcher);
         this.fetcher = fetcher;
+
+        assertNotNull(transactions);
+        this.transactions = transactions;
     }
 
     public UUID addFeed(final String feedUrl) throws ControllerException {
@@ -92,7 +92,7 @@ public class ControlService {
         }
     }
 
-    public boolean removeFeed(final UUID feedId) throws ControllerException {
+    public void removeFeed(final UUID feedId) throws ControllerException {
         assertNotNull(feedId);
 
         EntityTransaction transaction = null;
@@ -106,10 +106,8 @@ public class ControlService {
             this.feedItemsRepository.deleteItems(feedId);
 
             transaction.commit();
-
-            return true;
         } catch (final Exception exception) {
-            return false;
+            throw new ControllerException(exception);
         } finally {
             rollbackIfActive(transaction);
         }
@@ -132,13 +130,13 @@ public class ControlService {
         return feedHeader == null ? new ArrayList<FeedItem>() : this.feedItemsRepository.loadItems(feedHeader.id);
     }
 
-    private Feed fetchFeed(String feedUrl) throws ControllerException {
+    private Feed fetchFeed(final String feedUrl) throws ControllerException {
 
         try {
             final String data = this.fetcher.fetch(feedUrl);
 
             return FeedParser.parse(feedUrl, data);
-        } catch (UrlFetcherException | FeedParserException exception) {
+        } catch (final UrlFetcherException | FeedParserException exception) {
             throw new ControllerException(exception);
         }
     }
