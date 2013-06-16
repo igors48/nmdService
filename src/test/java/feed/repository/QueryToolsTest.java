@@ -13,12 +13,7 @@ public class QueryToolsTest {
 
     @Test
     public void buildSelectAllQuery() {
-        assertEquals("SELECT entity FROM Table entity", QueryTools.buildSelectAllQuery("Table", 0));
-    }
-
-    @Test
-    public void buildSelectAllWithLimitQuery() {
-        assertEquals("SELECT entity FROM Table entity LIMIT 48", QueryTools.buildSelectAllQuery("Table", 48));
+        assertEquals("SELECT entity FROM Table entity", QueryTools.buildSelectAllQuery("Table"));
     }
 
     @Test

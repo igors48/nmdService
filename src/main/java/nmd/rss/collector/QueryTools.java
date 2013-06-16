@@ -1,6 +1,5 @@
 package nmd.rss.collector;
 
-import static nmd.rss.collector.util.Assert.assertPositive;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
 /**
@@ -9,17 +8,10 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public final class QueryTools {
 
-    public static String buildSelectAllQuery(final String entityName, final int limit) {
+    public static String buildSelectAllQuery(final String entityName) {
         assertStringIsValid(entityName);
-        assertPositive(limit);
 
-        String base = String.format("SELECT entity FROM %s entity", entityName);
-
-        if (limit > 0) {
-            base += String.format(" LIMIT %d", limit);
-        }
-
-        return base;
+        return String.format("SELECT entity FROM %s entity", entityName);
     }
 
     public static String buildSelectWhereQuery(final String entityName, final String field, final String parameter) {

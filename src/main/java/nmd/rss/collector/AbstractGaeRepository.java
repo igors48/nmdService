@@ -62,9 +62,15 @@ public abstract class AbstractGaeRepository implements Repository {
     }
 
     protected <T> TypedQuery<T> buildSelectAllQuery(final Class<T> clazz, int limit) {
-        final String query = QueryTools.buildSelectAllQuery(this.entityName, limit);
+        final String queryString = QueryTools.buildSelectAllQuery(this.entityName);
 
-        return this.entityManager.createQuery(query, clazz);
+        TypedQuery<T> query = this.entityManager.createQuery(queryString, clazz);
+
+        if (limit > 0) {
+            query.setMaxResults(limit);
+        }
+
+        return query;
     }
 
 }
