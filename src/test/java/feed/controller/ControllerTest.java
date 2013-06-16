@@ -10,6 +10,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -79,7 +80,6 @@ public class ControllerTest {
         assertNotNull(id);
     }
 
-    /*
     @Test
     public void whenFeedWithSameLinkAddedSecondTimeThenPreviousIdReturns() throws ControllerException {
         final UUID firstId = addValidRssFeed(VALID_RSS_FEED);
@@ -88,6 +88,7 @@ public class ControllerTest {
         assertEquals(firstId, secondId);
     }
 
+    /*
     @Test
     public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ControllerException {
         this.fetcherStub.setData(VALID_RSS_FEED);

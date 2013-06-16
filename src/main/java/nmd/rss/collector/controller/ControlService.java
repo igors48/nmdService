@@ -127,7 +127,9 @@ public class ControlService {
     }
 
     private List<FeedItem> getFeedOldItems(final FeedHeader feedHeader) {
-        return feedHeader == null ? new ArrayList<FeedItem>() : this.feedItemsRepository.loadItems(feedHeader.id);
+        final List<FeedItem> feedItems = feedHeader == null ? new ArrayList<FeedItem>() : this.feedItemsRepository.loadItems(feedHeader.id);
+
+        return feedItems == null ? new ArrayList<FeedItem>() : feedItems;
     }
 
     private Feed fetchFeed(final String feedUrl) throws ControllerException {
