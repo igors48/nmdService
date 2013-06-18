@@ -5,21 +5,17 @@ import feed.updater.UrlFetcherStub;
 import nmd.rss.collector.controller.ControlService;
 import nmd.rss.collector.controller.ControllerException;
 import org.junit.Before;
-import org.junit.Test;
 
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
- * Date : 25.05.13
+ * Date : 18.06.13
  */
-public class ControllerTest {
+public class ControllerTestBase {
 
-    private static final String VALID_RSS_FEED_LINK = "valid-feed-link";
-    private static final String VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
+    protected static final String VALID_RSS_FEED_LINK = "valid-feed-link";
+    protected static final String VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
             "   <channel>\n" +
             "\t  <title>3DNews - Daily Digital Digest: Новости Hardware</title>\n" +
@@ -39,7 +35,7 @@ public class ControllerTest {
             "\t</item>\n" +
             "    </channel>\n" +
             "</rss>    ";
-    private static final String INVALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
+    protected static final String INVALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "\t<item>\n" +
             "\t\t<title>Смартфон LG Optimus F5 выходит во Франции 29 апреля, после чего появится и на других рынках</title>\n" +
             "\t\t<link>http://www.3dnews.ru/news/644791/</link>\n" +
@@ -55,12 +51,12 @@ public class ControllerTest {
             "    </channel>\n" +
             "</rss>    ";
 
-    private UrlFetcherStub fetcherStub;
+    protected UrlFetcherStub fetcherStub;
+    protected FeedHeadersRepositoryStub feedHeadersRepositoryStub;
+    protected FeedItemsRepositoryStub feedItemsRepositoryStub;
+    protected FeedUpdateTaskRepositoryStub feedUpdateTaskRepositoryStub;
+    protected ControlService controlService;
     private TransactionsStub transactionsStub;
-    private FeedHeadersRepositoryStub feedHeadersRepositoryStub;
-    private FeedItemsRepositoryStub feedItemsRepositoryStub;
-    private FeedUpdateTaskRepositoryStub feedUpdateTaskRepositoryStub;
-    private ControlService controlService;
 
     @Before
     public void before() {
@@ -73,39 +69,7 @@ public class ControllerTest {
         this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.fetcherStub, this.transactionsStub);
     }
 
-    @Test
-    public void whenFeedFetchedOkAndParsedOkItAdds() throws ControllerException {
-        final UUID id = addValidRssFeed(VALID_RSS_FEED);
-
-        assertNotNull(id);
-    }
-
-    @Test
-    public void whenFeedWithSameLinkAddedSecondTimeThenPreviousIdReturns() throws ControllerException {
-        final UUID firstId = addValidRssFeed(VALID_RSS_FEED);
-        final UUID secondId = addValidRssFeed(VALID_RSS_FEED);
-
-        assertEquals(firstId, secondId);
-    }
-
-    @Test
-    public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ControllerException {
-        this.fetcherStub.setData(VALID_RSS_FEED);
-
-        final UUID firstId = controlService.addFeed(VALID_RSS_FEED_LINK.toUpperCase());
-        final UUID secondId = controlService.addFeed(VALID_RSS_FEED_LINK);
-
-        assertEquals(firstId, secondId);
-    }
-
-    @Test(expected = ControllerException.class)
-    public void whenFeedCanNotBeParsedThenExceptionOccurs() throws ControllerException {
-        this.fetcherStub.setData(INVALID_RSS_FEED);
-
-        controlService.addFeed(VALID_RSS_FEED_LINK);
-    }
-
-    private UUID addValidRssFeed(final String feedData) throws ControllerException {
+    protected UUID addValidRssFeed(final String feedData) throws ControllerException {
         this.fetcherStub.setData(feedData);
 
         return controlService.addFeed(VALID_RSS_FEED_LINK);
