@@ -88,7 +88,6 @@ public class ControllerTest {
         assertEquals(firstId, secondId);
     }
 
-    /*
     @Test
     public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ControllerException {
         this.fetcherStub.setData(VALID_RSS_FEED);
@@ -106,20 +105,6 @@ public class ControllerTest {
         controlService.addFeed(VALID_RSS_FEED_LINK);
     }
 
-    @Test
-    public void whenExistentFeedDeletedThenTrueReturns() throws Exception {
-        final UUID uuid = addValidRssFeed(VALID_RSS_FEED);
-
-        assertTrue(this.controlService.removeFeed(uuid));
-    }
-
-    @Test
-    public void whenNotExistentFeedDeletedThenFalseReturns() throws Exception {
-        addValidRssFeed(VALID_RSS_FEED);
-
-        assertFalse(this.controlService.removeFeed(UUID.randomUUID()));
-    }
-    */
     private UUID addValidRssFeed(final String feedData) throws ControllerException {
         this.fetcherStub.setData(feedData);
 

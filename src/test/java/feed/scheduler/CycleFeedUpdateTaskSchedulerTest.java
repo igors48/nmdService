@@ -21,9 +21,9 @@ public class CycleFeedUpdateTaskSchedulerTest {
 
     private static final int MAX_FEED_ITEMS_COUNT = 10;
 
-    private static final FeedUpdateTask FIRST_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
-    private static final FeedUpdateTask SECOND_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
-    private static final FeedUpdateTask THIRD_TASK = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
+    private static final FeedUpdateTask FIRST_TASK = new FeedUpdateTask(UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
+    private static final FeedUpdateTask SECOND_TASK = new FeedUpdateTask(UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
+    private static final FeedUpdateTask THIRD_TASK = new FeedUpdateTask(UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
 
     private FeedUpdateTaskRepositoryStub taskRepositoryStub;
     private FeedUpdateTaskSchedulerContextRepositoryStub contextRepositoryStub;
@@ -70,7 +70,7 @@ public class CycleFeedUpdateTaskSchedulerTest {
         this.scheduler.getCurrentTask();
         this.scheduler.getCurrentTask();
 
-        this.taskRepositoryStub.addTask(THIRD_TASK);
+        this.taskRepositoryStub.storeTask(THIRD_TASK);
 
         FeedUpdateTask updateTask = this.scheduler.getCurrentTask();
 
@@ -82,7 +82,7 @@ public class CycleFeedUpdateTaskSchedulerTest {
         this.scheduler.getCurrentTask();
         this.scheduler.getCurrentTask();
 
-        this.taskRepositoryStub.removeTask(SECOND_TASK);
+        this.taskRepositoryStub.deleteTaskForFeedId(SECOND_TASK.feedId);
 
         FeedUpdateTask updateTask = this.scheduler.getCurrentTask();
 
@@ -91,8 +91,8 @@ public class CycleFeedUpdateTaskSchedulerTest {
 
     @Test
     public void ifThereIsNoTasksThenNullReturns() throws FeedUpdateTaskSchedulerException {
-        this.taskRepositoryStub.removeTask(FIRST_TASK);
-        this.taskRepositoryStub.removeTask(SECOND_TASK);
+        this.taskRepositoryStub.deleteTaskForFeedId(FIRST_TASK.feedId);
+        this.taskRepositoryStub.deleteTaskForFeedId(SECOND_TASK.feedId);
 
         FeedUpdateTask updateTask = this.scheduler.getCurrentTask();
         assertNull(updateTask);

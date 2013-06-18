@@ -42,7 +42,7 @@ public class GaeFeedUpdateTaskRepository extends AbstractGaeRepository implement
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
-        final Query query = buildDeleteWhereQuery("id", feedUpdateTask.id.toString());
+        final Query query = buildDeleteWhereQuery("feedId", feedUpdateTask.feedId.toString());
 
         query.executeUpdate();
 

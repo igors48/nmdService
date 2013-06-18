@@ -80,7 +80,7 @@ public class FeedUpdaterTest {
 
     @Test
     public void ifHeaderNotFoundNothingUpdated() throws FeedUpdaterException {
-        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
+        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
         this.taskSchedulerStub.setTask(task);
 
         this.feedServiceStub.setHeader(null);
@@ -92,7 +92,7 @@ public class FeedUpdaterTest {
 
     @Test
     public void existentFeedHandlesCorrectly() throws FeedUpdaterException {
-        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
+        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
         this.taskSchedulerStub.setTask(task);
 
         FeedUpdater.update(this.taskSchedulerStub, this.feedServiceStub, this.urlFetcherStub);
@@ -108,7 +108,7 @@ public class FeedUpdaterTest {
 
     @Test
     public void newFeedHandlesCorrectly() throws FeedUpdaterException {
-        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
+        FeedUpdateTask task = new FeedUpdateTask(UUID.randomUUID(), MAX_FEED_ITEMS_COUNT);
         this.taskSchedulerStub.setTask(task);
 
         this.feedServiceStub.setItems(null);

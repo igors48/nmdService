@@ -57,36 +57,30 @@ public class ControlService {
 
         EntityTransaction transaction = null;
 
-        final Feed feed = fetchFeed(feedUrl);
+        final String feedUrlInLowerCase = feedUrl.toLowerCase();
+        final Feed feed = fetchFeed(feedUrlInLowerCase);
 
         try {
             transaction = this.transactions.getOne();
             transaction.begin();
 
-            final String feedUrlInLowerCase = feedUrl.toLowerCase();
             FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
 
-            final UUID feedId;
-
             if (feedHeader == null) {
-                feedId = UUID.randomUUID();
                 feedHeader = feed.header;
-
                 this.feedHeadersRepository.storeHeader(feedHeader);
-            } else {
-                feedId = feedHeader.id;
             }
 
             List<FeedItem> olds = getFeedOldItems(feedHeader);
 
-            createFeedUpdateTask(feedId, feedHeader);
+            createFeedUpdateTask(feedHeader);
 
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, MAX_FEED_ITEMS_COUNT);
-            FeedServiceImpl.updateFeedItems(feedId, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
+            FeedServiceImpl.updateFeedItems(feedHeader.id, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
 
             transaction.commit();
 
-            return feedId;
+            return feedHeader.id;
         } finally {
             rollbackIfActive(transaction);
         }
@@ -113,15 +107,11 @@ public class ControlService {
         }
     }
 
-    private void createFeedUpdateTask(final UUID feedId, final FeedHeader feedHeader) {
-        FeedUpdateTask feedUpdateTask = null;
-
-        if (feedHeader != null) {
-            feedUpdateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedHeader.id);
-        }
+    private void createFeedUpdateTask(final FeedHeader feedHeader) {
+        FeedUpdateTask feedUpdateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedHeader.id);
 
         if (feedUpdateTask == null) {
-            feedUpdateTask = new FeedUpdateTask(UUID.randomUUID(), feedId, MAX_FEED_ITEMS_COUNT);
+            feedUpdateTask = new FeedUpdateTask(feedHeader.id, MAX_FEED_ITEMS_COUNT);
             this.feedUpdateTaskRepository.storeTask(feedUpdateTask);
         }
     }

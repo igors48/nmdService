@@ -25,7 +25,6 @@ public class FeedUpdateTaskEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Key key;
 
-    private UUID id;
     private UUID feedId;
     private int maxFeedItemsCount;
 
@@ -33,10 +32,7 @@ public class FeedUpdateTaskEntity {
         // empty
     }
 
-    private FeedUpdateTaskEntity(final UUID id, final UUID feedId, final int maxFeedItemsCount) {
-        assertNotNull(id);
-        this.id = id;
-
+    private FeedUpdateTaskEntity(final UUID feedId, final int maxFeedItemsCount) {
         assertNotNull(feedId);
         this.feedId = feedId;
 
@@ -47,13 +43,13 @@ public class FeedUpdateTaskEntity {
     public static FeedUpdateTaskEntity convert(final FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
-        return new FeedUpdateTaskEntity(feedUpdateTask.id, feedUpdateTask.feedId, feedUpdateTask.maxFeedItemsCount);
+        return new FeedUpdateTaskEntity(feedUpdateTask.feedId, feedUpdateTask.maxFeedItemsCount);
     }
 
     public static FeedUpdateTask convert(final FeedUpdateTaskEntity feedUpdateTaskEntity) {
         assertNotNull(feedUpdateTaskEntity);
 
-        return new FeedUpdateTask(feedUpdateTaskEntity.id, feedUpdateTaskEntity.feedId, feedUpdateTaskEntity.maxFeedItemsCount);
+        return new FeedUpdateTask(feedUpdateTaskEntity.feedId, feedUpdateTaskEntity.maxFeedItemsCount);
     }
 
 }

@@ -11,14 +11,10 @@ import static nmd.rss.collector.util.Assert.assertPositive;
  */
 public class FeedUpdateTask {
 
-    public final UUID id;
     public final UUID feedId;
     public final int maxFeedItemsCount;
 
-    public FeedUpdateTask(final UUID id, final UUID feedId, final int maxFeedItemsCount) {
-        assertNotNull(id);
-        this.id = id;
-
+    public FeedUpdateTask(final UUID feedId, final int maxFeedItemsCount) {
         assertNotNull(feedId);
         this.feedId = feedId;
 
@@ -35,15 +31,13 @@ public class FeedUpdateTask {
 
         if (maxFeedItemsCount != that.maxFeedItemsCount) return false;
         if (!feedId.equals(that.feedId)) return false;
-        if (!id.equals(that.id)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + feedId.hashCode();
+        int result = feedId.hashCode();
         result = 31 * result + maxFeedItemsCount;
         return result;
     }

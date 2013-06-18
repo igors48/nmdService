@@ -4,10 +4,9 @@ import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-
-import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -18,25 +17,22 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
     private final List<FeedUpdateTask> tasks;
 
     public FeedUpdateTaskRepositoryStub(final FeedUpdateTask... tasks) {
-        assertNotNull(tasks);
-
         this.tasks = new ArrayList<>();
 
         for (FeedUpdateTask task : tasks) {
-            this.tasks.add(task);
+            storeTask(task);
         }
     }
 
-    public void addTask(final FeedUpdateTask task) {
-        assertNotNull(task);
-        this.tasks.add(task);
-    }
+    /*
+        public void addTask(final FeedUpdateTask task) {
+            this.tasks.add(task);
+        }
 
-    public void removeTask(final FeedUpdateTask task) {
-        assertNotNull(task);
-        this.tasks.remove(task);
-    }
-
+        public void removeTask(final FeedUpdateTask task) {
+            this.tasks.remove(task);
+        }
+    */
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
         return this.tasks;
@@ -44,16 +40,32 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
 
     @Override
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
-
+        this.tasks.add(feedUpdateTask);
     }
 
     @Override
     public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
+
+        for (final FeedUpdateTask candidate : this.tasks) {
+
+            if (candidate.feedId.equals(feedId)) {
+                return candidate;
+            }
+        }
+
         return null;
     }
 
     @Override
     public void deleteTaskForFeedId(final UUID feedId) {
+
+        for (final Iterator<FeedUpdateTask> iterator = this.tasks.iterator(); iterator.hasNext(); ) {
+            final FeedUpdateTask candidate = iterator.next();
+
+            if (candidate.feedId.equals(feedId)) {
+                iterator.remove();
+            }
+        }
     }
 
     @Override
