@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import static nmd.rss.collector.error.ServiceError.urlFetcherError;
 import static nmd.rss.collector.util.Assert.assertValidUrl;
 import static nmd.rss.collector.util.CharsetTools.convertToUtf8;
 import static nmd.rss.collector.util.CharsetTools.detectCharSet;
@@ -54,7 +55,7 @@ public class GaeUrlFetcher implements UrlFetcher {
 
             return convertToUtf8(result.toString());
         } catch (Exception exception) {
-            throw new UrlFetcherException(String.format("Error while fetching url [ %s ]", link), exception);
+            throw new UrlFetcherException(urlFetcherError(link), exception);
         } finally {
             close(urlDataReader);
             close(urlStream);

@@ -10,6 +10,7 @@ import java.io.StringWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import static nmd.rss.collector.error.ServiceError.feedExportError;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -55,7 +56,7 @@ public final class FeedExporter {
 
             return FEED_HEADER + stringWriter.toString() + FEED_FOOTER;
         } catch (JAXBException exception) {
-            throw new FeedExporterException(exception);
+            throw new FeedExporterException(feedExportError(header.id), exception);
         }
     }
 
