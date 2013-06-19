@@ -1,16 +1,15 @@
 package nmd.rss.collector.feed;
 
-import nmd.rss.collector.error.ServiceError;
-import nmd.rss.collector.error.ServiceException;
+import com.sun.syndication.io.FeedException;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
-public class FeedParserException extends ServiceException {
+public class FeedParserException extends Exception {
 
-    public FeedParserException(final ServiceError error, final Throwable cause) {
-        super(error, cause);
+    public FeedParserException(final FeedException exception) {
+        super(exception);
     }
 
 }

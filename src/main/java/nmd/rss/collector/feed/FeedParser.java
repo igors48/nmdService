@@ -12,7 +12,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.error.ServiceError.feedParseError;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.Assert.assertValidUrl;
 import static nmd.rss.collector.util.Parameter.isValidUrl;
@@ -51,7 +50,7 @@ public final class FeedParser {
 
             return new Feed(header, items);
         } catch (FeedException exception) {
-            throw new FeedParserException(feedParseError(), exception);
+            throw new FeedParserException(exception);
         }
 
     }
