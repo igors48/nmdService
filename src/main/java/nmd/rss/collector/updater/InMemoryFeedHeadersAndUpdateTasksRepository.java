@@ -52,6 +52,11 @@ public class InMemoryFeedHeadersAndUpdateTasksRepository implements FeedHeadersR
     }
 
     @Override
+    public List<FeedHeader> loadHeaders() {
+        return null;
+    }
+
+    @Override
     public void deleteHeader(final UUID feedId) {
     }
 

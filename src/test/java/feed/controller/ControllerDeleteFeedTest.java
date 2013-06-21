@@ -35,7 +35,7 @@ public class ControllerDeleteFeedTest extends ControllerTestBase {
     }
 
     private UUID createAndDeleteFeed() throws ControllerException {
-        final UUID feedId = addValidRssFeed(VALID_RSS_FEED);
+        final UUID feedId = addValidFirstRssFeed();
         this.controlService.removeFeed(feedId);
 
         return feedId;

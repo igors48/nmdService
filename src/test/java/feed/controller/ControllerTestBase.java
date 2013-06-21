@@ -14,7 +14,8 @@ import java.util.UUID;
  */
 public class ControllerTestBase {
 
-    protected static final String VALID_RSS_FEED_LINK = "valid-feed-link";
+    protected static final String VALID_FIRST_RSS_FEED_LINK = "valid-first-feed-link";
+    protected static final String VALID_SECOND_RSS_FEED_LINK = "valid-second-feed-link";
     protected static final String VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
             "   <channel>\n" +
@@ -69,10 +70,16 @@ public class ControllerTestBase {
         this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.fetcherStub, this.transactionsStub);
     }
 
-    protected UUID addValidRssFeed(final String feedData) throws ControllerException {
-        this.fetcherStub.setData(feedData);
+    protected UUID addValidFirstRssFeed() throws ControllerException {
+        this.fetcherStub.setData(VALID_RSS_FEED);
 
-        return controlService.addFeed(VALID_RSS_FEED_LINK);
+        return controlService.addFeed(VALID_FIRST_RSS_FEED_LINK);
+    }
+
+    protected UUID addValidSecondRssFeed() throws ControllerException {
+        this.fetcherStub.setData(VALID_RSS_FEED);
+
+        return controlService.addFeed(VALID_SECOND_RSS_FEED_LINK);
     }
 
 }

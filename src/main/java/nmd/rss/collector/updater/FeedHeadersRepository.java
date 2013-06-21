@@ -3,6 +3,7 @@ package nmd.rss.collector.updater;
 import nmd.rss.collector.Repository;
 import nmd.rss.collector.feed.FeedHeader;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -12,6 +13,8 @@ import java.util.UUID;
 public interface FeedHeadersRepository extends Repository {
 
     FeedHeader loadHeader(UUID feedId);
+
+    List<FeedHeader> loadHeaders();
 
     void deleteHeader(UUID feedId);
 

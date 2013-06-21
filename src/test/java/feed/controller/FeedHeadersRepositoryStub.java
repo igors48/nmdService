@@ -34,6 +34,11 @@ public class FeedHeadersRepositoryStub implements FeedHeadersRepository {
     }
 
     @Override
+    public List<FeedHeader> loadHeaders() {
+        return this.feedHeaders;
+    }
+
+    @Override
     public void deleteHeader(final UUID feedId) {
 
         for (final Iterator<FeedHeader> iterator = this.feedHeaders.iterator(); iterator.hasNext(); ) {

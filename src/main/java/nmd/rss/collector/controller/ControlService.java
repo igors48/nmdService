@@ -107,6 +107,23 @@ public class ControlService {
         }
     }
 
+    public List<FeedHeader> getFeedHeaders() {
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = this.transactions.getOne();
+            transaction.begin();
+
+            List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+
+            transaction.commit();
+
+            return headers;
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
         FeedUpdateTask feedUpdateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedHeader.id);
 

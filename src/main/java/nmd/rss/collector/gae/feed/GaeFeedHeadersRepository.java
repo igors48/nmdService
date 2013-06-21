@@ -10,6 +10,7 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
 import javax.persistence.TypedQuery;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,6 +34,22 @@ public class GaeFeedHeadersRepository extends AbstractGaeRepository implements F
         final TypedQuery<FeedHeaderEntity> query = buildSelectWhereQuery("id", feedId.toString(), FeedHeaderEntity.class);
 
         return getFirstResultItemFrom(query);
+    }
+
+    @Override
+    public List<FeedHeader> loadHeaders() {
+        final TypedQuery<FeedHeaderEntity> query = buildSelectAllQuery(FeedHeaderEntity.class);
+        final List<FeedHeaderEntity> entities = query.getResultList();
+
+        final List<FeedHeader> headers = new ArrayList<>();
+
+        for (final FeedHeaderEntity entity : entities) {
+            final FeedHeader header = restoreHeader(entity.getData());
+
+            headers.add(header);
+        }
+
+        return headers;
     }
 
     @Override
@@ -76,7 +93,11 @@ public class GaeFeedHeadersRepository extends AbstractGaeRepository implements F
 
         final String data = headers.get(0).getData();
 
-        return new Gson().fromJson(data, nmd.rss.collector.feed.FeedHeader.class);
+        return restoreHeader(data);
+    }
+
+    private FeedHeader restoreHeader(final String data) {
+        return new Gson().fromJson(data, FeedHeader.class);
     }
 
 }
