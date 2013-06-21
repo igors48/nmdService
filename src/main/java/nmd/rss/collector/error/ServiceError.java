@@ -2,6 +2,7 @@ package nmd.rss.collector.error;
 
 import java.util.UUID;
 
+import static java.lang.String.format;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
@@ -25,7 +26,7 @@ public class ServiceError {
         assertStringIsValid(link);
 
         return new ServiceError(1,
-                String.format("Error fetching url [ %s ]", link),
+                format("Error fetching url [ %s ]", link),
                 "Invalid url or host unreachable. Check the url and try again.");
     }
 
@@ -33,13 +34,15 @@ public class ServiceError {
         assertNotNull(feedId);
 
         return new ServiceError(2,
-                String.format("Unable to export feed with id [ %s ]", feedId),
+                format("Unable to export feed with id [ %s ]", feedId),
                 "Looks like feed data corrupted. Try to recreate this feed.");
     }
 
-    public static ServiceError feedParseError() {
+    public static ServiceError feedParseError(final String link) {
+        assertStringIsValid(link);
+
         return new ServiceError(3,
-                "Unable parse feed",
+                format("Unable parse feed from [ %s ]", link),
                 "Possibly feed data corrupted. Check feed data.");
     }
 

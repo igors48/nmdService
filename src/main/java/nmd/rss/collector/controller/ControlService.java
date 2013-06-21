@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static nmd.rss.collector.error.ServiceError.feedParseError;
+import static nmd.rss.collector.error.ServiceError.urlFetcherError;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -86,7 +88,7 @@ public class ControlService {
         }
     }
 
-    public void removeFeed(final UUID feedId) throws ControllerException {
+    public void removeFeed(final UUID feedId) {
         assertNotNull(feedId);
 
         EntityTransaction transaction = null;
@@ -100,8 +102,6 @@ public class ControlService {
             this.feedItemsRepository.deleteItems(feedId);
 
             transaction.commit();
-        } catch (final Exception exception) {
-            throw new ControllerException(exception);
         } finally {
             rollbackIfActive(transaction);
         }
@@ -128,8 +128,10 @@ public class ControlService {
             final String data = this.fetcher.fetch(feedUrl);
 
             return FeedParser.parse(feedUrl, data);
-        } catch (final UrlFetcherException | FeedParserException exception) {
-            throw new ControllerException(exception);
+        } catch (final UrlFetcherException exception) {
+            throw new ControllerException(urlFetcherError(feedUrl), exception);
+        } catch (FeedParserException exception) {
+            throw new ControllerException(feedParseError(feedUrl), exception);
         }
     }
 
