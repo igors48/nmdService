@@ -1,6 +1,6 @@
 package feed.controller;
 
-import nmd.rss.collector.controller.ControllerException;
+import nmd.rss.collector.controller.ControlServiceException;
 import nmd.rss.collector.feed.Feed;
 import org.junit.Test;
 
@@ -15,15 +15,15 @@ import static org.junit.Assert.assertNotNull;
 public class ControllerGetFeedTest extends ControllerTestBase {
 
     @Test
-    public void whenFeedAddedThenItReturns() throws ControllerException {
+    public void whenFeedAddedThenItReturns() throws ControlServiceException {
         final UUID feedId = addValidFirstRssFeed();
         final Feed feed = this.controlService.getFeed(feedId);
 
         assertNotNull(feed);
     }
 
-    @Test(expected = ControllerException.class)
-    public void whenFeedNotFoundThenExceptionThrows() throws ControllerException {
+    @Test(expected = ControlServiceException.class)
+    public void whenFeedNotFoundThenExceptionThrows() throws ControlServiceException {
         this.controlService.getFeed(UUID.randomUUID());
     }
 

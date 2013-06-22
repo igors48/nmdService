@@ -49,7 +49,7 @@ public final class ExporterServletTools {
 
     public static UUID parseFeedId(final String pathInfo) {
 
-        if (pathInfo == null || pathInfo.length() < 2) {
+        if (pathInfoIsEmpty(pathInfo)) {
             return null;
         }
 
@@ -62,6 +62,10 @@ public final class ExporterServletTools {
 
             return null;
         }
+    }
+
+    public static boolean pathInfoIsEmpty(final String pathInfo) {
+        return pathInfo == null || pathInfo.length() < 2;
     }
 
     public static String exportFeed(final UUID feedId, final FeedService feedService) throws FeedServiceException, FeedExporterException {

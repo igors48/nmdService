@@ -54,4 +54,11 @@ public class ServiceError {
                 "Possibly feed id incorrect. Check feed identifier.");
     }
 
+    public static ServiceError invalidFeedId() {
+
+        return new ServiceError(5,
+                "Unable to parse feed id from request",
+                "Looks like feed id not in valid UUID format");
+    }
+
 }

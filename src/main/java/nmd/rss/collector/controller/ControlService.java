@@ -53,7 +53,7 @@ public class ControlService {
         this.transactions = transactions;
     }
 
-    public UUID addFeed(final String feedUrl) throws ControllerException {
+    public UUID addFeed(final String feedUrl) throws ControlServiceException {
         assertStringIsValid(feedUrl);
 
         EntityTransaction transaction = null;
@@ -123,7 +123,7 @@ public class ControlService {
         }
     }
 
-    public Feed getFeed(final UUID feedId) throws ControllerException {
+    public Feed getFeed(final UUID feedId) throws ControlServiceException {
         assertNotNull(feedId);
 
         EntityTransaction transaction = null;
@@ -135,7 +135,7 @@ public class ControlService {
             final FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
 
             if (header == null) {
-                throw new ControllerException(wrongFeedId(feedId));
+                throw new ControlServiceException(wrongFeedId(feedId));
             }
 
             List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
@@ -164,16 +164,16 @@ public class ControlService {
         return feedItems == null ? new ArrayList<FeedItem>() : feedItems;
     }
 
-    private Feed fetchFeed(final String feedUrl) throws ControllerException {
+    private Feed fetchFeed(final String feedUrl) throws ControlServiceException {
 
         try {
             final String data = this.fetcher.fetch(feedUrl);
 
             return FeedParser.parse(feedUrl, data);
         } catch (final UrlFetcherException exception) {
-            throw new ControllerException(urlFetcherError(feedUrl), exception);
+            throw new ControlServiceException(urlFetcherError(feedUrl), exception);
         } catch (FeedParserException exception) {
-            throw new ControllerException(feedParseError(feedUrl), exception);
+            throw new ControlServiceException(feedParseError(feedUrl), exception);
         }
     }
 

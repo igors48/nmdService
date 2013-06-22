@@ -3,7 +3,7 @@ package feed.controller;
 import feed.scheduler.FeedUpdateTaskRepositoryStub;
 import feed.updater.UrlFetcherStub;
 import nmd.rss.collector.controller.ControlService;
-import nmd.rss.collector.controller.ControllerException;
+import nmd.rss.collector.controller.ControlServiceException;
 import org.junit.Before;
 
 import java.util.UUID;
@@ -70,13 +70,13 @@ public class ControllerTestBase {
         this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.fetcherStub, this.transactionsStub);
     }
 
-    protected UUID addValidFirstRssFeed() throws ControllerException {
+    protected UUID addValidFirstRssFeed() throws ControlServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
         return controlService.addFeed(VALID_FIRST_RSS_FEED_LINK);
     }
 
-    protected UUID addValidSecondRssFeed() throws ControllerException {
+    protected UUID addValidSecondRssFeed() throws ControlServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
         return controlService.addFeed(VALID_SECOND_RSS_FEED_LINK);

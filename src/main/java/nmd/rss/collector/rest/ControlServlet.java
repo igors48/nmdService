@@ -3,8 +3,11 @@ package nmd.rss.collector.rest;
 import nmd.rss.collector.EntityManagerTransactions;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.ControlService;
-import nmd.rss.collector.controller.ControllerException;
+import nmd.rss.collector.error.ServiceError;
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.exporter.ExporterServletTools;
+import nmd.rss.collector.exporter.FeedExporter;
+import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.gae.feed.GaeFeedHeadersRepository;
@@ -26,6 +29,9 @@ import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 
+import static nmd.rss.collector.exporter.ExporterServletTools.pathInfoIsEmpty;
+import static nmd.rss.collector.rest.ControlServiceWrapper.getFeed;
+import static nmd.rss.collector.rest.ControlServiceWrapper.getFeedHeaders;
 import static nmd.rss.collector.util.CloseableTools.close;
 
 /**
@@ -38,39 +44,49 @@ public class ControlServlet extends HttpServlet {
     // GET /feeds/{feedId} -- get feed
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        final EntityManager entityManager = EMF.get().createEntityManager();
+        final String pathInfo = request.getPathInfo();
 
-        try {
-            final UUID feedId = ExporterServletTools.parseFeedId(request.getPathInfo());
-            final ControlService controlService = createControlService(entityManager);
+        final String responseBody;
 
-            if (feedId == null) {
-                final List<FeedHeader> feedHeaders = controlService.getFeedHeaders();
-                writeFeedHeadersToResponse(feedHeaders, response);
-            } else {
-                final Feed feed = controlService.getFeed(feedId);
-                writeFeedToResponse(feed, response);
-            }
-
-        } catch (ControllerException controllerException) {
-            writeControllerExceptionToResponse(response);
-        } catch (Exception exception) {
-            writeExceptionToResponse(response);
-        } finally {
-            close(entityManager);
+        if (pathInfoIsEmpty(pathInfo)) {
+            responseBody = getFeedHeaders();
+        } else {
+            final UUID feedId = ExporterServletTools.parseFeedId(pathInfo);
+            responseBody = getFeed(feedId);
         }
+
+        //TODO Content type handling. May be JsonResponse, XmlResponse
+        response.getWriter().println(responseBody);
     }
 
     // POST /feeds -- add feed
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        super.doPost(request, response);
+        final EntityManager entityManager = EMF.get().createEntityManager();
+
+        try {
+            //writeResponse(successMessageResponse, response);
+            //} catch (ServiceException serviceException) {
+            //writeServiceExceptionToResponse(serviceException, response);
+        } catch (Exception exception) {
+            writeExceptionToResponse(exception, response);
+        } finally {
+            close(entityManager);
+        }
     }
 
     // DELETE /feeds/{feedId} -- delete feed
     @Override
     protected void doDelete(final HttpServletRequest request, final HttpServletResponse response) throws ServletException, IOException {
-        super.doDelete(request, response);
+        final UUID feedId = ExporterServletTools.parseFeedId(request.getPathInfo());
+
+        final String responseBody = ControlServiceWrapper.removeFeed(feedId);
+
+        response.getWriter().println(responseBody);
+    }
+
+    private static void writeResponse(final SuccessResponse successResponse, final HttpServletResponse response) {
+
     }
 
     private static ControlService createControlService(final EntityManager entityManager) {
@@ -83,13 +99,20 @@ public class ControlServlet extends HttpServlet {
         return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, urlFetcher, transactions);
     }
 
-    private static void writeExceptionToResponse(final HttpServletResponse response) {
+    private static void writeExceptionToResponse(final Exception exception, final HttpServletResponse response) {
     }
 
-    private static void writeControllerExceptionToResponse(final HttpServletResponse response) {
+    private static void writeServiceExceptionToResponse(final ServiceException serviceException, final HttpServletResponse response) {
     }
 
-    private static void writeFeedToResponse(final Feed feed, final HttpServletResponse response) {
+    private static void writeFeedToResponse(final Feed feed, final HttpServletResponse response) throws IOException, ServiceException {
+
+        try {
+            final String generatedFeed = FeedExporter.export(feed.header, feed.items);
+            response.getWriter().print(generatedFeed);
+        } catch (FeedExporterException exception) {
+            throw new ServiceException(ServiceError.feedExportError(feed.header.id), exception);
+        }
     }
 
     private static void writeFeedHeadersToResponse(final List<FeedHeader> feedHeaders, final HttpServletResponse response) {
