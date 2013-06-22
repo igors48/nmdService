@@ -46,4 +46,12 @@ public class ServiceError {
                 "Possibly feed data corrupted. Check feed data.");
     }
 
+    public static ServiceError wrongFeedId(final UUID feedId) {
+        assertNotNull(feedId);
+
+        return new ServiceError(4,
+                format("Unable to find feed with id [ %s ]", feedId),
+                "Possibly feed id incorrect. Check feed identifier.");
+    }
+
 }

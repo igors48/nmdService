@@ -15,8 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.error.ServiceError.feedParseError;
-import static nmd.rss.collector.error.ServiceError.urlFetcherError;
+import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -114,11 +113,37 @@ public class ControlService {
             transaction = this.transactions.getOne();
             transaction.begin();
 
-            List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+            final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
 
             transaction.commit();
 
             return headers;
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    public Feed getFeed(final UUID feedId) throws ControllerException {
+        assertNotNull(feedId);
+
+        EntityTransaction transaction = null;
+
+        try {
+            transaction = this.transactions.getOne();
+            transaction.begin();
+
+            final FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
+
+            if (header == null) {
+                throw new ControllerException(wrongFeedId(feedId));
+            }
+
+            List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            items = items == null ? new ArrayList<FeedItem>() : items;
+
+            transaction.commit();
+
+            return new Feed(header, items);
         } finally {
             rollbackIfActive(transaction);
         }

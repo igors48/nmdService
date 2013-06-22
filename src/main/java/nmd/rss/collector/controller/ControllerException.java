@@ -19,6 +19,13 @@ public class ControllerException extends Exception {
         this.error = error;
     }
 
+    public ControllerException(final ServiceError error) {
+        super();
+
+        assertNotNull(error);
+        this.error = error;
+    }
+
     public ServiceError getError() {
         return this.error;
     }
