@@ -5,12 +5,17 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedService;
 import nmd.rss.collector.updater.FeedServiceException;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.CloseableTools.close;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -19,6 +24,28 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public final class ExporterServletTools {
 
     private static final Logger LOGGER = Logger.getLogger(ExporterServletTools.class.getName());
+
+    public static String readStream(final InputStream _stream) {
+        assertNotNull(_stream);
+
+        final StringBuilder result = new StringBuilder();
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(_stream));
+
+        String line;
+
+        try {
+
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+        } catch (IOException e) {
+            // empty
+        } finally {
+            close(reader);
+        }
+
+        return result.toString();
+    }
 
     public static UUID parseFeedId(final String pathInfo) {
 
