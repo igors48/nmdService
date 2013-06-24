@@ -21,19 +21,19 @@ import java.util.UUID;
  */
 public class ControlServiceWrapper {
 
-    public static String addFeed(final String feedUrl) {
+    public static Response addFeed(final String feedUrl) {
         return null;
     }
 
-    public static String removeFeed(final UUID feedId) {
+    public static Response removeFeed(final UUID feedId) {
         return null;
     }
 
-    public static String getFeedHeaders() {
+    public static Response getFeedHeaders() {
         return null;
     }
 
-    public static String getFeed(final UUID feedId) {
+    public static Response getFeed(final UUID feedId) {
         return null;
     }
 

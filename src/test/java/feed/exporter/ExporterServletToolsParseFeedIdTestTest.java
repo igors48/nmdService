@@ -1,6 +1,6 @@
 package feed.exporter;
 
-import nmd.rss.collector.exporter.ExporterServletTools;
+import nmd.rss.collector.rest.ServletTools;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -17,35 +17,35 @@ public class ExporterServletToolsParseFeedIdTestTest {
     @Test
     public void parse() {
         UUID origin = UUID.randomUUID();
-        UUID parsed = ExporterServletTools.parseFeedId("/" + origin);
+        UUID parsed = ServletTools.parseFeedId("/" + origin);
 
         assertEquals(origin, parsed);
     }
 
     @Test
     public void ifFeedIdNotFoundNullReturns() {
-        UUID parsed = ExporterServletTools.parseFeedId("/");
+        UUID parsed = ServletTools.parseFeedId("/");
 
         assertNull(parsed);
     }
 
     @Test
     public void ifFeedIdCanNotParseNullReturns() {
-        UUID parsed = ExporterServletTools.parseFeedId("/qwdwqde");
+        UUID parsed = ServletTools.parseFeedId("/qwdwqde");
 
         assertNull(parsed);
     }
 
     @Test
     public void ifPathInfoIsEmptyNullReturns() {
-        UUID parsed = ExporterServletTools.parseFeedId("");
+        UUID parsed = ServletTools.parseFeedId("");
 
         assertNull(parsed);
     }
 
     @Test
     public void ifPathInfoIsNullNullReturns() {
-        UUID parsed = ExporterServletTools.parseFeedId(null);
+        UUID parsed = ServletTools.parseFeedId(null);
 
         assertNull(parsed);
     }

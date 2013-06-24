@@ -16,8 +16,8 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static nmd.rss.collector.exporter.ExporterServletTools.exportFeed;
-import static nmd.rss.collector.exporter.ExporterServletTools.parseFeedId;
+import static nmd.rss.collector.rest.ServletTools.exportFeed;
+import static nmd.rss.collector.rest.ServletTools.parseFeedId;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.CloseableTools.close;
 

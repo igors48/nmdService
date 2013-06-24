@@ -1,10 +1,14 @@
-package nmd.rss.collector.exporter;
+package nmd.rss.collector.rest;
 
+import nmd.rss.collector.exporter.FeedExporter;
+import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedService;
 import nmd.rss.collector.updater.FeedServiceException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,15 +25,15 @@ import static nmd.rss.collector.util.CloseableTools.close;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.05.13
  */
-public final class ExporterServletTools {
+public final class ServletTools {
 
-    private static final Logger LOGGER = Logger.getLogger(ExporterServletTools.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(ServletTools.class.getName());
 
-    public static String readStream(final InputStream _stream) {
-        assertNotNull(_stream);
+    public static String readStream(final InputStream stream) throws IOException {
+        assertNotNull(stream);
 
         final StringBuilder result = new StringBuilder();
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(_stream));
+        final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
 
         String line;
 
@@ -38,8 +42,6 @@ public final class ExporterServletTools {
             while ((line = reader.readLine()) != null) {
                 result.append(line);
             }
-        } catch (IOException e) {
-            // empty
         } finally {
             close(reader);
         }
@@ -95,7 +97,25 @@ public final class ExporterServletTools {
         return generated;
     }
 
-    private ExporterServletTools() {
+    public static String readRequestBody(final HttpServletRequest request) {
+        assertNotNull(request);
+
+        return null;
+    }
+
+    public static void writeResponseBody(final Response responseBody, final HttpServletResponse response) {
+        assertNotNull(responseBody);
+        assertNotNull(response);
+
+    }
+
+    public static void writeException(final Exception exception, final HttpServletResponse response) {
+        assertNotNull(exception);
+        assertNotNull(response);
+
+    }
+
+    private ServletTools() {
         // empty
     }
 

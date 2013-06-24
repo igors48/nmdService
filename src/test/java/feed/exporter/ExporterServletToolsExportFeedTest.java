@@ -1,9 +1,9 @@
 package feed.exporter;
 
 import feed.updater.FeedServiceStub;
-import nmd.rss.collector.exporter.ExporterServletTools;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.rest.ServletTools;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -40,7 +40,7 @@ public class ExporterServletToolsExportFeedTest {
     public void ifFeedHeaderNotFoundThanEmptyResultReturns() throws Exception {
         this.feedService.setHeader(null);
 
-        final String data = ExporterServletTools.exportFeed(UUID.randomUUID(), this.feedService);
+        final String data = ServletTools.exportFeed(UUID.randomUUID(), this.feedService);
 
         assertTrue(data.isEmpty());
     }
@@ -49,14 +49,14 @@ public class ExporterServletToolsExportFeedTest {
     public void ifFeedItemsNotFoundThanEmptyResultReturns() throws Exception {
         this.feedService.setItems(null);
 
-        final String data = ExporterServletTools.exportFeed(UUID.randomUUID(), this.feedService);
+        final String data = ServletTools.exportFeed(UUID.randomUUID(), this.feedService);
 
         assertTrue(data.isEmpty());
     }
 
     @Test
     public void whenHeaderAndItemsAreOkResultIsNotEmpty() throws Exception {
-        final String data = ExporterServletTools.exportFeed(UUID.randomUUID(), this.feedService);
+        final String data = ServletTools.exportFeed(UUID.randomUUID(), this.feedService);
 
         assertTrue(!data.isEmpty());
     }
