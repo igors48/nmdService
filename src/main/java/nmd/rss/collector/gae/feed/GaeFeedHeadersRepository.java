@@ -44,7 +44,8 @@ public class GaeFeedHeadersRepository extends AbstractGaeRepository implements F
         final List<FeedHeader> headers = new ArrayList<>();
 
         for (final FeedHeaderEntity entity : entities) {
-            final FeedHeader header = restoreHeader(entity.getData());
+            final FeedHeaderHelper helper = restoreHeaderHelper(entity.getData());
+            final FeedHeader header = FeedHeaderHelper.convert(helper);
 
             headers.add(header);
         }
@@ -92,12 +93,13 @@ public class GaeFeedHeadersRepository extends AbstractGaeRepository implements F
         }
 
         final String data = headers.get(0).getData();
+        final FeedHeaderHelper feedHeaderHelper = restoreHeaderHelper(data);
 
-        return restoreHeader(data);
+        return FeedHeaderHelper.convert(feedHeaderHelper);
     }
 
-    private FeedHeader restoreHeader(final String data) {
-        return new Gson().fromJson(data, FeedHeader.class);
+    private FeedHeaderHelper restoreHeaderHelper(final String data) {
+        return new Gson().fromJson(data, FeedHeaderHelper.class);
     }
 
 }

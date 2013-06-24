@@ -1,6 +1,11 @@
 package nmd.rss.collector.rest;
 
+import nmd.rss.collector.feed.FeedHeader;
+
+import java.util.ArrayList;
 import java.util.List;
+
+import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -8,20 +13,37 @@ import java.util.List;
  */
 class FeedHeadersResponse extends SuccessResponse {
 
-    private List<FeedHeaderHelper> helpers;
+    private List<FeedHeaderHelper> headers;
 
     private FeedHeadersResponse() {
         super();
 
-        this.helpers = null;
+        this.headers = null;
     }
 
-    List<FeedHeaderHelper> getHelpers() {
-        return this.helpers;
+    private List<FeedHeaderHelper> getHeaders() {
+        return this.headers;
     }
 
-    void setHelpers(final List<FeedHeaderHelper> helpers) {
-        this.helpers = helpers;
+    private void setHeaders(final List<FeedHeaderHelper> headers) {
+        this.headers = headers;
+    }
+
+    static FeedHeadersResponse convert(final List<FeedHeader> headers) {
+        assertNotNull(headers);
+
+        final List<FeedHeaderHelper> helpers = new ArrayList<>();
+
+        for (final FeedHeader header : headers) {
+            final FeedHeaderHelper helper = FeedHeaderHelper.convert(header);
+
+            helpers.add(helper);
+        }
+
+        final FeedHeadersResponse result = new FeedHeadersResponse();
+        result.setHeaders(helpers);
+
+        return result;
     }
 
 }

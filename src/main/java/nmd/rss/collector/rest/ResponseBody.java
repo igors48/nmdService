@@ -7,12 +7,12 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 24.06.13
  */
-public class Response {
+public class ResponseBody {
 
     public final ContentType contentType;
     public final String content;
 
-    public Response(final ContentType contentType, final String content) {
+    public ResponseBody(final ContentType contentType, final String content) {
         assertNotNull(contentType);
         this.contentType = contentType;
 

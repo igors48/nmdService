@@ -1,5 +1,6 @@
 package nmd.rss.collector.rest;
 
+import com.google.gson.Gson;
 import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.FeedHeader;
@@ -11,8 +12,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -28,26 +27,6 @@ import static nmd.rss.collector.util.CloseableTools.close;
 public final class ServletTools {
 
     private static final Logger LOGGER = Logger.getLogger(ServletTools.class.getName());
-
-    public static String readStream(final InputStream stream) throws IOException {
-        assertNotNull(stream);
-
-        final StringBuilder result = new StringBuilder();
-        final BufferedReader reader = new BufferedReader(new InputStreamReader(stream));
-
-        String line;
-
-        try {
-
-            while ((line = reader.readLine()) != null) {
-                result.append(line);
-            }
-        } finally {
-            close(reader);
-        }
-
-        return result.toString();
-    }
 
     public static UUID parseFeedId(final String pathInfo) {
 
@@ -70,6 +49,7 @@ public final class ServletTools {
         return pathInfo == null || pathInfo.length() < 2;
     }
 
+    //TODO not from here
     public static String exportFeed(final UUID feedId, final FeedService feedService) throws FeedServiceException, FeedExporterException {
         assertNotNull(feedId);
         assertNotNull(feedService);
@@ -97,22 +77,53 @@ public final class ServletTools {
         return generated;
     }
 
-    public static String readRequestBody(final HttpServletRequest request) {
+    public static String readRequestBody(final HttpServletRequest request) throws IOException {
         assertNotNull(request);
 
-        return null;
+        BufferedReader reader = null;
+
+        try {
+            reader = request.getReader();
+            final StringBuilder result = new StringBuilder();
+
+            String line;
+
+            while ((line = reader.readLine()) != null) {
+                result.append(line);
+            }
+
+            return result.toString();
+        } finally {
+            close(reader);
+        }
     }
 
-    public static void writeResponseBody(final Response responseBody, final HttpServletResponse response) {
+    public static void writeResponseBody(final ResponseBody responseBody, final HttpServletResponse response) throws IOException {
         assertNotNull(responseBody);
         assertNotNull(response);
 
+        final String contentType = responseBody.contentType == ContentType.JSON ? "application/json" : "application/rss+xml";
+        response.setContentType(contentType);
+
+        response.getWriter().print(responseBody.content);
     }
 
     public static void writeException(final Exception exception, final HttpServletResponse response) {
         assertNotNull(exception);
         assertNotNull(response);
 
+        String message = exception.getMessage();
+        message = message == null || message.isEmpty() ? exception.getClass().getSimpleName() : message;
+
+        final ErrorResponse errorResponse = new ErrorResponse(0, message, "Please try again later");
+        final String content = new Gson().toJson(errorResponse);
+        final ResponseBody responseBody = new ResponseBody(ContentType.JSON, content);
+
+        try {
+            writeResponseBody(responseBody, response);
+        } catch (IOException e) {
+            response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+        }
     }
 
     private ServletTools() {

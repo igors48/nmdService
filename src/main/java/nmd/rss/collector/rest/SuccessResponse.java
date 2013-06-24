@@ -9,7 +9,7 @@ abstract class SuccessResponse extends BaseResponse {
     protected SuccessResponse() {
         super();
 
-        this.responseType = ResponseType.SUCCESS;
+        this.status = ResponseType.SUCCESS;
     }
 
 }

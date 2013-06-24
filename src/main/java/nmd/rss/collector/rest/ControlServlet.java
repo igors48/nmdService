@@ -22,7 +22,7 @@ public class ControlServlet extends HttpServlet {
         try {
             final String pathInfo = request.getPathInfo();
 
-            final Response responseBody;
+            final ResponseBody responseBody;
 
             if (pathInfoIsEmpty(pathInfo)) {
                 responseBody = getFeedHeaders();
@@ -43,7 +43,7 @@ public class ControlServlet extends HttpServlet {
 
         try {
             final String feedUrl = readRequestBody(request);
-            final Response responseBody = addFeed(feedUrl);
+            final ResponseBody responseBody = addFeed(feedUrl);
 
             writeResponseBody(responseBody, response);
         } catch (Exception exception) {
@@ -58,7 +58,7 @@ public class ControlServlet extends HttpServlet {
         try {
             final UUID feedId = parseFeedId(request.getPathInfo());
 
-            final Response responseBody = ControlServiceWrapper.removeFeed(feedId);
+            final ResponseBody responseBody = ControlServiceWrapper.removeFeed(feedId);
 
             writeResponseBody(responseBody, response);
         } catch (Exception exception) {

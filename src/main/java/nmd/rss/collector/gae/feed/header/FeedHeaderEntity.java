@@ -23,19 +23,19 @@ public class FeedHeaderEntity {
     private Key key;
 
     private String id;
-    private String link;
+    private String feedLink;
     private String data;
 
     protected FeedHeaderEntity() {
         // empty
     }
 
-    public FeedHeaderEntity(final String id, final String link, final String data) {
+    public FeedHeaderEntity(final String id, final String feedLink, final String data) {
         assertStringIsValid(id);
         this.id = id;
 
-        assertStringIsValid(link);
-        this.link = link;
+        assertStringIsValid(feedLink);
+        this.feedLink = feedLink;
 
         assertStringIsValid(data);
         this.data = data;

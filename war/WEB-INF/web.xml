@@ -55,6 +55,16 @@
         <url-pattern>/exporter/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>control</servlet-name>
+        <servlet-class>nmd.rss.collector.rest.ControlServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>control</servlet-name>
+        <url-pattern>/feeds/*</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

@@ -6,18 +6,18 @@ package nmd.rss.collector.rest;
  */
 abstract class BaseResponse {
 
-    protected ResponseType responseType;
+    protected ResponseType status;
 
     protected BaseResponse() {
-        this.responseType = null;
+        this.status = null;
     }
 
-    ResponseType getResponseType() {
-        return this.responseType;
+    ResponseType getStatus() {
+        return this.status;
     }
 
-    void setResponseType(final ResponseType responseType) {
-        this.responseType = responseType;
+    void setStatus(final ResponseType status) {
+        this.status = status;
     }
 
 }
