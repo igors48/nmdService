@@ -8,7 +8,7 @@ import nmd.rss.collector.gae.updater.GaeFeedUpdateTaskSchedulerContextRepository
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
-import persistense.EMF;
+import nmd.rss.collector.gae.EMF;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServlet;

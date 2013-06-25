@@ -18,7 +18,7 @@ import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
-import persistense.EMF;
+import nmd.rss.collector.gae.EMF;
 
 import javax.persistence.EntityManager;
 import java.util.List;

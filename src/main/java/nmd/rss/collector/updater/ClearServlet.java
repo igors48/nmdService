@@ -2,7 +2,7 @@ package nmd.rss.collector.updater;
 
 import nmd.rss.collector.gae.feed.FeedServiceImpl;
 import nmd.rss.collector.gae.feed.GaeFeedItemsRepository;
-import persistense.EMF;
+import nmd.rss.collector.gae.EMF;
 
 import javax.persistence.EntityManager;
 import javax.servlet.http.HttpServlet;

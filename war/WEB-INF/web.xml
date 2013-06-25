@@ -6,26 +6,6 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
 
     <servlet>
-        <servlet-name>guestbook</servlet-name>
-        <servlet-class>guestbook.GuestbookServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>guestbook</servlet-name>
-        <url-pattern>/guestbook</url-pattern>
-    </servlet-mapping>
-    <!--
-        <servlet>
-            <servlet-name>cron</servlet-name>
-            <servlet-class>cron.CronServlet</servlet-class>
-        </servlet>
-
-        <servlet-mapping>
-            <servlet-name>cron</servlet-name>
-            <url-pattern>/cron</url-pattern>
-        </servlet-mapping>
-    -->
-    <servlet>
         <servlet-name>updater</servlet-name>
         <servlet-class>nmd.rss.collector.updater.FeedUpdaterServlet</servlet-class>
     </servlet>
@@ -43,16 +23,6 @@
     <servlet-mapping>
         <servlet-name>clear</servlet-name>
         <url-pattern>/clear</url-pattern>
-    </servlet-mapping>
-
-    <servlet>
-        <servlet-name>exporter</servlet-name>
-        <servlet-class>nmd.rss.collector.exporter.ExporterServlet</servlet-class>
-    </servlet>
-
-    <servlet-mapping>
-        <servlet-name>exporter</servlet-name>
-        <url-pattern>/exporter/*</url-pattern>
     </servlet-mapping>
 
     <servlet>

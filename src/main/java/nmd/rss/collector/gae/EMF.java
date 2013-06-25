@@ -1,4 +1,4 @@
-package persistense;
+package nmd.rss.collector.gae;
 
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
