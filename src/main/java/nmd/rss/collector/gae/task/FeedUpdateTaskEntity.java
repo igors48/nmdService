@@ -9,8 +9,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertPositive;
+import static nmd.rss.collector.util.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -25,15 +24,15 @@ public class FeedUpdateTaskEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Key key;
 
-    private UUID feedId;
+    private String feedId;
     private int maxFeedItemsCount;
 
     private FeedUpdateTaskEntity() {
         // empty
     }
 
-    private FeedUpdateTaskEntity(final UUID feedId, final int maxFeedItemsCount) {
-        assertNotNull(feedId);
+    private FeedUpdateTaskEntity(final String feedId, final int maxFeedItemsCount) {
+        assertStringIsValid(feedId);
         this.feedId = feedId;
 
         assertPositive(maxFeedItemsCount);
@@ -43,13 +42,13 @@ public class FeedUpdateTaskEntity {
     public static FeedUpdateTaskEntity convert(final FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
-        return new FeedUpdateTaskEntity(feedUpdateTask.feedId, feedUpdateTask.maxFeedItemsCount);
+        return new FeedUpdateTaskEntity(feedUpdateTask.feedId.toString(), feedUpdateTask.maxFeedItemsCount);
     }
 
     public static FeedUpdateTask convert(final FeedUpdateTaskEntity feedUpdateTaskEntity) {
         assertNotNull(feedUpdateTaskEntity);
 
-        return new FeedUpdateTask(feedUpdateTaskEntity.feedId, feedUpdateTaskEntity.maxFeedItemsCount);
+        return new FeedUpdateTask(UUID.fromString(feedUpdateTaskEntity.feedId), feedUpdateTaskEntity.maxFeedItemsCount);
     }
 
 }
