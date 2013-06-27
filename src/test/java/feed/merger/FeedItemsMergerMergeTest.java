@@ -20,6 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class FeedItemsMergerMergeTest {
 
     private static final int REALLY_BIG_FEED = 1000;
+    private static final int REALLY_SMALL_FEED = 1;
 
     private static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48));
     private static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(50));
@@ -44,7 +45,7 @@ public class FeedItemsMergerMergeTest {
 
     @Test
     public void allNewFeedsAdded() {
-        FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, 1000);
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
 
         assertEquals(2, report.added.size());
         assertEquals(YOUNG_FIRST, report.added.get(0));
@@ -53,7 +54,7 @@ public class FeedItemsMergerMergeTest {
 
     @Test
     public void anyOfOldFeedsDidNotRemove() {
-        FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, 1000);
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
 
         assertEquals(2, report.retained.size());
         assertEquals(OLD_FIRST, report.retained.get(0));
@@ -66,7 +67,7 @@ public class FeedItemsMergerMergeTest {
     public void newItemWithSameLinkAsOldItemAdded() {
         this.youngs.add(OLD_SECOND_DUPLICATE);
 
-        FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, 1000);
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
 
         assertEquals(3, report.added.size());
 
@@ -79,7 +80,7 @@ public class FeedItemsMergerMergeTest {
     public void oldItemWithSameLinkAsNewItemRemoved() {
         this.youngs.add(OLD_SECOND_DUPLICATE);
 
-        FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
 
         assertEquals(1, report.removed.size());
 
@@ -92,7 +93,7 @@ public class FeedItemsMergerMergeTest {
         this.youngs.add(OLD_FIRST);
         this.youngs.add(OLD_SECOND);
 
-        FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
 
         assertTrue(report.added.isEmpty());
         assertTrue(report.removed.isEmpty());
@@ -100,6 +101,36 @@ public class FeedItemsMergerMergeTest {
         assertEquals(2, report.retained.size());
         assertTrue(report.retained.contains(OLD_FIRST));
         assertTrue(report.retained.contains(OLD_SECOND));
+    }
+
+    @Test
+    public void whenCountOfItemsMoreThanMaximumThenYoungestItemsAdded() throws Exception {
+        this.olds.clear();
+
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_SMALL_FEED);
+
+        assertTrue(report.removed.isEmpty());
+        assertTrue(report.retained.isEmpty());
+
+        assertEquals(1, report.added.size());
+        assertEquals(YOUNG_SECOND, report.added.get(0));
+    }
+
+    @Test
+    public void whenCountOfItemsMoreThanMaximumAndThereAreNoNewItemsThenFeedNoChanged() throws Exception {
+        this.olds.clear();
+
+        final FeedItemsMergeReport firstReport = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_SMALL_FEED);
+
+        this.olds.add(firstReport.added.get(0));
+
+        final FeedItemsMergeReport secondReport = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_SMALL_FEED);
+
+        assertTrue(secondReport.added.isEmpty());
+        assertTrue(secondReport.removed.isEmpty());
+
+        assertEquals(1, secondReport.retained.size());
+        assertEquals(YOUNG_SECOND, secondReport.retained.get(0));
     }
 
 }

@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.feed.TimestampComparator.TIMESTAMP_COMPARATOR;
+import static nmd.rss.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 
@@ -143,7 +143,7 @@ public class FeedServiceImpl implements FeedService {
         feedItems.addAll(retained);
         feedItems.addAll(added);
 
-        Collections.sort(feedItems, TIMESTAMP_COMPARATOR);
+        Collections.sort(feedItems, TIMESTAMP_ASCENDING_COMPARATOR);
 
         feedItemsRepository.updateItems(feedId, feedItems);
     }
