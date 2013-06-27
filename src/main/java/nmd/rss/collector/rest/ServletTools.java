@@ -28,6 +28,8 @@ public final class ServletTools {
 
     private static final Logger LOGGER = Logger.getLogger(ServletTools.class.getName());
 
+    private static final String UTF_8 = "UTF-8";
+
     public static UUID parseFeedId(final String pathInfo) {
 
         if (pathInfoIsEmpty(pathInfo)) {
@@ -104,6 +106,7 @@ public final class ServletTools {
 
         final String contentType = responseBody.contentType == ContentType.JSON ? "application/json" : "application/rss+xml";
         response.setContentType(contentType);
+        response.setCharacterEncoding(UTF_8);
 
         response.getWriter().print(responseBody.content);
     }
