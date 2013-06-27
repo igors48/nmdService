@@ -26,7 +26,7 @@ import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
  */
 public class ControlService {
 
-    private static final int MAX_FEED_ITEMS_COUNT = 10;
+    private static final int MAX_FEED_ITEMS_COUNT = 1000;
 
     private final Transactions transactions;
 
