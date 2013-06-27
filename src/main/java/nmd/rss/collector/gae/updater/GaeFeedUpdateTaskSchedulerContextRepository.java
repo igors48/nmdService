@@ -24,6 +24,8 @@ public class GaeFeedUpdateTaskSchedulerContextRepository extends AbstractGaeRepo
     public void store(final FeedUpdateTaskSchedulerContext context) {
         assertNotNull(context);
 
+        removeContextIfExists();
+
         final SchedulerContextEntity entity = SchedulerContextEntity.convert(context);
 
         persist(entity);
@@ -36,6 +38,14 @@ public class GaeFeedUpdateTaskSchedulerContextRepository extends AbstractGaeRepo
         final List<SchedulerContextEntity> queryResult = query.getResultList();
 
         return queryResult.isEmpty() ? null : SchedulerContextEntity.convert(queryResult.get(0));
+    }
+
+    private void removeContextIfExists() {
+        List entities = loadAllEntities();
+
+        if (!entities.isEmpty()) {
+            remove(entities.get(0));
+        }
     }
 
 }
