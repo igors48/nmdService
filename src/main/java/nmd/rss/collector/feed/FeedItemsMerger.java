@@ -84,7 +84,7 @@ public final class FeedItemsMerger {
                 added.add(youngItem);
             } else {
 
-                if (!youngItem.sameAs(oldItem)) {
+                if (!youngItem.equals(oldItem)) {
                     removed.add(oldItem);
                     oldItems.remove(link);
                     added.add(youngItem);

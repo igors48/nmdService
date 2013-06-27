@@ -30,16 +30,6 @@ public class FeedItem {
         this.date = date;
     }
 
-    //TODO does it really need? can be equals used instead?
-    public boolean sameAs(final FeedItem feedItem) {
-        assertNotNull(feedItem);
-
-        return description.equals(feedItem.description)
-                && link.equals(feedItem.link)
-                && date.equals(feedItem.date)
-                && title.equals(feedItem.title);
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
