@@ -54,9 +54,23 @@ public class ServiceError {
                 "Possibly feed id incorrect. Check feed identifier.");
     }
 
-    public static ServiceError invalidFeedId() {
+    public static ServiceError wrongFeedTaskId(final UUID feedId) {
+        assertNotNull(feedId);
 
         return new ServiceError(5,
+                format("Unable to find task for feed with id [ %s ]", feedId),
+                "Possibly feed id incorrect. Check feed identifier.");
+    }
+
+    public static ServiceError noScheduledTask() {
+        return new ServiceError(6,
+                "There is no task scheduled for update",
+                "Possibly feed update schedule is empty. Check registered feeds list.");
+    }
+
+    public static ServiceError invalidFeedId() {
+
+        return new ServiceError(7,
                 "Unable to parse feed id from request",
                 "Looks like feed id not in valid UUID format");
     }

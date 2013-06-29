@@ -6,6 +6,6 @@ package nmd.rss.collector.scheduler;
  */
 public interface FeedUpdateTaskScheduler {
 
-    FeedUpdateTask getCurrentTask() throws FeedUpdateTaskSchedulerException;
+    FeedUpdateTask getCurrentTask();
 
 }

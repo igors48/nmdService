@@ -31,7 +31,7 @@ public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
     }
 
     @Override
-    public FeedUpdateTask getCurrentTask() throws FeedUpdateTaskSchedulerException {
+    public FeedUpdateTask getCurrentTask() {
 
         EntityTransaction transaction = null;
 
@@ -57,8 +57,6 @@ public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
             transaction.commit();
 
             return tasks.get(taskIndex);
-        } catch (Exception exception) {
-            throw new FeedUpdateTaskSchedulerException(exception);
         } finally {
             rollbackIfActive(transaction);
         }
