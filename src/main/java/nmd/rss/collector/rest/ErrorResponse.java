@@ -1,8 +1,9 @@
 package nmd.rss.collector.rest;
 
+import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.error.ServiceError;
 
-import static nmd.rss.collector.util.Assert.assertPositive;
+import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
 /**
@@ -11,7 +12,7 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 class ErrorResponse extends BaseResponse {
 
-    private int code;
+    private ErrorCode code;
     private String message;
     private String hints;
 
@@ -19,7 +20,7 @@ class ErrorResponse extends BaseResponse {
         // empty
     }
 
-    protected ErrorResponse(final int code, final String message, final String hints) {
+    protected ErrorResponse(final ErrorCode code, final String message, final String hints) {
         super();
 
         setStatus(ResponseType.ERROR);
@@ -32,12 +33,12 @@ class ErrorResponse extends BaseResponse {
         this(error.code, error.message, error.hints);
     }
 
-    int getCode() {
+    ErrorCode getCode() {
         return this.code;
     }
 
-    void setCode(final int code) {
-        assertPositive(code);
+    void setCode(final ErrorCode code) {
+        assertNotNull(code);
         this.code = code;
     }
 

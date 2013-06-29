@@ -12,11 +12,11 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class ServiceError {
 
-    public final int code;
+    public final ErrorCode code;
     public final String message;
     public final String hints;
 
-    private ServiceError(final int code, final String message, final String hints) {
+    private ServiceError(final ErrorCode code, final String message, final String hints) {
         this.code = code;
         this.message = message;
         this.hints = hints;
@@ -25,7 +25,7 @@ public class ServiceError {
     public static ServiceError urlFetcherError(final String link) {
         assertStringIsValid(link);
 
-        return new ServiceError(1,
+        return new ServiceError(ErrorCode.URL_FETCH_ERROR,
                 format("Error fetching url [ %s ]", link),
                 "Invalid url or host unreachable. Check the url and try again.");
     }
@@ -33,7 +33,7 @@ public class ServiceError {
     public static ServiceError feedExportError(final UUID feedId) {
         assertNotNull(feedId);
 
-        return new ServiceError(2,
+        return new ServiceError(ErrorCode.FEED_EXPORT_ERROR,
                 format("Unable to export feed with id [ %s ]", feedId),
                 "Looks like feed data corrupted. Try to recreate this feed.");
     }
@@ -41,7 +41,7 @@ public class ServiceError {
     public static ServiceError feedParseError(final String link) {
         assertStringIsValid(link);
 
-        return new ServiceError(3,
+        return new ServiceError(ErrorCode.FEED_PARSE_ERROR,
                 format("Unable parse feed from [ %s ]", link),
                 "Possibly feed data corrupted. Check feed data.");
     }
@@ -49,7 +49,7 @@ public class ServiceError {
     public static ServiceError wrongFeedId(final UUID feedId) {
         assertNotNull(feedId);
 
-        return new ServiceError(4,
+        return new ServiceError(ErrorCode.WRONG_FEED_ID,
                 format("Unable to find feed with id [ %s ]", feedId),
                 "Possibly feed id incorrect. Check feed identifier.");
     }
@@ -57,22 +57,22 @@ public class ServiceError {
     public static ServiceError wrongFeedTaskId(final UUID feedId) {
         assertNotNull(feedId);
 
-        return new ServiceError(5,
+        return new ServiceError(ErrorCode.WRONG_FEED_TASK_ID,
                 format("Unable to find task for feed with id [ %s ]", feedId),
                 "Possibly feed id incorrect. Check feed identifier.");
     }
 
     public static ServiceError noScheduledTask() {
-        return new ServiceError(6,
+        return new ServiceError(ErrorCode.NO_SCHEDULED_TASK,
                 "There is no task scheduled for update",
                 "Possibly feed update schedule is empty. Check registered feeds list.");
     }
-
+   /*
     public static ServiceError invalidFeedId() {
 
         return new ServiceError(7,
                 "Unable to parse feed id from request",
                 "Looks like feed id not in valid UUID format");
     }
-
+    */
 }
