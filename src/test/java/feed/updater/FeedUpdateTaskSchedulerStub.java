@@ -2,7 +2,6 @@ package feed.updater;
 
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerException;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -13,7 +12,7 @@ public class FeedUpdateTaskSchedulerStub implements FeedUpdateTaskScheduler {
     private FeedUpdateTask task;
 
     @Override
-    public FeedUpdateTask getCurrentTask() throws FeedUpdateTaskSchedulerException {
+    public FeedUpdateTask getCurrentTask() {
         return this.task;
     }
 

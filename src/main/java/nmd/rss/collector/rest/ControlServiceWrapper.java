@@ -10,15 +10,19 @@ import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.gae.EMF;
 import nmd.rss.collector.gae.feed.GaeFeedHeadersRepository;
 import nmd.rss.collector.gae.feed.GaeFeedItemsRepository;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
 import nmd.rss.collector.gae.task.GaeFeedUpdateTaskRepository;
+import nmd.rss.collector.gae.updater.GaeFeedUpdateTaskSchedulerContextRepository;
+import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
+import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
+import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
-import nmd.rss.collector.gae.EMF;
 
 import javax.persistence.EntityManager;
 import java.util.List;
@@ -123,8 +127,10 @@ public class ControlServiceWrapper {
         final FeedUpdateTaskRepository feedUpdateTaskRepository = new GaeFeedUpdateTaskRepository(entityManager);
         final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository(entityManager);
         final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository(entityManager);
+        final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeFeedUpdateTaskSchedulerContextRepository(entityManager);
+        final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(feedUpdateTaskSchedulerContextRepository, feedUpdateTaskRepository, transactions);
 
-        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, urlFetcher, transactions);
+        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
     }
 
 }

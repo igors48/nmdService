@@ -1,18 +1,11 @@
 package nmd.rss.collector.rest;
 
 import com.google.gson.Gson;
-import nmd.rss.collector.exporter.FeedExporter;
-import nmd.rss.collector.exporter.FeedExporterException;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.updater.FeedService;
-import nmd.rss.collector.updater.FeedServiceException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -49,34 +42,6 @@ public final class ServletTools {
 
     public static boolean pathInfoIsEmpty(final String pathInfo) {
         return pathInfo == null || pathInfo.length() < 2;
-    }
-
-    //TODO not from here
-    public static String exportFeed(final UUID feedId, final FeedService feedService) throws FeedServiceException, FeedExporterException {
-        assertNotNull(feedId);
-        assertNotNull(feedService);
-
-        final FeedHeader header = feedService.loadHeader(feedId);
-
-        if (header == null) {
-            LOGGER.severe(String.format("Can not find feed header for feed id [ %s ]", feedId));
-
-            return "";
-        }
-
-        final List<FeedItem> items = feedService.loadItems(feedId);
-
-        if (items == null) {
-            LOGGER.severe(String.format("Can not find feed items for feed id [ %s ]", feedId));
-
-            return "";
-        }
-
-        final String generated = FeedExporter.export(header, items);
-
-        LOGGER.info(String.format("Feed for feed id [ %s ] generated successfully", feedId));
-
-        return generated;
     }
 
     public static String readRequestBody(final HttpServletRequest request) throws IOException {
