@@ -1,11 +1,12 @@
 package feed.controller;
 
 import nmd.rss.collector.controller.ControlServiceException;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
-import org.junit.Assert;
+import nmd.rss.collector.controller.FeedUpdateReport;
 import org.junit.Test;
 
 import java.util.UUID;
+
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -27,9 +28,9 @@ public class ControllerUpdateFeedTest extends ControllerTestBase {
     public void whenFeedUpdatedThenMergeReportReturns() throws Exception {
         final UUID feedId = addValidFirstRssFeed();
 
-        final FeedItemsMergeReport report = this.controlService.updateFeed(feedId);
+        final FeedUpdateReport report = this.controlService.updateFeed(feedId);
 
-        Assert.assertNotNull(report);
+        assertNotNull(report);
     }
 
 }

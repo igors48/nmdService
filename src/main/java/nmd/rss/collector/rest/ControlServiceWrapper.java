@@ -5,12 +5,12 @@ import nmd.rss.collector.EntityManagerTransactions;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.ControlService;
 import nmd.rss.collector.controller.ControlServiceException;
+import nmd.rss.collector.controller.FeedUpdateReport;
 import nmd.rss.collector.error.ServiceError;
 import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.gae.EMF;
 import nmd.rss.collector.gae.feed.GaeFeedHeadersRepository;
 import nmd.rss.collector.gae.feed.GaeFeedItemsRepository;
@@ -109,7 +109,7 @@ public class ControlServiceWrapper {
         final ControlService controlService = createControlService(entityManager);
 
         try {
-            final FeedItemsMergeReport report = controlService.updateCurrentFeed();
+            final FeedUpdateReport report = controlService.updateCurrentFeed();
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
             return createJsonResponse(response);
@@ -126,7 +126,7 @@ public class ControlServiceWrapper {
         final ControlService controlService = createControlService(entityManager);
 
         try {
-            final FeedItemsMergeReport report = controlService.updateFeed(feedId);
+            final FeedUpdateReport report = controlService.updateFeed(feedId);
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
             return createJsonResponse(response);

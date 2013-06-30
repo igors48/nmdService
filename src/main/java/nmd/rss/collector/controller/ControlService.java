@@ -155,7 +155,7 @@ public class ControlService {
         }
     }
 
-    public FeedItemsMergeReport updateFeed(final UUID feedId) throws ControlServiceException {
+    public FeedUpdateReport updateFeed(final UUID feedId) throws ControlServiceException {
         assertNotNull(feedId);
 
         EntityTransaction getFeedHeaderAndTaskTransaction = null;
@@ -199,13 +199,13 @@ public class ControlService {
 
             updateFeedTransaction.commit();
 
-            return mergeReport;
+            return new FeedUpdateReport(header.feedLink, feedId, mergeReport);
         } finally {
             rollbackIfActive(updateFeedTransaction);
         }
     }
 
-    public FeedItemsMergeReport updateCurrentFeed() throws ControlServiceException {
+    public FeedUpdateReport updateCurrentFeed() throws ControlServiceException {
         final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
         if (currentTask == null) {

@@ -1,6 +1,8 @@
 package nmd.rss.collector.rest;
 
-import nmd.rss.collector.feed.FeedItemsMergeReport;
+import nmd.rss.collector.controller.FeedUpdateReport;
+
+import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
@@ -10,6 +12,8 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 class FeedMergeReportResponse extends SuccessResponse {
 
+    private String feedLink;
+    private UUID feedId;
     private int removed = 0;
     private int retained = 0;
     private int added = 0;
@@ -42,14 +46,32 @@ class FeedMergeReportResponse extends SuccessResponse {
         this.added = added;
     }
 
-    public static FeedMergeReportResponse convert(final FeedItemsMergeReport report) {
+    private String getFeedLink() {
+        return this.feedLink;
+    }
+
+    private void setFeedLink(final String feedLink) {
+        this.feedLink = feedLink;
+    }
+
+    private UUID getFeedId() {
+        return this.feedId;
+    }
+
+    private void setFeedId(final UUID feedId) {
+        this.feedId = feedId;
+    }
+
+    public static FeedMergeReportResponse convert(final FeedUpdateReport report) {
         assertNotNull(report);
 
         final FeedMergeReportResponse result = new FeedMergeReportResponse();
 
-        result.setAdded(report.added.size());
-        result.setRemoved(report.removed.size());
-        result.setRetained(report.retained.size());
+        result.setFeedId(report.feedId);
+        result.setFeedLink(report.feedLink);
+        result.setAdded(report.mergeReport.added.size());
+        result.setRemoved(report.mergeReport.removed.size());
+        result.setRetained(report.mergeReport.retained.size());
 
         return result;
     }
