@@ -6,13 +6,23 @@
 <web-app xmlns="http://java.sun.com/xml/ns/javaee" version="2.5">
 
     <servlet>
-        <servlet-name>control</servlet-name>
-        <servlet-class>nmd.rss.collector.rest.ControlServlet</servlet-class>
+        <servlet-name>feeds</servlet-name>
+        <servlet-class>nmd.rss.collector.rest.FeedsServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>control</servlet-name>
+        <servlet-name>feeds</servlet-name>
         <url-pattern>/feeds/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>updates</servlet-name>
+        <servlet-class>nmd.rss.collector.rest.UpdatesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>updates</servlet-name>
+        <url-pattern>/updates/*</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

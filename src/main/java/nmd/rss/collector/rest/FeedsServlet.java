@@ -12,7 +12,7 @@ import static nmd.rss.collector.rest.ServletTools.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.06.13
  */
-public class ControlServlet extends HttpServlet {
+public class FeedsServlet extends HttpServlet {
 
     // GET /feeds -- feeds list
     // GET /feeds/{feedId} -- get feed

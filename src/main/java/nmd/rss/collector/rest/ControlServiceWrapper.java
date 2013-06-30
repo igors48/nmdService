@@ -10,6 +10,7 @@ import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.gae.EMF;
 import nmd.rss.collector.gae.feed.GaeFeedHeadersRepository;
 import nmd.rss.collector.gae.feed.GaeFeedItemsRepository;
@@ -98,6 +99,39 @@ public class ControlServiceWrapper {
             return createErrorJsonResponse(exception);
         } catch (FeedExporterException exception) {
             return createErrorJsonResponse(ServiceError.feedExportError(feedId));
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public static ResponseBody updateCurrentFeed() {
+        final EntityManager entityManager = EMF.get().createEntityManager();
+        final ControlService controlService = createControlService(entityManager);
+
+        try {
+            final FeedItemsMergeReport report = controlService.updateCurrentFeed();
+            final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
+
+            return createJsonResponse(response);
+        } catch (ControlServiceException exception) {
+            return createErrorJsonResponse(exception);
+        } finally {
+            entityManager.close();
+        }
+    }
+
+    public static ResponseBody updateFeed(final UUID feedId) {
+        //TODO feedId can be null. need to check it
+        final EntityManager entityManager = EMF.get().createEntityManager();
+        final ControlService controlService = createControlService(entityManager);
+
+        try {
+            final FeedItemsMergeReport report = controlService.updateFeed(feedId);
+            final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
+
+            return createJsonResponse(response);
+        } catch (ControlServiceException exception) {
+            return createErrorJsonResponse(exception);
         } finally {
             entityManager.close();
         }

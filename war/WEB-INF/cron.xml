@@ -2,8 +2,8 @@
 <cronentries>
 
     <cron>
-        <url>/updater</url>
-        <description>Feed updater servlet</description>
+        <url>/updates/</url>
+        <description>Feed updates servlet</description>
         <schedule>every 1 minutes</schedule>
     </cron>
 
