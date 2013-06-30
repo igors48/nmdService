@@ -2,7 +2,6 @@ package nmd.rss.collector.controller;
 
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.feed.*;
-import nmd.rss.collector.gae.feed.FeedServiceImpl;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
@@ -13,10 +12,12 @@ import nmd.rss.collector.updater.UrlFetcherException;
 
 import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
+import static nmd.rss.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -82,7 +83,7 @@ public class ControlService {
             createFeedUpdateTask(feedHeader);
 
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, MAX_FEED_ITEMS_COUNT);
-            FeedServiceImpl.updateFeedItems(feedHeader.id, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
+            updateFeedItems(feedHeader.id, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
 
             transaction.commit();
 
@@ -194,7 +195,7 @@ public class ControlService {
             List<FeedItem> olds = getFeedOldItems(header);
 
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, updateTask.maxFeedItemsCount);
-            FeedServiceImpl.updateFeedItems(header.id, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
+            updateFeedItems(header.id, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
 
             updateFeedTransaction.commit();
 
@@ -240,6 +241,21 @@ public class ControlService {
         } catch (FeedParserException exception) {
             throw new ControlServiceException(feedParseError(feedUrl), exception);
         }
+    }
+
+    private static void updateFeedItems(final UUID feedId, final List<FeedItem> retained, final List<FeedItem> added, final FeedItemsRepository feedItemsRepository) {
+        assertNotNull(feedId);
+        assertNotNull(retained);
+        assertNotNull(added);
+        assertNotNull(feedItemsRepository);
+
+        final List<FeedItem> feedItems = new ArrayList<>();
+        feedItems.addAll(retained);
+        feedItems.addAll(added);
+
+        Collections.sort(feedItems, TIMESTAMP_ASCENDING_COMPARATOR);
+
+        feedItemsRepository.updateItems(feedId, feedItems);
     }
 
 }
