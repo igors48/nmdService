@@ -17,6 +17,7 @@ import nmd.rss.collector.gae.feed.GaeFeedItemsRepository;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
 import nmd.rss.collector.gae.task.GaeFeedUpdateTaskRepository;
 import nmd.rss.collector.gae.updater.GaeFeedUpdateTaskSchedulerContextRepository;
+import nmd.rss.collector.rest.responses.*;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
@@ -45,7 +46,7 @@ public class ControlServiceWrapper {
         try {
             final UUID feedId = controlService.addFeed(feedUrl);
 
-            final FeedIdResponse feedIdResponse = new FeedIdResponse(feedId);
+            final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
 
             return createJsonResponse(feedIdResponse);
         } catch (ControlServiceException exception) {
@@ -63,7 +64,7 @@ public class ControlServiceWrapper {
         try {
             controlService.removeFeed(feedId);
 
-            final SuccessMessageResponse successMessageResponse = new SuccessMessageResponse(String.format("Feed [ %s ] removed", feedId));
+            final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Feed [ %s ] removed", feedId));
 
             return createJsonResponse(successMessageResponse);
         } finally {
@@ -150,7 +151,7 @@ public class ControlServiceWrapper {
     }
 
     private static ResponseBody createErrorJsonResponse(final ServiceError error) {
-        final ErrorResponse errorResponse = new ErrorResponse(error);
+        final ErrorResponse errorResponse = ErrorResponse.create(error);
 
         return createJsonResponse(errorResponse);
     }

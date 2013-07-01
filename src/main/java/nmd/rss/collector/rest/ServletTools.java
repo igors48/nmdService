@@ -2,6 +2,7 @@ package nmd.rss.collector.rest;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
+import nmd.rss.collector.rest.responses.ErrorResponse;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -85,7 +86,7 @@ public final class ServletTools {
         message = message == null || message.isEmpty() ? exception.getClass().getSimpleName() : message;
 
         //TODO get more information from exception
-        final ErrorResponse errorResponse = new ErrorResponse(ErrorCode.UNHANDLED_EXCEPTION, message, "Please try again later");
+        final ErrorResponse errorResponse = ErrorResponse.create(ErrorCode.UNHANDLED_EXCEPTION, message, "Please try again later");
         final String content = new Gson().toJson(errorResponse);
         final ResponseBody responseBody = new ResponseBody(ContentType.JSON, content);
 

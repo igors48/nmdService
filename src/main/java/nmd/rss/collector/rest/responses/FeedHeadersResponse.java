@@ -1,4 +1,4 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.responses;
 
 import nmd.rss.collector.feed.FeedHeader;
 
@@ -11,25 +11,15 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.06.13
  */
-class FeedHeadersResponse extends SuccessResponse {
+public class FeedHeadersResponse extends SuccessResponse {
 
-    private List<FeedHeaderHelper> headers;
+    private List<FeedHeaderHelper> headers = null;
 
     private FeedHeadersResponse() {
-        super();
-
-        this.headers = null;
+        // empty
     }
 
-    private List<FeedHeaderHelper> getHeaders() {
-        return this.headers;
-    }
-
-    private void setHeaders(final List<FeedHeaderHelper> headers) {
-        this.headers = headers;
-    }
-
-    static FeedHeadersResponse convert(final List<FeedHeader> headers) {
+    public static FeedHeadersResponse convert(final List<FeedHeader> headers) {
         assertNotNull(headers);
 
         final List<FeedHeaderHelper> helpers = new ArrayList<>();
@@ -41,7 +31,7 @@ class FeedHeadersResponse extends SuccessResponse {
         }
 
         final FeedHeadersResponse result = new FeedHeadersResponse();
-        result.setHeaders(helpers);
+        result.headers = helpers;
 
         return result;
     }
