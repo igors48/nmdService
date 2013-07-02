@@ -25,6 +25,16 @@
         <url-pattern>/@security.key@/v01/updates/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>exports</servlet-name>
+        <servlet-class>nmd.rss.collector.rest.ExportsServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>exports</servlet-name>
+        <url-pattern>/v01/feeds/*</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
