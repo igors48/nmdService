@@ -2,7 +2,7 @@
 <cronentries>
 
     <cron>
-        <url>/updates/</url>
+        <url>/@security.key@/v01/updates/</url>
         <description>Feed updates servlet</description>
         <schedule>every 1 minutes</schedule>
     </cron>

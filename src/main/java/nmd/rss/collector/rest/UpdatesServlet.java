@@ -15,8 +15,8 @@ import static nmd.rss.collector.rest.ServletTools.*;
  */
 public class UpdatesServlet extends HttpServlet {
 
-    // GET /updates -- update current feed
-    // GET /updates/{feedId} -- update feed
+    // GET -- update current feed
+    // GET /{feedId} -- update feed
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
 

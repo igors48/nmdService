@@ -14,8 +14,8 @@ import static nmd.rss.collector.rest.ServletTools.*;
  */
 public class FeedsServlet extends HttpServlet {
 
-    // GET /feeds -- feeds list
-    // GET /feeds/{feedId} -- get feed
+    // GET -- feeds list
+    // GET /{feedId} -- get feed
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
 
@@ -37,7 +37,7 @@ public class FeedsServlet extends HttpServlet {
         }
     }
 
-    // POST /feeds -- add feed
+    // POST -- add feed
     @Override
     protected void doPost(final HttpServletRequest request, final HttpServletResponse response) {
 
@@ -51,7 +51,7 @@ public class FeedsServlet extends HttpServlet {
         }
     }
 
-    // DELETE /feeds/{feedId} -- delete feed
+    // DELETE /{feedId} -- delete feed
     @Override
     protected void doDelete(final HttpServletRequest request, final HttpServletResponse response) {
 

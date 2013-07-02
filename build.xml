@@ -10,6 +10,8 @@
     <property name="dir.build" value="${dir.base}/build/"/>
     <property name="dir.release" value="${dir.base}/release/"/>
 
+    <property name="src.web.inf.directory" value="${dir.base}/war/WEB-INF"/>
+    <property name="src.meta.inf.directory" value="${dir.base}/war/META-INF"/>
     <property name="war.directory" value="${dir.release}/war/"/>
     <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
     <property name="lib.directory" value="${web.inf.directory}/lib/"/>
@@ -328,14 +330,26 @@
             <fileset dir="${dir.dependencies.runtime}"/>
         </copy>
 
-        <copy todir="${web.inf.directory}">
+        <input message="Please enter application identifier : " addproperty="application.identifier"
+               defaultvalue="rss-collector"/>
+
+        <input message="Please enter security key : " addproperty="security.key" defaultvalue="security"/>
+
+        <filterset id="identifier.and.security">
+            <filter token="application.identifier" value="${application.identifier}"/>
+            <filter token="security.key" value="${security.key}"/>
+        </filterset>
+
+        <copy file="${src.web.inf.directory}/appengine-web.xml" todir="${web.inf.directory}">
             <fileset dir="${dir.base}/war/WEB-INF">
                 <include name="*.xml"/>
             </fileset>
+
+            <filterset refid="identifier.and.security"/>
         </copy>
 
         <copy todir="${meta.inf.directory}">
-            <fileset dir="${dir.base}/war/META-INF">
+            <fileset dir="${src.meta.inf.directory}">
                 <include name="*.xml"/>
             </fileset>
         </copy>
