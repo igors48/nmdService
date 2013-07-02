@@ -107,7 +107,7 @@ public class ControlServiceWrapper {
             final Feed feed = controlService.getFeed(feedId);
             final String feedAsXml = FeedExporter.export(feed.header, feed.items);
 
-            LOGGER.info(String.format("Feed [ %s ] items exported. Items count [ %d ]", feedId, feed.items.size()));
+            LOGGER.info(String.format("Feed [ %s ] link [ %s ] items exported. Items count [ %d ]", feedId, feed.header.feedLink, feed.items.size()));
 
             return new ResponseBody(ContentType.XML, feedAsXml);
         } catch (ControlServiceException exception) {
@@ -130,6 +130,8 @@ public class ControlServiceWrapper {
         try {
             final FeedUpdateReport report = controlService.updateCurrentFeed();
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
+
+            LOGGER.info(String.format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
 
             return createJsonResponse(response);
         } catch (ControlServiceException exception) {
