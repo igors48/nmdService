@@ -4,6 +4,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static nmd.rss.collector.rest.ControlServiceWrapper.updateCurrentFeed;
 import static nmd.rss.collector.rest.ControlServiceWrapper.updateFeed;
@@ -14,6 +16,8 @@ import static nmd.rss.collector.rest.ServletTools.*;
  * Date : 30.06.13
  */
 public class UpdatesServlet extends HttpServlet {
+
+    private static final Logger LOGGER = Logger.getLogger(UpdatesServlet.class.getName());
 
     // GET -- update current feed
     // GET /{feedId} -- update feed
@@ -34,6 +38,8 @@ public class UpdatesServlet extends HttpServlet {
 
             writeResponseBody(responseBody, response);
         } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, "Unhandled exception", exception);
+
             writeException(exception, response);
         }
     }
