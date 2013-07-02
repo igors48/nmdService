@@ -29,12 +29,16 @@ import nmd.rss.collector.updater.UrlFetcher;
 import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.06.13
  */
 public class ControlServiceWrapper {
+
+    private static final Logger LOGGER = Logger.getLogger(ControlServiceWrapper.class.getName());
 
     private static final Gson GSON = new Gson();
 
@@ -48,8 +52,12 @@ public class ControlServiceWrapper {
 
             final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
 
+            LOGGER.info(String.format("Feed [ %s ] added. Id is [ %s ]", feedUrl, feedId));
+
             return createJsonResponse(feedIdResponse);
         } catch (ControlServiceException exception) {
+            LOGGER.log(Level.SEVERE, String.format("Error adding feed [ %s ]", feedUrl), exception);
+
             return createErrorJsonResponse(exception);
         } finally {
             entityManager.close();
@@ -66,6 +74,8 @@ public class ControlServiceWrapper {
 
             final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Feed [ %s ] removed", feedId));
 
+            LOGGER.info(String.format("Feed [ %s ] removed", feedId));
+
             return createJsonResponse(successMessageResponse);
         } finally {
             entityManager.close();
@@ -79,6 +89,8 @@ public class ControlServiceWrapper {
         try {
             final List<FeedHeader> headers = controlService.getFeedHeaders();
             final FeedHeadersResponse feedHeadersResponse = FeedHeadersResponse.convert(headers);
+
+            LOGGER.info(String.format("[ %s ] feed headers found", headers.size()));
 
             return createJsonResponse(feedHeadersResponse);
         } finally {
@@ -95,10 +107,16 @@ public class ControlServiceWrapper {
             final Feed feed = controlService.getFeed(feedId);
             final String feedAsXml = FeedExporter.export(feed.header, feed.items);
 
+            LOGGER.info(String.format("Feed [ %s ] items exported. Items count [ %d ]", feedId, feed.items.size()));
+
             return new ResponseBody(ContentType.XML, feedAsXml);
         } catch (ControlServiceException exception) {
+            LOGGER.log(Level.SEVERE, String.format("Error export feed [ %s ]", feedId), exception);
+
             return createErrorJsonResponse(exception);
         } catch (FeedExporterException exception) {
+            LOGGER.log(Level.SEVERE, String.format("Error export feed [ %s ]", feedId), exception);
+
             return createErrorJsonResponse(ServiceError.feedExportError(feedId));
         } finally {
             entityManager.close();
@@ -115,6 +133,8 @@ public class ControlServiceWrapper {
 
             return createJsonResponse(response);
         } catch (ControlServiceException exception) {
+            LOGGER.log(Level.SEVERE, "Error update current feed ", exception);
+
             return createErrorJsonResponse(exception);
         } finally {
             entityManager.close();
@@ -130,8 +150,12 @@ public class ControlServiceWrapper {
             final FeedUpdateReport report = controlService.updateFeed(feedId);
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
+            LOGGER.info(String.format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
+
             return createJsonResponse(response);
         } catch (ControlServiceException exception) {
+            LOGGER.log(Level.SEVERE, String.format("Error update feed [ %s ]", feedId), exception);
+
             return createErrorJsonResponse(exception);
         } finally {
             entityManager.close();
