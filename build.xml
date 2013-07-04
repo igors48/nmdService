@@ -361,6 +361,10 @@
             </args>
         </enhance_war>
 
+        <copy todir="${war.directory}">
+            <fileset dir="${dir.base}/war/angular/app/"/>
+        </copy>
+
     </target>
 
     <target name="update">

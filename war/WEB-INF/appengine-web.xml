@@ -3,4 +3,12 @@
     <application>@application.identifier@</application>
     <version>1</version>
     <threadsafe>false</threadsafe>
+
+    <static-files>
+        <include path="js/**.js"/>
+        <include path="css/**.css"/>
+        <include path="lib/angular/**.js"/>
+        <include path="partials/**.html"/>
+    </static-files>
+
 </appengine-web-app>
