@@ -1,7 +1,7 @@
 var application = angular.module('application', ['ngResource']);
 
 application.factory('feeds', function($resource){
-    return $resource('http://localhost\\:8080/security/v01/feeds/', {}, {
+    return $resource('/@security.key@/v01/feeds/', {}, {
         query: {method:'GET', params:{}}
     });
 });

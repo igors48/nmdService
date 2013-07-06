@@ -363,6 +363,8 @@
 
         <copy todir="${war.directory}">
             <fileset dir="${dir.base}/war/angular/app/"/>
+
+            <filterset refid="identifier.and.security"/>
         </copy>
 
     </target>
