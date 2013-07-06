@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en" ng-app="app">
+<html lang="en" ng-app="application">
 
 <head>
     <meta charset="utf-8">
@@ -13,14 +13,11 @@
 <body>
 
 <div ng-controller="FeedListCtrl">
-    <!--
     <ul>
-        <li ng-repeat="feed in feeds">
-            {{feed.id}}
+        <li ng-repeat="header in headers">
+            {{header.feedLink}} - {{header.feedId}}
         </li>
     </ul>
-    -->
-    {{feed}}
 </div>
 
 </body>
