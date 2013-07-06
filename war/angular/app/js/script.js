@@ -7,10 +7,11 @@ application.factory('feeds', function($resource){
 });
 
 function FeedListCtrl($scope, feeds) {
-    $scope.headers = 'loading...';
+    $scope.status = 'loading...';
 
     var feedList = feeds.query(function() {
         $scope.headers = feedList.headers;
+        $scope.status = feedList.headers.length;
     } );
 }
 
