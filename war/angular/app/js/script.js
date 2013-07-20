@@ -20,7 +20,7 @@ application.factory('blockUi', function ($document) {
          top: 0,
          left: 0,
          'background-color': '#000',
-         opacity: 0.6,
+         opacity: 0.3,
          cursor: 'wait',
          position: 'fixed'
     };
