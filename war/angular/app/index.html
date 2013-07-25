@@ -3,29 +3,48 @@
 
 <head>
     <meta charset="utf-8">
-    <title>My AngularJS App</title>
-    <link rel="stylesheet" href="css/app.css"/>
+    <title>Orb</title>
+    <link href="css/bootstrap.css" rel="stylesheet" media="screen"/>
+    <link href="css/app.css" rel="stylesheet"/>
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular/angular-resource.js"></script>
+    <script src="lib/angular/ui-bootstrap-tpls-0.4.0.js"></script>
     <script src="js/script.js"></script>
 </head>
 
 <body>
 
-<div ng-controller="FeedListCtrl">
-    <p>{{status}}</p>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="navbar-inner">
+        <div class="container">
+            <a class="brand" href="#">Orb</a>
+        </div>
+    </div>
+</div>
 
-    <ul>
-        <li ng-repeat="header in headers">
-            {{header.feedLink}} - {{header.feedId}} <a href="/v01/feeds/{{header.feedId}}" target="_blank">View</a>
-        </li>
-    </ul>
+<div class="container">
 
-    <form ng-submit="addFeed()">
-        <input type="text" ng-model="feedLink" size="256"
-               placeholder="enter feed link here">
-        <input type="submit" value="add">
-    </form>
+    <div ng-controller="FeedListCtrl">
+
+        <alert type="statusType">{{statusMessage}}</alert>
+
+        <div>
+
+            <form ng-submit="addFeed()">
+                <input type="text" ng-model="feedLink" size="256" placeholder="enter feed link here" class="span12">
+                <input class="btn btn-primary" type="submit" value="add">
+            </form>
+
+        </div>
+
+        <ul>
+            <li ng-repeat="header in headers">
+                {{header.feedLink}} - {{header.feedId}} <a href="/v01/feeds/{{header.feedId}}" target="_blank">View</a>
+            </li>
+        </ul>
+
+    </div>
+
 </div>
 
 </body>

@@ -1,4 +1,4 @@
-var application = angular.module('application', ['ngResource']);
+var application = angular.module('application', ['ngResource', 'ui.bootstrap']);
 
 application.factory('feeds', function ($resource) {
     return $resource('/@security.key@/v01/feeds/', {}, {
@@ -67,8 +67,18 @@ application.factory('blockUi', function ($document) {
 
 function FeedListCtrl($scope, feeds, blockUi) {
 
+    function showSuccessMessage(message) {
+        $scope.statusType = 'success';
+        $scope.statusMessage = message;
+    }
+
+    function showErrorMessage(message) {
+        $scope.statusType = 'error';
+        $scope.statusMessage = message;
+    }
+
     var serverErrorHandler = function (onContinue) {
-        $scope.status = 'Server error';
+        showErrorMessage('Server error');
 
         blockUi.unblock();
 
@@ -84,7 +94,7 @@ function FeedListCtrl($scope, feeds, blockUi) {
         } else {
             blockUi.unblock();
 
-            $scope.status = 'Error : ' + response.message + ' ' + response.hints;
+            showErrorMessage('Error : ' + response.message + ' ' + response.hints);
         }
 
     }
@@ -92,14 +102,15 @@ function FeedListCtrl($scope, feeds, blockUi) {
     $scope.loadFeedHeaders = function () {
         blockUi.block();
 
-        $scope.status = 'loading...';
+        showSuccessMessage('loading...');
 
         var feedList = feeds.query(
             function() {
                 serverResponseHandler(feedList,
                     function() {
                         $scope.headers = feedList.headers;
-                        $scope.status = feedList.headers.length;
+
+                        showSuccessMessage(feedList.headers.length + ' feed(s)');
                     })
             },
             function () {
@@ -115,7 +126,7 @@ function FeedListCtrl($scope, feeds, blockUi) {
     $scope.addFeed = function () {
         blockUi.block();
 
-        $scope.status = 'adding...';
+        showSuccessMessage('adding...');
 
         var response = feeds.save($scope.feedLink,
             function() {
