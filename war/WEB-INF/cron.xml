@@ -3,7 +3,7 @@
 
     <cron>
         <url>/@security.key@/v01/updates/</url>
-        <description>Feed updates servlet</description>
+        <description>Updates current feed</description>
         <schedule>every 1 minutes</schedule>
     </cron>
 
