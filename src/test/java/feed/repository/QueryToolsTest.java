@@ -26,4 +26,9 @@ public class QueryToolsTest {
         assertEquals("DELETE FROM Table entity WHERE entity.field = :parameter", QueryTools.buildDeleteWhereQuery("Table", "field", "parameter"));
     }
 
+    @Test
+    public void buildDeleteAllQuery() {
+        assertEquals("DELETE FROM Table entity", QueryTools.buildDeleteAllQuery("Table"));
+    }
+
 }

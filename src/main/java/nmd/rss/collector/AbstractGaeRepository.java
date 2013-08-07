@@ -57,6 +57,12 @@ public abstract class AbstractGaeRepository implements Repository {
         return query;
     }
 
+    protected Query buildDeleteAllQuery() {
+        final String template = QueryTools.buildDeleteAllQuery(this.entityName);
+
+        return this.entityManager.createQuery(template);
+    }
+
     protected <T> TypedQuery<T> buildSelectAllQuery(final Class<T> clazz) {
         return buildSelectAllQuery(clazz, 0);
     }

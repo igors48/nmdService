@@ -30,6 +30,12 @@ public final class QueryTools {
         return String.format("DELETE FROM %s entity WHERE entity.%s = :%s", entityName, field, parameter);
     }
 
+    public static String buildDeleteAllQuery(final String entityName) {
+        assertStringIsValid(entityName);
+
+        return String.format("DELETE FROM %s entity", entityName);
+    }
+
     private QueryTools() {
         // empty
     }

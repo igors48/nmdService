@@ -5,6 +5,7 @@ import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
 
@@ -24,7 +25,8 @@ public class GaeFeedUpdateTaskSchedulerContextRepository extends AbstractGaeRepo
     public void store(final FeedUpdateTaskSchedulerContext context) {
         assertNotNull(context);
 
-        removeContextIfExists();
+        final Query deleteAllQuery = buildDeleteAllQuery();
+        deleteAllQuery.executeUpdate();
 
         final SchedulerContextEntity entity = SchedulerContextEntity.convert(context);
 
@@ -38,14 +40,6 @@ public class GaeFeedUpdateTaskSchedulerContextRepository extends AbstractGaeRepo
         final List<SchedulerContextEntity> queryResult = query.getResultList();
 
         return queryResult.isEmpty() ? null : SchedulerContextEntity.convert(queryResult.get(0));
-    }
-
-    private void removeContextIfExists() {
-        List entities = loadAllEntities();
-
-        if (!entities.isEmpty()) {
-            remove(entities.get(0));
-        }
     }
 
 }
