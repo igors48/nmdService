@@ -44,7 +44,7 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
         }
 
         final String data = new Gson().toJson(helpers);
-        final FeedItemsEntity entity = new FeedItemsEntity(feedId, data);
+        final FeedItemsEntity entity = new FeedItemsEntity(feedId, feedItems.size(), data);
 
         persist(entity);
     }

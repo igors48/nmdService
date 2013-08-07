@@ -10,6 +10,7 @@ import javax.persistence.Id;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertPositive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -25,24 +26,29 @@ public class FeedItemsEntity {
     private Key key;
 
     private String feedId;
+    private int itemsCount;
     private Text data;
 
     protected FeedItemsEntity() {
         // empty
     }
 
-    public FeedItemsEntity(final UUID feedId, final String data) {
+    public FeedItemsEntity(final UUID feedId, final int itemsCount, final String data) {
         assertNotNull(feedId);
         this.feedId = feedId.toString();
+
+        assertPositive(itemsCount);
+        this.itemsCount = itemsCount;
 
         assertNotNull(data);
         this.data = new Text(data);
     }
 
+    /*
     public String getFeedId() {
         return this.feedId;
     }
-
+    */
     public Text getData() {
         return this.data;
     }
