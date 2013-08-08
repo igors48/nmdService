@@ -7,8 +7,11 @@ import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import java.io.StringWriter;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
@@ -20,6 +23,7 @@ public final class FeedExporter {
 
     private static final String FEED_HEADER = "<rss version=\"2.0\">";
     private static final String FEED_FOOTER = "</rss>";
+    private static final DateFormat DATE_FORMAT = new SimpleDateFormat("E, d MMM yyyy HH:mm:ss Z", Locale.US);
 
     public static String export(final FeedHeader header, final List<FeedItem> items) throws FeedExporterException {
         assertNotNull(header);
@@ -31,7 +35,7 @@ public final class FeedExporter {
             for (final FeedItem current : items) {
                 final Item item = new Item();
 
-                item.setPubDate(current.date);
+                item.setPubDate(DATE_FORMAT.format(current.date));
                 item.setDescription(current.description);
                 item.setLink(current.link);
                 item.setGuid(current.link);

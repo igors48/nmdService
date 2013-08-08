@@ -1,7 +1,5 @@
 package nmd.rss.collector.exporter;
 
-import java.util.Date;
-
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
@@ -15,7 +13,7 @@ class Item {
     private String link;
     private String guid;
     private String title;
-    private Date pubDate;
+    private String pubDate;
 
     Item() {
         // empty
@@ -48,11 +46,11 @@ class Item {
         this.title = title;
     }
 
-    public Date getPubDate() {
+    public String getPubDate() {
         return this.pubDate;
     }
 
-    public void setPubDate(final Date pubDate) {
+    public void setPubDate(final String pubDate) {
         assertNotNull(pubDate);
         this.pubDate = pubDate;
     }
