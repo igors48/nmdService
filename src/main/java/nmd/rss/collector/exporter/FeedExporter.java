@@ -34,6 +34,7 @@ public final class FeedExporter {
                 item.setPubDate(current.date);
                 item.setDescription(current.description);
                 item.setLink(current.link);
+                item.setGuid(current.link);
                 item.setTitle(current.title);
 
                 channelItems.add(item);

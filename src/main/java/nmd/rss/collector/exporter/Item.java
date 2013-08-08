@@ -13,10 +13,11 @@ class Item {
 
     private String description;
     private String link;
+    private String guid;
     private String title;
     private Date pubDate;
 
-    public Item() {
+    Item() {
         // empty
     }
 
@@ -54,6 +55,15 @@ class Item {
     public void setPubDate(final Date pubDate) {
         assertNotNull(pubDate);
         this.pubDate = pubDate;
+    }
+
+    public String getGuid() {
+        return this.guid;
+    }
+
+    public void setGuid(final String guid) {
+        assertStringIsValid(guid);
+        this.guid = guid;
     }
 
 }
