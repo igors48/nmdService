@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="nmdService">
 
-    <property name="app.engine.sdk.directory" location="C:/devTools/appengine-java-sdk-1.8.3/"/>
+    <property name="app.engine.sdk.directory" location="C:/devTools/appengine-java-sdk/"/>
     <import file="${app.engine.sdk.directory}/config/user/ant-macros.xml"/>
 
     <record name="build.log"/>
@@ -108,7 +108,7 @@
         </fileset>
 
         <fileset dir="${app.engine.sdk.directory}/lib/user/">
-            <include name="**/appengine-api-1.0-sdk-1.8.3.jar"/>
+            <include name="**/appengine-api-1.0-sdk-*.jar"/>
         </fileset>
 
     </path>
