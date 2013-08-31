@@ -13,6 +13,7 @@ import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -44,7 +45,7 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
         }
 
         final String data = new Gson().toJson(helpers);
-        final FeedItemsEntity entity = new FeedItemsEntity(feedId, feedItems.size(), data);
+        final FeedItemsEntity entity = new FeedItemsEntity(feedId, feedItems.size(), data, new Date());
 
         persist(entity);
     }

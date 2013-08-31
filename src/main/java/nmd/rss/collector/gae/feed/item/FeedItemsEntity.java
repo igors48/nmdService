@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import java.util.Date;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -27,13 +28,14 @@ public class FeedItemsEntity {
 
     private String feedId;
     private int itemsCount;
+    private Date lastUpdate;
     private Text data;
 
     protected FeedItemsEntity() {
         // empty
     }
 
-    public FeedItemsEntity(final UUID feedId, final int itemsCount, final String data) {
+    public FeedItemsEntity(final UUID feedId, final int itemsCount, final String data, final Date lastUpdate) {
         assertNotNull(feedId);
         this.feedId = feedId.toString();
 
@@ -42,13 +44,15 @@ public class FeedItemsEntity {
 
         assertNotNull(data);
         this.data = new Text(data);
+
+        assertNotNull(lastUpdate);
+        this.lastUpdate = lastUpdate;
     }
 
-    /*
-    public String getFeedId() {
-        return this.feedId;
+    public Date getLastUpdate() {
+        return this.lastUpdate;
     }
-    */
+
     public Text getData() {
         return this.data;
     }
