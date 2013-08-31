@@ -133,4 +133,14 @@ public class FeedItemsMergerMergeTest {
         assertEquals(YOUNG_SECOND, secondReport.retained.get(0));
     }
 
+    @Test
+    public void whenNoYoungsThenNothingChanges() throws Exception {
+        this.youngs.clear();
+
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
+
+        assertTrue(report.added.isEmpty());
+        assertTrue(report.removed.isEmpty());
+        assertEquals(this.olds.size(), report.retained.size());
+    }
 }

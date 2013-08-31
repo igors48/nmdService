@@ -11,6 +11,8 @@ import static nmd.rss.collector.util.Parameter.isValidString;
  */
 public class FeedItem {
 
+    private static final int ONE_SECOND = 1000;
+
     public final String title;
     public final String description;
     public final String link;
@@ -39,7 +41,10 @@ public class FeedItem {
 
         if (!description.equals(feedItem.description)) return false;
         if (!link.equals(feedItem.link)) return false;
-        if (!date.equals(feedItem.date)) return false;
+
+        // this is important
+        if (Math.abs(date.getTime() - feedItem.date.getTime()) > ONE_SECOND) return false;
+
         if (!title.equals(feedItem.title)) return false;
 
         return true;
