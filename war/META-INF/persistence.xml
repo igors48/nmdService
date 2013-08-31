@@ -14,7 +14,7 @@
             <property name="datanucleus.datastoreWriteTimeout" value="10000"/>
             <property name="datanucleus.appengine.datastoreEnableXGTransactions" value="true"/>
 
-            <property name="javax.persistence.query.timeout" value="5000"/>
+            <property name="javax.persistence.query.timeout" value="10000"/>
         </properties>
     </persistence-unit>
 
