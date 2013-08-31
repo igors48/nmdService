@@ -26,6 +26,8 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class GaeFeedItemsRepository extends AbstractGaeRepository implements FeedItemsRepository {
 
     private static final String FEED_ID = "feedId";
+    private static final Type LIST_TYPE = new TypeToken<ArrayList<FeedItemHelper>>() {
+    }.getType();
 
     public GaeFeedItemsRepository(final EntityManager entityManager) {
         super(entityManager, FeedItemsEntity.NAME);
@@ -36,27 +38,20 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
         assertNotNull(feedId);
         assertNotNull(feedItems);
 
-        deleteItems(feedId);
+        final List<FeedItemsEntity> oldItems = loadEntitiesForFeedId(feedId);
 
-        final List<FeedItemHelper> helpers = new ArrayList<>();
-
-        for (final FeedItem current : feedItems) {
-            helpers.add(FeedItemHelper.convert(current));
-        }
-
-        final String data = new Gson().toJson(helpers);
-        final FeedItemsEntity entity = new FeedItemsEntity(feedId, feedItems.size(), data, new Date());
+        final FeedItemsEntity entity = createEntity(feedId, feedItems);
 
         persist(entity);
+
+        deleteOldItems(oldItems);
     }
 
     @Override
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final TypedQuery<FeedItemsEntity> query = buildSelectWhereQuery(FEED_ID, feedId.toString(), FeedItemsEntity.class);
-
-        final List<FeedItemsEntity> entities = query.getResultList();
+        final List<FeedItemsEntity> entities = loadEntitiesForFeedId(feedId);
 
         return createFeedItems(entities);
     }
@@ -70,13 +65,18 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
         query.executeUpdate();
     }
 
+    private List<FeedItemsEntity> loadEntitiesForFeedId(final UUID feedId) {
+        final TypedQuery<FeedItemsEntity> query = buildSelectWhereQuery(FEED_ID, feedId.toString(), FeedItemsEntity.class);
+
+        return query.getResultList();
+    }
+
     private List<FeedItem> createFeedItems(final List<FeedItemsEntity> entities) {
         final List<FeedItem> result = new ArrayList<>();
 
         if (!entities.isEmpty()) {
-            final Type listType = new TypeToken<ArrayList<FeedItemHelper>>() {
-            }.getType();
-            final List<FeedItemHelper> helpers = new Gson().fromJson(entities.get(0).getData().getValue(), listType);
+            final FeedItemsEntity mostRecentEntity = findMostRecentEntity(entities);
+            final List<FeedItemHelper> helpers = new Gson().fromJson(mostRecentEntity.getData().getValue(), LIST_TYPE);
 
             for (final FeedItemHelper helper : helpers) {
                 final FeedItem item = FeedItemHelper.convert(helper);
@@ -86,6 +86,50 @@ public class GaeFeedItemsRepository extends AbstractGaeRepository implements Fee
         }
 
         return result;
+    }
+
+    private FeedItemsEntity findMostRecentEntity(final List<FeedItemsEntity> entities) {
+        int index = 0;
+        long maxTimeStamp = 0;
+
+        int current = 0;
+
+        for (final FeedItemsEntity entity : entities) {
+            final long timeStamp = entity.getLastUpdate().getTime();
+
+            if (timeStamp > maxTimeStamp) {
+                maxTimeStamp = timeStamp;
+                index = current;
+            }
+
+            ++current;
+        }
+
+        return entities.get(index);
+    }
+
+    private void deleteOldItems(final List<FeedItemsEntity> oldItems) {
+
+        if (oldItems.isEmpty()) {
+            return;
+        }
+
+        final List<FeedItemsEntity> victims = oldItems.subList(0, oldItems.size() > 1 ? 2 : 1);
+
+        for (final FeedItemsEntity victim : victims) {
+            remove(victim);
+        }
+    }
+
+    private FeedItemsEntity createEntity(final UUID feedId, final List<FeedItem> feedItems) {
+        final List<FeedItemHelper> helpers = new ArrayList<>();
+
+        for (final FeedItem current : feedItems) {
+            helpers.add(FeedItemHelper.convert(current));
+        }
+
+        final String data = new Gson().toJson(helpers);
+        return new FeedItemsEntity(feedId, feedItems.size(), data, new Date());
     }
 
 }
