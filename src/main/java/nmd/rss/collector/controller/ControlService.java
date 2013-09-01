@@ -21,6 +21,7 @@ import static nmd.rss.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCE
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
+import static nmd.rss.collector.util.UrlTools.normalizeUrl;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -64,7 +65,7 @@ public class ControlService {
 
         EntityTransaction transaction = null;
 
-        final String feedUrlInLowerCase = feedUrl.toLowerCase();
+        final String feedUrlInLowerCase = normalizeUrl(feedUrl);
         final Feed feed = fetchFeed(feedUrlInLowerCase);
 
         try {

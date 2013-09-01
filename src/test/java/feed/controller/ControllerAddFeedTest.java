@@ -39,6 +39,16 @@ public class ControllerAddFeedTest extends ControllerTestBase {
         assertEquals(firstId, secondId);
     }
 
+    @Test
+    public void whenFeedWithSameLinkButWithSlashAtTheEndAddedSecondTimeThenPreviousIdReturns() throws ControlServiceException {
+        this.fetcherStub.setData(VALID_RSS_FEED);
+
+        final UUID firstId = controlService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
+        final UUID secondId = controlService.addFeed(VALID_FIRST_RSS_FEED_LINK + "/");
+
+        assertEquals(firstId, secondId);
+    }
+
     @Test(expected = ControlServiceException.class)
     public void whenFeedCanNotBeParsedThenExceptionOccurs() throws ControlServiceException {
         this.fetcherStub.setData(INVALID_RSS_FEED);
