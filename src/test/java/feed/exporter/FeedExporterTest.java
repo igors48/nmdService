@@ -26,8 +26,8 @@ public class FeedExporterTest {
     @Test
     public void roundtrip() throws FeedExporterException, FeedParserException {
         final FeedHeader header = new FeedHeader(UUID.randomUUID(), RSS_FEED_URL, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
-        final FeedItem first = new FeedItem("firstTitle", "firstDescription", "firstLink", new Date(48));
-        final FeedItem second = new FeedItem("secondTitle", "secondDescription", "secondLink", new Date(50));
+        final FeedItem first = new FeedItem("firstTitle", "firstDescription", "firstLink", new Date(48), "firstLink");
+        final FeedItem second = new FeedItem("secondTitle", "secondDescription", "secondLink", new Date(50), "secondLink");
         final List<FeedItem> items = new ArrayList<>();
         items.add(first);
         items.add(second);

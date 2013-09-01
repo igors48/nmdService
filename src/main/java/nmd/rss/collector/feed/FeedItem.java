@@ -17,8 +17,9 @@ public class FeedItem {
     public final String description;
     public final String link;
     public final Date date;
+    public final String guid;
 
-    public FeedItem(final String title, final String description, final String link, final Date date) {
+    public FeedItem(final String title, final String description, final String link, final Date date, final String guid) {
         assertNotNull(title);
         assertNotNull(description);
         assertTrue(isValidString(title) || isValidString(description));
@@ -30,6 +31,9 @@ public class FeedItem {
 
         assertNotNull(date);
         this.date = date;
+
+        assertStringIsValid(guid);
+        this.guid = guid;
     }
 
     @Override
@@ -37,15 +41,15 @@ public class FeedItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FeedItem feedItem = (FeedItem) o;
-
-        if (!description.equals(feedItem.description)) return false;
-        if (!link.equals(feedItem.link)) return false;
+        FeedItem item = (FeedItem) o;
 
         // this is important
-        if (Math.abs(date.getTime() - feedItem.date.getTime()) > ONE_SECOND) return false;
+        if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
 
-        if (!title.equals(feedItem.title)) return false;
+        if (!description.equals(item.description)) return false;
+        if (!guid.equals(item.guid)) return false;
+        if (!link.equals(item.link)) return false;
+        if (!title.equals(item.title)) return false;
 
         return true;
     }
@@ -56,6 +60,8 @@ public class FeedItem {
         result = 31 * result + description.hashCode();
         result = 31 * result + link.hashCode();
         result = 31 * result + date.hashCode();
+        result = 31 * result + guid.hashCode();
         return result;
     }
+
 }

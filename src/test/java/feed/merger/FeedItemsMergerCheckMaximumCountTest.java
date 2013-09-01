@@ -9,6 +9,7 @@ import org.junit.Test;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
@@ -19,13 +20,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class FeedItemsMergerCheckMaximumCountTest {
 
-    public static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48));
-    public static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(50));
-    public static final FeedItem OLD_THIRD = new FeedItem("oldThirdTitle", "oldThirdDescription", "oldThirdLink", new Date(50));
+    public static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48), UUID.randomUUID().toString());
+    public static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(50), UUID.randomUUID().toString());
+    public static final FeedItem OLD_THIRD = new FeedItem("oldThirdTitle", "oldThirdDescription", "oldThirdLink", new Date(50), UUID.randomUUID().toString());
 
-    public static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "youngFirstLink", new Date(58));
-    public static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", new Date(60));
-    public static final FeedItem YOUNG_THIRD = new FeedItem("youngThirdTitle", "youngThirdDescription", "youngThirdLink", new Date(62));
+    public static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "youngFirstLink", new Date(58), UUID.randomUUID().toString());
+    public static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", new Date(60), UUID.randomUUID().toString());
+    public static final FeedItem YOUNG_THIRD = new FeedItem("youngThirdTitle", "youngThirdDescription", "youngThirdLink", new Date(62), UUID.randomUUID().toString());
 
     private List<FeedItem> olds;
     private List<FeedItem> youngs;
