@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project name="nmdService">
 
+    <property file="build.properties.local"/>
+    
     <property environment="environment"/>
     <property name="app.engine.sdk.directory" location="${environment.GAE_HOME}"/>
     <import file="${app.engine.sdk.directory}/config/user/ant-macros.xml"/>
@@ -331,11 +333,6 @@
             <fileset dir="${dir.dependencies.runtime}"/>
         </copy>
 
-        <input message="Please enter application identifier : " addproperty="application.identifier"
-               defaultvalue="rss-collector"/>
-
-        <input message="Please enter security key : " addproperty="security.key" defaultvalue="security"/>
-
         <filterset id="identifier.and.security">
             <filter token="application.identifier" value="${application.identifier}"/>
             <filter token="security.key" value="${security.key}"/>
@@ -386,14 +383,13 @@
 
     <target name="update">
 
-        <input message="Enter email : " addproperty="gae-email"/>
-        <input message="Enter password : " addproperty="gae-password">
+        <input message="Enter password : " addproperty="gae.password">
             <handler type="secure"/>
         </input>
 
-        <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae-password}"
+        <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae.password}"
               classpath="${app.engine.sdk.directory}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
-            <arg value="--email=${gae-email}"/>
+            <arg value="--email=${gae.email}"/>
             <arg value="--passin"/>
             <arg value="update"/>
             <arg value="${war.directory}"/>
