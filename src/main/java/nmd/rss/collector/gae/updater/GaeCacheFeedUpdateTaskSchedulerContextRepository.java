@@ -5,8 +5,6 @@ import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 
-import java.util.List;
-
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -30,16 +28,6 @@ public class GaeCacheFeedUpdateTaskSchedulerContextRepository implements FeedUpd
         final FeedUpdateTaskSchedulerContext context = (FeedUpdateTaskSchedulerContext) CACHE.get(KEY);
 
         return context == null ? FeedUpdateTaskSchedulerContext.START_CONTEXT : context;
-    }
-
-    @Override
-    public List loadAllEntities() {
-        return null;
-    }
-
-    @Override
-    public void remove(Object victim) {
-        // empty
     }
 
 }
