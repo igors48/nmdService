@@ -67,12 +67,5 @@ public class ServiceError {
                 "There is no task scheduled for update",
                 "Possibly feed update schedule is empty. Check registered feeds list.");
     }
-   /*
-    public static ServiceError invalidFeedId() {
 
-        return new ServiceError(7,
-                "Unable to parse feed id from request",
-                "Looks like feed id not in valid UUID format");
-    }
-    */
 }
