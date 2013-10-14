@@ -389,7 +389,7 @@
 
         <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae.password}"
               classpath="${app.engine.sdk.directory}/lib/appengine-tools-api.jar" fork="true" failonerror="true">
-            <arg value="--email=${gae.email}"/>
+            <arg value="--email=${email}"/>
             <arg value="--passin"/>
             <arg value="update"/>
             <arg value="${war.directory}"/>

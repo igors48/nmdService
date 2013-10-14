@@ -1,12 +1,14 @@
 package nmd.rss.collector.scheduler;
 
+import java.io.Serializable;
+
 import static nmd.rss.collector.util.Assert.assertPositive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.04.13
  */
-public class FeedUpdateTaskSchedulerContext {
+public class FeedUpdateTaskSchedulerContext implements Serializable {
 
     public static final FeedUpdateTaskSchedulerContext START_CONTEXT = new FeedUpdateTaskSchedulerContext(0);
 
