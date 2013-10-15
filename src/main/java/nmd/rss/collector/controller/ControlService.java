@@ -1,7 +1,12 @@
 package nmd.rss.collector.controller;
 
+import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.DatastoreServiceFactory;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.feed.*;
+import nmd.rss.collector.gae.persistence.Entities;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
@@ -207,6 +212,7 @@ public class ControlService {
     }
 
     public FeedUpdateReport updateCurrentFeed() throws ControlServiceException {
+        /*
         final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
         if (currentTask == null) {
@@ -214,6 +220,23 @@ public class ControlService {
         }
 
         return updateFeed(currentTask.feedId);
+        */
+        final Entity feeds = Entities.feeds();
+        final Entity header = Entities.header("wer", feeds.getKey());
+
+        DatastoreService datastore = DatastoreServiceFactory.getDatastoreService();
+        datastore.put(feeds);
+        datastore.put(header);
+
+        try {
+            final Entity loadedHeader = datastore.get(header.getKey());
+
+            return null;
+        } catch (EntityNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
