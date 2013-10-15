@@ -70,14 +70,4 @@ public class FeedHeadersRepositoryStub implements FeedHeadersRepository {
         this.feedHeaders.add(feedHeader);
     }
 
-    @Override
-    public List loadAllEntities() {
-        return null;
-    }
-
-    @Override
-    public void remove(final Object victim) {
-
-    }
-
 }
