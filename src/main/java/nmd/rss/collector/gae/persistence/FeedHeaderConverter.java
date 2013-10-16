@@ -15,6 +15,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class FeedHeaderConverter {
 
     public static final String KIND = "FeedHeader";
+
     public static final String FEED_LINK = "feedLink";
 
     private static final String HEADER_ID = "headerId";

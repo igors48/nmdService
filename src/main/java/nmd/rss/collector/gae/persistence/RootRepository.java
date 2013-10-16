@@ -22,6 +22,8 @@ public class RootRepository {
 
     //TODO divide get and create
     public static Entity getFeedRoot(UUID feedId) {
+        assertNotNull(feedId);
+
         final Entity root = getFeedsRoot();
 
         final Query query = new Query(FEED_ENTITY_KIND)
@@ -29,14 +31,26 @@ public class RootRepository {
                 .setFilter(new Query.FilterPredicate(FEED_ID, EQUAL, feedId.toString()));
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
-        Entity feedRoot = preparedQuery.asSingleEntity();
+        return preparedQuery.asSingleEntity();
+    }
 
-        if (feedRoot == null) {
-            feedRoot = newFeedRoot(feedId, root.getKey());
-            DATASTORE_SERVICE.put(feedRoot);
-        }
+    public static Entity createFeedRoot(UUID feedId) {
+        assertNotNull(feedId);
+
+        final Entity feedsRoot = getFeedsRoot();
+
+        final Entity feedRoot = newFeedRoot(feedId, feedsRoot.getKey());
+        DATASTORE_SERVICE.put(feedRoot);
 
         return feedRoot;
+    }
+
+    public static Key getFeedRootKey(UUID feedId) {
+        assertNotNull(feedId);
+
+        final Entity feedRoot = getFeedRoot(feedId);
+
+        return feedRoot.getKey();
     }
 
     private static Entity getFeedsRoot() {
@@ -47,6 +61,7 @@ public class RootRepository {
 
         if (feedsRoot == null) {
             feedsRoot = newFeedsRoot();
+
             DATASTORE_SERVICE.put(feedsRoot);
         }
 

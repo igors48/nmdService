@@ -35,14 +35,4 @@ public class FeedItemsRepositoryStub implements FeedItemsRepository {
         this.items.remove(feedId);
     }
 
-    @Override
-    public List loadAllEntities() {
-        return null;
-    }
-
-    @Override
-    public void remove(final Object victim) {
-
-    }
-
 }

@@ -1,0 +1,79 @@
+package nmd.rss.collector.gae.persistence;
+
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
+import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.updater.FeedItemsRepository;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
+import static java.lang.Integer.MAX_VALUE;
+import static nmd.rss.collector.gae.persistence.FeedItemConverter.KIND;
+import static nmd.rss.collector.gae.persistence.RootRepository.DATASTORE_SERVICE;
+import static nmd.rss.collector.gae.persistence.RootRepository.getFeedRootKey;
+import static nmd.rss.collector.util.Assert.assertNotNull;
+
+/**
+ * User: igu
+ * Date: 16.10.13
+ */
+public class NewFeedItemsRepository implements FeedItemsRepository {
+
+    @Override
+    public void updateItems(UUID feedId, List<FeedItem> feedItems) {
+        assertNotNull(feedId);
+        assertNotNull(feedItems);
+
+        deleteItems(feedId);
+
+        final Key feedRootKey = getFeedRootKey(feedId);
+
+        for (final FeedItem feedItem : feedItems) {
+            final Entity entity = FeedItemConverter.convert(feedItem, feedRootKey);
+
+            DATASTORE_SERVICE.put(entity);
+        }
+    }
+
+    @Override
+    public List<FeedItem> loadItems(UUID feedId) {
+        assertNotNull(feedId);
+
+        final Key feedRootKey = getFeedRootKey(feedId);
+        final Query query = new Query(KIND).setAncestor(feedRootKey);
+        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
+
+        final List<Entity> entities = preparedQuery.asList(withLimit(MAX_VALUE));
+
+        final List<FeedItem> feedItems = new ArrayList<>(entities.size());
+
+        for (final Entity entity : entities) {
+            final FeedItem feedItem = FeedItemConverter.convert(entity);
+
+            feedItems.add(feedItem);
+        }
+
+        return feedItems;
+    }
+
+    @Override
+    public void deleteItems(UUID feedId) {
+        assertNotNull(feedId);
+
+        final Key feedRootKey = getFeedRootKey(feedId);
+        final Query query = new Query(KIND).setAncestor(feedRootKey).setKeysOnly();
+        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
+
+        final List<Entity> victims = preparedQuery.asList(withLimit(MAX_VALUE));
+
+        for (final Entity victim : victims) {
+            DATASTORE_SERVICE.delete(victim.getKey());
+        }
+    }
+
+}
