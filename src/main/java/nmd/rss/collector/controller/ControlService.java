@@ -1,7 +1,9 @@
 package nmd.rss.collector.controller;
 
+import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.feed.*;
+import nmd.rss.collector.gae.persistence.RootRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
@@ -63,14 +65,18 @@ public class ControlService {
     public UUID addFeed(final String feedUrl) throws ControlServiceException {
         assertStringIsValid(feedUrl);
 
-        EntityTransaction transaction = null;
+        /*Entity*/
+        Transaction transaction = null;
 
         final String feedUrlInLowerCase = normalizeUrl(feedUrl);
         final Feed feed = fetchFeed(feedUrlInLowerCase);
 
         try {
-            transaction = this.transactions.getOne();
-            transaction.begin();
+            //TODO return transactional behaviour
+            //transaction = this.transactions.getOne();
+            //transaction.begin();
+
+            transaction = RootRepository.DATASTORE_SERVICE.beginTransaction(/*TransactionOptions.Builder.withXG(true)*/);
 
             FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
 
@@ -86,11 +92,16 @@ public class ControlService {
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, MAX_FEED_ITEMS_COUNT);
             updateFeedItems(feedHeader.id, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
 
-            transaction.commit();
+            //transaction.commit();
 
             return feedHeader.id;
         } finally {
-            rollbackIfActive(transaction);
+            //rollbackIfActive(transaction);
+            /*
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            */
         }
     }
 

@@ -20,7 +20,6 @@ public class RootRepository {
 
     private static final String FEED_ID = "feedId";
 
-    //TODO divide get and create
     public static Entity getFeedRoot(UUID feedId) {
         assertNotNull(feedId);
 

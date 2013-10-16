@@ -2,6 +2,7 @@ package nmd.rss.collector.gae.persistence;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 import nmd.rss.collector.feed.FeedItem;
 
 import java.util.Date;
@@ -29,7 +30,7 @@ public class FeedItemConverter {
         final Entity entity = new Entity(KIND, feedKey);
 
         entity.setProperty(TITLE, item.title);
-        entity.setProperty(DESCRIPTION, item.description);
+        entity.setProperty(DESCRIPTION, new Text(item.description));
         entity.setProperty(LINK, item.link);
         entity.setProperty(DATE, item.date);
         entity.setProperty(GUID, item.guid);
@@ -41,7 +42,7 @@ public class FeedItemConverter {
         assertNotNull(entity);
 
         final String title = (String) entity.getProperty(TITLE);
-        final String description = (String) entity.getProperty(DESCRIPTION);
+        final String description = ((Text) entity.getProperty(DESCRIPTION)).getValue();
         final String link = (String) entity.getProperty(LINK);
         final Date date = (Date) entity.getProperty(DATE);
         final String guid = (String) entity.getProperty(GUID);
