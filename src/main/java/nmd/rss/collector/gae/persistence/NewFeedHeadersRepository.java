@@ -67,7 +67,8 @@ public class NewFeedHeadersRepository implements FeedHeadersRepository {
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
         final Entity entity = preparedQuery.asSingleEntity();
-        return FeedHeaderConverter.convert(entity);
+
+        return entity == null ? null : FeedHeaderConverter.convert(entity);
     }
 
     @Override

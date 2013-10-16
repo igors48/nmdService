@@ -68,13 +68,4 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
         }
     }
 
-    @Override
-    public List loadAllEntities() {
-        return null;
-    }
-
-    @Override
-    public void remove(Object victim) {
-    }
-
 }

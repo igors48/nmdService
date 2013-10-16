@@ -50,7 +50,7 @@ public class RootRepository {
 
         final Entity feedRoot = getFeedRoot(feedId);
 
-        return feedRoot.getKey();
+        return feedRoot == null ? null : feedRoot.getKey();
     }
 
     private static Entity getFeedsRoot() {

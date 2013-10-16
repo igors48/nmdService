@@ -2,7 +2,6 @@ package nmd.rss.collector.controller;
 
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.feed.*;
-import nmd.rss.collector.gae.persistence.NewFeedHeadersRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
@@ -208,7 +207,6 @@ public class ControlService {
     }
 
     public FeedUpdateReport updateCurrentFeed() throws ControlServiceException {
-        /*
         final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
         if (currentTask == null) {
@@ -216,22 +214,6 @@ public class ControlService {
         }
 
         return updateFeed(currentTask.feedId);
-        */
-
-        final NewFeedHeadersRepository newFeedHeadersRepository = new NewFeedHeadersRepository();
-
-        newFeedHeadersRepository.storeHeader(null);
-/*
-        try {
-            final Entity loadedHeader = datastore.get(header.getKey());
-
-            return null;
-        } catch (EntityNotFoundException e) {
-            e.printStackTrace();
-        }
-*/
-        return null;
-
     }
 
     private void createFeedUpdateTask(final FeedHeader feedHeader) {

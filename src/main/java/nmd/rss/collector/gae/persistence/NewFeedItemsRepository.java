@@ -45,6 +45,11 @@ public class NewFeedItemsRepository implements FeedItemsRepository {
         assertNotNull(feedId);
 
         final Key feedRootKey = getFeedRootKey(feedId);
+
+        if (feedRootKey == null) {
+            return null;
+        }
+
         final Query query = new Query(KIND).setAncestor(feedRootKey);
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
