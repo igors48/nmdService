@@ -1,8 +1,7 @@
 package feed.controller;
 
+import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
-
-import javax.persistence.EntityTransaction;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -11,7 +10,7 @@ import javax.persistence.EntityTransaction;
 public class TransactionsStub implements Transactions {
 
     @Override
-    public EntityTransaction getOne() {
+    public Transaction beginOne() {
         return new TransactionStub();
     }
 

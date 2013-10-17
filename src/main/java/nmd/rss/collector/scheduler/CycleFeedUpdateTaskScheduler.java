@@ -1,8 +1,8 @@
 package nmd.rss.collector.scheduler;
 
+import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
 
-import javax.persistence.EntityTransaction;
 import java.util.List;
 
 import static nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext.START_CONTEXT;
@@ -33,11 +33,10 @@ public class CycleFeedUpdateTaskScheduler implements FeedUpdateTaskScheduler {
     @Override
     public FeedUpdateTask getCurrentTask() {
 
-        EntityTransaction transaction = null;
+        Transaction transaction = null;
 
         try {
-            transaction = this.transactions.getOne();
-            transaction.begin();
+            transaction = this.transactions.beginOne();
 
             FeedUpdateTaskSchedulerContext context = this.contextRepository.load();
             context = context == null ? START_CONTEXT : context;

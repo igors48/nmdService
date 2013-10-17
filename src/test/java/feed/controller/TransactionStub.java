@@ -1,6 +1,8 @@
 package feed.controller;
 
-import javax.persistence.EntityTransaction;
+import com.google.appengine.api.datastore.Transaction;
+
+import java.util.concurrent.Future;
 
 import static feed.controller.TransactionState.*;
 
@@ -8,21 +10,11 @@ import static feed.controller.TransactionState.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 05.06.13
  */
-public class TransactionStub implements EntityTransaction {
+public class TransactionStub implements Transaction {
 
     private TransactionState state;
 
     public TransactionStub() {
-        this.state = NOT_ACTIVE;
-    }
-
-    @Override
-    public void begin() {
-
-        if (isActive()) {
-            throw new IllegalStateException();
-        }
-
         this.state = ACTIVE;
     }
 
@@ -37,6 +29,11 @@ public class TransactionStub implements EntityTransaction {
     }
 
     @Override
+    public Future<Void> commitAsync() {
+        return null;
+    }
+
+    @Override
     public void rollback() {
 
         if (!isActive()) {
@@ -47,22 +44,23 @@ public class TransactionStub implements EntityTransaction {
     }
 
     @Override
-    public void setRollbackOnly() {
-        // empty
+    public Future<Void> rollbackAsync() {
+        return null;
     }
 
     @Override
-    public boolean getRollbackOnly() {
-        return false;
+    public String getId() {
+        return null;
+    }
+
+    @Override
+    public String getApp() {
+        return null;
     }
 
     @Override
     public boolean isActive() {
         return this.state == ACTIVE;
-    }
-
-    public TransactionState getState() {
-        return this.state;
     }
 
 }

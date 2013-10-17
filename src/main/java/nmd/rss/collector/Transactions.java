@@ -1,6 +1,6 @@
 package nmd.rss.collector;
 
-import javax.persistence.EntityTransaction;
+import com.google.appengine.api.datastore.Transaction;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -8,6 +8,6 @@ import javax.persistence.EntityTransaction;
  */
 public interface Transactions {
 
-    EntityTransaction getOne();
+    Transaction beginOne();
 
 }

@@ -1,7 +1,6 @@
 package nmd.rss.collector.rest;
 
 import com.google.gson.Gson;
-import nmd.rss.collector.EntityManagerTransactions;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.ControlService;
 import nmd.rss.collector.controller.ControlServiceException;
@@ -11,11 +10,11 @@ import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.gae.EMF;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
 import nmd.rss.collector.gae.persistence.NewFeedHeadersRepository;
 import nmd.rss.collector.gae.persistence.NewFeedItemsRepository;
 import nmd.rss.collector.gae.persistence.NewFeedUpdateTaskRepository;
+import nmd.rss.collector.gae.persistence.RootRepository;
 import nmd.rss.collector.gae.updater.GaeCacheFeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.rest.responses.*;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
@@ -26,7 +25,6 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 
-import javax.persistence.EntityManager;
 import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
@@ -44,8 +42,7 @@ public class ControlServiceWrapper {
 
     public static ResponseBody addFeed(final String feedUrl) {
         //TODO feedUrl can be null. need to check it
-        final EntityManager entityManager = EMF.get().createEntityManager();
-        final ControlService controlService = createControlService(entityManager);
+        final ControlService controlService = createControlService();
 
         try {
             final UUID feedId = controlService.addFeed(feedUrl);
@@ -59,49 +56,37 @@ public class ControlServiceWrapper {
             LOGGER.log(Level.SEVERE, String.format("Error adding feed [ %s ]", feedUrl), exception);
 
             return createErrorJsonResponse(exception);
-        } finally {
-            entityManager.close();
         }
     }
 
     public static ResponseBody removeFeed(final UUID feedId) {
         //TODO feedId can be null. need to check it
-        final EntityManager entityManager = EMF.get().createEntityManager();
-        final ControlService controlService = createControlService(entityManager);
+        final ControlService controlService = createControlService();
 
-        try {
-            controlService.removeFeed(feedId);
+        controlService.removeFeed(feedId);
 
-            final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Feed [ %s ] removed", feedId));
+        final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Feed [ %s ] removed", feedId));
 
-            LOGGER.info(String.format("Feed [ %s ] removed", feedId));
+        LOGGER.info(String.format("Feed [ %s ] removed", feedId));
 
-            return createJsonResponse(successMessageResponse);
-        } finally {
-            entityManager.close();
-        }
+        return createJsonResponse(successMessageResponse);
+
     }
 
     public static ResponseBody getFeedHeaders() {
-        final EntityManager entityManager = EMF.get().createEntityManager();
-        final ControlService controlService = createControlService(entityManager);
+        final ControlService controlService = createControlService();
 
-        try {
-            final List<FeedHeader> headers = controlService.getFeedHeaders();
-            final FeedHeadersResponse feedHeadersResponse = FeedHeadersResponse.convert(headers);
+        final List<FeedHeader> headers = controlService.getFeedHeaders();
+        final FeedHeadersResponse feedHeadersResponse = FeedHeadersResponse.convert(headers);
 
-            LOGGER.info(String.format("[ %s ] feed headers found", headers.size()));
+        LOGGER.info(String.format("[ %s ] feed headers found", headers.size()));
 
-            return createJsonResponse(feedHeadersResponse);
-        } finally {
-            entityManager.close();
-        }
+        return createJsonResponse(feedHeadersResponse);
     }
 
     public static ResponseBody getFeed(final UUID feedId) {
         //TODO feedId can be null. need to check it
-        final EntityManager entityManager = EMF.get().createEntityManager();
-        final ControlService controlService = createControlService(entityManager);
+        final ControlService controlService = createControlService();
 
         try {
             final Feed feed = controlService.getFeed(feedId);
@@ -118,14 +103,11 @@ public class ControlServiceWrapper {
             LOGGER.log(Level.SEVERE, String.format("Error export feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(ServiceError.feedExportError(feedId));
-        } finally {
-            entityManager.close();
         }
     }
 
     public static ResponseBody updateCurrentFeed() {
-        final EntityManager entityManager = EMF.get().createEntityManager();
-        final ControlService controlService = createControlService(entityManager);
+        final ControlService controlService = createControlService();
 
         try {
             final FeedUpdateReport report = controlService.updateCurrentFeed();
@@ -138,15 +120,12 @@ public class ControlServiceWrapper {
             LOGGER.log(Level.SEVERE, "Error update current feed ", exception);
 
             return createErrorJsonResponse(exception);
-        } finally {
-            entityManager.close();
         }
     }
 
     public static ResponseBody updateFeed(final UUID feedId) {
         //TODO feedId can be null. need to check it
-        final EntityManager entityManager = EMF.get().createEntityManager();
-        final ControlService controlService = createControlService(entityManager);
+        final ControlService controlService = createControlService();
 
         try {
             final FeedUpdateReport report = controlService.updateFeed(feedId);
@@ -159,8 +138,6 @@ public class ControlServiceWrapper {
             LOGGER.log(Level.SEVERE, String.format("Error update feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(exception);
-        } finally {
-            entityManager.close();
         }
     }
 
@@ -182,14 +159,11 @@ public class ControlServiceWrapper {
         return createJsonResponse(errorResponse);
     }
 
-    private static ControlService createControlService(final EntityManager entityManager) {
-        final Transactions transactions = new EntityManagerTransactions(entityManager);
+    //TODO consider lazy init
+    private static ControlService createControlService() {
+        final Transactions transactions = new RootRepository();
         final UrlFetcher urlFetcher = new GaeUrlFetcher();
-        /*
-        final FeedUpdateTaskRepository feedUpdateTaskRepository = new GaeFeedUpdateTaskRepository(entityManager);
-        final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository(entityManager);
-        final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository(entityManager);
-        */
+
         final FeedUpdateTaskRepository feedUpdateTaskRepository = new NewFeedUpdateTaskRepository();
         final FeedItemsRepository feedItemsRepository = new NewFeedItemsRepository();
         final FeedHeadersRepository feedHeadersRepository = new NewFeedHeadersRepository();

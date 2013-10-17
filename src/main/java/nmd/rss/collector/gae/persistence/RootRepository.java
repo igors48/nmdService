@@ -1,9 +1,7 @@
 package nmd.rss.collector.gae.persistence;
 
-import com.google.appengine.api.datastore.DatastoreService;
-import com.google.appengine.api.datastore.DatastoreServiceFactory;
-import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.*;
+import nmd.rss.collector.Transactions;
 
 import java.util.UUID;
 
@@ -13,7 +11,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * User: igu
  * Date: 15.10.13
  */
-public class RootRepository {
+public class RootRepository implements Transactions {
 
     public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
 
@@ -26,6 +24,11 @@ public class RootRepository {
         assertNotNull(feedId);
 
         return KeyFactory.createKey(FEEDS_ROOT_KEY, FEED_ENTITY_KIND, feedId.toString());
+    }
+
+    @Override
+    public Transaction beginOne() {
+        return DATASTORE_SERVICE.beginTransaction();
     }
 
 }
