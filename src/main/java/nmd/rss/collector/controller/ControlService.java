@@ -11,7 +11,6 @@ import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.collector.updater.UrlFetcherException;
 
-import javax.persistence.EntityTransaction;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -33,6 +32,7 @@ public class ControlService {
 
     private static final int MAX_FEED_ITEMS_COUNT = 1000;
 
+    //TODO reintroduce
     private final Transactions transactions;
 
     private final FeedHeadersRepository feedHeadersRepository;
@@ -65,17 +65,12 @@ public class ControlService {
     public UUID addFeed(final String feedUrl) throws ControlServiceException {
         assertStringIsValid(feedUrl);
 
-        /*Entity*/
         Transaction transaction = null;
 
         final String feedUrlInLowerCase = normalizeUrl(feedUrl);
         final Feed feed = fetchFeed(feedUrlInLowerCase);
 
         try {
-            //TODO return transactional behaviour
-            //transaction = this.transactions.getOne();
-            //transaction.begin();
-
             transaction = DATASTORE_SERVICE.beginTransaction();
 
             FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
@@ -96,24 +91,17 @@ public class ControlService {
 
             return feedHeader.id;
         } finally {
-            //rollbackIfActive(transaction);
-            //TODO extract
-            if (transaction != null) {
-                if (transaction.isActive()) {
-                    transaction.rollback();
-                }
-            }
+            rollbackIfActive(transaction);
         }
     }
 
     public void removeFeed(final UUID feedId) {
         assertNotNull(feedId);
 
-        EntityTransaction transaction = null;
+        Transaction transaction = null;
 
         try {
-            transaction = this.transactions.getOne();
-            transaction.begin();
+            transaction = DATASTORE_SERVICE.beginTransaction();
 
             this.feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
             this.feedHeadersRepository.deleteHeader(feedId);
@@ -126,39 +114,28 @@ public class ControlService {
     }
 
     public List<FeedHeader> getFeedHeaders() {
-        /*Entity*/
         Transaction transaction = null;
 
         try {
             transaction = DATASTORE_SERVICE.beginTransaction();
-            /*
-            transaction = this.transactions.getOne();
-            transaction.begin();
-            */
+
             final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
 
             transaction.commit();
 
             return headers;
         } finally {
-            //rollbackIfActive(transaction);
-            //TODO extract
-            if (transaction != null) {
-                if (transaction.isActive()) {
-                    transaction.rollback();
-                }
-            }
+            rollbackIfActive(transaction);
         }
     }
 
     public Feed getFeed(final UUID feedId) throws ControlServiceException {
         assertNotNull(feedId);
 
-        EntityTransaction transaction = null;
+        Transaction transaction = null;
 
         try {
-            transaction = this.transactions.getOne();
-            transaction.begin();
+            transaction = DATASTORE_SERVICE.beginTransaction();
 
             final FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
 
@@ -180,16 +157,12 @@ public class ControlService {
     public FeedUpdateReport updateFeed(final UUID feedId) throws ControlServiceException {
         assertNotNull(feedId);
 
-        /*Entity*/
         Transaction getFeedHeaderAndTaskTransaction = null;
 
         final FeedHeader header;
         final FeedUpdateTask updateTask;
 
         try {
-            //getFeedHeaderAndTaskTransaction = this.transactions.getOne();
-            //getFeedHeaderAndTaskTransaction.begin();
-
             getFeedHeaderAndTaskTransaction = DATASTORE_SERVICE.beginTransaction();
 
             header = this.feedHeadersRepository.loadHeader(feedId);
@@ -206,18 +179,14 @@ public class ControlService {
 
             getFeedHeaderAndTaskTransaction.commit();
         } finally {
-            //rollbackIfActive(getFeedHeaderAndTaskTransaction);
+            rollbackIfActive(getFeedHeaderAndTaskTransaction);
         }
 
         final Feed feed = fetchFeed(header.feedLink);
 
-        /*Entity*/
         Transaction updateFeedTransaction = null;
 
         try {
-            //updateFeedTransaction = this.transactions.getOne();
-            //updateFeedTransaction.begin();
-
             updateFeedTransaction = DATASTORE_SERVICE.beginTransaction();
 
             List<FeedItem> olds = getFeedOldItems(header);
@@ -229,7 +198,7 @@ public class ControlService {
 
             return new FeedUpdateReport(header.feedLink, feedId, mergeReport);
         } finally {
-            //rollbackIfActive(updateFeedTransaction);
+            rollbackIfActive(updateFeedTransaction);
         }
     }
 
