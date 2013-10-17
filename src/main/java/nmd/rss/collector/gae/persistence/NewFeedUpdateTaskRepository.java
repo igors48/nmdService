@@ -14,7 +14,8 @@ import java.util.UUID;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static java.lang.Integer.MAX_VALUE;
 import static nmd.rss.collector.gae.persistence.FeedUpdateTaskConverter.KIND;
-import static nmd.rss.collector.gae.persistence.RootRepository.*;
+import static nmd.rss.collector.gae.persistence.RootRepository.DATASTORE_SERVICE;
+import static nmd.rss.collector.gae.persistence.RootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -70,13 +71,7 @@ public class NewFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     }
 
     private Entity getEntity(UUID feedId) {
-        final Entity feedRoot = getFeedRoot(feedId);
-
-        if (feedRoot == null) {
-            return null;
-        }
-
-        final Query query = new Query(KIND).setAncestor(feedRoot.getKey());
+        final Query query = new Query(KIND).setAncestor(getFeedRootKey(feedId));
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
         return preparedQuery.asSingleEntity();

@@ -15,7 +15,8 @@ import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
 import static java.lang.Integer.MAX_VALUE;
 import static nmd.rss.collector.gae.persistence.FeedHeaderConverter.FEED_LINK;
 import static nmd.rss.collector.gae.persistence.FeedHeaderConverter.KIND;
-import static nmd.rss.collector.gae.persistence.RootRepository.*;
+import static nmd.rss.collector.gae.persistence.RootRepository.DATASTORE_SERVICE;
+import static nmd.rss.collector.gae.persistence.RootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -35,8 +36,6 @@ public class NewFeedHeadersRepository implements FeedHeadersRepository {
 
     @Override
     public List<FeedHeader> loadHeaders() {
-        RootRepository.getFeedsRoot();
-
         final Query query = new Query(KIND);
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
@@ -77,15 +76,13 @@ public class NewFeedHeadersRepository implements FeedHeadersRepository {
     public void storeHeader(FeedHeader feedHeader) {
         assertNotNull(feedHeader);
 
-        final Entity feedRoot = createFeedRoot(feedHeader.id);
-        final Entity entity = FeedHeaderConverter.convert(feedHeader, feedRoot.getKey());
+        final Entity entity = FeedHeaderConverter.convert(feedHeader, getFeedRootKey(feedHeader.id));
 
         DATASTORE_SERVICE.put(entity);
     }
 
     private Entity getEntity(UUID feedId) {
-        final Entity feedRoot = getFeedRoot(feedId);
-        final Query query = new Query(KIND).setAncestor(feedRoot.getKey());
+        final Query query = new Query(KIND).setAncestor(getFeedRootKey(feedId));
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
         return preparedQuery.asSingleEntity();

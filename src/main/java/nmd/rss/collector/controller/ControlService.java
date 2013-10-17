@@ -3,7 +3,6 @@ package nmd.rss.collector.controller;
 import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.feed.*;
-import nmd.rss.collector.gae.persistence.RootRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
@@ -20,6 +19,7 @@ import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
+import static nmd.rss.collector.gae.persistence.RootRepository.DATASTORE_SERVICE;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -76,7 +76,7 @@ public class ControlService {
             //transaction = this.transactions.getOne();
             //transaction.begin();
 
-            transaction = RootRepository.DATASTORE_SERVICE.beginTransaction();
+            transaction = DATASTORE_SERVICE.beginTransaction();
 
             FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
 
@@ -130,7 +130,7 @@ public class ControlService {
         Transaction transaction = null;
 
         try {
-            transaction = RootRepository.DATASTORE_SERVICE.beginTransaction();
+            transaction = DATASTORE_SERVICE.beginTransaction();
             /*
             transaction = this.transactions.getOne();
             transaction.begin();
@@ -180,14 +180,17 @@ public class ControlService {
     public FeedUpdateReport updateFeed(final UUID feedId) throws ControlServiceException {
         assertNotNull(feedId);
 
-        EntityTransaction getFeedHeaderAndTaskTransaction = null;
+        /*Entity*/
+        Transaction getFeedHeaderAndTaskTransaction = null;
 
         final FeedHeader header;
         final FeedUpdateTask updateTask;
 
         try {
-            getFeedHeaderAndTaskTransaction = this.transactions.getOne();
-            getFeedHeaderAndTaskTransaction.begin();
+            //getFeedHeaderAndTaskTransaction = this.transactions.getOne();
+            //getFeedHeaderAndTaskTransaction.begin();
+
+            getFeedHeaderAndTaskTransaction = DATASTORE_SERVICE.beginTransaction();
 
             header = this.feedHeadersRepository.loadHeader(feedId);
 
@@ -203,16 +206,19 @@ public class ControlService {
 
             getFeedHeaderAndTaskTransaction.commit();
         } finally {
-            rollbackIfActive(getFeedHeaderAndTaskTransaction);
+            //rollbackIfActive(getFeedHeaderAndTaskTransaction);
         }
 
         final Feed feed = fetchFeed(header.feedLink);
 
-        EntityTransaction updateFeedTransaction = null;
+        /*Entity*/
+        Transaction updateFeedTransaction = null;
 
         try {
-            updateFeedTransaction = this.transactions.getOne();
-            updateFeedTransaction.begin();
+            //updateFeedTransaction = this.transactions.getOne();
+            //updateFeedTransaction.begin();
+
+            updateFeedTransaction = DATASTORE_SERVICE.beginTransaction();
 
             List<FeedItem> olds = getFeedOldItems(header);
 
@@ -223,7 +229,7 @@ public class ControlService {
 
             return new FeedUpdateReport(header.feedLink, feedId, mergeReport);
         } finally {
-            rollbackIfActive(updateFeedTransaction);
+            //rollbackIfActive(updateFeedTransaction);
         }
     }
 
