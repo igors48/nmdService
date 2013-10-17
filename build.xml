@@ -2,7 +2,7 @@
 <project name="nmdService">
 
     <property file="build.properties.local"/>
-    
+
     <property environment="environment"/>
     <property name="app.engine.sdk.directory" location="${environment.GAE_HOME}"/>
     <import file="${app.engine.sdk.directory}/config/user/ant-macros.xml"/>
@@ -99,10 +99,6 @@
         </fileset>
 
         <fileset dir="${app.engine.sdk.directory}/lib/opt/user/jsr107/v1/">
-            <include name="**/*.jar"/>
-        </fileset>
-
-        <fileset dir="${app.engine.sdk.directory}/lib/opt/user/datanucleus/v2/">
             <include name="**/*.jar"/>
         </fileset>
 
@@ -320,7 +316,6 @@
             <fileset dir="${app.engine.sdk.directory}/lib/opt/user">
                 <include name="appengine-api-labs/v1/*.jar"/>
                 <include name="jsr107/v1/*.jar"/>
-                <include name="datanucleus/v2/*.jar"/>
             </fileset>
 
         </copy>
@@ -351,13 +346,6 @@
                 <include name="*.xml"/>
             </fileset>
         </copy>
-
-        <enhance_war war="${war.directory}" api="JPA">
-            <args>
-                <arg value="-enhancerVersion"/>
-                <arg value="v2"/>
-            </args>
-        </enhance_war>
 
         <copy todir="${war.directory}">
             <fileset dir="${dir.base}/war/angular/app/"/>

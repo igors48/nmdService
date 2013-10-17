@@ -1,6 +1,5 @@
 package nmd.rss.collector.util;
 
-import javax.persistence.EntityManager;
 import java.io.Closeable;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,19 +23,6 @@ public final class CloseableTools {
             LOGGER.log(Level.SEVERE, "Error while closing", exception);
         }
     }
-
-    public static void close(final EntityManager entityManager) {
-
-        try {
-
-            if (entityManager != null) {
-                entityManager.close();
-            }
-        } catch (Exception exception) {
-            LOGGER.log(Level.SEVERE, "Error while closing", exception);
-        }
-    }
-
 
     private CloseableTools() {
         // empty
