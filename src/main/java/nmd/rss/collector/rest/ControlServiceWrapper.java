@@ -11,10 +11,10 @@ import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
-import nmd.rss.collector.gae.persistence.NewFeedHeadersRepository;
-import nmd.rss.collector.gae.persistence.NewFeedItemsRepository;
-import nmd.rss.collector.gae.persistence.NewFeedUpdateTaskRepository;
-import nmd.rss.collector.gae.persistence.RootRepository;
+import nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository;
+import nmd.rss.collector.gae.persistence.GaeFeedItemsRepository;
+import nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository;
+import nmd.rss.collector.gae.persistence.GaeRootRepository;
 import nmd.rss.collector.gae.updater.GaeCacheFeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.rest.responses.*;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
@@ -161,12 +161,12 @@ public class ControlServiceWrapper {
 
     //TODO consider lazy init
     private static ControlService createControlService() {
-        final Transactions transactions = new RootRepository();
+        final Transactions transactions = new GaeRootRepository();
         final UrlFetcher urlFetcher = new GaeUrlFetcher();
 
-        final FeedUpdateTaskRepository feedUpdateTaskRepository = new NewFeedUpdateTaskRepository();
-        final FeedItemsRepository feedItemsRepository = new NewFeedItemsRepository();
-        final FeedHeadersRepository feedHeadersRepository = new NewFeedHeadersRepository();
+        final FeedUpdateTaskRepository feedUpdateTaskRepository = new GaeFeedUpdateTaskRepository();
+        final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
+        final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
 
         final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeCacheFeedUpdateTaskSchedulerContextRepository();
         final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(feedUpdateTaskSchedulerContextRepository, feedUpdateTaskRepository, transactions);

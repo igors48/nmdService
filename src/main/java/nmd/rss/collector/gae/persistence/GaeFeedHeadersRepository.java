@@ -15,15 +15,15 @@ import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
 import static java.lang.Integer.MAX_VALUE;
 import static nmd.rss.collector.gae.persistence.FeedHeaderConverter.FEED_LINK;
 import static nmd.rss.collector.gae.persistence.FeedHeaderConverter.KIND;
-import static nmd.rss.collector.gae.persistence.RootRepository.DATASTORE_SERVICE;
-import static nmd.rss.collector.gae.persistence.RootRepository.getFeedRootKey;
+import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERVICE;
+import static nmd.rss.collector.gae.persistence.GaeRootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * User: igu
  * Date: 15.10.13
  */
-public class NewFeedHeadersRepository implements FeedHeadersRepository {
+public class GaeFeedHeadersRepository implements FeedHeadersRepository {
 
     @Override
     public FeedHeader loadHeader(UUID feedId) {

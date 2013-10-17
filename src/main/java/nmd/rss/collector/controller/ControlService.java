@@ -31,7 +31,6 @@ public class ControlService {
 
     private static final int MAX_FEED_ITEMS_COUNT = 1000;
 
-    //TODO reintroduce
     private final Transactions transactions;
 
     private final FeedHeadersRepository feedHeadersRepository;

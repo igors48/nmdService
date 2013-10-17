@@ -11,7 +11,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * User: igu
  * Date: 15.10.13
  */
-public class RootRepository implements Transactions {
+public class GaeRootRepository implements Transactions {
 
     public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
 

@@ -14,15 +14,15 @@ import java.util.UUID;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static java.lang.Integer.MAX_VALUE;
 import static nmd.rss.collector.gae.persistence.FeedItemConverter.KIND;
-import static nmd.rss.collector.gae.persistence.RootRepository.DATASTORE_SERVICE;
-import static nmd.rss.collector.gae.persistence.RootRepository.getFeedRootKey;
+import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERVICE;
+import static nmd.rss.collector.gae.persistence.GaeRootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * User: igu
  * Date: 16.10.13
  */
-public class NewFeedItemsRepository implements FeedItemsRepository {
+public class GaeFeedItemsRepository implements FeedItemsRepository {
 
     @Override
     public void updateItems(UUID feedId, List<FeedItem> feedItems) {
