@@ -52,7 +52,8 @@ public class RootRepository {
         return feedRoot == null ? null : feedRoot.getKey();
     }
 
-    private static Entity getFeedsRoot() {
+    //TODO turn to private
+    public static Entity getFeedsRoot() {
         final Query query = new Query(FEEDS_ENTITY_KIND);
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
@@ -63,6 +64,11 @@ public class RootRepository {
 
             DATASTORE_SERVICE.put(feedsRoot);
         }
+
+        //TODO remove
+        final Query secondQuery = new Query(FEEDS_ENTITY_KIND);
+        final PreparedQuery secondPreparedQuery = DATASTORE_SERVICE.prepare(secondQuery);
+        final Entity read = secondPreparedQuery.asSingleEntity();
 
         return feedsRoot;
     }

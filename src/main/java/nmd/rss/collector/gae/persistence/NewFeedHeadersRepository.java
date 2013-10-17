@@ -35,6 +35,8 @@ public class NewFeedHeadersRepository implements FeedHeadersRepository {
 
     @Override
     public List<FeedHeader> loadHeaders() {
+        RootRepository.getFeedsRoot();
+
         final Query query = new Query(KIND);
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 

@@ -76,7 +76,7 @@ public class ControlService {
             //transaction = this.transactions.getOne();
             //transaction.begin();
 
-            transaction = RootRepository.DATASTORE_SERVICE.beginTransaction(/*TransactionOptions.Builder.withXG(true)*/);
+            transaction = RootRepository.DATASTORE_SERVICE.beginTransaction();
 
             FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
 
@@ -92,16 +92,17 @@ public class ControlService {
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, MAX_FEED_ITEMS_COUNT);
             updateFeedItems(feedHeader.id, mergeReport.retained, mergeReport.added, this.feedItemsRepository);
 
-            //transaction.commit();
+            transaction.commit();
 
             return feedHeader.id;
         } finally {
             //rollbackIfActive(transaction);
-            /*
+            //TODO extract
             if (transaction != null) {
-                transaction.rollback();
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                }
             }
-            */
         }
     }
 
@@ -125,19 +126,28 @@ public class ControlService {
     }
 
     public List<FeedHeader> getFeedHeaders() {
-        EntityTransaction transaction = null;
+        /*Entity*/
+        Transaction transaction = null;
 
         try {
+            transaction = RootRepository.DATASTORE_SERVICE.beginTransaction();
+            /*
             transaction = this.transactions.getOne();
             transaction.begin();
-
+            */
             final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
 
             transaction.commit();
 
             return headers;
         } finally {
-            rollbackIfActive(transaction);
+            //rollbackIfActive(transaction);
+            //TODO extract
+            if (transaction != null) {
+                if (transaction.isActive()) {
+                    transaction.rollback();
+                }
+            }
         }
     }
 
