@@ -18,7 +18,6 @@ import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
-import static nmd.rss.collector.gae.persistence.RootRepository.DATASTORE_SERVICE;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -71,7 +70,7 @@ public class ControlService {
         final Feed feed = fetchFeed(feedUrlInLowerCase);
 
         try {
-            transaction = DATASTORE_SERVICE.beginTransaction();
+            transaction = this.transactions.beginOne();
 
             FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
 
@@ -101,7 +100,7 @@ public class ControlService {
         Transaction transaction = null;
 
         try {
-            transaction = DATASTORE_SERVICE.beginTransaction();
+            transaction = this.transactions.beginOne();
 
             this.feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
             this.feedHeadersRepository.deleteHeader(feedId);
@@ -117,7 +116,7 @@ public class ControlService {
         Transaction transaction = null;
 
         try {
-            transaction = DATASTORE_SERVICE.beginTransaction();
+            transaction = this.transactions.beginOne();
 
             final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
 
@@ -135,7 +134,7 @@ public class ControlService {
         Transaction transaction = null;
 
         try {
-            transaction = DATASTORE_SERVICE.beginTransaction();
+            transaction = this.transactions.beginOne();
 
             final FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
 
@@ -163,7 +162,7 @@ public class ControlService {
         final FeedUpdateTask updateTask;
 
         try {
-            getFeedHeaderAndTaskTransaction = DATASTORE_SERVICE.beginTransaction();
+            getFeedHeaderAndTaskTransaction = this.transactions.beginOne();
 
             header = this.feedHeadersRepository.loadHeader(feedId);
 
@@ -187,7 +186,7 @@ public class ControlService {
         Transaction updateFeedTransaction = null;
 
         try {
-            updateFeedTransaction = DATASTORE_SERVICE.beginTransaction();
+            updateFeedTransaction = this.transactions.beginOne();
 
             List<FeedItem> olds = getFeedOldItems(header);
 

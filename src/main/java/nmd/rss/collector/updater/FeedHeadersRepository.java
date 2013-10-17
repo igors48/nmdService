@@ -9,7 +9,7 @@ import java.util.UUID;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 09.05.13
  */
-public interface FeedHeadersRepository /*extends Repository*/ {
+public interface FeedHeadersRepository {
 
     FeedHeader loadHeader(UUID feedId);
 
