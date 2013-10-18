@@ -36,7 +36,7 @@ public class FeedUpdateTaskConverter {
 
         final UUID feedId = UUID.fromString((String) entity.getProperty(FEED_ID));
         //TODO nice hack
-        final int maxFeedItemsCount = ((Long) entity.getProperty(MAX_FEED_ITEMS_COUNT)).intValue();
+        final int maxFeedItemsCount = ((Number) (entity.getProperty(MAX_FEED_ITEMS_COUNT))).intValue();
 
         return new FeedUpdateTask(feedId, maxFeedItemsCount);
     }
