@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
+import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
 import static java.lang.Integer.MAX_VALUE;
 import static nmd.rss.collector.gae.persistence.FeedItemConverter.KIND;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERVICE;
@@ -34,12 +35,15 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
 
         final Key feedRootKey = getFeedRootKey(feedId);
 
-        final List<FeedItem> feedItems = new ArrayList<>();
+        for (final FeedItem feedItem : feedItemsMergeReport.removed) {
+            final Key victim = getFeedItemKey(feedId, feedItem.guid);
 
-        feedItems.addAll(feedItemsMergeReport.retained);
-        feedItems.addAll(feedItemsMergeReport.added);
+            if (victim != null) {
+                DATASTORE_SERVICE.delete(victim);
+            }
+        }
 
-        for (final FeedItem feedItem : feedItems) {
+        for (final FeedItem feedItem : feedItemsMergeReport.added) {
             final Entity entity = FeedItemConverter.convert(feedItem, feedRootKey);
 
             DATASTORE_SERVICE.put(entity);
@@ -85,6 +89,16 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         for (final Entity victim : victims) {
             DATASTORE_SERVICE.delete(victim.getKey());
         }
+    }
+
+    private Key getFeedItemKey(final UUID feedId, final String itemGuid) {
+        final Key feedRootKey = getFeedRootKey(feedId);
+        final Query query = new Query(KIND).setAncestor(feedRootKey).setKeysOnly().setFilter(new Query.FilterPredicate(FeedItemConverter.GUID, EQUAL, itemGuid));
+        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
+
+        final Entity found = preparedQuery.asSingleEntity();
+
+        return found == null ? null : found.getKey();
     }
 
 }

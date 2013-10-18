@@ -16,12 +16,12 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class FeedItemConverter {
 
     public static final String KIND = "FeedItem";
+    public static final String GUID = "guid";
 
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
     private static final String LINK = "link";
     private static final String DATE = "date";
-    private static final String GUID = "guid";
 
     public static Entity convert(final FeedItem item, final Key feedKey) {
         assertNotNull(item);

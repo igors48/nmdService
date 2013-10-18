@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -42,7 +43,8 @@ public class FeedExporterTest {
 
         assertEquals(items.size(), parsed.items.size());
 
-        assertEquals(first, parsed.items.get(0));
-        assertEquals(second, parsed.items.get(1));
+        assertTrue(first.equalsExculdeGuid(parsed.items.get(0)));
+        assertTrue(second.equalsExculdeGuid(parsed.items.get(1)));
     }
+
 }

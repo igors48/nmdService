@@ -54,6 +54,22 @@ public class FeedItem {
         return true;
     }
 
+    public boolean equalsExculdeGuid(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FeedItem item = (FeedItem) o;
+
+        // this is important
+        if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+
+        if (!description.equals(item.description)) return false;
+        if (!link.equals(item.link)) return false;
+        if (!title.equals(item.title)) return false;
+
+        return true;
+    }
+
     @Override
     public int hashCode() {
         int result = title.hashCode();
