@@ -23,11 +23,11 @@ public class FeedItemConverter {
     private static final String LINK = "link";
     private static final String DATE = "date";
 
-    public static Entity convert(final FeedItem item, final Key feedKey) {
+    public static Entity convert(final FeedItem item, final Key feedKey, final String feedId) {
         assertNotNull(item);
         assertNotNull(feedKey);
 
-        final Entity entity = new Entity(KIND, feedKey);
+        final Entity entity = new Entity(createFeedEntityKind(feedId), feedKey);
 
         entity.setProperty(TITLE, item.title);
         entity.setProperty(DESCRIPTION, new Text(item.description));
@@ -36,6 +36,10 @@ public class FeedItemConverter {
         entity.setProperty(GUID, item.guid);
 
         return entity;
+    }
+
+    public static String createFeedEntityKind(String feedId) {
+        return String.format("%s[%s]", KIND, feedId);
     }
 
     public static FeedItem convert(final Entity entity) {

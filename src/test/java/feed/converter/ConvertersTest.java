@@ -39,7 +39,7 @@ public class ConvertersTest {
     public void feedItemRoundtrip() {
         final FeedItem origin = new FeedItem("title", "description", "link", new Date(), "guid");
 
-        final Entity entity = FeedItemConverter.convert(origin, SAMPLE_KEY);
+        final Entity entity = FeedItemConverter.convert(origin, SAMPLE_KEY, "feedId");
 
         final FeedItem restored = FeedItemConverter.convert(entity);
 
