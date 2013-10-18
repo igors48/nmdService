@@ -5,6 +5,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
 import java.util.ArrayList;
@@ -25,13 +26,18 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class GaeFeedItemsRepository implements FeedItemsRepository {
 
     @Override
-    public void updateItems(final UUID feedId, final List<FeedItem> feedItems) {
+    public void mergeItems(final UUID feedId, final FeedItemsMergeReport feedItemsMergeReport) {
         assertNotNull(feedId);
-        assertNotNull(feedItems);
+        assertNotNull(feedItemsMergeReport);
 
         deleteItems(feedId);
 
         final Key feedRootKey = getFeedRootKey(feedId);
+
+        final List<FeedItem> feedItems = new ArrayList<>();
+
+        feedItems.addAll(feedItemsMergeReport.retained);
+        feedItems.addAll(feedItemsMergeReport.added);
 
         for (final FeedItem feedItem : feedItems) {
             final Entity entity = FeedItemConverter.convert(feedItem, feedRootKey);

@@ -1,12 +1,10 @@
 package feed.controller;
 
 import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -21,7 +19,12 @@ public class FeedItemsRepositoryStub implements FeedItemsRepository {
     }
 
     @Override
-    public void updateItems(final UUID feedId, final List<FeedItem> feedItems) {
+    public void mergeItems(final UUID feedId, final FeedItemsMergeReport feedItemsMergeReport) {
+        final List<FeedItem> feedItems = new ArrayList<>();
+
+        feedItems.addAll(feedItemsMergeReport.retained);
+        feedItems.addAll(feedItemsMergeReport.added);
+
         this.items.put(feedId, feedItems);
     }
 
