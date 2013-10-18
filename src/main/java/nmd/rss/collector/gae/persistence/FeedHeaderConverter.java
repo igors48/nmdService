@@ -23,7 +23,7 @@ public class FeedHeaderConverter {
     private static final String DESCRIPTION = "description";
     private static final String LINK = "link";
 
-    public static Entity convert(FeedHeader header, Key feedKey) {
+    public static Entity convert(final FeedHeader header, final Key feedKey) {
         assertNotNull(header);
         assertNotNull(feedKey);
 
@@ -38,7 +38,7 @@ public class FeedHeaderConverter {
         return entity;
     }
 
-    public static FeedHeader convert(Entity entity) {
+    public static FeedHeader convert(final Entity entity) {
         assertNotNull(entity);
 
         final UUID id = UUID.fromString((String) entity.getProperty(HEADER_ID));

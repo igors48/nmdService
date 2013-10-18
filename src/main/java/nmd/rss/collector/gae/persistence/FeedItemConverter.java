@@ -23,7 +23,7 @@ public class FeedItemConverter {
     private static final String DATE = "date";
     private static final String GUID = "guid";
 
-    public static Entity convert(FeedItem item, Key feedKey) {
+    public static Entity convert(final FeedItem item, final Key feedKey) {
         assertNotNull(item);
         assertNotNull(feedKey);
 
@@ -38,7 +38,7 @@ public class FeedItemConverter {
         return entity;
     }
 
-    public static FeedItem convert(Entity entity) {
+    public static FeedItem convert(final Entity entity) {
         assertNotNull(entity);
 
         final String title = (String) entity.getProperty(TITLE);

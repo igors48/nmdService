@@ -17,7 +17,7 @@ public class GaeCacheFeedUpdateTaskSchedulerContextRepository implements FeedUpd
     private static final String KEY = "FeedUpdateTaskSchedulerContext";
 
     @Override
-    public void store(FeedUpdateTaskSchedulerContext context) {
+    public void store(final FeedUpdateTaskSchedulerContext context) {
         assertNotNull(context);
 
         CACHE.put(KEY, context);

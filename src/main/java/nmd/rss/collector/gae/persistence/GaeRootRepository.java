@@ -20,7 +20,7 @@ public class GaeRootRepository implements Transactions {
 
     private static final Key FEEDS_ROOT_KEY = KeyFactory.createKey(FEEDS_ENTITY_KIND, FEEDS_ENTITY_KIND);
 
-    public static Key getFeedRootKey(UUID feedId) {
+    public static Key getFeedRootKey(final UUID feedId) {
         assertNotNull(feedId);
 
         return KeyFactory.createKey(FEEDS_ROOT_KEY, FEED_ENTITY_KIND, feedId.toString());

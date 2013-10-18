@@ -26,7 +26,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class GaeFeedHeadersRepository implements FeedHeadersRepository {
 
     @Override
-    public FeedHeader loadHeader(UUID feedId) {
+    public FeedHeader loadHeader(final UUID feedId) {
         assertNotNull(feedId);
 
         final Entity entity = getEntity(feedId);
@@ -53,7 +53,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
     }
 
     @Override
-    public void deleteHeader(UUID feedId) {
+    public void deleteHeader(final UUID feedId) {
         assertNotNull(feedId);
 
         final Entity entity = getEntity(feedId);
@@ -62,7 +62,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
     }
 
     @Override
-    public FeedHeader loadHeader(String feedLink) {
+    public FeedHeader loadHeader(final String feedLink) {
         final Query query = new Query(KIND)
                 .setFilter(new Query.FilterPredicate(FEED_LINK, EQUAL, feedLink));
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
@@ -73,7 +73,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
     }
 
     @Override
-    public void storeHeader(FeedHeader feedHeader) {
+    public void storeHeader(final FeedHeader feedHeader) {
         assertNotNull(feedHeader);
 
         final Entity entity = FeedHeaderConverter.convert(feedHeader, getFeedRootKey(feedHeader.id));
@@ -81,7 +81,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
         DATASTORE_SERVICE.put(entity);
     }
 
-    private Entity getEntity(UUID feedId) {
+    private Entity getEntity(final UUID feedId) {
         final Query query = new Query(KIND).setAncestor(getFeedRootKey(feedId));
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 

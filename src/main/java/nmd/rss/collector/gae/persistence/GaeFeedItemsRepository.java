@@ -25,7 +25,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class GaeFeedItemsRepository implements FeedItemsRepository {
 
     @Override
-    public void updateItems(UUID feedId, List<FeedItem> feedItems) {
+    public void updateItems(final UUID feedId, final List<FeedItem> feedItems) {
         assertNotNull(feedId);
         assertNotNull(feedItems);
 
@@ -41,7 +41,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public List<FeedItem> loadItems(UUID feedId) {
+    public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
         final Key feedRootKey = getFeedRootKey(feedId);
@@ -67,7 +67,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public void deleteItems(UUID feedId) {
+    public void deleteItems(final UUID feedId) {
         assertNotNull(feedId);
 
         final Key feedRootKey = getFeedRootKey(feedId);

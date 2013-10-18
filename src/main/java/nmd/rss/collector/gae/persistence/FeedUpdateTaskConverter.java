@@ -19,7 +19,7 @@ public class FeedUpdateTaskConverter {
     private static final String FEED_ID = "feedId";
     private static final String MAX_FEED_ITEMS_COUNT = "maxFeedItemsCount";
 
-    public static Entity convert(FeedUpdateTask updateTask, Key feedKey) {
+    public static Entity convert(final FeedUpdateTask updateTask, final Key feedKey) {
         assertNotNull(updateTask);
         assertNotNull(feedKey);
 
@@ -31,7 +31,7 @@ public class FeedUpdateTaskConverter {
         return entity;
     }
 
-    public static FeedUpdateTask convert(Entity entity) {
+    public static FeedUpdateTask convert(final Entity entity) {
         assertNotNull(entity);
 
         final UUID feedId = UUID.fromString((String) entity.getProperty(FEED_ID));
