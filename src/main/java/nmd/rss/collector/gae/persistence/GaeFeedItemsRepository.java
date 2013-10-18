@@ -31,8 +31,6 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         assertNotNull(feedId);
         assertNotNull(feedItemsMergeReport);
 
-        deleteItems(feedId);
-
         final Key feedRootKey = getFeedRootKey(feedId);
 
         for (final FeedItem feedItem : feedItemsMergeReport.removed) {
