@@ -5,14 +5,13 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.gae.persistence.FeedHeaderConverter;
-import nmd.rss.collector.gae.persistence.FeedItemConverter;
-import nmd.rss.collector.gae.persistence.FeedItemHelper;
-import nmd.rss.collector.gae.persistence.FeedUpdateTaskConverter;
+import nmd.rss.collector.gae.persistence.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -66,6 +65,19 @@ public class ConvertersTest {
         final FeedItem restored = FeedItemHelper.convert(helper);
 
         assertEquals(origin, restored);
+    }
+
+    @Test
+    public void feedItemListRoundtrip() {
+        final FeedItem first = new FeedItem("title-first", "description-first", "link-first", new Date(), "guid-first");
+        final FeedItem second = new FeedItem("title-second", "description-second", "link-second", new Date(), "guid-second");
+
+        final List<FeedItem> origin = Arrays.asList(first, second);
+
+        final String converted = FeedItemListConverter.convert(origin);
+        final List<FeedItem> restored = FeedItemListConverter.convert(converted);
+
+        assertEquals(origin.size(), restored.size());
     }
 
 }

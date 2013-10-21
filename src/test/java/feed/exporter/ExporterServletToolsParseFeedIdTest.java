@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.05.13
  */
-public class ExporterServletToolsParseFeedIdTestTest {
+public class ExporterServletToolsParseFeedIdTest {
 
     @Test
     public void parse() {
