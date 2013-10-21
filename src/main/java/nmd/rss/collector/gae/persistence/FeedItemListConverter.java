@@ -8,6 +8,9 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
+import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertStringIsValid;
+
 /**
  * User: igu
  * Date: 21.10.13
@@ -20,6 +23,8 @@ public class FeedItemListConverter {
     }.getType();
 
     public static List<FeedItem> convert(final String data) {
+        assertStringIsValid(data);
+
         final List<FeedItem> result = new ArrayList<>();
 
         final List<FeedItemHelper> helpers = GSON.fromJson(data, FEED_ITEM_HELPER_LIST_TYPE);
@@ -34,6 +39,8 @@ public class FeedItemListConverter {
     }
 
     public static String convert(final List<FeedItem> feedItems) {
+        assertNotNull(feedItems);
+
         final List<FeedItemHelper> helpers = new ArrayList<>();
 
         for (final FeedItem current : feedItems) {
