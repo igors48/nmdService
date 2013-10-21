@@ -12,7 +12,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 15.10.13
  */
-public class FeedHeaderConverter {
+public class FeedHeaderEntityConverter {
 
     public static final String KIND = "FeedHeader";
 
@@ -50,7 +50,7 @@ public class FeedHeaderConverter {
         return new FeedHeader(id, feedLink, title, description, link);
     }
 
-    private FeedHeaderConverter() {
+    private FeedHeaderEntityConverter() {
         // empty
     }
 

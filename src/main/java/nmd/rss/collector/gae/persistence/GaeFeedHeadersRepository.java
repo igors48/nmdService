@@ -13,8 +13,8 @@ import java.util.UUID;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
 import static java.lang.Integer.MAX_VALUE;
-import static nmd.rss.collector.gae.persistence.FeedHeaderConverter.FEED_LINK;
-import static nmd.rss.collector.gae.persistence.FeedHeaderConverter.KIND;
+import static nmd.rss.collector.gae.persistence.FeedHeaderEntityConverter.FEED_LINK;
+import static nmd.rss.collector.gae.persistence.FeedHeaderEntityConverter.KIND;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERVICE;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -31,7 +31,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
 
         final Entity entity = getEntity(feedId);
 
-        return FeedHeaderConverter.convert(entity);
+        return FeedHeaderEntityConverter.convert(entity);
     }
 
     @Override
@@ -44,7 +44,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
         final List<FeedHeader> headers = new ArrayList<>(entities.size());
 
         for (final Entity entity : entities) {
-            final FeedHeader feedHeader = FeedHeaderConverter.convert(entity);
+            final FeedHeader feedHeader = FeedHeaderEntityConverter.convert(entity);
 
             headers.add(feedHeader);
         }
@@ -69,14 +69,14 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
 
         final Entity entity = preparedQuery.asSingleEntity();
 
-        return entity == null ? null : FeedHeaderConverter.convert(entity);
+        return entity == null ? null : FeedHeaderEntityConverter.convert(entity);
     }
 
     @Override
     public void storeHeader(final FeedHeader feedHeader) {
         assertNotNull(feedHeader);
 
-        final Entity entity = FeedHeaderConverter.convert(feedHeader, getFeedRootKey(feedHeader.id));
+        final Entity entity = FeedHeaderEntityConverter.convert(feedHeader, getFeedRootKey(feedHeader.id));
 
         DATASTORE_SERVICE.put(entity);
     }

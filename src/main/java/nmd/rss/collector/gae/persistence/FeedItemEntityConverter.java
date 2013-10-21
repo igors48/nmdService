@@ -13,7 +13,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * User: igu
  * Date: 16.10.13
  */
-public class FeedItemConverter {
+public class FeedItemEntityConverter {
 
     public static final String KIND = "FeedItem";
     public static final String GUID = "guid";

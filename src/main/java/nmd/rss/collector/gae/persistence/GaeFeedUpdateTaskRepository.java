@@ -13,7 +13,7 @@ import java.util.UUID;
 
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static java.lang.Integer.MAX_VALUE;
-import static nmd.rss.collector.gae.persistence.FeedUpdateTaskConverter.KIND;
+import static nmd.rss.collector.gae.persistence.FeedUpdateTaskEntityConverter.KIND;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERVICE;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -34,7 +34,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
         final List<FeedUpdateTask> headers = new ArrayList<>(entities.size());
 
         for (final Entity entity : entities) {
-            final FeedUpdateTask feedUpdateTask = FeedUpdateTaskConverter.convert(entity);
+            final FeedUpdateTask feedUpdateTask = FeedUpdateTaskEntityConverter.convert(entity);
 
             headers.add(feedUpdateTask);
         }
@@ -47,7 +47,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
         assertNotNull(feedUpdateTask);
 
         final Key feedRootKey = getFeedRootKey(feedUpdateTask.feedId);
-        final Entity entity = FeedUpdateTaskConverter.convert(feedUpdateTask, feedRootKey);
+        final Entity entity = FeedUpdateTaskEntityConverter.convert(feedUpdateTask, feedRootKey);
 
         DATASTORE_SERVICE.put(entity);
     }
@@ -58,7 +58,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
 
         final Entity entity = getEntity(feedId);
 
-        return entity == null ? null : FeedUpdateTaskConverter.convert(entity);
+        return entity == null ? null : FeedUpdateTaskEntityConverter.convert(entity);
     }
 
     @Override

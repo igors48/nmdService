@@ -15,7 +15,7 @@ import java.util.UUID;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
 import static java.lang.Integer.MAX_VALUE;
-import static nmd.rss.collector.gae.persistence.FeedItemConverter.createFeedEntityKind;
+import static nmd.rss.collector.gae.persistence.FeedItemEntityConverter.createFeedEntityKind;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERVICE;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -42,7 +42,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         }
 
         for (final FeedItem feedItem : feedItemsMergeReport.added) {
-            final Entity entity = FeedItemConverter.convert(feedItem, feedRootKey, feedId.toString());
+            final Entity entity = FeedItemEntityConverter.convert(feedItem, feedRootKey, feedId.toString());
 
             DATASTORE_SERVICE.put(entity);
         }
@@ -66,7 +66,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         final List<FeedItem> feedItems = new ArrayList<>(entities.size());
 
         for (final Entity entity : entities) {
-            final FeedItem feedItem = FeedItemConverter.convert(entity);
+            final FeedItem feedItem = FeedItemEntityConverter.convert(entity);
 
             feedItems.add(feedItem);
         }
@@ -91,7 +91,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
 
     private Key getFeedItemKey(final UUID feedId, final String itemGuid) {
         final Key feedRootKey = getFeedRootKey(feedId);
-        final Query query = new Query(createFeedEntityKind(feedId.toString())).setAncestor(feedRootKey).setKeysOnly().setFilter(new Query.FilterPredicate(FeedItemConverter.GUID, EQUAL, itemGuid));
+        final Query query = new Query(createFeedEntityKind(feedId.toString())).setAncestor(feedRootKey).setKeysOnly().setFilter(new Query.FilterPredicate(FeedItemEntityConverter.GUID, EQUAL, itemGuid));
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
         final Entity found = preparedQuery.asSingleEntity();

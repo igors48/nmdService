@@ -12,7 +12,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * User: igu
  * Date: 16.10.13
  */
-public class FeedUpdateTaskConverter {
+public class FeedUpdateTaskEntityConverter {
 
     public static final String KIND = "FeedUpdateTask";
 
