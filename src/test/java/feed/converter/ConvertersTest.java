@@ -41,15 +41,6 @@ public class ConvertersTest {
     }
 
     @Test
-    public void feedItemEntityRoundtrip() {
-        final Entity entity = FeedItemEntityConverter.convert(FIRST_FEED_ITEM, SAMPLE_KEY, "feedId");
-
-        final FeedItem restored = FeedItemEntityConverter.convert(entity);
-
-        assertEquals(FIRST_FEED_ITEM, restored);
-    }
-
-    @Test
     public void feedUpdateTaskEntityRoundtrip() {
         final FeedUpdateTask origin = new FeedUpdateTask(UUID.randomUUID(), 1000);
 

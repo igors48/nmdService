@@ -2,6 +2,7 @@ package nmd.rss.collector.gae.persistence;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 import nmd.rss.collector.feed.FeedItem;
 
 import java.util.List;
@@ -18,6 +19,7 @@ public class FeedItemListEntityConverter {
     public static final String KIND = "FeedItem";
 
     public static final String FEED_ID = "feedId";
+    public static final String COUNT = "count";
     public static final String ITEMS = "items";
 
     public static Entity convert(final Key feedKey, final UUID feedId, final List<FeedItem> feedItems) {
@@ -27,7 +29,8 @@ public class FeedItemListEntityConverter {
         final Entity entity = new Entity(KIND, feedKey);
 
         entity.setProperty(FEED_ID, feedId.toString());
-        entity.setProperty(ITEMS, FeedItemListConverter.convert(feedItems));
+        entity.setProperty(COUNT, feedItems.size());
+        entity.setProperty(ITEMS, new Text(FeedItemListConverter.convert(feedItems)));
 
         return entity;
     }
@@ -35,7 +38,7 @@ public class FeedItemListEntityConverter {
     public static List<FeedItem> convert(final Entity entity) {
         assertNotNull(entity);
 
-        final String items = (String) entity.getProperty(ITEMS);
+        final String items = ((Text) entity.getProperty(ITEMS)).getValue();
 
         return FeedItemListConverter.convert(items);
     }
