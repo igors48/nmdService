@@ -7,6 +7,7 @@ import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.persistence.FeedHeaderConverter;
 import nmd.rss.collector.gae.persistence.FeedItemConverter;
+import nmd.rss.collector.gae.persistence.FeedItemHelper;
 import nmd.rss.collector.gae.persistence.FeedUpdateTaskConverter;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import org.junit.Test;
@@ -53,6 +54,16 @@ public class ConvertersTest {
         final Entity entity = FeedUpdateTaskConverter.convert(origin, SAMPLE_KEY);
 
         final FeedUpdateTask restored = FeedUpdateTaskConverter.convert(entity);
+
+        assertEquals(origin, restored);
+    }
+
+    @Test
+    public void feedItemHelperRoundtrip() {
+        final FeedItem origin = new FeedItem("title", "description", "link", new Date(), "guid");
+
+        final FeedItemHelper helper = FeedItemHelper.convert(origin);
+        final FeedItem restored = FeedItemHelper.convert(helper);
 
         assertEquals(origin, restored);
     }
