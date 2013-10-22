@@ -58,6 +58,7 @@ public class ControllerTestBase {
     protected FeedUpdateTaskRepositoryStub feedUpdateTaskRepositoryStub;
     protected FeedUpdateTaskSchedulerStub feedUpdateTaskSchedulerStub;
     protected ControlService controlService;
+
     private TransactionsStub transactionsStub;
 
     @Before
