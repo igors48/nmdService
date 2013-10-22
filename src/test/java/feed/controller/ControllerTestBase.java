@@ -57,6 +57,7 @@ public class ControllerTestBase {
     protected FeedItemsRepositoryStub feedItemsRepositoryStub;
     protected FeedUpdateTaskRepositoryStub feedUpdateTaskRepositoryStub;
     protected FeedUpdateTaskSchedulerStub feedUpdateTaskSchedulerStub;
+    protected ReadFeedItemsRepositoryStub readFeedItemsRepositoryStub;
     protected ControlService controlService;
 
     private TransactionsStub transactionsStub;
@@ -69,8 +70,9 @@ public class ControllerTestBase {
         this.feedItemsRepositoryStub = new FeedItemsRepositoryStub();
         this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
         this.feedUpdateTaskSchedulerStub = new FeedUpdateTaskSchedulerStub();
+        this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
 
-        this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
+        this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
     }
 
     protected UUID addValidFirstRssFeed() throws ControlServiceException {

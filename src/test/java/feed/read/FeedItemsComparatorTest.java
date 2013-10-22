@@ -4,9 +4,10 @@ import nmd.rss.reader.FeedItemsComparisonReport;
 import org.junit.Test;
 
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import static nmd.rss.reader.FeedItemsComparator.findNotReadItems;
+import static nmd.rss.reader.FeedItemsComparator.compare;
 import static org.junit.Assert.*;
 
 /**
@@ -24,10 +25,10 @@ public class FeedItemsComparatorTest {
 
     @Test
     public void whenFeedBelongsToReadAndStoredThenItRemainsInRead() {
-        final List<String> readItems = Arrays.asList(FIRST_ID, SECOND_ID);
-        final List<String> storedItems = Arrays.asList(FIRST_ID, THIRD_ID);
+        final Set<String> readItems = createSet(FIRST_ID, SECOND_ID);
+        final Set<String> storedItems = createSet(FIRST_ID, THIRD_ID);
 
-        final FeedItemsComparisonReport comparison = findNotReadItems(readItems, storedItems);
+        final FeedItemsComparisonReport comparison = compare(readItems, storedItems);
 
         assertTrue(comparison.readItems.contains(FIRST_ID));
         assertFalse(comparison.newItems.contains(FIRST_ID));
@@ -35,10 +36,10 @@ public class FeedItemsComparatorTest {
 
     @Test
     public void whenFeedBelongsToReadOnlyThenItRemovesFromRead() {
-        final List<String> readItems = Arrays.asList(FIRST_ID, SECOND_ID);
-        final List<String> storedItems = Arrays.asList(FOURTH_ID, THIRD_ID);
+        final Set<String> readItems = createSet(FIRST_ID, SECOND_ID);
+        final Set<String> storedItems = createSet(FOURTH_ID, THIRD_ID);
 
-        final FeedItemsComparisonReport comparison = findNotReadItems(readItems, storedItems);
+        final FeedItemsComparisonReport comparison = compare(readItems, storedItems);
 
         assertFalse(comparison.readItems.contains(FIRST_ID));
         assertFalse(comparison.newItems.contains(FIRST_ID));
@@ -46,10 +47,10 @@ public class FeedItemsComparatorTest {
 
     @Test
     public void whenFeedBelongsToStoredOnlyThenItAddsToNotRead() {
-        final List<String> readItems = Arrays.asList(FIRST_ID, SECOND_ID);
-        final List<String> storedItems = Arrays.asList(FOURTH_ID, THIRD_ID);
+        final Set<String> readItems = createSet(FIRST_ID, SECOND_ID);
+        final Set<String> storedItems = createSet(FOURTH_ID, THIRD_ID);
 
-        final FeedItemsComparisonReport comparison = findNotReadItems(readItems, storedItems);
+        final FeedItemsComparisonReport comparison = compare(readItems, storedItems);
 
         assertTrue(comparison.newItems.contains(FOURTH_ID));
         assertFalse(comparison.readItems.contains(FOURTH_ID));
@@ -59,10 +60,10 @@ public class FeedItemsComparatorTest {
 
     @Test
     public void smoke() {
-        final List<String> readItems = Arrays.asList(FIRST_ID, FIFTH_ID);
-        final List<String> storedItems = Arrays.asList(FIRST_ID, SECOND_ID, THIRD_ID, FOURTH_ID, FIFTH_ID, SIXTH_ID);
+        final Set<String> readItems = createSet(FIRST_ID, FIFTH_ID);
+        final Set<String> storedItems = createSet(FIRST_ID, SECOND_ID, THIRD_ID, FOURTH_ID, FIFTH_ID, SIXTH_ID);
 
-        final FeedItemsComparisonReport comparison = findNotReadItems(readItems, storedItems);
+        final FeedItemsComparisonReport comparison = compare(readItems, storedItems);
 
         assertEquals(4, comparison.newItems.size());
         assertTrue(comparison.newItems.contains(SECOND_ID));
@@ -73,6 +74,14 @@ public class FeedItemsComparatorTest {
         assertEquals(2, comparison.readItems.size());
         assertTrue(comparison.readItems.contains(FIRST_ID));
         assertTrue(comparison.readItems.contains(FIFTH_ID));
+    }
+
+    private static Set<String> createSet(final String... values) {
+        final Set<String> set = new HashSet<>();
+
+        set.addAll(Arrays.asList(values));
+
+        return set;
     }
 
 }

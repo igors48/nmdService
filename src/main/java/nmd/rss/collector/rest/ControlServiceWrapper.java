@@ -24,8 +24,10 @@ import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
+import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -168,10 +170,28 @@ public class ControlServiceWrapper {
         final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
         final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
 
+        final ReadFeedItemsRepository readFeedItemsRepository = new ReadFeedItemsRepository() {
+            @Override
+            public Set<String> load(UUID feedId) {
+                return null;  //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void store(UUID feedId, Set<String> readFeedItems) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+            @Override
+            public void delete(UUID feedId) {
+                //To change body of implemented methods use File | Settings | File Templates.
+            }
+
+        };
+
         final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeCacheFeedUpdateTaskSchedulerContextRepository();
         final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(feedUpdateTaskSchedulerContextRepository, feedUpdateTaskRepository, transactions);
 
-        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
+        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
     }
 
 }
