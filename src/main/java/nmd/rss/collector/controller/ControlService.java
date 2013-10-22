@@ -107,8 +107,8 @@ public class ControlService {
             this.feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
             this.feedHeadersRepository.deleteHeader(feedId);
             this.feedItemsRepository.deleteItems(feedId);
-            //this.readFeedItemsRepository.
-            //TODO also remove read items
+            this.readFeedItemsRepository.delete(feedId);
+            //TODO also remove read items. add to test
 
             transaction.commit();
         } finally {
@@ -249,6 +249,8 @@ public class ControlService {
         }
     }
 
+    //getFeedReadAndNotReadItems(feedId, start, count)
+    //markItemAsRead
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
         FeedUpdateTask feedUpdateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedHeader.id);
 
