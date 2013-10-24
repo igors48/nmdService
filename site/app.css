@@ -50,15 +50,34 @@ table {
 /* end of reset */
 
 body {
-	font-family:  calluna-1, calluna-2, Palatino, Constantia, 'Palatino Linotype', 'Book Antiqua', serif;
-}
+	font-family:  Trebuchet, sans-serif;
+	color: rgb(102, 102, 102);
+}	
 
 .container {
     position:absolute;
-     width:300px;
-     height:300px;
-     top:50%;
-     left:50%;
-     margin:-150px 0 0 -150px;
-     background:gray;
+    width:300px;
+    height:300px;
+    top:50%;
+    left:50%;
+    margin:-150px 0 0 -150px;
+    background:rgb(240, 240, 231);
 }
+
+.feed-header-title {
+	color: rgb(102, 102, 102);
+}
+
+.feed-header-new {
+	color: rgb(234, 120, 97);
+}
+
+.feed-header-old {
+	color: rgb(94, 192, 159);
+}
+
+.feed-header-common {
+	color: rgb(62, 161, 218);
+}
+
+/*days font*/
