@@ -215,7 +215,7 @@ public class ControlService {
         return updateFeed(currentTask.feedId);
     }
 
-    public List<FeedReadReport> getFeedsReadReport() throws ControlServiceException {
+    public List<FeedReadReport> getFeedsReadReport() {
         Transaction transaction = null;
 
         try {
@@ -249,8 +249,35 @@ public class ControlService {
         }
     }
 
-    //getFeedReadAndNotReadItems(feedId, start, count)
-    //markItemAsRead
+    public List<FeedItem> getFeedNotReadItems(final UUID feedId) {
+        assertNotNull(feedId);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final List<FeedItem> notReadItems = new ArrayList<>();
+
+            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
+
+            for (final FeedItem item : items) {
+
+                if (!readGuids.contains(item.guid)) {
+                    notReadItems.add(item);
+                }
+            }
+
+            transaction.commit();
+
+            return notReadItems;
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    //markItemAsRead(feedId, itemId)
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
         FeedUpdateTask feedUpdateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedHeader.id);
 

@@ -27,13 +27,7 @@ public class ControllerGetFeedsReadReportTest extends ControllerTestBase {
 
     @Test
     public void whenFeedExistsThenItIsParticipateInReport() throws ControlServiceException {
-        final FeedHeader feedHeader = new FeedHeader(UUID.randomUUID(), "feedLink", "title", "description", "link");
-        this.feedHeadersRepositoryStub.storeHeader(feedHeader);
-
-        final FeedItem feedItem = new FeedItem("title", "description", "link", new Date(), "guid");
-        final List<FeedItem> feedItems = Arrays.asList(feedItem);
-        final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(new ArrayList<FeedItem>(), feedItems, new ArrayList<FeedItem>());
-        this.feedItemsRepositoryStub.mergeItems(feedHeader.id, feedItemsMergeReport);
+        final FeedHeader feedHeader = createSampleFeed();
 
         final List<FeedReadReport> report = this.controlService.getFeedsReadReport();
 
@@ -45,5 +39,18 @@ public class ControllerGetFeedsReadReportTest extends ControllerTestBase {
         assertEquals(feedHeader.feedLink, reportItem.feedLink);
         assertEquals(1, reportItem.notRead);
         assertEquals(0, reportItem.read);
+    }
+
+    //TODO it needs to create convenient method for that
+    private FeedHeader createSampleFeed() {
+        final FeedHeader feedHeader = new FeedHeader(UUID.randomUUID(), "feedLink", "title", "description", "link");
+        this.feedHeadersRepositoryStub.storeHeader(feedHeader);
+
+        final FeedItem feedItem = new FeedItem("title", "description", "link", new Date(), "guid");
+        final List<FeedItem> feedItems = Arrays.asList(feedItem);
+        final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(new ArrayList<FeedItem>(), feedItems, new ArrayList<FeedItem>());
+        this.feedItemsRepositoryStub.mergeItems(feedHeader.id, feedItemsMergeReport);
+
+        return feedHeader;
     }
 }
