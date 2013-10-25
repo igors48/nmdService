@@ -49,32 +49,7 @@ table {
 
 /* end of reset */
 
-@font-face {
-    font-family: 'Days';
-    src: url('Days.otf');
-}
-
-@font-face {
-    font-family: 'DroidSans';
-    src: url('DroidSans.ttf');
-}
-
-@font-face {
-    font-family: 'Lobster';
-    src: url('Lobster.ttf');
-}
-
-body {
-	
-}	
-
 .container {
-    position:absolute;
-    width:480px;
-    height:800px;
-    top:50%;
-    left:50%;
-    margin:-150px 0 0 -150px;
     background:rgb(240, 240, 231);
 }
 
