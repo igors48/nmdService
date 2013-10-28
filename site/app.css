@@ -65,7 +65,7 @@ table {
     font-family: Arial Black;
     font-size: medium;
     text-align: center;
-    color: rgb(240, 240, 231);
+    color: rgb(255, 255, 255);
 	background: rgb(234, 120, 97);
     float: right;
     width: 30%;
@@ -74,7 +74,7 @@ table {
 
 .feed-header-old {
     font-family: Arial Black;
-    color: rgb(240, 240, 231);
+    color: rgb(255, 255, 255);
 	background: rgb(94, 192, 159);
     font-size: medium;
     text-align: center;
@@ -85,7 +85,7 @@ table {
 
 .feed-header-common {
     font-family: Arial Black;
-    color: rgb(240, 240, 231);
+    color: rgb(255, 255, 255);
 	background: rgb(62, 161, 218);
     font-size: medium;
     text-align: center;
