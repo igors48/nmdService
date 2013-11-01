@@ -23,25 +23,31 @@ time, mark, audio, video {
 	font: inherit;
 	vertical-align: baseline;
 }
+
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
 footer, header, hgroup, menu, nav, section {
 	display: block;
 }
+
 body {
 	line-height: 1;
 }
+
 ol, ul {
 	list-style: none;
 }
+
 blockquote, q {
 	quotes: none;
 }
+
 blockquote:before, blockquote:after,
 q:before, q:after {
 	content: '';
 	content: none;
 }
+
 table {
 	border-collapse: collapse;
 	border-spacing: 0;
@@ -53,50 +59,58 @@ table {
     background:rgb(240, 240, 231);
 }
 
-.feed-header-title {
+.footer {
+    height: 155px;
+}
+
+.title-font {
     font-family: Impact;
     font-size: xx-large;
+}
+
+.button-font {
+    font-family: Arial Black;
+    font-size: medium;
+}
+
+.feed-header-title {
 	color: rgb(102, 102, 102);
     text-align: left;
     padding: 0.3em;
 }
 
 .feed-header-new {
-    font-family: Arial Black;
-    font-size: medium;
     text-align: center;
+    vertical-align: middle;
+    line-height: 2em;
     color: rgb(255, 255, 255);
 	background: rgb(234, 120, 97);
     float: right;
     width: 30%;
-    height: 1.0em;
+    height: 2.0em;
 }
 
 .feed-header-old {
-    font-family: Arial Black;
     color: rgb(255, 255, 255);
 	background: rgb(94, 192, 159);
-    font-size: medium;
     text-align: center;
+    vertical-align: middle;
+    line-height: 2em;
     float: right;
     width: 30%;
-    height: 1.0em;
+    height: 2.0em;
 }
 
 .feed-header-common {
-    font-family: Arial Black;
     color: rgb(255, 255, 255);
 	background: rgb(62, 161, 218);
-    font-size: medium;
     text-align: center;
+    vertical-align: middle;
+    line-height: 2em;
     float: right;
     width: 30%;
-    height: 1.0em;
+    height: 2.0em;
     cursor: hand;
     cursor: pointer;
 }
 
-.horizontal-divider {
-    width: 100%;
-    height: 0.75em;
-}
