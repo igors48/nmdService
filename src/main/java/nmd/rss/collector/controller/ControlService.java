@@ -27,7 +27,7 @@ import static nmd.rss.collector.util.UrlTools.normalizeUrl;
  */
 public class ControlService {
 
-    private static final int MAX_FEED_ITEMS_COUNT = 80;
+    private static final int MAX_FEED_ITEMS_COUNT = 10000;
 
     private final Transactions transactions;
 
