@@ -14,6 +14,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class GaeCacheFeedUpdateTaskSchedulerContextRepository implements FeedUpdateTaskSchedulerContextRepository {
 
     private static final MemcacheService CACHE = MemcacheServiceFactory.getMemcacheService();
+
     private static final String KEY = "FeedUpdateTaskSchedulerContext";
 
     @Override

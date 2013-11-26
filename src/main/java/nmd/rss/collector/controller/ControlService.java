@@ -27,6 +27,7 @@ import static nmd.rss.collector.util.UrlTools.normalizeUrl;
  * Date : 22.05.13
  */
 public class ControlService {
+    //TODO consider split this service on two parts. for collector and reader
 
     private static final int MAX_FEED_ITEMS_COUNT = 80;
 
