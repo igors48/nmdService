@@ -1,4 +1,151 @@
-/* app css stylesheet */
+/* http://meyerweb.com/eric/tools/css/reset/ 
+   v2.0 | 20110126
+   License: none (public domain)
+*/
+
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+
 body {
-    padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+	line-height: 1;
+}
+
+ol, ul {
+	list-style: none;
+}
+
+blockquote, q {
+	quotes: none;
+}
+
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+
+/* end of reset */
+
+.container {
+    background:rgb(240, 240, 231);
+}
+
+.footer {
+   /* padding: 0.6em;*/
+    padding: 1.0em;
+    background:rgb(240, 240, 231);
+}
+
+.footer-container {
+    height: 2.0em;
+}
+
+/* TODO fallbacks */
+.title-font {
+    font-family: Impact;
+    font-size: xx-large;
+}
+
+/* TODO fallbacks */
+.button-font {
+    font-family: Arial Black;
+    font-size: medium;
+}
+
+.feed-header-title {
+	color: rgb(102, 102, 102);
+    text-align: left;
+    padding: 0.3em;
+}
+
+.feed-header-new {
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2.0em;
+    color: rgb(255, 255, 255);
+	background: rgb(234, 120, 97);
+    float: left;
+    width: 30%;
+    height: 2.0em;
+    overflow: hidden;
+}
+
+.feed-header-old {
+    color: rgb(255, 255, 255);
+	background: rgb(94, 192, 159);
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2.0em;
+    float: left;
+    width: 30%;
+    height: 2.0em;
+    overflow: hidden;
+}
+
+.feed-header-common {
+    color: rgb(255, 255, 255);
+	background: rgb(62, 161, 218);
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2.0em;
+    float: left;
+    width: 30%;
+    height: 2.0em;
+    cursor: hand;
+    cursor: pointer;
+    overflow: hidden;
+}
+
+.page-button {
+    color: rgb(255, 255, 255);
+	background: rgb(62, 161, 218);
+    width: 4.0em;
+    height: 2.0em;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2.0em;
+    float: left;
+    margin-right: 1.0em;
+    display: block;
+}
+
+.options-button {
+    color: rgb(255, 255, 255);
+	background: rgb(62, 161, 218);
+    width: 6.0em;
+    height: 2.0em;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 2.0em;
+    float: right;
+    display: block;
 }
