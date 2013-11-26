@@ -66,7 +66,7 @@ public class FeedsServlet extends HttpServlet {
         try {
             final UUID feedId = parseFeedId(request.getPathInfo());
 
-            final ResponseBody responseBody = ControlServiceWrapper.removeFeed(feedId);
+            final ResponseBody responseBody = removeFeed(feedId);
 
             writeResponseBody(responseBody, response);
         } catch (Exception exception) {

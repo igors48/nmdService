@@ -18,14 +18,22 @@ public class ReadFeedItemsRepositoryStub implements ReadFeedItemsRepository {
 
     @Override
     public Set<String> load(final UUID feedId) {
-        final Set<String> strings = this.readFeeds.get(feedId);
+        final Set<String> uuids = this.readFeeds.get(feedId);
 
-        return strings == null ? new HashSet<String>() : strings;
+        return uuids == null ? new HashSet<String>() : uuids;
     }
 
     @Override
-    public void store(final UUID feedId, final Set<String> readFeedItems) {
-        this.readFeeds.put(feedId, readFeedItems);
+    public void store(final UUID feedId, final String itemId) {
+        Set<String> uuids = this.readFeeds.get(feedId);
+
+        if (uuids == null) {
+            uuids = new HashSet<>();
+
+            this.readFeeds.put(feedId, uuids);
+        }
+
+        uuids.add(itemId);
     }
 
     @Override

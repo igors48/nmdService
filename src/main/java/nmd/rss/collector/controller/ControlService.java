@@ -108,7 +108,6 @@ public class ControlService {
             this.feedHeadersRepository.deleteHeader(feedId);
             this.feedItemsRepository.deleteItems(feedId);
             this.readFeedItemsRepository.delete(feedId);
-            //TODO also remove read items. add to test
 
             transaction.commit();
         } finally {
@@ -279,7 +278,22 @@ public class ControlService {
         }
     }
 
-    //markItemAsRead(feedId, itemIds)
+    public void markItemAsRead(final UUID feedId, final String itemId) {
+        assertNotNull(feedId);
+        assertStringIsValid(itemId);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            this.readFeedItemsRepository.store(feedId, itemId);
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
 
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
         FeedUpdateTask feedUpdateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedHeader.id);

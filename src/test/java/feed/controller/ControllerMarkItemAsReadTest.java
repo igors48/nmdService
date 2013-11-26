@@ -4,21 +4,22 @@ import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import org.junit.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * User: igu
- * Date: 25.10.13
+ * Date: 26.11.13
  */
-public class ControllerGetFeedLatestNotReadItemTest extends ControllerTestBase {
+public class ControllerMarkItemAsReadTest extends ControllerTestBase {
 
     @Test
-    public void whenNotReadItemExistsThenItReturns() {
+    public void whenItemMarkAsReadThenItDoesNotReturnAsNotRead() {
         final FeedHeader feedHeader = createSampleFeed();
 
+        this.controlService.markItemAsRead(feedHeader.id, FEED_ITEM_GUID);
         final FeedItem notReadItem = this.controlService.getLatestNotReadItem(feedHeader.id);
 
-        assertEquals(FEED_ITEM_GUID, notReadItem.guid);
+        assertNull(notReadItem);
     }
 
 }

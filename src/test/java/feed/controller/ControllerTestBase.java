@@ -98,7 +98,7 @@ public class ControllerTestBase {
         return controlService.addFeed(VALID_SECOND_RSS_FEED_LINK);
     }
 
-    //TODO it needs to create convenient method for that
+    //TODO it needs to create convenient method for that or reuse previous
     protected FeedHeader createSampleFeed() {
         final FeedHeader feedHeader = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
         this.feedHeadersRepositoryStub.storeHeader(feedHeader);
