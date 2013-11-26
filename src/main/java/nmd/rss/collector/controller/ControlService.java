@@ -249,7 +249,7 @@ public class ControlService {
         }
     }
 
-    public List<FeedItem> getFeedNotReadItems(final UUID feedId) {
+    public FeedItem getLatestNotReadItem(final UUID feedId) {
         assertNotNull(feedId);
 
         Transaction transaction = null;
@@ -271,13 +271,16 @@ public class ControlService {
 
             transaction.commit();
 
-            return notReadItems;
+            final int count = notReadItems.size();
+
+            return count == 0 ? null : notReadItems.get(count - 1);
         } finally {
             rollbackIfActive(transaction);
         }
     }
 
-    //markItemAsRead(feedId, itemId)
+    //markItemAsRead(feedId, itemIds)
+
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
         FeedUpdateTask feedUpdateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedHeader.id);
 

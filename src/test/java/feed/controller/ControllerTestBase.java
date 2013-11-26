@@ -4,9 +4,12 @@ import feed.scheduler.FeedUpdateTaskRepositoryStub;
 import feed.updater.FeedUpdateTaskSchedulerStub;
 import nmd.rss.collector.controller.ControlService;
 import nmd.rss.collector.controller.ControlServiceException;
+import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.feed.FeedItemsMergeReport;
 import org.junit.Before;
 
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -16,6 +19,14 @@ public class ControllerTestBase {
 
     protected static final String VALID_FIRST_RSS_FEED_LINK = "valid-first-feed-link";
     protected static final String VALID_SECOND_RSS_FEED_LINK = "valid-second-feed-link";
+    protected static final String FEED_TITLE = "title";
+    protected static final String FEED_DESCRIPTION = "description";
+    protected static final String FEED_LINK = "link";
+    protected static final String FEED_ITEM_TITLE = "title";
+    protected static final String FEED_ITEM_DESCRIPTION = "description";
+    protected static final String FEED_ITEM_LINK = "link";
+    protected static final String FEED_ITEM_GUID = "guid";
+
     protected static final String VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
             "   <channel>\n" +
@@ -36,6 +47,7 @@ public class ControllerTestBase {
             "\t</item>\n" +
             "    </channel>\n" +
             "</rss>    ";
+
     protected static final String INVALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "\t<item>\n" +
             "\t\t<title>Смартфон LG Optimus F5 выходит во Франции 29 апреля, после чего появится и на других рынках</title>\n" +
@@ -60,19 +72,18 @@ public class ControllerTestBase {
     protected ReadFeedItemsRepositoryStub readFeedItemsRepositoryStub;
     protected ControlService controlService;
 
-    private TransactionsStub transactionsStub;
-
     @Before
     public void before() {
+        final TransactionsStub transactionsStub = new TransactionsStub();
+
         this.fetcherStub = new UrlFetcherStub();
-        this.transactionsStub = new TransactionsStub();
         this.feedHeadersRepositoryStub = new FeedHeadersRepositoryStub();
         this.feedItemsRepositoryStub = new FeedItemsRepositoryStub();
         this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
         this.feedUpdateTaskSchedulerStub = new FeedUpdateTaskSchedulerStub();
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
 
-        this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
+        this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
     }
 
     protected UUID addValidFirstRssFeed() throws ControlServiceException {
@@ -85,6 +96,20 @@ public class ControllerTestBase {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
         return controlService.addFeed(VALID_SECOND_RSS_FEED_LINK);
+    }
+
+    //TODO it needs to create convenient method for that
+    protected FeedHeader createSampleFeed() {
+        final FeedHeader feedHeader = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
+        this.feedHeadersRepositoryStub.storeHeader(feedHeader);
+
+        final FeedItem feedItem = new FeedItem(FEED_ITEM_TITLE, FEED_ITEM_DESCRIPTION, FEED_ITEM_LINK, new Date(), FEED_ITEM_GUID);
+        final List<FeedItem> feedItems = Arrays.asList(feedItem);
+        final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(new ArrayList<FeedItem>(), feedItems, new ArrayList<FeedItem>());
+
+        this.feedItemsRepositoryStub.mergeItems(feedHeader.id, feedItemsMergeReport);
+
+        return feedHeader;
     }
 
 }
