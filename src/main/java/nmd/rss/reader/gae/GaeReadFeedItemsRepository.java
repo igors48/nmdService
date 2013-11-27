@@ -13,7 +13,6 @@ import java.util.UUID;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERVICE;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.reader.gae.ReadFeedIdSetConverter.KIND;
 
 /**
@@ -26,19 +25,15 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
     public Set<String> load(final UUID feedId) {
         assertNotNull(feedId);
 
-        final Key feedRootKey = getFeedRootKey(feedId);
-        final Query query = new Query(KIND).setAncestor(feedRootKey);
-        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
-
-        final Entity entity = preparedQuery.asSingleEntity();
+        final Entity entity = loadEntity(feedId, false);
 
         return entity == null ? new HashSet<String>() : ReadFeedIdSetConverter.convert(entity);
     }
 
     @Override
-    public void store(final UUID feedId, final String itemId) {
+    public void store(final UUID feedId, final Set<String> itemId) {
         assertNotNull(feedId);
-        assertStringIsValid(itemId);
+        assertNotNull(itemId);
 
     }
 
@@ -46,6 +41,20 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
     public void delete(final UUID feedId) {
         assertNotNull(feedId);
 
+    }
+
+    //TODO consider generify and move to root repo
+    private Entity loadEntity(final UUID feedId, final boolean keysOnly) {
+        final Key feedRootKey = getFeedRootKey(feedId);
+        final Query query = new Query(KIND).setAncestor(feedRootKey);
+
+        if (keysOnly) {
+            query.setKeysOnly();
+        }
+
+        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
+
+        return preparedQuery.asSingleEntity();
     }
 
 }

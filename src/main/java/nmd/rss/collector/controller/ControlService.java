@@ -259,7 +259,6 @@ public class ControlService {
 
             final List<FeedItem> notReadItems = new ArrayList<>();
 
-            //TODO may be load only feed item`s guids rather than all feed items
             final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
             final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
 
@@ -289,8 +288,10 @@ public class ControlService {
         try {
             transaction = this.transactions.beginOne();
 
-            //TODO revisit this. may be load previous
-            this.readFeedItemsRepository.store(feedId, itemId);
+            final Set<String> readItems = this.readFeedItemsRepository.load(feedId);
+            readItems.add(itemId);
+
+            this.readFeedItemsRepository.store(feedId, readItems);
 
             transaction.commit();
         } finally {
