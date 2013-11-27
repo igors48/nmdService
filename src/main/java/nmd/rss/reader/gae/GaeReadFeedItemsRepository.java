@@ -13,14 +13,13 @@ import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERV
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.getFeedRootKey;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.reader.gae.ReadFeedIdSetConverter.KIND;
 
 /**
  * User: igu
  * Date: 26.11.13
  */
 public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
-
-    private static final String KIND = "ReadFeedItems";
 
     @Override
     public Set<String> load(final UUID feedId) {

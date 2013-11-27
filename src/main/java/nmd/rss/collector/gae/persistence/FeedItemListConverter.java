@@ -17,7 +17,7 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class FeedItemListConverter {
 
-    public static final Gson GSON = new Gson();
+    private static final Gson GSON = new Gson();
 
     private static final Type FEED_ITEM_HELPER_LIST_TYPE = new TypeToken<ArrayList<FeedItemHelper>>() {
     }.getType();
