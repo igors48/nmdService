@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.ControlService;
 import nmd.rss.collector.controller.ControlServiceException;
+import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.controller.FeedUpdateReport;
 import nmd.rss.collector.error.ServiceError;
 import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
 import nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository;
 import nmd.rss.collector.gae.persistence.GaeFeedItemsRepository;
@@ -141,6 +143,41 @@ public class ControlServiceWrapper {
 
             return createErrorJsonResponse(exception);
         }
+    }
+
+    public static ResponseBody getFeedsReadReport() {
+        final ControlService controlService = createControlService();
+
+        final List<FeedReadReport> feedReadReport = controlService.getFeedsReadReport();
+        final FeedReadReportsResponse response = FeedReadReportsResponse.convert(feedReadReport);
+
+        LOGGER.info("Feed read report created");
+
+        return createJsonResponse(response);
+    }
+
+    public static ResponseBody getLatestNotReadItem(final UUID feedId) {
+        //TODO feedId can be null. need to check it
+        final ControlService controlService = createControlService();
+
+        final FeedItem latestNotReadItem = controlService.getLatestNotReadItem(feedId);
+        final FeedItemResponse response = FeedItemResponse.convert(latestNotReadItem);
+
+        LOGGER.info(String.format("Latest item with link [ %s ] and id [ %s ] from feed id [ %s ] retrieved", latestNotReadItem.link, latestNotReadItem.guid, feedId.toString()));
+
+        return createJsonResponse(response);
+    }
+
+    public static ResponseBody markItemAsRead(final UUID feedId, final String itemId) {
+        //TODO feedId can be null. need to check it
+        //TODO itemId can be null. need to check it
+        final ControlService controlService = createControlService();
+
+        controlService.markItemAsRead(feedId, itemId);
+
+        final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
+
+        return createJsonResponse(successMessageResponse);
     }
 
     private static ResponseBody createJsonResponse(final Object object) {
