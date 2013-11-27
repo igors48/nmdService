@@ -31,16 +31,23 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
     }
 
     @Override
-    public void store(final UUID feedId, final Set<String> itemId) {
+    public void store(final UUID feedId, final Set<String> itemIds) {
         assertNotNull(feedId);
-        assertNotNull(itemId);
+        assertNotNull(itemIds);
 
+        final Key feedRootKey = getFeedRootKey(feedId);
+        final Entity entity = ReadFeedIdSetConverter.convert(feedRootKey, feedId, itemIds);
+
+        DATASTORE_SERVICE.put(entity);
     }
 
     @Override
     public void delete(final UUID feedId) {
         assertNotNull(feedId);
 
+        final Entity victim = loadEntity(feedId, true);
+
+        DATASTORE_SERVICE.delete(victim.getKey());
     }
 
     //TODO consider generify and move to root repo

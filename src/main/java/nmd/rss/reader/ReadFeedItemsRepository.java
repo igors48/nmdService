@@ -11,7 +11,7 @@ public interface ReadFeedItemsRepository {
 
     Set<String> load(UUID feedId);
 
-    void store(UUID feedId, Set<String> itemId);
+    void store(UUID feedId, Set<String> itemIds);
 
     void delete(UUID feedId);
 

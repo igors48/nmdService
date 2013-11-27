@@ -24,8 +24,8 @@ public class ReadFeedItemsRepositoryStub implements ReadFeedItemsRepository {
     }
 
     @Override
-    public void store(final UUID feedId, final Set<String> items) {
-        this.readFeeds.put(feedId, items);
+    public void store(final UUID feedId, final Set<String> itemIds) {
+        this.readFeeds.put(feedId, itemIds);
     }
 
     @Override
