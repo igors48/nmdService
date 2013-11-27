@@ -6,6 +6,7 @@ import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
         final Entity entity = preparedQuery.asSingleEntity();
 
-        return ReadFeedIdSetConverter.convert(entity);
+        return entity == null ? new HashSet<String>() : ReadFeedIdSetConverter.convert(entity);
     }
 
     @Override
