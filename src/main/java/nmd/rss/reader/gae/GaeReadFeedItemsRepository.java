@@ -31,7 +31,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
         final Entity entity = preparedQuery.asSingleEntity();
 
-        return null;
+        return ReadFeedIdSetConverter.convert(entity);
     }
 
     @Override
