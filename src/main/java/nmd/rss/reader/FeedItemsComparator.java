@@ -1,7 +1,6 @@
 package nmd.rss.reader;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -12,7 +11,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedItemsComparator {
 
-    public static FeedItemsComparisonReport findNotReadItems(final List<String> readItems, final List<String> storedItems) {
+    public static FeedItemsComparisonReport compare(final Set<String> readItems, final Set<String> storedItems) {
         assertNotNull(readItems);
         assertNotNull(storedItems);
 

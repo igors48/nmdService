@@ -24,6 +24,7 @@ public final class ServletTools {
     private static final Logger LOGGER = Logger.getLogger(ServletTools.class.getName());
 
     private static final String UTF_8 = "UTF-8";
+    private static final Gson GSON = new Gson();
 
     public static UUID parseFeedId(final String pathInfo) {
 
@@ -87,7 +88,7 @@ public final class ServletTools {
 
         //TODO get more information from exception
         final ErrorResponse errorResponse = ErrorResponse.create(ErrorCode.UNHANDLED_EXCEPTION, message, "Please try again later");
-        final String content = new Gson().toJson(errorResponse);
+        final String content = GSON.toJson(errorResponse);
         final ResponseBody responseBody = new ResponseBody(ContentType.JSON, content);
 
         try {

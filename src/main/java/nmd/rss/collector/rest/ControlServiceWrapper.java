@@ -4,12 +4,14 @@ import com.google.gson.Gson;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.ControlService;
 import nmd.rss.collector.controller.ControlServiceException;
+import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.controller.FeedUpdateReport;
 import nmd.rss.collector.error.ServiceError;
 import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
 import nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository;
 import nmd.rss.collector.gae.persistence.GaeFeedItemsRepository;
@@ -24,6 +26,8 @@ import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
+import nmd.rss.reader.ReadFeedItemsRepository;
+import nmd.rss.reader.gae.GaeReadFeedItemsRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -141,6 +145,41 @@ public class ControlServiceWrapper {
         }
     }
 
+    public static ResponseBody getFeedsReadReport() {
+        final ControlService controlService = createControlService();
+
+        final List<FeedReadReport> feedReadReport = controlService.getFeedsReadReport();
+        final FeedReadReportsResponse response = FeedReadReportsResponse.convert(feedReadReport);
+
+        LOGGER.info("Feed read report created");
+
+        return createJsonResponse(response);
+    }
+
+    public static ResponseBody getLatestNotReadItem(final UUID feedId) {
+        //TODO feedId can be null. need to check it
+        final ControlService controlService = createControlService();
+
+        final FeedItem latestNotReadItem = controlService.getLatestNotReadItem(feedId);
+        final FeedItemResponse response = FeedItemResponse.convert(latestNotReadItem);
+
+        LOGGER.info(String.format("Latest item with link [ %s ] and id [ %s ] from feed id [ %s ] retrieved", latestNotReadItem.link, latestNotReadItem.guid, feedId.toString()));
+
+        return createJsonResponse(response);
+    }
+
+    public static ResponseBody markItemAsRead(final UUID feedId, final String itemId) {
+        //TODO feedId can be null. need to check it
+        //TODO itemId can be null. need to check it
+        final ControlService controlService = createControlService();
+
+        controlService.markItemAsRead(feedId, itemId);
+
+        final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
+
+        return createJsonResponse(successMessageResponse);
+    }
+
     private static ResponseBody createJsonResponse(final Object object) {
         final String content = GSON.toJson(object);
 
@@ -167,11 +206,12 @@ public class ControlServiceWrapper {
         final FeedUpdateTaskRepository feedUpdateTaskRepository = new GaeFeedUpdateTaskRepository();
         final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
         final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
+        final ReadFeedItemsRepository readFeedItemsRepository = new GaeReadFeedItemsRepository();
 
         final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeCacheFeedUpdateTaskSchedulerContextRepository();
         final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(feedUpdateTaskSchedulerContextRepository, feedUpdateTaskRepository, transactions);
 
-        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
+        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
     }
 
 }

@@ -7,14 +7,13 @@ import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.persistence.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
+import nmd.rss.reader.gae.ReadFeedIdSetConverter;
 import org.junit.Test;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: igu
@@ -28,6 +27,13 @@ public class ConvertersTest {
     private static final FeedItem SECOND_FEED_ITEM = new FeedItem("title-second", "description-second", "link-second", new Date(), "guid-second");
 
     private static final List<FeedItem> FEED_LIST = Arrays.asList(FIRST_FEED_ITEM, SECOND_FEED_ITEM);
+
+    private static final String FIRST_READ_ITEM_ID = "first";
+    private static final String SECOND_READ_ITEM_ID = "second";
+    private static final Set<String> READ_FEED_ITEMS = new HashSet<String>() {{
+        add(FIRST_READ_ITEM_ID);
+        add(SECOND_READ_ITEM_ID);
+    }};
 
     @Test
     public void feedHeaderEntityRoundtrip() {
@@ -78,6 +84,17 @@ public class ConvertersTest {
         assertEquals(FEED_LIST.size(), restored.size());
         assertEquals(FIRST_FEED_ITEM, restored.get(0));
         assertEquals(SECOND_FEED_ITEM, restored.get(1));
+    }
+
+    @Test
+    public void readFeedItemsEntityRoundtrip() {
+        final Entity entity = ReadFeedIdSetConverter.convert(SAMPLE_KEY, UUID.randomUUID(), READ_FEED_ITEMS);
+
+        final Set<String> restored = ReadFeedIdSetConverter.convert(entity);
+
+        assertEquals(READ_FEED_ITEMS.size(), restored.size());
+        assertTrue(restored.contains(FIRST_READ_ITEM_ID));
+        assertTrue(restored.contains(SECOND_READ_ITEM_ID));
     }
 
 }

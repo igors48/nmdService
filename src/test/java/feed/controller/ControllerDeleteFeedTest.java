@@ -6,6 +6,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -32,6 +33,13 @@ public class ControllerDeleteFeedTest extends ControllerTestBase {
         final UUID feedId = createAndDeleteFeed();
 
         assertNull(this.feedItemsRepositoryStub.loadItems(feedId));
+    }
+
+    @Test
+    public void whenFeedRemovedThenItReadItemsRemoved() throws ControlServiceException {
+        final UUID feedId = createAndDeleteFeed();
+
+        assertTrue(this.readFeedItemsRepositoryStub.load(feedId).isEmpty());
     }
 
     private UUID createAndDeleteFeed() throws ControlServiceException {

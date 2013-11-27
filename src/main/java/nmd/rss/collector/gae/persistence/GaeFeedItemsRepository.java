@@ -51,6 +51,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
 
         final Key feedRootKey = getFeedRootKey(feedId);
 
+        //TODO does this check really need
         if (feedRootKey == null) {
             return null;
         }

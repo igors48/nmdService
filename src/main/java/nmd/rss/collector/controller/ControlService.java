@@ -10,10 +10,11 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.collector.updater.UrlFetcherException;
+import nmd.rss.reader.FeedItemsComparator;
+import nmd.rss.reader.FeedItemsComparisonReport;
+import nmd.rss.reader.ReadFeedItemsRepository;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -26,6 +27,7 @@ import static nmd.rss.collector.util.UrlTools.normalizeUrl;
  * Date : 22.05.13
  */
 public class ControlService {
+    //TODO consider split this service on two parts. for collector and reader
 
     private static final int MAX_FEED_ITEMS_COUNT = 10000;
 
@@ -34,11 +36,12 @@ public class ControlService {
     private final FeedHeadersRepository feedHeadersRepository;
     private final FeedItemsRepository feedItemsRepository;
     private final FeedUpdateTaskRepository feedUpdateTaskRepository;
+    private final ReadFeedItemsRepository readFeedItemsRepository;
 
     private final FeedUpdateTaskScheduler scheduler;
     private final UrlFetcher fetcher;
 
-    public ControlService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
+    public ControlService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
         assertNotNull(feedHeadersRepository);
         this.feedHeadersRepository = feedHeadersRepository;
 
@@ -47,6 +50,9 @@ public class ControlService {
 
         assertNotNull(feedUpdateTaskRepository);
         this.feedUpdateTaskRepository = feedUpdateTaskRepository;
+
+        assertNotNull(readFeedItemsRepository);
+        this.readFeedItemsRepository = readFeedItemsRepository;
 
         assertNotNull(scheduler);
         this.scheduler = scheduler;
@@ -102,6 +108,7 @@ public class ControlService {
             this.feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
             this.feedHeadersRepository.deleteHeader(feedId);
             this.feedItemsRepository.deleteItems(feedId);
+            this.readFeedItemsRepository.delete(feedId);
 
             transaction.commit();
         } finally {
@@ -206,6 +213,90 @@ public class ControlService {
         }
 
         return updateFeed(currentTask.feedId);
+    }
+
+    public List<FeedReadReport> getFeedsReadReport() {
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+            final List<FeedReadReport> report = new ArrayList<>();
+
+            for (final FeedHeader header : headers) {
+                final List<FeedItem> items = this.feedItemsRepository.loadItems(header.id);
+
+                final Set<String> storedGuids = new HashSet<>();
+
+                for (final FeedItem item : items) {
+                    storedGuids.add(item.guid);
+                }
+
+                final Set<String> readGuids = this.readFeedItemsRepository.load(header.id);
+
+                final FeedItemsComparisonReport comparisonReport = FeedItemsComparator.compare(readGuids, storedGuids);
+                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.feedLink, comparisonReport.readItems.size(), comparisonReport.newItems.size());
+
+                report.add(feedReadReport);
+            }
+
+            transaction.commit();
+
+            return report;
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    public FeedItem getLatestNotReadItem(final UUID feedId) {
+        assertNotNull(feedId);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final List<FeedItem> notReadItems = new ArrayList<>();
+
+            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
+
+            for (final FeedItem item : items) {
+
+                if (!readGuids.contains(item.guid)) {
+                    notReadItems.add(item);
+                }
+            }
+
+            transaction.commit();
+
+            final int count = notReadItems.size();
+
+            return count == 0 ? null : notReadItems.get(count - 1);
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    public void markItemAsRead(final UUID feedId, final String itemId) {
+        assertNotNull(feedId);
+        assertStringIsValid(itemId);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final Set<String> readItems = this.readFeedItemsRepository.load(feedId);
+            readItems.add(itemId);
+
+            this.readFeedItemsRepository.store(feedId, readItems);
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
