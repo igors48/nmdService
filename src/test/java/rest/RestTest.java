@@ -9,6 +9,8 @@ import org.junit.Test;
  */
 public class RestTest {
 
+    //http://localhost:8080/feed/feed_win_1251.xml
+
     @Test
     public void smoke() {
         RestAssured.get("/");

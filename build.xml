@@ -347,6 +347,10 @@
             </fileset>
         </copy>
 
+        <copy todir="${war.directory}/feed/">
+            <fileset dir="${dir.base}/war/feed/"/>
+        </copy>
+
         <copy todir="${war.directory}">
             <fileset dir="${dir.base}/war/angular/app/"/>
 
