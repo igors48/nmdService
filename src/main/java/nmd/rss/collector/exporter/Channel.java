@@ -20,7 +20,7 @@ class Channel {
     @XmlElement(name = "item")
     private List<Item> items;
 
-    public Channel() {
+    Channel() {
         // empty
     }
 

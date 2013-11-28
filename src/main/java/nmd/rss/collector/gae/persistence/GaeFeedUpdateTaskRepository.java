@@ -31,15 +31,15 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
 
         final List<Entity> entities = preparedQuery.asList(withLimit(MAX_VALUE));
 
-        final List<FeedUpdateTask> headers = new ArrayList<>(entities.size());
+        final List<FeedUpdateTask> tasks = new ArrayList<>(entities.size());
 
         for (final Entity entity : entities) {
             final FeedUpdateTask feedUpdateTask = FeedUpdateTaskEntityConverter.convert(entity);
 
-            headers.add(feedUpdateTask);
+            tasks.add(feedUpdateTask);
         }
 
-        return headers;
+        return tasks;
     }
 
     @Override

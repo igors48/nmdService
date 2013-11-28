@@ -26,6 +26,7 @@ public class ExportsServlet extends HttpServlet {
             final String pathInfo = request.getPathInfo();
 
             final UUID feedId = parseFeedId(pathInfo);
+            //TODO check feedId == null
             final ResponseBody responseBody = getFeed(feedId);
 
             writeResponseBody(responseBody, response);
