@@ -1,4 +1,4 @@
-package feed.exporter;
+package tool;
 
 import nmd.rss.collector.rest.ServletTools;
 import org.junit.Test;
@@ -12,40 +12,40 @@ import static org.junit.Assert.assertNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.05.13
  */
-public class ExporterServletToolsParseFeedIdTest {
+public class ServletToolsParseFeedIdTest {
 
     @Test
     public void parse() {
-        UUID origin = UUID.randomUUID();
-        UUID parsed = ServletTools.parseFeedId("/" + origin);
+        final UUID origin = UUID.randomUUID();
+        final UUID parsed = ServletTools.parseFeedId("/" + origin);
 
         assertEquals(origin, parsed);
     }
 
     @Test
     public void ifFeedIdNotFoundNullReturns() {
-        UUID parsed = ServletTools.parseFeedId("/");
+        final UUID parsed = ServletTools.parseFeedId("/");
 
         assertNull(parsed);
     }
 
     @Test
     public void ifFeedIdCanNotParseNullReturns() {
-        UUID parsed = ServletTools.parseFeedId("/qwdwqde");
+        final UUID parsed = ServletTools.parseFeedId("/qwdwqde");
 
         assertNull(parsed);
     }
 
     @Test
     public void ifPathInfoIsEmptyNullReturns() {
-        UUID parsed = ServletTools.parseFeedId("");
+        final UUID parsed = ServletTools.parseFeedId("");
 
         assertNull(parsed);
     }
 
     @Test
     public void ifPathInfoIsNullNullReturns() {
-        UUID parsed = ServletTools.parseFeedId(null);
+        final UUID parsed = ServletTools.parseFeedId(null);
 
         assertNull(parsed);
     }

@@ -43,6 +43,34 @@ public final class ServletTools {
         }
     }
 
+    public static FeedAndItemIds parseFeedAndItemIds(final String pathInfo) {
+
+        if (pathInfoIsEmpty(pathInfo)) {
+            return null;
+        }
+
+        try {
+            final int secondSlashIndex = pathInfo.indexOf("/", 1);
+
+            if (secondSlashIndex == -1) {
+                return null;
+            }
+
+            final int thirdSlashIndex = pathInfo.indexOf("/", secondSlashIndex + 1);
+
+            final String feedIdPart = pathInfo.substring(1, secondSlashIndex);
+            final UUID feedId = UUID.fromString(feedIdPart);
+
+            final String itemIdPart = thirdSlashIndex == -1 ? pathInfo.substring(secondSlashIndex + 1) : pathInfo.substring(secondSlashIndex + 1, thirdSlashIndex);
+
+            return new FeedAndItemIds(feedId, itemIdPart);
+        } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, String.format("Error parse feedId and itemId from [ %s ]", pathInfo), exception);
+
+            return null;
+        }
+    }
+
     public static boolean pathInfoIsEmpty(final String pathInfo) {
         return pathInfo == null || pathInfo.length() < 2;
     }

@@ -7,8 +7,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static nmd.rss.collector.rest.ControlServiceWrapper.getFeedsReadReport;
-import static nmd.rss.collector.rest.ControlServiceWrapper.getLatestNotReadItem;
+import static nmd.rss.collector.rest.ControlServiceWrapper.*;
 import static nmd.rss.collector.rest.ServletTools.*;
 
 /**
@@ -33,6 +32,7 @@ public class ReadsServlet extends HttpServlet {
                 responseBody = getFeedsReadReport();
             } else {
                 final UUID feedId = parseFeedId(pathInfo);
+                //TODO feedId can be null
                 responseBody = getLatestNotReadItem(feedId);
             }
 
@@ -44,5 +44,22 @@ public class ReadsServlet extends HttpServlet {
         }
     }
 
-    //POST/{feedId}/itemId -- mark item as read
+    //POST/{feedId}/{itemId} -- mark item as read
+    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) {
+
+        try {
+            final String pathInfo = request.getPathInfo();
+
+            final FeedAndItemIds feedAndItemIds = parseFeedAndItemIds(pathInfo);
+            //TODO feedAndItemIds can be null
+            final ResponseBody responseBody = markItemAsRead(feedAndItemIds.feedId, feedAndItemIds.itemId);
+
+            writeResponseBody(responseBody, response);
+        } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, "Unhandled exception", exception);
+
+            writeException(exception, response);
+        }
+    }
+
 }
