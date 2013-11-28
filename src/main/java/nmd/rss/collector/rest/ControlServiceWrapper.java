@@ -161,6 +161,7 @@ public class ControlServiceWrapper {
         final ControlService controlService = createControlService();
 
         final FeedItem latestNotReadItem = controlService.getLatestNotReadItem(feedId);
+        //TODO latestNotReadItem can be null
         final FeedItemResponse response = FeedItemResponse.convert(latestNotReadItem);
 
         LOGGER.info(String.format("Latest item with link [ %s ] and id [ %s ] from feed id [ %s ] retrieved", latestNotReadItem.link, latestNotReadItem.guid, feedId.toString()));
