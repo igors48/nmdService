@@ -347,6 +347,7 @@
             </fileset>
         </copy>
 
+        <!--static files for test mode only-->
         <copy todir="${war.directory}/feed/">
             <fileset dir="${dir.base}/war/feed/"/>
         </copy>

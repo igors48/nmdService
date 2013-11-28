@@ -13,7 +13,7 @@ public class RestTest {
 
     @Test
     public void smoke() {
-        RestAssured.get("/");
+        RestAssured.get("/feed/feed_win_1251.xml");
     }
 
 }
