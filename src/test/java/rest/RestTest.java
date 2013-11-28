@@ -1,7 +1,8 @@
 package rest;
 
-import com.jayway.restassured.RestAssured;
 import org.junit.Test;
+
+import static com.jayway.restassured.RestAssured.given;
 
 /**
  * User: igu
@@ -9,11 +10,12 @@ import org.junit.Test;
  */
 public class RestTest {
 
-    //http://localhost:8080/feed/feed_win_1251.xml
-
     @Test
     public void smoke() {
-        RestAssured.get("/feed/feed_win_1251.xml");
+        given().
+                body("http://localhost:8080/feed/feed_win_1251.xml").
+                expect().statusCode(200).
+                when().post("/secure/v01/feeds");
     }
 
 }
