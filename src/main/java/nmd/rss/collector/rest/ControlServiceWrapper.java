@@ -74,7 +74,6 @@ public class ControlServiceWrapper {
         LOGGER.info(String.format("Feed [ %s ] removed", feedId));
 
         return createJsonResponse(successMessageResponse);
-
     }
 
     public static ResponseBody getFeedHeaders() {
@@ -154,6 +153,16 @@ public class ControlServiceWrapper {
         LOGGER.info("Feed read report created");
 
         return createJsonResponse(response);
+    }
+
+    public static ResponseBody clear() {
+        final ControlService controlService = createControlService();
+
+        controlService.clear();
+
+        final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create("Service cleared");
+
+        return createJsonResponse(successMessageResponse);
     }
 
     public static ResponseBody getLatestNotReadItem(final UUID feedId) {

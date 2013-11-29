@@ -47,7 +47,9 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
         final Entity victim = loadEntity(feedId, true);
 
-        DATASTORE_SERVICE.delete(victim.getKey());
+        if (victim != null) {
+            DATASTORE_SERVICE.delete(victim.getKey());
+        }
     }
 
     //TODO consider generify and move to root repo

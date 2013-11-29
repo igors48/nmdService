@@ -45,6 +45,16 @@
         <url-pattern>/v01/feeds/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>clear</servlet-name>
+        <servlet-class>nmd.rss.collector.rest.ClearServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>clear</servlet-name>
+        <url-pattern>/@security.key@/v01/clear</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

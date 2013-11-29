@@ -1,8 +1,7 @@
 package rest;
 
-import org.junit.FixMethodOrder;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runners.MethodSorters;
 
 import java.util.UUID;
 
@@ -14,27 +13,36 @@ import static org.junit.Assert.assertEquals;
  * User: igu
  * Date: 28.11.13
  */
-@FixMethodOrder(value = MethodSorters.NAME_ASCENDING)
 public class RestTest {
 
-    private UUID firstFeedId;
-
-    @Test
-    public void aa_whenFeedAddedThenItsIdReturnsAsCorrectUuid() {
-        final String response = given().body("http://localhost:8080/feed/feed_win_1251.xml").post("/secure/v01/feeds").asString();
-        final String feedId = from(response).getString("feedId");
-
-        this.firstFeedId = UUID.fromString(feedId);
+    @Before
+    public void before() {
+        clearState();
     }
 
     @Test
-    public void ab_whenSameFeedAddedSecondTimeThenUuidFromFirstAttemptReturns() {
+    public void whenFeedAddedThenItsIdReturnsAsValidUuid() {
+        final String feedId = addFirstFeed();
+
+        UUID.fromString(feedId);
+    }
+
+    @Test
+    public void whenSameFeedAddedSecondTimeThenUuidFromFirstAttemptReturns() {
+        String firstFeedIdAsString = addFirstFeed();
+        String secondFeedIdAsString = addFirstFeed();
+
+        assertEquals(firstFeedIdAsString, secondFeedIdAsString);
+    }
+
+    private static void clearState() {
+        given().body("").post("/secure/v01/clear");
+    }
+
+    private static String addFirstFeed() {
         final String response = given().body("http://localhost:8080/feed/feed_win_1251.xml").post("/secure/v01/feeds").asString();
-        final String feedIdAsString = from(response).getString("feedId");
 
-        final UUID feedId = UUID.fromString(feedIdAsString);
-
-        assertEquals(this.firstFeedId, feedId);
+        return from(response).getString("feedId");
     }
 
 }
