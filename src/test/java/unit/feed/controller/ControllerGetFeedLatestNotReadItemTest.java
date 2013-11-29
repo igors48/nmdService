@@ -10,7 +10,7 @@ import static org.junit.Assert.assertEquals;
  * User: igu
  * Date: 25.10.13
  */
-public class ControllerGetFeedLatestNotReadItemTest extends ControllerTestBase {
+public class ControllerGetFeedLatestNotReadItemTest extends AbstractControllerTest {
 
     @Test
     public void whenNotReadItemExistsThenItReturns() {

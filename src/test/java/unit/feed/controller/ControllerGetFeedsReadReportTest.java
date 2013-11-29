@@ -14,7 +14,7 @@ import static org.junit.Assert.assertTrue;
  * User: igu
  * Date: 22.10.13
  */
-public class ControllerGetFeedsReadReportTest extends ControllerTestBase {
+public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
     @Test
     public void whenNoFeedsThenEmptyReportReturns() throws ControlServiceException {

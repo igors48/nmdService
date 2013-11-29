@@ -16,7 +16,7 @@ import java.util.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.06.13
  */
-public class ControllerTestBase {
+public abstract class AbstractControllerTest {
 
     protected static final String VALID_FIRST_RSS_FEED_LINK = "valid-first-feed-link";
     protected static final String VALID_SECOND_RSS_FEED_LINK = "valid-second-feed-link";

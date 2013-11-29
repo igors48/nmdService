@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.06.13
  */
-public class ControllerDeleteFeedTest extends ControllerTestBase {
+public class ControllerDeleteFeedTest extends AbstractControllerTest {
 
     @Test
     public void whenFeedRemovedThenItHeaderRemoved() throws ControlServiceException {

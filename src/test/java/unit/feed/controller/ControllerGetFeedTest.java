@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.06.13
  */
-public class ControllerGetFeedTest extends ControllerTestBase {
+public class ControllerGetFeedTest extends AbstractControllerTest {
 
     @Test
     public void whenFeedAddedThenItReturns() throws ControlServiceException {
