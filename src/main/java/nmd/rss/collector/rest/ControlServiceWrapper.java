@@ -208,11 +208,11 @@ public class ControlServiceWrapper {
         final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
         final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
         final ReadFeedItemsRepository readFeedItemsRepository = new GaeReadFeedItemsRepository();
-
         final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeCacheFeedUpdateTaskSchedulerContextRepository();
+
         final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(feedUpdateTaskSchedulerContextRepository, feedUpdateTaskRepository, transactions);
 
-        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
+        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
     }
 
 }

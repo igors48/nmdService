@@ -38,4 +38,8 @@ public class FeedItemsRepositoryStub implements FeedItemsRepository {
         this.items.remove(feedId);
     }
 
+    public boolean isEmpty() {
+        return this.items.isEmpty();
+    }
+
 }

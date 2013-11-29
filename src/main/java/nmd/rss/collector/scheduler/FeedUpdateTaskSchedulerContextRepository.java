@@ -10,4 +10,6 @@ public interface FeedUpdateTaskSchedulerContextRepository {
 
     FeedUpdateTaskSchedulerContext load();
 
+    void clear();
+
 }

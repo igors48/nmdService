@@ -7,6 +7,7 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedItemsMergeReport;
 import org.junit.Before;
 import unit.feed.scheduler.FeedUpdateTaskRepositoryStub;
+import unit.feed.scheduler.FeedUpdateTaskSchedulerContextRepositoryStub;
 import unit.feed.updater.FeedUpdateTaskSchedulerStub;
 
 import java.util.*;
@@ -65,15 +66,18 @@ public class ControllerTestBase {
             "</rss>    ";
 
     protected UrlFetcherStub fetcherStub;
+    protected FeedUpdateTaskSchedulerStub feedUpdateTaskSchedulerStub;
+
     protected FeedHeadersRepositoryStub feedHeadersRepositoryStub;
     protected FeedItemsRepositoryStub feedItemsRepositoryStub;
     protected FeedUpdateTaskRepositoryStub feedUpdateTaskRepositoryStub;
-    protected FeedUpdateTaskSchedulerStub feedUpdateTaskSchedulerStub;
     protected ReadFeedItemsRepositoryStub readFeedItemsRepositoryStub;
+    protected FeedUpdateTaskSchedulerContextRepositoryStub feedUpdateTaskSchedulerContextRepositoryStub;
+
     protected ControlService controlService;
 
     @Before
-    public void before() {
+    public void before() throws ControlServiceException {
         final TransactionsStub transactionsStub = new TransactionsStub();
 
         this.fetcherStub = new UrlFetcherStub();
@@ -82,8 +86,9 @@ public class ControllerTestBase {
         this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
         this.feedUpdateTaskSchedulerStub = new FeedUpdateTaskSchedulerStub();
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
+        this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
 
-        this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
+        this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
     }
 
     protected UUID addValidFirstRssFeed() throws ControlServiceException {

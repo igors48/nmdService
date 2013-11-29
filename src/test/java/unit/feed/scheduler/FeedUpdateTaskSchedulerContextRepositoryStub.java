@@ -28,4 +28,13 @@ public class FeedUpdateTaskSchedulerContextRepositoryStub implements FeedUpdateT
         return this.context;
     }
 
+    @Override
+    public void clear() {
+        this.context = null;
+    }
+
+    public boolean isEmpty() {
+        return this.context == null;
+    }
+
 }

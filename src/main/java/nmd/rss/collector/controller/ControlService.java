@@ -6,6 +6,7 @@ import nmd.rss.collector.feed.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
+import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
@@ -37,11 +38,12 @@ public class ControlService {
     private final FeedItemsRepository feedItemsRepository;
     private final FeedUpdateTaskRepository feedUpdateTaskRepository;
     private final ReadFeedItemsRepository readFeedItemsRepository;
+    private final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository;
 
     private final FeedUpdateTaskScheduler scheduler;
     private final UrlFetcher fetcher;
 
-    public ControlService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
+    public ControlService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
         assertNotNull(feedHeadersRepository);
         this.feedHeadersRepository = feedHeadersRepository;
 
@@ -53,6 +55,9 @@ public class ControlService {
 
         assertNotNull(readFeedItemsRepository);
         this.readFeedItemsRepository = readFeedItemsRepository;
+
+        assertNotNull(feedUpdateTaskSchedulerContextRepository);
+        this.feedUpdateTaskSchedulerContextRepository = feedUpdateTaskSchedulerContextRepository;
 
         assertNotNull(scheduler);
         this.scheduler = scheduler;
@@ -292,6 +297,28 @@ public class ControlService {
             readItems.add(itemId);
 
             this.readFeedItemsRepository.store(feedId, readItems);
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    public void clear() {
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+            final List<FeedHeader> backup = new ArrayList<>(headers);
+
+            for (final FeedHeader header : backup) {
+                removeFeed(header.id);
+            }
+
+            this.feedUpdateTaskSchedulerContextRepository.clear();
 
             transaction.commit();
         } finally {

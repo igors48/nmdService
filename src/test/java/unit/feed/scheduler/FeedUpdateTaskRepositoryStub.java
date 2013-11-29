@@ -24,15 +24,6 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
         }
     }
 
-    /*
-        public void addTask(final FeedUpdateTask task) {
-            this.tasks.add(task);
-        }
-
-        public void removeTask(final FeedUpdateTask task) {
-            this.tasks.remove(task);
-        }
-    */
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
         return this.tasks;
@@ -66,6 +57,10 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
                 iterator.remove();
             }
         }
+    }
+
+    public boolean isEmpty() {
+        return this.tasks.isEmpty();
     }
 
 }

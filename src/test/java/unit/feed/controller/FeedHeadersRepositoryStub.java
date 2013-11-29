@@ -70,4 +70,8 @@ public class FeedHeadersRepositoryStub implements FeedHeadersRepository {
         this.feedHeaders.add(feedHeader);
     }
 
+    public boolean isEmpty() {
+        return this.feedHeaders.isEmpty();
+    }
+
 }

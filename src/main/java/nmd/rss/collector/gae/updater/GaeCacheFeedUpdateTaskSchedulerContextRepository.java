@@ -31,4 +31,9 @@ public class GaeCacheFeedUpdateTaskSchedulerContextRepository implements FeedUpd
         return context == null ? FeedUpdateTaskSchedulerContext.START_CONTEXT : context;
     }
 
+    @Override
+    public void clear() {
+        CACHE.delete(KEY);
+    }
+
 }

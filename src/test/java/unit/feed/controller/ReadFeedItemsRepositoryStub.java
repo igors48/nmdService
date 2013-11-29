@@ -33,4 +33,8 @@ public class ReadFeedItemsRepositoryStub implements ReadFeedItemsRepository {
         this.readFeeds.remove(feedId);
     }
 
+    public boolean isEmpty() {
+        return this.readFeeds.isEmpty();
+    }
+
 }
