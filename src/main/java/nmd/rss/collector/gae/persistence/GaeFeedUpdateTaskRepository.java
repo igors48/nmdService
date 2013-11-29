@@ -67,7 +67,9 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
 
         final Entity entity = getEntity(feedId);
 
-        DATASTORE_SERVICE.delete(entity.getKey());
+        if (entity != null) {
+            DATASTORE_SERVICE.delete(entity.getKey());
+        }
     }
 
     private Entity getEntity(final UUID feedId) {

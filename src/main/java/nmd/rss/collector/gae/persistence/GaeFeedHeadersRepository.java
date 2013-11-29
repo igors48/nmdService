@@ -58,7 +58,9 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
 
         final Entity entity = getEntity(feedId);
 
-        DATASTORE_SERVICE.delete(entity.getKey());
+        if (entity != null) {
+            DATASTORE_SERVICE.delete(entity.getKey());
+        }
     }
 
     @Override

@@ -41,6 +41,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
         DATASTORE_SERVICE.put(entity);
     }
 
+    //TODO consider generify and move to root repo
     @Override
     public void delete(final UUID feedId) {
         assertNotNull(feedId);
