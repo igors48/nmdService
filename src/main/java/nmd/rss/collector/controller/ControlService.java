@@ -230,14 +230,7 @@ public class ControlService {
             final List<FeedReadReport> report = new ArrayList<>();
 
             for (final FeedHeader header : headers) {
-                final List<FeedItem> items = this.feedItemsRepository.loadItems(header.id);
-
-                final Set<String> storedGuids = new HashSet<>();
-
-                for (final FeedItem item : items) {
-                    storedGuids.add(item.guid);
-                }
-
+                final Set<String> storedGuids = getStoredGuids(header.id);
                 final Set<String> readGuids = this.readFeedItemsRepository.load(header.id);
 
                 final FeedItemsComparisonReport comparisonReport = FeedItemsComparator.compare(readGuids, storedGuids);
@@ -293,10 +286,13 @@ public class ControlService {
         try {
             transaction = this.transactions.beginOne();
 
-            final Set<String> readItems = this.readFeedItemsRepository.load(feedId);
-            readItems.add(itemId);
+            final Set<String> storedGuids = getStoredGuids(feedId);
+            final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
+            readGuids.add(itemId);
 
-            this.readFeedItemsRepository.store(feedId, readItems);
+            final FeedItemsComparisonReport comparisonReport = FeedItemsComparator.compare(readGuids, storedGuids);
+
+            this.readFeedItemsRepository.store(feedId, comparisonReport.readItems);
 
             transaction.commit();
         } finally {
@@ -324,6 +320,18 @@ public class ControlService {
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    private Set<String> getStoredGuids(final UUID feedId) {
+        final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+
+        final Set<String> storedGuids = new HashSet<>();
+
+        for (final FeedItem item : items) {
+            storedGuids.add(item.guid);
+        }
+
+        return storedGuids;
     }
 
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
