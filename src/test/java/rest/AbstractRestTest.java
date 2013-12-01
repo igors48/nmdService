@@ -26,6 +26,7 @@ public abstract class AbstractRestTest {
     protected static final String EXPORTS_SERVLET_URL = "/v01/feeds/";
 
     protected static final String FIRST_FEED_URL = "http://localhost:8080/feed/feed_win_1251.xml";
+    protected static final String SECOND_FEED_URL = "http://localhost:8080/feed/feed_win_1251_2.xml";
     protected static final String INVALID_FEED_URL = "http://localhost:8080/feed/not_exist.xml";
 
     @After
@@ -39,6 +40,10 @@ public abstract class AbstractRestTest {
 
     protected static FeedIdResponse addFirstFeed() {
         return addFeed(FIRST_FEED_URL);
+    }
+
+    protected static FeedIdResponse addSecondFeed() {
+        return addFeed(SECOND_FEED_URL);
     }
 
     protected static FeedIdResponse addFeed(final String url) {

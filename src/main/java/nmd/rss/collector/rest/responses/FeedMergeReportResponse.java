@@ -22,6 +22,10 @@ public class FeedMergeReportResponse extends SuccessResponse {
         // empty
     }
 
+    public UUID getFeedId() {
+        return this.feedId;
+    }
+
     public FeedMergeReportResponse(final String feedLink, final UUID feedId, final int removed, final int retained, final int added) {
         assertStringIsValid(feedLink);
         this.feedLink = feedLink;
