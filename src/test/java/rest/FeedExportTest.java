@@ -1,12 +1,12 @@
 package rest;
 
-import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedParserException;
 import org.junit.Test;
 
-import java.util.UUID;
-
+import static java.util.UUID.randomUUID;
+import static nmd.rss.collector.error.ErrorCode.INVALID_FEED_ID;
+import static nmd.rss.collector.error.ErrorCode.WRONG_FEED_ID;
 import static nmd.rss.collector.feed.FeedParser.parse;
 import static org.junit.Assert.assertFalse;
 
@@ -29,23 +29,23 @@ public class FeedExportTest extends AbstractRestTest {
 
     @Test
     public void whenFeedIdDoesNotExistThenErrorReturns() {
-        final String response = exportFeed(UUID.randomUUID().toString());
+        final String response = exportFeed(randomUUID().toString());
 
-        assertErrorResponse(response, ErrorCode.WRONG_FEED_ID.toString());
+        assertErrorResponse(response, WRONG_FEED_ID);
     }
 
     @Test
     public void whenFeedIdCanNotBeParsedThenErrorReturns() {
         final String response = exportFeed("12345678");
 
-        assertErrorResponse(response, ErrorCode.INVALID_FEED_ID.toString());
+        assertErrorResponse(response, INVALID_FEED_ID);
     }
 
     @Test
     public void whenFeedIdIsEmptyThenErrorReturns() {
         final String response = exportFeed("");
 
-        assertErrorResponse(response, ErrorCode.INVALID_FEED_ID.toString());
+        assertErrorResponse(response, INVALID_FEED_ID);
     }
 
 }

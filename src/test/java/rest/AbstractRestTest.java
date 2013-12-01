@@ -1,5 +1,6 @@
 package rest;
 
+import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.ResponseType;
 import org.junit.After;
 
@@ -15,8 +16,10 @@ public abstract class AbstractRestTest {
 
     //TODO assertResponseSuccess
 
-    protected static final String CLEAR_SERVLET_URL = "/secure/v01/clear";
-    protected static final String FEEDS_SERVLET_URL = "/secure/v01/feeds";
+    protected static final String CLEAR_SERVLET_URL = "/secure/v01/clear/";
+    protected static final String FEEDS_SERVLET_URL = "/secure/v01/feeds/";
+    protected static final String UPDATES_SERVLET_URL = "/secure/v01/updates/";
+    protected static final String EXPORTS_SERVLET_URL = "/v01/feeds/";
 
     protected static final String FIRST_FEED_URL = "http://localhost:8080/feed/feed_win_1251.xml";
     protected static final String INVALID_FEED_URL = "http://localhost:8080/feed/not_exist.xml";
@@ -41,12 +44,20 @@ public abstract class AbstractRestTest {
     }
 
     protected static String exportFeed(final String feedId) {
-        return given().get("/v01/feeds/" + feedId).asString();
+        return given().get(EXPORTS_SERVLET_URL + feedId).asString();
     }
 
-    protected static void assertErrorResponse(final String response, final String error) {
+    protected static String updateFeed(final String feedId) {
+        return given().get(UPDATES_SERVLET_URL + feedId).asString();
+    }
+
+    protected static String updateCurrentFeed() {
+        return updateFeed("");
+    }
+
+    protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
         assertEquals(ResponseType.ERROR.toString(), from(response).getString("status"));
-        assertEquals(error, from(response).getString("code"));
+        assertEquals(errorCode.toString(), from(response).getString("code"));
     }
 
 }
