@@ -31,7 +31,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
 
         final Entity entity = getEntity(feedId);
 
-        return FeedHeaderEntityConverter.convert(entity);
+        return entity == null ? null : FeedHeaderEntityConverter.convert(entity);
     }
 
     @Override

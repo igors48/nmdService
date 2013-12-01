@@ -1,6 +1,5 @@
 package nmd.rss.collector.rest;
 
-import com.google.gson.Gson;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.ControlService;
 import nmd.rss.collector.controller.ControlServiceException;
@@ -34,6 +33,9 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
+import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
+
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.06.13
@@ -41,8 +43,6 @@ import java.util.logging.Logger;
 public class ControlServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(ControlServiceWrapper.class.getName());
-
-    private static final Gson GSON = new Gson();
 
     public static ResponseBody addFeed(final String feedUrl) {
         //TODO feedUrl can be null. need to check it
@@ -88,7 +88,6 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody getFeed(final UUID feedId) {
-        //TODO feedId can be null. need to check it
         final ControlService controlService = createControlService();
 
         try {
@@ -188,24 +187,6 @@ public class ControlServiceWrapper {
         final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
 
         return createJsonResponse(successMessageResponse);
-    }
-
-    private static ResponseBody createJsonResponse(final Object object) {
-        final String content = GSON.toJson(object);
-
-        return new ResponseBody(ContentType.JSON, content);
-    }
-
-    private static ResponseBody createErrorJsonResponse(final ControlServiceException exception) {
-        final ServiceError error = exception.getError();
-
-        return createErrorJsonResponse(error);
-    }
-
-    private static ResponseBody createErrorJsonResponse(final ServiceError error) {
-        final ErrorResponse errorResponse = ErrorResponse.create(error);
-
-        return createJsonResponse(errorResponse);
     }
 
     //TODO consider lazy init

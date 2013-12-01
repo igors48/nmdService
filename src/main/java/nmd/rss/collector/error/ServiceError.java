@@ -54,6 +54,13 @@ public class ServiceError {
                 "Possibly feed id incorrect. Check feed identifier.");
     }
 
+    public static ServiceError invalidFeedId(final String feedId) {
+
+        return new ServiceError(ErrorCode.INVALID_FEED_ID,
+                format("Feed id [ %s ] is invalid", feedId),
+                "Feed id cannot be parsed. Check feed identifier.");
+    }
+
     public static ServiceError wrongFeedTaskId(final UUID feedId) {
         assertNotNull(feedId);
 
