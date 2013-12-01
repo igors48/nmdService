@@ -1,11 +1,13 @@
 package rest;
 
+import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
+import nmd.rss.collector.rest.responses.ErrorResponse;
+import nmd.rss.collector.rest.responses.FeedIdResponse;
 import nmd.rss.collector.rest.responses.ResponseType;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
-import static com.jayway.restassured.path.json.JsonPath.from;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -15,6 +17,8 @@ import static org.junit.Assert.assertEquals;
 public abstract class AbstractRestTest {
 
     //TODO assertResponseSuccess
+
+    protected static final Gson GSON = new Gson();
 
     protected static final String CLEAR_SERVLET_URL = "/secure/v01/clear/";
     protected static final String FEEDS_SERVLET_URL = "/secure/v01/feeds/";
@@ -33,14 +37,14 @@ public abstract class AbstractRestTest {
         given().body("").post(CLEAR_SERVLET_URL);
     }
 
-    protected static String addFirstFeed() {
-        final String response = addFeed(FIRST_FEED_URL);
-
-        return from(response).getString("feedId");
+    protected static FeedIdResponse addFirstFeed() {
+        return addFeed(FIRST_FEED_URL);
     }
 
-    protected static String addFeed(final String url) {
-        return given().body(url).post(FEEDS_SERVLET_URL).asString();
+    protected static FeedIdResponse addFeed(final String url) {
+        final String response = given().body(url).post(FEEDS_SERVLET_URL).asString();
+
+        return GSON.fromJson(response, FeedIdResponse.class);
     }
 
     protected static String exportFeed(final String feedId) {
@@ -56,8 +60,10 @@ public abstract class AbstractRestTest {
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
-        assertEquals(ResponseType.ERROR.toString(), from(response).getString("status"));
-        assertEquals(errorCode.toString(), from(response).getString("code"));
+        final ErrorResponse errorResponse = GSON.fromJson(response, ErrorResponse.class);
+
+        assertEquals(ResponseType.ERROR, errorResponse.getStatus());
+        assertEquals(errorCode, errorResponse.getCode());
     }
 
 }

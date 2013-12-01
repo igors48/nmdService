@@ -2,6 +2,7 @@ package rest;
 
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedParserException;
+import nmd.rss.collector.rest.responses.FeedIdResponse;
 import org.junit.Test;
 
 import static java.util.UUID.randomUUID;
@@ -18,9 +19,9 @@ public class FeedExportTest extends AbstractRestTest {
 
     @Test
     public void whenFeedIdExistsThenFeedDataReturnsInXmlFormat() throws FeedParserException {
-        final String feedId = addFirstFeed();
+        final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        final String response = exportFeed(feedId);
+        final String response = exportFeed(feedIdResponse.getFeedId().toString());
 
         final Feed feed = parse(FIRST_FEED_URL, response);
 

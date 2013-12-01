@@ -20,6 +20,10 @@ public class ErrorResponse extends BaseResponse {
         // empty
     }
 
+    public ErrorCode getCode() {
+        return this.code;
+    }
+
     public static ErrorResponse create(final ErrorCode code, final String message, final String hints) {
         assertNotNull(code);
         assertStringIsValid(message);
