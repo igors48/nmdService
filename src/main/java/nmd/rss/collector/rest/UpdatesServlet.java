@@ -7,8 +7,10 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static nmd.rss.collector.error.ServiceError.invalidFeedId;
 import static nmd.rss.collector.rest.ControlServiceWrapper.updateCurrentFeed;
 import static nmd.rss.collector.rest.ControlServiceWrapper.updateFeed;
+import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.*;
 
 /**
@@ -33,7 +35,7 @@ public class UpdatesServlet extends HttpServlet {
                 responseBody = updateCurrentFeed();
             } else {
                 final UUID feedId = parseFeedId(pathInfo);
-                responseBody = updateFeed(feedId);
+                responseBody = feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : updateFeed(feedId);
             }
 
             writeResponseBody(responseBody, response);

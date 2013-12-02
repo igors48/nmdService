@@ -8,7 +8,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static nmd.rss.collector.error.ErrorCode.NO_SCHEDULED_TASK;
+import static java.util.UUID.randomUUID;
+import static nmd.rss.collector.error.ErrorCode.*;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -57,5 +58,30 @@ public class FeedUpdateTest extends AbstractRestTest {
         assertTrue(updatedFeedsId.contains(secondFeedIdResponse.getFeedId()));
     }
 
-    //concrete feed updates
+    @Test
+    public void whenFeedIdExistsThenFeedUpdatesAndReportReturns() {
+        final FeedIdResponse feedIdResponse = addFirstFeed();
+
+        final String response = updateFeed(feedIdResponse.getFeedId().toString());
+        final FeedMergeReportResponse report = GSON.fromJson(response, FeedMergeReportResponse.class);
+
+        final FeedMergeReportResponse expected = new FeedMergeReportResponse(FIRST_FEED_URL, feedIdResponse.getFeedId(), 0, 100, 0);
+
+        assertEquals(expected, report);
+    }
+
+    @Test
+    public void whenFeedIdDoesNotExistThenErrorReturns() {
+        final String response = updateFeed(randomUUID().toString());
+
+        assertErrorResponse(response, WRONG_FEED_ID);
+    }
+
+    @Test
+    public void whenFeedIdCanNotBeParsedThenErrorReturns() {
+        final String response = updateFeed("12345678");
+
+        assertErrorResponse(response, INVALID_FEED_ID);
+    }
+
 }
