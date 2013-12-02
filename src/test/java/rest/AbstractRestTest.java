@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.ErrorResponse;
+import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import nmd.rss.collector.rest.responses.ResponseType;
 import org.junit.After;
@@ -28,6 +29,7 @@ public abstract class AbstractRestTest {
     protected static final String FIRST_FEED_URL = "http://localhost:8080/feed/feed_win_1251.xml";
     protected static final String SECOND_FEED_URL = "http://localhost:8080/feed/feed_win_1251_2.xml";
     protected static final String INVALID_FEED_URL = "http://localhost:8080/feed/not_exist.xml";
+    protected static final String UNREACHABLE_FEED_URL = "http://localhost:8081/feed/not_exist.xml";
 
     @After
     public void after() {
@@ -39,17 +41,21 @@ public abstract class AbstractRestTest {
     }
 
     protected static FeedIdResponse addFirstFeed() {
-        return addFeed(FIRST_FEED_URL);
+        return GSON.fromJson(addFeed(FIRST_FEED_URL), FeedIdResponse.class);
     }
 
     protected static FeedIdResponse addSecondFeed() {
-        return addFeed(SECOND_FEED_URL);
+        return GSON.fromJson(addFeed(SECOND_FEED_URL), FeedIdResponse.class);
     }
 
-    protected static FeedIdResponse addFeed(final String url) {
-        final String response = given().body(url).post(FEEDS_SERVLET_URL).asString();
+    protected static String addFeed(final String url) {
+        return given().body(url).post(FEEDS_SERVLET_URL).asString();
+    }
 
-        return GSON.fromJson(response, FeedIdResponse.class);
+    protected static FeedHeadersResponse getFeedHeaders() {
+        final String response = given().get(FEEDS_SERVLET_URL).asString();
+
+        return GSON.fromJson(response, FeedHeadersResponse.class);
     }
 
     protected static String exportFeed(final String feedId) {

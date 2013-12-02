@@ -3,7 +3,6 @@ package nmd.rss.collector.feed;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
-import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 
 import java.io.StringReader;
@@ -49,7 +48,7 @@ public final class FeedParser {
             }
 
             return new Feed(header, items);
-        } catch (FeedException exception) {
+        } catch (Exception exception) {
             throw new FeedParserException(exception);
         }
 
