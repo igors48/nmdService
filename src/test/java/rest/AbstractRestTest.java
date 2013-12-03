@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class AbstractRestTest {
 
-    //TODO assertResponseSuccess
+    //TODO always check SUCCESS before return concrete response class
 
     protected static final Gson GSON = new Gson();
 
