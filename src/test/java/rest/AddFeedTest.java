@@ -1,6 +1,7 @@
 package rest;
 
 import nmd.rss.collector.error.ErrorCode;
+import nmd.rss.collector.rest.responses.FeedHeaderHelper;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import org.junit.Test;
@@ -16,6 +17,18 @@ public class AddFeedTest extends AbstractRestTest {
     @Test
     public void whenFeedAddedThenItsIdReturnsAsValidUuid() {
         addFirstFeed();
+    }
+
+    @Test
+    public void whenFeedAddedThenItIsReturnedInList() {
+        final FeedIdResponse feedIdResponse = addFirstFeed();
+
+        final FeedHeadersResponse feedsResponse = getFeedHeaders();
+
+        final FeedHeaderHelper feedHeaderHelper = new FeedHeaderHelper(FIRST_FEED_URL, feedIdResponse.getFeedId().toString());
+
+        assertEquals(1, feedsResponse.getHeaders().size());
+        assertEquals(feedHeaderHelper, feedsResponse.getHeaders().get(0));
     }
 
     @Test
@@ -38,16 +51,6 @@ public class AddFeedTest extends AbstractRestTest {
         final String response = addFeed(UNREACHABLE_FEED_URL);
 
         assertErrorResponse(response, ErrorCode.URL_FETCH_ERROR);
-    }
-
-    //TODO finish it
-    @Test
-    public void whenFeedAddedThenItIsReturnedInList() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        final FeedHeadersResponse feedsResponse = getFeedHeaders();
-
-        System.out.println(feedsResponse);
     }
 
 }

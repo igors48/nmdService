@@ -7,7 +7,9 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static nmd.rss.collector.error.ServiceError.invalidFeedId;
 import static nmd.rss.collector.rest.ControlServiceWrapper.*;
+import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.*;
 
 /**
@@ -19,21 +21,11 @@ public class FeedsServlet extends HttpServlet {
     private static final Logger LOGGER = Logger.getLogger(FeedsServlet.class.getName());
 
     // GET -- feeds list
-    // GET /{feedId} -- get feed
     @Override
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
 
         try {
-            final String pathInfo = request.getPathInfo();
-
-            final ResponseBody responseBody;
-
-            if (pathInfoIsEmpty(pathInfo)) {
-                responseBody = getFeedHeaders();
-            } else {
-                final UUID feedId = parseFeedId(pathInfo);
-                responseBody = getFeed(feedId);
-            }
+            final ResponseBody responseBody = getFeedHeaders();
 
             writeResponseBody(responseBody, response);
         } catch (Exception exception) {
@@ -64,9 +56,11 @@ public class FeedsServlet extends HttpServlet {
     protected void doDelete(final HttpServletRequest request, final HttpServletResponse response) {
 
         try {
-            final UUID feedId = parseFeedId(request.getPathInfo());
+            final String pathInfo = request.getPathInfo();
 
-            final ResponseBody responseBody = removeFeed(feedId);
+            final UUID feedId = parseFeedId(pathInfo);
+
+            final ResponseBody responseBody = feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : removeFeed(feedId);
 
             writeResponseBody(responseBody, response);
         } catch (Exception exception) {

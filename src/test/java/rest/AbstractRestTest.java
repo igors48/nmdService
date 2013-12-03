@@ -2,10 +2,7 @@ package rest;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.ErrorResponse;
-import nmd.rss.collector.rest.responses.FeedHeadersResponse;
-import nmd.rss.collector.rest.responses.FeedIdResponse;
-import nmd.rss.collector.rest.responses.ResponseType;
+import nmd.rss.collector.rest.responses.*;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -58,6 +55,10 @@ public abstract class AbstractRestTest {
         return GSON.fromJson(response, FeedHeadersResponse.class);
     }
 
+    protected static String deleteFeed(final String feedId) {
+        return given().delete(FEEDS_SERVLET_URL + feedId).asString();
+    }
+
     protected static String exportFeed(final String feedId) {
         return given().get(EXPORTS_SERVLET_URL + feedId).asString();
     }
@@ -75,6 +76,12 @@ public abstract class AbstractRestTest {
 
         assertEquals(ResponseType.ERROR, errorResponse.getStatus());
         assertEquals(errorCode, errorResponse.getCode());
+    }
+
+    protected static void assertSuccessResponse(final String response) {
+        final SuccessMessageResponse successResponse = GSON.fromJson(response, SuccessMessageResponse.class);
+
+        assertEquals(ResponseType.SUCCESS, successResponse.getStatus());
     }
 
 }

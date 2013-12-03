@@ -19,6 +19,10 @@ public class FeedHeadersResponse extends SuccessResponse {
         // empty
     }
 
+    public List<FeedHeaderHelper> getHeaders() {
+        return this.headers;
+    }
+
     public static FeedHeadersResponse convert(final List<FeedHeader> headers) {
         assertNotNull(headers);
 
