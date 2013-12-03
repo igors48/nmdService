@@ -15,7 +15,7 @@ public class FeedReadReport {
     public final int read;
     public final int notRead;
 
-    public FeedReadReport(UUID feedId, String feedLink, int read, int notRead) {
+    public FeedReadReport(final UUID feedId, final String feedLink, final int read, final int notRead) {
         assertNotNull(feedId);
         this.feedId = feedId;
 

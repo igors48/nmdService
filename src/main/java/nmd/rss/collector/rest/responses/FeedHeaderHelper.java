@@ -18,7 +18,7 @@ public class FeedHeaderHelper {
         // empty
     }
 
-    public FeedHeaderHelper(String feedLink, String feedId) {
+    public FeedHeaderHelper(final String feedLink, final String feedId) {
         assertStringIsValid(feedLink);
         this.feedLink = feedLink;
 

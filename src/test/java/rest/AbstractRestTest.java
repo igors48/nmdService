@@ -21,6 +21,7 @@ public abstract class AbstractRestTest {
     protected static final String CLEAR_SERVLET_URL = "/secure/v01/clear/";
     protected static final String FEEDS_SERVLET_URL = "/secure/v01/feeds/";
     protected static final String UPDATES_SERVLET_URL = "/secure/v01/updates/";
+    protected static final String READS_SERVLET_URL = "/secure/v01/reads/";
     protected static final String EXPORTS_SERVLET_URL = "/v01/feeds/";
 
     protected static final String FIRST_FEED_URL = "http://localhost:8080/feed/feed_win_1251.xml";
@@ -69,6 +70,10 @@ public abstract class AbstractRestTest {
 
     protected static String updateCurrentFeed() {
         return updateFeed("");
+    }
+
+    protected String getReadsReport() {
+        return null;
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
