@@ -14,10 +14,6 @@ import static org.junit.Assert.assertEquals;
  */
 public abstract class AbstractRestTest {
 
-    //TODO always check SUCCESS before return concrete response class
-
-    protected static final Gson GSON = new Gson();
-
     protected static final String CLEAR_SERVLET_URL = "/secure/v01/clear/";
     protected static final String FEEDS_SERVLET_URL = "/secure/v01/feeds/";
     protected static final String UPDATES_SERVLET_URL = "/secure/v01/updates/";
@@ -29,6 +25,8 @@ public abstract class AbstractRestTest {
     protected static final String INVALID_FEED_URL = "http://localhost:8080/feed/not_exist.xml";
     protected static final String UNREACHABLE_FEED_URL = "http://localhost:8081/feed/not_exist.xml";
 
+    private static final Gson GSON = new Gson();
+
     @After
     public void after() {
         clearState();
@@ -39,11 +37,11 @@ public abstract class AbstractRestTest {
     }
 
     protected static FeedIdResponse addFirstFeed() {
-        return GSON.fromJson(addFeed(FIRST_FEED_URL), FeedIdResponse.class);
+        return GSON.fromJson(assertSuccessResponse(addFeed(FIRST_FEED_URL)), FeedIdResponse.class);
     }
 
     protected static FeedIdResponse addSecondFeed() {
-        return GSON.fromJson(addFeed(SECOND_FEED_URL), FeedIdResponse.class);
+        return GSON.fromJson(assertSuccessResponse(addFeed(SECOND_FEED_URL)), FeedIdResponse.class);
     }
 
     protected static String addFeed(final String url) {
@@ -53,7 +51,7 @@ public abstract class AbstractRestTest {
     protected static FeedHeadersResponse getFeedHeaders() {
         final String response = given().get(FEEDS_SERVLET_URL).asString();
 
-        return GSON.fromJson(response, FeedHeadersResponse.class);
+        return GSON.fromJson(assertSuccessResponse(response), FeedHeadersResponse.class);
     }
 
     protected static String deleteFeed(final String feedId) {
@@ -72,8 +70,12 @@ public abstract class AbstractRestTest {
         return updateFeed("");
     }
 
+    protected static FeedMergeReportResponse updateCurrentFeedWithReport() {
+        return GSON.fromJson(assertSuccessResponse(updateFeed("")), FeedMergeReportResponse.class);
+    }
+
     protected String getReadsReport() {
-        return null;
+        return given().get(READS_SERVLET_URL).asString();
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
@@ -83,10 +85,12 @@ public abstract class AbstractRestTest {
         assertEquals(errorCode, errorResponse.getCode());
     }
 
-    protected static void assertSuccessResponse(final String response) {
+    protected static String assertSuccessResponse(final String response) {
         final SuccessMessageResponse successResponse = GSON.fromJson(response, SuccessMessageResponse.class);
 
         assertEquals(ResponseType.SUCCESS, successResponse.getStatus());
+
+        return response;
     }
 
 }

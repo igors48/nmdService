@@ -14,6 +14,7 @@ public class FeedReadReport {
     public final String feedLink;
     public final int read;
     public final int notRead;
+    //TODO add topItem (itemId + itemUrl);
 
     public FeedReadReport(final UUID feedId, final String feedLink, final int read, final int notRead) {
         assertNotNull(feedId);

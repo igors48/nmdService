@@ -30,8 +30,7 @@ public class FeedUpdateTest extends AbstractRestTest {
     public void whenCurrentFeedExistsThenItUpdatesAndReportReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        final String response = updateCurrentFeed();
-        final FeedMergeReportResponse report = GSON.fromJson(response, FeedMergeReportResponse.class);
+        final FeedMergeReportResponse report = updateCurrentFeedWithReport();
 
         final FeedMergeReportResponse expected = new FeedMergeReportResponse(FIRST_FEED_URL, feedIdResponse.getFeedId(), 0, 100, 0);
 
@@ -43,11 +42,8 @@ public class FeedUpdateTest extends AbstractRestTest {
         final FeedIdResponse firstFeedIdResponse = addFirstFeed();
         final FeedIdResponse secondFeedIdResponse = addSecondFeed();
 
-        final String firstResponse = updateCurrentFeed();
-        final String secondResponse = updateCurrentFeed();
-
-        final FeedMergeReportResponse firstReport = GSON.fromJson(firstResponse, FeedMergeReportResponse.class);
-        final FeedMergeReportResponse secondReport = GSON.fromJson(secondResponse, FeedMergeReportResponse.class);
+        final FeedMergeReportResponse firstReport = updateCurrentFeedWithReport();
+        final FeedMergeReportResponse secondReport = updateCurrentFeedWithReport();
 
         final Set<UUID> updatedFeedsId = new HashSet<UUID>() {{
             add(firstReport.getFeedId());
@@ -62,8 +58,7 @@ public class FeedUpdateTest extends AbstractRestTest {
     public void whenFeedIdExistsThenFeedUpdatesAndReportReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        final String response = updateFeed(feedIdResponse.getFeedId().toString());
-        final FeedMergeReportResponse report = GSON.fromJson(response, FeedMergeReportResponse.class);
+        final FeedMergeReportResponse report = updateCurrentFeedWithReport();
 
         final FeedMergeReportResponse expected = new FeedMergeReportResponse(FIRST_FEED_URL, feedIdResponse.getFeedId(), 0, 100, 0);
 
