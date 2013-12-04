@@ -1,10 +1,11 @@
 package unit.feed.controller;
 
+import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItem;
 import org.junit.Test;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.*;
@@ -22,9 +23,9 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
         final FeedHeader feedHeader = createSampleFeed();
 
         this.controlService.markItemAsRead(feedHeader.id, FEED_ITEM_GUID);
-        final FeedItem notReadItem = this.controlService.getLatestNotReadItem(feedHeader.id);
+        final List<FeedReadReport> readReports = this.controlService.getFeedsReadReport();
 
-        assertNull(notReadItem);
+        assertNull(readReports.get(0).topItemId);
     }
 
     @Test

@@ -11,17 +11,18 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.collector.updater.UrlFetcherException;
-import nmd.rss.reader.FeedItemsComparator;
 import nmd.rss.reader.FeedItemsComparisonReport;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.*;
 
 import static nmd.rss.collector.error.ServiceError.*;
+import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 import static nmd.rss.collector.util.UrlTools.normalizeUrl;
+import static nmd.rss.reader.FeedItemsComparator.compare;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -235,10 +236,9 @@ public class ControlService {
                 final Set<String> storedGuids = getStoredGuids(items);
                 final Set<String> readGuids = this.readFeedItemsRepository.load(header.id);
 
-                final FeedItemsComparisonReport comparisonReport = FeedItemsComparator.compare(readGuids, storedGuids);
+                final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-                final int itemsCount = items.size();
-                final FeedItem topItem = itemsCount == 0 ? null : items.get(itemsCount - 1);
+                final FeedItem topItem = findLastNotReadFeedItem(items, readGuids);
                 final String topItemId = topItem == null ? null : topItem.guid;
                 final String topItemLink = topItem == null ? null : topItem.link;
 
@@ -250,36 +250,6 @@ public class ControlService {
             transaction.commit();
 
             return report;
-        } finally {
-            rollbackIfActive(transaction);
-        }
-    }
-
-    public FeedItem getLatestNotReadItem(final UUID feedId) {
-        assertNotNull(feedId);
-
-        Transaction transaction = null;
-
-        try {
-            transaction = this.transactions.beginOne();
-
-            final List<FeedItem> notReadItems = new ArrayList<>();
-
-            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
-            final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
-
-            for (final FeedItem item : items) {
-
-                if (!readGuids.contains(item.guid)) {
-                    notReadItems.add(item);
-                }
-            }
-
-            transaction.commit();
-
-            final int count = notReadItems.size();
-
-            return count == 0 ? null : notReadItems.get(count - 1);
         } finally {
             rollbackIfActive(transaction);
         }
@@ -298,7 +268,7 @@ public class ControlService {
             final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
             readGuids.add(itemId);
 
-            final FeedItemsComparisonReport comparisonReport = FeedItemsComparator.compare(readGuids, storedGuids);
+            final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
             this.readFeedItemsRepository.store(feedId, comparisonReport.readItems);
 
@@ -372,6 +342,22 @@ public class ControlService {
         } catch (FeedParserException exception) {
             throw new ControlServiceException(feedParseError(feedUrl), exception);
         }
+    }
+
+    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
+        assertNotNull(items);
+        assertNotNull(readGuids);
+
+        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
+
+        for (final FeedItem candidate : items) {
+
+            if (!readGuids.contains(candidate.guid)) {
+                return candidate;
+            }
+        }
+
+        return null;
     }
 
 }

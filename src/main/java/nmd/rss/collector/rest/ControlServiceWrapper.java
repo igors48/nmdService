@@ -10,7 +10,6 @@ import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
 import nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository;
 import nmd.rss.collector.gae.persistence.GaeFeedItemsRepository;
@@ -162,19 +161,6 @@ public class ControlServiceWrapper {
         final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create("Service cleared");
 
         return createJsonResponse(successMessageResponse);
-    }
-
-    public static ResponseBody getLatestNotReadItem(final UUID feedId) {
-        //TODO feedId can be null. need to check it
-        final ControlService controlService = createControlService();
-
-        final FeedItem latestNotReadItem = controlService.getLatestNotReadItem(feedId);
-        //TODO latestNotReadItem can be null
-        final FeedItemResponse response = FeedItemResponse.convert(latestNotReadItem);
-
-        LOGGER.info(String.format("Latest item with link [ %s ] and id [ %s ] from feed id [ %s ] retrieved", latestNotReadItem.link, latestNotReadItem.guid, feedId.toString()));
-
-        return createJsonResponse(response);
     }
 
     public static ResponseBody markItemAsRead(final UUID feedId, final String itemId) {

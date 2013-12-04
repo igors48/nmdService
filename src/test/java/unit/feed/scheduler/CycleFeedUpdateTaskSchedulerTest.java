@@ -27,16 +27,14 @@ public class CycleFeedUpdateTaskSchedulerTest {
 
     private FeedUpdateTaskRepositoryStub taskRepositoryStub;
     private FeedUpdateTaskSchedulerContextRepositoryStub contextRepositoryStub;
-    private TransactionsStub transactionsStub;
     private CycleFeedUpdateTaskScheduler scheduler;
 
     @Before
     public void before() {
         this.taskRepositoryStub = new FeedUpdateTaskRepositoryStub(FIRST_TASK, SECOND_TASK);
         this.contextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
-        this.transactionsStub = new TransactionsStub();
 
-        this.scheduler = new CycleFeedUpdateTaskScheduler(this.contextRepositoryStub, this.taskRepositoryStub, this.transactionsStub);
+        this.scheduler = new CycleFeedUpdateTaskScheduler(this.contextRepositoryStub, this.taskRepositoryStub, new TransactionsStub());
     }
 
     @Test

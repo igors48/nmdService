@@ -3,11 +3,11 @@ package nmd.rss.collector.rest;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static nmd.rss.collector.rest.ControlServiceWrapper.*;
+import static nmd.rss.collector.rest.ControlServiceWrapper.getFeedsReadReport;
+import static nmd.rss.collector.rest.ControlServiceWrapper.markItemAsRead;
 import static nmd.rss.collector.rest.ServletTools.*;
 
 /**
@@ -24,17 +24,7 @@ public class ReadsServlet extends HttpServlet {
     protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
 
         try {
-            final String pathInfo = request.getPathInfo();
-
-            final ResponseBody responseBody;
-
-            if (pathInfoIsEmpty(pathInfo)) {
-                responseBody = getFeedsReadReport();
-            } else {
-                final UUID feedId = parseFeedId(pathInfo);
-                //TODO feedId can be null
-                responseBody = getLatestNotReadItem(feedId);
-            }
+            final ResponseBody responseBody = getFeedsReadReport();
 
             writeResponseBody(responseBody, response);
         } catch (Exception exception) {

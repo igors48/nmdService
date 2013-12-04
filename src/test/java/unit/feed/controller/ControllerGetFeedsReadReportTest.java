@@ -39,4 +39,14 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
         assertEquals(0, reportItem.read);
     }
 
+    @Test
+    public void whenNotReadItemExistsThenItReturns() {
+        createSampleFeed();
+
+        final List<FeedReadReport> readReports = this.controlService.getFeedsReadReport();
+
+        assertEquals(FEED_ITEM_GUID, readReports.get(0).topItemId);
+        assertEquals(FEED_ITEM_LINK, readReports.get(0).topItemLink);
+    }
+
 }
