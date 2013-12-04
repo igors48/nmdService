@@ -230,11 +230,19 @@ public class ControlService {
             final List<FeedReadReport> report = new ArrayList<>();
 
             for (final FeedHeader header : headers) {
-                final Set<String> storedGuids = getStoredGuids(header.id);
+                final List<FeedItem> items = this.feedItemsRepository.loadItems(header.id);
+
+                final Set<String> storedGuids = getStoredGuids(items);
                 final Set<String> readGuids = this.readFeedItemsRepository.load(header.id);
 
                 final FeedItemsComparisonReport comparisonReport = FeedItemsComparator.compare(readGuids, storedGuids);
-                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.feedLink, comparisonReport.readItems.size(), comparisonReport.newItems.size());
+
+                final int itemsCount = items.size();
+                final FeedItem topItem = itemsCount == 0 ? null : items.get(itemsCount - 1);
+                final String topItemId = topItem == null ? null : topItem.guid;
+                final String topItemLink = topItem == null ? null : topItem.link;
+
+                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.feedLink, comparisonReport.readItems.size(), comparisonReport.newItems.size(), topItemId, topItemLink);
 
                 report.add(feedReadReport);
             }
@@ -322,9 +330,7 @@ public class ControlService {
         }
     }
 
-    private Set<String> getStoredGuids(final UUID feedId) {
-        final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
-
+    private Set<String> getStoredGuids(final List<FeedItem> items) {
         final Set<String> storedGuids = new HashSet<>();
 
         for (final FeedItem item : items) {
@@ -332,6 +338,12 @@ public class ControlService {
         }
 
         return storedGuids;
+    }
+
+    private Set<String> getStoredGuids(final UUID feedId) {
+        final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+
+        return getStoredGuids(items);
     }
 
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
