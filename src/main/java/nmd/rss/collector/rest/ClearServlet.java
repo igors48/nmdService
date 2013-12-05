@@ -10,15 +10,10 @@ import static nmd.rss.collector.rest.ControlServiceWrapper.clear;
  */
 public class ClearServlet extends RestServlet {
 
-    static {
-
-        // POST -- clear service
-        HANDLERS.put("POST", new Handler() {
-            @Override
-            public ResponseBody handle(final HttpServletRequest request) {
-                return clear();
-            }
-        });
+    // POST -- clear service
+    @Override
+    protected ResponseBody handlePost(final HttpServletRequest request) {
+        return clear();
     }
 
 }

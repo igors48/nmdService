@@ -75,7 +75,7 @@ public final class ServletTools {
         return pathInfo == null || pathInfo.length() < 2;
     }
 
-    public static String readRequestBody(final HttpServletRequest request) throws IOException {
+    public static String readRequestBody(final HttpServletRequest request) {
         assertNotNull(request);
 
         BufferedReader reader = null;
@@ -91,6 +91,8 @@ public final class ServletTools {
             }
 
             return result.toString();
+        } catch (IOException e) {
+            return "";
         } finally {
             close(reader);
         }

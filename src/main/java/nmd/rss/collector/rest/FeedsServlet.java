@@ -15,36 +15,28 @@ import static nmd.rss.collector.rest.ServletTools.readRequestBody;
  */
 public class FeedsServlet extends RestServlet {
 
-    static {
+    // GET -- feeds list
+    @Override
+    protected ResponseBody handleGet(final HttpServletRequest request) {
+        return getFeedHeaders();
+    }
 
-        // GET -- feeds list
-        HANDLERS.put("GET", new Handler() {
-            @Override
-            public ResponseBody handle(final HttpServletRequest request) {
-                return getFeedHeaders();
-            }
-        });
+    // POST -- add feed
+    @Override
+    protected ResponseBody handlePost(final HttpServletRequest request) {
+        final String feedUrl = readRequestBody(request);
 
-        // POST -- add feed
-        HANDLERS.put("POST", new Handler() {
-            @Override
-            public ResponseBody handle(final HttpServletRequest request) throws Exception {
-                final String feedUrl = readRequestBody(request);
-                return addFeed(feedUrl);
-            }
-        });
+        return addFeed(feedUrl);
+    }
 
-        // DELETE /{feedId} -- delete feed
-        HANDLERS.put("DELETE", new Handler() {
-            @Override
-            public ResponseBody handle(final HttpServletRequest request) {
-                final String pathInfo = request.getPathInfo();
+    // DELETE /{feedId} -- delete feed
+    @Override
+    protected ResponseBody handleDelete(final HttpServletRequest request) {
+        final String pathInfo = request.getPathInfo();
 
-                final UUID feedId = parseFeedId(pathInfo);
+        final UUID feedId = parseFeedId(pathInfo);
 
-                return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : removeFeed(feedId);
-            }
-        });
+        return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : removeFeed(feedId);
     }
 
 }

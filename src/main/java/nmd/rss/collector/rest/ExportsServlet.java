@@ -14,19 +14,14 @@ import static nmd.rss.collector.rest.ServletTools.parseFeedId;
  */
 public class ExportsServlet extends RestServlet {
 
-    static {
+    // GET /{feedId} -- get feed
+    @Override
+    protected ResponseBody handleGet(final HttpServletRequest request) {
+        final String pathInfo = request.getPathInfo();
 
-        // GET /{feedId} -- get feed
-        HANDLERS.put("GET", new Handler() {
-            @Override
-            public ResponseBody handle(final HttpServletRequest request) {
-                final String pathInfo = request.getPathInfo();
+        final UUID feedId = parseFeedId(pathInfo);
 
-                final UUID feedId = parseFeedId(pathInfo);
-
-                return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : getFeed(feedId);
-            }
-        });
+        return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : getFeed(feedId);
     }
 
 }

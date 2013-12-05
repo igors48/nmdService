@@ -16,25 +16,19 @@ import static nmd.rss.collector.rest.ServletTools.pathInfoIsEmpty;
  */
 public class UpdatesServlet extends RestServlet {
 
-    static {
+    // GET -- update current feed
+    // GET /{feedId} -- update feed
+    @Override
+    protected ResponseBody handleGet(HttpServletRequest request) {
+        final String pathInfo = request.getPathInfo();
 
-        // GET -- update current feed
-        // GET /{feedId} -- update feed
-        HANDLERS.put("GET", new Handler() {
-            @Override
-            public ResponseBody handle(final HttpServletRequest request) {
-                final String pathInfo = request.getPathInfo();
+        if (pathInfoIsEmpty(pathInfo)) {
+            return updateCurrentFeed();
+        } else {
+            final UUID feedId = parseFeedId(pathInfo);
 
-                if (pathInfoIsEmpty(pathInfo)) {
-                    return updateCurrentFeed();
-                } else {
-                    final UUID feedId = parseFeedId(pathInfo);
-
-                    return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : updateFeed(feedId);
-                }
-            }
-        });
-
+            return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : updateFeed(feedId);
+        }
     }
 
 }
