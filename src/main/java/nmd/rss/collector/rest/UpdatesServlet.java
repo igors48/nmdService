@@ -1,49 +1,40 @@
 package nmd.rss.collector.rest;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static nmd.rss.collector.error.ServiceError.invalidFeedId;
 import static nmd.rss.collector.rest.ControlServiceWrapper.updateCurrentFeed;
 import static nmd.rss.collector.rest.ControlServiceWrapper.updateFeed;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.ServletTools.*;
+import static nmd.rss.collector.rest.ServletTools.parseFeedId;
+import static nmd.rss.collector.rest.ServletTools.pathInfoIsEmpty;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.06.13
  */
-public class UpdatesServlet extends HttpServlet {
+public class UpdatesServlet extends RestServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(UpdatesServlet.class.getName());
+    static {
 
-    // GET -- update current feed
-    // GET /{feedId} -- update feed
-    @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
+        // GET -- update current feed
+        // GET /{feedId} -- update feed
+        HANDLERS.put("GET", new Handler() {
+            @Override
+            public ResponseBody handle(final HttpServletRequest request) {
+                final String pathInfo = request.getPathInfo();
 
-        try {
-            final String pathInfo = request.getPathInfo();
+                if (pathInfoIsEmpty(pathInfo)) {
+                    return updateCurrentFeed();
+                } else {
+                    final UUID feedId = parseFeedId(pathInfo);
 
-            final ResponseBody responseBody;
-
-            if (pathInfoIsEmpty(pathInfo)) {
-                responseBody = updateCurrentFeed();
-            } else {
-                final UUID feedId = parseFeedId(pathInfo);
-                responseBody = feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : updateFeed(feedId);
+                    return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : updateFeed(feedId);
+                }
             }
+        });
 
-            writeResponseBody(responseBody, response);
-        } catch (Exception exception) {
-            LOGGER.log(Level.SEVERE, "Unhandled exception", exception);
-
-            writeException(exception, response);
-        }
     }
 
 }

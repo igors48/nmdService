@@ -1,57 +1,41 @@
 package nmd.rss.collector.rest;
 
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import static nmd.rss.collector.error.ServiceError.invalidFeedOrItemId;
 import static nmd.rss.collector.rest.ControlServiceWrapper.getFeedsReadReport;
 import static nmd.rss.collector.rest.ControlServiceWrapper.markItemAsRead;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.ServletTools.*;
+import static nmd.rss.collector.rest.ServletTools.parseFeedAndItemIds;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 27.11.13
  */
-public class ReadsServlet extends HttpServlet {
+public class ReadsServlet extends RestServlet {
 
-    private static final Logger LOGGER = Logger.getLogger(ReadsServlet.class.getName());
+    static {
 
-    //GET get -- reads report
-    //GET/{feedId} -- get latest not read item
-    @Override
-    protected void doGet(final HttpServletRequest request, final HttpServletResponse response) {
+        //GET get -- reads report
+        //GET/{feedId} -- get latest not read item
+        HANDLERS.put("GET", new Handler() {
+            @Override
+            public ResponseBody handle(final HttpServletRequest request) {
+                return getFeedsReadReport();
+            }
+        });
 
-        try {
-            final ResponseBody responseBody = getFeedsReadReport();
+        //POST/{feedId}/{itemId} -- mark item as read
+        HANDLERS.put("POST", new Handler() {
+            @Override
+            public ResponseBody handle(final HttpServletRequest request) {
+                final String pathInfo = request.getPathInfo();
 
-            writeResponseBody(responseBody, response);
-        } catch (Exception exception) {
-            LOGGER.log(Level.SEVERE, "Unhandled exception", exception);
+                final FeedAndItemIds feedAndItemIds = parseFeedAndItemIds(pathInfo);
 
-            writeException(exception, response);
-        }
-    }
-
-    //POST/{feedId}/{itemId} -- mark item as read
-    protected void doPost(final HttpServletRequest request, final HttpServletResponse response) {
-
-        try {
-            final String pathInfo = request.getPathInfo();
-
-            final FeedAndItemIds feedAndItemIds = parseFeedAndItemIds(pathInfo);
-
-            final ResponseBody responseBody = feedAndItemIds == null ? createErrorJsonResponse(invalidFeedOrItemId(pathInfo)) : markItemAsRead(feedAndItemIds.feedId, feedAndItemIds.itemId);
-
-            writeResponseBody(responseBody, response);
-        } catch (Exception exception) {
-            LOGGER.log(Level.SEVERE, "Unhandled exception", exception);
-
-            writeException(exception, response);
-        }
+                return feedAndItemIds == null ? createErrorJsonResponse(invalidFeedOrItemId(pathInfo)) : markItemAsRead(feedAndItemIds.feedId, feedAndItemIds.itemId);
+            }
+        });
     }
 
 }
