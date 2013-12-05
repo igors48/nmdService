@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static nmd.rss.collector.error.ServiceError.invalidFeedOrItemId;
 import static nmd.rss.collector.rest.ControlServiceWrapper.getFeedsReadReport;
 import static nmd.rss.collector.rest.ControlServiceWrapper.markItemAsRead;
+import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.*;
 
 /**
@@ -41,8 +43,8 @@ public class ReadsServlet extends HttpServlet {
             final String pathInfo = request.getPathInfo();
 
             final FeedAndItemIds feedAndItemIds = parseFeedAndItemIds(pathInfo);
-            //TODO feedAndItemIds can be null
-            final ResponseBody responseBody = markItemAsRead(feedAndItemIds.feedId, feedAndItemIds.itemId);
+
+            final ResponseBody responseBody = feedAndItemIds == null ? createErrorJsonResponse(invalidFeedOrItemId(pathInfo)) : markItemAsRead(feedAndItemIds.feedId, feedAndItemIds.itemId);
 
             writeResponseBody(responseBody, response);
         } catch (Exception exception) {

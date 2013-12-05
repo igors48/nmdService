@@ -61,6 +61,13 @@ public class ServiceError {
                 "Feed id cannot be parsed. Check feed identifier.");
     }
 
+    public static ServiceError invalidFeedOrItemId(final String pathInfo) {
+
+        return new ServiceError(ErrorCode.INVALID_FEED_OR_ITEM_ID,
+                format("Feed id or item id cannot be parsed from [ %s ] ", pathInfo),
+                "Item id cannot be parsed. Check item identifier.");
+    }
+
     public static ServiceError wrongFeedTaskId(final UUID feedId) {
         assertNotNull(feedId);
 

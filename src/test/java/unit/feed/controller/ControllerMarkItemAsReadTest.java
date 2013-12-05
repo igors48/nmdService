@@ -1,5 +1,6 @@
 package unit.feed.controller;
 
+import nmd.rss.collector.controller.ControlServiceException;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.feed.FeedHeader;
 import org.junit.Test;
@@ -7,6 +8,7 @@ import org.junit.Test;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -19,7 +21,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
     private static final String NOT_EXISTS_ID = "not_exists_id";
 
     @Test
-    public void whenItemMarkAsReadThenItDoesNotReturnAsNotRead() {
+    public void whenItemMarkAsReadThenItDoesNotReturnAsNotRead() throws ControlServiceException {
         final FeedHeader feedHeader = createSampleFeed();
 
         this.controlService.markItemAsRead(feedHeader.id, FEED_ITEM_GUID);
@@ -29,7 +31,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenItemMarkAsReadThenItStoresInRepository() {
+    public void whenItemMarkAsReadThenItStoresInRepository() throws ControlServiceException {
         final FeedHeader feedHeader = createSampleFeed();
 
         this.controlService.markItemAsRead(feedHeader.id, FEED_ITEM_GUID);
@@ -40,7 +42,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenItemIdDoesNotExistInFeedItemsIdListThenItDoesNotStore() {
+    public void whenItemIdDoesNotExistInFeedItemsIdListThenItDoesNotStore() throws ControlServiceException {
         final FeedHeader feedHeader = createSampleFeed();
 
         this.controlService.markItemAsRead(feedHeader.id, NOT_EXISTS_ID);
@@ -51,7 +53,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenNotActualReadItemFoundWhileMarkingThenTheyRemoved() {
+    public void whenNotActualReadItemFoundWhileMarkingThenTheyRemoved() throws ControlServiceException {
         final FeedHeader feedHeader = createSampleFeed();
 
         this.readFeedItemsRepositoryStub.store(feedHeader.id, new HashSet<String>() {{
@@ -63,6 +65,11 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
         final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id);
 
         assertFalse(readItems.contains(NOT_EXISTS_ID));
+    }
+
+    @Test(expected = ControlServiceException.class)
+    public void whenTryToMarkItemOfNotExistsFeedThenErrorReturns() throws ControlServiceException {
+        this.controlService.markItemAsRead(UUID.randomUUID(), FEED_ITEM_GUID);
     }
 
 }

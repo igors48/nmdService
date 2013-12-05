@@ -74,8 +74,16 @@ public abstract class AbstractRestTest {
         return GSON.fromJson(assertSuccessResponse(updateFeed("")), FeedMergeReportResponse.class);
     }
 
-    protected String getReadsReport() {
+    protected String getReadsReportAsString() {
         return given().get(READS_SERVLET_URL).asString();
+    }
+
+    protected FeedReadReportsResponse getReadsReport() {
+        return GSON.fromJson(assertSuccessResponse(getReadsReportAsString()), FeedReadReportsResponse.class);
+    }
+
+    protected String markItemAsRead(final String feedId, String itemId) {
+        return given().post(READS_SERVLET_URL + feedId.toString() + "/" + itemId).asString();
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {

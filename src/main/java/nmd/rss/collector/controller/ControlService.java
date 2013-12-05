@@ -146,11 +146,7 @@ public class ControlService {
         try {
             transaction = this.transactions.beginOne();
 
-            final FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
-
-            if (header == null) {
-                throw new ControlServiceException(wrongFeedId(feedId));
-            }
+            final FeedHeader header = loadFeedHeader(feedId);
 
             List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
             items = items == null ? new ArrayList<FeedItem>() : items;
@@ -174,11 +170,7 @@ public class ControlService {
         try {
             getFeedHeaderAndTaskTransaction = this.transactions.beginOne();
 
-            header = this.feedHeadersRepository.loadHeader(feedId);
-
-            if (header == null) {
-                throw new ControlServiceException(wrongFeedId(feedId));
-            }
+            header = loadFeedHeader(feedId);
 
             updateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedId);
 
@@ -255,7 +247,7 @@ public class ControlService {
         }
     }
 
-    public void markItemAsRead(final UUID feedId, final String itemId) {
+    public void markItemAsRead(final UUID feedId, final String itemId) throws ControlServiceException {
         assertNotNull(feedId);
         assertStringIsValid(itemId);
 
@@ -263,6 +255,8 @@ public class ControlService {
 
         try {
             transaction = this.transactions.beginOne();
+
+            loadFeedHeader(feedId);
 
             final Set<String> storedGuids = getStoredGuids(feedId);
             final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
@@ -298,6 +292,16 @@ public class ControlService {
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    private FeedHeader loadFeedHeader(final UUID feedId) throws ControlServiceException {
+        FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
+
+        if (header == null) {
+            throw new ControlServiceException(wrongFeedId(feedId));
+        }
+
+        return header;
     }
 
     private Set<String> getStoredGuids(final List<FeedItem> items) {

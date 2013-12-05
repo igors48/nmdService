@@ -168,11 +168,17 @@ public class ControlServiceWrapper {
         //TODO itemId can be null. need to check it
         final ControlService controlService = createControlService();
 
-        controlService.markItemAsRead(feedId, itemId);
+        try {
+            controlService.markItemAsRead(feedId, itemId);
 
-        final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
+            final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
 
-        return createJsonResponse(successMessageResponse);
+            return createJsonResponse(successMessageResponse);
+        } catch (ControlServiceException exception) {
+            LOGGER.log(Level.SEVERE, String.format("Error update feed [ %s ]", feedId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
     }
 
     //TODO consider lazy init

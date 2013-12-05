@@ -19,6 +19,10 @@ public class FeedReadReportsResponse extends SuccessResponse {
         // empty
     }
 
+    public List<FeedReadReportHelper> getReports() {
+        return this.reports;
+    }
+
     public static FeedReadReportsResponse convert(final List<FeedReadReport> reports) {
         assertNotNull(reports);
 
