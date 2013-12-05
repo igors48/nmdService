@@ -2,18 +2,16 @@ package nmd.rss.reader.gae;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.PreparedQuery;
-import com.google.appengine.api.datastore.Query;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static nmd.rss.collector.gae.persistence.GaeRootRepository.DATASTORE_SERVICE;
-import static nmd.rss.collector.gae.persistence.GaeRootRepository.getFeedRootKey;
+import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.reader.gae.ReadFeedIdSetConverter.KIND;
+import static nmd.rss.reader.gae.ReadFeedIdSetConverter.convert;
 
 /**
  * User: igu
@@ -25,9 +23,9 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
     public Set<String> load(final UUID feedId) {
         assertNotNull(feedId);
 
-        final Entity entity = loadEntity(feedId, false);
+        final Entity entity = loadEntity(feedId, KIND, false);
 
-        return entity == null ? new HashSet<String>() : ReadFeedIdSetConverter.convert(entity);
+        return entity == null ? new HashSet<String>() : convert(entity);
     }
 
     @Override
@@ -36,35 +34,16 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
         assertNotNull(itemIds);
 
         final Key feedRootKey = getFeedRootKey(feedId);
-        final Entity entity = ReadFeedIdSetConverter.convert(feedRootKey, feedId, itemIds);
+        final Entity entity = convert(feedRootKey, feedId, itemIds);
 
         DATASTORE_SERVICE.put(entity);
     }
 
-    //TODO consider generify and move to root repo
     @Override
     public void delete(final UUID feedId) {
         assertNotNull(feedId);
 
-        final Entity victim = loadEntity(feedId, true);
-
-        if (victim != null) {
-            DATASTORE_SERVICE.delete(victim.getKey());
-        }
-    }
-
-    //TODO consider generify and move to root repo
-    private Entity loadEntity(final UUID feedId, final boolean keysOnly) {
-        final Key feedRootKey = getFeedRootKey(feedId);
-        final Query query = new Query(KIND).setAncestor(feedRootKey);
-
-        if (keysOnly) {
-            query.setKeysOnly();
-        }
-
-        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
-
-        return preparedQuery.asSingleEntity();
+        deleteEntity(feedId, KIND);
     }
 
 }

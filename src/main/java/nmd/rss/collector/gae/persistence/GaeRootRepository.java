@@ -29,7 +29,6 @@ public class GaeRootRepository implements Transactions {
         return DATASTORE_SERVICE.beginTransaction();
     }
 
-    // TODO try to make it private
     public static Key getFeedRootKey(final UUID feedId) {
         assertNotNull(feedId);
 
@@ -45,11 +44,11 @@ public class GaeRootRepository implements Transactions {
         return preparedQuery.asSingleEntity();
     }
 
-    public static List<Entity> loadEntities(final UUID feedId, final String kind, final boolean keysOnly) {
-        assertNotNull(feedId);
+    public static List<Entity> loadEntities(final String kind) {
         assertStringIsValid(kind);
 
-        final PreparedQuery preparedQuery = prepareQuery(feedId, kind, keysOnly);
+        final Query query = new Query(kind);
+        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
         return preparedQuery.asList(withLimit(MAX_VALUE));
     }
