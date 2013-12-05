@@ -6,7 +6,13 @@ package nmd.rss.collector.rest;
  */
 public enum ContentType {
 
-    XML,
-    JSON
+    XML("application/rss+xml"),
+    JSON("application/json");
+
+    public final String mime;
+
+    private ContentType(final String mime) {
+        this.mime = mime;
+    }
 
 }

@@ -102,9 +102,7 @@ public final class ServletTools {
         assertNotNull(responseBody);
         assertNotNull(response);
 
-        //TODO move to enum smth like contentType.asMime()
-        final String contentType = responseBody.contentType == ContentType.JSON ? "application/json" : "application/rss+xml";
-        response.setContentType(contentType);
+        response.setContentType(responseBody.contentType.mime);
         response.setCharacterEncoding(UTF_8);
 
         response.getWriter().print(responseBody.content);

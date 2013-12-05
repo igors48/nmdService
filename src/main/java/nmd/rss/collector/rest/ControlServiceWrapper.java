@@ -43,12 +43,12 @@ public class ControlServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(ControlServiceWrapper.class.getName());
 
+    private static final ControlService CONTROL_SERVICE = createControlService();
+
     public static ResponseBody addFeed(final String feedUrl) {
-        //TODO feedUrl can be null. need to check it
-        final ControlService controlService = createControlService();
 
         try {
-            final UUID feedId = controlService.addFeed(feedUrl);
+            final UUID feedId = CONTROL_SERVICE.addFeed(feedUrl);
 
             final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
 
@@ -63,10 +63,7 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody removeFeed(final UUID feedId) {
-        //TODO feedId can be null. need to check it
-        final ControlService controlService = createControlService();
-
-        controlService.removeFeed(feedId);
+        CONTROL_SERVICE.removeFeed(feedId);
 
         final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Feed [ %s ] removed", feedId));
 
@@ -76,9 +73,7 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody getFeedHeaders() {
-        final ControlService controlService = createControlService();
-
-        final List<FeedHeader> headers = controlService.getFeedHeaders();
+        final List<FeedHeader> headers = CONTROL_SERVICE.getFeedHeaders();
         final FeedHeadersResponse feedHeadersResponse = FeedHeadersResponse.convert(headers);
 
         LOGGER.info(String.format("[ %s ] feed headers found", headers.size()));
@@ -87,10 +82,9 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody getFeed(final UUID feedId) {
-        final ControlService controlService = createControlService();
 
         try {
-            final Feed feed = controlService.getFeed(feedId);
+            final Feed feed = CONTROL_SERVICE.getFeed(feedId);
             final String feedAsXml = FeedExporter.export(feed.header, feed.items);
 
             LOGGER.info(String.format("Feed [ %s ] link [ %s ] items exported. Items count [ %d ]", feedId, feed.header.feedLink, feed.items.size()));
@@ -108,10 +102,9 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody updateCurrentFeed() {
-        final ControlService controlService = createControlService();
 
         try {
-            final FeedUpdateReport report = controlService.updateCurrentFeed();
+            final FeedUpdateReport report = CONTROL_SERVICE.updateCurrentFeed();
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
             LOGGER.info(String.format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
@@ -125,11 +118,9 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody updateFeed(final UUID feedId) {
-        //TODO feedId can be null. need to check it
-        final ControlService controlService = createControlService();
 
         try {
-            final FeedUpdateReport report = controlService.updateFeed(feedId);
+            final FeedUpdateReport report = CONTROL_SERVICE.updateFeed(feedId);
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
             LOGGER.info(String.format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
@@ -143,9 +134,7 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody getFeedsReadReport() {
-        final ControlService controlService = createControlService();
-
-        final List<FeedReadReport> feedReadReport = controlService.getFeedsReadReport();
+        final List<FeedReadReport> feedReadReport = CONTROL_SERVICE.getFeedsReadReport();
         final FeedReadReportsResponse response = FeedReadReportsResponse.convert(feedReadReport);
 
         LOGGER.info("Feed read report created");
@@ -154,9 +143,7 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody clear() {
-        final ControlService controlService = createControlService();
-
-        controlService.clear();
+        CONTROL_SERVICE.clear();
 
         final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create("Service cleared");
 
@@ -164,12 +151,9 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody markItemAsRead(final UUID feedId, final String itemId) {
-        //TODO feedId can be null. need to check it
-        //TODO itemId can be null. need to check it
-        final ControlService controlService = createControlService();
 
         try {
-            controlService.markItemAsRead(feedId, itemId);
+            CONTROL_SERVICE.markItemAsRead(feedId, itemId);
 
             final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
 
@@ -181,7 +165,6 @@ public class ControlServiceWrapper {
         }
     }
 
-    //TODO consider lazy init
     private static ControlService createControlService() {
         final Transactions transactions = new GaeRootRepository();
         final UrlFetcher urlFetcher = new GaeUrlFetcher();
