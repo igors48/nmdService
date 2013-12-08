@@ -1,49 +1,42 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" ng-app="application">
 
 <head>
     <meta charset="utf-8">
     <title>Orb</title>
     <link href="css/app.css" rel="stylesheet"/>
+    <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-resource.js"></script>
+    <script src="js/script.js"></script>
 </head>
 
 <body>
 
-<div class="footer">
-    <div class="footer-container button-font">
-        <div class="page-button">PREV</div>
-        <div class="page-button">NEXT</div>
-        <div class="options-button">NEW</div>
-        <div class="options-button">OPTIONS</div>
-    </div>
-</div>
-
 <div class="container">
-    <div class="feed-header-block">
-        <div class="feed-header-title title-font">Inopressa Инопресса 3D News</div>
-        <div class="feed-header-common button-font">TOP</div>
-        <div class="feed-header-new button-font">5 NEW</div>
-        <div class="feed-header-old button-font">80 TOTAL</div>
-        <div style="clear:both"></div>
-    </div>
-    <!--
-    <div class="feed-header-block">
-        <div class="feed-header-title title-font">bash.im</div>
-        <div class="feed-header-common button-font">TOP</div>
-        <div class="feed-header-new button-font">45 NEW</div>
-        <div class="feed-header-old button-font">2802 TOTAL</div>
-        <div style="clear:both"></div>
-    </div>
-    -->
-</div>
 
-<div class="footer">
-    <div class="footer-container button-font">
-        <div class="page-button">PREV</div>
-        <div class="page-button">NEXT</div>
-        <div class="options-button">OPTIONS</div>
+    <div ng-controller="FeedListCtrl">
+
+        <p>{{statusMessage}}</p>
+
+        <div>
+
+            <form ng-submit="addFeed()">
+                <input type="text" ng-model="feedLink" size="256" placeholder="enter feed link here" class="span12">
+                <input type="submit" value="add">
+            </form>
+
+        </div>
+
+        <ul>
+            <li ng-repeat="header in headers">
+                {{header.feedLink}} - {{header.feedId}} <a href="/v01/feeds/{{header.feedId}}" target="_blank">View</a>
+            </li>
+        </ul>
+
     </div>
+
 </div>
 
 </body>
+
 </html>

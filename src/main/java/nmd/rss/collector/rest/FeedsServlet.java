@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.invalidFeedId;
+import static nmd.rss.collector.error.ServiceError.urlFetcherError;
 import static nmd.rss.collector.rest.ControlServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.parseFeedId;
@@ -26,7 +27,7 @@ public class FeedsServlet extends RestServlet {
     protected ResponseBody handlePost(final HttpServletRequest request) {
         final String feedUrl = readRequestBody(request);
 
-        return addFeed(feedUrl);
+        return (feedUrl == null || feedUrl.isEmpty()) ? createErrorJsonResponse(urlFetcherError(feedUrl)) : addFeed(feedUrl);
     }
 
     // DELETE /{feedId} -- delete feed

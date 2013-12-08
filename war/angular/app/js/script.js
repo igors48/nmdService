@@ -1,4 +1,4 @@
-var application = angular.module('application', ['ngResource', 'ui.bootstrap']);
+var application = angular.module('application', ['ngResource']);
 
 application.factory('feeds', function ($resource) {
     return $resource('/@security.key@/v01/feeds/', {}, {

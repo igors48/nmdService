@@ -23,7 +23,6 @@ public class ServiceError {
     }
 
     public static ServiceError urlFetcherError(final String link) {
-        assertStringIsValid(link);
 
         return new ServiceError(ErrorCode.URL_FETCH_ERROR,
                 format("Error fetching url [ %s ]", link),
