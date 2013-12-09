@@ -31,7 +31,7 @@ import static nmd.rss.reader.FeedItemsComparator.compare;
 public class ControlService {
     //TODO consider split this service on two parts. for collector and reader
 
-    private static final int MAX_FEED_ITEMS_COUNT = 10000;
+    private static final int MAX_FEED_ITEMS_COUNT = 1000;
 
     private final Transactions transactions;
 
