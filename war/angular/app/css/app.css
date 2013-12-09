@@ -71,6 +71,8 @@ body {
 }
 
 .feed-item {
+	margin: 0.4em;
 	padding: 0.3em;
 	text-align: center;
+    background:rgb(230, 230, 221);
 }
