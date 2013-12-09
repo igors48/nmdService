@@ -33,6 +33,8 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
         assertNotNull(feedId);
         assertNotNull(itemIds);
 
+        delete(feedId);
+
         final Key feedRootKey = getFeedRootKey(feedId);
         final Entity entity = convert(feedRootKey, feedId, itemIds);
 

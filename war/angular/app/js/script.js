@@ -2,9 +2,23 @@ var application = angular.module('application', ['ngResource']);
 
 application.factory('feeds', function ($resource) {
     return $resource('/@security.key@/v01/feeds/', {}, {
+        //TODO remove empty params
         'query': {method:'GET', params:{}},
         'save': {method:'POST'}
     });
+});
+
+application.factory('reads', function ($resource) {
+    return $resource('/@security.key@/v01/reads/:feedId/:itemId', 
+        {
+            feedId: "@feedId",
+            itemId: "@itemId"
+        },
+        {
+            'query': {method:'GET', params:{}},
+            'mark': {method:'POST'}
+        }
+    );
 });
 
 application.factory('blockUi', function ($document) {
@@ -65,7 +79,7 @@ application.factory('blockUi', function ($document) {
     };
 });
 
-function FeedListCtrl($scope, feeds, blockUi) {
+function FeedListCtrl($scope, feeds, reads, blockUi) {
 
     function showSuccessMessage(message) {
         $scope.statusType = 'success';
@@ -123,6 +137,30 @@ function FeedListCtrl($scope, feeds, blockUi) {
         );
     };
 
+    $scope.loadReadsReport = function () {
+        blockUi.block();
+
+        showSuccessMessage('loading...');
+
+        var readReport = reads.query(
+            function() {
+                serverResponseHandler(readReport,
+                    function() {
+                        $scope.reports = readReport.reports;
+
+                        showSuccessMessage(readReport.reports.length + ' feed(s)');
+                    })
+            },
+            function () {
+                serverErrorHandler(
+                    function () {
+                        $scope.reports = [];
+                    }
+                )
+            }
+        );
+    };
+
     $scope.addFeed = function () {
         blockUi.block();
 
@@ -133,19 +171,49 @@ function FeedListCtrl($scope, feeds, blockUi) {
                 serverResponseHandler(response,
                     function() {
                         $scope.feedLink = '';
-                        $scope.loadFeedHeaders();
+                        $scope.loadReadsReport();
                     })
             },
             function () {
                 serverErrorHandler(
                     function () {
-                        $scope.loadFeedHeaders();
+                        $scope.loadReadsReport();
                     }
                 )
             }
         );
     };
 
-    $scope.loadFeedHeaders();
+    $scope.readTopItem = function (feedId, topItemId, topItemLink) {
+        //alert("read " + feedId + " " + topItemId + " " + topItemLink);
+        blockUi.block();
+
+        showSuccessMessage('updating...');
+
+        var response = reads.mark({
+                feedId: feedId,
+                itemId: topItemId    
+            },
+            function() {
+                serverResponseHandler(response,
+                    function() {
+                        $scope.feedLink = '';
+                        $scope.loadReadsReport();
+
+                        window.open(topItemLink, '_blank');
+                        window.focus();
+                    })
+            },
+            function () {
+                serverErrorHandler(
+                    function () {
+                        $scope.loadReadsReport();
+                    }
+                )
+            }
+        );
+    };
+        
+    $scope.loadReadsReport();
 }
 

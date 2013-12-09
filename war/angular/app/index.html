@@ -21,7 +21,7 @@
         <div>
 
             <form ng-submit="addFeed()">
-                <input type="text" ng-model="feedLink" size="256" placeholder="enter feed link here" class="span12">
+                <input type="text" ng-model="feedLink" size="256" placeholder="enter feed link here">
                 <input type="submit" value="add">
             </form>
 
@@ -30,6 +30,12 @@
         <ul>
             <li ng-repeat="header in headers">
                 {{header.feedLink}} - {{header.feedId}} <a href="/v01/feeds/{{header.feedId}}" target="_blank">View</a>
+            </li>
+        </ul>
+
+        <ul>
+            <li ng-repeat="report in reports" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
+                <p>{{report.feedLink}} - [ {{report.read}} / {{report.notRead}} ] - {{report.topItemLink}}</p>
             </li>
         </ul>
 
