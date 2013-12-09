@@ -34,7 +34,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
         final FeedReadReport reportItem = report.get(0);
 
         assertEquals(feedHeader.id, reportItem.feedId);
-        assertEquals(feedHeader.feedLink, reportItem.feedLink);
+        assertEquals(feedHeader.title, reportItem.feedTitle);
         assertEquals(1, reportItem.notRead);
         assertEquals(0, reportItem.read);
     }

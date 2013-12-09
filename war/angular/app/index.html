@@ -34,8 +34,8 @@
         </ul>
 
         <ul>
-            <li ng-repeat="report in reports" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
-                <p>{{report.feedLink}} - [ {{report.read}} / {{report.notRead}} ] - {{report.topItemLink}}</p>
+            <li class="feed-item" ng-repeat="report in reports" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
+                {{report.feedTitle}} - [ {{report.read}} / {{report.notRead}} ]
             </li>
         </ul>
 

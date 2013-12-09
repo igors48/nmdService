@@ -234,7 +234,7 @@ public class ControlService {
                 final String topItemId = topItem == null ? null : topItem.guid;
                 final String topItemLink = topItem == null ? null : topItem.link;
 
-                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.feedLink, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), topItemId, topItemLink);
+                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), topItemId, topItemLink);
 
                 report.add(feedReadReport);
             }

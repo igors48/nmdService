@@ -11,7 +11,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class FeedReadReportHelper {
 
     private String feedId = "";
-    private String feedLink = "";
+    private String feedTitle = "";
     private int read = 0;
     private int notRead = 0;
     private String topItemId = "";
@@ -27,7 +27,7 @@ public class FeedReadReportHelper {
         final FeedReadReportHelper feedReadReportHelper = new FeedReadReportHelper();
 
         feedReadReportHelper.feedId = feedReadReport.feedId.toString();
-        feedReadReportHelper.feedLink = feedReadReport.feedLink;
+        feedReadReportHelper.feedTitle = feedReadReport.feedTitle;
         feedReadReportHelper.read = feedReadReport.read;
         feedReadReportHelper.notRead = feedReadReport.notRead;
         feedReadReportHelper.topItemId = feedReadReport.topItemId == null ? "" : feedReadReport.topItemId;

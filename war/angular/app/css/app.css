@@ -52,3 +52,14 @@ table {
 	border-collapse: collapse;
 	border-spacing: 0;
 }
+
+/* end of reset */
+
+body {
+	font-family: "Trebuchet MS", Helvetica, sans-serif;
+}
+
+.feed-item {
+	padding: 0.25em;
+	text-align: center;
+}
