@@ -8,6 +8,7 @@
     <link href="css/app.css" rel="stylesheet"/>
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular/angular-resource.js"></script>
+    <script src="lib/angular/angular-touch.js"></script>
     <script src="js/script.js"></script>
 </head>
 
@@ -17,15 +18,15 @@
 
     <div ng-controller="FeedListCtrl">
 
-        <p>{{statusMessage}}</p>
-
-        <div>
+        <div class="header">
 
             <form ng-submit="addFeed()">
-                <input type="text" ng-model="feedLink" size="256" placeholder="enter feed link here">
-                <input type="submit" value="add">
+                <input type="text" ng-model="feedLink" placeholder="enter feed link here" style="width:95%;">
+                <input type="submit" value="add" style="height:100%">
             </form>
 
+            <p style="padding-top:0.3em;font-size: 75%;">{{statusMessage}}</p>
+            
         </div>
 
         <ul>
@@ -36,7 +37,8 @@
 
         <ul>
             <li class="feed-item" ng-repeat="report in reports" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
-                {{report.feedTitle}} - [ {{report.read}} / {{report.notRead}} ]
+                <p>{{report.feedTitle}}</p>
+                <p>[ {{report.read}} / {{report.notRead}} ]</p>
             </li>
         </ul>
 
