@@ -13,6 +13,8 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedItemHelper {
 
+    public static final int MAX_DESCRIPTION_LENGTH = 255;
+
     private String title;
     private Text description;
     private String link;
@@ -29,7 +31,7 @@ public class FeedItemHelper {
         final FeedItemHelper helper = new FeedItemHelper();
 
         helper.date = feedItem.date;
-        helper.description = new Text(feedItem.description);
+        helper.description = new Text(feedItem.description.length() > MAX_DESCRIPTION_LENGTH ? feedItem.description.substring(0, MAX_DESCRIPTION_LENGTH) : feedItem.description);
         helper.guid = feedItem.guid;
         helper.link = feedItem.link;
         helper.title = feedItem.title;
