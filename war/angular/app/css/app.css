@@ -58,20 +58,28 @@ table {
 body, html { 
     width: 100%;
     height: 100%;
+    background: rgb(240, 240, 231);
 }
 
 body {
 	font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+.header_container {
+	left: 0; 
+	position: fixed; 
+	width: 100%; 
+	top: 0;
+}
+
 .container {
     width: 100%;
     height: 100%;
-    background:rgb(240, 240, 231);
+    padding-top: 80px;
 }
 
 .statusMessage {
-	padding-top:0.3em;
+	padding-top: 0.3em;
 	font-size: 75%;
 }
 
@@ -80,12 +88,12 @@ body {
     margin-top: 0em;
 	padding: 0.3em;
 	text-align: center;
-    background:rgb(220, 220, 211);
+    background: rgb(220, 220, 211);
 }
 
 .feed-item {
 	margin: 0.4em;
 	padding: 0.3em;
 	text-align: center;
-    background:rgb(230, 230, 221);
+    background: rgb(230, 230, 221);
 }
