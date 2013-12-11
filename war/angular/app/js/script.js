@@ -185,7 +185,11 @@ function FeedListCtrl($scope, feeds, reads, blockUi) {
     };
 
     $scope.readTopItem = function (feedId, topItemId, topItemLink) {
-        //alert("read " + feedId + " " + topItemId + " " + topItemLink);
+
+        if (topItemId.length == 0 || topItemLink == 0) {
+            return;
+        }
+
         blockUi.block();
 
         showSuccessMessage('updating...');
