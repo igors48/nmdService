@@ -113,30 +113,6 @@ function FeedListCtrl($scope, feeds, reads, blockUi) {
 
     }
 
-    $scope.loadFeedHeaders = function () {
-        blockUi.block();
-
-        showSuccessMessage('loading...');
-
-        var feedList = feeds.query(
-            function() {
-                serverResponseHandler(feedList,
-                    function() {
-                        $scope.headers = feedList.headers;
-
-                        showSuccessMessage(feedList.headers.length + ' feed(s)');
-                    })
-            },
-            function () {
-                serverErrorHandler(
-                    function () {
-                        $scope.headers = [];
-                    }
-                )
-            }
-        );
-    };
-
     $scope.loadReadsReport = function () {
         blockUi.block();
 
