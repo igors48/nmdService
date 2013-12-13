@@ -25,7 +25,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
     @Test
     public void whenFeedExistsThenItIsParticipateInReport() throws ControlServiceException {
-        final FeedHeader feedHeader = createSampleFeed();
+        final FeedHeader feedHeader = createFeedWithOneItem();
 
         final List<FeedReadReport> report = this.controlService.getFeedsReadReport();
 
@@ -41,12 +41,12 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
     @Test
     public void whenNotReadItemExistsThenItReturns() {
-        createSampleFeed();
+        createFeedWithOneItem();
 
         final List<FeedReadReport> readReports = this.controlService.getFeedsReadReport();
 
-        assertEquals(FEED_ITEM_GUID, readReports.get(0).topItemId);
-        assertEquals(FEED_ITEM_LINK, readReports.get(0).topItemLink);
+        assertEquals(FIRST_FEED_ITEM_GUID, readReports.get(0).topItemId);
+        assertEquals(FIRST_FEED_ITEM_LINK, readReports.get(0).topItemLink);
     }
 
 }

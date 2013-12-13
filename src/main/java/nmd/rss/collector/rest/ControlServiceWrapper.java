@@ -1,12 +1,8 @@
 package nmd.rss.collector.rest;
 
 import nmd.rss.collector.Transactions;
-import nmd.rss.collector.controller.ControlService;
-import nmd.rss.collector.controller.ControlServiceException;
-import nmd.rss.collector.controller.FeedReadReport;
-import nmd.rss.collector.controller.FeedUpdateReport;
+import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceError;
-import nmd.rss.collector.exporter.FeedExporter;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
@@ -32,8 +28,12 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.lang.String.format;
+import static nmd.rss.collector.exporter.FeedExporter.export;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
+import static nmd.rss.collector.rest.responses.FeedItemsReportResponse.convert;
+import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -52,11 +52,11 @@ public class ControlServiceWrapper {
 
             final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
 
-            LOGGER.info(String.format("Feed [ %s ] added. Id is [ %s ]", feedUrl, feedId));
+            LOGGER.info(format("Feed [ %s ] added. Id is [ %s ]", feedUrl, feedId));
 
             return createJsonResponse(feedIdResponse);
         } catch (ControlServiceException exception) {
-            LOGGER.log(Level.SEVERE, String.format("Error adding feed [ %s ]", feedUrl), exception);
+            LOGGER.log(Level.SEVERE, format("Error adding feed [ %s ]", feedUrl), exception);
 
             return createErrorJsonResponse(exception);
         }
@@ -65,9 +65,9 @@ public class ControlServiceWrapper {
     public static ResponseBody removeFeed(final UUID feedId) {
         CONTROL_SERVICE.removeFeed(feedId);
 
-        final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Feed [ %s ] removed", feedId));
+        final SuccessMessageResponse successMessageResponse = create(format("Feed [ %s ] removed", feedId));
 
-        LOGGER.info(String.format("Feed [ %s ] removed", feedId));
+        LOGGER.info(format("Feed [ %s ] removed", feedId));
 
         return createJsonResponse(successMessageResponse);
     }
@@ -76,7 +76,7 @@ public class ControlServiceWrapper {
         final List<FeedHeader> headers = CONTROL_SERVICE.getFeedHeaders();
         final FeedHeadersResponse feedHeadersResponse = FeedHeadersResponse.convert(headers);
 
-        LOGGER.info(String.format("[ %s ] feed headers found", headers.size()));
+        LOGGER.info(format("[ %s ] feed headers found", headers.size()));
 
         return createJsonResponse(feedHeadersResponse);
     }
@@ -85,17 +85,17 @@ public class ControlServiceWrapper {
 
         try {
             final Feed feed = CONTROL_SERVICE.getFeed(feedId);
-            final String feedAsXml = FeedExporter.export(feed.header, feed.items);
+            final String feedAsXml = export(feed.header, feed.items);
 
-            LOGGER.info(String.format("Feed [ %s ] link [ %s ] items exported. Items count [ %d ]", feedId, feed.header.feedLink, feed.items.size()));
+            LOGGER.info(format("Feed [ %s ] link [ %s ] items exported. Items count [ %d ]", feedId, feed.header.feedLink, feed.items.size()));
 
             return new ResponseBody(ContentType.XML, feedAsXml);
         } catch (ControlServiceException exception) {
-            LOGGER.log(Level.SEVERE, String.format("Error export feed [ %s ]", feedId), exception);
+            LOGGER.log(Level.SEVERE, format("Error export feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(exception);
         } catch (FeedExporterException exception) {
-            LOGGER.log(Level.SEVERE, String.format("Error export feed [ %s ]", feedId), exception);
+            LOGGER.log(Level.SEVERE, format("Error export feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(ServiceError.feedExportError(feedId));
         }
@@ -107,7 +107,7 @@ public class ControlServiceWrapper {
             final FeedUpdateReport report = CONTROL_SERVICE.updateCurrentFeed();
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
-            LOGGER.info(String.format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
+            LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
 
             return createJsonResponse(response);
         } catch (ControlServiceException exception) {
@@ -123,11 +123,11 @@ public class ControlServiceWrapper {
             final FeedUpdateReport report = CONTROL_SERVICE.updateFeed(feedId);
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
-            LOGGER.info(String.format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
+            LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
 
             return createJsonResponse(response);
         } catch (ControlServiceException exception) {
-            LOGGER.log(Level.SEVERE, String.format("Error update feed [ %s ]", feedId), exception);
+            LOGGER.log(Level.SEVERE, format("Error update feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(exception);
         }
@@ -142,27 +142,47 @@ public class ControlServiceWrapper {
         return createJsonResponse(response);
     }
 
-    public static ResponseBody clear() {
-        CONTROL_SERVICE.clear();
-
-        final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create("Service cleared");
-
-        return createJsonResponse(successMessageResponse);
-    }
-
     public static ResponseBody markItemAsRead(final UUID feedId, final String itemId) {
 
         try {
             CONTROL_SERVICE.markItemAsRead(feedId, itemId);
 
-            final SuccessMessageResponse successMessageResponse = SuccessMessageResponse.create(String.format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
+            LOGGER.info(format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
+
+            final SuccessMessageResponse successMessageResponse = create(format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
 
             return createJsonResponse(successMessageResponse);
         } catch (ControlServiceException exception) {
-            LOGGER.log(Level.SEVERE, String.format("Error update feed [ %s ]", feedId), exception);
+            LOGGER.log(Level.SEVERE, format("Error update feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(exception);
         }
+    }
+
+    public static ResponseBody getFeedItemsReport(final UUID feedId) {
+
+        try {
+            List<FeedItemReport> report = CONTROL_SERVICE.getFeedItemsReport(feedId);
+            FeedItemsReportResponse response = convert(report);
+
+            LOGGER.info(format("Feed [ %s ] items report created", feedId));
+
+            return createJsonResponse(response);
+        } catch (ControlServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error getting feed [ %s ] items report ", feedId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
+    }
+
+    public static ResponseBody clear() {
+        CONTROL_SERVICE.clear();
+
+        LOGGER.info("Service cleared");
+
+        final SuccessMessageResponse successMessageResponse = create("Service cleared");
+
+        return createJsonResponse(successMessageResponse);
     }
 
     private static ControlService createControlService() {

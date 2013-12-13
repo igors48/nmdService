@@ -23,10 +23,21 @@ public abstract class AbstractControllerTest {
     protected static final String FEED_TITLE = "title";
     protected static final String FEED_DESCRIPTION = "description";
     protected static final String FEED_LINK = "link";
-    protected static final String FEED_ITEM_TITLE = "title";
-    protected static final String FEED_ITEM_DESCRIPTION = "description";
-    protected static final String FEED_ITEM_LINK = "link";
-    protected static final String FEED_ITEM_GUID = "guid";
+
+    protected static final String FIRST_FEED_ITEM_TITLE = "first_title";
+    protected static final String FIRST_FEED_ITEM_DESCRIPTION = "first_description";
+    protected static final String FIRST_FEED_ITEM_LINK = "first_link";
+    protected static final String FIRST_FEED_ITEM_GUID = "first_guid";
+
+    protected static final String SECOND_FEED_ITEM_TITLE = "second_title";
+    protected static final String SECOND_FEED_ITEM_DESCRIPTION = "second_description";
+    protected static final String SECOND_FEED_ITEM_LINK = "second_link";
+    protected static final String SECOND_FEED_ITEM_GUID = "second_guid";
+
+    private static final FeedHeader FEED_HEADER = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
+
+    private static final FeedItem FIRST_FEED_ITEM = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(1), FIRST_FEED_ITEM_GUID);
+    private static final FeedItem SECOND_FEED_ITEM = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(2), SECOND_FEED_ITEM_GUID);
 
     protected static final String VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
@@ -103,18 +114,23 @@ public abstract class AbstractControllerTest {
         return controlService.addFeed(VALID_SECOND_RSS_FEED_LINK);
     }
 
-    //TODO it needs to create convenient method for that or reuse previous
-    protected FeedHeader createSampleFeed() {
-        final FeedHeader feedHeader = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
-        this.feedHeadersRepositoryStub.storeHeader(feedHeader);
+    protected FeedHeader createFeedWithOneItem() {
+        return createSampleFeed(FIRST_FEED_ITEM);
+    }
 
-        final FeedItem feedItem = new FeedItem(FEED_ITEM_TITLE, FEED_ITEM_DESCRIPTION, FEED_ITEM_LINK, new Date(), FEED_ITEM_GUID);
-        final List<FeedItem> feedItems = Arrays.asList(feedItem);
+    protected FeedHeader createFeedWithTwoItems() {
+        return createSampleFeed(FIRST_FEED_ITEM, SECOND_FEED_ITEM);
+    }
+
+    private FeedHeader createSampleFeed(final FeedItem... items) {
+        this.feedHeadersRepositoryStub.storeHeader(FEED_HEADER);
+
+        final List<FeedItem> feedItems = Arrays.asList(items);
         final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(new ArrayList<FeedItem>(), feedItems, new ArrayList<FeedItem>());
 
-        this.feedItemsRepositoryStub.mergeItems(feedHeader.id, feedItemsMergeReport);
+        this.feedItemsRepositoryStub.mergeItems(FEED_HEADER.id, feedItemsMergeReport);
 
-        return feedHeader;
+        return FEED_HEADER;
     }
 
 }

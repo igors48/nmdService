@@ -83,7 +83,7 @@ public abstract class AbstractRestTest {
     }
 
     protected String markItemAsRead(final String feedId, String itemId) {
-        return given().post(READS_SERVLET_URL + feedId.toString() + "/" + itemId).asString();
+        return given().post(READS_SERVLET_URL + feedId + "/" + itemId).asString();
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {

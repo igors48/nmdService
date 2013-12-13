@@ -16,6 +16,8 @@ import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.*;
 
+import static nmd.rss.collector.controller.FeedItemReport.asNotRead;
+import static nmd.rss.collector.controller.FeedItemReport.asRead;
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -242,6 +244,33 @@ public class ControlService {
             transaction.commit();
 
             return report;
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    public List<FeedItemReport> getFeedItemsReport(final UUID feedId) throws ControlServiceException {
+        assertNotNull(feedId);
+
+        Transaction transaction = null;
+
+        try {
+            loadFeedHeader(feedId);
+
+            final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
+
+            final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
+            Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
+
+            final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
+
+            for (final FeedItem feedItem : feedItems) {
+                final boolean readItem = readGuids.contains(feedItem.guid);
+
+                feedItemReports.add(readItem ? asRead(feedId, feedItem) : asNotRead(feedId, feedItem));
+            }
+
+            return feedItemReports;
         } finally {
             rollbackIfActive(transaction);
         }
