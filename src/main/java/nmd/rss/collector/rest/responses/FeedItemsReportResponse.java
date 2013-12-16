@@ -18,6 +18,10 @@ public class FeedItemsReportResponse extends SuccessResponse {
         // empty
     }
 
+    public List<FeedItemReportHelper> getReports() {
+        return this.reports;
+    }
+
     public static FeedItemsReportResponse convert(final List<FeedItemReport> feedItemReports) {
         Assert.assertNotNull(feedItemReports);
 

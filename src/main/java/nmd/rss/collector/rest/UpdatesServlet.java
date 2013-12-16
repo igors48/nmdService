@@ -24,11 +24,11 @@ public class UpdatesServlet extends RestServlet {
 
         if (pathInfoIsEmpty(pathInfo)) {
             return updateCurrentFeed();
-        } else {
-            final UUID feedId = parseFeedId(pathInfo);
-
-            return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : updateFeed(feedId);
         }
+
+        final UUID feedId = parseFeedId(pathInfo);
+
+        return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : updateFeed(feedId);
     }
 
 }

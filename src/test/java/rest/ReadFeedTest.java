@@ -2,6 +2,7 @@ package rest;
 
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
+import nmd.rss.collector.rest.responses.FeedItemsReportResponse;
 import nmd.rss.collector.rest.responses.FeedReadReportsResponse;
 import org.junit.Test;
 
@@ -66,6 +67,25 @@ public class ReadFeedTest extends AbstractRestTest {
     @Test
     public void whenFeedIdIsEmptyValidThenErrorReturns() {
         assertErrorResponse(markItemAsRead("", "guid"), ErrorCode.INVALID_FEED_OR_ITEM_ID);
+    }
+
+    @Test
+    public void whenFeedIdIsInvalidThenErrorReturns() {
+        assertErrorResponse(getFeedItemsReportAsString("111"), ErrorCode.INVALID_FEED_ID);
+    }
+
+    @Test
+    public void whenFeedIdIsNotFoundThenErrorReturns() {
+        assertErrorResponse(getFeedItemsReportAsString(UUID.randomUUID().toString()), ErrorCode.WRONG_FEED_ID);
+    }
+
+    @Test
+    public void whenFeedIdIsFoundThenReportReturns() {
+        final FeedIdResponse feedIdResponse = addFirstFeed();
+
+        final FeedItemsReportResponse feedItemsReportResponse = getFeedItemsReport(feedIdResponse.getFeedId().toString());
+
+        assertFalse(feedItemsReportResponse.getReports().isEmpty());
     }
 
 }
