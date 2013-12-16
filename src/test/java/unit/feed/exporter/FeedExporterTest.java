@@ -43,8 +43,8 @@ public class FeedExporterTest {
 
         assertEquals(items.size(), parsed.items.size());
 
-        assertTrue(first.equalsExculdeGuid(parsed.items.get(0)));
-        assertTrue(second.equalsExculdeGuid(parsed.items.get(1)));
+        assertTrue(first.equalsExcludeGuid(parsed.items.get(0)));
+        assertTrue(second.equalsExcludeGuid(parsed.items.get(1)));
     }
 
 }

@@ -54,7 +54,7 @@ public class FeedItem {
         return true;
     }
 
-    public boolean equalsExculdeGuid(Object o) {
+    public boolean equalsExcludeGuid(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
