@@ -7,6 +7,7 @@
     <title>Orb</title>
     <link href="css/app.css" rel="stylesheet"/>
     <script src="lib/angular/angular.js"></script>
+    <script src="lib/angular/angular-route.js"></script>
     <script src="lib/angular/angular-resource.js"></script>
     <script src="lib/angular/angular-touch.js"></script>
     <script src="js/application.js"></script>
@@ -16,37 +17,7 @@
 
 <body>
 
-<div ng-controller="feedListCtrl">
-    
-    <div class="header_container">
-        <div class="header">
-
-            <form ng-submit="addFeed()">
-                <input type="text" ng-model="feedLink" placeholder="enter feed link here" style="width:95%;">
-                <input type="submit" value="add" style="height:100%">
-            </form>
-
-            <p class="statusMessage">{{statusMessage}}</p>
-        </div>
-    </div>
-
-    <div class="container">
-                <div class="feed-item" ng-repeat="report in reports">
-                    <div class="feed-action">
-                        <p>opts</p>
-                    </div>
-                    <div class="feed-title" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
-                        <p>{{report.feedTitle}}</p>
-                        <p>[ {{report.read}} / {{report.notRead}} ]</p>
-                    </div>
-                    <div class="feed-action">
-                        <p>list</p>
-                    </div>
-                </div>
-                <div style="clear: both;"></div>    
-    </div>
-
-</div>
+<div ng-view></div>
 
 </body>
 

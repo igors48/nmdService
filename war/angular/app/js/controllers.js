@@ -2,7 +2,7 @@
 
 angular.module('application.controllers', [])
 
-  .controller('feedListCtrl', ['$scope', '$window', 'feeds', 'reads', 'blockUi', function($scope, $window, feeds, reads, blockUi) {
+  .controller('feedListCtrl', ['$scope', '$window', '$location', 'feeds', 'reads', 'blockUi', function($scope, $window, $location, feeds, reads, blockUi) {
 
         function showSuccessMessage (message) {
             $scope.statusType = 'success';
@@ -116,7 +116,15 @@ angular.module('application.controllers', [])
             );
         };
 
+        $scope.viewItems = function (feedId) {
+            $location.path('/items/' + feedId);
+        };
+
         //TODO is it in right place?
         $scope.loadReadsReport();
 
+}])
+
+.controller('itemListCtrl', ['$scope', '$routeParams', function($scope, $routeParams) {
+    $scope.feedId = $routeParams.feedId;
 }]);
