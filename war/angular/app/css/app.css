@@ -126,3 +126,7 @@ body {
 .feed-action {
 	width: 15%;
 }	
+
+.not-read-item {
+    font-weight: bold;
+}

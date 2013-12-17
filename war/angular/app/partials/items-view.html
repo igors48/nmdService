@@ -8,7 +8,7 @@
     </div>
 
     <div class="feed-title" ng-click="readItem(report.feedId, report.guid, report.link)">
-        <p>{{report.title}}</p>
+        <p style="font-size: 75%;" ng-class="(report.read==true) ? '' : 'not-read-item'">{{report.title}}</p>
     </div>
 
     <div class="feed-action">

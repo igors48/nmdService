@@ -167,7 +167,7 @@ angular.module('application.controllers', [])
         }
     }
 
-    $scope.loadReadsReport = function (feedId) {
+    $scope.loadItemsReport = function (feedId) {
         blockUi.block();
 
         showSuccessMessage('loading...');
@@ -194,9 +194,32 @@ angular.module('application.controllers', [])
     };
 
     $scope.readItem = function (feedId, itemId, itemLink) {
-        $window.open(itemLink, '_blank');
-        $window.focus();
+
+        var response = reads.mark({
+            feedId: feedId,
+            itemId: itemId    
+            },
+            function () {
+                serverResponseHandler(response,
+                    function() {
+                        $scope.feedLink = '';
+                        $scope.loadItemsReport(feedId);
+
+
+                        $window.open(itemLink, '_blank');
+                        $window.focus();
+                    }
+                )
+            },
+            function () {
+                serverErrorHandler(
+                    function () {
+                        $scope.loadItemsReport(feedId);
+                    }
+                )
+            }
+        );
     }
 
-    $scope.loadReadsReport($routeParams.feedId);
+    $scope.loadItemsReport($routeParams.feedId);
 }]);
