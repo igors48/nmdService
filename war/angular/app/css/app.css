@@ -119,6 +119,10 @@ body {
 }
 
 .feed-title {
-	width: 90%;
+	width: 70%;
     background: rgb(220, 220, 211);
 }
+
+.feed-action {
+	width: 15%;
+}	
