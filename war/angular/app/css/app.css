@@ -92,8 +92,33 @@ body {
 }
 
 .feed-item {
+	display:-webkit-box;
+    display:-moz-box;
+    display:box;
+
+    display:-webkit-box;
+    -webkit-box-pack:justify;
+    -webkit-box-align:center;
+    
+    display:-moz-box;
+    -moz-box-pack:justify;
+    -moz-box-align:center;
+    
+    display:-ms-flexbox;
+    -ms-flex-pack:justify;
+    -ms-flex-align:center;
+    
+    display:box;
+    box-pack:justify;
+    box-align:center;
+
 	margin: 0.4em;
 	padding: 0.3em;
 	text-align: center;
     background: rgb(230, 230, 221);
+}
+
+.feed-title {
+	width: 90%;
+    background: rgb(220, 220, 211);
 }

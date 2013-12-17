@@ -31,12 +31,19 @@
     </div>
 
     <div class="container">
-        <ul>
-            <li class="feed-item" ng-repeat="report in reports" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
-                <p>{{report.feedTitle}}</p>
-                <p>[ {{report.read}} / {{report.notRead}} ]</p>
-            </li>
-        </ul>
+                <div class="feed-item" ng-repeat="report in reports">
+                    <div>
+                        <p>opts</p>
+                    </div>
+                    <div class="feed-title" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
+                        <p>{{report.feedTitle}}</p>
+                        <p>[ {{report.read}} / {{report.notRead}} ]</p>
+                    </div>
+                    <div>
+                        <p>list</p>
+                    </div>
+                </div>
+                <div style="clear: both;"></div>    
     </div>
 
 </div>
