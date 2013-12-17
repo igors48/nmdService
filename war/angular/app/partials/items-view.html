@@ -1,1 +1,18 @@
 <p>It is the items view of feed {{feedId}}</p>
+<p>{{statusMessage}}</p>
+
+<div class="feed-item" ng-repeat="report in reports">
+
+    <div class="feed-action">
+        <p>opts</p>
+    </div>
+
+    <div class="feed-title" ng-click="readItem(report.feedId, report.guid, report.link)">
+        <p>{{report.title}}</p>
+    </div>
+
+    <div class="feed-action">
+        <p>list</p>
+    </div>
+                    
+</div>
