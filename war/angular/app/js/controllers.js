@@ -41,6 +41,9 @@ angular.module('application.controllers', [])
             }
         }
 
+        $scope.dummy = function () {
+        };
+            
         $scope.loadReadsReport = function () {
             blockUi.block();
 
