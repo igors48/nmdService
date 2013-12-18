@@ -162,7 +162,7 @@ public class ControlServiceWrapper {
     public static ResponseBody getFeedItemsReport(final UUID feedId) {
 
         try {
-            List<FeedItemReport> report = CONTROL_SERVICE.getFeedItemsReport(feedId);
+            FeedItemsReport report = CONTROL_SERVICE.getFeedItemsReport(feedId);
             FeedItemsReportResponse response = convert(report);
 
             LOGGER.info(format("Feed [ %s ] items report created", feedId));

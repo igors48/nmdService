@@ -132,7 +132,6 @@ angular.module('application.controllers', [])
 }])
 
 .controller('itemListCtrl', ['$scope', '$window', '$routeParams', 'reads', 'blockUi', function($scope, $window, $routeParams, reads, blockUi) {
-    $scope.feedId = $routeParams.feedId;
 
     //TODO code duplication
     function showSuccessMessage (message) {
@@ -178,9 +177,10 @@ angular.module('application.controllers', [])
             function () {
                 serverResponseHandler(itemsReport,
                     function() {
+                        $scope.feedTitle = itemsReport.title;
                         $scope.reports = itemsReport.reports;
 
-                        showSuccessMessage(itemsReport.reports.length + ' feed(s)');
+                        showSuccessMessage('[ ' + itemsReport.read + ' / ' + itemsReport.notRead + ' ]');
                     })
             },
             function () {

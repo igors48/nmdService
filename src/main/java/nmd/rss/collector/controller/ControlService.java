@@ -33,7 +33,7 @@ import static nmd.rss.reader.FeedItemsComparator.compare;
 public class ControlService {
     //TODO consider split this service on two parts. for collector and reader
 
-    private static final int MAX_FEED_ITEMS_COUNT = 1000;
+    private static final int MAX_FEED_ITEMS_COUNT = 300;
 
     private final Transactions transactions;
 
@@ -249,13 +249,13 @@ public class ControlService {
         }
     }
 
-    public List<FeedItemReport> getFeedItemsReport(final UUID feedId) throws ControlServiceException {
+    public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ControlServiceException {
         assertNotNull(feedId);
 
         Transaction transaction = null;
 
         try {
-            loadFeedHeader(feedId);
+            final FeedHeader header = loadFeedHeader(feedId);
 
             final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
 
@@ -264,13 +264,22 @@ public class ControlService {
 
             final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
 
+            int read = 0;
+            int notRead = 0;
+
             for (final FeedItem feedItem : feedItems) {
                 final boolean readItem = readGuids.contains(feedItem.guid);
 
                 feedItemReports.add(readItem ? asRead(feedId, feedItem) : asNotRead(feedId, feedItem));
+
+                if (readItem) {
+                    ++read;
+                } else {
+                    ++notRead;
+                }
             }
 
-            return feedItemReports;
+            return new FeedItemsReport(header.title, read, notRead, feedItemReports);
         } finally {
             rollbackIfActive(transaction);
         }

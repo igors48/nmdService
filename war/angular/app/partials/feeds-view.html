@@ -1,39 +1,30 @@
-<!--<div ng-controller="feedListCtrl">-->
-<!-- TODO does this div need? -->
-<div>
-    
-    <div class="header_container">
-        <div class="header">
+<div class="header_container">
+    <div class="header">
 
-            <form ng-submit="addFeed()">
-                <input type="text" ng-model="feedLink" placeholder="enter feed link here" style="width:95%;">
-                <input type="submit" value="add" style="height:100%">
-            </form>
+        <form ng-submit="addFeed()">
+            <input type="text" ng-model="feedLink" placeholder="enter feed link here" style="width:95%;">
+            <input type="submit" value="add" style="height:100%">
+        </form>
 
-            <p class="statusMessage">{{statusMessage}}</p>
+        <p class="statusMessage">{{statusMessage}}</p>
+    </div>
+</div>
+
+<div class="container">
+    <div class="tile" ng-repeat="report in reports">
+
+        <div class="feed-action">
+            <p>opts</p>
         </div>
+
+        <div class="feed-title" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
+            <p>{{report.feedTitle}}</p>
+            <p class="small-font">[ {{report.read}} / {{report.notRead}} ]</p>
+        </div>
+
+        <div class="feed-action" ng-click="viewItems(report.feedId)">
+            <p>list</p>
+        </div>
+
     </div>
-
-    <!-- TODO does this div need? -->
-    <div class="container">
-                <div class="feed-item" ng-repeat="report in reports">
-
-                    <div class="feed-action">
-                        <p>opts</p>
-                    </div>
-
-                    <div class="feed-title" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
-                        <p>{{report.feedTitle}}</p>
-                        <p style="font-size: 75%;">[ {{report.read}} / {{report.notRead}} ]</p>
-                    </div>
-
-                    <div class="feed-action" ng-click="viewItems(report.feedId)">
-                        <p>list</p>
-                    </div>
-
-                </div>
-                <!-- TODO does this div need? -->
-                <div style="clear: both;"></div>    
-    </div>
-
 </div>
