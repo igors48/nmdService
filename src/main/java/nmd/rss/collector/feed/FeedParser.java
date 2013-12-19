@@ -26,7 +26,8 @@ public final class FeedParser {
         assertStringIsValid(feedData);
 
         try {
-            final StringReader reader = new StringReader(feedData);
+            final String correctedData = stripNonValidXMLCharacters(feedData);
+            final StringReader reader = new StringReader(correctedData);
             final SyndFeedInput input = new SyndFeedInput();
             final SyndFeed feed = input.build(reader);
 
@@ -109,6 +110,22 @@ public final class FeedParser {
         return result.isEmpty() ? title : result;
     }
 
+    private static String stripNonValidXMLCharacters(final String data) {
+        final StringBuilder result = new StringBuilder();
+
+        for (int i = 0; i < data.length(); i++) {
+            final char current = data.charAt(i);
+
+            if ((current == 0x9) || (current == 0xA) || (current == 0xD) ||
+                    ((current >= 0x20) && (current <= 0xD7FF)) ||
+                    ((current >= 0xE000) && (current <= 0xFFFD)) ||
+                    ((current >= 0x10000) && (current <= 0x10FFFF))) {
+                result.append(current);
+            }
+        }
+
+        return result.toString();
+    }
 
     private FeedParser() {
         // empty
