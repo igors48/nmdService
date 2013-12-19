@@ -111,7 +111,9 @@ public class ControlServiceWrapper {
 
             return createJsonResponse(response);
         } catch (ControlServiceException exception) {
-            LOGGER.log(Level.SEVERE, "Error update current feed ", exception);
+            final ServiceError serviceError = exception.getError();
+
+            LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
 
             return createErrorJsonResponse(exception);
         }
