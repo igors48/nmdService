@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.ControlServiceException;
+import nmd.rss.collector.error.ServiceException;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ public class ControllerClearTest extends AbstractControllerTest {
 
     @Before
     @Override
-    public void before() throws ControlServiceException {
+    public void before() throws ServiceException {
         super.before();
 
         final UUID firstFeedId = addValidFirstRssFeed();

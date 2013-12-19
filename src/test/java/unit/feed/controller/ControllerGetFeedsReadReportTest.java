@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.ControlServiceException;
 import nmd.rss.collector.controller.FeedReadReport;
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import org.junit.Test;
 
@@ -17,14 +17,14 @@ import static org.junit.Assert.assertTrue;
 public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
     @Test
-    public void whenNoFeedsThenEmptyReportReturns() throws ControlServiceException {
+    public void whenNoFeedsThenEmptyReportReturns() throws ServiceException {
         final List<FeedReadReport> report = this.controlService.getFeedsReadReport();
 
         assertTrue(report.isEmpty());
     }
 
     @Test
-    public void whenFeedExistsThenItIsParticipateInReport() throws ControlServiceException {
+    public void whenFeedExistsThenItIsParticipateInReport() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithOneItem();
 
         final List<FeedReadReport> report = this.controlService.getFeedsReadReport();

@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
 import nmd.rss.collector.controller.ControlService;
-import nmd.rss.collector.controller.ControlServiceException;
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedItemsMergeReport;
@@ -88,7 +88,7 @@ public abstract class AbstractControllerTest {
     protected ControlService controlService;
 
     @Before
-    public void before() throws ControlServiceException {
+    public void before() throws ServiceException {
         final TransactionsStub transactionsStub = new TransactionsStub();
 
         this.fetcherStub = new UrlFetcherStub();
@@ -102,13 +102,13 @@ public abstract class AbstractControllerTest {
         this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
     }
 
-    protected UUID addValidFirstRssFeed() throws ControlServiceException {
+    protected UUID addValidFirstRssFeed() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
         return controlService.addFeed(VALID_FIRST_RSS_FEED_LINK);
     }
 
-    protected UUID addValidSecondRssFeed() throws ControlServiceException {
+    protected UUID addValidSecondRssFeed() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
         return controlService.addFeed(VALID_SECOND_RSS_FEED_LINK);

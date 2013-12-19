@@ -1,8 +1,8 @@
 package nmd.rss.collector.rest;
 
 import com.google.gson.Gson;
-import nmd.rss.collector.controller.ControlServiceException;
 import nmd.rss.collector.error.ServiceError;
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.rest.responses.ErrorResponse;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -33,7 +33,7 @@ public class ResponseBody {
         return new ResponseBody(ContentType.JSON, content);
     }
 
-    public static ResponseBody createErrorJsonResponse(final ControlServiceException exception) {
+    public static ResponseBody createErrorJsonResponse(final ServiceException exception) {
         final ServiceError error = exception.getError();
 
         return createErrorJsonResponse(error);
