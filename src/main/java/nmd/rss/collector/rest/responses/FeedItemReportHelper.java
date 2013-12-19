@@ -2,8 +2,6 @@ package nmd.rss.collector.rest.responses;
 
 import nmd.rss.collector.controller.FeedItemReport;
 
-import java.util.Calendar;
-
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
