@@ -11,8 +11,8 @@
 	<div class="tile" ng-repeat="report in reports">
 
     	<div class="feed-action">
-        	<p class="small-font">{{report.day}}/{{report.month}}</p>
-        	<p class="small-font">{{report.hour}}:{{report.minute}}</p>
+        	<p class="small-font">{{report.date | date:'d MMM'}}</p>
+        	<p class="small-font">{{report.date | date:'hh:mm'}}</p>
     	</div>
 
     	<div class="item-title" ng-click="readItem(report.feedId, report.guid, report.link)">

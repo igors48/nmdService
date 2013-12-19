@@ -12,15 +12,10 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedItemReportHelper {
 
-    private static final Calendar CALENDAR = Calendar.getInstance();
-
     private String feedId = "";
     private String title = "";
     private String link = "";
-    private int day = 0;
-    private int month = 0;
-    private int hour = 0;
-    private int minute = 0;
+    private long date = 0;
     private String guid = "";
     private boolean read = false;
 
@@ -39,11 +34,7 @@ public class FeedItemReportHelper {
         helper.guid = feedItemReport.guid;
         helper.read = feedItemReport.read;
 
-        CALENDAR.setTime(feedItemReport.date);
-        helper.day = CALENDAR.get(Calendar.DAY_OF_MONTH);
-        helper.month = CALENDAR.get(Calendar.MONTH);
-        helper.hour = CALENDAR.get(Calendar.HOUR);
-        helper.minute = CALENDAR.get(Calendar.MINUTE);
+        helper.date = feedItemReport.date.getTime();
 
         return helper;
     }
