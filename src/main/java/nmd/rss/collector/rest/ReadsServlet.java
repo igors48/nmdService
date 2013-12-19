@@ -13,7 +13,7 @@ import static nmd.rss.collector.rest.ServletTools.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 27.11.13
  */
-public class ReadsServlet extends RestServlet {
+public class ReadsServlet extends AbstractRestServlet {
 
     //GET -- reads report
     //GET/{feedId} -- feed items report

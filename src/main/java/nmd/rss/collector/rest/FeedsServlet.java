@@ -14,7 +14,7 @@ import static nmd.rss.collector.rest.ServletTools.readRequestBody;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.06.13
  */
-public class FeedsServlet extends RestServlet {
+public class FeedsServlet extends AbstractRestServlet {
 
     // GET -- feeds list
     @Override

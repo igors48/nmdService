@@ -14,7 +14,7 @@ import static nmd.rss.collector.rest.ServletTools.pathInfoIsEmpty;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.06.13
  */
-public class UpdatesServlet extends RestServlet {
+public class UpdatesServlet extends AbstractRestServlet {
 
     // GET -- update current feed
     // GET /{feedId} -- update feed
