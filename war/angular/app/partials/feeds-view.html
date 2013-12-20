@@ -1,5 +1,5 @@
 <div class="header_container">
-    <div class="header">
+    <div class="header shadow">
 
         <form ng-submit="addFeed()">
             <input type="text" ng-model="feedLink" placeholder="enter feed link here" style="width:95%;">
@@ -11,15 +11,17 @@
 </div>
 
 <div class="container">
-    <div class="tile" ng-repeat="report in reports">
+    <div class="tile shadow" ng-repeat="report in reports">
 
         <div class="feed-action">
             <p>opts</p>
         </div>
 
         <div class="feed-title" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
-            <p>{{report.feedTitle}}</p>
-            <p class="small-font">[ {{report.read}} / {{report.notRead}} ]</p>
+            <div>
+                <p>{{report.feedTitle}}</p>
+                <p class="small-font">[ {{report.read}} / {{report.notRead}} ]</p>
+            </div>    
         </div>
 
         <div class="feed-action" ng-click="viewItems(report.feedId)">

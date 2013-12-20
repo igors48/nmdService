@@ -88,26 +88,29 @@ body, html {
     padding-top: 80px;
 }
 
-.tile {
-	display:-webkit-box;
-    display:-moz-box;
-    display:box;
+/* Needs to solve with this prefixes */
 
-    display:-webkit-box;
-    -webkit-box-pack:justify;
-    -webkit-box-align:center;
+.tile {
+    display: -webkit-box;
+    -webkit-box-orient: horizontal;
+    -webkit-box-pack: justify;
+    -webkit-box-align: stretch;
+    -webkit-box-shadow:2px 2px 3px #aaaaaa;
     
-    display:-moz-box;
-    -moz-box-pack:justify;
-    -moz-box-align:center;
+    display: -moz-box;
+    -moz-box-orient: horizontal;
+    -moz-box-pack: justify;
+    -moz-box-align: stretch;
     
-    display:-ms-flexbox;
-    -ms-flex-pack:justify;
-    -ms-flex-align:center;
+    display: -ms-flexbox;
+    -ms-flex-orient: horizontal;
+    -ms-flex-pack: justify;
+    -ms-flex-align: stretch;
     
-    display:box;
-    box-pack:justify;
-    box-align:center;
+    display: box;
+    box-orient: horizontal;
+    box-pack: justify;
+    box-align: stretch;
 
 	margin: 0.4em;
 	min-height: 2em;
@@ -115,17 +118,44 @@ body, html {
     background: rgb(230, 230, 221);
 }
 
+.shadow {
+    -webkit-box-shadow:2px 2px 3px #aaaaaa;
+    -moz-box-shadow:2px 2px 3px #aaaaaa;
+    -ms-flex-shadow:2px 2px 3px #aaaaaa;
+    -box-shadow:2px 2px 3px #aaaaaa;
+}
+
 .feed-title {
-	width: 70%;
+    display: inherit;
+	-webkit-box-align:center;
+    -webkit-box-pack: center;
+
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-ms-flex: 1;
+	-box-flex: 1;
+
     background: rgb(220, 220, 211);
 }
 
 .feed-action {
+    display: inherit;
+    -webkit-box-pack: center;
+	-webkit-box-align:center;
+
 	width: 15%;
 }	
 
 .item-title {
-	width: 85%;
+    display: inherit;
+	-webkit-box-align:center;
+    -webkit-box-pack: center;
+
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-ms-flex: 1;
+	-box-flex: 1;
+
     background: rgb(220, 220, 211);
 }
 
