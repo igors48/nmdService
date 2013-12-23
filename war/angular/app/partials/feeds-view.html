@@ -13,18 +13,18 @@
 <div class="container">
     <div class="tile shadow" ng-repeat="report in reports">
 
-        <div class="feed-action">
+        <div class="feed-action align-pack-center">
             <p>opts</p>
         </div>
 
-        <div class="feed-title" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
+        <div class="feed-title flex-box-one align-pack-center" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
             <div>
-                <p class="small-font not-read-item">{{report.feedTitle}}</p>
+                <p class="small-font bold">{{report.feedTitle}}</p>
                 <p class="small-font">[ {{report.read}} / {{report.notRead}} ]</p>
             </div>    
         </div>
 
-        <div class="feed-action" ng-click="viewItems(report.feedId)">
+        <div class="feed-action align-pack-center" ng-click="viewItems(report.feedId)">
             <p>list</p>
         </div>
 

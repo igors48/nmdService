@@ -95,7 +95,6 @@ body, html {
     -webkit-box-orient: horizontal;
     -webkit-box-pack: justify;
     -webkit-box-align: stretch;
-    -webkit-box-shadow:2px 2px 3px #aaaaaa;
     
     display: -moz-box;
     -moz-box-orient: horizontal;
@@ -106,7 +105,7 @@ body, html {
     -ms-flex-orient: horizontal;
     -ms-flex-pack: justify;
     -ms-flex-align: stretch;
-    
+
     display: box;
     box-orient: horizontal;
     box-pack: justify;
@@ -118,22 +117,8 @@ body, html {
     background: rgb(230, 230, 221);
 }
 
-.shadow {
-    -webkit-box-shadow:2px 2px 3px #aaaaaa;
-    -moz-box-shadow:2px 2px 3px #aaaaaa;
-    -ms-flex-shadow:2px 2px 3px #aaaaaa;
-    -box-shadow:2px 2px 3px #aaaaaa;
-}
-
 .feed-title {
     display: inherit;
-	-webkit-box-align:center;
-    -webkit-box-pack: center;
-
-	-webkit-box-flex: 1;
-	-moz-box-flex: 1;
-	-ms-flex: 1;
-	-box-flex: 1;
 
     padding: 0.1em;
     background: rgb(220, 220, 211);
@@ -141,27 +126,37 @@ body, html {
 
 .feed-action {
     display: inherit;
-    -webkit-box-pack: center;
-	-webkit-box-align:center;
-
+ 
 	width: 15%;
 }	
 
 .item-title {
     display: inherit;
-	-webkit-box-align:center;
-    -webkit-box-pack: center;
-
-	-webkit-box-flex: 1;
-	-moz-box-flex: 1;
-	-ms-flex: 1;
-	-box-flex: 1;
 
     padding: 0.1em;
     background: rgb(220, 220, 211);
 }
 
-.not-read-item {
+.align-pack-center {
+    -webkit-box-pack: center;
+    -webkit-box-align:center;
+}
+
+.shadow {
+    -webkit-box-shadow:2px 2px 3px #aaaaaa;
+    -moz-box-shadow:2px 2px 3px #aaaaaa;
+    -ms-flex-shadow:2px 2px 3px #aaaaaa;
+    -box-shadow:2px 2px 3px #aaaaaa;
+}
+
+.flex-box-one {
+	-webkit-box-flex: 1;
+	-moz-box-flex: 1;
+	-ms-flex: 1;
+	-box-flex: 1;
+}
+
+.bold {
     font-weight: bold;
 }
 
