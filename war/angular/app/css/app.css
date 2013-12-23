@@ -135,6 +135,7 @@ body, html {
 	-ms-flex: 1;
 	-box-flex: 1;
 
+    padding: 0.1em;
     background: rgb(220, 220, 211);
 }
 
@@ -156,6 +157,7 @@ body, html {
 	-ms-flex: 1;
 	-box-flex: 1;
 
+    padding: 0.1em;
     background: rgb(220, 220, 211);
 }
 
