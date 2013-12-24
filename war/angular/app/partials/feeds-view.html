@@ -17,7 +17,7 @@
             <img src="img/machine.png" width="32px" height="32px"/>
         </div>
 
-        <div class="feed-title flex-box-one align-pack-center" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
+        <div class="feed-title flex-box-one align-pack-center" ng-class="(touchedFeedId==report.feedId) ? 'touched' : ''" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
             <div>
                 <p class="small-font bold">{{report.feedTitle}}</p>
                 <p class="small-font">[ {{report.read}} / {{report.notRead}} ]</p>

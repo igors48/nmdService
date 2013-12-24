@@ -163,3 +163,7 @@ body, html {
 .small-font {
 	font-size: 75%;
 }
+
+.touched {
+    background: rgb(190, 190, 171);    
+}

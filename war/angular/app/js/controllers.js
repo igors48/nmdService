@@ -89,6 +89,7 @@ angular.module('application.controllers', [])
         };
 
         $scope.readTopItem = function (feedId, topItemId, topItemLink) {
+            $scope.touchedFeedId = feedId;   
 
             if (topItemId.length == 0 || topItemLink == 0) {
                 return;
@@ -107,6 +108,7 @@ angular.module('application.controllers', [])
                         function() {
                             $scope.feedLink = '';
                             $scope.loadReadsReport();
+                            $scope.touchedFeedId = '';   
 
                             $window.open(topItemLink, '_blank');
                             $window.focus();
@@ -116,6 +118,7 @@ angular.module('application.controllers', [])
                     serverErrorHandler(
                         function () {
                             $scope.loadReadsReport();
+                            $scope.touchedFeedId = '';   
                         }
                     )
                 }
@@ -123,6 +126,7 @@ angular.module('application.controllers', [])
         };
 
         $scope.viewItems = function (feedId) {
+            $scope.touchedFeedId = feedId;   
             $location.path('/items/' + feedId);
         };
 
@@ -194,6 +198,9 @@ angular.module('application.controllers', [])
     };
 
     $scope.readItem = function (feedId, itemId, itemLink) {
+        $scope.touchedItemId = itemId;
+
+        blockUi.block();
 
         var response = reads.mark({
             feedId: feedId,
@@ -204,7 +211,7 @@ angular.module('application.controllers', [])
                     function() {
                         $scope.feedLink = '';
                         $scope.loadItemsReport(feedId);
-
+                        $scope.touchedItemId = '';
 
                         $window.open(itemLink, '_blank');
                         $window.focus();
@@ -215,6 +222,7 @@ angular.module('application.controllers', [])
                 serverErrorHandler(
                     function () {
                         $scope.loadItemsReport(feedId);
+                        $scope.touchedItemId = '';
                     }
                 )
             }
