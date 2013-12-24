@@ -56,27 +56,28 @@ public final class FeedParser {
     }
 
     private static FeedHeader parseHeader(final String feedUrl, final SyndFeed feed) {
+        final String feedLink = feed.getLink().trim();
 
-        if (!isValidUrl(feed.getLink())) {
+        if (!isValidUrl(feedLink)) {
             return null;
         }
 
-        final String title = createTitle(feed.getTitle(), feed.getLink());
+        final String title = createTitle(feed.getTitle(), feedLink);
         final String description = feed.getDescription() == null ? "" : feed.getDescription();
-        final String link = feed.getLink();
 
-        return new FeedHeader(UUID.randomUUID(), feedUrl, title, description, link);
+        return new FeedHeader(UUID.randomUUID(), feedUrl, title, description, feedLink);
     }
 
     private static FeedItem parseItem(final SyndEntry entry) {
+        final String entryLink = entry.getLink().trim();
 
-        if (!isValidUrl(entry.getLink())) {
+        if (!isValidUrl(entryLink)) {
             return null;
         }
 
-        final String title = createTitle(entry.getTitle(), entry.getLink());
+        final String title = createTitle(entry.getTitle(), entryLink);
         final String description = createDescription(entry);
-        final String link = entry.getLink();
+        final String link = entryLink;
         final Date date = createDate(entry.getPublishedDate(), new Date());
         final String guid = UUID.randomUUID().toString();
 
