@@ -352,13 +352,37 @@
             <fileset dir="${dir.base}/war/feed/"/>
         </copy>
 
-        <copy todir="${war.directory}">
-            <fileset dir="${dir.base}/war/angular/app/"/>
+        <copy todir="${war.directory}/js/">
+            <fileset dir="${dir.base}/war/angular/app/js/"/>
 
             <filterset refid="identifier.and.security"/>
         </copy>
 
-        <antcall target="copy-bootstrap"/>
+        <copy todir="${war.directory}/partials/">
+            <fileset dir="${dir.base}/war/angular/app/partials/"/>
+
+            <filterset refid="identifier.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/">
+            <fileset file="${dir.base}/war/angular/app/index.html"/>
+
+            <filterset refid="identifier.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/css/">
+            <fileset dir="${dir.base}/war/angular/app/css/"/>
+        </copy>
+
+        <copy todir="${war.directory}/img/">
+            <fileset dir="${dir.base}/war/angular/app/img/"/>
+        </copy>
+
+        <copy todir="${war.directory}/lib/">
+            <fileset dir="${dir.base}/war/angular/app/lib/"/>
+        </copy>
+
+        <!--<antcall target="copy-bootstrap"/>-->
 
     </target>
 
