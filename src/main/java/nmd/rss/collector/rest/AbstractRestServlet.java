@@ -13,7 +13,7 @@ import static nmd.rss.collector.rest.ServletTools.writeResponseBody;
  * User: igu
  * Date: 05.12.13
  */
-public abstract class RestServlet extends HttpServlet {
+public abstract class AbstractRestServlet extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServlet.class.getName());
 

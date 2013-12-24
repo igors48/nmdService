@@ -2,6 +2,7 @@ package nmd.rss.collector.controller;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
@@ -72,7 +73,7 @@ public class ControlService {
         this.transactions = transactions;
     }
 
-    public UUID addFeed(final String feedUrl) throws ControlServiceException {
+    public UUID addFeed(final String feedUrl) throws ServiceException {
         assertStringIsValid(feedUrl);
 
         Transaction transaction = null;
@@ -140,7 +141,7 @@ public class ControlService {
         }
     }
 
-    public Feed getFeed(final UUID feedId) throws ControlServiceException {
+    public Feed getFeed(final UUID feedId) throws ServiceException {
         assertNotNull(feedId);
 
         Transaction transaction = null;
@@ -161,7 +162,7 @@ public class ControlService {
         }
     }
 
-    public FeedUpdateReport updateFeed(final UUID feedId) throws ControlServiceException {
+    public FeedUpdateReport updateFeed(final UUID feedId) throws ServiceException {
         assertNotNull(feedId);
 
         Transaction getFeedHeaderAndTaskTransaction = null;
@@ -177,7 +178,7 @@ public class ControlService {
             updateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedId);
 
             if (updateTask == null) {
-                throw new ControlServiceException(wrongFeedTaskId(feedId));
+                throw new ServiceException(wrongFeedTaskId(feedId));
             }
 
             getFeedHeaderAndTaskTransaction.commit();
@@ -205,11 +206,11 @@ public class ControlService {
         }
     }
 
-    public FeedUpdateReport updateCurrentFeed() throws ControlServiceException {
+    public FeedUpdateReport updateCurrentFeed() throws ServiceException {
         final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
         if (currentTask == null) {
-            throw new ControlServiceException(noScheduledTask());
+            throw new ServiceException(noScheduledTask());
         }
 
         return updateFeed(currentTask.feedId);
@@ -249,7 +250,7 @@ public class ControlService {
         }
     }
 
-    public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ControlServiceException {
+    public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ServiceException {
         assertNotNull(feedId);
 
         Transaction transaction = null;
@@ -285,7 +286,7 @@ public class ControlService {
         }
     }
 
-    public void markItemAsRead(final UUID feedId, final String itemId) throws ControlServiceException {
+    public void markItemAsRead(final UUID feedId, final String itemId) throws ServiceException {
         assertNotNull(feedId);
         assertStringIsValid(itemId);
 
@@ -332,11 +333,11 @@ public class ControlService {
         }
     }
 
-    private FeedHeader loadFeedHeader(final UUID feedId) throws ControlServiceException {
+    private FeedHeader loadFeedHeader(final UUID feedId) throws ServiceException {
         FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
 
         if (header == null) {
-            throw new ControlServiceException(wrongFeedId(feedId));
+            throw new ServiceException(wrongFeedId(feedId));
         }
 
         return header;
@@ -373,16 +374,16 @@ public class ControlService {
         return feedItems == null ? new ArrayList<FeedItem>() : feedItems;
     }
 
-    private Feed fetchFeed(final String feedUrl) throws ControlServiceException {
+    private Feed fetchFeed(final String feedUrl) throws ServiceException {
 
         try {
             final String data = this.fetcher.fetch(feedUrl);
 
             return FeedParser.parse(feedUrl, data);
         } catch (final UrlFetcherException exception) {
-            throw new ControlServiceException(urlFetcherError(feedUrl), exception);
+            throw new ServiceException(urlFetcherError(feedUrl), exception);
         } catch (FeedParserException exception) {
-            throw new ControlServiceException(feedParseError(feedUrl), exception);
+            throw new ServiceException(feedParseError(feedUrl), exception);
         }
     }
 

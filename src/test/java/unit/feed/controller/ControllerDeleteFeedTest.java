@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.ControlServiceException;
+import nmd.rss.collector.error.ServiceException;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -15,34 +15,34 @@ import static org.junit.Assert.assertTrue;
 public class ControllerDeleteFeedTest extends AbstractControllerTest {
 
     @Test
-    public void whenFeedRemovedThenItHeaderRemoved() throws ControlServiceException {
+    public void whenFeedRemovedThenItHeaderRemoved() throws ServiceException {
         final UUID feedId = createAndDeleteFeed();
 
         assertNull(this.feedHeadersRepositoryStub.loadHeader(feedId));
     }
 
     @Test
-    public void whenFeedRemovedThenUpdateTaskRemoved() throws ControlServiceException {
+    public void whenFeedRemovedThenUpdateTaskRemoved() throws ServiceException {
         final UUID feedId = createAndDeleteFeed();
 
         assertNull(this.feedUpdateTaskRepositoryStub.loadTaskForFeedId(feedId));
     }
 
     @Test
-    public void whenFeedRemovedThenItItemsRemoved() throws ControlServiceException {
+    public void whenFeedRemovedThenItItemsRemoved() throws ServiceException {
         final UUID feedId = createAndDeleteFeed();
 
         assertNull(this.feedItemsRepositoryStub.loadItems(feedId));
     }
 
     @Test
-    public void whenFeedRemovedThenItReadItemsRemoved() throws ControlServiceException {
+    public void whenFeedRemovedThenItReadItemsRemoved() throws ServiceException {
         final UUID feedId = createAndDeleteFeed();
 
         assertTrue(this.readFeedItemsRepositoryStub.load(feedId).isEmpty());
     }
 
-    private UUID createAndDeleteFeed() throws ControlServiceException {
+    private UUID createAndDeleteFeed() throws ServiceException {
         final UUID feedId = addValidFirstRssFeed();
         this.controlService.removeFeed(feedId);
 

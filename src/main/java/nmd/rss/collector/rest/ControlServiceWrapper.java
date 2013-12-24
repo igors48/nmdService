@@ -1,8 +1,12 @@
 package nmd.rss.collector.rest;
 
 import nmd.rss.collector.Transactions;
-import nmd.rss.collector.controller.*;
+import nmd.rss.collector.controller.ControlService;
+import nmd.rss.collector.controller.FeedItemsReport;
+import nmd.rss.collector.controller.FeedReadReport;
+import nmd.rss.collector.controller.FeedUpdateReport;
 import nmd.rss.collector.error.ServiceError;
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
@@ -55,7 +59,7 @@ public class ControlServiceWrapper {
             LOGGER.info(format("Feed [ %s ] added. Id is [ %s ]", feedUrl, feedId));
 
             return createJsonResponse(feedIdResponse);
-        } catch (ControlServiceException exception) {
+        } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error adding feed [ %s ]", feedUrl), exception);
 
             return createErrorJsonResponse(exception);
@@ -90,7 +94,7 @@ public class ControlServiceWrapper {
             LOGGER.info(format("Feed [ %s ] link [ %s ] items exported. Items count [ %d ]", feedId, feed.header.feedLink, feed.items.size()));
 
             return new ResponseBody(ContentType.XML, feedAsXml);
-        } catch (ControlServiceException exception) {
+        } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error export feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(exception);
@@ -110,8 +114,10 @@ public class ControlServiceWrapper {
             LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
 
             return createJsonResponse(response);
-        } catch (ControlServiceException exception) {
-            LOGGER.log(Level.SEVERE, "Error update current feed ", exception);
+        } catch (ServiceException exception) {
+            final ServiceError serviceError = exception.getError();
+
+            LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
 
             return createErrorJsonResponse(exception);
         }
@@ -126,7 +132,7 @@ public class ControlServiceWrapper {
             LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
 
             return createJsonResponse(response);
-        } catch (ControlServiceException exception) {
+        } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error update feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(exception);
@@ -152,7 +158,7 @@ public class ControlServiceWrapper {
             final SuccessMessageResponse successMessageResponse = create(format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
 
             return createJsonResponse(successMessageResponse);
-        } catch (ControlServiceException exception) {
+        } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error update feed [ %s ]", feedId), exception);
 
             return createErrorJsonResponse(exception);
@@ -168,7 +174,7 @@ public class ControlServiceWrapper {
             LOGGER.info(format("Feed [ %s ] items report created", feedId));
 
             return createJsonResponse(response);
-        } catch (ControlServiceException exception) {
+        } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error getting feed [ %s ] items report ", feedId), exception);
 
             return createErrorJsonResponse(exception);

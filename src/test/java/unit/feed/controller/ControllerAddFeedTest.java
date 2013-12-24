@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.ControlServiceException;
+import nmd.rss.collector.error.ServiceException;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -15,14 +15,14 @@ import static org.junit.Assert.assertEquals;
 public class ControllerAddFeedTest extends AbstractControllerTest {
 
     @Test
-    public void whenFeedFetchedOkAndParsedOkItAdds() throws ControlServiceException {
+    public void whenFeedFetchedOkAndParsedOkItAdds() throws ServiceException {
         final UUID id = addValidFirstRssFeed();
 
         assertNotNull(id);
     }
 
     @Test
-    public void whenFeedWithSameLinkAddedSecondTimeThenPreviousIdReturns() throws ControlServiceException {
+    public void whenFeedWithSameLinkAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
         final UUID firstId = addValidFirstRssFeed();
         final UUID secondId = addValidFirstRssFeed();
 
@@ -30,7 +30,7 @@ public class ControllerAddFeedTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ControlServiceException {
+    public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
         final UUID firstId = controlService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
@@ -40,7 +40,7 @@ public class ControllerAddFeedTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenFeedWithSameLinkButWithSlashAtTheEndAddedSecondTimeThenPreviousIdReturns() throws ControlServiceException {
+    public void whenFeedWithSameLinkButWithSlashAtTheEndAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
         final UUID firstId = controlService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
@@ -49,29 +49,29 @@ public class ControllerAddFeedTest extends AbstractControllerTest {
         assertEquals(firstId, secondId);
     }
 
-    @Test(expected = ControlServiceException.class)
-    public void whenFeedCanNotBeParsedThenExceptionOccurs() throws ControlServiceException {
+    @Test(expected = ServiceException.class)
+    public void whenFeedCanNotBeParsedThenExceptionOccurs() throws ServiceException {
         this.fetcherStub.setData(INVALID_RSS_FEED);
 
         controlService.addFeed(VALID_FIRST_RSS_FEED_LINK);
     }
 
     @Test
-    public void whenFeedAddedThenNewUpdateTaskCreates() throws ControlServiceException {
+    public void whenFeedAddedThenNewUpdateTaskCreates() throws ServiceException {
         final UUID id = addValidFirstRssFeed();
 
         assertNotNull(this.feedUpdateTaskRepositoryStub.loadTaskForFeedId(id));
     }
 
     @Test
-    public void whenFeedAddedThenItHeaderStores() throws ControlServiceException {
+    public void whenFeedAddedThenItHeaderStores() throws ServiceException {
         final UUID id = addValidFirstRssFeed();
 
         assertNotNull(this.feedHeadersRepositoryStub.loadHeader(id));
     }
 
     @Test
-    public void whenFeedAddedThenItItemsStores() throws ControlServiceException {
+    public void whenFeedAddedThenItItemsStores() throws ServiceException {
         final UUID id = addValidFirstRssFeed();
 
         assertNotNull(this.feedItemsRepositoryStub.loadItems(id));

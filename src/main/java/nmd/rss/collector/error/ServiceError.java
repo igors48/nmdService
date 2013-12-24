@@ -81,4 +81,9 @@ public class ServiceError {
                 "Possibly feed update schedule is empty. Check registered feeds list.");
     }
 
+    @Override
+    public String toString() {
+        return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
+    }
+
 }

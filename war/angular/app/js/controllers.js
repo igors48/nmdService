@@ -92,6 +92,7 @@ angular.module('application.controllers', [])
         };
 
         $scope.readTopItem = function (feedId, topItemId, topItemLink) {
+            $scope.touchedFeedId = feedId;   
 
             if (topItemId.length == 0 || topItemLink == 0) {
                 return;
@@ -110,6 +111,7 @@ angular.module('application.controllers', [])
                         function() {
                             $scope.feedLink = '';
                             $scope.loadReadsReport();
+                            $scope.touchedFeedId = '';   
 
                             $window.open(topItemLink, '_blank');
                             $window.focus();
@@ -119,6 +121,7 @@ angular.module('application.controllers', [])
                     serverErrorHandler(
                         function () {
                             $scope.loadReadsReport();
+                            $scope.touchedFeedId = '';   
                         }
                     )
                 }
@@ -126,7 +129,13 @@ angular.module('application.controllers', [])
         };
 
         $scope.viewItems = function (feedId) {
+            $scope.touchedFeedId = feedId;   
             $location.path('/items/' + feedId);
+        };
+
+        $scope.viewFeed = function (feedId) {
+            $scope.touchedFeedId = feedId;   
+            $location.path('/feed/' + feedId);
         };
 
         //TODO is it in right place?
@@ -197,6 +206,9 @@ angular.module('application.controllers', [])
     };
 
     $scope.readItem = function (feedId, itemId, itemLink) {
+        $scope.touchedItemId = itemId;
+
+        blockUi.block();
 
         var response = reads.mark({
             feedId: feedId,
@@ -207,7 +219,7 @@ angular.module('application.controllers', [])
                     function() {
                         $scope.feedLink = '';
                         $scope.loadItemsReport(feedId);
-
+                        $scope.touchedItemId = '';
 
                         $window.open(itemLink, '_blank');
                         $window.focus();
@@ -218,6 +230,7 @@ angular.module('application.controllers', [])
                 serverErrorHandler(
                     function () {
                         $scope.loadItemsReport(feedId);
+                        $scope.touchedItemId = '';
                     }
                 )
             }
@@ -225,4 +238,97 @@ angular.module('application.controllers', [])
     }
 
     $scope.loadItemsReport($routeParams.feedId);
+}])
+
+.controller('feedCtrl', ['$scope', '$location', '$routeParams', 'feeds', 'reads', 'blockUi', function($scope, $location, $routeParams, feeds, reads, blockUi) {
+    $scope.showDelete = false;
+    $scope.deleteTouched = false;
+
+    //TODO code duplication
+        function showSuccessMessage (message) {
+            $scope.statusMessage = message;
+        }
+
+    //TODO code duplication
+        function showErrorMessage (message) {
+            $scope.statusMessage = message;
+        }
+
+    //TODO code duplication
+        var serverErrorHandler = function (onContinue) {
+            showErrorMessage('Server error');
+
+            blockUi.unblock();
+
+            onContinue();
+        }
+
+    //TODO code duplication
+        var serverResponseHandler = function (response, onSuccess) {
+
+            if (response.status === 'SUCCESS') {
+                blockUi.unblock();
+
+                onSuccess(response);
+            } else {
+                blockUi.unblock();
+
+                showErrorMessage('Error : ' + response.message + ' ' + response.hints);
+            }
+        }
+
+    $scope.loadFeedReport = function (feedId) {
+        blockUi.block();
+
+        showSuccessMessage('loading...');
+
+        var itemsReport = reads.query({
+                feedId: feedId,
+            },
+            function () {
+                serverResponseHandler(itemsReport,
+                    function() {
+                        $scope.feedTitle = itemsReport.title;
+
+                        showSuccessMessage('[ ' + itemsReport.read + ' / ' + itemsReport.notRead + ' ]');
+
+                        $scope.showDelete = true;
+                    })
+            },
+            function () {
+                serverErrorHandler(
+                    function () {
+                    }
+                )
+           }
+        );
+    };
+
+    $scope.deleteFeed = function () {
+        $scope.deleteTouched = true;
+
+        blockUi.block();
+
+        showSuccessMessage('remove...');
+
+        var response = feeds.delete({
+                feedId: $routeParams.feedId,
+            },
+            function () {
+                serverResponseHandler(response,
+                    function() {
+                        $location.path('/feeds');
+                    })
+            },
+            function () {
+                serverErrorHandler(
+                    function () {
+                    }
+                )
+           }
+        );
+
+    };
+
+    $scope.loadFeedReport($routeParams.feedId);
 }]);

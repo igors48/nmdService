@@ -29,9 +29,10 @@ public class FeedItemReportHelper {
         helper.feedId = feedItemReport.feedId.toString();
         helper.title = feedItemReport.title;
         helper.link = feedItemReport.link;
-        helper.date = feedItemReport.date.getTime();
         helper.guid = feedItemReport.guid;
         helper.read = feedItemReport.read;
+
+        helper.date = feedItemReport.date.getTime();
 
         return helper;
     }

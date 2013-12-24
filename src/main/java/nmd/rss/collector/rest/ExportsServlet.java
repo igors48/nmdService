@@ -12,7 +12,7 @@ import static nmd.rss.collector.rest.ServletTools.parseFeedId;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 02.07.13
  */
-public class ExportsServlet extends RestServlet {
+public class ExportsServlet extends AbstractRestServlet {
 
     // GET /{feedId} -- get feed
     @Override

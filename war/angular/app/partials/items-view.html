@@ -1,5 +1,5 @@
 <div class="header_container">
-    <div class="header">
+    <div class="header shadow">
 
 		<p>{{feedTitle}}</p>
 		<p class="statusMessage">{{statusMessage}}</p>
@@ -8,14 +8,17 @@
 </div>	
 
 <div class="container">
-	<div class="tile" ng-repeat="report in reports">
+	<div class="tile shadow" ng-repeat="report in reports">
 
-    	<div class="feed-action">
-        	<p>opts</p>
+    	<div class="feed-action align-pack-center">
+            <div>
+        	   <p class="small-font">{{report.date | date:'d MMM'}}</p>
+        	   <p class="small-font">{{report.date | date:'HH:mm'}}</p>
+            </div>
     	</div>
 
-    	<div class="item-title" ng-click="readItem(report.feedId, report.guid, report.link)">
-        	<p class="small-font" ng-class="(report.read==true) ? '' : 'not-read-item'">{{report.title}}</p>
+    	<div class="item-title flex-box-one align-pack-center" ng-class="(touchedItemId==report.guid) ? 'touched' : ''" ng-click="readItem(report.feedId, report.guid, report.link)">
+        	<p class="small-font" ng-class="(report.read==true) ? '' : 'bold'">{{report.title}}</p>
     	</div>
                     
 	</div>

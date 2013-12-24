@@ -8,7 +8,7 @@ import static nmd.rss.collector.rest.ControlServiceWrapper.clear;
  * User: igu
  * Date: 29.11.13
  */
-public class ClearServlet extends RestServlet {
+public class ClearServlet extends AbstractRestServlet {
 
     // POST -- clear service
     @Override

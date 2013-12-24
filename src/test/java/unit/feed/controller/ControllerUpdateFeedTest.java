@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.ControlServiceException;
 import nmd.rss.collector.controller.FeedUpdateReport;
+import nmd.rss.collector.error.ServiceException;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -14,13 +14,13 @@ import static org.junit.Assert.assertNotNull;
  */
 public class ControllerUpdateFeedTest extends AbstractControllerTest {
 
-    @Test(expected = ControlServiceException.class)
-    public void whenNoScheduledTasksFoundThenExceptionThrows() throws ControlServiceException {
+    @Test(expected = ServiceException.class)
+    public void whenNoScheduledTasksFoundThenExceptionThrows() throws ServiceException {
         this.controlService.updateCurrentFeed();
     }
 
-    @Test(expected = ControlServiceException.class)
-    public void whenFeedNotFoundThenExceptionThrows() throws ControlServiceException {
+    @Test(expected = ServiceException.class)
+    public void whenFeedNotFoundThenExceptionThrows() throws ServiceException {
         this.controlService.updateFeed(UUID.randomUUID());
     }
 

@@ -1,12 +1,10 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.ControlServiceException;
-import nmd.rss.collector.controller.FeedItemReport;
 import nmd.rss.collector.controller.FeedItemsReport;
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import org.junit.Test;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -17,13 +15,13 @@ import static org.junit.Assert.*;
  */
 public class ControllerGetFeedItemsReportTest extends AbstractControllerTest {
 
-    @Test(expected = ControlServiceException.class)
-    public void whenFeedNotFoundThenExceptionThrows() throws ControlServiceException {
+    @Test(expected = ServiceException.class)
+    public void whenFeedNotFoundThenExceptionThrows() throws ServiceException {
         this.controlService.getFeedItemsReport(UUID.randomUUID());
     }
 
     @Test
-    public void whenFeedItemsReportReturnsThenReportItemsSortFromNewToOld() throws ControlServiceException {
+    public void whenFeedItemsReportReturnsThenReportItemsSortFromNewToOld() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithTwoItems();
 
         final FeedItemsReport feedItemsReport = this.controlService.getFeedItemsReport(feedHeader.id);
@@ -33,7 +31,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenFeedItemsReportReturnsThenFeedIdSetCorrectly() throws ControlServiceException {
+    public void whenFeedItemsReportReturnsThenFeedIdSetCorrectly() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithTwoItems();
 
         final FeedItemsReport feedItemsReport = this.controlService.getFeedItemsReport(feedHeader.id);
@@ -43,7 +41,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenFeedItemsReportReturnsThenFeedTitleSetCorrectly() throws ControlServiceException {
+    public void whenFeedItemsReportReturnsThenFeedTitleSetCorrectly() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithTwoItems();
 
         final FeedItemsReport feedItemsReport = this.controlService.getFeedItemsReport(feedHeader.id);
@@ -52,7 +50,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenFeedItemsReportReturnsThenFeedItemCountersSetCorrectly() throws ControlServiceException {
+    public void whenFeedItemsReportReturnsThenFeedItemCountersSetCorrectly() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithTwoItems();
 
         final FeedItemsReport feedItemsReport = this.controlService.getFeedItemsReport(feedHeader.id);
@@ -62,7 +60,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenFeedItemsReportReturnsThenReadItemsMarkedCorrectly() throws ControlServiceException {
+    public void whenFeedItemsReportReturnsThenReadItemsMarkedCorrectly() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithTwoItems();
 
         this.controlService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
