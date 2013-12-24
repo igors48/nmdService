@@ -382,20 +382,6 @@
             <fileset dir="${dir.base}/war/angular/app/lib/"/>
         </copy>
 
-        <!--<antcall target="copy-bootstrap"/>-->
-
-    </target>
-
-    <target name="copy-bootstrap">
-
-        <copy todir="${war.directory}/css/">
-            <fileset file="${dir.base}/war/bootstrap/css/bootstrap.css"/>
-        </copy>
-
-        <copy todir="${war.directory}/img/">
-            <fileset dir="${dir.base}/war/bootstrap/img/"/>
-        </copy>
-
     </target>
 
     <target name="update">
