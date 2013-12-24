@@ -3,10 +3,16 @@
 angular.module('application.services', ['ngResource'])
     
     .factory('feeds', function ($resource) {
-        return $resource('/@security.key@/v01/feeds/', {}, {
-            'query': {method:'GET'},
-            'save': {method:'POST'}
-        });
+        return $resource('/@security.key@/v01/feeds/:feedId', 
+            {
+                feedId: "@feedId"    
+            },
+            {
+                'query': {method:'GET'},
+                'save': {method: 'POST'},
+                'delete': {method: 'DELETE'}
+            }
+        );
     })
     
     .factory('reads', function ($resource) {
@@ -16,8 +22,8 @@ angular.module('application.services', ['ngResource'])
                 itemId: "@itemId"
             },
             {
-                'query': {method:'GET'},
-                'mark': {method:'POST'}
+                'query': {method: 'GET'},
+                'mark': {method: 'POST'}
             }
         );
     })

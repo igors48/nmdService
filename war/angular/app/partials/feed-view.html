@@ -1,0 +1,20 @@
+<div class="header_container">
+    <div class="header shadow">
+
+        <p>{{feedTitle}}</p>
+        <p class="statusMessage">{{statusMessage}}</p>
+
+    </div>  
+</div>
+
+<div class="container">
+    <div class="tile shadow" ng-show="showDelete">
+
+        <div class="feed-title flex-box-one align-pack-center" ng-class="(deleteTouched) ? 'touched' : ''" ng-click="deleteFeed()">
+            <div>
+                <p class="bold">Delete feed</p>
+            </div>    
+        </div>
+
+    </div>
+</div>

@@ -13,6 +13,10 @@ application.config(['$routeProvider',
         templateUrl: 'partials/items-view.html',
         controller: 'itemListCtrl'
       }).
+      when('/feed/:feedId', {
+        templateUrl: 'partials/feed-view.html',
+        controller: 'feedCtrl'
+      }).
       otherwise({
         redirectTo: '/feeds'
       });
