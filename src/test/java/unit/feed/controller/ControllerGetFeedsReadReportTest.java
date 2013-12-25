@@ -3,8 +3,12 @@ package unit.feed.controller;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.feed.FeedItemsMergeReport;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -50,10 +54,31 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
     }
 
     @Test
-    public void whenFeedItemAddedAfterLastVisitThenItIncludedInAddedFromLastVisitCounter() {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+    public void whenFeedItemAddedAfterLastVisitThenItIncludedInAddedFromLastVisitCounter() throws ServiceException {
+        final FeedItem first = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(), FIRST_FEED_ITEM_GUID);
 
-        // this.controlService.markItemAsRead(feedHeader.id);
+        final FeedHeader feedHeader = createSampleFeed(first);
+
+        this.controlService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+
+        pauseOneMillisecond();
+
+        final FeedItem second = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(), SECOND_FEED_ITEM_GUID);
+
+        final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(
+                new ArrayList<FeedItem>(),
+                new ArrayList<FeedItem>() {{
+                    add(first);
+                }},
+                new ArrayList<FeedItem>() {{
+                    add(second);
+                }}
+        );
+        this.feedItemsRepositoryStub.mergeItems(feedHeader.id, feedItemsMergeReport);
+
+        final FeedReadReport firstReport = this.controlService.getFeedsReadReport().get(0);
+
+        assertEquals(1, firstReport.addedFromLastVisit);
     }
 
 }

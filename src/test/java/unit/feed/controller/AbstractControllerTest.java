@@ -34,10 +34,10 @@ public abstract class AbstractControllerTest {
     protected static final String SECOND_FEED_ITEM_LINK = "second_link";
     protected static final String SECOND_FEED_ITEM_GUID = "second_guid";
 
-    private static final FeedHeader FEED_HEADER = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
+    protected static final FeedItem FIRST_FEED_ITEM = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(1), FIRST_FEED_ITEM_GUID);
+    protected static final FeedItem SECOND_FEED_ITEM = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(2), SECOND_FEED_ITEM_GUID);
 
-    private static final FeedItem FIRST_FEED_ITEM = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(1), FIRST_FEED_ITEM_GUID);
-    private static final FeedItem SECOND_FEED_ITEM = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(2), SECOND_FEED_ITEM_GUID);
+    private static final FeedHeader FEED_HEADER = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
 
     protected static final String VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
@@ -122,7 +122,7 @@ public abstract class AbstractControllerTest {
         return createSampleFeed(FIRST_FEED_ITEM, SECOND_FEED_ITEM);
     }
 
-    private FeedHeader createSampleFeed(final FeedItem... items) {
+    protected FeedHeader createSampleFeed(final FeedItem... items) {
         this.feedHeadersRepositoryStub.storeHeader(FEED_HEADER);
 
         final List<FeedItem> feedItems = Arrays.asList(items);
@@ -131,6 +131,15 @@ public abstract class AbstractControllerTest {
         this.feedItemsRepositoryStub.mergeItems(FEED_HEADER.id, feedItemsMergeReport);
 
         return FEED_HEADER;
+    }
+
+    protected static void pauseOneMillisecond() {
+
+        try {
+            Thread.sleep(1);
+        } catch (InterruptedException ignore) {
+            // empty
+        }
     }
 
 }

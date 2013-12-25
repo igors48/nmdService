@@ -85,13 +85,4 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
         this.controlService.markItemAsRead(UUID.randomUUID(), FIRST_FEED_ITEM_GUID);
     }
 
-    private static void pauseOneMillisecond() {
-
-        try {
-            Thread.sleep(1);
-        } catch (InterruptedException ignore) {
-            // empty
-        }
-    }
-
 }
