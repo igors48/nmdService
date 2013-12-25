@@ -238,7 +238,8 @@ public class ControlService {
                 final String topItemId = topItem == null ? null : topItem.guid;
                 final String topItemLink = topItem == null ? null : topItem.link;
 
-                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), topItemId, topItemLink);
+                final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
+                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), addedFromLastVisit, topItemId, topItemLink);
 
                 report.add(feedReadReport);
             }
@@ -249,6 +250,19 @@ public class ControlService {
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (item.date.compareTo(lastUpdate) > 0) {
+                ++count;
+            }
+        }
+
+        return count;
     }
 
     public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ServiceException {

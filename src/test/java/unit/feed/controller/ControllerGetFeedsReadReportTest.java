@@ -49,4 +49,11 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
         assertEquals(FIRST_FEED_ITEM_LINK, readReports.get(0).topItemLink);
     }
 
+    @Test
+    public void whenFeedItemAddedAfterLastVisitThenItIncludedInAddedFromLastVisitCounter() {
+        final FeedHeader feedHeader = createFeedWithOneItem();
+
+        // this.controlService.markItemAsRead(feedHeader.id);
+    }
+
 }
