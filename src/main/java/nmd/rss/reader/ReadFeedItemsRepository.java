@@ -1,6 +1,5 @@
 package nmd.rss.reader;
 
-import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -9,9 +8,9 @@ import java.util.UUID;
  */
 public interface ReadFeedItemsRepository {
 
-    Set<String> load(UUID feedId);
+    ReadFeedItems load(UUID feedId);
 
-    void store(UUID feedId, Set<String> itemIds);
+    void store(UUID feedId, ReadFeedItems readFeedItems);
 
     void delete(UUID feedId);
 

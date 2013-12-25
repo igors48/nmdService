@@ -7,6 +7,7 @@ import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.persistence.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
+import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.gae.ReadFeedIdSetConverter;
 import org.junit.Test;
 
@@ -90,13 +91,16 @@ public class ConvertersTest {
 
     @Test
     public void readFeedItemsEntityRoundtrip() {
-        final Entity entity = ReadFeedIdSetConverter.convert(SAMPLE_KEY, UUID.randomUUID(), READ_FEED_ITEMS);
+        final Date date = new Date();
+        final ReadFeedItems origin = new ReadFeedItems(date, READ_FEED_ITEMS);
+        final Entity entity = ReadFeedIdSetConverter.convert(SAMPLE_KEY, UUID.randomUUID(), origin);
 
-        final Set<String> restored = ReadFeedIdSetConverter.convert(entity);
+        final ReadFeedItems restored = ReadFeedIdSetConverter.convert(entity);
 
-        assertEquals(READ_FEED_ITEMS.size(), restored.size());
-        assertTrue(restored.contains(FIRST_READ_ITEM_ID));
-        assertTrue(restored.contains(SECOND_READ_ITEM_ID));
+        assertEquals(READ_FEED_ITEMS.size(), restored.itemIds.size());
+        assertEquals(date, restored.lastUpdate);
+        assertTrue(restored.itemIds.contains(FIRST_READ_ITEM_ID));
+        assertTrue(restored.itemIds.contains(SECOND_READ_ITEM_ID));
     }
 
     @Test
