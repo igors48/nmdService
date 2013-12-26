@@ -18,7 +18,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 26.11.13
  */
-public class ReadFeedIdSetConverter {
+public class ReadFeedItemsConverter {
 
     public static final String KIND = "ReadFeedItem";
 

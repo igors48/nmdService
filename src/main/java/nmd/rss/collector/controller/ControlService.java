@@ -252,25 +252,14 @@ public class ControlService {
         }
     }
 
-    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
-        int count = 0;
-
-        for (final FeedItem item : items) {
-
-            if (item.date.compareTo(lastUpdate) > 0) {
-                ++count;
-            }
-        }
-
-        return count;
-    }
-
     public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ServiceException {
         assertNotNull(feedId);
 
         Transaction transaction = null;
 
         try {
+            transaction = this.transactions.beginOne();
+
             final FeedHeader header = loadFeedHeader(feedId);
 
             final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
@@ -420,6 +409,19 @@ public class ControlService {
         }
 
         return null;
+    }
+
+    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (item.date.compareTo(lastUpdate) > 0) {
+                ++count;
+            }
+        }
+
+        return count;
     }
 
 }

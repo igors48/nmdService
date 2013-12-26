@@ -10,8 +10,8 @@ import java.util.UUID;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.reader.ReadFeedItems.EMPTY;
-import static nmd.rss.reader.gae.ReadFeedIdSetConverter.KIND;
-import static nmd.rss.reader.gae.ReadFeedIdSetConverter.convert;
+import static nmd.rss.reader.gae.ReadFeedItemsConverter.KIND;
+import static nmd.rss.reader.gae.ReadFeedItemsConverter.convert;
 
 /**
  * User: igu

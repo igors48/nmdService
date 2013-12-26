@@ -8,7 +8,7 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.persistence.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.reader.ReadFeedItems;
-import nmd.rss.reader.gae.ReadFeedIdSetConverter;
+import nmd.rss.reader.gae.ReadFeedItemsConverter;
 import org.junit.Test;
 
 import java.util.*;
@@ -93,9 +93,9 @@ public class ConvertersTest {
     public void readFeedItemsEntityRoundtrip() {
         final Date date = new Date();
         final ReadFeedItems origin = new ReadFeedItems(date, READ_FEED_ITEMS);
-        final Entity entity = ReadFeedIdSetConverter.convert(SAMPLE_KEY, UUID.randomUUID(), origin);
+        final Entity entity = ReadFeedItemsConverter.convert(SAMPLE_KEY, UUID.randomUUID(), origin);
 
-        final ReadFeedItems restored = ReadFeedIdSetConverter.convert(entity);
+        final ReadFeedItems restored = ReadFeedItemsConverter.convert(entity);
 
         assertEquals(READ_FEED_ITEMS.size(), restored.itemIds.size());
         assertEquals(date, restored.lastUpdate);
