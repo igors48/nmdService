@@ -1,65 +1,43 @@
 'use strict';
 
+function showStatusMessage($scope, message) {
+    $scope.statusMessage = message;
+};
+
+function serverErrorHandler($scope, blockUi, onContinue) {
+    showStatusMessage($scope,'Server error');
+
+    blockUi.unblock();
+
+    onContinue();
+};
+
+function serverResponseHandler($scope, blockUi, response, onSuccess) {
+    blockUi.unblock();
+
+    response.status === 'SUCCESS' ? onSuccess(response) : showStatusMessage($scope, 'Error : ' + response.message + ' ' + response.hints);
+};
+
 angular.module('application.controllers', [])
 
   .controller('feedListCtrl', ['$scope', '$window', '$location', 'feeds', 'reads', 'blockUi', function($scope, $window, $location, feeds, reads, blockUi) {
 
-    //TODO code duplication
-        function showSuccessMessage (message) {
-            //TODO remove status type
-            $scope.statusType = 'success';
-            $scope.statusMessage = message;
-        }
-
-    //TODO code duplication
-        function showErrorMessage (message) {
-            //TODO remove status type
-            $scope.statusType = 'error';
-            $scope.statusMessage = message;
-        }
-
-    //TODO code duplication
-        var serverErrorHandler = function (onContinue) {
-            showErrorMessage('Server error');
-
-            blockUi.unblock();
-
-            onContinue();
-        }
-
-    //TODO code duplication
-        var serverResponseHandler = function (response, onSuccess) {
-
-            if (response.status === 'SUCCESS') {
-                blockUi.unblock();
-
-                onSuccess(response);
-            } else {
-                blockUi.unblock();
-
-                showErrorMessage('Error : ' + response.message + ' ' + response.hints);
-            }
-        }
-
-        $scope.dummy = function () {
-        };
-            
         $scope.loadReadsReport = function () {
             blockUi.block();
 
-            showSuccessMessage('loading...');
+            showStatusMessage($scope, 'loading...');
 
             var readReport = reads.query(
                 function () {
-                    serverResponseHandler(readReport,
+                    serverResponseHandler($scope, blockUi, readReport,
                         function() {
                             $scope.reports = readReport.reports;
 
-                            showSuccessMessage(readReport.reports.length + ' feed(s)');
+                            showStatusMessage($scope, readReport.reports.length + ' feed(s)');
                         })
                 },
                 function () {
-                    serverErrorHandler(
+                    serverErrorHandler($scope, blockUi, 
                         function () {
                             $scope.reports = [];
                         }
@@ -71,18 +49,18 @@ angular.module('application.controllers', [])
         $scope.addFeed = function () {
             blockUi.block();
 
-            showSuccessMessage('adding...');
+            showStatusMessage($scope, 'adding...');
 
             var response = feeds.save($scope.feedLink,
                 function () {
-                    serverResponseHandler(response,
+                    serverResponseHandler($scope, blockUi, response,
                         function () {
                             $scope.feedLink = '';
                             $scope.loadReadsReport();
                         })
                 },
                 function () {
-                    serverErrorHandler(
+                    serverErrorHandler($scope, blockUi, 
                         function () {
                             $scope.loadReadsReport();
                         }
@@ -94,20 +72,20 @@ angular.module('application.controllers', [])
         $scope.readTopItem = function (feedId, topItemId, topItemLink) {
             $scope.touchedFeedId = feedId;   
 
-            if (topItemId.length == 0 || topItemLink == 0) {
+            if (topItemId.length === 0 || topItemLink === 0) {
                 return;
             }
 
             blockUi.block();
 
-            showSuccessMessage('getting top item...');
+            showStatusMessage($scope, 'getting top item...');
 
             var response = reads.mark({
                     feedId: feedId,
                     itemId: topItemId    
                 },
                 function () {
-                    serverResponseHandler(response,
+                    serverResponseHandler($scope, blockUi, response,
                         function() {
                             $scope.feedLink = '';
                             $scope.loadReadsReport();
@@ -118,7 +96,7 @@ angular.module('application.controllers', [])
                         })
                 },
                 function () {
-                    serverErrorHandler(
+                    serverErrorHandler($scope, blockUi, 
                         function () {
                             $scope.loadReadsReport();
                             $scope.touchedFeedId = '';   
@@ -138,9 +116,7 @@ angular.module('application.controllers', [])
             $location.path('/feed/' + feedId);
         };
 
-        //TODO is it in right place?
         $scope.loadReadsReport();
-
 }])
 
 .controller('itemListCtrl', ['$scope', '$window', '$routeParams', 'reads', 'blockUi', function($scope, $window, $routeParams, reads, blockUi) {
