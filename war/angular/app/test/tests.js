@@ -1,3 +1,4 @@
+http://sravi-kiran.blogspot.com/2013/06/UnitTestingAngularJsControllerUsingQUnitAndSinon.html
 //TODO it needs to disable or mock the blockUI service
 
 var injector = angular.injector(['ngMock', 'ng', 'application']);
