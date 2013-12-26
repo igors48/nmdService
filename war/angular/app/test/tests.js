@@ -2,7 +2,8 @@
 
 //Mocks
 var windowMock, httpBackend, _shoppingData;
-var feedsMock, locationMock, readsMock, blockUiMock;
+var feedsMock, locationMock, readsMock; 
+var blockUiStub, blockUiBlock, blockUiUnblock;
 //Injector
 var injector;
 
@@ -40,13 +41,13 @@ module('tests', {
 
         readsMock = injector.get('reads');
 
-        blockUiMock = injector.get('blockUi');
-        sinon.stub(blockUiMock, "block");
-        sinon.stub(blockUiMock, "unblock");
+        blockUiStub = injector.get('blockUi');
+        blockUiBlock = sinon.stub(blockUiStub, "block");
+        blockUiUnblock = sinon.stub(blockUiStub, "unblock");
 
         ctrlScope = injector.get('$rootScope').$new();
 
-        ctrl = injector.get('$controller')('feedListCtrl', { $scope: ctrlScope, $window: windowMock, $location: locationMock, feeds: feedsMock, reads: readsMock, blockUi: blockUiMock});
+        ctrl = injector.get('$controller')('feedListCtrl', { $scope: ctrlScope, $window: windowMock, $location: locationMock, feeds: feedsMock, reads: readsMock, blockUi: blockUiStub});
     },
 
     teardown: function () {
@@ -69,6 +70,9 @@ test("hello test", function () {
 
 	//httpBackend.flush();
 
+	var first = blockUiBlock.calledBefore(blockUiUnblock);
+	var second = blockUiUnblock.calledBefore(blockUiBlock);
+	
 	ok( 1 == "1", "Passed!" );
 });
 
