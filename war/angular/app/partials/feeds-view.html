@@ -20,7 +20,7 @@
         <div class="feed-title flex-box-one align-pack-center" ng-class="(touchedFeedId==report.feedId) ? 'touched' : ''" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
             <div>
                 <p class="small-font bold">{{report.feedTitle}}</p>
-                <p class="small-font">[ {{report.read}} / {{report.notRead}} ]</p>
+                <p class="small-font">[ {{report.read}} / {{report.notRead}} / {{report.addedFromLastVisit}} ]</p>
             </div>    
         </div>
 

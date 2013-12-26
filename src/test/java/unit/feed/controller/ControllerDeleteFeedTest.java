@@ -39,7 +39,7 @@ public class ControllerDeleteFeedTest extends AbstractControllerTest {
     public void whenFeedRemovedThenItReadItemsRemoved() throws ServiceException {
         final UUID feedId = createAndDeleteFeed();
 
-        assertTrue(this.readFeedItemsRepositoryStub.load(feedId).isEmpty());
+        assertTrue(this.readFeedItemsRepositoryStub.load(feedId).itemIds.isEmpty());
     }
 
     private UUID createAndDeleteFeed() throws ServiceException {

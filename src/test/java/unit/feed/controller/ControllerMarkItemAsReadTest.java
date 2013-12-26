@@ -3,12 +3,10 @@ package unit.feed.controller;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.reader.ReadFeedItems;
 import org.junit.Test;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -36,9 +34,24 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
 
         this.controlService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
 
-        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id);
+        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).itemIds;
 
         assertTrue(readItems.contains(FIRST_FEED_ITEM_GUID));
+    }
+
+    @Test
+    public void whenItemsMarkAsReadThenLastUpdateDataUpdates() throws ServiceException {
+        final FeedHeader feedHeader = createFeedWithTwoItems();
+
+        this.controlService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        final Date firstDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
+
+        pauseOneMillisecond();
+
+        this.controlService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
+        final Date secondDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
+
+        assertEquals(1, secondDate.compareTo(firstDate));
     }
 
     @Test
@@ -47,7 +60,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
 
         this.controlService.markItemAsRead(feedHeader.id, NOT_EXISTS_ID);
 
-        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id);
+        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).itemIds;
 
         assertTrue(readItems.isEmpty());
     }
@@ -56,13 +69,13 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
     public void whenNotActualReadItemFoundWhileMarkingThenTheyRemoved() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithOneItem();
 
-        this.readFeedItemsRepositoryStub.store(feedHeader.id, new HashSet<String>() {{
+        this.readFeedItemsRepositoryStub.store(feedHeader.id, new ReadFeedItems(new Date(), new HashSet<String>() {{
             add(NOT_EXISTS_ID);
-        }});
+        }}));
 
         this.controlService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
 
-        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id);
+        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).itemIds;
 
         assertFalse(readItems.contains(NOT_EXISTS_ID));
     }

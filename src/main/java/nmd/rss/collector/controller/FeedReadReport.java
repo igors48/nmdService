@@ -14,10 +14,11 @@ public class FeedReadReport {
     public final String feedTitle;
     public final int read;
     public final int notRead;
+    public final int addedFromLastVisit;
     public final String topItemId;
     public final String topItemLink;
 
-    public FeedReadReport(final UUID feedId, final String feedTitle, final int read, final int notRead, final String topItemId, final String topItemLink) {
+    public FeedReadReport(final UUID feedId, final String feedTitle, final int read, final int notRead, final int addedFromLastVisit, final String topItemId, final String topItemLink) {
         assertNotNull(feedId);
         this.feedId = feedId;
 
@@ -29,6 +30,9 @@ public class FeedReadReport {
 
         assertPositive(notRead);
         this.notRead = notRead;
+
+        assertPositive(addedFromLastVisit);
+        this.addedFromLastVisit = addedFromLastVisit;
 
         this.topItemId = topItemId;
 

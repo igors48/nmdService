@@ -13,6 +13,7 @@ import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.collector.updater.UrlFetcherException;
 import nmd.rss.reader.FeedItemsComparisonReport;
+import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.*;
@@ -229,15 +230,16 @@ public class ControlService {
                 final List<FeedItem> items = this.feedItemsRepository.loadItems(header.id);
 
                 final Set<String> storedGuids = getStoredGuids(items);
-                final Set<String> readGuids = this.readFeedItemsRepository.load(header.id);
+                final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(header.id);
 
-                final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
+                final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.itemIds, storedGuids);
 
-                final FeedItem topItem = findLastNotReadFeedItem(items, readGuids);
+                final FeedItem topItem = findLastNotReadFeedItem(items, readFeedItems.itemIds);
                 final String topItemId = topItem == null ? null : topItem.guid;
                 final String topItemLink = topItem == null ? null : topItem.link;
 
-                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), topItemId, topItemLink);
+                final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
+                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), addedFromLastVisit, topItemId, topItemLink);
 
                 report.add(feedReadReport);
             }
@@ -256,6 +258,8 @@ public class ControlService {
         Transaction transaction = null;
 
         try {
+            transaction = this.transactions.beginOne();
+
             final FeedHeader header = loadFeedHeader(feedId);
 
             final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
@@ -263,13 +267,13 @@ public class ControlService {
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
 
-            final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
             int read = 0;
             int notRead = 0;
 
             for (final FeedItem feedItem : feedItems) {
-                final boolean readItem = readGuids.contains(feedItem.guid);
+                final boolean readItem = readFeedItems.itemIds.contains(feedItem.guid);
 
                 feedItemReports.add(readItem ? asRead(feedId, feedItem) : asNotRead(feedId, feedItem));
 
@@ -298,12 +302,16 @@ public class ControlService {
             loadFeedHeader(feedId);
 
             final Set<String> storedGuids = getStoredGuids(feedId);
-            final Set<String> readGuids = this.readFeedItemsRepository.load(feedId);
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+
+            final Set<String> readGuids = new HashSet<>();
+            readGuids.addAll(readFeedItems.itemIds);
             readGuids.add(itemId);
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            this.readFeedItemsRepository.store(feedId, comparisonReport.readItems);
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), comparisonReport.readItems);
+            this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
 
             transaction.commit();
         } finally {
@@ -401,6 +409,19 @@ public class ControlService {
         }
 
         return null;
+    }
+
+    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (item.date.compareTo(lastUpdate) > 0) {
+                ++count;
+            }
+        }
+
+        return count;
     }
 
 }

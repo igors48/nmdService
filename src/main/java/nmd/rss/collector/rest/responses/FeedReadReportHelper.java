@@ -14,6 +14,7 @@ public class FeedReadReportHelper {
     private String feedTitle = "";
     private int read = 0;
     private int notRead = 0;
+    private int addedFromLastVisit = 0;
     private String topItemId = "";
     private String topItemLink = "";
 
@@ -30,6 +31,7 @@ public class FeedReadReportHelper {
         feedReadReportHelper.feedTitle = feedReadReport.feedTitle;
         feedReadReportHelper.read = feedReadReport.read;
         feedReadReportHelper.notRead = feedReadReport.notRead;
+        feedReadReportHelper.addedFromLastVisit = feedReadReport.addedFromLastVisit;
         feedReadReportHelper.topItemId = feedReadReport.topItemId == null ? "" : feedReadReport.topItemId;
         feedReadReportHelper.topItemLink = feedReadReport.topItemLink == null ? "" : feedReadReport.topItemLink;
 
