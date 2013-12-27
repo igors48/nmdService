@@ -3,7 +3,7 @@
 controllers.controller('feedsViewController', ['$scope', '$window', '$location', 'feeds', 'reads', 'blockUi', function ($scope, $window, $location, feeds, reads, blockUi) {
 
         var serverErrorHandler = function (onContinue) {
-            $scope.showStatusMessage($scope,'Server error');
+            $scope.showStatusMessage('Server error');
 
             blockUi.unblock();
 
@@ -20,10 +20,26 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
             $scope.statusMessage = message;
         };
 
+        $scope.showLoadingFeedsMessage = function () {
+            $scope.showStatusMessage('loading feeds...');
+        };
+
+        $scope.showAddingNewFeedMessage = function () {
+            $scope.showStatusMessage('adding new feed...');
+        };
+
+        $scope.showFeedsCount = function (count) {
+            $scope.showStatusMessage('found ' + count + ' feed(s)');
+        };
+
+        $scope.showLoadingTopFeedItem = function () {
+            $scope.showStatusMessage('loading top feed item...');
+        };
+
         $scope.loadReadsReport = function () {
             blockUi.block();
 
-            $scope.showStatusMessage('loading...');
+            $scope.showLoadingFeedsMessage();
 
             var readReport = reads.query(
                 function () {
@@ -31,7 +47,7 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                         function() {
                             $scope.reports = readReport.reports;
 
-                            $scope.showStatusMessage(readReport.reports.length + ' feed(s)');
+                            $scope.showFeedsCount(readReport.reports.length);
                         })
                 },
                 function () {
@@ -47,7 +63,7 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
         $scope.addFeed = function () {
             blockUi.block();
 
-            $scope.showStatusMessage('adding...');
+            $scope.showAddingNewFeedMessage();
 
             var response = feeds.save($scope.feedLink,
                 function () {
@@ -68,15 +84,16 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
         };
 
         $scope.readTopItem = function (feedId, topItemId, topItemLink) {
-            $scope.touchedFeedId = feedId;   
 
             if (topItemId.length === 0 || topItemLink === 0) {
                 return;
             }
 
+            $scope.touchedFeedId = feedId;   
+
             blockUi.block();
 
-            $scope.showStatusMessage('getting top item...');
+            $scope.showLoadingTopFeedItem();
 
             var response = reads.mark({
                     feedId: feedId,

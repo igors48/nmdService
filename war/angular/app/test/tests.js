@@ -17,32 +17,35 @@ var controller;
 
 var scope;
 
-module('feed list controller', {
-
-    setup: function () {
-        var stubs = angular.module('stubs', []);
-
-        stubs.config(function ($provide) {
+function createTestEnvinronment() {
+    angular.module('stubs', [])
+        .config(function ($provide) {
             $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
         });
 
-        injector = angular.injector(['ng', 'ngMock', 'application', 'stubs']);
+    injector = angular.injector(['ng', 'ngMock', 'application', 'stubs']);
         
-        backendStub = injector.get('$httpBackend');
+    backendStub = injector.get('$httpBackend');
 
-        windowStub = { location: { href: '' } };
+    windowStub = { location: { href: '' } };
 
-        locationStub = injector.get('$location');
+    locationStub = injector.get('$location');
 
-        feedsStub = injector.get('feeds');
+    feedsStub = injector.get('feeds');
  
-        readsStub = injector.get('reads');
+    readsStub = injector.get('reads');
 
-        blockUiStub = injector.get('blockUi');
-        sinon.stub(blockUiStub, 'block');
-        sinon.stub(blockUiStub, 'unblock');
+    blockUiStub = injector.get('blockUi');
+    sinon.stub(blockUiStub, 'block');
+    sinon.stub(blockUiStub, 'unblock');
 
-        scope = injector.get('$rootScope').$new();
+    scope = injector.get('$rootScope').$new();
+};
+
+module('feed list controller', {
+
+    setup: function () {
+        createTestEnvinronment();
 
         backendStub.expectGET(READS_SERVICE_URL).respond('');
 
