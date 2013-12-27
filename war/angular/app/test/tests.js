@@ -1,4 +1,5 @@
 //http://sravi-kiran.blogspot.com/2013/06/UnitTestingAngularJsControllerUsingQUnitAndSinon.html
+
 var READS_SERVICE_URL = '/@security.key@/v01/reads';
 var READS_REPORT = '{"reports":[{"feedId":"8dc35df0-0027-45a7-935f-20b54e6d9f98","feedTitle":"Bash.im","read":0,"notRead":100,"addedFromLastVisit":0,"topItemId":"9931c369-e267-4368-93ea-c89e55fbcced","topItemLink":"http://bash.im/quote/426086"}],"status":"SUCCESS"}';
 
@@ -51,16 +52,17 @@ module('feed list controller', {
 
         controller = injector.get('$controller')('feedsViewController', { $scope: scope, $window: windowStub, $location: locationStub, feeds: feedsStub, reads: readsStub, blockUi: blockUiStub });
 
-        sinon.spy(scope, 'showStatusMessage');
-
         backendStub.flush();
     },
 
     teardown: function () {
+        // empty
     }	
 });
 
 test('load feeds', function () {
+    //sinon.spy(scope, 'showStatusMessage');
+
     backendStub.expectGET(READS_SERVICE_URL).respond(READS_REPORT);
 
     scope.loadReadsReport();
@@ -70,7 +72,7 @@ test('load feeds', function () {
     ok(blockUiStub.block.calledBefore(blockUiStub.unblock), 'UI blocked');
     ok(scope.reports.length === 1, 'reports filled');
 
-    var callCount = scope.showStatusMessage.secondCall;
+    //var callCount = scope.showStatusMessage.secondCall;
 
     ok(blockUiStub.unblock.calledAfter(blockUiStub.block), 'UI unblocked');
 });
