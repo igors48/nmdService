@@ -1,15 +1,18 @@
-<!doctype html>
-<html lang="en" ng-app="application">
+<!DOCTYPE html>
+<html>
 
 <head>
-    <meta charset="utf-8">
-    <meta name='viewport' content='width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1'/>
-    <title>Orb</title>
-    <link href="css/app.css" rel="stylesheet"/>
+	<meta charset="utf-8">
+	<title>QUnit Example</title>
+
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/qunit-1.12.0.css">
+
     <script src="lib/angular/angular.js"></script>
     <script src="lib/angular/angular-route.js"></script>
     <script src="lib/angular/angular-resource.js"></script>
     <script src="lib/angular/angular-touch.js"></script>
+    <script src="lib/angular/angular-mocks.js"></script>
 
     <script src="js/application.js"></script>
     <script src="js/services.js"></script>
@@ -19,9 +22,13 @@
 </head>
 
 <body>
+	<div id="qunit"></div>
+	<div id="qunit-fixture"></div>
 
-<div ng-view></div>
+    <script src="lib/qunit/qunit-1.12.0.js"></script>
+    <script src="lib/sinon/sinon-1.7.3.js"></script>
 
+	<script src="test/tests.js"></script>
 </body>
 
 </html>
