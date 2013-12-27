@@ -2,23 +2,30 @@
 
 var application = angular.module('application', ['ngRoute', 'application.services', 'application.controllers']);
 
+var controllers = angular.module('application.controllers', []);
+
 application.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
+
       when('/feeds', {
         templateUrl: 'partials/feeds-view.html',
-        controller: 'feedListCtrl'
+        controller: 'feedsViewController'
       }).
+
       when('/items/:feedId', {
         templateUrl: 'partials/items-view.html',
-        controller: 'itemListCtrl'
+        controller: 'itemViewController'
       }).
+
       when('/feed/:feedId', {
         templateUrl: 'partials/feed-view.html',
-        controller: 'feedCtrl'
+        controller: 'feedViewController'
       }).
+
       otherwise({
         redirectTo: '/feeds'
       });
+      
   }]);
 

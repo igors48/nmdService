@@ -1,78 +1,87 @@
 //http://sravi-kiran.blogspot.com/2013/06/UnitTestingAngularJsControllerUsingQUnitAndSinon.html
+var READS_SERVICE_URL = '/@security.key@/v01/reads';
+var READS_REPORT = '{"reports":[{"feedId":"8dc35df0-0027-45a7-935f-20b54e6d9f98","feedTitle":"Bash.im","read":0,"notRead":100,"addedFromLastVisit":0,"topItemId":"9931c369-e267-4368-93ea-c89e55fbcced","topItemLink":"http://bash.im/quote/426086"}],"status":"SUCCESS"}';
 
-//Mocks
-var windowMock, httpBackend, _shoppingData;
-var feedsMock, locationMock, readsMock; 
-var blockUiStub, blockUiBlock, blockUiUnblock;
-//Injector
+var backendStub;
+
+var windowStub;
+var locationStub;
+
+var feedsStub;
+var readsStub; 
+var blockUiStub;
+
 var injector;
 
-//Controller
-var ctrl;
+var controller;
 
-//Scope
-var ctrlScope;
+var scope;
 
-//Data
-var storedItems;
+module('feed list controller', {
 
-module('tests', {
     setup: function () {
-        
-        var appMocks = angular.module("appMocks", []);
+        var stubs = angular.module('stubs', []);
 
-        appMocks.config(function ($provide) {
+        stubs.config(function ($provide) {
             $provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
         });
 
-        injector = angular.injector(['ng', 'application', 'appMocks']);
+        injector = angular.injector(['ng', 'ngMock', 'application', 'stubs']);
         
-        httpBackend = injector.get('$httpBackend');
-        httpBackend.expectGET('/@security.key@/v01/reads').respond('{"reports":[{"feedId":"8dc35df0-0027-45a7-935f-20b54e6d9f98","feedTitle":"Bash.im","read":0,"notRead":100,"addedFromLastVisit":0,"topItemId":"9931c369-e267-4368-93ea-c89e55fbcced","topItemLink":"http://bash.im/quote/426086"}],"status":"SUCCESS"}');
+        backendStub = injector.get('$httpBackend');
 
-        windowMock = { location: { href: ""} };
+        windowStub = { location: { href: '' } };
 
-        feedsMock = injector.get('feeds');
-        sinon.spy(feedsMock, 'query');
+        locationStub = injector.get('$location');
 
-
-        locationMock = {};//injector.get('$location');
-        //sinon.spy(locationMock, 'path');
-
-        readsMock = injector.get('reads');
+        feedsStub = injector.get('feeds');
+ 
+        readsStub = injector.get('reads');
 
         blockUiStub = injector.get('blockUi');
-        blockUiBlock = sinon.stub(blockUiStub, "block");
-        blockUiUnblock = sinon.stub(blockUiStub, "unblock");
+        sinon.stub(blockUiStub, 'block');
+        sinon.stub(blockUiStub, 'unblock');
 
-        ctrlScope = injector.get('$rootScope').$new();
+        scope = injector.get('$rootScope').$new();
 
-        ctrl = injector.get('$controller')('feedListCtrl', { $scope: ctrlScope, $window: windowMock, $location: locationMock, feeds: feedsMock, reads: readsMock, blockUi: blockUiStub});
+        backendStub.expectGET(READS_SERVICE_URL).respond('');
+
+        controller = injector.get('$controller')('feedsViewController', { $scope: scope, $window: windowStub, $location: locationStub, feeds: feedsStub, reads: readsStub, blockUi: blockUiStub });
+
+        sinon.spy(scope, 'showStatusMessage');
+
+        backendStub.flush();
     },
 
     teardown: function () {
-    	/*
-        feedsMock.setCartItems.restore();
-
-        _shoppingData.getAllItems.restore();
-        _shoppingData.addAnItem.restore();
-        _shoppingData.removeItem.restore();
-        */
     }	
 });
 
-test("hello test", function () {
-	httpBackend.flush();
+test('load feeds', function () {
+    backendStub.expectGET(READS_SERVICE_URL).respond(READS_REPORT);
 
-	ctrlScope.loadReadsReport();
+    scope.loadReadsReport();
 
-    httpBackend.expectGET('/@security.key@/v01/reads').respond('{"reports":[{"feedId":"8dc35df0-0027-45a7-935f-20b54e6d9f98","feedTitle":"Bash.im","read":0,"notRead":100,"addedFromLastVisit":0,"topItemId":"9931c369-e267-4368-93ea-c89e55fbcced","topItemLink":"http://bash.im/quote/426086"}],"status":"SUCCESS"}');
+    backendStub.flush();
 
-	//httpBackend.flush();
+    ok(blockUiStub.block.calledBefore(blockUiStub.unblock), 'UI blocked');
+    ok(scope.reports.length === 1, 'reports filled');
 
-	var first = blockUiBlock.calledBefore(blockUiUnblock);
-	var second = blockUiUnblock.calledBefore(blockUiBlock);
-	
-	ok( 1 == "1", "Passed!" );
+    var callCount = scope.showStatusMessage.secondCall;
+
+    ok(blockUiStub.unblock.calledAfter(blockUiStub.block), 'UI unblocked');
 });
 
+test('view items', function () {
+    scope.viewItems('item_id');
+    
+    ok(locationStub.path() === '/items/item_id', 'location changed');
+    ok(scope.touchedFeedId === 'item_id', 'touched feed marked');
+});    
+
+test('view feed', function () {
+    scope.viewFeed('item_id');
+    
+    ok(locationStub.path() === '/feed/item_id', 'location changed');
+    ok(scope.touchedFeedId === 'item_id', 'touched feed marked');
+});    
