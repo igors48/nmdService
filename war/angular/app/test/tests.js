@@ -1,7 +1,12 @@
 //http://sravi-kiran.blogspot.com/2013/06/UnitTestingAngularJsControllerUsingQUnitAndSinon.html
 
 var READS_SERVICE_URL = '/@security.key@/v01/reads';
-var READS_REPORT = '{"reports":[{"feedId":"8dc35df0-0027-45a7-935f-20b54e6d9f98","feedTitle":"Bash.im","read":0,"notRead":100,"addedFromLastVisit":0,"topItemId":"9931c369-e267-4368-93ea-c89e55fbcced","topItemLink":"http://bash.im/quote/426086"}],"status":"SUCCESS"}';
+var FEEDS_SERVICE_URL = '/@security.key@/v01/feeds';
+
+var READS_REPORT_SUCCESS = '{"reports":[{"feedId":"8dc35df0-0027-45a7-935f-20b54e6d9f98","feedTitle":"Bash.im","read":0,"notRead":100,"addedFromLastVisit":0,"topItemId":"9931c369-e267-4368-93ea-c89e55fbcced","topItemLink":"http://bash.im/quote/426086"}],"status":"SUCCESS"}';
+var ADD_FEED_SUCCESS = '{"feedId":"45186d6d-d7d4-4c7a-ba2c-2c8b5e8ff751","status":"SUCCESS"}'
+
+var SOME_ERROR = '{"code":".","message":".","hints":".","status":"ERROR"}';
 
 var backendStub;
 
@@ -63,34 +68,78 @@ module('feed list controller', {
 test('load feeds', function () {
     sinon.spy(scope, 'showLoadingFeedsMessage');
     sinon.spy(scope, 'showFeedsCount');
+    sinon.spy(scope, 'loadReadsReport');
 
-    backendStub.expectGET(READS_SERVICE_URL).respond(READS_REPORT);
+    backendStub.expectGET(READS_SERVICE_URL).respond(READS_REPORT_SUCCESS);
 
     scope.loadReadsReport();
 
     backendStub.flush();
 
-    ok(blockUiStub.block.calledBefore(scope.showLoadingFeedsMessage), 'UI blocked before loading message');
+    backendStub.verifyNoOutstandingExpectation();
+
+    ok(blockUiStub.block.calledBefore(scope.loadReadsReport), 'UI blocked');
     ok(scope.showLoadingFeedsMessage.calledOnce, 'loading message displayed');
     ok(scope.reports.length === 1, 'reports model updated correctly');
     ok(scope.showFeedsCount.calledOnce, 'feeds counter updated');
     ok(scope.showFeedsCount.calledWith(1), 'feeds counter updated correctly');
-    ok(blockUiStub.unblock.calledBefore(scope.showFeedsCount), 'UI unblocked');
+    ok(blockUiStub.unblock.calledAfter(scope.loadReadsReport), 'UI unblocked');
+});
 
-    scope.showFeedsCount.restore();
-    scope.showLoadingFeedsMessage.restore();
+test('load feeds error', function () {
+    sinon.spy(scope, 'showLoadingFeedsMessage');
+    sinon.spy(scope, 'showFeedsCount');
+    sinon.spy(scope, 'loadReadsReport');
+
+    backendStub.expectGET(READS_SERVICE_URL).respond(SOME_ERROR);
+
+    scope.loadReadsReport();
+
+    backendStub.flush();
+
+    backendStub.verifyNoOutstandingExpectation();
+
+    ok(blockUiStub.block.calledBefore(scope.loadReadsReport), 'UI blocked');
+    ok(scope.showLoadingFeedsMessage.calledOnce, 'loading message displayed');
+    ok(!scope.reports, 'reports model cleared');
+    ok(blockUiStub.unblock.calledAfter(scope.loadReadsReport), 'UI unblocked');
+});
+
+test('add feed', function () {
+    sinon.spy(scope, 'showAddingNewFeedMessage');
+    sinon.spy(scope, 'addFeed');
+ 
+    sinon.stub(scope, 'loadReadsReport');
+
+    backendStub.expectPOST(FEEDS_SERVICE_URL, 'feedLink').respond(ADD_FEED_SUCCESS);
+    
+    scope.feedLink = 'feedLink';
+    scope.addFeed();
+
+    backendStub.flush();
+
+    backendStub.verifyNoOutstandingExpectation();
+
+    ok(blockUiStub.block.calledBefore(scope.addFeed), 'UI blocked');
+    ok(scope.showAddingNewFeedMessage.calledOnce, 'adding message displayed')    
+    ok(scope.loadReadsReport.calledAfter(scope.addFeed), 'feed report updated');
+    ok(blockUiStub.unblock.calledAfter(scope.addFeed), 'UI unblocked');
 });
 
 test('view items', function () {
-    scope.viewItems('item_id');
+    var itemId = 'item_id';
+
+    scope.viewItems(itemId);
     
-    ok(locationStub.path() === '/items/item_id', 'location changed');
-    ok(scope.touchedFeedId === 'item_id', 'touched feed marked');
+    ok(locationStub.path() === ('/items/' + itemId), 'location changed');
+    ok(scope.touchedFeedId === itemId, 'touched feed marked');
 });    
 
 test('view feed', function () {
-    scope.viewFeed('item_id');
+    var itemId = 'item_id';
+
+    scope.viewFeed(itemId);
     
-    ok(locationStub.path() === '/feed/item_id', 'location changed');
-    ok(scope.touchedFeedId === 'item_id', 'touched feed marked');
+    ok(locationStub.path() === ('/feed/' + itemId), 'location changed');
+    ok(scope.touchedFeedId === itemId, 'touched feed marked');
 });    
