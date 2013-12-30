@@ -61,7 +61,8 @@ module('feed list controller', {
 });
 
 test('load feeds', function () {
-    //sinon.spy(scope, 'showStatusMessage');
+    sinon.spy(scope, 'showLoadingFeedsMessage');
+    sinon.spy(scope, 'showFeedsCount');
 
     backendStub.expectGET(READS_SERVICE_URL).respond(READS_REPORT);
 
@@ -69,12 +70,15 @@ test('load feeds', function () {
 
     backendStub.flush();
 
-    ok(blockUiStub.block.calledBefore(blockUiStub.unblock), 'UI blocked');
-    ok(scope.reports.length === 1, 'reports filled');
+    ok(blockUiStub.block.calledBefore(scope.showLoadingFeedsMessage), 'UI blocked before loading message');
+    ok(scope.showLoadingFeedsMessage.calledOnce, 'loading message displayed');
+    ok(scope.reports.length === 1, 'reports model updated correctly');
+    ok(scope.showFeedsCount.calledOnce, 'feeds counter updated');
+    ok(scope.showFeedsCount.calledWith(1), 'feeds counter updated correctly');
+    ok(blockUiStub.unblock.calledBefore(scope.showFeedsCount), 'UI unblocked');
 
-    //var callCount = scope.showStatusMessage.secondCall;
-
-    ok(blockUiStub.unblock.calledAfter(blockUiStub.block), 'UI unblocked');
+    scope.showFeedsCount.restore();
+    scope.showLoadingFeedsMessage.restore();
 });
 
 test('view items', function () {

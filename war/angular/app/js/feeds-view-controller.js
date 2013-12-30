@@ -2,8 +2,12 @@
 
 controllers.controller('feedsViewController', ['$scope', '$window', '$location', 'feeds', 'reads', 'blockUi', function ($scope, $window, $location, feeds, reads, blockUi) {
 
+        var showStatusMessage = function (message) {
+            $scope.statusMessage = message;
+        };
+
         var serverErrorHandler = function (onContinue) {
-            $scope.showStatusMessage('Server error');
+            showStatusMessage('Server error');
 
             blockUi.unblock();
 
@@ -13,27 +17,31 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
         var serverResponseHandler = function (response, onSuccess) {
             blockUi.unblock();
 
-            response.status === 'SUCCESS' ? onSuccess() : $scope.showStatusMessage('Error : ' + response.message + ' ' + response.hints);
-        };
-
-        $scope.showStatusMessage = function (message) {
-            $scope.statusMessage = message;
+            response.status === 'SUCCESS' ? onSuccess() : showStatusMessage('Error : ' + response.message + ' ' + response.hints);
         };
 
         $scope.showLoadingFeedsMessage = function () {
-            $scope.showStatusMessage('loading feeds...');
+            showStatusMessage('loading feeds...');
         };
 
         $scope.showAddingNewFeedMessage = function () {
-            $scope.showStatusMessage('adding new feed...');
+            showStatusMessage('adding new feed...');
         };
 
         $scope.showFeedsCount = function (count) {
-            $scope.showStatusMessage('found ' + count + ' feed(s)');
+            showStatusMessage('found ' + count + ' feed(s)');
         };
 
         $scope.showLoadingTopFeedItem = function () {
-            $scope.showStatusMessage('loading top feed item...');
+            showStatusMessage('loading top feed item...');
+        };
+
+        $scope.showTouchedFeedMark = function (feedId) {
+            $scope.touchedFeedId = feedId;
+        };
+
+        $scope.hideTouchedFeedMark = function () {
+            $scope.touchedFeedId = '';
         };
 
         $scope.loadReadsReport = function () {
@@ -89,7 +97,7 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                 return;
             }
 
-            $scope.touchedFeedId = feedId;   
+            $scope.showTouchedFeedMark(feedId);   
 
             blockUi.block();
 
@@ -102,9 +110,8 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                 function () {
                     serverResponseHandler(response,
                         function() {
-                            $scope.feedLink = '';
+                            $scope.hideTouchedFeedMark();   
                             $scope.loadReadsReport();
-                            $scope.touchedFeedId = '';   
 
                             $window.open(topItemLink, '_blank');
                             $window.focus();
@@ -113,8 +120,8 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                 function () {
                     serverErrorHandler( 
                         function () {
+                            $scope.hideTouchedFeedMark();   
                             $scope.loadReadsReport();
-                            $scope.touchedFeedId = '';   
                         }
                     )
                 }
@@ -122,12 +129,12 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
         };
 
         $scope.viewItems = function (feedId) {
-            $scope.touchedFeedId = feedId;   
+            $scope.showTouchedFeedMark(feedId);   
             $location.path('/items/' + feedId);
         };
 
         $scope.viewFeed = function (feedId) {
-            $scope.touchedFeedId = feedId;   
+            $scope.showTouchedFeedMark(feedId);   
             $location.path('/feed/' + feedId);
         };
 
