@@ -62,6 +62,11 @@ body, html {
     font-family: "Trebuchet MS", Helvetica, sans-serif;
 }
 
+a {
+    color: black;
+    text-decoration: none;
+}
+
 .header_container {
 	left: 0; 
 	position: fixed; 
