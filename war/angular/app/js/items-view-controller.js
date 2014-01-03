@@ -77,9 +77,6 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
                         $scope.feedLink = '';
                         $scope.loadItemsReport(feedId);
                         $scope.touchedItemId = '';
-
-                        $window.open(itemLink, '_blank');
-                        $window.focus();
                     }
                 )
             },

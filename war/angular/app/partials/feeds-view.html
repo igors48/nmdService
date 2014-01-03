@@ -11,22 +11,20 @@
 </div>
 
 <div class="container">
-    <div class="tile shadow" ng-repeat="report in reports">
+    <div class="tile shadow" ng-repeat="report in reports" ng-class="(touchedFeedId==report.feedId) ? 'touched' : ''" >
 
-        <div class="feed-action align-pack-center" ng-click="viewFeed(report.feedId)">
+        <a style="display: block" href="#/feed/{{report.feedId}}" class="feed-action align-pack-center">
             <img src="img/menu-icon.svg" width="32px" height="32px"/>
-        </div>
+        </a>
 
-        <div class="feed-title flex-box-one align-pack-center" ng-class="(touchedFeedId==report.feedId) ? 'touched' : ''" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
-            <div>
-                <p class="small-font bold">{{report.feedTitle}}</p>
-                <p class="small-font">[ {{report.read}} / {{report.notRead}} / {{report.addedFromLastVisit}} ]</p>
-            </div>    
-        </div>
+        <a style="display: block" href="{{report.topItemLink}}" style="display: block" target="_blank" class="feed-title flex-box-one align-pack-center"ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
+            <p class="small-font bold">{{report.feedTitle}}</p>
+            <p class="small-font">[ {{report.read}} / {{report.notRead}} / {{report.addedFromLastVisit}} ]</p>
+        </a>
 
-        <div class="feed-action align-pack-center" ng-click="viewItems(report.feedId)">
+        <a style="display: block" href="#/items/{{report.feedId}}" class="feed-action align-pack-center">
             <img src="img/list-icon.svg" width="32px" height="32px"/>
-        </div>
+        </a>
 
     </div>
 </div>

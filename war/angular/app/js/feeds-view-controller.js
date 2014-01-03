@@ -56,11 +56,6 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
             $scope.reports = report.reports;
         };
 
-        $scope.openLink = function (link) {
-            $window.open(link, '_blank');
-            $window.focus();
-        };
-
         $scope.loadReadsReport = function () {
             blockUi.block();
 
@@ -129,8 +124,6 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                         function() {
                             $scope.hideTouchedFeedMark();   
                             $scope.loadReadsReport();
-
-                            $scope.openLink(topItemLink);
                         })
                 },
                 function () {

@@ -58,6 +58,11 @@ module('feed list controller', {
         controller = injector.get('$controller')('feedsViewController', { $scope: scope, $window: windowStub, $location: locationStub, feeds: feedsStub, reads: readsStub, blockUi: blockUiStub });
 
         backendStub.flush();
+
+        blockUiStub.block.restore();
+        blockUiStub.unblock.restore();
+        sinon.stub(blockUiStub, 'block');
+        sinon.stub(blockUiStub, 'unblock');
     },
 
     teardown: function () {
@@ -79,12 +84,7 @@ test('load feeds', function () {
 
     backendStub.verifyNoOutstandingExpectation();
 
-    ok(blockUiStub.block.calledBefore(scope.loadReadsReport), 'UI blocked');
-    ok(scope.showLoadingFeedsMessage.calledOnce, 'loading message displayed');
-    ok(scope.setFeedsReadReport.calledOnce, 'reports model updated correctly');
-    ok(scope.showFeedsCount.calledOnce, 'feeds counter updated');
-    ok(scope.showFeedsCount.calledWith(1), 'feeds counter updated correctly');
-    ok(blockUiStub.unblock.calledAfter(scope.loadReadsReport), 'UI unblocked');
+    sinon.assert.callOrder(blockUiStub.block, scope.showLoadingFeedsMessage, blockUiStub.unblock, scope.setFeedsReadReport, scope.showFeedsCount);
 });
 
 test('load feeds error', function () {
