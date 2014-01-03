@@ -17,7 +17,11 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
         var serverResponseHandler = function (response, onSuccess) {
             blockUi.unblock();
 
-            response.status === 'SUCCESS' ? onSuccess() : showStatusMessage('Error : ' + response.message + ' ' + response.hints);
+            response.status === 'SUCCESS' ? onSuccess() : $scope.showErrorResponseMessage(response);
+        };
+
+        $scope.showErrorResponseMessage = function (response) {
+            showStatusMessage('Error : ' + response.message + ' ' + response.hints)
         };
 
         $scope.showLoadingFeedsMessage = function () {
@@ -44,6 +48,19 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
             $scope.touchedFeedId = '';
         };
 
+        $scope.clearFeedLink = function () {
+            $scope.feedLink = '';
+        };
+
+        $scope.setFeedsReadReport = function (report) {
+            $scope.reports = report.reports;
+        };
+
+        $scope.openLink = function (link) {
+            $window.open(link, '_blank');
+            $window.focus();
+        };
+
         $scope.loadReadsReport = function () {
             blockUi.block();
 
@@ -53,7 +70,7 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                 function () {
                     serverResponseHandler(readReport,
                         function() {
-                            $scope.reports = readReport.reports;
+                            $scope.setFeedsReadReport(readReport);
 
                             $scope.showFeedsCount(readReport.reports.length);
                         })
@@ -61,7 +78,7 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                 function () {
                     serverErrorHandler( 
                         function () {
-                            $scope.reports = [];
+                            $scope.setFeedsReadReport([]);
                         }
                     )
                 }
@@ -77,7 +94,7 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                 function () {
                     serverResponseHandler(response,
                         function () {
-                            $scope.feedLink = '';
+                            $scope.clearFeedLink();
                             $scope.loadReadsReport();
                         })
                 },
@@ -113,8 +130,7 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                             $scope.hideTouchedFeedMark();   
                             $scope.loadReadsReport();
 
-                            $window.open(topItemLink, '_blank');
-                            $window.focus();
+                            $scope.openLink(topItemLink);
                         })
                 },
                 function () {

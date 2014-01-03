@@ -14,7 +14,7 @@
     <div class="tile shadow" ng-repeat="report in reports">
 
         <div class="feed-action align-pack-center" ng-click="viewFeed(report.feedId)">
-            <img src="img/machine.png" width="32px" height="32px"/>
+            <img src="img/menu-icon.svg" width="32px" height="32px"/>
         </div>
 
         <div class="feed-title flex-box-one align-pack-center" ng-class="(touchedFeedId==report.feedId) ? 'touched' : ''" ng-click="readTopItem(report.feedId, report.topItemId, report.topItemLink)">
@@ -25,7 +25,7 @@
         </div>
 
         <div class="feed-action align-pack-center" ng-click="viewItems(report.feedId)">
-            <img src="img/list.png" width="32px" height="32px"/>
+            <img src="img/list-icon.svg" width="32px" height="32px"/>
         </div>
 
     </div>

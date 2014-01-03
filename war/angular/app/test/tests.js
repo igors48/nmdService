@@ -69,6 +69,7 @@ test('load feeds', function () {
     sinon.spy(scope, 'showLoadingFeedsMessage');
     sinon.spy(scope, 'showFeedsCount');
     sinon.spy(scope, 'loadReadsReport');
+    sinon.spy(scope, 'setFeedsReadReport');
 
     backendStub.expectGET(READS_SERVICE_URL).respond(READS_REPORT_SUCCESS);
 
@@ -80,7 +81,7 @@ test('load feeds', function () {
 
     ok(blockUiStub.block.calledBefore(scope.loadReadsReport), 'UI blocked');
     ok(scope.showLoadingFeedsMessage.calledOnce, 'loading message displayed');
-    ok(scope.reports.length === 1, 'reports model updated correctly');
+    ok(scope.setFeedsReadReport.calledOnce, 'reports model updated correctly');
     ok(scope.showFeedsCount.calledOnce, 'feeds counter updated');
     ok(scope.showFeedsCount.calledWith(1), 'feeds counter updated correctly');
     ok(blockUiStub.unblock.calledAfter(scope.loadReadsReport), 'UI unblocked');
@@ -123,6 +124,27 @@ test('add feed', function () {
     ok(blockUiStub.block.calledBefore(scope.addFeed), 'UI blocked');
     ok(scope.showAddingNewFeedMessage.calledOnce, 'adding message displayed')    
     ok(scope.loadReadsReport.calledAfter(scope.addFeed), 'feed report updated');
+    ok(blockUiStub.unblock.calledAfter(scope.addFeed), 'UI unblocked');
+});
+
+test('add feed error', function () {
+    sinon.spy(scope, 'showAddingNewFeedMessage');
+    sinon.spy(scope, 'addFeed');
+ 
+    sinon.stub(scope, 'loadReadsReport');
+
+    backendStub.expectPOST(FEEDS_SERVICE_URL, 'feedLink').respond(SOME_ERROR);
+    
+    scope.feedLink = 'feedLink';
+    scope.addFeed();
+
+    backendStub.flush();
+
+    backendStub.verifyNoOutstandingExpectation();
+
+    ok(blockUiStub.block.calledBefore(scope.addFeed), 'UI blocked');
+    ok(scope.showAddingNewFeedMessage.calledOnce, 'adding message displayed')    
+    //ok(scope.loadReadsReport.calledOnce, 'feed report updated');
     ok(blockUiStub.unblock.calledAfter(scope.addFeed), 'UI unblocked');
 });
 
