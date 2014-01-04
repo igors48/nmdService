@@ -16,12 +16,14 @@
         <a href="#/feed/{{report.feedId}}" class="block-link feed-action align-pack-center">
             <img src="img/menu-icon.svg" width="32px" height="32px"/>
         </a>
-
+        
         <a href="{{report.topItemLink}}" target="_blank" class="block-link feed-title flex-box-one align-pack-center" ng-click="markAsRead(report.feedId, report.topItemId)">
-            <p class="small-font bold">{{report.feedTitle}}</p>
-            <p class="small-font">[ {{report.read}} / {{report.notRead}} / {{report.addedFromLastVisit}} ]</p>
+            <div>
+                <p class="small-font bold">{{report.feedTitle}}</p>
+                <p class="small-font">  [ {{report.read}} / {{report.notRead}} / {{report.addedFromLastVisit}} ]</p>
+            </div>
         </a>
-
+        
         <a href="#/items/{{report.feedId}}" class="block-link feed-action align-pack-center">
            <img src="img/list-icon.svg" width="32px" height="32px"/>
         </a>
