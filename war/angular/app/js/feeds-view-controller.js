@@ -103,9 +103,9 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
             );
         };
 
-        $scope.readTopItem = function (feedId, topItemId, topItemLink) {
+        $scope.markAsRead = function (feedId, topItemId) {
 
-            if (topItemId.length === 0 || topItemLink === 0) {
+            if (topItemId.length === 0) {
                 return;
             }
 
@@ -135,16 +135,6 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                     )
                 }
             );
-        };
-
-        $scope.viewItems = function (feedId) {
-            $scope.showTouchedFeedMark(feedId);   
-            $location.path('/items/' + feedId);
-        };
-
-        $scope.viewFeed = function (feedId) {
-            $scope.showTouchedFeedMark(feedId);   
-            $location.path('/feed/' + feedId);
         };
 
         $scope.loadReadsReport();

@@ -62,7 +62,7 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
         );
     };
 
-    $scope.readItem = function (feedId, itemId, itemLink) {
+    $scope.markAsRead = function (feedId, itemId) {
         $scope.touchedItemId = itemId;
 
         blockUi.block();
