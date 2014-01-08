@@ -43,6 +43,10 @@ public abstract class AbstractRestServlet extends HttpServlet {
         return null;
     }
 
+    protected ResponseBody handlePut(final HttpServletRequest request) {
+        return null;
+    }
+
     protected ResponseBody handleDelete(final HttpServletRequest request) {
         return null;
     }
@@ -55,6 +59,9 @@ public abstract class AbstractRestServlet extends HttpServlet {
             }
             case "POST": {
                 return handlePost(request);
+            }
+            case "PUT": {
+                return handlePut(request);
             }
             case "DELETE": {
                 return handleDelete(request);

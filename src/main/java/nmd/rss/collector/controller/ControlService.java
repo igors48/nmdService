@@ -107,6 +107,21 @@ public class ControlService {
         }
     }
 
+    public void updateFeedTitle(final UUID feedId, final String title) {
+        assertNotNull(feedId);
+        assertStringIsValid(title);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
     public void removeFeed(final UUID feedId) {
         assertNotNull(feedId);
 

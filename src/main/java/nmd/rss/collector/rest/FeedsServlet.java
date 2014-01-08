@@ -30,6 +30,18 @@ public class FeedsServlet extends AbstractRestServlet {
         return (feedUrl == null || feedUrl.isEmpty()) ? createErrorJsonResponse(urlFetcherError(feedUrl)) : addFeed(feedUrl);
     }
 
+    // PUT /{feedId} -- update feed title
+    @Override
+    protected ResponseBody handlePut(final HttpServletRequest request) {
+        final String pathInfo = request.getPathInfo();
+        final UUID feedId = parseFeedId(pathInfo);
+
+        final String feedTitle = readRequestBody(request);
+
+        //return (feedTitle == null || feedTitle.isEmpty()) ? createErrorJsonResponse(urlFetcherError(feedUrl)) : addFeed(feedUrl);
+        return null;
+    }
+
     // DELETE /{feedId} -- delete feed
     @Override
     protected ResponseBody handleDelete(final HttpServletRequest request) {
