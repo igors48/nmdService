@@ -70,8 +70,14 @@ public class ControlServiceWrapper {
 
         try {
             CONTROL_SERVICE.updateFeedTitle(feedId, title);
-        } catch (ServiceException e) {
-            e.printStackTrace();
+
+            LOGGER.info(format("Feeds [ %s ] title changed to [ %s ]", feedId, title));
+
+            return null;
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error changing feed [ %s ] title", feedId), exception);
+
+            return createErrorJsonResponse(exception);
         }
     }
 
