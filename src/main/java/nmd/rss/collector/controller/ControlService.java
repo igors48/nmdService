@@ -107,7 +107,7 @@ public class ControlService {
         }
     }
 
-    public void updateFeedTitle(final UUID feedId, final String title) {
+    public void updateFeedTitle(final UUID feedId, final String title) throws ServiceException {
         assertNotNull(feedId);
         assertStringIsValid(title);
 
@@ -115,6 +115,12 @@ public class ControlService {
 
         try {
             transaction = this.transactions.beginOne();
+
+            final FeedHeader oldHeader = loadFeedHeader(feedId);
+            final FeedHeader newHeader = oldHeader.changeTitle(title);
+
+            this.feedHeadersRepository.deleteHeader(oldHeader.id);
+            this.feedHeadersRepository.storeHeader(newHeader);
 
             transaction.commit();
         } finally {

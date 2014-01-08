@@ -33,6 +33,12 @@ public class FeedHeader {
         this.link = link;
     }
 
+    public FeedHeader changeTitle(final String newTitle) {
+        assertStringIsValid(newTitle);
+
+        return new FeedHeader(this.id, this.feedLink, newTitle, this.description, this.link);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

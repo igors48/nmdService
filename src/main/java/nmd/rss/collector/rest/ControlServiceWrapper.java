@@ -66,6 +66,15 @@ public class ControlServiceWrapper {
         }
     }
 
+    public static ResponseBody updateFeedTitle(final UUID feedId, final String title) {
+
+        try {
+            CONTROL_SERVICE.updateFeedTitle(feedId, title);
+        } catch (ServiceException e) {
+            e.printStackTrace();
+        }
+    }
+
     public static ResponseBody removeFeed(final UUID feedId) {
         CONTROL_SERVICE.removeFeed(feedId);
 
