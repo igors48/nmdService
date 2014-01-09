@@ -60,6 +60,13 @@ public class ServiceError {
                 "Feed id cannot be parsed. Check feed identifier.");
     }
 
+    public static ServiceError invalidFeedTitle(final String feedTitle) {
+
+        return new ServiceError(ErrorCode.INVALID_FEED_TITLE,
+                format("Feed title [ %s ] is invalid", feedTitle),
+                "Check feed title.");
+    }
+
     public static ServiceError invalidFeedOrItemId(final String pathInfo) {
 
         return new ServiceError(ErrorCode.INVALID_FEED_OR_ITEM_ID,

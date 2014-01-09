@@ -58,6 +58,10 @@ public abstract class AbstractRestTest {
         return given().delete(FEEDS_SERVLET_URL + feedId).asString();
     }
 
+    protected static String updateFeedTitle(final String feedId, final String title) {
+        return given().body(title).put(FEEDS_SERVLET_URL + feedId).asString();
+    }
+
     protected static String exportFeed(final String feedId) {
         return given().get(EXPORTS_SERVLET_URL + feedId).asString();
     }

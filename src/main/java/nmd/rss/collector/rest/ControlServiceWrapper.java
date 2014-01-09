@@ -71,9 +71,11 @@ public class ControlServiceWrapper {
         try {
             CONTROL_SERVICE.updateFeedTitle(feedId, title);
 
-            LOGGER.info(format("Feeds [ %s ] title changed to [ %s ]", feedId, title));
+            final String message = format("Feeds [ %s ] title changed to [ %s ]", feedId, title);
 
-            return null;
+            LOGGER.info(message);
+
+            return createJsonResponse(create(message));
         } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error changing feed [ %s ] title", feedId), exception);
 
@@ -84,11 +86,11 @@ public class ControlServiceWrapper {
     public static ResponseBody removeFeed(final UUID feedId) {
         CONTROL_SERVICE.removeFeed(feedId);
 
-        final SuccessMessageResponse successMessageResponse = create(format("Feed [ %s ] removed", feedId));
+        final String message = format("Feed [ %s ] removed", feedId);
 
-        LOGGER.info(format("Feed [ %s ] removed", feedId));
+        LOGGER.info(message);
 
-        return createJsonResponse(successMessageResponse);
+        return createJsonResponse(create(message));
     }
 
     public static ResponseBody getFeedHeaders() {
@@ -168,11 +170,11 @@ public class ControlServiceWrapper {
         try {
             CONTROL_SERVICE.markItemAsRead(feedId, itemId);
 
-            LOGGER.info(format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
+            final String message = format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId);
 
-            final SuccessMessageResponse successMessageResponse = create(format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId));
+            LOGGER.info(message);
 
-            return createJsonResponse(successMessageResponse);
+            return createJsonResponse(create(message));
         } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error update feed [ %s ]", feedId), exception);
 
@@ -199,11 +201,11 @@ public class ControlServiceWrapper {
     public static ResponseBody clear() {
         CONTROL_SERVICE.clear();
 
-        LOGGER.info("Service cleared");
+        final String message = "Service cleared";
 
-        final SuccessMessageResponse successMessageResponse = create("Service cleared");
+        LOGGER.info(message);
 
-        return createJsonResponse(successMessageResponse);
+        return createJsonResponse(create(message));
     }
 
     private static ControlService createControlService() {

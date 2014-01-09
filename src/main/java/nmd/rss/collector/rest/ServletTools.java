@@ -90,7 +90,7 @@ public final class ServletTools {
                 result.append(line);
             }
 
-            return result.toString();
+            return result.toString().trim();
         } catch (IOException e) {
             return "";
         } finally {

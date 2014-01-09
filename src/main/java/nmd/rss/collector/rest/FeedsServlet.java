@@ -3,8 +3,7 @@ package nmd.rss.collector.rest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
-import static nmd.rss.collector.error.ServiceError.invalidFeedId;
-import static nmd.rss.collector.error.ServiceError.urlFetcherError;
+import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.rest.ControlServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.parseFeedId;
@@ -36,10 +35,13 @@ public class FeedsServlet extends AbstractRestServlet {
         final String pathInfo = request.getPathInfo();
         final UUID feedId = parseFeedId(pathInfo);
 
+        if (feedId == null) {
+            return createErrorJsonResponse(invalidFeedId(pathInfo));
+        }
+
         final String feedTitle = readRequestBody(request);
 
-        //return (feedTitle == null || feedTitle.isEmpty()) ? createErrorJsonResponse(urlFetcherError(feedUrl)) : addFeed(feedUrl);
-        return null;
+        return (feedTitle == null || feedTitle.isEmpty()) ? createErrorJsonResponse(invalidFeedTitle(feedTitle)) : updateFeedTitle(feedId, feedTitle);
     }
 
     // DELETE /{feedId} -- delete feed
