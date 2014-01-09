@@ -25,7 +25,7 @@ public class AddFeedTest extends AbstractRestTest {
 
         final FeedHeadersResponse feedsResponse = getFeedHeaders();
 
-        final FeedHeaderHelper feedHeaderHelper = new FeedHeaderHelper(FIRST_FEED_URL, feedIdResponse.getFeedId().toString());
+        final FeedHeaderHelper feedHeaderHelper = new FeedHeaderHelper(FIRST_FEED_URL, feedIdResponse.getFeedId().toString(), FIRST_FEED_TITLE);
 
         assertEquals(1, feedsResponse.getHeaders().size());
         assertEquals(feedHeaderHelper, feedsResponse.getHeaders().get(0));

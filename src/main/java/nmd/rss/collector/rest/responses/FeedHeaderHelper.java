@@ -13,17 +13,21 @@ public class FeedHeaderHelper {
 
     private String feedLink = null;
     private String feedId = null;
+    private String feedTitle = null;
 
     private FeedHeaderHelper() {
         // empty
     }
 
-    public FeedHeaderHelper(final String feedLink, final String feedId) {
+    public FeedHeaderHelper(final String feedLink, final String feedId, final String feedTitle) {
         assertStringIsValid(feedLink);
         this.feedLink = feedLink;
 
         assertStringIsValid(feedId);
         this.feedId = feedId;
+
+        assertStringIsValid(feedTitle);
+        this.feedTitle = feedTitle;
     }
 
     @Override
@@ -35,6 +39,7 @@ public class FeedHeaderHelper {
 
         if (!feedId.equals(that.feedId)) return false;
         if (!feedLink.equals(that.feedLink)) return false;
+        if (!feedTitle.equals(that.feedTitle)) return false;
 
         return true;
     }
@@ -42,7 +47,10 @@ public class FeedHeaderHelper {
     @Override
     public int hashCode() {
         int result = feedLink.hashCode();
+
         result = 31 * result + feedId.hashCode();
+        result = 31 * result + feedTitle.hashCode();
+
         return result;
     }
 
@@ -53,6 +61,7 @@ public class FeedHeaderHelper {
 
         result.feedId = header.id.toString();
         result.feedLink = header.feedLink;
+        result.feedTitle = header.title;
 
         return result;
     }

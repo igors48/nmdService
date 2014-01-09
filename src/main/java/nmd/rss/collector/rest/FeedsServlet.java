@@ -15,7 +15,8 @@ import static nmd.rss.collector.rest.ServletTools.readRequestBody;
  */
 public class FeedsServlet extends AbstractRestServlet {
 
-    // GET -- feeds list
+    // GET -- feed headers list
+    // GET /{feedId} -- feed headers list
     @Override
     protected ResponseBody handleGet(final HttpServletRequest request) {
         return getFeedHeaders();

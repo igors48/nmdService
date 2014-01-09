@@ -16,7 +16,7 @@ import static nmd.rss.collector.rest.ServletTools.*;
 public class ReadsServlet extends AbstractRestServlet {
 
     //GET -- reads report
-    //GET/{feedId} -- feed items report
+    //GET /{feedId} -- feed items report
     @Override
     protected ResponseBody handleGet(final HttpServletRequest request) {
         final String pathInfo = request.getPathInfo();
@@ -30,7 +30,7 @@ public class ReadsServlet extends AbstractRestServlet {
         return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : getFeedItemsReport(feedId);
     }
 
-    //POST/{feedId}/{itemId} -- mark item as read
+    //POST /{feedId}/{itemId} -- mark item as read
     @Override
     protected ResponseBody handlePost(final HttpServletRequest request) {
         final String pathInfo = request.getPathInfo();
