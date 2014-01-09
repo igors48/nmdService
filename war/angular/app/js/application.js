@@ -23,6 +23,11 @@ application.config(['$routeProvider',
         controller: 'feedViewController'
       }).
 
+      when('/update-feed-title', {
+        templateUrl: 'partials/update-feed-title-view.html'/*,
+        controller: 'updateFeedTitleViewController'*/
+      }).
+
       otherwise({
         redirectTo: '/feeds'
       });
