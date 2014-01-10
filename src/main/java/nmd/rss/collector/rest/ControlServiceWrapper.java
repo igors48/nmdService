@@ -106,7 +106,7 @@ public class ControlServiceWrapper {
 
         try {
             final FeedHeader header = CONTROL_SERVICE.loadFeedHeader(feedId);
-            final FeedHeaderHelper response = FeedHeaderHelper.convert(header);
+            final FeedHeaderResponse response = FeedHeaderResponse.convert(header);
 
             LOGGER.info(format("Header for feed [ %s ] returned", feedId));
 

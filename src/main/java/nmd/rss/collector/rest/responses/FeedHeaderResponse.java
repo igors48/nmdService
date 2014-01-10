@@ -9,17 +9,17 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.06.13
  */
-public class FeedHeaderHelper {
+public class FeedHeaderResponse {
 
     private String feedLink = null;
     private String feedId = null;
     private String feedTitle = null;
 
-    private FeedHeaderHelper() {
+    private FeedHeaderResponse() {
         // empty
     }
 
-    public FeedHeaderHelper(final String feedLink, final String feedId, final String feedTitle) {
+    public FeedHeaderResponse(final String feedLink, final String feedId, final String feedTitle) {
         assertStringIsValid(feedLink);
         this.feedLink = feedLink;
 
@@ -35,7 +35,7 @@ public class FeedHeaderHelper {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FeedHeaderHelper that = (FeedHeaderHelper) o;
+        FeedHeaderResponse that = (FeedHeaderResponse) o;
 
         if (!feedId.equals(that.feedId)) return false;
         if (!feedLink.equals(that.feedLink)) return false;
@@ -54,10 +54,10 @@ public class FeedHeaderHelper {
         return result;
     }
 
-    public static FeedHeaderHelper convert(final FeedHeader header) {
+    public static FeedHeaderResponse convert(final FeedHeader header) {
         assertNotNull(header);
 
-        final FeedHeaderHelper result = new FeedHeaderHelper();
+        final FeedHeaderResponse result = new FeedHeaderResponse();
 
         result.feedId = header.id.toString();
         result.feedLink = header.feedLink;
