@@ -106,10 +106,11 @@ public class ControlServiceWrapper {
 
         try {
             final FeedHeader header = CONTROL_SERVICE.loadFeedHeader(feedId);
+            final FeedHeaderHelper response = FeedHeaderHelper.convert(header);
 
             LOGGER.info(format("Header for feed [ %s ] returned", feedId));
 
-            return createJsonResponse(header);
+            return createJsonResponse(response);
         } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error loading feed [ %s ] header", feedId), exception);
 
