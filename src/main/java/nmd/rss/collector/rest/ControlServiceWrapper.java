@@ -102,6 +102,21 @@ public class ControlServiceWrapper {
         return createJsonResponse(feedHeadersResponse);
     }
 
+    public static ResponseBody getFeedHeader(final UUID feedId) {
+
+        try {
+            final FeedHeader header = CONTROL_SERVICE.loadFeedHeader(feedId);
+
+            LOGGER.info(format("Header for feed [ %s ] returned", feedId));
+
+            return createJsonResponse(header);
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error loading feed [ %s ] header", feedId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
+    }
+
     public static ResponseBody getFeed(final UUID feedId) {
 
         try {

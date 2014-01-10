@@ -1,5 +1,6 @@
 package unit.feed.controller;
 
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import org.junit.Test;
 
@@ -15,7 +16,7 @@ import static org.junit.Assert.assertEquals;
 public class ControllerGetFeedHeadersTest extends AbstractControllerTest {
 
     @Test
-    public void whenFeedsAddedThenTheyReturnInList() throws Exception {
+    public void whenFeedsAddedThenTheyReturnInList() throws ServiceException {
         final UUID firstFeedId = addValidFirstRssFeed();
         final UUID secondFeedId = addValidSecondRssFeed();
 
@@ -25,6 +26,21 @@ public class ControllerGetFeedHeadersTest extends AbstractControllerTest {
 
         assertEquals(firstFeedId, feeds.get(0).id);
         assertEquals(secondFeedId, feeds.get(1).id);
+    }
+
+    @Test
+    public void whenFeedIdExistsThenItsHeaderReturns() throws ServiceException {
+        final UUID firstFeedId = addValidFirstRssFeed();
+
+        final FeedHeader loadedHeader = this.controlService.loadFeedHeader(firstFeedId);
+        final FeedHeader expectedHeader = new FeedHeader(firstFeedId, VALID_FIRST_RSS_FEED_LINK, "3DNews - Daily Digital Digest: Ð\u009DÐ¾Ð²Ð¾Ñ\u0081Ñ\u0082Ð¸ Hardware", "Ð\u009DÐ¾Ð²Ð¾Ñ\u0081Ñ\u0082Ð¸ Hardware Ð½Ð° 3DNews", "http://www.3dnews.ru/");
+
+        assertEquals(expectedHeader, loadedHeader);
+    }
+
+    @Test(expected = ServiceException.class)
+    public void whenFeedIdDoesNotExistThenExceptionThrows() throws ServiceException {
+        this.controlService.loadFeedHeader(UUID.randomUUID());
     }
 
 }

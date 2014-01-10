@@ -20,5 +20,10 @@ public class GetFeedHeadersTest extends AbstractRestTest {
 
         assertEquals(2, feedHeaders.getHeaders().size());
     }
-
+    /*
+    @Test
+    public void whenFeedIdIsExistsThenHeaderReturns() {
+        final FeedIdResponse feedId = addFirstFeed();
+    }
+    */
 }

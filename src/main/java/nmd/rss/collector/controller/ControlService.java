@@ -163,6 +163,16 @@ public class ControlService {
         }
     }
 
+    public FeedHeader loadFeedHeader(final UUID feedId) throws ServiceException {
+        FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
+
+        if (header == null) {
+            throw new ServiceException(wrongFeedId(feedId));
+        }
+
+        return header;
+    }
+
     public Feed getFeed(final UUID feedId) throws ServiceException {
         assertNotNull(feedId);
 
@@ -362,16 +372,6 @@ public class ControlService {
         } finally {
             rollbackIfActive(transaction);
         }
-    }
-
-    private FeedHeader loadFeedHeader(final UUID feedId) throws ServiceException {
-        FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
-
-        if (header == null) {
-            throw new ServiceException(wrongFeedId(feedId));
-        }
-
-        return header;
     }
 
     private Set<String> getStoredGuids(final List<FeedItem> items) {

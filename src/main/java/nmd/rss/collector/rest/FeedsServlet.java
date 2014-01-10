@@ -6,8 +6,7 @@ import java.util.UUID;
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.rest.ControlServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.ServletTools.parseFeedId;
-import static nmd.rss.collector.rest.ServletTools.readRequestBody;
+import static nmd.rss.collector.rest.ServletTools.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -16,10 +15,18 @@ import static nmd.rss.collector.rest.ServletTools.readRequestBody;
 public class FeedsServlet extends AbstractRestServlet {
 
     // GET -- feed headers list
-    // GET /{feedId} -- feed headers list
+    // GET /{feedId} -- feed header
     @Override
     protected ResponseBody handleGet(final HttpServletRequest request) {
-        return getFeedHeaders();
+        final String pathInfo = request.getPathInfo();
+
+        if (pathInfoIsEmpty(pathInfo)) {
+            return getFeedHeaders();
+        }
+
+        final UUID feedId = parseFeedId(pathInfo);
+
+        return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : getFeedHeader(feedId);
     }
 
     // POST -- add feed
