@@ -13,23 +13,23 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedHeadersResponse extends SuccessResponse {
 
-    private List<FeedHeaderResponse> headers = null;
+    private List<FeedHeaderHelper> headers = null;
 
     private FeedHeadersResponse() {
         // empty
     }
 
-    public List<FeedHeaderResponse> getHeaders() {
+    public List<FeedHeaderHelper> getHeaders() {
         return this.headers;
     }
 
     public static FeedHeadersResponse convert(final List<FeedHeader> headers) {
         assertNotNull(headers);
 
-        final List<FeedHeaderResponse> helpers = new ArrayList<>();
+        final List<FeedHeaderHelper> helpers = new ArrayList<>();
 
         for (final FeedHeader header : headers) {
-            final FeedHeaderResponse helper = FeedHeaderResponse.convert(header);
+            final FeedHeaderHelper helper = FeedHeaderHelper.convert(header);
 
             helpers.add(helper);
         }

@@ -55,10 +55,10 @@ public abstract class AbstractRestTest {
         return GSON.fromJson(assertSuccessResponse(response), FeedHeadersResponse.class);
     }
 
-    protected static FeedHeaderResponse getFeedHeader(final String feedId) {
+    protected static FeedHeaderHelper getFeedHeader(final String feedId) {
         final String response = getFeedHeaderAsString(feedId);
 
-        return GSON.fromJson(assertSuccessResponse(response), FeedHeaderResponse.class);
+        return GSON.fromJson(assertSuccessResponse(response), FeedHeaderHelper.class);
     }
 
     protected static String getFeedHeaderAsString(String feedId) {

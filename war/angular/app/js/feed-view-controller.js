@@ -5,37 +5,37 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
     $scope.deleteTouched = false;
 
     //TODO code duplication
-        function showSuccessMessage (message) {
-            $scope.statusMessage = message;
-        }
+    function showSuccessMessage(message) {
+        $scope.statusMessage = message;
+    }
 
     //TODO code duplication
-        function showErrorMessage (message) {
-            $scope.statusMessage = message;
-        }
+    function showErrorMessage(message) {
+        $scope.statusMessage = message;
+    }
 
     //TODO code duplication
-        var serverErrorHandler = function (onContinue) {
-            showErrorMessage('Server error');
+    var serverErrorHandler = function (onContinue) {
+        showErrorMessage('Server error');
 
+        blockUi.unblock();
+
+        onContinue();
+    }
+
+    //TODO code duplication
+    var serverResponseHandler = function (response, onSuccess) {
+
+        if (response.status === 'SUCCESS') {
             blockUi.unblock();
 
-            onContinue();
+            onSuccess(response);
+        } else {
+            blockUi.unblock();
+
+            showErrorMessage('Error : ' + response.message + ' ' + response.hints);
         }
-
-    //TODO code duplication
-        var serverResponseHandler = function (response, onSuccess) {
-
-            if (response.status === 'SUCCESS') {
-                blockUi.unblock();
-
-                onSuccess(response);
-            } else {
-                blockUi.unblock();
-
-                showErrorMessage('Error : ' + response.message + ' ' + response.hints);
-            }
-        }
+    }
 
     $scope.loadFeedReport = function (feedId) {
         blockUi.block();
@@ -43,12 +43,13 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
         showSuccessMessage('loading...');
 
         var itemsReport = reads.query({
-                feedId: feedId,
+                feedId:feedId,
             },
             function () {
                 serverResponseHandler(itemsReport,
-                    function() {
+                    function () {
                         $scope.feedTitle = itemsReport.title;
+                        $scope.feedId = itemsReport.id;
 
                         showSuccessMessage('[ ' + itemsReport.read + ' / ' + itemsReport.notRead + ' ]');
 
@@ -60,7 +61,7 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
                     function () {
                     }
                 )
-           }
+            }
         );
     };
 
@@ -72,11 +73,11 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
         showSuccessMessage('remove...');
 
         var response = feeds.delete({
-                feedId: $routeParams.feedId,
+                feedId:$routeParams.feedId,
             },
             function () {
                 serverResponseHandler(response,
-                    function() {
+                    function () {
                         $location.path('/feeds');
                     })
             },
@@ -85,7 +86,7 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
                     function () {
                     }
                 )
-           }
+            }
         );
 
     };

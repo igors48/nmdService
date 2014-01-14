@@ -2,7 +2,7 @@
     <div class="header shadow">
 
         <p>{{feedTitle}}</p>
-        <p class="statusMessage">Enter new feed title</p>
+        <p class="statusMessage">{{statusMessage}}</p>
 
     </div>  
 </div>
@@ -14,8 +14,8 @@
     	<div class="flex-box-one align-pack-center">
     		
     		<form ng-submit="updateFeedTitle()">
-        		<input type="text" ng-model="feedLink" placeholder="enter feed link here" style="width:95%;">
-        		<input type="submit" value="add" style="height:100%">
+        		<input type="text" ng-model="newFeedTitle" style="width:95%;">
+        		<input type="submit" value="update" style="height:100%">
     		</form>    
 
     	</div>

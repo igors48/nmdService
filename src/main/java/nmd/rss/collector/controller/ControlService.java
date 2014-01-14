@@ -317,7 +317,7 @@ public class ControlService {
 
             transaction.commit();
 
-            return new FeedItemsReport(header.title, read, notRead, feedItemReports);
+            return new FeedItemsReport(header.id, header.title, read, notRead, feedItemReports);
         } finally {
             rollbackIfActive(transaction);
         }

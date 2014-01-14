@@ -14,6 +14,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedItemsReportResponse extends SuccessResponse {
 
+    private String id;
     private String title;
     private int read;
     private int notRead;
@@ -52,6 +53,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
 
         final FeedItemsReportResponse response = new FeedItemsReportResponse();
 
+        response.id = feedItemsReport.id.toString();
         response.title = feedItemsReport.title;
         response.read = feedItemsReport.read;
         response.notRead = feedItemsReport.notRead;

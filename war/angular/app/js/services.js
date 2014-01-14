@@ -10,6 +10,7 @@ angular.module('application.services', ['ngResource'])
             {
                 'query': {method:'GET'},
                 'save': {method: 'POST'},
+                'update': {method: 'PUT'},
                 'delete': {method: 'DELETE'}
             }
         );

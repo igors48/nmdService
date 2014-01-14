@@ -1,7 +1,7 @@
 package rest;
 
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.FeedHeaderResponse;
+import nmd.rss.collector.rest.responses.FeedHeaderHelper;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import org.junit.Test;
@@ -31,8 +31,8 @@ public class GetFeedHeadersTest extends AbstractRestTest {
         final FeedIdResponse feedId = addFirstFeed();
         final String feedIdAsString = feedId.getFeedId().toString();
 
-        final FeedHeaderResponse feedHeader = getFeedHeader(feedIdAsString);
-        final FeedHeaderResponse expected = new FeedHeaderResponse(FIRST_FEED_URL, feedIdAsString, FIRST_FEED_TITLE);
+        final FeedHeaderHelper feedHeader = getFeedHeader(feedIdAsString);
+        final FeedHeaderHelper expected = new FeedHeaderHelper(FIRST_FEED_URL, feedIdAsString, FIRST_FEED_TITLE);
 
         assertEquals(expected, feedHeader);
     }

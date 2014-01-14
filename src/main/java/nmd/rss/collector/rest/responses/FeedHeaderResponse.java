@@ -6,10 +6,10 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
 /**
- * Author : Igor Usenko ( igors48@gmail.com )
- * Date : 22.06.13
+ * User: igu
+ * Date: 14.01.14
  */
-public class FeedHeaderResponse {
+public class FeedHeaderResponse extends SuccessResponse {
 
     private String feedLink = null;
     private String feedId = null;
@@ -28,30 +28,6 @@ public class FeedHeaderResponse {
 
         assertStringIsValid(feedTitle);
         this.feedTitle = feedTitle;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FeedHeaderResponse that = (FeedHeaderResponse) o;
-
-        if (!feedId.equals(that.feedId)) return false;
-        if (!feedLink.equals(that.feedLink)) return false;
-        if (!feedTitle.equals(that.feedTitle)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = feedLink.hashCode();
-
-        result = 31 * result + feedId.hashCode();
-        result = 31 * result + feedTitle.hashCode();
-
-        return result;
     }
 
     public static FeedHeaderResponse convert(final FeedHeader header) {
