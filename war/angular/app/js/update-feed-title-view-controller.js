@@ -28,8 +28,8 @@ controllers.controller('updateFeedTitleViewController', ['$scope', '$routeParams
             showStatusMessage('loading...');
         };
 
-        $scope.showEnterNewTitleMessage = function () {
-            showStatusMessage('enter new title');
+        $scope.showFeedLink = function (feedLink) {
+            showStatusMessage(feedLink);
         };
 
         $scope.showUpdatingMessage = function () {
@@ -48,7 +48,7 @@ controllers.controller('updateFeedTitleViewController', ['$scope', '$routeParams
                 function () {
                     serverResponseHandler(feedHeader,
                         function() {
-                            $scope.showEnterNewTitleMessage();
+                            $scope.showFeedLink(feedHeader.feedLink);
                             $scope.feedTitle = feedHeader.feedTitle;
                             $scope.newFeedTitle = feedHeader.feedTitle;
                         })
