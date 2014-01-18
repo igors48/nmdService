@@ -263,9 +263,9 @@ public class ControlService {
                 final Set<String> storedGuids = getStoredGuids(items);
                 final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(header.id);
 
-                final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.itemIds, storedGuids);
+                final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
 
-                final FeedItem topItem = findLastNotReadFeedItem(items, readFeedItems.itemIds);
+                final FeedItem topItem = findLastNotReadFeedItem(items, readFeedItems.readItemIds);
                 final String topItemId = topItem == null ? null : topItem.guid;
                 final String topItemLink = topItem == null ? null : topItem.link;
 
@@ -304,7 +304,7 @@ public class ControlService {
             int notRead = 0;
 
             for (final FeedItem feedItem : feedItems) {
-                final boolean readItem = readFeedItems.itemIds.contains(feedItem.guid);
+                final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
 
                 feedItemReports.add(readItem ? asRead(feedId, feedItem) : asNotRead(feedId, feedItem));
 
@@ -338,12 +338,12 @@ public class ControlService {
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
             final Set<String> readGuids = new HashSet<>();
-            readGuids.addAll(readFeedItems.itemIds);
+            readGuids.addAll(readFeedItems.readItemIds);
             readGuids.add(itemId);
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), comparisonReport.readItems);
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), comparisonReport.readItems, readFeedItems.readLaterItemIds);
             this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
 
             transaction.commit();

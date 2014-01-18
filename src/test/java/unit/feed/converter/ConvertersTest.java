@@ -33,6 +33,7 @@ public class ConvertersTest {
 
     private static final String FIRST_READ_ITEM_ID = "first";
     private static final String SECOND_READ_ITEM_ID = "second";
+    private static final Set<String> READ_LATER_FEED_ITEMS = new HashSet<>();
     private static final Set<String> READ_FEED_ITEMS = new HashSet<String>() {{
         add(FIRST_READ_ITEM_ID);
         add(SECOND_READ_ITEM_ID);
@@ -92,15 +93,15 @@ public class ConvertersTest {
     @Test
     public void readFeedItemsEntityRoundtrip() {
         final Date date = new Date();
-        final ReadFeedItems origin = new ReadFeedItems(date, READ_FEED_ITEMS);
+        final ReadFeedItems origin = new ReadFeedItems(date, READ_FEED_ITEMS, READ_LATER_FEED_ITEMS);
         final Entity entity = ReadFeedItemsConverter.convert(SAMPLE_KEY, UUID.randomUUID(), origin);
 
         final ReadFeedItems restored = ReadFeedItemsConverter.convert(entity);
 
-        assertEquals(READ_FEED_ITEMS.size(), restored.itemIds.size());
+        assertEquals(READ_FEED_ITEMS.size(), restored.readItemIds.size());
         assertEquals(date, restored.lastUpdate);
-        assertTrue(restored.itemIds.contains(FIRST_READ_ITEM_ID));
-        assertTrue(restored.itemIds.contains(SECOND_READ_ITEM_ID));
+        assertTrue(restored.readItemIds.contains(FIRST_READ_ITEM_ID));
+        assertTrue(restored.readItemIds.contains(SECOND_READ_ITEM_ID));
     }
 
     @Test

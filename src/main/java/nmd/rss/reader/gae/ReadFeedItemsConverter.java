@@ -9,6 +9,7 @@ import nmd.rss.reader.ReadFeedItems;
 
 import java.lang.reflect.Type;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
@@ -27,9 +28,10 @@ public class ReadFeedItemsConverter {
     private static final String FEED_ID = "feedId";
     private static final String COUNT = "count";
     private static final String READ_ITEMS = "readItems";
+    private static final String READ_LATER_ITEMS = "readLaterItems";
     private static final String LAST_UPDATE = "lastUpdate";
 
-    private static final Type READ_FEED_ITEM_HELPER_SET_TYPE = new TypeToken<Set<String>>() {
+    private static final Type SET_HELPER_TYPE = new TypeToken<Set<String>>() {
     }.getType();
 
     public static Entity convert(final Key feedKey, final UUID feedId, final ReadFeedItems readFeedItems) {
@@ -40,12 +42,16 @@ public class ReadFeedItemsConverter {
         final Entity entity = new Entity(KIND, feedKey);
 
         entity.setProperty(FEED_ID, feedId.toString());
-        entity.setProperty(COUNT, readFeedItems.itemIds.size());
+        entity.setProperty(COUNT, readFeedItems.readItemIds.size());
         entity.setProperty(LAST_UPDATE, readFeedItems.lastUpdate);
 
-        final String readFeedItemsAsString = GSON.toJson(readFeedItems.itemIds, READ_FEED_ITEM_HELPER_SET_TYPE);
+        final String readFeedItemsAsString = GSON.toJson(readFeedItems.readItemIds, SET_HELPER_TYPE);
 
         entity.setProperty(READ_ITEMS, new Text(readFeedItemsAsString));
+
+        final String readLaterFeedItemsAsString = GSON.toJson(readFeedItems.readLaterItemIds, SET_HELPER_TYPE);
+
+        entity.setProperty(READ_LATER_ITEMS, new Text(readLaterFeedItemsAsString));
 
         return entity;
     }
@@ -55,10 +61,21 @@ public class ReadFeedItemsConverter {
 
         //TODO remove hasProperty check after full table update
         final Date lastUpdate = entity.hasProperty(LAST_UPDATE) ? (Date) entity.getProperty(LAST_UPDATE) : new Date();
-        final String readFeedItemsAsString = ((Text) entity.getProperty(READ_ITEMS)).getValue();
-        final Set<String> readItemsIds = GSON.fromJson(readFeedItemsAsString, READ_FEED_ITEM_HELPER_SET_TYPE);
 
-        return new ReadFeedItems(lastUpdate, readItemsIds);
+        final String readFeedItemsAsString = ((Text) entity.getProperty(READ_ITEMS)).getValue();
+        final Set<String> readItemsIds = GSON.fromJson(readFeedItemsAsString, SET_HELPER_TYPE);
+
+        final String readLaterFeedItemsAsString = entity.hasProperty(READ_LATER_ITEMS) ? ((Text) entity.getProperty(READ_ITEMS)).getValue() : "";
+
+        final Set<String> readLaterItemIds;
+
+        if (readLaterFeedItemsAsString.isEmpty()) {
+            readLaterItemIds = new HashSet<>();
+        } else {
+            readLaterItemIds = GSON.fromJson(readLaterFeedItemsAsString, SET_HELPER_TYPE);
+        }
+
+        return new ReadFeedItems(lastUpdate, readItemsIds, readLaterItemIds);
     }
 
 }

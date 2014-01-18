@@ -34,7 +34,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
 
         this.controlService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
 
-        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).itemIds;
+        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).readItemIds;
 
         assertTrue(readItems.contains(FIRST_FEED_ITEM_GUID));
     }
@@ -60,7 +60,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
 
         this.controlService.markItemAsRead(feedHeader.id, NOT_EXISTS_ID);
 
-        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).itemIds;
+        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).readItemIds;
 
         assertTrue(readItems.isEmpty());
     }
@@ -71,11 +71,11 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
 
         this.readFeedItemsRepositoryStub.store(feedHeader.id, new ReadFeedItems(new Date(), new HashSet<String>() {{
             add(NOT_EXISTS_ID);
-        }}));
+        }}, new HashSet<String>()));
 
         this.controlService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
 
-        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).itemIds;
+        final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).readItemIds;
 
         assertFalse(readItems.contains(NOT_EXISTS_ID));
     }

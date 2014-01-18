@@ -12,17 +12,21 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class ReadFeedItems {
 
-    public static final ReadFeedItems EMPTY = new ReadFeedItems(new Date(), new HashSet<String>());
+    public static final ReadFeedItems EMPTY = new ReadFeedItems(new Date(), new HashSet<String>(), new HashSet<String>());
 
     public final Date lastUpdate;
-    public final Set<String> itemIds;
+    public final Set<String> readItemIds;
+    public final Set<String> readLaterItemIds;
 
-    public ReadFeedItems(final Date lastUpdate, final Set<String> itemIds) {
+    public ReadFeedItems(final Date lastUpdate, final Set<String> readItemIds, final Set<String> readLaterItemIds) {
         assertNotNull(lastUpdate);
         this.lastUpdate = lastUpdate;
 
-        assertNotNull(itemIds);
-        this.itemIds = itemIds;
+        assertNotNull(readItemIds);
+        this.readItemIds = readItemIds;
+
+        assertNotNull(readLaterItemIds);
+        this.readLaterItemIds = readLaterItemIds;
     }
 
 }
