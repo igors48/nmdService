@@ -12,7 +12,7 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
 public class FeedAndItemIds {
 
     public final UUID feedId;
-    public final String itemId;
+    public final String itemId; //TODO why String type used?
 
     public FeedAndItemIds(final UUID feedId, final String itemId) {
         assertNotNull(feedId);

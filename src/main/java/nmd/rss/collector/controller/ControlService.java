@@ -323,6 +323,12 @@ public class ControlService {
         }
     }
 
+    public void toggleReadLaterItemMark(final UUID feedId, final String itemId) throws ServiceException {
+        assertNotNull(feedId);
+        assertStringIsValid(itemId);
+
+    }
+
     public void markItemAsRead(final UUID feedId, final String itemId) throws ServiceException {
         assertNotNull(feedId);
         assertStringIsValid(itemId);
