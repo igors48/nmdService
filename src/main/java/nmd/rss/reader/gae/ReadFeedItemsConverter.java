@@ -65,7 +65,7 @@ public class ReadFeedItemsConverter {
         final String readFeedItemsAsString = ((Text) entity.getProperty(READ_ITEMS)).getValue();
         final Set<String> readItemsIds = GSON.fromJson(readFeedItemsAsString, SET_HELPER_TYPE);
 
-        final String readLaterFeedItemsAsString = entity.hasProperty(READ_LATER_ITEMS) ? ((Text) entity.getProperty(READ_ITEMS)).getValue() : "";
+        final String readLaterFeedItemsAsString = entity.hasProperty(READ_LATER_ITEMS) ? ((Text) entity.getProperty(READ_LATER_ITEMS)).getValue() : "";
 
         final Set<String> readLaterItemIds;
 

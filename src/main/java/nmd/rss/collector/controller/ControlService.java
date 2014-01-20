@@ -327,6 +327,32 @@ public class ControlService {
         assertNotNull(feedId);
         assertStringIsValid(itemId);
 
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            loadFeedHeader(feedId);
+
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+            final Set<String> storedGuids = getStoredGuids(feedId);
+            readFeedItems.readLaterItemIds.retainAll(storedGuids);
+
+            if (storedGuids.contains(itemId)) {
+
+                if (readFeedItems.readLaterItemIds.contains(itemId)) {
+                    readFeedItems.readLaterItemIds.remove(itemId);
+                } else {
+                    readFeedItems.readLaterItemIds.add(itemId);
+                }
+
+                this.readFeedItemsRepository.store(feedId, readFeedItems);
+            }
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
     public void markItemAsRead(final UUID feedId, final String itemId) throws ServiceException {

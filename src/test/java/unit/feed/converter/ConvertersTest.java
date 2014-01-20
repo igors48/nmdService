@@ -33,10 +33,16 @@ public class ConvertersTest {
 
     private static final String FIRST_READ_ITEM_ID = "first";
     private static final String SECOND_READ_ITEM_ID = "second";
-    private static final Set<String> READ_LATER_FEED_ITEMS = new HashSet<>();
     private static final Set<String> READ_FEED_ITEMS = new HashSet<String>() {{
         add(FIRST_READ_ITEM_ID);
         add(SECOND_READ_ITEM_ID);
+    }};
+
+    private static final String FIRST_READ_LATER_ITEM_ID = "first-later";
+    private static final String SECOND_READ_LATER_ITEM_ID = "second-later";
+    private static final Set<String> READ_LATER_FEED_ITEMS = new HashSet<String>() {{
+        add(FIRST_READ_LATER_ITEM_ID);
+        add(SECOND_READ_LATER_ITEM_ID);
     }};
 
     @Test
@@ -98,10 +104,15 @@ public class ConvertersTest {
 
         final ReadFeedItems restored = ReadFeedItemsConverter.convert(entity);
 
-        assertEquals(READ_FEED_ITEMS.size(), restored.readItemIds.size());
         assertEquals(date, restored.lastUpdate);
+
+        assertEquals(READ_FEED_ITEMS.size(), restored.readItemIds.size());
         assertTrue(restored.readItemIds.contains(FIRST_READ_ITEM_ID));
         assertTrue(restored.readItemIds.contains(SECOND_READ_ITEM_ID));
+
+        assertEquals(READ_LATER_FEED_ITEMS.size(), restored.readLaterItemIds.size());
+        assertTrue(restored.readLaterItemIds.contains(FIRST_READ_LATER_ITEM_ID));
+        assertTrue(restored.readLaterItemIds.contains(SECOND_READ_LATER_ITEM_ID));
     }
 
     @Test
