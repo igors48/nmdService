@@ -18,8 +18,6 @@ import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.*;
 
-import static nmd.rss.collector.controller.FeedItemReport.asNotRead;
-import static nmd.rss.collector.controller.FeedItemReport.asRead;
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -305,8 +303,10 @@ public class ControlService {
 
             for (final FeedItem feedItem : feedItems) {
                 final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
+                final boolean readLaterItem = readFeedItems.readLaterItemIds.contains(feedItem.guid);
 
-                feedItemReports.add(readItem ? asRead(feedId, feedItem) : asNotRead(feedId, feedItem));
+                final FeedItemReport feedItemReport = new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.link, feedItem.date, feedItem.guid, readItem, readLaterItem);
+                feedItemReports.add(feedItemReport);
 
                 if (readItem) {
                     ++read;
@@ -336,17 +336,21 @@ public class ControlService {
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
             final Set<String> storedGuids = getStoredGuids(feedId);
-            readFeedItems.readLaterItemIds.retainAll(storedGuids);
+
+            final Set<String> backedReadLaterItemIds = new HashSet<>();
+            backedReadLaterItemIds.addAll(readFeedItems.readLaterItemIds);
+            backedReadLaterItemIds.retainAll(storedGuids);
 
             if (storedGuids.contains(itemId)) {
 
-                if (readFeedItems.readLaterItemIds.contains(itemId)) {
-                    readFeedItems.readLaterItemIds.remove(itemId);
+                if (backedReadLaterItemIds.contains(itemId)) {
+                    backedReadLaterItemIds.remove(itemId);
                 } else {
-                    readFeedItems.readLaterItemIds.add(itemId);
+                    backedReadLaterItemIds.add(itemId);
                 }
 
-                this.readFeedItemsRepository.store(feedId, readFeedItems);
+                final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(readFeedItems.lastUpdate, readFeedItems.readItemIds, backedReadLaterItemIds);
+                this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
             }
 
             transaction.commit();
@@ -392,9 +396,9 @@ public class ControlService {
             transaction = this.transactions.beginOne();
 
             final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
-            final List<FeedHeader> backup = new ArrayList<>(headers);
+            final List<FeedHeader> backedHeaders = new ArrayList<>(headers);
 
-            for (final FeedHeader header : backup) {
+            for (final FeedHeader header : backedHeaders) {
                 removeFeed(header.id);
             }
 
