@@ -1,5 +1,6 @@
 package unit.feed.controller;
 
+import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
@@ -80,11 +81,22 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
         assertFalse(readItems.contains(NOT_EXISTS_ID));
     }
 
+    @Test
+    public void whenItemMarkedReadThenReadLaterMarkResets() throws ServiceException {
+        final FeedHeader feedHeader = createFeedWithOneItem();
+
+        this.controlService.toggleReadLaterItemMark(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.controlService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+
+        final FeedItemsReport readReport = this.controlService.getFeedItemsReport(feedHeader.id);
+
+        assertEquals(1, readReport.reports.size());
+        assertFalse(readReport.reports.get(0).readLater);
+    }
+
     @Test(expected = ServiceException.class)
     public void whenTryToMarkItemOfNotExistsFeedThenErrorReturns() throws ServiceException {
         this.controlService.markItemAsRead(UUID.randomUUID(), FIRST_FEED_ITEM_GUID);
     }
-
-    //when item read then "read later" mark resets
 
 }

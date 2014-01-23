@@ -377,9 +377,13 @@ public class ControlService {
             readGuids.addAll(readFeedItems.readItemIds);
             readGuids.add(itemId);
 
+            final Set<String> readLaterGuids = new HashSet<>();
+            readLaterGuids.addAll(readFeedItems.readLaterItemIds);
+            readLaterGuids.remove(itemId);
+
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), comparisonReport.readItems, readFeedItems.readLaterItemIds);
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), comparisonReport.readItems, readLaterGuids);
             this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
 
             transaction.commit();
