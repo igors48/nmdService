@@ -192,7 +192,24 @@ public class ControlServiceWrapper {
 
             return createJsonResponse(create(message));
         } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error update feed [ %s ]", feedId), exception);
+            LOGGER.log(Level.SEVERE, format("Error mark feed [ %s ] item [ %s ] as read", feedId, itemId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
+    }
+
+    public static ResponseBody toggleItemAsReadLater(final UUID feedId, final String itemId) {
+
+        try {
+            CONTROL_SERVICE.toggleReadLaterItemMark(feedId, itemId);
+
+            final String message = format("Item [ %s ] from feed [ %s ] toggled as read later", itemId, feedId);
+
+            LOGGER.info(message);
+
+            return createJsonResponse(create(message));
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error toggle feed [ %s ] item [ %s ] as read later", feedId, itemId), exception);
 
             return createErrorJsonResponse(exception);
         }
