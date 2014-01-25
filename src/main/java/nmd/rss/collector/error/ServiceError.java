@@ -74,6 +74,13 @@ public class ServiceError {
                 "Item id cannot be parsed. Check item identifier.");
     }
 
+    public static ServiceError invalidMarkMode(final String markMode) {
+
+        return new ServiceError(ErrorCode.INVALID_MARK_MODE,
+                format("Invalid mark mode [ %s ] ", markMode),
+                "Mark mode is invalid. Check mark mode.");
+    }
+
     public static ServiceError wrongFeedTaskId(final UUID feedId) {
         assertNotNull(feedId);
 

@@ -49,6 +49,13 @@ public class ServletToolsParseFeedAndItemIdsTest {
     }
 
     @Test
+    public void whenItemIdContainsOnlySpacesThenNullReturns() {
+        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, "  ", "");
+
+        assertNull(feedAndItemIds);
+    }
+
+    @Test
     public void whenPathInfoIsEmptyThenNullReturns() {
         assertNull(ServletTools.parseFeedAndItemIds(""));
     }

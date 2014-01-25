@@ -105,8 +105,18 @@ public abstract class AbstractRestTest {
         return GSON.fromJson(assertSuccessResponse(getFeedItemsReportAsString(feedId)), FeedItemsReportResponse.class);
     }
 
+    protected String markItem(final String feedId, String itemId, String markMode) {
+        final String parameter = markMode.isEmpty() ? "" : "?mark-mode=" + markMode;
+
+        return given().put(READS_SERVLET_URL + feedId + "/" + itemId + parameter).asString();
+    }
+
     protected String markItemAsRead(final String feedId, String itemId) {
-        return given().post(READS_SERVLET_URL + feedId + "/" + itemId).asString();
+        return markItem(feedId, itemId, "read");
+    }
+
+    protected String markItemAsReadLater(final String feedId, String itemId) {
+        return markItem(feedId, itemId, "read-later");
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {

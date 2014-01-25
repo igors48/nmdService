@@ -61,7 +61,11 @@ public final class ServletTools {
             final String feedIdPart = pathInfo.substring(1, secondSlashIndex);
             final UUID feedId = UUID.fromString(feedIdPart);
 
-            final String itemIdPart = thirdSlashIndex == -1 ? pathInfo.substring(secondSlashIndex + 1) : pathInfo.substring(secondSlashIndex + 1, thirdSlashIndex);
+            final String itemIdPart = (thirdSlashIndex == -1 ? pathInfo.substring(secondSlashIndex + 1) : pathInfo.substring(secondSlashIndex + 1, thirdSlashIndex)).trim();
+
+            if (itemIdPart.isEmpty()) {
+                return null;
+            }
 
             return new FeedAndItemIds(feedId, itemIdPart);
         } catch (Exception exception) {
