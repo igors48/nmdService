@@ -33,9 +33,7 @@ public class ReadsServlet extends AbstractRestServlet {
         return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : getFeedItemsReport(feedId);
     }
 
-    //TODO it must be PUT
     //PUT /{feedId}/{itemId}&mark-as=read|read-later -- mark item as read or read later
-    //POST /{feedId}/{itemId} -- mark item as read
     @Override
     protected ResponseBody handlePut(final HttpServletRequest request) {
         final String pathInfo = request.getPathInfo();
