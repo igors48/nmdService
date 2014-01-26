@@ -14,9 +14,9 @@ import static nmd.rss.collector.rest.ServletTools.*;
  */
 public class ReadsServlet extends AbstractRestServlet {
 
-    private static final String MARK_AS_PARAMETER_NAME = "mark-as";
+    private static final String MARK_AS_PARAMETER_NAME = "markAs";
     private static final String MARK_AS_READ = "read";
-    private static final String MARK_AS_READ_LATER = "read-later";
+    private static final String MARK_AS_READ_LATER = "readLater";
 
     //GET -- reads report
     //GET /{feedId} -- feed items report

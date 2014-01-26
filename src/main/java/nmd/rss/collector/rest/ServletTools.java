@@ -12,6 +12,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.lang.Math.min;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.CloseableTools.close;
 
@@ -57,11 +58,17 @@ public final class ServletTools {
             }
 
             final int thirdSlashIndex = pathInfo.indexOf("/", secondSlashIndex + 1);
+            final int endIndexBasedOnThirdSlash = thirdSlashIndex == -1 ? pathInfo.length() : thirdSlashIndex;
+
+            final int parametersStart = pathInfo.indexOf("?");
+            final int endBaseOnParameters = parametersStart == -1 ? pathInfo.length() : parametersStart;
+
+            final int endIndex = min(endBaseOnParameters, endIndexBasedOnThirdSlash);
 
             final String feedIdPart = pathInfo.substring(1, secondSlashIndex);
             final UUID feedId = UUID.fromString(feedIdPart);
 
-            final String itemIdPart = (thirdSlashIndex == -1 ? pathInfo.substring(secondSlashIndex + 1) : pathInfo.substring(secondSlashIndex + 1, thirdSlashIndex)).trim();
+            final String itemIdPart = pathInfo.substring(secondSlashIndex + 1, endIndex).trim();
 
             if (itemIdPart.isEmpty()) {
                 return null;

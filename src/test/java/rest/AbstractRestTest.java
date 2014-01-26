@@ -106,7 +106,7 @@ public abstract class AbstractRestTest {
     }
 
     protected String markItem(final String feedId, String itemId, String markMode) {
-        final String parameter = markMode.isEmpty() ? "" : "?mark-as=" + markMode;
+        final String parameter = markMode.isEmpty() ? "" : "?markAs=" + markMode;
 
         return given().put(READS_SERVLET_URL + feedId + "/" + itemId + parameter).asString();
     }
@@ -116,7 +116,7 @@ public abstract class AbstractRestTest {
     }
 
     protected String markItemAsReadLater(final String feedId, String itemId) {
-        return markItem(feedId, itemId, "read-later");
+        return markItem(feedId, itemId, "readLater");
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
