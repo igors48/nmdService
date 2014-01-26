@@ -69,7 +69,8 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
 
         var response = reads.mark({
             feedId: feedId,
-            itemId: itemId    
+            itemId: itemId,
+            markMode: '?mark-as=read'
             },
             function () {
                 serverResponseHandler(response,

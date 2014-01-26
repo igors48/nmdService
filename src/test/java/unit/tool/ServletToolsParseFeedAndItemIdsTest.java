@@ -21,7 +21,7 @@ public class ServletToolsParseFeedAndItemIdsTest {
 
     @Test
     public void whenAllOkThenBothIdReturn() {
-        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, ITEM_ID, "");
+        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, ITEM_ID, "", "");
 
         assertEquals(FEED_UUID, feedAndItemIds.feedId);
         assertEquals(ITEM_ID, feedAndItemIds.itemId);
@@ -29,28 +29,28 @@ public class ServletToolsParseFeedAndItemIdsTest {
 
     @Test
     public void whenFeedIdIsAbsentThenNullReturns() {
-        final FeedAndItemIds feedAndItemIds = createAndParse("", ITEM_ID, "");
+        final FeedAndItemIds feedAndItemIds = createAndParse("", ITEM_ID, "", "");
 
         assertNull(feedAndItemIds);
     }
 
     @Test
     public void whenFeedIdCanNotBeParsedThenNullReturns() {
-        final FeedAndItemIds feedAndItemIds = createAndParse("trash", ITEM_ID, "");
+        final FeedAndItemIds feedAndItemIds = createAndParse("trash", ITEM_ID, "", "");
 
         assertNull(feedAndItemIds);
     }
 
     @Test
     public void whenItemIdIsAbsentThenNullReturns() {
-        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, "", "");
+        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, "", "", "");
 
         assertNull(feedAndItemIds);
     }
 
     @Test
     public void whenItemIdContainsOnlySpacesThenNullReturns() {
-        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, "  ", "");
+        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, "  ", "", "");
 
         assertNull(feedAndItemIds);
     }
@@ -67,22 +67,31 @@ public class ServletToolsParseFeedAndItemIdsTest {
 
     @Test
     public void whenThereIsAdditionalInfoAfterIdsThenItIsIgnored() {
-        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, ITEM_ID, "postfix");
+        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, ITEM_ID, "postfix", "");
 
         assertEquals(FEED_UUID, feedAndItemIds.feedId);
         assertEquals(ITEM_ID, feedAndItemIds.itemId);
     }
 
-    private static FeedAndItemIds createAndParse(final String feedId, final String itemId, final String postfix) {
-        final String pathInfo = createPathInfo(feedId, itemId, postfix);
+    @Test
+    public void whenThereIsRequestParametersThenItIsIgnored() {
+        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, ITEM_ID, "", "as=as");
+
+        assertEquals(FEED_UUID, feedAndItemIds.feedId);
+        assertEquals(ITEM_ID, feedAndItemIds.itemId);
+    }
+
+    private static FeedAndItemIds createAndParse(final String feedId, final String itemId, final String postfix, final String requestParameters) {
+        final String pathInfo = createPathInfo(feedId, itemId, postfix, requestParameters);
 
         return ServletTools.parseFeedAndItemIds(pathInfo);
     }
 
-    private static String createPathInfo(final String feedId, final String itemId, final String postfix) {
+    private static String createPathInfo(final String feedId, final String itemId, final String postfix, final String requestParameters) {
         final String pathInfo = "/" + feedId + "/" + itemId;
+        final String result = postfix.isEmpty() ? pathInfo : pathInfo + "/" + postfix;
 
-        return postfix.isEmpty() ? pathInfo : pathInfo + "/" + postfix;
+        return requestParameters.isEmpty() ? result : result + "?" + requestParameters;
     }
 
 }

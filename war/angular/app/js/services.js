@@ -17,14 +17,15 @@ angular.module('application.services', ['ngResource'])
     })
     
     .factory('reads', function ($resource) {
-        return $resource('/@security.key@/v01/reads/:feedId/:itemId', 
+        return $resource('/@security.key@/v01/reads/:feedId/:itemId:markMode', 
             {
                 feedId: "@feedId",
-                itemId: "@itemId"
+                itemId: "@itemId",
+                markMode: "@markMode"
             },
             {
                 'query': {method: 'GET'},
-                'mark': {method: 'POST'}
+                'mark': {method: 'PUT'}
             }
         );
     })
