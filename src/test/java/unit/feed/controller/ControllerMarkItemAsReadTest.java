@@ -91,6 +91,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
         final FeedItemsReport readReport = this.controlService.getFeedItemsReport(feedHeader.id);
 
         assertEquals(1, readReport.reports.size());
+        assertTrue(readReport.reports.get(0).read);
         assertFalse(readReport.reports.get(0).readLater);
     }
 
