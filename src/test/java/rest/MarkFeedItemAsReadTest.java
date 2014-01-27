@@ -48,4 +48,11 @@ public class MarkFeedItemAsReadTest extends AbstractRestTest {
         assertErrorResponse(markItemAsRead("", "guid"), ErrorCode.INVALID_FEED_OR_ITEM_ID);
     }
 
+    @Test
+    public void whenMarkModeIsInvalidThenErrorReturns() {
+        final FeedIdResponse feedIdResponse = addFirstFeed();
+
+        assertErrorResponse(markItem(feedIdResponse.getFeedId().toString(), "guid", "invalidMarkMode"), ErrorCode.INVALID_MARK_MODE);
+    }
+
 }
