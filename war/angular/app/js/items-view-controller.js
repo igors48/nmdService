@@ -92,5 +92,35 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
         );
     }
 
+    $scope.toggleReadLater = function (feedId, itemId) {
+        $scope.touchedItemId = itemId;
+
+        blockUi.block();
+
+        var response = reads.mark({
+            feedId: feedId,
+            itemId: itemId,
+            markAs: 'readLater'
+            },
+            function () {
+                serverResponseHandler(response,
+                    function() {
+                        $scope.feedLink = '';
+                        $scope.loadItemsReport(feedId);
+                        $scope.touchedItemId = '';
+                    }
+                )
+            },
+            function () {
+                serverErrorHandler(
+                    function () {
+                        $scope.loadItemsReport(feedId);
+                        $scope.touchedItemId = '';
+                    }
+                )
+            }
+        );
+    }
+    
     $scope.loadItemsReport($routeParams.feedId);
 }]);

@@ -1,25 +1,33 @@
 <div class="header-container">
     <div class="header shadow">
 
-		<p>{{feedTitle}}</p>
-		<p class="statusMessage">{{statusMessage}}</p>
+        <p>{{feedTitle}}</p>
 
-	</div>	
-</div>	
+        <p class="statusMessage">{{statusMessage}}</p>
+
+    </div>
+</div>
 
 <div class="container">
-	<div class="tile shadow" ng-repeat="report in reports">
+    <div class="tile shadow" ng-repeat="report in reports">
 
-    	<div class="feed-action align-pack-center">
+        <div class="feed-action align-pack-center">
             <div>
-        	   <p class="small-font">{{report.date | date:'d MMM'}}</p>
-        	   <p class="small-font">{{report.date | date:'HH:mm'}}</p>
-            </div>
-    	</div>
+                <p class="small-font">{{report.date | date:'d MMM'}}</p>
 
-        <a href="{{report.link}}" target="_blank" class="block-link item-title flex-box-one align-pack-center" ng-class="(touchedItemId==report.guid) ? 'touched' : ''" ng-click="markAsRead(report.feedId, report.guid)">
-        	<p class="small-font" ng-class="(report.read==true) ? '' : 'bold'">{{report.title}}</p>
-    	</a>
-                    
-	</div>
+                <p class="small-font">{{report.date | date:'HH:mm'}}</p>
+            </div>
+        </div>
+
+        <a href="{{report.link}}" target="_blank" class="block-link item-title flex-box-one align-pack-center"
+           ng-class="(touchedItemId==report.itemId) ? 'touched' : ''"
+           ng-click="markAsRead(report.feedId, report.itemId)">
+            <p class="small-font" ng-class="(report.read==true) ? '' : 'bold'">{{report.title}}</p>
+        </a>
+
+        <div class="feed-action align-pack-center" ng-click="toggleReadLater(report.feedId, report.itemId)">
+            <img ng-show="{{report.readLater}}" src="img/list-icon.svg" width="32px" height="32px"/>
+        </div>
+
+    </div>
 </div>

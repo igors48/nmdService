@@ -14,8 +14,9 @@ public class FeedItemReportHelper {
     private String title = "";
     private String link = "";
     private long date = 0;
-    private String guid = "";
+    private String itemId = "";
     private boolean read = false;
+    private boolean readLater = false;
 
     private FeedItemReportHelper() {
         // empty
@@ -29,8 +30,9 @@ public class FeedItemReportHelper {
         helper.feedId = feedItemReport.feedId.toString();
         helper.title = feedItemReport.title;
         helper.link = feedItemReport.link;
-        helper.guid = feedItemReport.guid;
+        helper.itemId = feedItemReport.itemId;
         helper.read = feedItemReport.read;
+        helper.readLater = feedItemReport.readLater;
 
         helper.date = feedItemReport.date.getTime();
 

@@ -53,7 +53,7 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTest {
         final FeedItemsReport feedItemsReport = this.controlService.getFeedItemsReport(feedHeader.id);
 
         assertEquals(1, feedItemsReport.reports.size());
-        assertEquals(FIRST_FEED_ITEM_GUID, feedItemsReport.reports.get(0).guid);
+        assertEquals(FIRST_FEED_ITEM_GUID, feedItemsReport.reports.get(0).itemId);
     }
 
     @Test
