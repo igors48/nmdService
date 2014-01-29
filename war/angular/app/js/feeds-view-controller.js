@@ -1,6 +1,6 @@
 'use strict';
 
-controllers.controller('feedsViewController', ['$scope', '$window', '$location', 'feeds', 'reads', 'blockUi', function ($scope, $window, $location, feeds, reads, blockUi) {
+controllers.controller('feedsViewController', ['$scope', '$window', '$location', 'feeds', 'reads', 'lastUsedIds', 'blockUi', function ($scope, $window, $location, feeds, reads, lastUsedIds, blockUi) {
 
         var showStatusMessage = function (message) {
             $scope.statusMessage = message;
@@ -68,6 +68,8 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                             $scope.setFeedsReadReport(readReport);
 
                             $scope.showFeedsCount(readReport.reports.length);
+                            
+                            $scope.showTouchedFeedMark(lastUsedIds.getLastUsedFeedId());
                         })
                 },
                 function () {
@@ -109,15 +111,17 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                 return;
             }
 
-            $scope.showTouchedFeedMark(feedId);   
-
             blockUi.block();
+
+            $scope.showTouchedFeedMark(feedId);   
+            lastUsedIds.store(feedId, topItemId);
 
             $scope.showLoadingTopFeedItem();
 
             var response = reads.mark({
                     feedId: feedId,
-                    itemId: topItemId    
+                    itemId: topItemId,
+                    markAs: 'read'    
                 },
                 function () {
                     serverResponseHandler(response,

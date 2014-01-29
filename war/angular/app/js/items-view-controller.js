@@ -1,6 +1,6 @@
 'use strict';
 
-controllers.controller('itemViewController', ['$scope', '$window', '$routeParams', 'reads', 'blockUi', function ($scope, $window, $routeParams, reads, blockUi) {
+controllers.controller('itemViewController', ['$scope', '$window', '$routeParams', 'reads', 'lastUsedIds', 'blockUi', function ($scope, $window, $routeParams, reads, lastUsedIds, blockUi) {
 
     //TODO code duplication
     function showSuccessMessage (message) {
@@ -49,6 +49,7 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
                         $scope.feedTitle = itemsReport.title;
                         $scope.reports = itemsReport.reports;
 
+                        $scope.touchedItemId = lastUsedIds.getLastUsedItemId();    
                         showSuccessMessage('[ ' + itemsReport.read + ' / ' + itemsReport.notRead + ' ]');
                     })
             },
@@ -63,10 +64,11 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
     };
 
     $scope.markAsRead = function (feedId, itemId) {
-        $scope.touchedItemId = itemId;
-
         blockUi.block();
 
+        $scope.touchedItemId = itemId;
+        lastUsedIds.store(feedId, itemId);
+        
         var response = reads.mark({
             feedId: feedId,
             itemId: itemId,
@@ -77,7 +79,6 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
                     function() {
                         $scope.feedLink = '';
                         $scope.loadItemsReport(feedId);
-                        $scope.touchedItemId = '';
                     }
                 )
             },
@@ -85,7 +86,6 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
                 serverErrorHandler(
                     function () {
                         $scope.loadItemsReport(feedId);
-                        $scope.touchedItemId = '';
                     }
                 )
             }
@@ -93,9 +93,10 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
     }
 
     $scope.toggleReadLater = function (feedId, itemId) {
-        $scope.touchedItemId = itemId;
-
         blockUi.block();
+
+        $scope.touchedItemId = itemId;
+        lastUsedIds.store(feedId, itemId);
 
         var response = reads.mark({
             feedId: feedId,
@@ -107,7 +108,6 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
                     function() {
                         $scope.feedLink = '';
                         $scope.loadItemsReport(feedId);
-                        $scope.touchedItemId = '';
                     }
                 )
             },
@@ -115,7 +115,6 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
                 serverErrorHandler(
                     function () {
                         $scope.loadItemsReport(feedId);
-                        $scope.touchedItemId = '';
                     }
                 )
             }

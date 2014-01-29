@@ -5,7 +5,7 @@ angular.module('application.services', ['ngResource'])
     .factory('feeds', function ($resource) {
         return $resource('/@security.key@/v01/feeds/:feedId', 
             {
-                feedId: "@feedId"    
+                feedId: '@feedId'    
             },
             {
                 'query': {method:'GET'},
@@ -19,15 +19,36 @@ angular.module('application.services', ['ngResource'])
     .factory('reads', function ($resource) {
         return $resource('/@security.key@/v01/reads/:feedId/:itemId', 
             {
-                feedId: "@feedId",
-                itemId: "@itemId",
-                markAs: "@markAs"
+                feedId: '@feedId',
+                itemId: '@itemId',
+                markAs: '@markAs'
             },
             {
                 'query': {method: 'GET'},
                 'mark': {method: 'PUT'}
             }
         );
+    })
+    
+    .factory('lastUsedIds', function () {
+        var lastUsedFeedId = '';
+        var lastUsedItemId = '';
+        
+        return {
+        
+            store: function (feedId, itemId) {
+                lastUsedFeedId = feedId;
+                lastUsedItemId = itemId;
+            },
+            
+            getLastUsedFeedId: function () {
+                return lastUsedFeedId;
+            },
+            
+            getLastUsedItemId: function () {
+                return lastUsedItemId;
+            }
+        }
     })
     
     .factory('blockUi', function ($document) {
