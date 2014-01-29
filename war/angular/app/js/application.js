@@ -2,6 +2,8 @@
 
 var application = angular.module('application', ['ngRoute', 'application.services', 'application.controllers']);
 
+'use strict';
+
 var controllers = angular.module('application.controllers', []);
 
 application.config(['$routeProvider',
