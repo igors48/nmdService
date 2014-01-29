@@ -91,6 +91,8 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
                 function () {
                     serverResponseHandler(response,
                         function () {
+                            lastUsedIds.store(response.feedId, '');
+                            
                             $scope.clearFeedLink();
                             $scope.loadReadsReport();
                         })
