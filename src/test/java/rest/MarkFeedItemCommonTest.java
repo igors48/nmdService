@@ -18,20 +18,6 @@ public class MarkFeedItemCommonTest extends AbstractRestTest {
     }
 
     @Test
-    public void whenItemIdIsEmptyThenErrorReturns() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        assertErrorResponse(markItemAsRead(feedIdResponse.getFeedId().toString(), ""), ErrorCode.INVALID_FEED_OR_ITEM_ID);
-    }
-
-    @Test
-    public void whenItemIdAreSpacesThenErrorReturns() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        assertErrorResponse(markItemAsRead(feedIdResponse.getFeedId().toString(), "  "), ErrorCode.INVALID_FEED_OR_ITEM_ID);
-    }
-
-    @Test
     public void whenFeedIdIsNotValidThenErrorReturns() {
         assertErrorResponse(markItemAsRead("12345678", "guid"), ErrorCode.INVALID_FEED_OR_ITEM_ID);
     }

@@ -34,6 +34,7 @@ public class ReadsServlet extends AbstractRestServlet {
     }
 
     //PUT /{feedId}/{itemId}&mark-as=read|read-later -- mark item as read or read later
+    //PUT /{feedId} -- mark all items as read
     @Override
     protected ResponseBody handlePut(final HttpServletRequest request) {
         final String pathInfo = request.getPathInfo();
@@ -42,6 +43,10 @@ public class ReadsServlet extends AbstractRestServlet {
 
         if (feedAndItemIds == null) {
             return createErrorJsonResponse(invalidFeedOrItemId(pathInfo));
+        }
+
+        if (feedAndItemIds.itemId.isEmpty()) {
+            return markAllItemsAsRead(feedAndItemIds.feedId);
         }
 
         final String markMode = request.getParameter(MARK_AS_PARAMETER_NAME);

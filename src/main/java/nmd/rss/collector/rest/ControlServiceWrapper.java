@@ -198,6 +198,23 @@ public class ControlServiceWrapper {
         }
     }
 
+    public static ResponseBody markAllItemsAsRead(final UUID feedId) {
+
+        try {
+            CONTROL_SERVICE.markAllItemsAsRead(feedId);
+
+            final String message = format("All feed [ %s ] items marked as read", feedId);
+
+            LOGGER.info(message);
+
+            return createJsonResponse(create(message));
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error mark feed [ %s ] items as read", feedId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
+    }
+
     public static ResponseBody toggleItemAsReadLater(final UUID feedId, final String itemId) {
 
         try {

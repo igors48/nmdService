@@ -3,7 +3,6 @@ package nmd.rss.collector.rest;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
 /**
  * User: igu
@@ -12,13 +11,13 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
 public class FeedAndItemIds {
 
     public final UUID feedId;
-    public final String itemId; //TODO why String type used?
+    public final String itemId;
 
     public FeedAndItemIds(final UUID feedId, final String itemId) {
         assertNotNull(feedId);
         this.feedId = feedId;
 
-        assertStringIsValid(itemId);
+        assertNotNull(itemId);
         this.itemId = itemId;
     }
 

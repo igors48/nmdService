@@ -9,7 +9,7 @@
 </div>
 
 <div class="container">
-    <div class="tile shadow" ng-show="showDelete">
+    <div class="tile shadow" ng-show="showButtons">
 
         <div class="feed-title flex-box-one align-pack-center" ng-class="(deleteTouched) ? 'touched' : ''"
              ng-click="deleteFeed()">
@@ -20,13 +20,24 @@
 
     </div>
 
-    <div class="tile shadow" ng-show="showDelete">
+    <div class="tile shadow" ng-show="showButtons">
 
         <a href="#/update-feed-title/{{feedId}}" class="block-link feed-title flex-box-one align-pack-center">
             <div>
                 <p class="bold">Change feed title</p>
             </div>
         </a>
+
+    </div>
+
+    <div class="tile shadow" ng-show="showButtons">
+
+        <div class="feed-title flex-box-one align-pack-center" ng-class="(markAllItemsTouched) ? 'touched' : ''"
+             ng-click="markAllFeedItemsAsRead()">
+            <div>
+                <p class="bold">Mark all items as read</p>
+            </div>
+        </div>
 
     </div>
 </div>

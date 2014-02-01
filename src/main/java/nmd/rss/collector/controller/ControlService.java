@@ -392,6 +392,34 @@ public class ControlService {
         }
     }
 
+    public void markAllItemsAsRead(final UUID feedId) throws ServiceException {
+        assertNotNull(feedId);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            loadFeedHeader(feedId);
+
+            final Set<String> readGuids = new HashSet<>();
+            final Set<String> readLaterGuids = new HashSet<>();
+
+            final Set<String> storedGuids = getStoredGuids(feedId);
+            readGuids.addAll(storedGuids);
+
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+            readLaterGuids.addAll(readFeedItems.readLaterItemIds);
+
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), readGuids, readLaterGuids);
+            this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
     public void clear() {
 
         Transaction transaction = null;

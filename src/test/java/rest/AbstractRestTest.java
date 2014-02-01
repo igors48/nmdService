@@ -115,6 +115,10 @@ public abstract class AbstractRestTest {
         return markItem(feedId, itemId, "read");
     }
 
+    protected String markAllItemsAsRead(final String feedId) {
+        return markItem(feedId, "", "");
+    }
+
     protected String markItemAsReadLater(final String feedId, String itemId) {
         return markItem(feedId, itemId, "readLater");
     }

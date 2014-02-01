@@ -53,7 +53,7 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
 
                         showSuccessMessage('[ ' + itemsReport.read + ' / ' + itemsReport.notRead + ' ]');
 
-                        $scope.showDelete = true;
+                        $scope.showButtons = true;
                     })
             },
             function () {
@@ -73,7 +73,7 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
         showSuccessMessage('remove...');
 
         var response = feeds.delete({
-                feedId:$routeParams.feedId,
+                feedId: $routeParams.feedId,
             },
             function () {
                 serverResponseHandler(response,
@@ -90,6 +90,33 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
         );
 
     };
+
+    $scope.markAllFeedItemsAsRead = function () {
+        $scope.markAllItemsTouched = true;
+        
+        blockUi.block();
+
+        showSuccessMessage('mark...');
+
+        var response = reads.mark({
+                feedId: $routeParams.feedId,
+            },
+            function () {
+                serverResponseHandler(response,
+                    function () {
+                        $location.path('/feeds');
+                    })
+            },
+            function () {
+                serverErrorHandler(
+                    function () {
+                    }
+                )
+            }
+        );
+
+    };
+
 
     $scope.loadFeedReport($routeParams.feedId);
 }]);

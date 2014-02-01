@@ -8,11 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static java.lang.Math.min;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.CloseableTools.close;
 
@@ -46,35 +47,17 @@ public final class ServletTools {
 
     public static FeedAndItemIds parseFeedAndItemIds(final String pathInfo) {
 
-        if (pathInfoIsEmpty(pathInfo)) {
-            return null;
-        }
-
         try {
-            final int secondSlashIndex = pathInfo.indexOf("/", 1);
 
-            if (secondSlashIndex == -1) {
+            if (pathInfo == null) {
                 return null;
             }
 
-            final int thirdSlashIndex = pathInfo.indexOf("/", secondSlashIndex + 1);
-            final int endIndexBasedOnThirdSlash = thirdSlashIndex == -1 ? pathInfo.length() : thirdSlashIndex;
+            final List<String> elements = parse(pathInfo);
+            final UUID feedId = UUID.fromString(elements.get(0));
+            final String itemId = elements.size() > 1 ? elements.get(1) : "";
 
-            final int parametersStart = pathInfo.indexOf("?");
-            final int endBaseOnParameters = parametersStart == -1 ? pathInfo.length() : parametersStart;
-
-            final int endIndex = min(endBaseOnParameters, endIndexBasedOnThirdSlash);
-
-            final String feedIdPart = pathInfo.substring(1, secondSlashIndex);
-            final UUID feedId = UUID.fromString(feedIdPart);
-
-            final String itemIdPart = pathInfo.substring(secondSlashIndex + 1, endIndex).trim();
-
-            if (itemIdPart.isEmpty()) {
-                return null;
-            }
-
-            return new FeedAndItemIds(feedId, itemIdPart);
+            return new FeedAndItemIds(feedId, itemId);
         } catch (Exception exception) {
             LOGGER.log(Level.SEVERE, String.format("Error parse feedId and itemId from [ %s ]", pathInfo), exception);
 
@@ -136,6 +119,34 @@ public final class ServletTools {
         } catch (IOException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public static List<String> parse(final String pathInfo) {
+        assertNotNull(pathInfo);
+
+        final List<String> elements = new ArrayList<>();
+
+        String copy = pathInfo.trim();
+
+        int slashIndex = copy.indexOf("/");
+
+        while (slashIndex != -1) {
+            final String element = copy.substring(0, slashIndex);
+
+            if (!element.isEmpty()) {
+                elements.add(element);
+            }
+
+            copy = copy.substring(slashIndex + 1).trim();
+
+            slashIndex = copy.indexOf("/");
+        }
+
+        if (!copy.isEmpty()) {
+            elements.add(copy);
+        }
+
+        return elements;
     }
 
     private ServletTools() {
