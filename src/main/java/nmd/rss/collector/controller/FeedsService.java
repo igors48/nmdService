@@ -6,7 +6,6 @@ import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
-import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
@@ -28,8 +27,27 @@ import static nmd.rss.collector.util.UrlTools.normalizeUrl;
  */
 public class FeedsService extends AbstractService {
 
-    public FeedsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
-        super(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, scheduler, fetcher, transactions);
+    private static final int MAX_FEED_ITEMS_COUNT = 300;
+
+    private final Transactions transactions;
+    private final FeedUpdateTaskRepository feedUpdateTaskRepository;
+    private final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository;
+    private final ReadFeedItemsRepository readFeedItemsRepository;
+
+    public FeedsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final UrlFetcher fetcher, final Transactions transactions) {
+        super(feedHeadersRepository, feedItemsRepository, fetcher);
+
+        assertNotNull(transactions);
+        this.transactions = transactions;
+
+        assertNotNull(feedUpdateTaskRepository);
+        this.feedUpdateTaskRepository = feedUpdateTaskRepository;
+
+        assertNotNull(feedUpdateTaskSchedulerContextRepository);
+        this.feedUpdateTaskSchedulerContextRepository = feedUpdateTaskSchedulerContextRepository;
+
+        assertNotNull(readFeedItemsRepository);
+        this.readFeedItemsRepository = readFeedItemsRepository;
     }
 
     public UUID addFeed(final String feedUrl) throws ServiceException {

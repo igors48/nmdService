@@ -4,11 +4,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.invalidFeedId;
-import static nmd.rss.collector.rest.ControlServiceWrapper.updateCurrentFeed;
-import static nmd.rss.collector.rest.ControlServiceWrapper.updateFeed;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.parseFeedId;
 import static nmd.rss.collector.rest.ServletTools.pathInfoIsEmpty;
+import static nmd.rss.collector.rest.UpdatesServiceWrapper.updateCurrentFeed;
+import static nmd.rss.collector.rest.UpdatesServiceWrapper.updateFeed;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

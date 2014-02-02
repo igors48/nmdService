@@ -7,11 +7,9 @@ import nmd.rss.collector.feed.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
-import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,8 +25,21 @@ import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
  */
 public class UpdatesService extends AbstractService {
 
-    public UpdatesService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
-        super(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, scheduler, fetcher, transactions);
+    private final Transactions transactions;
+    private final FeedUpdateTaskRepository feedUpdateTaskRepository;
+    private final FeedUpdateTaskScheduler scheduler;
+
+    public UpdatesService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
+        super(feedHeadersRepository, feedItemsRepository, fetcher);
+
+        assertNotNull(transactions);
+        this.transactions = transactions;
+
+        assertNotNull(feedUpdateTaskRepository);
+        this.feedUpdateTaskRepository = feedUpdateTaskRepository;
+
+        assertNotNull(scheduler);
+        this.scheduler = scheduler;
     }
 
     public FeedUpdateReport updateFeed(final UUID feedId) throws ServiceException {

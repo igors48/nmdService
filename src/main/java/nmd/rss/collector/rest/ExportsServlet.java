@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.invalidFeedId;
-import static nmd.rss.collector.rest.ControlServiceWrapper.getFeed;
+import static nmd.rss.collector.rest.FeedsServiceWrapper.getFeed;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.parseFeedId;
 

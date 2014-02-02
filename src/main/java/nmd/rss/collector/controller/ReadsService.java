@@ -5,9 +5,6 @@ import nmd.rss.collector.Transactions;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
-import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
@@ -29,8 +26,46 @@ import static nmd.rss.reader.FeedItemsComparator.compare;
  */
 public class ReadsService extends AbstractService {
 
-    public ReadsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
-        super(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, scheduler, fetcher, transactions);
+    private final Transactions transactions;
+    private final ReadFeedItemsRepository readFeedItemsRepository;
+
+    public ReadsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository, final UrlFetcher fetcher, final Transactions transactions) {
+        super(feedHeadersRepository, feedItemsRepository, fetcher);
+
+        assertNotNull(transactions);
+        this.transactions = transactions;
+
+        assertNotNull(readFeedItemsRepository);
+        this.readFeedItemsRepository = readFeedItemsRepository;
+    }
+
+    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
+        assertNotNull(items);
+        assertNotNull(readGuids);
+
+        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
+
+        for (final FeedItem candidate : items) {
+
+            if (!readGuids.contains(candidate.guid)) {
+                return candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (item.date.compareTo(lastUpdate) > 0) {
+                ++count;
+            }
+        }
+
+        return count;
     }
 
     public List<FeedReadReport> getFeedsReadReport() {
@@ -221,35 +256,6 @@ public class ReadsService extends AbstractService {
         final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
 
         return getStoredGuids(items);
-    }
-
-    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
-        assertNotNull(items);
-        assertNotNull(readGuids);
-
-        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
-
-        for (final FeedItem candidate : items) {
-
-            if (!readGuids.contains(candidate.guid)) {
-                return candidate;
-            }
-        }
-
-        return null;
-    }
-
-    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
-        int count = 0;
-
-        for (final FeedItem item : items) {
-
-            if (item.date.compareTo(lastUpdate) > 0) {
-                ++count;
-            }
-        }
-
-        return count;
     }
 
 }

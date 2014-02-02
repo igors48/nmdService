@@ -2,7 +2,7 @@ package nmd.rss.collector.rest;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static nmd.rss.collector.rest.ControlServiceWrapper.clear;
+import static nmd.rss.collector.rest.FeedsServiceWrapper.clear;
 
 /**
  * User: igu

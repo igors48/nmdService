@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
-import static nmd.rss.collector.rest.ControlServiceWrapper.*;
+import static nmd.rss.collector.rest.ReadsServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.*;
 
