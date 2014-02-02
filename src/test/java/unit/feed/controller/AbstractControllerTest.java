@@ -1,6 +1,8 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.ControlService;
+import nmd.rss.collector.controller.FeedsService;
+import nmd.rss.collector.controller.ReadsService;
+import nmd.rss.collector.controller.UpdatesService;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
@@ -85,7 +87,9 @@ public abstract class AbstractControllerTest {
     protected ReadFeedItemsRepositoryStub readFeedItemsRepositoryStub;
     protected FeedUpdateTaskSchedulerContextRepositoryStub feedUpdateTaskSchedulerContextRepositoryStub;
 
-    protected ControlService controlService;
+    protected FeedsService feedsService;
+    protected UpdatesService updatesService;
+    protected ReadsService readsService;
 
     @Before
     public void before() throws ServiceException {
@@ -99,19 +103,21 @@ public abstract class AbstractControllerTest {
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
         this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
 
-        this.controlService = new ControlService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
+        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
+        this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
+        this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
     }
 
     protected UUID addValidFirstRssFeed() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        return controlService.addFeed(VALID_FIRST_RSS_FEED_LINK);
+        return this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK);
     }
 
     protected UUID addValidSecondRssFeed() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        return controlService.addFeed(VALID_SECOND_RSS_FEED_LINK);
+        return this.feedsService.addFeed(VALID_SECOND_RSS_FEED_LINK);
     }
 
     protected FeedHeader createFeedWithOneItem() {

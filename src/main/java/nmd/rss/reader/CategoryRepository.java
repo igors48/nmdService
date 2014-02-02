@@ -12,4 +12,5 @@ public interface CategoryRepository {
 
     Set<Category> loadAll();
 
+    void delete(String categoryId);
 }

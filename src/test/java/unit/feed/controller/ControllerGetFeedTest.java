@@ -17,14 +17,14 @@ public class ControllerGetFeedTest extends AbstractControllerTest {
     @Test
     public void whenFeedAddedThenItReturns() throws ServiceException {
         final UUID feedId = addValidFirstRssFeed();
-        final Feed feed = this.controlService.getFeed(feedId);
+        final Feed feed = this.feedsService.getFeed(feedId);
 
         assertNotNull(feed);
     }
 
     @Test(expected = ServiceException.class)
     public void whenFeedNotFoundThenExceptionThrows() throws ServiceException {
-        this.controlService.getFeed(UUID.randomUUID());
+        this.feedsService.getFeed(UUID.randomUUID());
     }
 
 }

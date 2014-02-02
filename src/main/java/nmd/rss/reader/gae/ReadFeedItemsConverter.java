@@ -5,6 +5,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
 
 import java.lang.reflect.Type;
@@ -30,6 +31,7 @@ public class ReadFeedItemsConverter {
     private static final String READ_ITEMS = "readItems";
     private static final String READ_LATER_ITEMS = "readLaterItems";
     private static final String LAST_UPDATE = "lastUpdate";
+    private static final String CATEGORY_ID = "categoryId";
 
     private static final Type SET_HELPER_TYPE = new TypeToken<Set<String>>() {
     }.getType();
@@ -44,6 +46,7 @@ public class ReadFeedItemsConverter {
         entity.setProperty(FEED_ID, feedId.toString());
         entity.setProperty(COUNT, readFeedItems.readItemIds.size());
         entity.setProperty(LAST_UPDATE, readFeedItems.lastUpdate);
+        entity.setProperty(CATEGORY_ID, readFeedItems.categoryId);
 
         final String readFeedItemsAsString = GSON.toJson(readFeedItems.readItemIds, SET_HELPER_TYPE);
 
@@ -75,7 +78,9 @@ public class ReadFeedItemsConverter {
             readLaterItemIds = GSON.fromJson(readLaterFeedItemsAsString, SET_HELPER_TYPE);
         }
 
-        return new ReadFeedItems(lastUpdate, readItemsIds, readLaterItemIds);
+        final String categoryId = entity.hasProperty(CATEGORY_ID) ? (String) entity.getProperty(CATEGORY_ID) : Category.DEFAULT_CATEGORY_ID;
+
+        return new ReadFeedItems(lastUpdate, readItemsIds, readLaterItemIds, categoryId);
     }
 
 }

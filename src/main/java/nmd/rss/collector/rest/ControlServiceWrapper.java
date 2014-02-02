@@ -1,10 +1,7 @@
 package nmd.rss.collector.rest;
 
 import nmd.rss.collector.Transactions;
-import nmd.rss.collector.controller.ControlService;
-import nmd.rss.collector.controller.FeedItemsReport;
-import nmd.rss.collector.controller.FeedReadReport;
-import nmd.rss.collector.controller.FeedUpdateReport;
+import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceError;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.exporter.FeedExporterException;
@@ -47,12 +44,14 @@ public class ControlServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(ControlServiceWrapper.class.getName());
 
-    private static final ControlService CONTROL_SERVICE = createControlService();
+    private static final FeedsService FEEDS_SERVICE = createFeedsService();
+    private static final UpdatesService UPDATES_SERVICE = createUpdatesService();
+    private static final ReadsService READS_SERVICE = createReadsService();
 
     public static ResponseBody addFeed(final String feedUrl) {
 
         try {
-            final UUID feedId = CONTROL_SERVICE.addFeed(feedUrl);
+            final UUID feedId = FEEDS_SERVICE.addFeed(feedUrl);
 
             final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
 
@@ -69,7 +68,7 @@ public class ControlServiceWrapper {
     public static ResponseBody updateFeedTitle(final UUID feedId, final String title) {
 
         try {
-            CONTROL_SERVICE.updateFeedTitle(feedId, title);
+            FEEDS_SERVICE.updateFeedTitle(feedId, title);
 
             final String message = format("Feeds [ %s ] title changed to [ %s ]", feedId, title);
 
@@ -84,7 +83,7 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody removeFeed(final UUID feedId) {
-        CONTROL_SERVICE.removeFeed(feedId);
+        FEEDS_SERVICE.removeFeed(feedId);
 
         final String message = format("Feed [ %s ] removed", feedId);
 
@@ -94,7 +93,7 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody getFeedHeaders() {
-        final List<FeedHeader> headers = CONTROL_SERVICE.getFeedHeaders();
+        final List<FeedHeader> headers = FEEDS_SERVICE.getFeedHeaders();
         final FeedHeadersResponse feedHeadersResponse = FeedHeadersResponse.convert(headers);
 
         LOGGER.info(format("[ %s ] feed headers found", headers.size()));
@@ -105,7 +104,7 @@ public class ControlServiceWrapper {
     public static ResponseBody getFeedHeader(final UUID feedId) {
 
         try {
-            final FeedHeader header = CONTROL_SERVICE.loadFeedHeader(feedId);
+            final FeedHeader header = FEEDS_SERVICE.loadFeedHeader(feedId);
             final FeedHeaderResponse response = FeedHeaderResponse.convert(header);
 
             LOGGER.info(format("Header for feed [ %s ] returned", feedId));
@@ -121,7 +120,7 @@ public class ControlServiceWrapper {
     public static ResponseBody getFeed(final UUID feedId) {
 
         try {
-            final Feed feed = CONTROL_SERVICE.getFeed(feedId);
+            final Feed feed = FEEDS_SERVICE.getFeed(feedId);
             final String feedAsXml = export(feed.header, feed.items);
 
             LOGGER.info(format("Feed [ %s ] link [ %s ] items exported. Items count [ %d ]", feedId, feed.header.feedLink, feed.items.size()));
@@ -141,7 +140,7 @@ public class ControlServiceWrapper {
     public static ResponseBody updateCurrentFeed() {
 
         try {
-            final FeedUpdateReport report = CONTROL_SERVICE.updateCurrentFeed();
+            final FeedUpdateReport report = UPDATES_SERVICE.updateCurrentFeed();
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
             LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
@@ -159,7 +158,7 @@ public class ControlServiceWrapper {
     public static ResponseBody updateFeed(final UUID feedId) {
 
         try {
-            final FeedUpdateReport report = CONTROL_SERVICE.updateFeed(feedId);
+            final FeedUpdateReport report = UPDATES_SERVICE.updateFeed(feedId);
             final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
             LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
@@ -173,7 +172,7 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody getFeedsReadReport() {
-        final List<FeedReadReport> feedReadReport = CONTROL_SERVICE.getFeedsReadReport();
+        final List<FeedReadReport> feedReadReport = READS_SERVICE.getFeedsReadReport();
         final FeedReadReportsResponse response = FeedReadReportsResponse.convert(feedReadReport);
 
         LOGGER.info("Feed read report created");
@@ -184,7 +183,7 @@ public class ControlServiceWrapper {
     public static ResponseBody markItemAsRead(final UUID feedId, final String itemId) {
 
         try {
-            CONTROL_SERVICE.markItemAsRead(feedId, itemId);
+            READS_SERVICE.markItemAsRead(feedId, itemId);
 
             final String message = format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId);
 
@@ -201,7 +200,7 @@ public class ControlServiceWrapper {
     public static ResponseBody markAllItemsAsRead(final UUID feedId) {
 
         try {
-            CONTROL_SERVICE.markAllItemsAsRead(feedId);
+            READS_SERVICE.markAllItemsAsRead(feedId);
 
             final String message = format("All feed [ %s ] items marked as read", feedId);
 
@@ -218,7 +217,7 @@ public class ControlServiceWrapper {
     public static ResponseBody toggleItemAsReadLater(final UUID feedId, final String itemId) {
 
         try {
-            CONTROL_SERVICE.toggleReadLaterItemMark(feedId, itemId);
+            READS_SERVICE.toggleReadLaterItemMark(feedId, itemId);
 
             final String message = format("Item [ %s ] from feed [ %s ] toggled as read later", itemId, feedId);
 
@@ -235,7 +234,7 @@ public class ControlServiceWrapper {
     public static ResponseBody getFeedItemsReport(final UUID feedId) {
 
         try {
-            FeedItemsReport report = CONTROL_SERVICE.getFeedItemsReport(feedId);
+            FeedItemsReport report = READS_SERVICE.getFeedItemsReport(feedId);
             FeedItemsReportResponse response = convert(report);
 
             LOGGER.info(format("Feed [ %s ] items report created", feedId));
@@ -249,7 +248,7 @@ public class ControlServiceWrapper {
     }
 
     public static ResponseBody clear() {
-        CONTROL_SERVICE.clear();
+        FEEDS_SERVICE.clear();
 
         final String message = "Service cleared";
 
@@ -258,7 +257,7 @@ public class ControlServiceWrapper {
         return createJsonResponse(create(message));
     }
 
-    private static ControlService createControlService() {
+    private static UpdatesService createUpdatesService() {
         final Transactions transactions = new GaeRootRepository();
         final UrlFetcher urlFetcher = new GaeUrlFetcher();
 
@@ -270,7 +269,37 @@ public class ControlServiceWrapper {
 
         final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(feedUpdateTaskSchedulerContextRepository, feedUpdateTaskRepository, transactions);
 
-        return new ControlService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
+        return new UpdatesService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
+    }
+
+    private static ReadsService createReadsService() {
+        final Transactions transactions = new GaeRootRepository();
+        final UrlFetcher urlFetcher = new GaeUrlFetcher();
+
+        final FeedUpdateTaskRepository feedUpdateTaskRepository = new GaeFeedUpdateTaskRepository();
+        final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
+        final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
+        final ReadFeedItemsRepository readFeedItemsRepository = new GaeReadFeedItemsRepository();
+        final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeCacheFeedUpdateTaskSchedulerContextRepository();
+
+        final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(feedUpdateTaskSchedulerContextRepository, feedUpdateTaskRepository, transactions);
+
+        return new ReadsService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
+    }
+
+    private static FeedsService createFeedsService() {
+        final Transactions transactions = new GaeRootRepository();
+        final UrlFetcher urlFetcher = new GaeUrlFetcher();
+
+        final FeedUpdateTaskRepository feedUpdateTaskRepository = new GaeFeedUpdateTaskRepository();
+        final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
+        final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
+        final ReadFeedItemsRepository readFeedItemsRepository = new GaeReadFeedItemsRepository();
+        final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeCacheFeedUpdateTaskSchedulerContextRepository();
+
+        final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(feedUpdateTaskSchedulerContextRepository, feedUpdateTaskRepository, transactions);
+
+        return new FeedsService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, feedUpdateTaskScheduler, urlFetcher, transactions);
     }
 
 }

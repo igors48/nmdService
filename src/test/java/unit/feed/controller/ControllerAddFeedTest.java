@@ -33,8 +33,8 @@ public class ControllerAddFeedTest extends AbstractControllerTest {
     public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        final UUID firstId = controlService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
-        final UUID secondId = controlService.addFeed(VALID_FIRST_RSS_FEED_LINK);
+        final UUID firstId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
+        final UUID secondId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK);
 
         assertEquals(firstId, secondId);
     }
@@ -43,8 +43,8 @@ public class ControllerAddFeedTest extends AbstractControllerTest {
     public void whenFeedWithSameLinkButWithSlashAtTheEndAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        final UUID firstId = controlService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
-        final UUID secondId = controlService.addFeed(VALID_FIRST_RSS_FEED_LINK + "/");
+        final UUID firstId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
+        final UUID secondId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK + "/");
 
         assertEquals(firstId, secondId);
     }
@@ -53,7 +53,7 @@ public class ControllerAddFeedTest extends AbstractControllerTest {
     public void whenFeedCanNotBeParsedThenExceptionOccurs() throws ServiceException {
         this.fetcherStub.setData(INVALID_RSS_FEED);
 
-        controlService.addFeed(VALID_FIRST_RSS_FEED_LINK);
+        this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK);
     }
 
     @Test

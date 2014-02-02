@@ -20,7 +20,7 @@ public class ControllerGetFeedHeadersTest extends AbstractControllerTest {
         final UUID firstFeedId = addValidFirstRssFeed();
         final UUID secondFeedId = addValidSecondRssFeed();
 
-        final List<FeedHeader> feeds = this.controlService.getFeedHeaders();
+        final List<FeedHeader> feeds = this.feedsService.getFeedHeaders();
 
         assertEquals(2, feeds.size());
 
@@ -32,7 +32,7 @@ public class ControllerGetFeedHeadersTest extends AbstractControllerTest {
     public void whenFeedIdExistsThenItsHeaderReturns() throws ServiceException {
         final UUID firstFeedId = addValidFirstRssFeed();
 
-        final FeedHeader loadedHeader = this.controlService.loadFeedHeader(firstFeedId);
+        final FeedHeader loadedHeader = this.feedsService.loadFeedHeader(firstFeedId);
         final FeedHeader expectedHeader = new FeedHeader(firstFeedId, VALID_FIRST_RSS_FEED_LINK, "3DNews - Daily Digital Digest: Новости Hardware", "Новости Hardware на 3DNews", "http://www.3dnews.ru/");
 
         assertEquals(expectedHeader, loadedHeader);
@@ -40,7 +40,7 @@ public class ControllerGetFeedHeadersTest extends AbstractControllerTest {
 
     @Test(expected = ServiceException.class)
     public void whenFeedIdDoesNotExistThenExceptionThrows() throws ServiceException {
-        this.controlService.loadFeedHeader(UUID.randomUUID());
+        this.feedsService.loadFeedHeader(UUID.randomUUID());
     }
 
 }

@@ -16,19 +16,19 @@ public class ControllerUpdateFeedTest extends AbstractControllerTest {
 
     @Test(expected = ServiceException.class)
     public void whenNoScheduledTasksFoundThenExceptionThrows() throws ServiceException {
-        this.controlService.updateCurrentFeed();
+        this.updatesService.updateCurrentFeed();
     }
 
     @Test(expected = ServiceException.class)
     public void whenFeedNotFoundThenExceptionThrows() throws ServiceException {
-        this.controlService.updateFeed(UUID.randomUUID());
+        this.updatesService.updateFeed(UUID.randomUUID());
     }
 
     @Test
     public void whenFeedUpdatedThenMergeReportReturns() throws Exception {
         final UUID feedId = addValidFirstRssFeed();
 
-        final FeedUpdateReport report = this.controlService.updateFeed(feedId);
+        final FeedUpdateReport report = this.updatesService.updateFeed(feedId);
 
         assertNotNull(report);
     }

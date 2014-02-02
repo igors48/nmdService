@@ -22,10 +22,10 @@ public class ControllerClearTest extends AbstractControllerTest {
         final UUID firstFeedId = addValidFirstRssFeed();
         final UUID secondFeedId = addValidSecondRssFeed();
 
-        this.controlService.markItemAsRead(firstFeedId, "read_first");
-        this.controlService.markItemAsRead(secondFeedId, "read_second");
+        this.readsService.markItemAsRead(firstFeedId, "read_first");
+        this.readsService.markItemAsRead(secondFeedId, "read_second");
 
-        this.controlService.clear();
+        this.feedsService.clear();
     }
 
     @Test

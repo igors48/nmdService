@@ -2,7 +2,6 @@ package unit.feed.controller;
 
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
-import org.junit.Assert;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -21,7 +20,7 @@ public class ControllerUpdateFeedTitleTest extends AbstractControllerTest {
     public void whenFeedIdIsCorrectThenTitleUpdates() throws ServiceException {
         UUID feedId = addValidFirstRssFeed();
 
-        this.controlService.updateFeedTitle(feedId, UPDATED_TITLE);
+        this.feedsService.updateFeedTitle(feedId, UPDATED_TITLE);
 
         final FeedHeader header = this.feedHeadersRepositoryStub.loadHeader(feedId);
 
@@ -30,7 +29,7 @@ public class ControllerUpdateFeedTitleTest extends AbstractControllerTest {
 
     @Test(expected = ServiceException.class)
     public void whenFeedIdIsIncorrectThenExceptionThrows() throws ServiceException {
-        this.controlService.updateFeedTitle(UUID.randomUUID(), UPDATED_TITLE);
+        this.feedsService.updateFeedTitle(UUID.randomUUID(), UPDATED_TITLE);
     }
 
 }

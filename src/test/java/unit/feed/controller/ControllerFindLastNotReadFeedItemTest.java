@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import static nmd.rss.collector.controller.ControlService.findLastNotReadFeedItem;
+import static nmd.rss.collector.controller.ReadsService.findLastNotReadFeedItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

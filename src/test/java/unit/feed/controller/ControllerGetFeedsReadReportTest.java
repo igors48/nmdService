@@ -22,7 +22,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
     @Test
     public void whenNoFeedsThenEmptyReportReturns() throws ServiceException {
-        final List<FeedReadReport> report = this.controlService.getFeedsReadReport();
+        final List<FeedReadReport> report = this.readsService.getFeedsReadReport();
 
         assertTrue(report.isEmpty());
     }
@@ -31,7 +31,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
     public void whenFeedExistsThenItIsParticipateInReport() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithOneItem();
 
-        final List<FeedReadReport> report = this.controlService.getFeedsReadReport();
+        final List<FeedReadReport> report = this.readsService.getFeedsReadReport();
 
         assertEquals(1, report.size());
 
@@ -47,7 +47,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
     public void whenNotReadItemExistsThenItReturns() {
         createFeedWithOneItem();
 
-        final List<FeedReadReport> readReports = this.controlService.getFeedsReadReport();
+        final List<FeedReadReport> readReports = this.readsService.getFeedsReadReport();
 
         assertEquals(FIRST_FEED_ITEM_GUID, readReports.get(0).topItemId);
         assertEquals(FIRST_FEED_ITEM_LINK, readReports.get(0).topItemLink);
@@ -59,7 +59,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
         final FeedHeader feedHeader = createSampleFeed(first);
 
-        this.controlService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
 
         pauseOneMillisecond();
 
@@ -76,7 +76,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
         );
         this.feedItemsRepositoryStub.mergeItems(feedHeader.id, feedItemsMergeReport);
 
-        final FeedReadReport firstReport = this.controlService.getFeedsReadReport().get(0);
+        final FeedReadReport firstReport = this.readsService.getFeedsReadReport().get(0);
 
         assertEquals(1, firstReport.addedFromLastVisit);
     }
