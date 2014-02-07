@@ -52,6 +52,7 @@ public class ReadFeedTest extends AbstractRestTest {
         assertFalse(feedItemsReportResponse.getReports().isEmpty());
 
         assertEquals(0, feedItemsReportResponse.getRead());
+        assertEquals(0, feedItemsReportResponse.getReadLater());
         assertTrue(feedItemsReportResponse.getNotRead() > 0);
     }
 

@@ -18,6 +18,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
     private String title;
     private int read;
     private int notRead;
+    private int readLater;
     private List<FeedItemReportHelper> reports = null;
 
     private FeedItemsReportResponse() {
@@ -34,6 +35,10 @@ public class FeedItemsReportResponse extends SuccessResponse {
 
     public String getTitle() {
         return this.title;
+    }
+
+    public int getReadLater() {
+        return this.readLater;
     }
 
     public List<FeedItemReportHelper> getReports() {
@@ -57,6 +62,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
         response.title = feedItemsReport.title;
         response.read = feedItemsReport.read;
         response.notRead = feedItemsReport.notRead;
+        response.readLater = feedItemsReport.readLater;
         response.reports = helpers;
 
         return response;

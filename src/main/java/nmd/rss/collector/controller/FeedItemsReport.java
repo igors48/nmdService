@@ -15,9 +15,10 @@ public class FeedItemsReport {
     public final String title;
     public final int read;
     public final int notRead;
+    public final int readLater;
     public final List<FeedItemReport> reports;
 
-    public FeedItemsReport(final UUID id, final String title, final int read, final int notRead, final List<FeedItemReport> reports) {
+    public FeedItemsReport(final UUID id, final String title, final int read, final int notRead, final int readLater, final List<FeedItemReport> reports) {
         assertNotNull(id);
         this.id = id;
 
@@ -29,6 +30,9 @@ public class FeedItemsReport {
 
         assertPositive(notRead);
         this.notRead = notRead;
+
+        assertPositive(readLater);
+        this.readLater = readLater;
 
         assertNotNull(reports);
         this.reports = reports;

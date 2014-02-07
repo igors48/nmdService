@@ -90,7 +90,10 @@ public class ReadsService extends AbstractService {
                 final String topItemLink = topItem == null ? null : topItem.link;
 
                 final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
-                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), addedFromLastVisit, topItemId, topItemLink);
+
+                final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
+
+                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink);
 
                 report.add(feedReadReport);
             }
@@ -122,6 +125,7 @@ public class ReadsService extends AbstractService {
 
             int read = 0;
             int notRead = 0;
+            int readLater = 0;
 
             for (final FeedItem feedItem : feedItems) {
                 final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
@@ -135,11 +139,15 @@ public class ReadsService extends AbstractService {
                 } else {
                     ++notRead;
                 }
+
+                if (readLaterItem) {
+                    ++readLater;
+                }
             }
 
             transaction.commit();
 
-            return new FeedItemsReport(header.id, header.title, read, notRead, feedItemReports);
+            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, feedItemReports);
         } finally {
             rollbackIfActive(transaction);
         }
@@ -242,7 +250,26 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    private Set<String> getStoredGuids(final List<FeedItem> items) {
+    private Set<String> getStoredGuids(final UUID feedId) {
+        final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+
+        return getStoredGuids(items);
+    }
+
+    private static int countReadLaterItems(final List<FeedItem> items, final Set<String> readLaterItemIds) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (readLaterItemIds.contains(item.guid)) {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    private static Set<String> getStoredGuids(final List<FeedItem> items) {
         final Set<String> storedGuids = new HashSet<>();
 
         for (final FeedItem item : items) {
@@ -250,12 +277,6 @@ public class ReadsService extends AbstractService {
         }
 
         return storedGuids;
-    }
-
-    private Set<String> getStoredGuids(final UUID feedId) {
-        final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
-
-        return getStoredGuids(items);
     }
 
 }
