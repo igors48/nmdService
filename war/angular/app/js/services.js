@@ -41,6 +41,10 @@ angular.module('application.services', ['ngResource'])
                 lastUsedItemId = itemId;
             },
             
+            storeFeedId: function (feedId) {
+                lastUsedFeedId = feedId;
+            },
+            
             getLastUsedFeedId: function () {
                 return lastUsedFeedId;
             },

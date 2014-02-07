@@ -121,5 +121,6 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
         );
     }
     
+    lastUsedIds.storeFeedId($routeParams.feedId);
     $scope.loadItemsReport($routeParams.feedId);
 }]);

@@ -1,6 +1,6 @@
 'use strict';
 
-controllers.controller('feedViewController', ['$scope', '$location', '$routeParams', 'feeds', 'reads', 'blockUi', function ($scope, $location, $routeParams, feeds, reads, blockUi) {
+controllers.controller('feedViewController', ['$scope', '$location', '$routeParams', 'feeds', 'reads', 'lastUsedIds', 'blockUi', function ($scope, $location, $routeParams, feeds, reads, lastUsedIds, blockUi) {
     $scope.showDelete = false;
     $scope.deleteTouched = false;
 
@@ -117,6 +117,6 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
 
     };
 
-
+    lastUsedIds.storeFeedId($routeParams.feedId);
     $scope.loadFeedReport($routeParams.feedId);
 }]);
