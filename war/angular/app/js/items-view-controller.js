@@ -50,7 +50,7 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
                         $scope.reports = itemsReport.reports;
 
                         $scope.touchedItemId = lastUsedIds.getLastUsedItemId();    
-                        showSuccessMessage('[ ' + itemsReport.read + ' / ' + itemsReport.notRead + ' ]');
+                        showSuccessMessage('[ ' + itemsReport.read + ' / ' + itemsReport.notRead + ' / ' + itemsReport.readLater + ' ]');
                     })
             },
             function () {
