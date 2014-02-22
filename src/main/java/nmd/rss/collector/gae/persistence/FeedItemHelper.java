@@ -48,7 +48,8 @@ public class FeedItemHelper {
         final String link = feedItemHelper.link;
         final String title = feedItemHelper.title;
 
-        return new FeedItem(title, description, link, date, guid);
+        //TODO real value for realDate
+        return new FeedItem(title, description, link, date, true, guid);
     }
 
 }

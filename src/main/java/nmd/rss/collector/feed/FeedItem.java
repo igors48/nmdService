@@ -17,9 +17,10 @@ public class FeedItem {
     public final String description;
     public final String link;
     public final Date date;
+    public final boolean dateReal;
     public final String guid;
 
-    public FeedItem(final String title, final String description, final String link, final Date date, final String guid) {
+    public FeedItem(final String title, final String description, final String link, final Date date, final boolean dateReal, final String guid) {
         assertNotNull(title);
         assertNotNull(description);
         assertTrue(isValidString(title) || isValidString(description));
@@ -31,6 +32,8 @@ public class FeedItem {
 
         assertNotNull(date);
         this.date = date;
+
+        this.dateReal = dateReal;
 
         assertStringIsValid(guid);
         this.guid = guid;
@@ -44,7 +47,9 @@ public class FeedItem {
         FeedItem item = (FeedItem) o;
 
         // this is important
-        if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+        if (dateReal) {
+            if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+        }
 
         if (!description.equals(item.description)) return false;
         if (!guid.equals(item.guid)) return false;
@@ -61,7 +66,9 @@ public class FeedItem {
         FeedItem item = (FeedItem) o;
 
         // this is important
-        if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+        if (dateReal) {
+            if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+        }
 
         if (!description.equals(item.description)) return false;
         if (!link.equals(item.link)) return false;

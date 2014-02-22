@@ -55,7 +55,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
     @Test
     public void whenFeedItemAddedAfterLastVisitThenItIncludedInAddedFromLastVisitCounter() throws ServiceException {
-        final FeedItem first = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(), FIRST_FEED_ITEM_GUID);
+        final FeedItem first = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(), true, FIRST_FEED_ITEM_GUID);
 
         final FeedHeader feedHeader = createSampleFeed(first);
 
@@ -63,7 +63,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
         pauseOneMillisecond();
 
-        final FeedItem second = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(), SECOND_FEED_ITEM_GUID);
+        final FeedItem second = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(), true, SECOND_FEED_ITEM_GUID);
 
         final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(
                 new ArrayList<FeedItem>(),

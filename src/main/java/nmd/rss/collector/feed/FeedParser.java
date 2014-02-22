@@ -81,7 +81,8 @@ public final class FeedParser {
         final Date date = createDate(entry.getPublishedDate(), new Date());
         final String guid = UUID.randomUUID().toString();
 
-        return new FeedItem(title, description, link, date, guid);
+        //TODO real value for realDate
+        return new FeedItem(title, description, link, date, true, guid);
     }
 
     private static Date createDate(final Date date, final Date currentDate) {
