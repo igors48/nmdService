@@ -44,17 +44,18 @@ public class FeedItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FeedItem item = (FeedItem) o;
+        FeedItem feedItem = (FeedItem) o;
 
-        // this is important
+        if (dateReal != feedItem.dateReal) return false;
+
         if (dateReal) {
-            if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+            if (Math.abs(date.getTime() - feedItem.date.getTime()) > ONE_SECOND) return false;
         }
 
-        if (!description.equals(item.description)) return false;
-        if (!guid.equals(item.guid)) return false;
-        if (!link.equals(item.link)) return false;
-        if (!title.equals(item.title)) return false;
+        if (!description.equals(feedItem.description)) return false;
+        if (!guid.equals(feedItem.guid)) return false;
+        if (!link.equals(feedItem.link)) return false;
+        if (!title.equals(feedItem.title)) return false;
 
         return true;
     }
@@ -63,16 +64,17 @@ public class FeedItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FeedItem item = (FeedItem) o;
+        FeedItem feedItem = (FeedItem) o;
 
-        // this is important
+        if (dateReal != feedItem.dateReal) return false;
+
         if (dateReal) {
-            if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+            if (Math.abs(date.getTime() - feedItem.date.getTime()) > ONE_SECOND) return false;
         }
 
-        if (!description.equals(item.description)) return false;
-        if (!link.equals(item.link)) return false;
-        if (!title.equals(item.title)) return false;
+        if (!description.equals(feedItem.description)) return false;
+        if (!link.equals(feedItem.link)) return false;
+        if (!title.equals(feedItem.title)) return false;
 
         return true;
     }
@@ -83,8 +85,8 @@ public class FeedItem {
         result = 31 * result + description.hashCode();
         result = 31 * result + link.hashCode();
         result = 31 * result + date.hashCode();
+        result = 31 * result + (dateReal ? 1 : 0);
         result = 31 * result + guid.hashCode();
         return result;
     }
-
 }
