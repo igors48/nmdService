@@ -11,9 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
-import static nmd.rss.collector.util.Assert.assertValidUrl;
-import static nmd.rss.collector.util.Parameter.isValidUrl;
+import static nmd.rss.collector.util.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -35,7 +33,7 @@ public final class FeedParser {
             final SyndFeedInput input = new SyndFeedInput();
             final SyndFeed feed = input.build(reader);
 
-            final FeedHeader header = parseHeader(feedUrl, feed);
+            final FeedHeader header = build(feedUrl, feed);
 
             if (header == null) {
                 return null;
@@ -45,7 +43,7 @@ public final class FeedParser {
 
             for (int i = 0; i < feed.getEntries().size(); i++) {
                 final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
-                final FeedItem item = parseItem(entry);
+                final FeedItem item = build(entry);
 
                 if (item != null) {
                     items.add(item);
@@ -59,54 +57,73 @@ public final class FeedParser {
 
     }
 
-    public static FeedHeader build(final String url, final String link, final String title, final String description) {
-        return null;
-    }
+    public static FeedHeader build(final String url, final String link, final String title, final String description, final UUID guid) {
+        assertNotNull(guid);
 
-    public static FeedItem build(final String link, final String title, final String description, final Date date, final Date currentDate, final String guid) {
-        return null;
-    }
+        final String feedUrl = trim(url);
 
-    private static FeedHeader parseHeader(final String feedUrl, final SyndFeed feed) {
-        final String feedLink = feed.getLink().trim();
-
-        if (!isValidUrl(feedLink)) {
+        if (feedUrl.isEmpty()) {
             return null;
         }
 
-        final String title = createTitle(feed.getTitle(), feedLink);
-        final String description = feed.getDescription() == null ? "" : feed.getDescription();
+        final String feedLink = trimOrUse(link, feedUrl);
+        final String feedDescription = trimOrUse(description, feedUrl);
+        final String feedTitle = trimOrUse(title, feedUrl);
 
-        return new FeedHeader(UUID.randomUUID(), feedUrl, title, description, feedLink);
+        return new FeedHeader(guid, feedUrl, feedTitle, feedDescription, feedLink);
     }
 
-    private static FeedItem parseItem(final SyndEntry entry) {
-        final String entryLink = entry.getLink().trim();
+    public static FeedItem build(final String link, final String title, final String description, final String alternateDescription, final Date date, final Date currentDate, final String guid) {
+        assertNotNull(currentDate);
+        assertNotNull(alternateDescription);
+        assertStringIsValid(guid);
 
-        if (!isValidUrl(entryLink)) {
+        final String itemLink = trim(link);
+
+        if (itemLink.isEmpty()) {
             return null;
         }
-        //link, title, description, date, currentDate, guid
-        final String title = createTitle(entry.getTitle(), entryLink);
-        final String description = createDescription(entry);
-        final String link = entryLink;
-        final Date date = createDate(entry.getPublishedDate(), new Date());
-        final String guid = UUID.randomUUID().toString();
 
-        //TODO real value for realDate
-        return new FeedItem(title, description, link, date, true, guid);
+        final String itemTitle = trimOrUse(title, itemLink);
+        final String itemDescription = trimOrUse(description, alternateDescription);
+        final boolean itemDateReal = date != null;
+        final Date feedDate = itemDateReal ? date : currentDate;
+
+        return new FeedItem(itemTitle, itemDescription, itemLink, feedDate, itemDateReal, guid);
     }
 
-    private static Date createDate(final Date date, final Date currentDate) {
-        return date == null ? currentDate : date;
+    private static String trim(final String string) {
+        return string == null ? "" : string.trim();
     }
 
-    private static String createTitle(final String title, final String feedLink) {
-        return (title == null) || (title.isEmpty()) ? feedLink : title;
+    private static String trimOrUse(final String string, final String substitute) {
+        final String trimmed = trim(string);
+
+        return trimmed.isEmpty() ? substitute : trimmed;
     }
 
-    private static String createDescription(final SyndEntry entry) {
-        final String title = entry.getTitle();
+    private static FeedHeader build(final String feedUrl, final SyndFeed feed) {
+        final String feedLink = feed.getLink();
+        final String feedTitle = feed.getTitle();
+        final String feedDescription = feed.getDescription();
+        final UUID feedGuid = UUID.randomUUID();
+
+        return build(feedUrl, feedLink, feedTitle, feedDescription, feedGuid);
+    }
+
+    private static FeedItem build(final SyndEntry entry) {
+        final String itemLink = entry.getLink();
+        final String itemTitle = entry.getTitle();
+        final String itemDescription = entry.getDescription() == null ? "" : entry.getDescription().getValue();
+        final String itemAlternateDescription = createAlternateDescription(entry);
+        final Date itemDate = entry.getPublishedDate();
+        final Date itemCurrentDate = new Date();
+        final String itemGuid = UUID.randomUUID().toString();
+
+        return build(itemLink, itemTitle, itemDescription, itemAlternateDescription, itemDate, itemCurrentDate, itemGuid);
+    }
+
+    private static String createAlternateDescription(SyndEntry entry) {
         final List contentsList = entry.getContents();
         final StringBuilder contents = new StringBuilder();
 
@@ -116,12 +133,7 @@ public final class FeedParser {
                 contents.append(((SyndContent) current).getValue());
             }
         }
-
-        final String description = entry.getDescription() == null ? "" : entry.getDescription().getValue();
-
-        final String result = contents.length() == 0 ? description : contents.toString();
-
-        return result.isEmpty() ? title : result;
+        return contents.toString().trim();
     }
 
     private static String stripNonValidXMLCharacters(final String data) {
