@@ -19,7 +19,7 @@ public class FeedItemHelper {
     private Text description;
     private String link;
     private Date date;
-    private boolean dateReal;
+    private boolean dateReal = true;
     private String guid;
 
     private FeedItemHelper() {

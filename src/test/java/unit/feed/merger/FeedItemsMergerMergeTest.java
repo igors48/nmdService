@@ -30,6 +30,9 @@ public class FeedItemsMergerMergeTest {
     private static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", new Date(60), true, UUID.randomUUID().toString());
     private static final FeedItem OLD_SECOND_DUPLICATE = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(52), true, UUID.randomUUID().toString());
 
+    private static final FeedItem OLD_WITH_NOT_REAL_DATE = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48), false, UUID.randomUUID().toString());
+    private static final FeedItem YOUNG_WITH_NOT_REAL_DATE = new FeedItem("youngFirstTitle", "youngFirstDescription", "oldFirstLink", new Date(58), false, UUID.randomUUID().toString());
+
     private List<FeedItem> olds;
     private List<FeedItem> youngs;
 
@@ -89,7 +92,7 @@ public class FeedItemsMergerMergeTest {
     }
 
     @Test
-    public void ifItemsIdenticalThenMergeNoNeeds() throws Exception {
+    public void ifItemsIdenticalThenMergeNoNeeds() {
         this.youngs.clear();
         this.youngs.add(OLD_FIRST);
         this.youngs.add(OLD_SECOND);
@@ -105,7 +108,7 @@ public class FeedItemsMergerMergeTest {
     }
 
     @Test
-    public void whenCountOfItemsMoreThanMaximumThenYoungestItemsAdded() throws Exception {
+    public void whenCountOfItemsMoreThanMaximumThenYoungestItemsAdded() {
         this.olds.clear();
 
         final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_SMALL_FEED);
@@ -118,7 +121,7 @@ public class FeedItemsMergerMergeTest {
     }
 
     @Test
-    public void whenCountOfItemsMoreThanMaximumAndThereAreNoNewItemsThenFeedNoChanged() throws Exception {
+    public void whenCountOfItemsMoreThanMaximumAndThereAreNoNewItemsThenFeedNoChanged() {
         this.olds.clear();
 
         final FeedItemsMergeReport firstReport = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_SMALL_FEED);
@@ -135,7 +138,7 @@ public class FeedItemsMergerMergeTest {
     }
 
     @Test
-    public void whenNoYoungsThenNothingChanges() throws Exception {
+    public void whenNoYoungsThenNothingChanges() {
         this.youngs.clear();
 
         final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
@@ -144,4 +147,21 @@ public class FeedItemsMergerMergeTest {
         assertTrue(report.removed.isEmpty());
         assertEquals(this.olds.size(), report.retained.size());
     }
+
+    @Test
+    public void whenOldAndYoungItemHaveSameUrlButNotRealDateThenOldItemRetained() {
+        this.olds.clear();
+        this.olds.add(OLD_WITH_NOT_REAL_DATE);
+
+        this.youngs.clear();
+        this.youngs.add(YOUNG_WITH_NOT_REAL_DATE);
+
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
+
+        assertTrue(report.added.isEmpty());
+        assertTrue(report.removed.isEmpty());
+        assertEquals(1, report.retained.size());
+        assertTrue(report.retained.contains(OLD_WITH_NOT_REAL_DATE));
+    }
+
 }
