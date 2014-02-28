@@ -1,4 +1,4 @@
-package nmd.rss.collector.twitter;
+package nmd.rss.collector.twitter.entities;
 
 /**
  * User: igu
