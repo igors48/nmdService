@@ -30,9 +30,9 @@ public class TwitterClient {
         assertStringIsValid(screenName);
         assertPositive(count);
 
-        final AccessToken accessToken = TwitterTools.getAccessToken(this.apiKey, this.apiSecret);
+        final AccessToken accessToken = TwitterClientTools.getAccessToken(this.apiKey, this.apiSecret);
 
-        return TwitterTools.fetchTweets(accessToken, screenName, count);
+        return TwitterClientTools.fetchTweets(accessToken, screenName, count);
     }
 
 }

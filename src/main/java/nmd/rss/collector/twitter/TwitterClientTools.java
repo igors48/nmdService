@@ -15,13 +15,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static java.lang.String.format;
+import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.CloseableTools.close;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.02.14
  */
-public class TwitterTools {
+public class TwitterClientTools {
 
     private static final String AUTHENTICATION_URL = "https://api.twitter.com/oauth2/token";
     private static final String TIMELINE_API_URL_TEMPLATE = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=%d";
@@ -41,7 +43,7 @@ public class TwitterTools {
     private static final Type TWEET_LIST_TYPE = new TypeToken<ArrayList<Tweet>>() {
     }.getType();
 
-    private TwitterTools() {
+    private TwitterClientTools() {
         // empty
     }
 
@@ -60,6 +62,9 @@ public class TwitterTools {
     }
 
     public static AccessToken getAccessToken(final String apiKey, String apiSecret) throws IOException {
+        assertStringIsValid(apiKey);
+        assertStringIsValid(apiSecret);
+
         OutputStream outputStream = null;
 
         try {
@@ -91,6 +96,8 @@ public class TwitterTools {
     }
 
     public static String readAllFromConnection(final HttpURLConnection connection) throws IOException {
+        assertNotNull(connection);
+
         final InputStream inputStream = connection.getInputStream();
 
         InputStreamReader inputStreamReader = null;

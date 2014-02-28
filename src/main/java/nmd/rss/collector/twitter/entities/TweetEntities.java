@@ -3,6 +3,8 @@ package nmd.rss.collector.twitter.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import static nmd.rss.collector.util.Assert.assertNotNull;
+
 /**
  * User: igu
  * Date: 26.02.14
@@ -11,8 +13,17 @@ public class TweetEntities {
 
     private List<Urls> urls;
 
-    public TweetEntities() {
-        this.urls = new ArrayList<Urls>();
+    TweetEntities() {
+        this(new ArrayList<Urls>());
+    }
+
+    public TweetEntities(final List<Urls> urls) {
+        assertNotNull(urls);
+        this.urls = urls;
+    }
+
+    public void setUrls(final List<Urls> urls) {
+        this.urls = urls;
     }
 
     public List<Urls> getUrls() {
