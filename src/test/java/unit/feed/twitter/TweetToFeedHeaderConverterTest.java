@@ -56,6 +56,8 @@ public class TweetToFeedHeaderConverterTest {
         this.tweet = new Tweet(CREATED, TEXT, user, tweetEntities);
     }
 
+    //TODO smoke
+    //TODO all spaces was trimmed
     @Test
     public void whenUserIsNullThenNullReturns() {
         this.tweet.setUser(null);
@@ -101,6 +103,30 @@ public class TweetToFeedHeaderConverterTest {
 
         final FeedHeader feedHeader = convertToHeader(this.tweet);
         assertEquals(USER_NAME, feedHeader.description);
+    }
+
+    @Test
+    public void whenUserNameExistDescriptionEmptyThenNameCopiesToDescription() {
+        this.tweet.getUser().setDescription("");
+
+        final FeedHeader feedHeader = convertToHeader(this.tweet);
+        assertEquals(USER_NAME, feedHeader.description);
+    }
+
+    @Test
+    public void whenUserNameNullDescriptionExistsThenDescriptionCopiesToTitle() {
+        this.tweet.getUser().setName(null);
+
+        final FeedHeader feedHeader = convertToHeader(this.tweet);
+        assertEquals(USER_DESCRIPTION, feedHeader.title);
+    }
+
+    @Test
+    public void whenUserNameEmptyDescriptionExistsThenDescriptionCopiesToTitle() {
+        this.tweet.getUser().setName("");
+
+        final FeedHeader feedHeader = convertToHeader(this.tweet);
+        assertEquals(USER_DESCRIPTION, feedHeader.title);
     }
 
 }

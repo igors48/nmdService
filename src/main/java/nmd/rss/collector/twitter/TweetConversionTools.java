@@ -1,10 +1,7 @@
 package nmd.rss.collector.twitter;
 
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.twitter.entities.Tweet;
-import nmd.rss.collector.twitter.entities.TweetEntities;
-import nmd.rss.collector.twitter.entities.Urls;
-import nmd.rss.collector.twitter.entities.User;
+import nmd.rss.collector.twitter.entities.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -33,26 +30,34 @@ public class TweetConversionTools {
             return null;
         }
 
-        final String title = isBlank(userName) ? userDescription : userName;
-        final String description = isBlank(userDescription) ? userName : userDescription;
+        final String title = (isBlank(userName) ? userDescription : userName).trim();
+        final String description = (isBlank(userDescription) ? userName : userDescription).trim();
 
-        final TweetEntities entities = tweet.getEntities();
+        final UserEntities entities = user.getEntities();
 
         if (entities == null) {
             return null;
         }
 
-        final List<Urls> urls = entities.getUrls();
+        final Url url = entities.getUrl();
+
+        if (url == null) {
+            return null;
+        }
+
+        final List<Urls> urls = url.getUrls();
 
         if (urls == null || urls.isEmpty()) {
             return null;
         }
 
-        final String feedLink = urls.get(0).getExpanded_url();
+        final String expandedUrl = urls.get(0).getExpanded_url();
 
-        if (isBlank(feedLink)) {
+        if (isBlank(expandedUrl)) {
             return null;
         }
+
+        final String feedLink = expandedUrl.trim();
 
         final UUID id = UUID.randomUUID();
 
@@ -60,7 +65,7 @@ public class TweetConversionTools {
     }
 
     private static boolean isBlank(final String string) {
-        return string == null || string.isEmpty();
+        return string == null || string.trim().isEmpty();
     }
 
     private TweetConversionTools() {
