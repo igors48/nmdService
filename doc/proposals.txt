@@ -1,9 +1,8 @@
 checkstyle
-    - 5.7 does not work
 pmd
-    - skip test code
 findbugs
 jacoco
+    - test pattern
 
 integrational tests
 unit tests
