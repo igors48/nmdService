@@ -35,18 +35,18 @@ public class TweetToFeedHeaderConverterTest {
 
     @Before
     public void buildTweet() {
-        final Urls firstUserEntityUrls = new Urls(FIRST_USER_ENTITY_URL, FIRST_USER_ENTITY_EXPANDED_URL);
-        final Urls secondUserEntityUrls = new Urls(SECOND_USER_ENTITY_URL, SECOND_USER_ENTITY_EXPANDED_URL);
+        final Urls firstUserEntityUrls = new Urls(FIRST_USER_ENTITY_URL + " ", FIRST_USER_ENTITY_EXPANDED_URL + " ");
+        final Urls secondUserEntityUrls = new Urls(SECOND_USER_ENTITY_URL + " ", SECOND_USER_ENTITY_EXPANDED_URL + " ");
         final List<Urls> userEntityUrls = new ArrayList<Urls>() {{
             add(firstUserEntityUrls);
             add(secondUserEntityUrls);
         }};
         final Url userEntityUrl = new Url(userEntityUrls);
         final UserEntities userEntities = new UserEntities(userEntityUrl);
-        final User user = new User(USER_NAME, USER_DESCRIPTION, userEntities);
+        final User user = new User(USER_NAME + " ", USER_DESCRIPTION + " ", userEntities);
 
-        final Urls firstTweetEntityUrl = new Urls(FIRST_TWEET_ENTITY_URL, FIRST_TWEET_ENTITY_EXPANDED_URL);
-        final Urls secondTweetEntityUrl = new Urls(SECOND_TWEET_ENTITY_URL, SECOND_TWEET_ENTITY_EXPANDED_URL);
+        final Urls firstTweetEntityUrl = new Urls(FIRST_TWEET_ENTITY_URL + " ", FIRST_TWEET_ENTITY_EXPANDED_URL + " ");
+        final Urls secondTweetEntityUrl = new Urls(SECOND_TWEET_ENTITY_URL + " ", SECOND_TWEET_ENTITY_EXPANDED_URL + " ");
         final List<Urls> tweetEntitiesUrls = new ArrayList<Urls>() {{
             add(firstTweetEntityUrl);
             add(secondTweetEntityUrl);
@@ -58,6 +58,17 @@ public class TweetToFeedHeaderConverterTest {
 
     //TODO smoke
     //TODO all spaces was trimmed
+
+    @Test
+    public void allFeedHeaderFieldsWereTrimmedAndAssignedProperly() {
+        final FeedHeader feedHeader = convertToHeader(this.tweet);
+
+        assertEquals(FIRST_USER_ENTITY_EXPANDED_URL, feedHeader.feedLink);
+        assertEquals(USER_DESCRIPTION, feedHeader.description);
+        assertEquals(USER_NAME, feedHeader.title);
+        assertEquals(FIRST_USER_ENTITY_EXPANDED_URL, feedHeader.link);
+    }
+
     @Test
     public void whenUserIsNullThenNullReturns() {
         this.tweet.setUser(null);
@@ -128,5 +139,48 @@ public class TweetToFeedHeaderConverterTest {
         final FeedHeader feedHeader = convertToHeader(this.tweet);
         assertEquals(USER_DESCRIPTION, feedHeader.title);
     }
+
+    @Test
+    public void whenUserEntitiesNullThenNullReturns() {
+        this.tweet.getUser().setEntities(null);
+
+        assertNull(convertToHeader(this.tweet));
+    }
+
+    @Test
+    public void whenUrlInUserEntitiesNullThenNullReturns() {
+        this.tweet.getUser().getEntities().setUrl(null);
+
+        assertNull(convertToHeader(this.tweet));
+    }
+
+    @Test
+    public void whenUrlListInUserEntitiesNullThenNullReturns() {
+        this.tweet.getUser().getEntities().getUrl().setUrls(null);
+
+        assertNull(convertToHeader(this.tweet));
+    }
+
+    @Test
+    public void whenUrlListInUserEntitiesEmptyThenNullReturns() {
+        this.tweet.getUser().getEntities().getUrl().setUrls(new ArrayList<Urls>());
+
+        assertNull(convertToHeader(this.tweet));
+    }
+
+    @Test
+    public void whenFirstExpandedUrlInUserEntitiesNullThenNullReturns() {
+        this.tweet.getUser().getEntities().getUrl().getUrls().get(0).setExpanded_url(null);
+
+        assertNull(convertToHeader(this.tweet));
+    }
+
+    @Test
+    public void whenFirstExpandedUrlInUserEntitiesEmptyThenNullReturns() {
+        this.tweet.getUser().getEntities().getUrl().getUrls().get(0).setExpanded_url("");
+
+        assertNull(convertToHeader(this.tweet));
+    }
+
 
 }

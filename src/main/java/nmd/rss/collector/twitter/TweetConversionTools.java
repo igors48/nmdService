@@ -1,9 +1,14 @@
 package nmd.rss.collector.twitter;
 
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.twitter.entities.*;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -13,6 +18,17 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Date : 28.02.14
  */
 public class TweetConversionTools {
+
+    private static final SimpleDateFormat TWITTER_DATE_PARSER;
+
+    static {
+        TWITTER_DATE_PARSER = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH);
+        TWITTER_DATE_PARSER.setLenient(true);
+    }
+
+    private TweetConversionTools() {
+        // empty
+    }
 
     public static FeedHeader convertToHeader(final Tweet tweet) {
         assertNotNull(tweet);
@@ -51,7 +67,13 @@ public class TweetConversionTools {
             return null;
         }
 
-        final String expandedUrl = urls.get(0).getExpanded_url();
+        final Urls first = urls.get(0);
+
+        if (first == null) {
+            return null;
+        }
+
+        final String expandedUrl = first.getExpanded_url();
 
         if (isBlank(expandedUrl)) {
             return null;
@@ -64,12 +86,74 @@ public class TweetConversionTools {
         return new FeedHeader(id, feedLink, title, description, feedLink);
     }
 
-    private static boolean isBlank(final String string) {
-        return string == null || string.trim().isEmpty();
+    public static FeedItem convertToItem(final Tweet tweet, final Date current) {
+        assertNotNull(tweet);
+
+        final String text = tweet.getText();
+
+        if (isBlank(text)) {
+            return null;
+        }
+
+        final String title = text.trim();
+
+        final TweetEntities entities = tweet.getEntities();
+
+        if (entities == null) {
+            return null;
+        }
+
+        final List<Urls> urls = entities.getUrls();
+
+        if (urls == null || urls.isEmpty()) {
+            return null;
+        }
+
+        final Urls first = urls.get(0);
+
+        if (first == null) {
+            return null;
+        }
+
+        final String expandedUrl = first.getExpanded_url();
+
+        if (isBlank(expandedUrl)) {
+            return null;
+        }
+
+        final String link = expandedUrl.trim();
+
+        final String dateAsString = tweet.getCreated_at();
+
+        final boolean dateReal;
+
+        final Date date = parse(dateAsString);
+        final Date itemDate;
+
+        if (date == null) {
+            dateReal = false;
+            itemDate = current;
+        } else {
+            dateReal = true;
+            itemDate = date;
+        }
+
+        final String id = UUID.randomUUID().toString();
+
+        return new FeedItem(title, title, link, itemDate, dateReal, id);
     }
 
-    private TweetConversionTools() {
-        // empty
+    private static Date parse(final String dateAsString) {
+
+        try {
+            return TWITTER_DATE_PARSER.parse(dateAsString);
+        } catch (ParseException e) {
+            return null;
+        }
+    }
+
+    private static boolean isBlank(final String string) {
+        return string == null || string.trim().isEmpty();
     }
 
 }
