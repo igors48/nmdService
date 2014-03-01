@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * User: igu
  * Date: 13.12.13
  */
-public class ControllerGetFeedItemsReportTest extends AbstractControllerTest {
+public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase {
 
     @Test(expected = ServiceException.class)
     public void whenFeedNotFoundThenExceptionThrows() throws ServiceException {

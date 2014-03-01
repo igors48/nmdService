@@ -1,0 +1,17 @@
+checkstyle
+    - 5.7 does not work
+pmd
+    - skip test code
+findbugs
+jacoco
+
+integrational tests
+unit tests
+
+sha to version info
+
+build
+release
+
+move junit work directory out from project root
+ 

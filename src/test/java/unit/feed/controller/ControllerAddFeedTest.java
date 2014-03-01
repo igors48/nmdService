@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 25.05.13
  */
-public class ControllerAddFeedTest extends AbstractControllerTest {
+public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedFetchedOkAndParsedOkItAdds() throws ServiceException {

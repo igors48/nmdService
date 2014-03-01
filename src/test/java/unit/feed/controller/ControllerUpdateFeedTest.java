@@ -12,7 +12,7 @@ import static org.junit.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 29.06.13
  */
-public class ControllerUpdateFeedTest extends AbstractControllerTest {
+public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
 
     @Test(expected = ServiceException.class)
     public void whenNoScheduledTasksFoundThenExceptionThrows() throws ServiceException {

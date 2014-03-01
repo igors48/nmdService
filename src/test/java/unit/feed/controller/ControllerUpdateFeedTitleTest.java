@@ -12,7 +12,7 @@ import static org.junit.Assert.assertEquals;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 08.01.14
  */
-public class ControllerUpdateFeedTitleTest extends AbstractControllerTest {
+public class ControllerUpdateFeedTitleTest extends AbstractControllerTestBase {
 
     private static final String UPDATED_TITLE = "updated_title";
 
