@@ -38,6 +38,8 @@ public class TwitterClientTools {
     private static final String APPLICATION_X_WWW_FORM_URLENCODED_CHARSET_UTF_8 = "application/x-www-form-urlencoded;charset=UTF-8";
     private static final String CREDENTIALS_REQUEST_BODY = "grant_type=client_credentials";
     private static final String TWITTER_COM = "twitter.com";
+    private static final String MOBILE_TWITTER_COM = "mobile.twitter.com";
+    private static final Pattern TWITTER_USER_NAME_PATTERN = Pattern.compile("https?://(mobile\\.)?twitter.com/(#!/)?([^/]*)", Pattern.CASE_INSENSITIVE);
 
     private static final Gson GSON = new Gson();
 
@@ -131,22 +133,21 @@ public class TwitterClientTools {
             final URI uri = new URI(url);
             final String host = uri.getHost();
 
-            return TWITTER_COM.equalsIgnoreCase(host);
+            return TWITTER_COM.equalsIgnoreCase(host) || MOBILE_TWITTER_COM.equalsIgnoreCase(host);
         } catch (URISyntaxException exception) {
             return false;
         }
     }
 
     public static String getTwitterUserName(final String url) {
-        final Pattern pattern = Pattern.compile("https?://twitter.com/(#!/)?([^/]*)", Pattern.CASE_INSENSITIVE);
 
         if (!isItTwitterUrl(url)) {
             return null;
         }
 
-        final Matcher matcher = pattern.matcher(url);
+        final Matcher matcher = TWITTER_USER_NAME_PATTERN.matcher(url);
 
-        return matcher.find() ? matcher.group(2) : null;
+        return matcher.find() ? matcher.group(3) : null;
     }
 
     private TwitterClientTools() {

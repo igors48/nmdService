@@ -17,6 +17,7 @@ public class TwitterClientToolsTest {
         assertFalse(isItTwitterUrl(""));
         assertFalse(isItTwitterUrl(null));
         assertTrue(isItTwitterUrl("https://twitter.com/adme_ru"));
+        assertTrue(isItTwitterUrl("https://mobile.twitter.com/adme_ru"));
     }
 
     @Test
@@ -26,6 +27,12 @@ public class TwitterClientToolsTest {
         assertEquals("YourName", getTwitterUserName("http://twitter.com/YourName/status/01234567890123456"));
         assertEquals("YourName", getTwitterUserName("http://twitter.com/YourName"));
         assertEquals("YourName", getTwitterUserName("http://twitter.com/YourName/"));
+
+        assertEquals("YourName", getTwitterUserName("http://mobile.twitter.com/#!/YourName/status/01234567890123456"));
+        assertEquals("YourName", getTwitterUserName("https://mobile.twitter.com/#!/YourName/status/01234567890123456"));
+        assertEquals("YourName", getTwitterUserName("http://mobile.twitter.com/YourName/status/01234567890123456"));
+        assertEquals("YourName", getTwitterUserName("http://mobile.twitter.com/YourName"));
+        assertEquals("YourName", getTwitterUserName("http://mobile.twitter.com/YourName/"));
     }
 
 }
