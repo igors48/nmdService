@@ -26,10 +26,6 @@ public class TweetConversionTools {
         TWITTER_DATE_PARSER.setLenient(true);
     }
 
-    private TweetConversionTools() {
-        // empty
-    }
-
     public static FeedHeader convertToHeader(final Tweet tweet) {
         assertNotNull(tweet);
 
@@ -143,9 +139,14 @@ public class TweetConversionTools {
         return new FeedItem(title, title, link, itemDate, dateReal, id);
     }
 
-    private static Date parse(final String dateAsString) {
+    public static Date parse(final String dateAsString) {
 
         try {
+
+            if (isBlank(dateAsString)) {
+                return null;
+            }
+
             return TWITTER_DATE_PARSER.parse(dateAsString);
         } catch (ParseException e) {
             return null;
@@ -154,6 +155,10 @@ public class TweetConversionTools {
 
     private static boolean isBlank(final String string) {
         return string == null || string.trim().isEmpty();
+    }
+
+    private TweetConversionTools() {
+        // empty
     }
 
 }

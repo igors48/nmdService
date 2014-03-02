@@ -8,9 +8,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;
 import java.lang.reflect.Type;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
+import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -37,15 +35,12 @@ public class TwitterClientTools {
     private static final String CONTENT_TYPE = "Content-Type";
     private static final String APPLICATION_X_WWW_FORM_URLENCODED_CHARSET_UTF_8 = "application/x-www-form-urlencoded;charset=UTF-8";
     private static final String CREDENTIALS_REQUEST_BODY = "grant_type=client_credentials";
+    private static final String TWITTER_COM = "twitter.com";
 
     private static final Gson GSON = new Gson();
 
     private static final Type TWEET_LIST_TYPE = new TypeToken<ArrayList<Tweet>>() {
     }.getType();
-
-    private TwitterClientTools() {
-        // empty
-    }
 
     public static List<Tweet> fetchTweets(final AccessToken accessToken, final String screenName, final int count) throws IOException {
         final URL url = new URL(format(TIMELINE_API_URL_TEMPLATE, screenName, count));
@@ -121,6 +116,27 @@ public class TwitterClientTools {
             close(inputStreamReader);
             close(inputStream);
         }
+    }
+
+    public static boolean isItTwitterUrl(final String url) {
+
+        try {
+
+            if (url == null || url.isEmpty()) {
+                return false;
+            }
+
+            final URI uri = new URI(url);
+            final String host = uri.getHost();
+
+            return TWITTER_COM.equalsIgnoreCase(host);
+        } catch (URISyntaxException exception) {
+            return false;
+        }
+    }
+
+    private TwitterClientTools() {
+        // empty
     }
 
 }
