@@ -72,6 +72,7 @@ public class AbstractService {
     private Feed fetchAsTwitterUrl(final String feedUrl) throws ServiceException {
 
         try {
+            //TODO move apiKey, apiSecret to configuration
             final TwitterClient twitterClient = new TwitterClient("tjOc6yZT0a0QzxOLEpqGg", "avqQAxuOVlpHm09YsukVxfdIBAlhjVRqbWmVzJ1yVgs");
             final String userName = getTwitterUserName(feedUrl);
             final List<Tweet> tweets = twitterClient.fetchTweets(userName, 1000);
