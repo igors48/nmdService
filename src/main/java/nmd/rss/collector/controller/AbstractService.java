@@ -69,22 +69,22 @@ public class AbstractService {
         }
     }
 
-    private Feed fetchAsTwitterUrl(final String feedUrl) throws ServiceException {
+    private Feed fetchAsTwitterUrl(final String twitterUrl) throws ServiceException {
 
         try {
             //TODO move apiKey, apiSecret to configuration
             final TwitterClient twitterClient = new TwitterClient("tjOc6yZT0a0QzxOLEpqGg", "avqQAxuOVlpHm09YsukVxfdIBAlhjVRqbWmVzJ1yVgs");
-            final String userName = getTwitterUserName(feedUrl);
+            final String userName = getTwitterUserName(twitterUrl);
             final List<Tweet> tweets = twitterClient.fetchTweets(userName, 1000);
-            final Feed feed = convertToFeed(tweets, new Date());
+            final Feed feed = convertToFeed(twitterUrl, tweets, new Date());
 
             if (feed == null) {
-                throw new ServiceException(feedParseError(feedUrl));
+                throw new ServiceException(feedParseError(twitterUrl));
             }
 
             return feed;
         } catch (IOException exception) {
-            throw new ServiceException(urlFetcherError(feedUrl), exception);
+            throw new ServiceException(urlFetcherError(twitterUrl), exception);
         }
     }
 

@@ -17,25 +17,26 @@ import static org.junit.Assert.assertNull;
  */
 public class TweetsToFeedConverterTest extends AbstractTweetConverterTestBase {
 
+    private static final String TWITTER_URL = "twitter_url";
     private static Date SOME_DATE = new Date(1);
 
     @Test
     public void whenTweetsListIsEmptyThenNullReturns() {
-        final Feed feed = convertToFeed(new ArrayList<Tweet>(), SOME_DATE);
+        final Feed feed = convertToFeed(TWITTER_URL, new ArrayList<Tweet>(), SOME_DATE);
 
         assertNull(feed);
     }
 
     @Test
     public void whenTweetsListIsNullThenNullReturns() {
-        final Feed feed = convertToFeed(null, SOME_DATE);
+        final Feed feed = convertToFeed(TWITTER_URL, null, SOME_DATE);
 
         assertNull(feed);
     }
 
     @Test
     public void whenTweetsListContainsTweetsThenFeedReturns() {
-        final Feed feed = convertToFeed(this.tweets, SOME_DATE);
+        final Feed feed = convertToFeed(TWITTER_URL, this.tweets, SOME_DATE);
 
         assertEquals(1, feed.items.size());
     }

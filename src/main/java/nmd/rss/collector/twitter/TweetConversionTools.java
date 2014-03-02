@@ -10,6 +10,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -28,7 +29,8 @@ public class TweetConversionTools {
         // empty
     }
 
-    public static FeedHeader convertToHeader(final Tweet tweet) {
+    public static FeedHeader convertToHeader(final String twitterLink, final Tweet tweet) {
+        assertStringIsValid(twitterLink);
         assertNotNull(tweet);
 
         final User user = tweet.getUser();
@@ -81,7 +83,7 @@ public class TweetConversionTools {
 
         final UUID id = UUID.randomUUID();
 
-        return new FeedHeader(id, feedLink, title, description, feedLink);
+        return new FeedHeader(id, twitterLink.trim(), title, description, feedLink);
     }
 
     public static FeedItem convertToItem(final Tweet tweet, final Date current) {
@@ -141,7 +143,7 @@ public class TweetConversionTools {
         return new FeedItem(title, title, link, itemDate, dateReal, id);
     }
 
-    public static Feed convertToFeed(final List<Tweet> tweets, final Date current) {
+    public static Feed convertToFeed(final String twitterLink, final List<Tweet> tweets, final Date current) {
         assertNotNull(current);
 
         if (tweets == null || tweets.isEmpty()) {
@@ -154,7 +156,7 @@ public class TweetConversionTools {
         for (final Tweet tweet : tweets) {
 
             if (tweet != null) {
-                feedHeader = convertToHeader(tweets.get(0));
+                feedHeader = convertToHeader(twitterLink, tweets.get(0));
                 final FeedItem feedItem = convertToItem(tweet, current);
 
                 if (feedItem != null) {
