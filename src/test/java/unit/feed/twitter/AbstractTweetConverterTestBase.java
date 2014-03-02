@@ -27,9 +27,10 @@ public abstract class AbstractTweetConverterTestBase {
     private static final String SECOND_TWEET_ENTITY_EXPANDED_URL = "secondTweetEntityExpandedUrl";
 
     protected Tweet tweet;
+    protected List<Tweet> tweets;
 
     @Before
-    public void buildTweet() {
+    public void before() {
         final Urls firstUserEntityUrls = new Urls(FIRST_USER_ENTITY_URL + " ", FIRST_USER_ENTITY_EXPANDED_URL + " ");
         final Urls secondUserEntityUrls = new Urls(SECOND_USER_ENTITY_URL + " ", SECOND_USER_ENTITY_EXPANDED_URL + " ");
         final List<Urls> userEntityUrls = new ArrayList<Urls>() {{
@@ -49,6 +50,9 @@ public abstract class AbstractTweetConverterTestBase {
         final TweetEntities tweetEntities = new TweetEntities(tweetEntitiesUrls);
 
         this.tweet = new Tweet(CREATED, TEXT, user, tweetEntities);
+        this.tweets = new ArrayList<Tweet>() {{
+            add(tweet);
+        }};
     }
 
 }

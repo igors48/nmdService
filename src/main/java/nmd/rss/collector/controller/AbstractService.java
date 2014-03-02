@@ -5,17 +5,24 @@ import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedParserException;
+import nmd.rss.collector.twitter.TwitterClient;
+import nmd.rss.collector.twitter.entities.Tweet;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.collector.updater.UrlFetcherException;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.feed.FeedParser.parse;
+import static nmd.rss.collector.twitter.TweetConversionTools.convertToFeed;
+import static nmd.rss.collector.twitter.TwitterClientTools.getTwitterUserName;
+import static nmd.rss.collector.twitter.TwitterClientTools.isItTwitterUrl;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -52,14 +59,38 @@ public class AbstractService {
     protected Feed fetchFeed(final String feedUrl) throws ServiceException {
 
         try {
-            final String data = this.fetcher.fetch(feedUrl);
+            final boolean isItTwitterUrl = isItTwitterUrl(feedUrl);
 
-            return parse(feedUrl, data);
+            return isItTwitterUrl ? fetchAsTwitterUrl(feedUrl) : fetchAsCommonUrl(feedUrl);
         } catch (final UrlFetcherException exception) {
             throw new ServiceException(urlFetcherError(feedUrl), exception);
         } catch (FeedParserException exception) {
             throw new ServiceException(feedParseError(feedUrl), exception);
         }
+    }
+
+    private Feed fetchAsTwitterUrl(final String feedUrl) throws ServiceException {
+
+        try {
+            final TwitterClient twitterClient = new TwitterClient("tjOc6yZT0a0QzxOLEpqGg", "avqQAxuOVlpHm09YsukVxfdIBAlhjVRqbWmVzJ1yVgs");
+            final String userName = getTwitterUserName(feedUrl);
+            final List<Tweet> tweets = twitterClient.fetchTweets(userName, 1000);
+            final Feed feed = convertToFeed(tweets, new Date());
+
+            if (feed == null) {
+                throw new ServiceException(feedParseError(feedUrl));
+            }
+
+            return feed;
+        } catch (IOException exception) {
+            throw new ServiceException(urlFetcherError(feedUrl), exception);
+        }
+    }
+
+    private Feed fetchAsCommonUrl(String feedUrl) throws UrlFetcherException, FeedParserException {
+        final String data = this.fetcher.fetch(feedUrl);
+
+        return parse(feedUrl, data);
     }
 
     protected List<FeedItem> getFeedOldItems(final FeedHeader feedHeader) {

@@ -11,6 +11,8 @@ import java.lang.reflect.Type;
 import java.net.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -133,6 +135,18 @@ public class TwitterClientTools {
         } catch (URISyntaxException exception) {
             return false;
         }
+    }
+
+    public static String getTwitterUserName(final String url) {
+        final Pattern pattern = Pattern.compile("https?://twitter.com/(#!/)?([^/]*)", Pattern.CASE_INSENSITIVE);
+
+        if (!isItTwitterUrl(url)) {
+            return null;
+        }
+
+        final Matcher matcher = pattern.matcher(url);
+
+        return matcher.find() ? matcher.group(2) : null;
     }
 
     private TwitterClientTools() {

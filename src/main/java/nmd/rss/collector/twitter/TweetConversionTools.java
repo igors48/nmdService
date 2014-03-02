@@ -1,15 +1,13 @@
 package nmd.rss.collector.twitter;
 
+import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.twitter.entities.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.Locale;
-import java.util.UUID;
+import java.util.*;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
@@ -24,6 +22,10 @@ public class TweetConversionTools {
     static {
         TWITTER_DATE_PARSER = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH);
         TWITTER_DATE_PARSER.setLenient(true);
+    }
+
+    private TweetConversionTools() {
+        // empty
     }
 
     public static FeedHeader convertToHeader(final Tweet tweet) {
@@ -139,6 +141,35 @@ public class TweetConversionTools {
         return new FeedItem(title, title, link, itemDate, dateReal, id);
     }
 
+    public static Feed convertToFeed(final List<Tweet> tweets, final Date current) {
+        assertNotNull(current);
+
+        if (tweets == null || tweets.isEmpty()) {
+            return null;
+        }
+
+        FeedHeader feedHeader = null;
+        final List<FeedItem> feedItems = new ArrayList<>();
+
+        for (final Tweet tweet : tweets) {
+
+            if (tweet != null) {
+                feedHeader = convertToHeader(tweets.get(0));
+                final FeedItem feedItem = convertToItem(tweet, current);
+
+                if (feedItem != null) {
+                    feedItems.add(feedItem);
+                }
+            }
+        }
+
+        if (feedHeader == null) {
+            return null;
+        }
+
+        return new Feed(feedHeader, feedItems);
+    }
+
     public static Date parse(final String dateAsString) {
 
         try {
@@ -155,10 +186,6 @@ public class TweetConversionTools {
 
     private static boolean isBlank(final String string) {
         return string == null || string.trim().isEmpty();
-    }
-
-    private TweetConversionTools() {
-        // empty
     }
 
 }
