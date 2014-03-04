@@ -6,6 +6,7 @@ import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.controller.ReadsService;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
+import nmd.rss.collector.gae.persistence.GaeCachedFeedItemsRepository;
 import nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository;
 import nmd.rss.collector.gae.persistence.GaeFeedItemsRepository;
 import nmd.rss.collector.gae.persistence.GaeRootRepository;
@@ -118,7 +119,7 @@ public class ReadsServiceWrapper {
         final Transactions transactions = new GaeRootRepository();
         final UrlFetcher urlFetcher = new GaeUrlFetcher();
 
-        final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
+        final FeedItemsRepository feedItemsRepository = new GaeCachedFeedItemsRepository(new GaeFeedItemsRepository());
         final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
         final ReadFeedItemsRepository readFeedItemsRepository = new GaeReadFeedItemsRepository();
 

@@ -35,7 +35,7 @@ public class AbstractService {
     protected final FeedItemsRepository feedItemsRepository;
     protected final UrlFetcher fetcher;
 
-    public AbstractService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, /*final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskScheduler scheduler,*/ final UrlFetcher fetcher/*, final Transactions transactions*/) {
+    public AbstractService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final UrlFetcher fetcher) {
         assertNotNull(feedHeadersRepository);
         this.feedHeadersRepository = feedHeadersRepository;
 

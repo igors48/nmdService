@@ -1,5 +1,6 @@
 package nmd.rss.collector.feed;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import static nmd.rss.collector.util.Assert.*;
@@ -9,7 +10,7 @@ import static nmd.rss.collector.util.Parameter.isValidString;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
-public class FeedItem {
+public class FeedItem implements Serializable {
 
     private static final int ONE_SECOND = 1000;
 

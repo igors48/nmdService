@@ -6,10 +6,7 @@ import nmd.rss.collector.controller.UpdatesService;
 import nmd.rss.collector.error.ServiceError;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
-import nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository;
-import nmd.rss.collector.gae.persistence.GaeFeedItemsRepository;
-import nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository;
-import nmd.rss.collector.gae.persistence.GaeRootRepository;
+import nmd.rss.collector.gae.persistence.*;
 import nmd.rss.collector.gae.updater.GaeCacheFeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
@@ -76,7 +73,7 @@ public class UpdatesServiceWrapper {
         final UrlFetcher urlFetcher = new GaeUrlFetcher();
 
         final FeedUpdateTaskRepository feedUpdateTaskRepository = new GaeFeedUpdateTaskRepository();
-        final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
+        final FeedItemsRepository feedItemsRepository = new GaeCachedFeedItemsRepository(new GaeFeedItemsRepository());
         final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
         final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeCacheFeedUpdateTaskSchedulerContextRepository();
 
