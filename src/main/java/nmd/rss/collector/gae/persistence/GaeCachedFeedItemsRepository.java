@@ -1,7 +1,6 @@
 package nmd.rss.collector.gae.persistence;
 
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import nmd.rss.collector.Cache;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.updater.FeedItemsRepository;
@@ -10,6 +9,8 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import static nmd.rss.collector.gae.cache.GaeCache.GAE_CACHE;
+import static nmd.rss.collector.gae.persistence.GaeFeedItemsRepository.GAE_FEED_ITEMS_REPOSITORY;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -18,15 +19,16 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class GaeCachedFeedItemsRepository implements FeedItemsRepository {
 
+    public static final FeedItemsRepository GAE_CACHED_FEED_ITEMS_REPOSITORY = new GaeCachedFeedItemsRepository(GAE_FEED_ITEMS_REPOSITORY, GAE_CACHE);
+
     private static final Logger LOGGER = Logger.getLogger(GaeCachedFeedItemsRepository.class.getName());
 
-    private static final MemcacheService CACHE = MemcacheServiceFactory.getMemcacheService();
-
     private final FeedItemsRepository feedItemsRepository;
+    private final Cache cache;
 
-    public GaeCachedFeedItemsRepository(final FeedItemsRepository feedItemsRepository) {
-        assertNotNull(feedItemsRepository);
+    private GaeCachedFeedItemsRepository(final FeedItemsRepository feedItemsRepository, final Cache cache) {
         this.feedItemsRepository = feedItemsRepository;
+        this.cache = cache;
     }
 
     @Override
@@ -40,7 +42,7 @@ public class GaeCachedFeedItemsRepository implements FeedItemsRepository {
             return;
         }
 
-        CACHE.delete(feedId);
+        this.cache.delete(feedId);
 
         this.feedItemsRepository.mergeItems(feedId, feedItemsMergeReport);
     }
@@ -49,12 +51,12 @@ public class GaeCachedFeedItemsRepository implements FeedItemsRepository {
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final List<FeedItem> cached = (List<FeedItem>) CACHE.get(feedId);
+        final List<FeedItem> cached = (List<FeedItem>) this.cache.get(feedId);
 
         if (cached == null) {
             final List<FeedItem> loaded = this.feedItemsRepository.loadItems(feedId);
 
-            CACHE.put(feedId, loaded);
+            this.cache.put(feedId, loaded);
 
             LOGGER.info(String.format("Items for feed [ %s ] were loaded from database", feedId));
 
@@ -70,7 +72,7 @@ public class GaeCachedFeedItemsRepository implements FeedItemsRepository {
     public void deleteItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        CACHE.delete(feedId);
+        this.cache.delete(feedId);
 
         this.feedItemsRepository.deleteItems(feedId);
     }

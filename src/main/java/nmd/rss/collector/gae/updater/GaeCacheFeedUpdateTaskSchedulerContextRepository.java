@@ -1,10 +1,10 @@
 package nmd.rss.collector.gae.updater;
 
-import com.google.appengine.api.memcache.MemcacheService;
-import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import nmd.rss.collector.Cache;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 
+import static nmd.rss.collector.gae.cache.GaeCache.GAE_CACHE;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -13,27 +13,33 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class GaeCacheFeedUpdateTaskSchedulerContextRepository implements FeedUpdateTaskSchedulerContextRepository {
 
-    private static final MemcacheService CACHE = MemcacheServiceFactory.getMemcacheService();
+    public static final FeedUpdateTaskSchedulerContextRepository GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY = new GaeCacheFeedUpdateTaskSchedulerContextRepository(GAE_CACHE);
 
     private static final String KEY = "FeedUpdateTaskSchedulerContext";
+
+    private final Cache cache;
+
+    private GaeCacheFeedUpdateTaskSchedulerContextRepository(final Cache cache) {
+        this.cache = cache;
+    }
 
     @Override
     public void store(final FeedUpdateTaskSchedulerContext context) {
         assertNotNull(context);
 
-        CACHE.put(KEY, context);
+        this.cache.put(KEY, context);
     }
 
     @Override
     public FeedUpdateTaskSchedulerContext load() {
-        final FeedUpdateTaskSchedulerContext context = (FeedUpdateTaskSchedulerContext) CACHE.get(KEY);
+        final FeedUpdateTaskSchedulerContext context = (FeedUpdateTaskSchedulerContext) this.cache.get(KEY);
 
         return context == null ? FeedUpdateTaskSchedulerContext.START_CONTEXT : context;
     }
 
     @Override
     public void clear() {
-        CACHE.delete(KEY);
+        this.cache.delete(KEY);
     }
 
 }

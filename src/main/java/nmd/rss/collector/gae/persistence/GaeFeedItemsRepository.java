@@ -21,6 +21,8 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class GaeFeedItemsRepository implements FeedItemsRepository {
 
+    public static final FeedItemsRepository GAE_FEED_ITEMS_REPOSITORY = new GaeFeedItemsRepository();
+
     @Override
     public void mergeItems(final UUID feedId, final FeedItemsMergeReport feedItemsMergeReport) {
         assertNotNull(feedId);
@@ -60,4 +62,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         deleteEntity(feedId, KIND);
     }
 
+    private GaeFeedItemsRepository() {
+        // empty
+    }
 }

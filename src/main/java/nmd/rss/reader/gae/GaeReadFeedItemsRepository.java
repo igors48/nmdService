@@ -19,6 +19,8 @@ import static nmd.rss.reader.gae.ReadFeedItemsConverter.convert;
  */
 public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
+    public static final ReadFeedItemsRepository GAE_READ_FEED_ITEMS_REPOSITORY = new GaeReadFeedItemsRepository();
+
     @Override
     public ReadFeedItems load(final UUID feedId) {
         assertNotNull(feedId);
@@ -46,6 +48,10 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
         assertNotNull(feedId);
 
         deleteEntity(feedId, KIND);
+    }
+
+    private GaeReadFeedItemsRepository() {
+        // empty
     }
 
 }

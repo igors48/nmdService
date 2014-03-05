@@ -17,6 +17,8 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class GaeRootRepository implements Transactions {
 
+    public static final Transactions GAE_TRANSACTIONS = new GaeRootRepository();
+
     public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
 
     private static final String FEEDS_ENTITY_KIND = "Feeds";
@@ -73,6 +75,10 @@ public class GaeRootRepository implements Transactions {
         }
 
         return DATASTORE_SERVICE.prepare(query);
+    }
+
+    private GaeRootRepository() {
+        // empty
     }
 
 }

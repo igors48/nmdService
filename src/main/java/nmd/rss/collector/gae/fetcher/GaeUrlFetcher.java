@@ -20,6 +20,8 @@ import static nmd.rss.collector.util.CloseableTools.close;
  */
 public class GaeUrlFetcher implements UrlFetcher {
 
+    public static final UrlFetcher GAE_URL_FETCHER = new GaeUrlFetcher();
+
     private static final String UTF_8 = "UTF-8";
     private static final String CONTENT_TYPE = "content-type";
 
@@ -60,6 +62,10 @@ public class GaeUrlFetcher implements UrlFetcher {
             close(urlStream);
             close(urlStreamReader);
         }
+    }
+
+    private GaeUrlFetcher() {
+        // empty
     }
 
 }
