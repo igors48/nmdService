@@ -14,9 +14,7 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
-import static nmd.rss.collector.gae.persistence.GaeCachedFeedItemsRepository.GAE_CACHED_FEED_ITEMS_REPOSITORY;
-import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
-import static nmd.rss.collector.gae.persistence.GaeRootRepository.GAE_TRANSACTIONS;
+import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.FeedItemsReportResponse.convert;
@@ -31,7 +29,7 @@ public class ReadsServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServiceWrapper.class.getName());
 
-    private static final ReadsService READS_SERVICE = new ReadsService(GAE_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_READ_FEED_ITEMS_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
+    private static final ReadsService READS_SERVICE = new ReadsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_READ_FEED_ITEMS_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
 
     public static ResponseBody getFeedsReadReport() {
         final List<FeedReadReport> feedReadReport = READS_SERVICE.getFeedsReadReport();

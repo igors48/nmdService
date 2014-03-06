@@ -2,12 +2,22 @@ package nmd.rss.collector.gae.persistence;
 
 import com.google.appengine.api.datastore.*;
 import nmd.rss.collector.Transactions;
+import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
+import nmd.rss.collector.scheduler.cached.CachedFeedUpdateTaskRepository;
+import nmd.rss.collector.updater.FeedHeadersRepository;
+import nmd.rss.collector.updater.FeedItemsRepository;
+import nmd.rss.collector.updater.cached.CachedFeedHeadersRepository;
+import nmd.rss.collector.updater.cached.CachedFeedItemsRepository;
 
 import java.util.List;
 import java.util.UUID;
 
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static java.lang.Integer.MAX_VALUE;
+import static nmd.rss.collector.gae.cache.GaeCache.GAE_CACHE;
+import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
+import static nmd.rss.collector.gae.persistence.GaeFeedItemsRepository.GAE_FEED_ITEMS_REPOSITORY;
+import static nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 
@@ -18,6 +28,10 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
 public class GaeRootRepository implements Transactions {
 
     public static final Transactions GAE_TRANSACTIONS = new GaeRootRepository();
+
+    public static final FeedItemsRepository GAE_CACHED_FEED_ITEMS_REPOSITORY = new CachedFeedItemsRepository(GAE_FEED_ITEMS_REPOSITORY, GAE_CACHE);
+    public static final FeedUpdateTaskRepository GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY = new CachedFeedUpdateTaskRepository(GAE_FEED_UPDATE_TASK_REPOSITORY, GAE_CACHE);
+    public static final FeedHeadersRepository GAE_CACHED_FEED_HEADERS_REPOSITORY = new CachedFeedHeadersRepository(GAE_FEED_HEADERS_REPOSITORY, GAE_CACHE);
 
     public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
 

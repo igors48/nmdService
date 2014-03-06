@@ -18,10 +18,7 @@ import java.util.logging.Logger;
 import static java.lang.String.format;
 import static nmd.rss.collector.exporter.FeedExporter.export;
 import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
-import static nmd.rss.collector.gae.persistence.GaeCachedFeedItemsRepository.GAE_CACHED_FEED_ITEMS_REPOSITORY;
-import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
-import static nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
-import static nmd.rss.collector.gae.persistence.GaeRootRepository.GAE_TRANSACTIONS;
+import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.gae.updater.GaeCacheFeedUpdateTaskSchedulerContextRepository.GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
@@ -36,7 +33,7 @@ public class FeedsServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(FeedsServiceWrapper.class.getName());
 
-    private static final FeedsService FEEDS_SERVICE = new FeedsService(GAE_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_FEED_UPDATE_TASK_REPOSITORY, GAE_READ_FEED_ITEMS_REPOSITORY, GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
+    private static final FeedsService FEEDS_SERVICE = new FeedsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY, GAE_READ_FEED_ITEMS_REPOSITORY, GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
 
     public static ResponseBody addFeed(final String feedUrl) {
 

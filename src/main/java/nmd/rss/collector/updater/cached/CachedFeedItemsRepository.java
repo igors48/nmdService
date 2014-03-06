@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.persistence;
+package nmd.rss.collector.updater.cached;
 
 import nmd.rss.collector.Cache;
 import nmd.rss.collector.feed.FeedItem;
@@ -9,24 +9,20 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import static nmd.rss.collector.gae.cache.GaeCache.GAE_CACHE;
-import static nmd.rss.collector.gae.persistence.GaeFeedItemsRepository.GAE_FEED_ITEMS_REPOSITORY;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 04.03.14
  */
-public class GaeCachedFeedItemsRepository implements FeedItemsRepository {
+public class CachedFeedItemsRepository implements FeedItemsRepository {
 
-    public static final FeedItemsRepository GAE_CACHED_FEED_ITEMS_REPOSITORY = new GaeCachedFeedItemsRepository(GAE_FEED_ITEMS_REPOSITORY, GAE_CACHE);
-
-    private static final Logger LOGGER = Logger.getLogger(GaeCachedFeedItemsRepository.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(CachedFeedItemsRepository.class.getName());
 
     private final FeedItemsRepository feedItemsRepository;
     private final Cache cache;
 
-    private GaeCachedFeedItemsRepository(final FeedItemsRepository feedItemsRepository, final Cache cache) {
+    public CachedFeedItemsRepository(final FeedItemsRepository feedItemsRepository, final Cache cache) {
         this.feedItemsRepository = feedItemsRepository;
         this.cache = cache;
     }
