@@ -77,7 +77,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
         this.cache.put(KEY, tasks);
 
-        LOGGER.info("Feed update tasks loaded from datastore");
+        LOGGER.info("Feed update tasks were loaded from datastore");
 
         return tasks;
     }

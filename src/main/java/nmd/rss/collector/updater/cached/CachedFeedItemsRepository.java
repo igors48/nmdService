@@ -54,12 +54,10 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
 
             this.cache.put(feedId, loaded);
 
-            LOGGER.info(String.format("Items for feed [ %s ] were loaded from database", feedId));
+            LOGGER.info(String.format("Items for feed [ %s ] were loaded from datastore", feedId));
 
             return loaded;
         } else {
-            LOGGER.info(String.format("Items for feed [ %s ] were taken from cache", feedId));
-
             return cached;
         }
     }

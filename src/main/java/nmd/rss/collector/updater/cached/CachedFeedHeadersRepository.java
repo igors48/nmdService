@@ -94,7 +94,7 @@ public class CachedFeedHeadersRepository implements FeedHeadersRepository {
 
         this.cache.put(KEY, headers);
 
-        LOGGER.info("Feed headers loaded from datastore");
+        LOGGER.info("Feed headers were loaded from datastore");
 
         return headers;
     }
