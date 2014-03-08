@@ -19,7 +19,6 @@ import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.FeedItemsReportResponse.convert;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
-import static nmd.rss.reader.gae.GaeReadFeedItemsRepository.GAE_READ_FEED_ITEMS_REPOSITORY;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -29,7 +28,7 @@ public class ReadsServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServiceWrapper.class.getName());
 
-    private static final ReadsService READS_SERVICE = new ReadsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_READ_FEED_ITEMS_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
+    private static final ReadsService READS_SERVICE = new ReadsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_READ_FEED_ITEMS_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
 
     public static ResponseBody getFeedsReadReport() {
         final List<FeedReadReport> feedReadReport = READS_SERVICE.getFeedsReadReport();

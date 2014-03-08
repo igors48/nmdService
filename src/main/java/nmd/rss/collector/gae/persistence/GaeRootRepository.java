@@ -8,6 +8,8 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.cached.CachedFeedHeadersRepository;
 import nmd.rss.collector.updater.cached.CachedFeedItemsRepository;
+import nmd.rss.reader.CachedReadFeedItemsRepository;
+import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,6 +22,7 @@ import static nmd.rss.collector.gae.persistence.GaeFeedItemsRepository.GAE_FEED_
 import static nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.reader.gae.GaeReadFeedItemsRepository.GAE_READ_FEED_ITEMS_REPOSITORY;
 
 /**
  * User: igu
@@ -32,6 +35,8 @@ public class GaeRootRepository implements Transactions {
     public static final FeedItemsRepository GAE_CACHED_FEED_ITEMS_REPOSITORY = new CachedFeedItemsRepository(GAE_FEED_ITEMS_REPOSITORY, GAE_CACHE);
     public static final FeedUpdateTaskRepository GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY = new CachedFeedUpdateTaskRepository(GAE_FEED_UPDATE_TASK_REPOSITORY, GAE_CACHE);
     public static final FeedHeadersRepository GAE_CACHED_FEED_HEADERS_REPOSITORY = new CachedFeedHeadersRepository(GAE_FEED_HEADERS_REPOSITORY, GAE_CACHE);
+    public static final ReadFeedItemsRepository GAE_CACHED_READ_FEED_ITEMS_REPOSITORY = new CachedReadFeedItemsRepository(GAE_READ_FEED_ITEMS_REPOSITORY, GAE_CACHE);
+
 
     public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
 
