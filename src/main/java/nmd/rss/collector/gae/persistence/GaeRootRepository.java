@@ -37,7 +37,6 @@ public class GaeRootRepository implements Transactions {
     public static final FeedHeadersRepository GAE_CACHED_FEED_HEADERS_REPOSITORY = new CachedFeedHeadersRepository(GAE_FEED_HEADERS_REPOSITORY, GAE_CACHE);
     public static final ReadFeedItemsRepository GAE_CACHED_READ_FEED_ITEMS_REPOSITORY = new CachedReadFeedItemsRepository(GAE_READ_FEED_ITEMS_REPOSITORY, GAE_CACHE);
 
-
     public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
 
     private static final String FEEDS_ENTITY_KIND = "Feeds";
