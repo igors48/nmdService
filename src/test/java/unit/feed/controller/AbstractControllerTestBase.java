@@ -134,7 +134,7 @@ public abstract class AbstractControllerTestBase {
         final List<FeedItem> feedItems = Arrays.asList(items);
         final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(new ArrayList<FeedItem>(), feedItems, new ArrayList<FeedItem>());
 
-        this.feedItemsRepositoryStub.mergeItems(FEED_HEADER.id, feedItemsMergeReport);
+        this.feedItemsRepositoryStub.storeItems(FEED_HEADER.id, feedItemsMergeReport.getAddedAndRetained());
 
         return FEED_HEADER;
     }

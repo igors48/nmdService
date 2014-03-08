@@ -74,7 +74,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTestBase
                     add(second);
                 }}
         );
-        this.feedItemsRepositoryStub.mergeItems(feedHeader.id, feedItemsMergeReport);
+        this.feedItemsRepositoryStub.storeItems(feedHeader.id, feedItemsMergeReport.getAddedAndRetained());
 
         final FeedReadReport firstReport = this.readsService.getFeedsReadReport().get(0);
 

@@ -1,7 +1,6 @@
 package nmd.rss.collector.updater;
 
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
 
 import java.util.List;
 import java.util.UUID;
@@ -12,7 +11,7 @@ import java.util.UUID;
  */
 public interface FeedItemsRepository {
 
-    void mergeItems(UUID feedId, FeedItemsMergeReport feedItemsMergeReport);
+    void storeItems(UUID feedId, List<FeedItem> items);
 
     List<FeedItem> loadItems(UUID feedId);
 

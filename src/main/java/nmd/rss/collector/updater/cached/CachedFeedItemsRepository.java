@@ -2,7 +2,6 @@ package nmd.rss.collector.updater.cached;
 
 import nmd.rss.collector.Cache;
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
 import java.util.List;
@@ -28,19 +27,12 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public void mergeItems(final UUID feedId, final FeedItemsMergeReport feedItemsMergeReport) {
+    public void storeItems(UUID feedId, List<FeedItem> items) {
         assertNotNull(feedId);
-        assertNotNull(feedItemsMergeReport);
+        assertNotNull(items);
 
-        final boolean nothingChanged = feedItemsMergeReport.added.isEmpty() && feedItemsMergeReport.removed.isEmpty();
-
-        if (nothingChanged) {
-            return;
-        }
-
+        this.feedItemsRepository.storeItems(feedId, items);
         this.cache.delete(feedId);
-
-        this.feedItemsRepository.mergeItems(feedId, feedItemsMergeReport);
     }
 
     @Override
