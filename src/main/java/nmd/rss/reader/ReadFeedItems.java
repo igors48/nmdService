@@ -1,5 +1,6 @@
 package nmd.rss.reader;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
@@ -12,7 +13,7 @@ import static nmd.rss.reader.Category.DEFAULT_CATEGORY_ID;
  * User: igu
  * Date: 25.12.13
  */
-public class ReadFeedItems {
+public class ReadFeedItems implements Serializable {
 
     public static final ReadFeedItems EMPTY = new ReadFeedItems(new Date(), new HashSet<String>(), new HashSet<String>(), DEFAULT_CATEGORY_ID);
 

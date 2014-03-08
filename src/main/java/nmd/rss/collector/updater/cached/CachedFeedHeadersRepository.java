@@ -19,7 +19,7 @@ public class CachedFeedHeadersRepository implements FeedHeadersRepository {
 
     private static final Logger LOGGER = Logger.getLogger(CachedFeedHeadersRepository.class.getName());
 
-    private static final String KEY = "FeedHeaders";
+    public static final String KEY = "FeedHeaders";
 
     private final FeedHeadersRepository repository;
     private final Cache cache;

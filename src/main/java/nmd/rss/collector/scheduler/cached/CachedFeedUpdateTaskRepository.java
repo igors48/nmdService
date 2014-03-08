@@ -18,7 +18,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
     private static final Logger LOGGER = Logger.getLogger(CachedFeedUpdateTaskRepository.class.getName());
 
-    private static final String KEY = "FeedUpdateTasks";
+    public static final String KEY = "FeedUpdateTasks";
 
     private final FeedUpdateTaskRepository repository;
     private final Cache cache;
