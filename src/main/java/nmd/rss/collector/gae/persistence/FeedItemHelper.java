@@ -19,6 +19,7 @@ public class FeedItemHelper {
     private Text description;
     private String link;
     private Date date;
+    private boolean dateReal = true;
     private String guid;
 
     private FeedItemHelper() {
@@ -31,6 +32,7 @@ public class FeedItemHelper {
         final FeedItemHelper helper = new FeedItemHelper();
 
         helper.date = feedItem.date;
+        helper.dateReal = feedItem.dateReal;
         helper.description = new Text(feedItem.description.length() > MAX_DESCRIPTION_LENGTH ? feedItem.description.substring(0, MAX_DESCRIPTION_LENGTH) : feedItem.description);
         helper.guid = feedItem.guid;
         helper.link = feedItem.link;
@@ -43,12 +45,13 @@ public class FeedItemHelper {
         assertNotNull(feedItemHelper);
 
         final Date date = feedItemHelper.date;
+        final boolean dateReal = feedItemHelper.dateReal;
         final String description = feedItemHelper.description.getValue();
         final String guid = feedItemHelper.guid;
         final String link = feedItemHelper.link;
         final String title = feedItemHelper.title;
 
-        return new FeedItem(title, description, link, date, guid);
+        return new FeedItem(title, description, link, date, dateReal, guid);
     }
 
 }

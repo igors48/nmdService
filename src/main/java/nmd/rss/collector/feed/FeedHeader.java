@@ -1,5 +1,6 @@
 package nmd.rss.collector.feed;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.*;
@@ -8,7 +9,7 @@ import static nmd.rss.collector.util.Assert.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
-public class FeedHeader {
+public class FeedHeader implements Serializable {
 
     public final UUID id;
     public final String feedLink;

@@ -16,7 +16,7 @@ import static org.junit.Assert.*;
  * User: igu
  * Date: 26.11.13
  */
-public class ControllerMarkItemAsReadTest extends AbstractControllerTest {
+public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
 
     private static final String NOT_EXISTS_ID = "not_exists_id";
 

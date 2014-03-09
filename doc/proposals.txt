@@ -1,0 +1,16 @@
+checkstyle
+pmd
+findbugs
+jacoco
+    - test pattern
+
+integrational tests
+unit tests
+
+sha to version info
+
+build
+release
+
+move junit work directory out from project root
+ 

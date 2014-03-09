@@ -21,6 +21,8 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class GaeFeedHeadersRepository implements FeedHeadersRepository {
 
+    public static final FeedHeadersRepository GAE_FEED_HEADERS_REPOSITORY = new GaeFeedHeadersRepository();
+
     @Override
     public FeedHeader loadHeader(final UUID feedId) {
         assertNotNull(feedId);
@@ -70,6 +72,10 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
         final Entity entity = convert(feedHeader, getFeedRootKey(feedHeader.id));
 
         DATASTORE_SERVICE.put(entity);
+    }
+
+    private GaeFeedHeadersRepository() {
+        // empty
     }
 
 }

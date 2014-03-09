@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 01.02.14
  */
-public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTest {
+public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase {
 
     @Test
     public void whenAllItemsMarkedAsReadThenAllItemsMarked() throws ServiceException {

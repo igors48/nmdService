@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  * User: igu
  * Date: 22.10.13
  */
-public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
+public class ControllerGetFeedsReadReportTest extends AbstractControllerTestBase {
 
     @Test
     public void whenNoFeedsThenEmptyReportReturns() throws ServiceException {
@@ -55,7 +55,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
     @Test
     public void whenFeedItemAddedAfterLastVisitThenItIncludedInAddedFromLastVisitCounter() throws ServiceException {
-        final FeedItem first = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(), FIRST_FEED_ITEM_GUID);
+        final FeedItem first = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(), true, FIRST_FEED_ITEM_GUID);
 
         final FeedHeader feedHeader = createSampleFeed(first);
 
@@ -63,7 +63,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
 
         pauseOneMillisecond();
 
-        final FeedItem second = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(), SECOND_FEED_ITEM_GUID);
+        final FeedItem second = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(), true, SECOND_FEED_ITEM_GUID);
 
         final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(
                 new ArrayList<FeedItem>(),
@@ -74,7 +74,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTest {
                     add(second);
                 }}
         );
-        this.feedItemsRepositoryStub.mergeItems(feedHeader.id, feedItemsMergeReport);
+        this.feedItemsRepositoryStub.storeItems(feedHeader.id, feedItemsMergeReport.getAddedAndRetained());
 
         final FeedReadReport firstReport = this.readsService.getFeedsReadReport().get(0);
 

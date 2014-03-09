@@ -1,28 +1,14 @@
 package nmd.rss.collector.rest;
 
-import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.FeedsService;
 import nmd.rss.collector.error.ServiceError;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.gae.fetcher.GaeUrlFetcher;
-import nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository;
-import nmd.rss.collector.gae.persistence.GaeFeedItemsRepository;
-import nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository;
-import nmd.rss.collector.gae.persistence.GaeRootRepository;
-import nmd.rss.collector.gae.updater.GaeCacheFeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.rest.responses.FeedHeaderResponse;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
-import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
-import nmd.rss.collector.updater.FeedHeadersRepository;
-import nmd.rss.collector.updater.FeedItemsRepository;
-import nmd.rss.collector.updater.UrlFetcher;
-import nmd.rss.reader.ReadFeedItemsRepository;
-import nmd.rss.reader.gae.GaeReadFeedItemsRepository;
 
 import java.util.List;
 import java.util.UUID;
@@ -31,6 +17,8 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.rss.collector.exporter.FeedExporter.export;
+import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
+import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
@@ -43,7 +31,7 @@ public class FeedsServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(FeedsServiceWrapper.class.getName());
 
-    private static final FeedsService FEEDS_SERVICE = createFeedsService();
+    private static final FeedsService FEEDS_SERVICE = new FeedsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY, GAE_CACHED_READ_FEED_ITEMS_REPOSITORY, GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
 
     public static ResponseBody addFeed(final String feedUrl) {
 
@@ -142,19 +130,6 @@ public class FeedsServiceWrapper {
         LOGGER.info(message);
 
         return createJsonResponse(create(message));
-    }
-
-    private static FeedsService createFeedsService() {
-        final Transactions transactions = new GaeRootRepository();
-        final UrlFetcher urlFetcher = new GaeUrlFetcher();
-
-        final FeedUpdateTaskRepository feedUpdateTaskRepository = new GaeFeedUpdateTaskRepository();
-        final FeedItemsRepository feedItemsRepository = new GaeFeedItemsRepository();
-        final FeedHeadersRepository feedHeadersRepository = new GaeFeedHeadersRepository();
-        final ReadFeedItemsRepository readFeedItemsRepository = new GaeReadFeedItemsRepository();
-        final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new GaeCacheFeedUpdateTaskSchedulerContextRepository();
-
-        return new FeedsService(feedHeadersRepository, feedItemsRepository, feedUpdateTaskRepository, readFeedItemsRepository, feedUpdateTaskSchedulerContextRepository, urlFetcher, transactions);
     }
 
 }

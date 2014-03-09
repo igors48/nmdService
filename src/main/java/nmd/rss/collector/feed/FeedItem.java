@@ -1,5 +1,6 @@
 package nmd.rss.collector.feed;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import static nmd.rss.collector.util.Assert.*;
@@ -9,7 +10,7 @@ import static nmd.rss.collector.util.Parameter.isValidString;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
-public class FeedItem {
+public class FeedItem implements Serializable {
 
     private static final int ONE_SECOND = 1000;
 
@@ -17,9 +18,10 @@ public class FeedItem {
     public final String description;
     public final String link;
     public final Date date;
+    public final boolean dateReal;
     public final String guid;
 
-    public FeedItem(final String title, final String description, final String link, final Date date, final String guid) {
+    public FeedItem(final String title, final String description, final String link, final Date date, final boolean dateReal, final String guid) {
         assertNotNull(title);
         assertNotNull(description);
         assertTrue(isValidString(title) || isValidString(description));
@@ -32,6 +34,8 @@ public class FeedItem {
         assertNotNull(date);
         this.date = date;
 
+        this.dateReal = dateReal;
+
         assertStringIsValid(guid);
         this.guid = guid;
     }
@@ -41,15 +45,18 @@ public class FeedItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FeedItem item = (FeedItem) o;
+        FeedItem feedItem = (FeedItem) o;
 
-        // this is important
-        if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+        if (dateReal != feedItem.dateReal) return false;
 
-        if (!description.equals(item.description)) return false;
-        if (!guid.equals(item.guid)) return false;
-        if (!link.equals(item.link)) return false;
-        if (!title.equals(item.title)) return false;
+        if (dateReal) {
+            if (Math.abs(date.getTime() - feedItem.date.getTime()) > ONE_SECOND) return false;
+        }
+
+        if (!description.equals(feedItem.description)) return false;
+        if (!guid.equals(feedItem.guid)) return false;
+        if (!link.equals(feedItem.link)) return false;
+        if (!title.equals(feedItem.title)) return false;
 
         return true;
     }
@@ -58,14 +65,17 @@ public class FeedItem {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FeedItem item = (FeedItem) o;
+        FeedItem feedItem = (FeedItem) o;
 
-        // this is important
-        if (Math.abs(date.getTime() - item.date.getTime()) > ONE_SECOND) return false;
+        if (dateReal != feedItem.dateReal) return false;
 
-        if (!description.equals(item.description)) return false;
-        if (!link.equals(item.link)) return false;
-        if (!title.equals(item.title)) return false;
+        if (dateReal) {
+            if (Math.abs(date.getTime() - feedItem.date.getTime()) > ONE_SECOND) return false;
+        }
+
+        if (!description.equals(feedItem.description)) return false;
+        if (!link.equals(feedItem.link)) return false;
+        if (!title.equals(feedItem.title)) return false;
 
         return true;
     }
@@ -76,8 +86,8 @@ public class FeedItem {
         result = 31 * result + description.hashCode();
         result = 31 * result + link.hashCode();
         result = 31 * result + date.hashCode();
+        result = 31 * result + (dateReal ? 1 : 0);
         result = 31 * result + guid.hashCode();
         return result;
     }
-
 }

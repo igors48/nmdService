@@ -47,7 +47,9 @@ public final class FeedItemsMerger {
             } else {
                 final FeedItem youngestExistent = existent.get(0);
 
-                if (youngestExistent.date.compareTo(youngItem.date) >= 0) {
+                final boolean realDates = youngestExistent.dateReal && youngItem.dateReal;
+
+                if ((youngestExistent.date.compareTo(youngItem.date) >= 0 || !realDates)) {
                     retained.add(youngestExistent);
                     oldsSorted.removeAll(existent);
 

@@ -1,5 +1,6 @@
 package nmd.rss.collector.feed;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
@@ -26,4 +27,12 @@ public class FeedItemsMergeReport {
         this.added = Collections.unmodifiableList(added);
     }
 
+    public List<FeedItem> getAddedAndRetained() {
+        final List<FeedItem> result = new ArrayList<>();
+
+        result.addAll(this.added);
+        result.addAll(this.retained);
+
+        return result;
+    }
 }

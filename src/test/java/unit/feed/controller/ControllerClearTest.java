@@ -12,7 +12,7 @@ import static org.junit.Assert.assertTrue;
  * User: igu
  * Date: 29.11.13
  */
-public class ControllerClearTest extends AbstractControllerTest {
+public class ControllerClearTest extends AbstractControllerTestBase {
 
     @Before
     @Override

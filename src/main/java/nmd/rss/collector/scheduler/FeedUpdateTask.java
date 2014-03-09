@@ -1,5 +1,6 @@
 package nmd.rss.collector.scheduler;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -9,7 +10,7 @@ import static nmd.rss.collector.util.Assert.assertPositive;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.04.13
  */
-public class FeedUpdateTask {
+public class FeedUpdateTask implements Serializable {
 
     public final UUID feedId;
     public final int maxFeedItemsCount;

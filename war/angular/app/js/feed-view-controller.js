@@ -51,7 +51,7 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
                         $scope.feedTitle = itemsReport.title;
                         $scope.feedId = itemsReport.id;
 
-                        showSuccessMessage('[ ' + itemsReport.read + ' / ' + itemsReport.notRead + ' ]');
+                        showSuccessMessage('r: ' + itemsReport.read + ' n: ' + itemsReport.notRead + ' l: ' + itemsReport.readLater);
 
                         $scope.showButtons = true;
                     })

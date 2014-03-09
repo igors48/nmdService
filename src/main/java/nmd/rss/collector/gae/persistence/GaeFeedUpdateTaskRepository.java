@@ -20,6 +20,8 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
 
+    public static final FeedUpdateTaskRepository GAE_FEED_UPDATE_TASK_REPOSITORY = new GaeFeedUpdateTaskRepository();
+
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
         final List<Entity> entities = loadEntities(KIND);
@@ -59,6 +61,10 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
         assertNotNull(feedId);
 
         deleteEntity(feedId, KIND);
+    }
+
+    private GaeFeedUpdateTaskRepository() {
+        // empty
     }
 
 }

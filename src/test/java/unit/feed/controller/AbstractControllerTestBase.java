@@ -18,7 +18,7 @@ import java.util.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.06.13
  */
-public abstract class AbstractControllerTest {
+public abstract class AbstractControllerTestBase {
 
     protected static final String VALID_FIRST_RSS_FEED_LINK = "valid-first-feed-link";
     protected static final String VALID_SECOND_RSS_FEED_LINK = "valid-second-feed-link";
@@ -36,8 +36,8 @@ public abstract class AbstractControllerTest {
     protected static final String SECOND_FEED_ITEM_LINK = "second_link";
     protected static final String SECOND_FEED_ITEM_GUID = "second_guid";
 
-    protected static final FeedItem FIRST_FEED_ITEM = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(1), FIRST_FEED_ITEM_GUID);
-    protected static final FeedItem SECOND_FEED_ITEM = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(2), SECOND_FEED_ITEM_GUID);
+    protected static final FeedItem FIRST_FEED_ITEM = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(1), true, FIRST_FEED_ITEM_GUID);
+    protected static final FeedItem SECOND_FEED_ITEM = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(2), true, SECOND_FEED_ITEM_GUID);
 
     private static final FeedHeader FEED_HEADER = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
 
@@ -134,7 +134,7 @@ public abstract class AbstractControllerTest {
         final List<FeedItem> feedItems = Arrays.asList(items);
         final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(new ArrayList<FeedItem>(), feedItems, new ArrayList<FeedItem>());
 
-        this.feedItemsRepositoryStub.mergeItems(FEED_HEADER.id, feedItemsMergeReport);
+        this.feedItemsRepositoryStub.storeItems(FEED_HEADER.id, feedItemsMergeReport.getAddedAndRetained());
 
         return FEED_HEADER;
     }

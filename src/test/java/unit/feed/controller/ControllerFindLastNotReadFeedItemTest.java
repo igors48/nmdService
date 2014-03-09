@@ -19,9 +19,9 @@ import static org.junit.Assert.assertNull;
 public class ControllerFindLastNotReadFeedItemTest {
 
     private static final List<FeedItem> FEED_ITEMS = new ArrayList<FeedItem>() {{
-        add(new FeedItem("first", "first", "first", new Date(0), "first"));
-        add(new FeedItem("second", "second", "second", new Date(1), "second"));
-        add(new FeedItem("third", "third", "third", new Date(2), "third"));
+        add(new FeedItem("first", "first", "first", new Date(0), true, "first"));
+        add(new FeedItem("second", "second", "second", new Date(1), true, "second"));
+        add(new FeedItem("third", "third", "third", new Date(2), true, "third"));
     }};
 
     @Test

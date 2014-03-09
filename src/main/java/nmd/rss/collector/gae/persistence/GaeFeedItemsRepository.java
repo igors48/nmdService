@@ -3,7 +3,6 @@ package nmd.rss.collector.gae.persistence;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
 import java.util.ArrayList;
@@ -21,25 +20,17 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class GaeFeedItemsRepository implements FeedItemsRepository {
 
+    public static final FeedItemsRepository GAE_FEED_ITEMS_REPOSITORY = new GaeFeedItemsRepository();
+
     @Override
-    public void mergeItems(final UUID feedId, final FeedItemsMergeReport feedItemsMergeReport) {
+    public void storeItems(UUID feedId, List<FeedItem> items) {
         assertNotNull(feedId);
-        assertNotNull(feedItemsMergeReport);
-
-        final boolean nothingChanged = feedItemsMergeReport.added.isEmpty() && feedItemsMergeReport.removed.isEmpty();
-
-        if (nothingChanged) {
-            return;
-        }
+        assertNotNull(items);
 
         deleteItems(feedId);
 
-        final List<FeedItem> storedItems = new ArrayList<>();
-        storedItems.addAll(feedItemsMergeReport.retained);
-        storedItems.addAll(feedItemsMergeReport.added);
-
         final Key feedRootKey = getFeedRootKey(feedId);
-        final Entity entity = convert(feedRootKey, feedId, storedItems);
+        final Entity entity = convert(feedRootKey, feedId, items);
 
         DATASTORE_SERVICE.put(entity);
     }
@@ -60,4 +51,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
         deleteEntity(feedId, KIND);
     }
 
+    private GaeFeedItemsRepository() {
+        // empty
+    }
 }
