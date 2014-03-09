@@ -16,7 +16,6 @@ import static java.lang.String.format;
 import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
 import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
-import static nmd.rss.collector.gae.updater.GaeCacheFeedUpdateTaskSchedulerContextRepository.GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 

@@ -10,9 +10,9 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 05.03.14
  */
-public class GaeCache implements Cache {
+public class MemCache implements Cache {
 
-    public static final GaeCache GAE_CACHE = new GaeCache();
+    public static final MemCache MEM_CACHE = new MemCache();
 
     private static final MemcacheService CACHE = MemcacheServiceFactory.getMemcacheService();
 
@@ -38,7 +38,7 @@ public class GaeCache implements Cache {
         return CACHE.delete(key);
     }
 
-    private GaeCache() {
+    private MemCache() {
         // empty
     }
 }

@@ -1,25 +1,22 @@
-package nmd.rss.collector.gae.updater;
+package nmd.rss.collector.scheduler.cached;
 
 import nmd.rss.collector.Cache;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 
-import static nmd.rss.collector.gae.cache.GaeCache.GAE_CACHE;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
  * User: igu
  * Date: 14.10.13
  */
-public class GaeCacheFeedUpdateTaskSchedulerContextRepository implements FeedUpdateTaskSchedulerContextRepository {
-
-    public static final FeedUpdateTaskSchedulerContextRepository GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY = new GaeCacheFeedUpdateTaskSchedulerContextRepository(GAE_CACHE);
+public class CachedFeedUpdateTaskSchedulerContextRepository implements FeedUpdateTaskSchedulerContextRepository {
 
     private static final String KEY = "FeedUpdateTaskSchedulerContext";
 
     private final Cache cache;
 
-    private GaeCacheFeedUpdateTaskSchedulerContextRepository(final Cache cache) {
+    public CachedFeedUpdateTaskSchedulerContextRepository(final Cache cache) {
         this.cache = cache;
     }
 
