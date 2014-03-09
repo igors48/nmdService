@@ -22,7 +22,10 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
     private final Cache cache;
 
     public CachedFeedItemsRepository(final FeedItemsRepository feedItemsRepository, final Cache cache) {
+        assertNotNull(feedItemsRepository);
         this.feedItemsRepository = feedItemsRepository;
+
+        assertNotNull(cache);
         this.cache = cache;
     }
 
@@ -32,19 +35,20 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
         assertNotNull(items);
 
         this.feedItemsRepository.storeItems(feedId, items);
-        this.cache.delete(feedId);
+
+        this.cache.put(keyFor(feedId), items);
     }
 
     @Override
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final List<FeedItem> cached = (List<FeedItem>) this.cache.get(feedId);
+        final List<FeedItem> cached = (List<FeedItem>) this.cache.get(keyFor(feedId));
 
         if (cached == null) {
             final List<FeedItem> loaded = this.feedItemsRepository.loadItems(feedId);
 
-            this.cache.put(feedId, loaded);
+            this.cache.put(keyFor(feedId), loaded);
 
             LOGGER.info(String.format("Items for feed [ %s ] were loaded from datastore", feedId));
 
@@ -58,9 +62,15 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
     public void deleteItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        this.cache.delete(feedId);
+        this.cache.delete(keyFor(feedId));
 
         this.feedItemsRepository.deleteItems(feedId);
+    }
+
+    public static String keyFor(final UUID uuid) {
+        assertNotNull(uuid);
+
+        return "FEED-" + uuid;
     }
 
 }
