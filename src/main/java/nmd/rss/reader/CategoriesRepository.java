@@ -6,7 +6,7 @@ import java.util.Set;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 01.02.14
  */
-public interface CategoryRepository {
+public interface CategoriesRepository {
 
     void store(Category category);
 

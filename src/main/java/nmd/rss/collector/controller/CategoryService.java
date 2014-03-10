@@ -1,7 +1,7 @@
 package nmd.rss.collector.controller;
 
+import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.Category;
-import nmd.rss.reader.CategoryRepository;
 
 import java.util.Iterator;
 import java.util.Set;
@@ -16,11 +16,11 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class CategoryService {
 
-    private final CategoryRepository categoryRepository;
+    private final CategoriesRepository categoriesRepository;
 
-    public CategoryService(final CategoryRepository categoryRepository) {
-        assertNotNull(categoryRepository);
-        this.categoryRepository = categoryRepository;
+    public CategoryService(final CategoriesRepository categoriesRepository) {
+        assertNotNull(categoriesRepository);
+        this.categoriesRepository = categoriesRepository;
     }
 
     public void addCategory(final String name) {
@@ -30,13 +30,13 @@ public class CategoryService {
 
         final Category category = new Category(UUID.randomUUID().toString(), name);
 
-        this.categoryRepository.store(category);
+        this.categoriesRepository.store(category);
     }
 
     public void removeCategory(final String name) {
         assertStringIsValid(name);
 
-        final Set<Category> categories = this.categoryRepository.loadAll();
+        final Set<Category> categories = this.categoriesRepository.loadAll();
 
         for (final Iterator<Category> iterator = categories.iterator(); iterator.hasNext(); ) {
             final Category category = iterator.next();
@@ -48,7 +48,7 @@ public class CategoryService {
     }
 
     public Set<Category> getAllCategories() {
-        return this.categoryRepository.loadAll();
+        return this.categoriesRepository.loadAll();
     }
 
 }
