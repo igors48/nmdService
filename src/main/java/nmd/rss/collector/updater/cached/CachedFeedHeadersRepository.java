@@ -33,14 +33,14 @@ public class CachedFeedHeadersRepository implements FeedHeadersRepository {
     }
 
     @Override
-    public List<FeedHeader> loadHeaders() {
+    public synchronized List<FeedHeader> loadHeaders() {
         final List<FeedHeader> cached = (List<FeedHeader>) this.cache.get(KEY);
 
         return cached == null ? loadCache() : cached;
     }
 
     @Override
-    public FeedHeader loadHeader(UUID feedId) {
+    public synchronized FeedHeader loadHeader(UUID feedId) {
         assertNotNull(feedId);
 
         final List<FeedHeader> headers = loadHeaders();
@@ -56,7 +56,7 @@ public class CachedFeedHeadersRepository implements FeedHeadersRepository {
     }
 
     @Override
-    public FeedHeader loadHeader(String feedLink) {
+    public synchronized FeedHeader loadHeader(String feedLink) {
         assertStringIsValid(feedLink);
 
         final List<FeedHeader> headers = loadHeaders();
@@ -72,7 +72,7 @@ public class CachedFeedHeadersRepository implements FeedHeadersRepository {
     }
 
     @Override
-    public void storeHeader(FeedHeader feedHeader) {
+    public synchronized void storeHeader(FeedHeader feedHeader) {
         assertNotNull(feedHeader);
 
         this.repository.storeHeader(feedHeader);
@@ -81,7 +81,7 @@ public class CachedFeedHeadersRepository implements FeedHeadersRepository {
     }
 
     @Override
-    public void deleteHeader(UUID feedId) {
+    public synchronized void deleteHeader(UUID feedId) {
         assertNotNull(feedId);
 
         this.repository.deleteHeader(feedId);

@@ -34,7 +34,7 @@ public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
     }
 
     @Override
-    public ReadFeedItems load(final UUID feedId) {
+    public synchronized ReadFeedItems load(final UUID feedId) {
         assertNotNull(feedId);
 
         final ReadFeedItems items;
@@ -58,7 +58,7 @@ public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
     }
 
     @Override
-    public void store(final UUID feedId, final ReadFeedItems readFeedItems) {
+    public synchronized void store(final UUID feedId, final ReadFeedItems readFeedItems) {
         assertNotNull(feedId);
         assertNotNull(readFeedItems);
 
@@ -67,7 +67,7 @@ public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
     }
 
     @Override
-    public void delete(final UUID feedId) {
+    public synchronized void delete(final UUID feedId) {
         assertNotNull(feedId);
 
         this.cache.delete(keyFor(feedId));
