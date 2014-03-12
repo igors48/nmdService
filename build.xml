@@ -141,7 +141,7 @@
 
 
     <fileset id="source.test.filtered.java" dir="${dir.source.test.java}">
-        <include name="/unit/**/CachedFeedItemsRepositoryTest.java"/>
+        <include name="/unit/**/CachedCategoriesRepositoryTest.java"/>
     </fileset>
 
 
