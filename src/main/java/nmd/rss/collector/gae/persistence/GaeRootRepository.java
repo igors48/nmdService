@@ -10,7 +10,9 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.cached.CachedFeedHeadersRepository;
 import nmd.rss.collector.updater.cached.CachedFeedItemsRepository;
+import nmd.rss.reader.CachedCategoriesRepository;
 import nmd.rss.reader.CachedReadFeedItemsRepository;
+import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.List;
@@ -24,6 +26,7 @@ import static nmd.rss.collector.gae.persistence.GaeFeedItemsRepository.GAE_FEED_
 import static nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.reader.gae.GaeCategoriesRepository.GAE_CATEGORIES_REPOSITORY;
 import static nmd.rss.reader.gae.GaeReadFeedItemsRepository.GAE_READ_FEED_ITEMS_REPOSITORY;
 
 /**
@@ -39,17 +42,16 @@ public class GaeRootRepository implements Transactions {
     public static final FeedUpdateTaskRepository GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY = new CachedFeedUpdateTaskRepository(GAE_FEED_UPDATE_TASK_REPOSITORY, MEM_CACHE);
     public static final FeedHeadersRepository GAE_CACHED_FEED_HEADERS_REPOSITORY = new CachedFeedHeadersRepository(GAE_FEED_HEADERS_REPOSITORY, MEM_CACHE);
     public static final ReadFeedItemsRepository GAE_CACHED_READ_FEED_ITEMS_REPOSITORY = new CachedReadFeedItemsRepository(GAE_READ_FEED_ITEMS_REPOSITORY, MEM_CACHE);
+    public static final CategoriesRepository GAE_CACHED_CATEGORIES_REPOSITORY = new CachedCategoriesRepository(GAE_CATEGORIES_REPOSITORY, MEM_CACHE);
 
     public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
 
     private static final String FEEDS_ENTITY_KIND = "Feeds";
+    private static final Key FEEDS_ROOT_KEY = KeyFactory.createKey(FEEDS_ENTITY_KIND, FEEDS_ENTITY_KIND);
     private static final String FEED_ENTITY_KIND = "Feed";
 
-    private static final Key FEEDS_ROOT_KEY = KeyFactory.createKey(FEEDS_ENTITY_KIND, FEEDS_ENTITY_KIND);
-
-    @Override
-    public Transaction beginOne() {
-        return DATASTORE_SERVICE.beginTransaction();
+    private GaeRootRepository() {
+        // empty
     }
 
     public static Key getFeedRootKey(final UUID feedId) {
@@ -98,8 +100,9 @@ public class GaeRootRepository implements Transactions {
         return DATASTORE_SERVICE.prepare(query);
     }
 
-    private GaeRootRepository() {
-        // empty
+    @Override
+    public Transaction beginOne() {
+        return DATASTORE_SERVICE.beginTransaction();
     }
 
 }

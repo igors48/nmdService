@@ -85,6 +85,7 @@ public abstract class AbstractControllerTestBase {
     protected FeedItemsRepositoryStub feedItemsRepositoryStub;
     protected FeedUpdateTaskRepositoryStub feedUpdateTaskRepositoryStub;
     protected ReadFeedItemsRepositoryStub readFeedItemsRepositoryStub;
+    protected CategoriesRepositoryStub categoriesRepositoryStub;
     protected FeedUpdateTaskSchedulerContextRepositoryStub feedUpdateTaskSchedulerContextRepositoryStub;
 
     protected FeedsService feedsService;
@@ -101,11 +102,13 @@ public abstract class AbstractControllerTestBase {
         this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
         this.feedUpdateTaskSchedulerStub = new FeedUpdateTaskSchedulerStub();
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
+        this.categoriesRepositoryStub = new CategoriesRepositoryStub();
+
         this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
 
         this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.fetcherStub, transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
-        this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, transactionsStub);
+        this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.fetcherStub, transactionsStub);
     }
 
     protected UUID addValidFirstRssFeed() throws ServiceException {

@@ -8,6 +8,7 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
+import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.FeedItemsComparisonReport;
 import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
@@ -28,8 +29,9 @@ public class ReadsService extends AbstractService {
 
     private final Transactions transactions;
     private final ReadFeedItemsRepository readFeedItemsRepository;
+    private final CategoriesRepository categoriesRepository;
 
-    public ReadsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository, final UrlFetcher fetcher, final Transactions transactions) {
+    public ReadsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
         assertNotNull(transactions);
@@ -37,6 +39,9 @@ public class ReadsService extends AbstractService {
 
         assertNotNull(readFeedItemsRepository);
         this.readFeedItemsRepository = readFeedItemsRepository;
+
+        assertNotNull(categoriesRepository);
+        this.categoriesRepository = categoriesRepository;
     }
 
     public List<FeedReadReport> getFeedsReadReport() {
@@ -219,6 +224,10 @@ public class ReadsService extends AbstractService {
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    public String addCategory(final String name) {
+        return "";
     }
 
     private Set<String> getStoredGuids(final UUID feedId) {
