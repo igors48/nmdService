@@ -41,6 +41,58 @@ public class ReadsService extends AbstractService {
         this.categoriesRepository = categoriesRepository;
     }
 
+    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
+        assertNotNull(items);
+        assertNotNull(readGuids);
+
+        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
+
+        for (final FeedItem candidate : items) {
+
+            if (!readGuids.contains(candidate.guid)) {
+                return candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (item.date.compareTo(lastUpdate) > 0) {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    private static int countReadLaterItems(final List<FeedItem> items, final Set<String> readLaterItemIds) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (readLaterItemIds.contains(item.guid)) {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    private static Set<String> getStoredGuids(final List<FeedItem> items) {
+        final Set<String> storedGuids = new HashSet<>();
+
+        for (final FeedItem item : items) {
+            storedGuids.add(item.guid);
+        }
+
+        return storedGuids;
+    }
+
     public List<FeedReadReport> getFeedsReadReport() {
         Transaction transaction = null;
 
@@ -226,69 +278,60 @@ public class ReadsService extends AbstractService {
     public Category addCategory(final String name) {
         assertStringIsValid(name);
 
-        return null;
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final String trimmed = name.trim();
+
+            final Set<Category> categories = getAllCategoriesWithMain();
+
+            for (final Category category : categories) {
+
+                if (category.name.equalsIgnoreCase(trimmed)) {
+                    return category;
+                }
+            }
+
+            final Category created = new Category(UUID.randomUUID().toString(), trimmed);
+
+            this.categoriesRepository.store(created);
+
+            return created;
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
-    public List<Category> getAllCategories() {
-        return null;
+    public Set<Category> getAllCategories() {
+        throw new NullPointerException();
+        //TODO just to remember. may be it does not need to have list. report is what we need
+        /*
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            return getAllCategoriesWithMain();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+        */
+    }
+
+    private Set<Category> getAllCategoriesWithMain() {
+        final Set<Category> categories = this.categoriesRepository.loadAll();
+
+        categories.add(Category.MAIN);
+
+        return categories;
     }
 
     private Set<String> getStoredGuids(final UUID feedId) {
         final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
 
         return getStoredGuids(items);
-    }
-
-    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
-        assertNotNull(items);
-        assertNotNull(readGuids);
-
-        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
-
-        for (final FeedItem candidate : items) {
-
-            if (!readGuids.contains(candidate.guid)) {
-                return candidate;
-            }
-        }
-
-        return null;
-    }
-
-    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
-        int count = 0;
-
-        for (final FeedItem item : items) {
-
-            if (item.date.compareTo(lastUpdate) > 0) {
-                ++count;
-            }
-        }
-
-        return count;
-    }
-
-    private static int countReadLaterItems(final List<FeedItem> items, final Set<String> readLaterItemIds) {
-        int count = 0;
-
-        for (final FeedItem item : items) {
-
-            if (readLaterItemIds.contains(item.guid)) {
-                ++count;
-            }
-        }
-
-        return count;
-    }
-
-    private static Set<String> getStoredGuids(final List<FeedItem> items) {
-        final Set<String> storedGuids = new HashSet<>();
-
-        for (final FeedItem item : items) {
-            storedGuids.add(item.guid);
-        }
-
-        return storedGuids;
     }
 
 }

@@ -22,4 +22,24 @@ public class Category {
         this.name = name;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Category category = (Category) o;
+
+        if (!name.equals(category.name)) return false;
+        if (!uuid.equals(category.uuid)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid.hashCode();
+        result = 31 * result + name.hashCode();
+        return result;
+    }
+
 }
