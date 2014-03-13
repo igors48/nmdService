@@ -8,10 +8,7 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
-import nmd.rss.reader.CategoriesRepository;
-import nmd.rss.reader.FeedItemsComparisonReport;
-import nmd.rss.reader.ReadFeedItems;
-import nmd.rss.reader.ReadFeedItemsRepository;
+import nmd.rss.reader.*;
 
 import java.util.*;
 
@@ -226,8 +223,14 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public String addCategory(final String name) {
-        return "";
+    public Category addCategory(final String name) {
+        assertStringIsValid(name);
+
+        return null;
+    }
+
+    public List<Category> getAllCategories() {
+        return null;
     }
 
     private Set<String> getStoredGuids(final UUID feedId) {

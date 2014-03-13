@@ -7,7 +7,7 @@ import java.util.Set;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
-import static nmd.rss.reader.Category.DEFAULT_CATEGORY_ID;
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 
 /**
  * User: igu
@@ -15,7 +15,7 @@ import static nmd.rss.reader.Category.DEFAULT_CATEGORY_ID;
  */
 public class ReadFeedItems implements Serializable {
 
-    public static final ReadFeedItems EMPTY = new ReadFeedItems(new Date(), new HashSet<String>(), new HashSet<String>(), DEFAULT_CATEGORY_ID);
+    public static final ReadFeedItems EMPTY = new ReadFeedItems(new Date(), new HashSet<String>(), new HashSet<String>(), MAIN_CATEGORY_ID);
 
     public final Date lastUpdate;
     public final Set<String> readItemIds;

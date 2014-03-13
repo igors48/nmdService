@@ -78,7 +78,7 @@ public class ReadFeedItemsConverter {
             readLaterItemIds = GSON.fromJson(readLaterFeedItemsAsString, SET_HELPER_TYPE);
         }
 
-        final String categoryId = entity.hasProperty(CATEGORY_ID) ? (String) entity.getProperty(CATEGORY_ID) : Category.DEFAULT_CATEGORY_ID;
+        final String categoryId = entity.hasProperty(CATEGORY_ID) ? (String) entity.getProperty(CATEGORY_ID) : Category.MAIN_CATEGORY_ID;
 
         return new ReadFeedItems(lastUpdate, readItemsIds, readLaterItemIds, categoryId);
     }

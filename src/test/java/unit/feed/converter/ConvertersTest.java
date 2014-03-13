@@ -13,7 +13,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static nmd.rss.reader.Category.DEFAULT_CATEGORY_ID;
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -100,7 +100,7 @@ public class ConvertersTest {
     @Test
     public void readFeedItemsEntityRoundtrip() {
         final Date date = new Date();
-        final ReadFeedItems origin = new ReadFeedItems(date, READ_FEED_ITEMS, READ_LATER_FEED_ITEMS, DEFAULT_CATEGORY_ID);
+        final ReadFeedItems origin = new ReadFeedItems(date, READ_FEED_ITEMS, READ_LATER_FEED_ITEMS, MAIN_CATEGORY_ID);
         final Entity entity = ReadFeedItemsConverter.convert(SAMPLE_KEY, UUID.randomUUID(), origin);
 
         final ReadFeedItems restored = ReadFeedItemsConverter.convert(entity);
@@ -115,7 +115,7 @@ public class ConvertersTest {
         assertTrue(restored.readLaterItemIds.contains(FIRST_READ_LATER_ITEM_ID));
         assertTrue(restored.readLaterItemIds.contains(SECOND_READ_LATER_ITEM_ID));
 
-        assertEquals(DEFAULT_CATEGORY_ID, restored.categoryId);
+        assertEquals(MAIN_CATEGORY_ID, restored.categoryId);
     }
 
     @Test

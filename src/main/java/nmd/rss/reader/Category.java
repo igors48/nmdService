@@ -8,8 +8,8 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class Category {
 
-    public static final String DEFAULT_CATEGORY_ID = "default";
-    public static final Category DEFAULT = new Category(DEFAULT_CATEGORY_ID, DEFAULT_CATEGORY_ID);
+    public static final String MAIN_CATEGORY_ID = "main";
+    public static final Category MAIN = new Category(MAIN_CATEGORY_ID, MAIN_CATEGORY_ID);
 
     public final String uuid;
     public final String name;
