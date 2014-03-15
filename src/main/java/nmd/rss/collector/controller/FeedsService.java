@@ -11,6 +11,7 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.reader.CategoriesRepository;
+import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.ArrayList;
@@ -83,6 +84,9 @@ public class FeedsService extends AbstractService {
             if (!nothingChanged) {
                 this.feedItemsRepository.storeItems(feedHeader.id, mergeReport.getAddedAndRetained());
             }
+
+            final ReadFeedItems existsReadItems = this.readFeedItemsRepository.load(feedHeader.id);
+            this.readFeedItemsRepository.store(existsReadItems);
 
             transaction.commit();
 

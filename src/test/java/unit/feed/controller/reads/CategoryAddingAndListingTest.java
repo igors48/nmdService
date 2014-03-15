@@ -5,7 +5,6 @@ import nmd.rss.reader.Category;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -29,13 +28,13 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
     }
 
     @Test
-    public void whenCategoryWasAddedThenItWillBeReturnInSet() {
+    public void whenCategoryWasAddedThenItWillBeReturnInSetAsEmpty() {
         final Category created = this.readsService.addCategory(NEW_CATEGORY_NAME);
 
         final List<CategoryReport> categoriesReport = this.readsService.getCategoriesReport();
 
         assertEquals(2, categoriesReport.size());
-        assertTrue(getIdList(categoriesReport).contains(created.uuid));
+        assertTrue(findForCategory(created.uuid, categoriesReport).feedIds.isEmpty());
     }
 
     @Test
@@ -56,7 +55,7 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
     }
 
     @Test
-    public void categoriesWithSpacesAtTheEndsOrInDifferentCasesAreThreatedAsTheSameAndNoDuplicatesWillBeCreated() {
+    public void categoriesWithSpacesAtTheEndsOrInDifferentCasesAreTreatedAsTheSameAndNoDuplicatesWillBeCreated() {
         final Category first = this.readsService.addCategory(NEW_CATEGORY_NAME);
         final Category spaceBefore = this.readsService.addCategory(" " + NEW_CATEGORY_NAME);
         final Category spaceAfter = this.readsService.addCategory(NEW_CATEGORY_NAME + " ");
@@ -68,13 +67,17 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
         assertEquals(2, this.readsService.getCategoriesReport().size());
     }
 
-    private static List<String> getIdList(List<CategoryReport> categoriesReport) {
-        final List<String> result = new ArrayList<>();
+    static CategoryReport findForCategory(final String categoryId, final List<CategoryReport> categoriesReport) {
 
         for (final CategoryReport categoryReport : categoriesReport) {
-            result.add(categoryReport.id);
+
+            if (categoryReport.id.equals(categoryId)) {
+                return categoryReport;
+            }
+
         }
-        return result;
+
+        return null;
     }
 
 }

@@ -77,4 +77,11 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
         assertNotNull(this.feedItemsRepositoryStub.loadItems(id));
     }
 
+    @Test
+    public void whenFeedAddedThenReadItemsCreatedForIt() throws ServiceException {
+        final UUID id = addValidFirstRssFeed();
+
+        assertNotNull(this.readFeedItemsRepositoryStub.load(id));
+    }
+
 }

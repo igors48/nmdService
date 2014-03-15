@@ -12,6 +12,7 @@ import nmd.rss.reader.*;
 
 import java.util.*;
 
+import static nmd.rss.collector.error.ServiceError.unknownCategory;
 import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
@@ -280,17 +281,32 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    private List<UUID> findFeedIdsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
-        final List<UUID> feedIds = new ArrayList<>();
+    public void assignFeedToCategory(final UUID feedId, final String categoryId) throws ServiceException {
+        assertNotNull(feedId);
+        assertStringIsValid(categoryId);
 
-        for (final ReadFeedItems readFeedItems : readFeedItemsList) {
+        loadFeedHeader(feedId);
 
-            if (readFeedItems.categoryId.equals(categoryId)) {
-                feedIds.add(readFeedItems.feedId);
+        final Set<Category> categories = this.categoriesRepository.loadAll();
+
+        for (final Category category : categories) {
+
+            if (category.uuid.equals(categoryId)) {
+                final Set<String> readGuids = new HashSet<>();
+                final Set<String> readLaterGuids = new HashSet<>();
+
+                final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+                readLaterGuids.addAll(readFeedItems.readLaterItemIds);
+                readGuids.addAll(readFeedItems.readItemIds);
+
+                final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, new Date(), readGuids, readLaterGuids, category.uuid);
+                this.readFeedItemsRepository.store(updatedReadFeedItems);
+
+                return;
             }
         }
 
-        return feedIds;
+        throw new ServiceException(unknownCategory(categoryId));
     }
 
     private Set<Category> getAllCategoriesWithMain() {
@@ -321,6 +337,19 @@ public class ReadsService extends AbstractService {
         }
 
         return null;
+    }
+
+    private static List<UUID> findFeedIdsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
+        final List<UUID> feedIds = new ArrayList<>();
+
+        for (final ReadFeedItems readFeedItems : readFeedItemsList) {
+
+            if (readFeedItems.categoryId.equals(categoryId)) {
+                feedIds.add(readFeedItems.feedId);
+            }
+        }
+
+        return feedIds;
     }
 
     private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {

@@ -18,6 +18,7 @@ import java.util.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.06.13
  */
+//TODO need to rename and repackage
 public abstract class AbstractControllerTestBase {
 
     protected static final String VALID_FIRST_RSS_FEED_LINK = "valid-first-feed-link";
