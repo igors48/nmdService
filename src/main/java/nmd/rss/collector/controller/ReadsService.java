@@ -298,26 +298,50 @@ public class ReadsService extends AbstractService {
 
             this.categoriesRepository.store(created);
 
+            transaction.commit();
+
             return created;
         } finally {
             rollbackIfActive(transaction);
         }
     }
 
-    public Set<Category> getAllCategories() {
-        throw new NullPointerException();
-        //TODO just to remember. may be it does not need to have list. report is what we need
-        /*
+    public List<CategoryReport> getCategoriesReport() {
         Transaction transaction = null;
 
         try {
+            final List<CategoryReport> reports = new ArrayList<>();
+
             transaction = this.transactions.beginOne();
 
-            return getAllCategoriesWithMain();
+            final Set<Category> categories = getAllCategoriesWithMain();
+            final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
+
+            for (final Category category : categories) {
+                final List<UUID> feedIds = findFeedIdsForCategory(category.uuid, readFeedItemsList);
+                final CategoryReport categoryReport = new CategoryReport(category.uuid, category.name, feedIds);
+
+                reports.add(categoryReport);
+            }
+
+            transaction.commit();
+
+            return reports;
         } finally {
             rollbackIfActive(transaction);
         }
-        */
+    }
+
+    private List<UUID> findFeedIdsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
+        final List<UUID> feedIds = new ArrayList<>();
+
+        for (final ReadFeedItems readFeedItems : readFeedItemsList) {
+
+            if (readFeedItems.categoryId.equals(categoryId)) {
+                //feedIds.add(readFeedItems.)
+            }
+        }
+        return feedIds;
     }
 
     private Set<Category> getAllCategoriesWithMain() {

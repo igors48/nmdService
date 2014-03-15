@@ -2,6 +2,7 @@ package nmd.rss.reader;
 
 import nmd.rss.collector.Cache;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -31,6 +32,11 @@ public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
         assertNotNull(uuid);
 
         return "READ-" + uuid;
+    }
+
+    @Override
+    public List<ReadFeedItems> loadAll() {
+        return null;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.google.appengine.api.datastore.Key;
 import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
+import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
@@ -20,6 +21,11 @@ import static nmd.rss.reader.gae.ReadFeedItemsConverter.convert;
 public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
     public static final ReadFeedItemsRepository GAE_READ_FEED_ITEMS_REPOSITORY = new GaeReadFeedItemsRepository();
+
+    @Override
+    public List<ReadFeedItems> loadAll() {
+        return null;
+    }
 
     @Override
     public ReadFeedItems load(final UUID feedId) {

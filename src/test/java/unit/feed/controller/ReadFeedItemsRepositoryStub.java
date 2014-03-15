@@ -3,9 +3,7 @@ package unit.feed.controller;
 import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 import static nmd.rss.reader.ReadFeedItems.EMPTY;
 
@@ -19,6 +17,11 @@ public class ReadFeedItemsRepositoryStub implements ReadFeedItemsRepository {
 
     public ReadFeedItemsRepositoryStub() {
         this.readFeeds = new HashMap<>();
+    }
+
+    @Override
+    public List<ReadFeedItems> loadAll() {
+        return new ArrayList<>(this.readFeeds.values());
     }
 
     @Override
