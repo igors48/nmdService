@@ -338,9 +338,10 @@ public class ReadsService extends AbstractService {
         for (final ReadFeedItems readFeedItems : readFeedItemsList) {
 
             if (readFeedItems.categoryId.equals(categoryId)) {
-                //feedIds.add(readFeedItems.)
+                feedIds.add(readFeedItems.feedId);
             }
         }
+
         return feedIds;
     }
 

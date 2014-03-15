@@ -5,9 +5,11 @@ import nmd.rss.reader.Category;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -22,7 +24,7 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
         final List<CategoryReport> categoriesReport = this.readsService.getCategoriesReport();
 
         assertEquals(1, categoriesReport.size());
-        assertEquals(categoriesReport.get(0).id, Category.MAIN_CATEGORY_ID);
+        assertEquals(Category.MAIN_CATEGORY_ID, categoriesReport.get(0).id);
     }
 
     @Test
@@ -32,7 +34,7 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
         final List<CategoryReport> categoriesReport = this.readsService.getCategoriesReport();
 
         assertEquals(2, categoriesReport.size());
-        assertEquals(categoriesReport.get(0).id, created.uuid);
+        assertTrue(getIdList(categoriesReport).contains(created.uuid));
     }
 
     @Test
@@ -63,6 +65,15 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
         assertEquals(first, spaceBefore);
         assertEquals(first, diffCase);
         assertEquals(2, this.readsService.getCategoriesReport().size());
+    }
+
+    private static List<String> getIdList(List<CategoryReport> categoriesReport) {
+        final List<String> result = new ArrayList<>();
+
+        for (final CategoryReport categoryReport : categoriesReport) {
+            result.add(categoryReport.id);
+        }
+        return result;
     }
 
 }
