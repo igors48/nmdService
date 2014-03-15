@@ -10,6 +10,7 @@ import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
+import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.ArrayList;
@@ -33,8 +34,9 @@ public class FeedsService extends AbstractService {
     private final FeedUpdateTaskRepository feedUpdateTaskRepository;
     private final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository;
     private final ReadFeedItemsRepository readFeedItemsRepository;
+    private final CategoriesRepository categoriesRepository;
 
-    public FeedsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final UrlFetcher fetcher, final Transactions transactions) {
+    public FeedsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
         assertNotNull(transactions);
@@ -48,6 +50,9 @@ public class FeedsService extends AbstractService {
 
         assertNotNull(readFeedItemsRepository);
         this.readFeedItemsRepository = readFeedItemsRepository;
+
+        assertNotNull(categoriesRepository);
+        this.categoriesRepository = categoriesRepository;
     }
 
     public UUID addFeed(final String feedUrl) throws ServiceException {
@@ -164,6 +169,7 @@ public class FeedsService extends AbstractService {
         }
     }
 
+    //TODO move to special service
     public void clear() {
 
         Transaction transaction = null;
@@ -179,6 +185,8 @@ public class FeedsService extends AbstractService {
             }
 
             this.feedUpdateTaskSchedulerContextRepository.clear();
+
+            this.categoriesRepository.clear();
 
             transaction.commit();
         } finally {

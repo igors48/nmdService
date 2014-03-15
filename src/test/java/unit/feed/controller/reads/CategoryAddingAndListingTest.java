@@ -20,11 +20,12 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
     public static final String NEW_CATEGORY_NAME = "new";
 
     @Test
-    public void whenEverythingStartsThenOnlyMainCategoryExists() {
+    public void whenEverythingStartsThenOnlyEmptyMainCategoryExists() {
         final List<CategoryReport> categoriesReport = this.readsService.getCategoriesReport();
 
         assertEquals(1, categoriesReport.size());
         assertEquals(Category.MAIN_CATEGORY_ID, categoriesReport.get(0).id);
+        assertTrue(categoriesReport.get(0).feedIds.isEmpty());
     }
 
     @Test

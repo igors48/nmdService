@@ -28,4 +28,9 @@ public class GaeCategoriesRepository implements CategoriesRepository {
 
     }
 
+    @Override
+    public void clear() {
+
+    }
+
 }

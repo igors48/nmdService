@@ -38,4 +38,13 @@ public class CategoriesRepositoryStub implements CategoriesRepository {
         this.categories.remove(categoryId);
     }
 
+    @Override
+    public void clear() {
+        this.categories.clear();
+    }
+
+    public boolean isEmpty() {
+        return this.categories.isEmpty();
+    }
+
 }

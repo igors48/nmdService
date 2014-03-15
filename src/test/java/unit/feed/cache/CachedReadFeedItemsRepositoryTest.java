@@ -6,13 +6,13 @@ import org.junit.Before;
 import org.junit.Test;
 import unit.feed.controller.ReadFeedItemsRepositoryStub;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.UUID;
 
-import static nmd.rss.reader.CachedReadFeedItemsRepository.keyFor;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static nmd.rss.reader.CachedReadFeedItemsRepository.KEY;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -33,7 +33,9 @@ public class CachedReadFeedItemsRepositoryTest {
     @Before
     public void setUp() {
         this.cacheStub = new CacheStub();
-        this.cacheStub.put(keyFor(FEED_ID), CACHED);
+        this.cacheStub.put(KEY, new ArrayList<ReadFeedItems>() {{
+            add(CACHED);
+        }});
 
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
         this.readFeedItemsRepositoryStub.store(STORED);
@@ -63,21 +65,21 @@ public class CachedReadFeedItemsRepositoryTest {
 
         this.repository.load(FEED_ID);
 
-        assertEquals(STORED, this.cacheStub.get(keyFor(FEED_ID)));
+        assertNotNull(this.cacheStub.get(KEY));
     }
 
     @Test
-    public void whenItemIsStoredThenCacheIsUpdated() {
+    public void whenItemIsStoredThenCacheIsDeleted() {
         this.repository.store(STORED);
 
-        assertEquals(STORED, this.cacheStub.get(keyFor(FEED_ID)));
+        assertNull(this.cacheStub.get(KEY));
     }
 
     @Test
-    public void whenItemIsDeletedThenCacheIsUpdated() {
+    public void whenItemIsDeletedThenCacheIsDeleted() {
         this.repository.delete(FEED_ID);
 
-        assertNull(this.cacheStub.get(keyFor(FEED_ID)));
+        assertNull(this.cacheStub.get(KEY));
     }
 
 }

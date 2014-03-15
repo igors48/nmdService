@@ -13,4 +13,6 @@ public interface CategoriesRepository {
     Set<Category> loadAll();
 
     void delete(String categoryId);
+
+    void clear();
 }

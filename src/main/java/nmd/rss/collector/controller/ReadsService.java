@@ -41,58 +41,6 @@ public class ReadsService extends AbstractService {
         this.categoriesRepository = categoriesRepository;
     }
 
-    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
-        assertNotNull(items);
-        assertNotNull(readGuids);
-
-        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
-
-        for (final FeedItem candidate : items) {
-
-            if (!readGuids.contains(candidate.guid)) {
-                return candidate;
-            }
-        }
-
-        return null;
-    }
-
-    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
-        int count = 0;
-
-        for (final FeedItem item : items) {
-
-            if (item.date.compareTo(lastUpdate) > 0) {
-                ++count;
-            }
-        }
-
-        return count;
-    }
-
-    private static int countReadLaterItems(final List<FeedItem> items, final Set<String> readLaterItemIds) {
-        int count = 0;
-
-        for (final FeedItem item : items) {
-
-            if (readLaterItemIds.contains(item.guid)) {
-                ++count;
-            }
-        }
-
-        return count;
-    }
-
-    private static Set<String> getStoredGuids(final List<FeedItem> items) {
-        final Set<String> storedGuids = new HashSet<>();
-
-        for (final FeedItem item : items) {
-            storedGuids.add(item.guid);
-        }
-
-        return storedGuids;
-    }
-
     public List<FeedReadReport> getFeedsReadReport() {
         Transaction transaction = null;
 
@@ -357,6 +305,58 @@ public class ReadsService extends AbstractService {
         final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
 
         return getStoredGuids(items);
+    }
+
+    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
+        assertNotNull(items);
+        assertNotNull(readGuids);
+
+        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
+
+        for (final FeedItem candidate : items) {
+
+            if (!readGuids.contains(candidate.guid)) {
+                return candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (item.date.compareTo(lastUpdate) > 0) {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    private static int countReadLaterItems(final List<FeedItem> items, final Set<String> readLaterItemIds) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (readLaterItemIds.contains(item.guid)) {
+                ++count;
+            }
+        }
+
+        return count;
+    }
+
+    private static Set<String> getStoredGuids(final List<FeedItem> items) {
+        final Set<String> storedGuids = new HashSet<>();
+
+        for (final FeedItem item : items) {
+            storedGuids.add(item.guid);
+        }
+
+        return storedGuids;
     }
 
 }

@@ -24,6 +24,7 @@ public class ControllerClearTest extends AbstractControllerTestBase {
 
         this.readsService.markItemAsRead(firstFeedId, "read_first");
         this.readsService.markItemAsRead(secondFeedId, "read_second");
+        this.readsService.addCategory("category");
 
         this.feedsService.clear();
     }
@@ -51,6 +52,11 @@ public class ControllerClearTest extends AbstractControllerTestBase {
     @Test
     public void whenClearedThenNoSchedulerContextRemain() {
         assertTrue(this.feedUpdateTaskSchedulerContextRepositoryStub.isEmpty());
+    }
+
+    @Test
+    public void whenClearedThenNoCategoriesRemain() {
+        assertTrue(this.categoriesRepositoryStub.isEmpty());
     }
 
 }
