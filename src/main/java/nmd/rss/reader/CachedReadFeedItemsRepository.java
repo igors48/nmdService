@@ -36,6 +36,7 @@ public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
 
     @Override
     public List<ReadFeedItems> loadAll() {
+        //TODO tests
         return null;
     }
 
@@ -64,12 +65,11 @@ public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
     }
 
     @Override
-    public void store(final UUID feedId, final ReadFeedItems readFeedItems) {
-        assertNotNull(feedId);
+    public void store(final ReadFeedItems readFeedItems) {
         assertNotNull(readFeedItems);
 
-        this.cache.put(keyFor(feedId), readFeedItems);
-        this.repository.store(feedId, readFeedItems);
+        this.cache.put(keyFor(readFeedItems.feedId), readFeedItems);
+        this.repository.store(readFeedItems);
     }
 
     @Override

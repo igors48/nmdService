@@ -204,8 +204,8 @@ public class ReadsService extends AbstractService {
                     backedReadLaterItemIds.add(itemId);
                 }
 
-                final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(readFeedItems.lastUpdate, readFeedItems.readItemIds, backedReadLaterItemIds, readFeedItems.categoryId);
-                this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
+                final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, readFeedItems.lastUpdate, readFeedItems.readItemIds, backedReadLaterItemIds, readFeedItems.categoryId);
+                this.readFeedItemsRepository.store(updatedReadFeedItems);
             }
 
             transaction.commit();
@@ -238,8 +238,8 @@ public class ReadsService extends AbstractService {
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
-            this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, new Date(), comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
+            this.readFeedItemsRepository.store(updatedReadFeedItems);
 
             transaction.commit();
         } finally {
@@ -266,8 +266,8 @@ public class ReadsService extends AbstractService {
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
             readLaterGuids.addAll(readFeedItems.readLaterItemIds);
 
-            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), readGuids, readLaterGuids, readFeedItems.categoryId);
-            this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, new Date(), readGuids, readLaterGuids, readFeedItems.categoryId);
+            this.readFeedItemsRepository.store(updatedReadFeedItems);
 
             transaction.commit();
         } finally {

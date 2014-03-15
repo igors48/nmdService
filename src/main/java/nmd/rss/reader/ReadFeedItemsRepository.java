@@ -13,7 +13,7 @@ public interface ReadFeedItemsRepository {
 
     ReadFeedItems load(UUID feedId);
 
-    void store(UUID feedId, ReadFeedItems readFeedItems);
+    void store(ReadFeedItems readFeedItems);
 
     void delete(UUID feedId);
 

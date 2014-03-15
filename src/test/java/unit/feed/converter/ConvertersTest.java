@@ -100,11 +100,13 @@ public class ConvertersTest {
     @Test
     public void readFeedItemsEntityRoundtrip() {
         final Date date = new Date();
-        final ReadFeedItems origin = new ReadFeedItems(date, READ_FEED_ITEMS, READ_LATER_FEED_ITEMS, MAIN_CATEGORY_ID);
-        final Entity entity = ReadFeedItemsConverter.convert(SAMPLE_KEY, UUID.randomUUID(), origin);
+        final UUID feedId = UUID.randomUUID();
+        final ReadFeedItems origin = new ReadFeedItems(feedId, date, READ_FEED_ITEMS, READ_LATER_FEED_ITEMS, MAIN_CATEGORY_ID);
+        final Entity entity = ReadFeedItemsConverter.convert(SAMPLE_KEY, origin);
 
         final ReadFeedItems restored = ReadFeedItemsConverter.convert(entity);
 
+        assertEquals(feedId, restored.feedId);
         assertEquals(date, restored.lastUpdate);
 
         assertEquals(READ_FEED_ITEMS.size(), restored.readItemIds.size());

@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.reader.ReadFeedItems.EMPTY;
+import static nmd.rss.reader.ReadFeedItems.empty;
 import static nmd.rss.reader.gae.ReadFeedItemsConverter.KIND;
 import static nmd.rss.reader.gae.ReadFeedItemsConverter.convert;
 
@@ -33,18 +33,17 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
         final Entity entity = loadEntity(feedId, KIND, false);
 
-        return entity == null ? EMPTY : convert(entity);
+        return entity == null ? empty(feedId) : convert(entity);
     }
 
     @Override
-    public void store(final UUID feedId, final ReadFeedItems readFeedItems) {
-        assertNotNull(feedId);
+    public void store(final ReadFeedItems readFeedItems) {
         assertNotNull(readFeedItems);
 
-        delete(feedId);
+        delete(readFeedItems.feedId);
 
-        final Key feedRootKey = getFeedRootKey(feedId);
-        final Entity entity = convert(feedRootKey, feedId, readFeedItems);
+        final Key feedRootKey = getFeedRootKey(readFeedItems.feedId);
+        final Entity entity = convert(feedRootKey, readFeedItems);
 
         DATASTORE_SERVICE.put(entity);
     }

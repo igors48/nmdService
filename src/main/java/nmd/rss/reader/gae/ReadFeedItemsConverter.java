@@ -36,14 +36,13 @@ public class ReadFeedItemsConverter {
     private static final Type SET_HELPER_TYPE = new TypeToken<Set<String>>() {
     }.getType();
 
-    public static Entity convert(final Key feedKey, final UUID feedId, final ReadFeedItems readFeedItems) {
+    public static Entity convert(final Key feedKey, final ReadFeedItems readFeedItems) {
         assertNotNull(feedKey);
-        assertNotNull(feedId);
         assertNotNull(readFeedItems);
 
         final Entity entity = new Entity(KIND, feedKey);
 
-        entity.setProperty(FEED_ID, feedId.toString());
+        entity.setProperty(FEED_ID, readFeedItems.feedId.toString());
         entity.setProperty(COUNT, readFeedItems.readItemIds.size());
         entity.setProperty(LAST_UPDATE, readFeedItems.lastUpdate);
         entity.setProperty(CATEGORY_ID, readFeedItems.categoryId);
@@ -79,8 +78,9 @@ public class ReadFeedItemsConverter {
         }
 
         final String categoryId = entity.hasProperty(CATEGORY_ID) ? (String) entity.getProperty(CATEGORY_ID) : Category.MAIN_CATEGORY_ID;
+        final UUID feedId = UUID.fromString((String) entity.getProperty(FEED_ID));
 
-        return new ReadFeedItems(lastUpdate, readItemsIds, readLaterItemIds, categoryId);
+        return new ReadFeedItems(feedId, lastUpdate, readItemsIds, readLaterItemIds, categoryId);
     }
 
 }

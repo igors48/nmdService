@@ -5,7 +5,7 @@ import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.*;
 
-import static nmd.rss.reader.ReadFeedItems.EMPTY;
+import static nmd.rss.reader.ReadFeedItems.empty;
 
 /**
  * User: igu
@@ -28,12 +28,12 @@ public class ReadFeedItemsRepositoryStub implements ReadFeedItemsRepository {
     public ReadFeedItems load(final UUID feedId) {
         final ReadFeedItems result = this.readFeeds.get(feedId);
 
-        return result == null ? EMPTY : result;
+        return (result == null) ? empty(feedId) : result;
     }
 
     @Override
-    public void store(final UUID feedId, final ReadFeedItems readFeedItems) {
-        this.readFeeds.put(feedId, readFeedItems);
+    public void store(final ReadFeedItems readFeedItems) {
+        this.readFeeds.put(readFeedItems.feedId, readFeedItems);
     }
 
     @Override
