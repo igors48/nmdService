@@ -81,4 +81,12 @@ public class CachedCategoriesRepositoryTest {
         assertFalse(this.cache.isEmpty());
     }
 
+    @Test
+    public void whenRepositoryIsClearedThenCachedAndStoredItemsAreDeleted() {
+        this.cachedCategoriesRepository.clear();
+
+        assertTrue(this.cache.isEmpty());
+        assertTrue(this.categoriesRepositoryStub.isEmpty());
+    }
+
 }

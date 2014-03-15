@@ -56,7 +56,8 @@ public class CachedCategoriesRepository implements CategoriesRepository {
 
     @Override
     public void clear() {
-        //TODO test
+        this.cache.delete(KEY);
+        this.repository.clear();
     }
 
     private Set<Category> loadCache() {
