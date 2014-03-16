@@ -8,6 +8,7 @@ import unit.feed.controller.AbstractControllerTestBase;
  */
 public class RenameCategoryTest extends AbstractControllerTestBase {
 
+    //when category with new name already exists - exception
     //when category is not found - exception
     //main category can not be renamed
     //assigned feeds save
