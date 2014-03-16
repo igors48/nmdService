@@ -1,5 +1,6 @@
 package unit.feed.controller;
 
+import nmd.rss.collector.controller.CategoryReport;
 import nmd.rss.collector.controller.FeedsService;
 import nmd.rss.collector.controller.ReadsService;
 import nmd.rss.collector.controller.UpdatesService;
@@ -158,5 +159,19 @@ public abstract class AbstractControllerTestBase {
             // empty
         }
     }
+
+    protected static CategoryReport findForCategory(final String categoryId, final List<CategoryReport> categoriesReport) {
+
+        for (final CategoryReport categoryReport : categoriesReport) {
+
+            if (categoryReport.id.equals(categoryId)) {
+                return categoryReport;
+            }
+
+        }
+
+        return null;
+    }
+
 
 }

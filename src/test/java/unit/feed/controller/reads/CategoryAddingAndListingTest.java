@@ -67,17 +67,4 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
         assertEquals(2, this.readsService.getCategoriesReport().size());
     }
 
-    static CategoryReport findForCategory(final String categoryId, final List<CategoryReport> categoriesReport) {
-
-        for (final CategoryReport categoryReport : categoriesReport) {
-
-            if (categoryReport.id.equals(categoryId)) {
-                return categoryReport;
-            }
-
-        }
-
-        return null;
-    }
-
 }

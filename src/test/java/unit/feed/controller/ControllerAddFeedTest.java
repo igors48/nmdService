@@ -1,9 +1,11 @@
 package unit.feed.controller;
 
+import nmd.rss.collector.controller.CategoryReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.reader.Category;
 import org.junit.Test;
 
+import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -92,6 +94,15 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
         final UUID feedId = addValidFirstRssFeed(category.uuid);
 
+        final List<CategoryReport> categoryReports = this.readsService.getCategoriesReport();
+        final CategoryReport report = findForCategory(category.uuid, categoryReports);
 
+        report.feedIds.contains(feedId);
     }
+
+    @Test(expected = ServiceException.class)
+    public void whenFeedIsAddedToNotExistentCategoryThenExceptionWillBeThrown() throws ServiceException {
+        addValidFirstRssFeed(UUID.randomUUID().toString());
+    }
+
 }

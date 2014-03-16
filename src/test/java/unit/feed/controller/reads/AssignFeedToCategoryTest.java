@@ -11,7 +11,6 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static unit.feed.controller.reads.CategoryAddingAndListingTest.findForCategory;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
