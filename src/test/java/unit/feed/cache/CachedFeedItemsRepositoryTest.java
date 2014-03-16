@@ -4,7 +4,7 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.cached.CachedFeedItemsRepository;
 import org.junit.Before;
 import org.junit.Test;
-import unit.feed.controller.FeedItemsRepositoryStub;
+import unit.feed.controller.stub.FeedItemsRepositoryStub;
 
 import java.util.ArrayList;
 import java.util.Date;

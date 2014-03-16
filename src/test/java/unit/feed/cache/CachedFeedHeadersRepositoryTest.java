@@ -4,7 +4,7 @@ import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.updater.cached.CachedFeedHeadersRepository;
 import org.junit.Before;
 import org.junit.Test;
-import unit.feed.controller.FeedHeadersRepositoryStub;
+import unit.feed.controller.stub.FeedHeadersRepositoryStub;
 
 import java.util.ArrayList;
 import java.util.List;

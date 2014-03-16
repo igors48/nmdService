@@ -6,7 +6,7 @@ import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerException;
 import org.junit.Before;
 import org.junit.Test;
-import unit.feed.controller.TransactionsStub;
+import unit.feed.controller.stub.TransactionsStub;
 
 import java.util.UUID;
 

@@ -1,4 +1,4 @@
-package unit.feed.controller;
+package unit.feed.controller.stub;
 
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.collector.updater.UrlFetcherException;

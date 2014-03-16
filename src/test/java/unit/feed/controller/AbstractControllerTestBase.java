@@ -8,6 +8,7 @@ import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedItemsMergeReport;
 import org.junit.Before;
+import unit.feed.controller.stub.*;
 import unit.feed.scheduler.FeedUpdateTaskRepositoryStub;
 import unit.feed.scheduler.FeedUpdateTaskSchedulerContextRepositoryStub;
 import unit.feed.updater.FeedUpdateTaskSchedulerStub;

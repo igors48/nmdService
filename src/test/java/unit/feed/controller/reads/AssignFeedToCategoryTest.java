@@ -11,6 +11,7 @@ import java.util.UUID;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static unit.feed.controller.reads.CategoryAddingAndListingTest.findForCategory;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -19,16 +20,17 @@ import static org.junit.Assert.assertTrue;
 public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
 
     @Test
-    public void whenFeedIsAssignedToSecondCategoryThenItIsUnAssignedFromMain() throws ServiceException {
+    public void whenFeedIsAssignedToSecondCategoryThenItIsUnAssignedFromFirst() throws ServiceException {
+        final Category firstCategory = this.readsService.addCategory("first");
         final Category secondCategory = this.readsService.addCategory("second");
 
-        final UUID feedId = addValidFirstRssFeed();
+        final UUID feedId = addValidFirstRssFeed(firstCategory.uuid);
 
         this.readsService.assignFeedToCategory(feedId, secondCategory.uuid);
 
         final List<CategoryReport> categoryReports = this.readsService.getCategoriesReport();
-        final CategoryReport main = CategoryAddingAndListingTest.findForCategory(Category.MAIN_CATEGORY_ID, categoryReports);
-        final CategoryReport second = CategoryAddingAndListingTest.findForCategory(secondCategory.uuid, categoryReports);
+        final CategoryReport main = findForCategory(firstCategory.uuid, categoryReports);
+        final CategoryReport second = findForCategory(secondCategory.uuid, categoryReports);
 
         assertFalse(main.feedIds.contains(feedId));
         assertTrue(second.feedIds.contains(feedId));

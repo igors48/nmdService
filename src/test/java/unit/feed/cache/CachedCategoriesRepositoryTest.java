@@ -4,7 +4,7 @@ import nmd.rss.reader.CachedCategoriesRepository;
 import nmd.rss.reader.Category;
 import org.junit.Before;
 import org.junit.Test;
-import unit.feed.controller.CategoriesRepositoryStub;
+import unit.feed.controller.stub.CategoriesRepositoryStub;
 
 import java.util.HashSet;
 import java.util.Set;

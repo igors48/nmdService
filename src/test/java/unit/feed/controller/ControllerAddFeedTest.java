@@ -87,8 +87,11 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
     }
 
     @Test
-    public void whenFeedAddedToCategoryThenItIsBecameMemberOfIt() {
+    public void whenFeedAddedToCategoryThenItIsBecameMemberOfIt() throws ServiceException {
         final Category category = this.readsService.addCategory("new");
+
+        final UUID feedId = addValidFirstRssFeed(category.uuid);
+
 
     }
 }
