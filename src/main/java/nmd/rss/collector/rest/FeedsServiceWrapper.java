@@ -22,6 +22,7 @@ import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -36,7 +37,7 @@ public class FeedsServiceWrapper {
     public static ResponseBody addFeed(final String feedUrl) {
 
         try {
-            final UUID feedId = FEEDS_SERVICE.addFeed(feedUrl);
+            final UUID feedId = FEEDS_SERVICE.addFeed(feedUrl, MAIN_CATEGORY_ID);
 
             final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
 

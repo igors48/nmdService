@@ -11,6 +11,7 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.reader.CategoriesRepository;
+import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
@@ -18,6 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static nmd.rss.collector.error.ServiceError.unknownCategory;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -56,10 +58,13 @@ public class FeedsService extends AbstractService {
         this.categoriesRepository = categoriesRepository;
     }
 
-    public UUID addFeed(final String feedUrl) throws ServiceException {
+    public UUID addFeed(final String feedUrl, final String categoryId) throws ServiceException {
         assertStringIsValid(feedUrl);
+        assertStringIsValid(categoryId);
 
         Transaction transaction = null;
+
+        assertCategoryIdValid(categoryId);
 
         final String feedUrlInLowerCase = normalizeUrl(feedUrl);
         final Feed feed = fetchFeed(feedUrlInLowerCase);
@@ -195,6 +200,19 @@ public class FeedsService extends AbstractService {
             transaction.commit();
         } finally {
             rollbackIfActive(transaction);
+        }
+    }
+
+    private void assertCategoryIdValid(final String categoryId) throws ServiceException {
+
+        if (Category.MAIN_CATEGORY_ID.equals(categoryId)) {
+            return;
+        }
+
+        final Category category = this.categoriesRepository.load(categoryId);
+
+        if (category == null) {
+            throw new ServiceException(unknownCategory(categoryId));
         }
     }
 

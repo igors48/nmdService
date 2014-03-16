@@ -89,4 +89,26 @@ public class CachedCategoriesRepositoryTest {
         assertTrue(this.categoriesRepositoryStub.isEmpty());
     }
 
+    @Test
+    public void whenCategoryListWasCachedThenCategoryWillBeTookFromCache() {
+        final Category category = this.cachedCategoriesRepository.load(CATEGORY_ID);
+
+        assertEquals(CACHED, category);
+    }
+
+    @Test
+    public void whenCategoryListWasNotCachedThenCategoryWillBeTookFromCacheAndCacheUpdated() {
+        this.cache.clear();
+
+        final Category category = this.cachedCategoriesRepository.load(CATEGORY_ID);
+
+        assertEquals(STORED, category);
+        assertFalse(this.cache.isEmpty());
+    }
+
+    @Test
+    public void whenCategoryIsNotFoundThenNullWillBeReturned() {
+        assertNull(this.cachedCategoriesRepository.load(UUID.randomUUID().toString()));
+    }
+
 }

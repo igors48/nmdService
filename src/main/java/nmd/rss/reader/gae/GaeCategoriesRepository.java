@@ -19,6 +19,11 @@ public class GaeCategoriesRepository implements CategoriesRepository {
     }
 
     @Override
+    public Category load(String categoryId) {
+        return null;
+    }
+
+    @Override
     public Set<Category> loadAll() {
         return null;
     }

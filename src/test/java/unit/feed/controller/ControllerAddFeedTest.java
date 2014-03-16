@@ -1,11 +1,13 @@
 package unit.feed.controller;
 
 import nmd.rss.collector.error.ServiceException;
+import nmd.rss.reader.Category;
 import org.junit.Test;
 
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -33,8 +35,8 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
     public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        final UUID firstId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
-        final UUID secondId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK);
+        final UUID firstId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase(), MAIN_CATEGORY_ID);
+        final UUID secondId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, MAIN_CATEGORY_ID);
 
         assertEquals(firstId, secondId);
     }
@@ -43,8 +45,8 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
     public void whenFeedWithSameLinkButWithSlashAtTheEndAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        final UUID firstId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase());
-        final UUID secondId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK + "/");
+        final UUID firstId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase(), MAIN_CATEGORY_ID);
+        final UUID secondId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK + "/", MAIN_CATEGORY_ID);
 
         assertEquals(firstId, secondId);
     }
@@ -53,7 +55,7 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
     public void whenFeedCanNotBeParsedThenExceptionOccurs() throws ServiceException {
         this.fetcherStub.setData(INVALID_RSS_FEED);
 
-        this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK);
+        this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, MAIN_CATEGORY_ID);
     }
 
     @Test
@@ -84,4 +86,9 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
         assertNotNull(this.readFeedItemsRepositoryStub.load(id));
     }
 
+    @Test
+    public void whenFeedAddedToCategoryThenItIsBecameMemberOfIt() {
+        final Category category = this.readsService.addCategory("new");
+
+    }
 }

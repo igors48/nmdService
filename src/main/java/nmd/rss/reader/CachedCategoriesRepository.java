@@ -39,6 +39,22 @@ public class CachedCategoriesRepository implements CategoriesRepository {
     }
 
     @Override
+    public Category load(String categoryId) {
+        assertStringIsValid(categoryId);
+
+        final Set<Category> categories = loadAll();
+
+        for (Category category : categories) {
+
+            if (category.uuid.equals(categoryId)) {
+                return category;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
     public synchronized Set<Category> loadAll() {
         final Set<Category> cached = (Set<Category>) this.cache.get(KEY);
 

@@ -10,6 +10,9 @@ public interface CategoriesRepository {
 
     void store(Category category);
 
+    Category load(String categoryId);
+
+    //TODO analyse usages and replace with load
     Set<Category> loadAll();
 
     void delete(String categoryId);

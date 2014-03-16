@@ -26,6 +26,11 @@ public class CategoriesRepositoryStub implements CategoriesRepository {
     }
 
     @Override
+    public Category load(final String categoryId) {
+        return this.categories.get(categoryId);
+    }
+
+    @Override
     public Set<Category> loadAll() {
         final Set<Category> categorySet = new HashSet<>();
         categorySet.addAll(this.categories.values());

@@ -239,6 +239,8 @@ public class ReadsService extends AbstractService {
             for (final Category category : categories) {
 
                 if (category.name.equalsIgnoreCase(trimmed)) {
+                    transaction.commit();
+
                     return category;
                 }
             }
@@ -285,28 +287,66 @@ public class ReadsService extends AbstractService {
         assertNotNull(feedId);
         assertStringIsValid(categoryId);
 
-        loadFeedHeader(feedId);
+        Transaction transaction = null;
 
-        final Set<Category> categories = this.categoriesRepository.loadAll();
+        try {
+            transaction = this.transactions.beginOne();
+            loadFeedHeader(feedId);
 
-        for (final Category category : categories) {
+            loadCategory(categoryId);
 
-            if (category.uuid.equals(categoryId)) {
-                final Set<String> readGuids = new HashSet<>();
-                final Set<String> readLaterGuids = new HashSet<>();
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+            final ReadFeedItems updatedReadFeedItems = ReadFeedItems.changeCategory(readFeedItems, categoryId);
 
-                final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
-                readLaterGuids.addAll(readFeedItems.readLaterItemIds);
-                readGuids.addAll(readFeedItems.readItemIds);
+            this.readFeedItemsRepository.store(updatedReadFeedItems);
 
-                final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, new Date(), readGuids, readLaterGuids, category.uuid);
-                this.readFeedItemsRepository.store(updatedReadFeedItems);
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
 
-                return;
-            }
+    public void deleteCategory(final String categoryId) {
+        assertStringIsValid(categoryId);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    public void renameCategory(final String categoryId, final String newName) throws ServiceException {
+        assertStringIsValid(categoryId);
+        assertStringIsValid(newName);
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final String trimmed = newName.trim();
+
+            final Category category = loadCategory(categoryId);
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    private Category loadCategory(String categoryId) throws ServiceException {
+        final Category category = this.categoriesRepository.load(categoryId);
+
+        if (category == null) {
+            throw new ServiceException(unknownCategory(categoryId));
         }
 
-        throw new ServiceException(unknownCategory(categoryId));
+        return category;
     }
 
     private Set<Category> getAllCategoriesWithMain() {

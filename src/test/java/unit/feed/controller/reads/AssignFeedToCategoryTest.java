@@ -19,16 +19,6 @@ import static org.junit.Assert.assertTrue;
 public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
 
     @Test
-    public void whenFeedAddedThenItIsAssignedToMainCategory() throws ServiceException {
-        final UUID feedId = addValidFirstRssFeed();
-
-        final List<CategoryReport> categoryReports = this.readsService.getCategoriesReport();
-        final CategoryReport main = CategoryAddingAndListingTest.findForCategory(Category.MAIN_CATEGORY_ID, categoryReports);
-
-        assertTrue(main.feedIds.contains(feedId));
-    }
-
-    @Test
     public void whenFeedIsAssignedToSecondCategoryThenItIsUnAssignedFromMain() throws ServiceException {
         final Category secondCategory = this.readsService.addCategory("second");
 

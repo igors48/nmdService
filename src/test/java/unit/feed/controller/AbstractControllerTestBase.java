@@ -14,6 +14,8 @@ import unit.feed.updater.FeedUpdateTaskSchedulerStub;
 
 import java.util.*;
 
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
+
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.06.13
@@ -112,16 +114,20 @@ public abstract class AbstractControllerTestBase {
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.fetcherStub, transactionsStub);
     }
 
-    protected UUID addValidFirstRssFeed() throws ServiceException {
+    protected UUID addValidFirstRssFeed(final String categoryId) throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        return this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK);
+        return this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, categoryId);
+    }
+
+    protected UUID addValidFirstRssFeed() throws ServiceException {
+        return this.addValidFirstRssFeed(MAIN_CATEGORY_ID);
     }
 
     protected UUID addValidSecondRssFeed() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        return this.feedsService.addFeed(VALID_SECOND_RSS_FEED_LINK);
+        return this.feedsService.addFeed(VALID_SECOND_RSS_FEED_LINK, MAIN_CATEGORY_ID);
     }
 
     protected FeedHeader createFeedWithOneItem() {
