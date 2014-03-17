@@ -2,6 +2,7 @@ package nmd.rss.collector.controller;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
+import nmd.rss.collector.error.ServiceError;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
@@ -11,12 +12,19 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import static java.lang.String.format;
+import static java.lang.System.currentTimeMillis;
 import static nmd.rss.collector.error.ServiceError.noScheduledTask;
 import static nmd.rss.collector.error.ServiceError.wrongFeedTaskId;
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertPositive;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 
 /**
@@ -24,6 +32,8 @@ import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
  * Date : 02.02.14
  */
 public class UpdatesService extends AbstractService {
+
+    private static final Logger LOGGER = Logger.getLogger(UpdatesService.class.getName());
 
     private final Transactions transactions;
     private final FeedUpdateTaskRepository feedUpdateTaskRepository;
@@ -98,6 +108,46 @@ public class UpdatesService extends AbstractService {
         }
 
         return updateFeed(currentTask.feedId);
+    }
+
+    public int updateFeedSeries(long timeQuota) /*throws ServiceException*/ {
+        assertPositive(timeQuota);
+
+        int count = 0;
+
+        final Set<FeedUpdateTask> updated = new HashSet<>();
+
+        long startTime = currentTimeMillis();
+        long currentTime = currentTimeMillis();
+
+        while (currentTime - startTime < timeQuota) {
+            final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
+
+            if (updated.contains(currentTask)) {
+                break;
+            }
+
+            try {
+                final FeedUpdateReport report = updateFeed(currentTask.feedId);
+
+                LOGGER.info(format("A: [ %d ] R: [ %d ] D: [ %d ] Feed link [ %s ] id [ %s ] updated.", report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size(), report.feedLink, report.feedId));
+            } catch (ServiceException exception) {
+                final ServiceError serviceError = exception.getError();
+
+                LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
+
+            }
+
+            updated.add(currentTask);
+            ++count;
+
+            currentTime = currentTimeMillis();
+
+        }
+
+        LOGGER.info(format("[ %d ] feeds were updated", count));
+
+        return count;
     }
 
 }

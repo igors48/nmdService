@@ -30,7 +30,7 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public void storeItems(UUID feedId, List<FeedItem> items) {
+    public synchronized void storeItems(UUID feedId, List<FeedItem> items) {
         assertNotNull(feedId);
         assertNotNull(items);
 
@@ -40,7 +40,7 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public List<FeedItem> loadItems(final UUID feedId) {
+    public synchronized List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
         final List<FeedItem> cached = (List<FeedItem>) this.cache.get(keyFor(feedId));
@@ -59,7 +59,7 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
     }
 
     @Override
-    public void deleteItems(final UUID feedId) {
+    public synchronized void deleteItems(final UUID feedId) {
         assertNotNull(feedId);
 
         this.cache.delete(keyFor(feedId));
