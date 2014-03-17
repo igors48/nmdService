@@ -21,21 +21,21 @@ public class CachedFeedUpdateTaskSchedulerContextRepository implements FeedUpdat
     }
 
     @Override
-    public void store(final FeedUpdateTaskSchedulerContext context) {
+    public synchronized void store(final FeedUpdateTaskSchedulerContext context) {
         assertNotNull(context);
 
         this.cache.put(KEY, context);
     }
 
     @Override
-    public FeedUpdateTaskSchedulerContext load() {
+    public synchronized FeedUpdateTaskSchedulerContext load() {
         final FeedUpdateTaskSchedulerContext context = (FeedUpdateTaskSchedulerContext) this.cache.get(KEY);
 
         return context == null ? FeedUpdateTaskSchedulerContext.START_CONTEXT : context;
     }
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         this.cache.delete(KEY);
     }
 

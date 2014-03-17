@@ -39,7 +39,7 @@ public class CachedCategoriesRepository implements CategoriesRepository {
     }
 
     @Override
-    public Category load(String categoryId) {
+    public synchronized Category load(final String categoryId) {
         assertStringIsValid(categoryId);
 
         final Set<Category> categories = loadAll();
@@ -71,7 +71,7 @@ public class CachedCategoriesRepository implements CategoriesRepository {
     }
 
     @Override
-    public void clear() {
+    public synchronized void clear() {
         this.cache.delete(KEY);
         this.repository.clear();
     }
