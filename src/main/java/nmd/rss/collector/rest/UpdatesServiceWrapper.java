@@ -40,7 +40,7 @@ public class UpdatesServiceWrapper {
 
             return createJsonResponse(response);
             */
-        final int updatedFeedCount = UPDATES_SERVICE.updateFeedSeries(10000);
+        final int updatedFeedCount = UPDATES_SERVICE.updateFeedSeries(8000);
 
         return createJsonResponse(create(format("[ %d ] feeds were updated", updatedFeedCount)));
         /*} catch (ServiceException exception) {

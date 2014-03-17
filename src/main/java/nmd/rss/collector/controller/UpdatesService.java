@@ -2,6 +2,7 @@ package nmd.rss.collector.controller;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
+import nmd.rss.collector.error.ServiceError;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
@@ -129,9 +130,12 @@ public class UpdatesService extends AbstractService {
             try {
                 final FeedUpdateReport report = updateFeed(currentTask.feedId);
 
-                LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
+                LOGGER.info(format("A: [ %d ] R: [ %d ] D: [ %d ] Feed link [ %s ] id [ %s ] updated.", report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size(), report.feedLink, report.feedId));
             } catch (ServiceException exception) {
-                LOGGER.log(Level.SEVERE, format("Error updating feed with id [ %s ]", currentTask.feedId), exception);
+                final ServiceError serviceError = exception.getError();
+
+                LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
+
             }
 
             updated.add(currentTask);
