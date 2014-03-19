@@ -12,8 +12,7 @@ import java.util.UUID;
 import static java.util.UUID.randomUUID;
 import static nmd.rss.reader.Category.MAIN;
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -74,20 +73,33 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
         assertTrue(renamed.feedIds.contains(secondFeedId));
     }
 
-    /*
     @Test
-    public void whenCategoryIsRenamedThenItNewNameWillBeReturnedInReport() throws ServiceException {
+    public void whenCategoryIsRenamedThenCategoryWithItsOldNameNotExists() throws ServiceException {
         final Category category = this.readsService.addCategory(FIRST_NAME);
 
         this.readsService.renameCategory(category.uuid, SECOND_NAME);
 
-        final List<CategoryReport> report = this.readsService.getCategoriesReport();
-        final CategoryReport renamed = findForCategory(category.uuid, report);
+        final List<CategoryReport> reports = this.readsService.getCategoriesReport();
 
-        assertEquals(SECOND_NAME, renamed.name);
+        for (final CategoryReport report : reports) {
+            assertNotEquals(FIRST_NAME, report.name);
+        }
     }
-    */
-    //check handling of wrong names
-    //if new name same as old - nothing changed
 
+    @Test
+    public void whenCategoryNewNameSameAsOldThenNothingWillBeChanged() throws ServiceException {
+        final Category category = this.readsService.addCategory(FIRST_NAME);
+
+        this.readsService.renameCategory(category.uuid, FIRST_NAME);
+
+        final List<CategoryReport> reports = this.readsService.getCategoriesReport();
+
+        assertEquals(2, reports.size());
+
+        final CategoryReport renamed = findForCategory(category.uuid, reports);
+
+        assertEquals(category.uuid, renamed.id);
+        assertEquals(category.name, renamed.name);
+    }
+    //check handling of wrong names
 }

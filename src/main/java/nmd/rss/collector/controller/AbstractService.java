@@ -88,7 +88,7 @@ public class AbstractService {
         }
     }
 
-    private Feed fetchAsCommonUrl(String feedUrl) throws UrlFetcherException, FeedParserException {
+    private Feed fetchAsCommonUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
         final String data = this.fetcher.fetch(feedUrl);
 
         return parse(feedUrl, data);

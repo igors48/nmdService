@@ -331,7 +331,7 @@ public class ReadsService extends AbstractService {
 
         final String trimmed = newName.trim();
 
-        assertCategoryNameUnique(trimmed);
+        assertCategoryNameUnique(trimmed, categoryId);
 
         Transaction transaction = null;
 
@@ -339,7 +339,6 @@ public class ReadsService extends AbstractService {
             transaction = this.transactions.beginOne();
 
             final Category category = loadCategory(categoryId);
-
             final Category renamed = category.changeName(trimmed);
 
             this.categoriesRepository.store(renamed);
@@ -350,13 +349,13 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    private void assertCategoryNameUnique(String trimmed) throws ServiceException {
+    private void assertCategoryNameUnique(String name, String id) throws ServiceException {
         final Set<Category> categories = getAllCategoriesWithMain();
 
         for (final Category category : categories) {
 
-            if (category.name.equalsIgnoreCase(trimmed)) {
-                throw new ServiceException(categoryAlreadyExists(trimmed));
+            if (category.name.equalsIgnoreCase(name) && !category.uuid.equals(id)) {
+                throw new ServiceException(categoryAlreadyExists(name));
             }
         }
     }
