@@ -101,6 +101,12 @@ public class ServiceError {
                 "Possibly category id is wrong. Check category id.");
     }
 
+    public static ServiceError categoryAlreadyExists(final String categoryName) {
+        return new ServiceError(ErrorCode.CATEGORY_ALREADY_EXISTS,
+                format("Category [ %s ] already exists", categoryName),
+                "Category with given name already exists. Try to use another name.");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

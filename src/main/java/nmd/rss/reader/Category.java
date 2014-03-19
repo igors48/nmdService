@@ -22,6 +22,10 @@ public class Category {
         this.name = name;
     }
 
+    public Category changeName(final String newName) {
+        return new Category(this.uuid, newName);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

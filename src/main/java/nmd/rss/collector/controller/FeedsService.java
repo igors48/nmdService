@@ -91,7 +91,8 @@ public class FeedsService extends AbstractService {
             }
 
             final ReadFeedItems existsReadItems = this.readFeedItemsRepository.load(feedHeader.id);
-            this.readFeedItemsRepository.store(existsReadItems);
+            final ReadFeedItems updatedReadItems = existsReadItems.changeCategory(categoryId);
+            this.readFeedItemsRepository.store(updatedReadItems);
 
             transaction.commit();
 

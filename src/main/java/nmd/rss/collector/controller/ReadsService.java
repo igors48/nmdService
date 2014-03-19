@@ -12,6 +12,7 @@ import nmd.rss.reader.*;
 
 import java.util.*;
 
+import static nmd.rss.collector.error.ServiceError.categoryAlreadyExists;
 import static nmd.rss.collector.error.ServiceError.unknownCategory;
 import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -296,7 +297,7 @@ public class ReadsService extends AbstractService {
             loadCategory(categoryId);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
-            final ReadFeedItems updatedReadFeedItems = ReadFeedItems.changeCategory(readFeedItems, categoryId);
+            final ReadFeedItems updatedReadFeedItems = readFeedItems.changeCategory(categoryId);
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
@@ -324,18 +325,39 @@ public class ReadsService extends AbstractService {
         assertStringIsValid(categoryId);
         assertStringIsValid(newName);
 
+        if (Category.MAIN_CATEGORY_ID.equals(categoryId)) {
+            return;
+        }
+
+        final String trimmed = newName.trim();
+
+        assertCategoryNameUnique(trimmed);
+
         Transaction transaction = null;
 
         try {
             transaction = this.transactions.beginOne();
 
-            final String trimmed = newName.trim();
-
             final Category category = loadCategory(categoryId);
+
+            final Category renamed = category.changeName(trimmed);
+
+            this.categoriesRepository.store(renamed);
 
             transaction.commit();
         } finally {
             rollbackIfActive(transaction);
+        }
+    }
+
+    private void assertCategoryNameUnique(String trimmed) throws ServiceException {
+        final Set<Category> categories = getAllCategoriesWithMain();
+
+        for (final Category category : categories) {
+
+            if (category.name.equalsIgnoreCase(trimmed)) {
+                throw new ServiceException(categoryAlreadyExists(trimmed));
+            }
         }
     }
 

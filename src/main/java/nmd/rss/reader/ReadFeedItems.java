@@ -45,17 +45,16 @@ public class ReadFeedItems implements Serializable {
         return new ReadFeedItems(feedId, new Date(), new HashSet<String>(), new HashSet<String>(), MAIN_CATEGORY_ID);
     }
 
-    public static ReadFeedItems changeCategory(final ReadFeedItems origin, final String categoryId) {
-        assertNotNull(origin);
+    public ReadFeedItems changeCategory(final String categoryId) {
         assertStringIsValid(categoryId);
 
         final Set<String> readGuids = new HashSet<>();
         final Set<String> readLaterGuids = new HashSet<>();
 
-        readLaterGuids.addAll(origin.readLaterItemIds);
-        readGuids.addAll(origin.readItemIds);
+        readLaterGuids.addAll(this.readLaterItemIds);
+        readGuids.addAll(this.readItemIds);
 
-        return new ReadFeedItems(origin.feedId, origin.lastUpdate, readGuids, readLaterGuids, categoryId);
+        return new ReadFeedItems(this.feedId, this.lastUpdate, readGuids, readLaterGuids, categoryId);
     }
 
 }
