@@ -11,7 +11,7 @@
         <include path="partials/**.html"/>
         <include path="img/**.*"/>
 
-        <include path="feed/**.xml"/>
+        <include path="feed/**"/>
     </static-files>
 
 </appengine-web-app>
