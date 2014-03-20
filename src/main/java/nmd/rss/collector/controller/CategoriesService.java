@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.reader.CategoriesRepository;
@@ -94,10 +95,8 @@ public class CategoriesService {
             final Set<Category> categories = getAllCategoriesWithMain();
             final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
 
-            //public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItem> items, final ReadFeedItems readFeedItems)
             for (final Category category : categories) {
-                final List<UUID> feedIds = findFeedIdsForCategory(category.uuid, readFeedItemsList);
-                final CategoryReport categoryReport = new CategoryReport(category.uuid, category.name, feedIds, 0, 0, 0);
+                final CategoryReport categoryReport = createCategoryReport(readFeedItemsList, category);
 
                 reports.add(categoryReport);
             }
@@ -192,6 +191,28 @@ public class CategoriesService {
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    private CategoryReport createCategoryReport(final List<ReadFeedItems> readFeedItemsList, final Category category) {
+        final List<UUID> feedIds = findFeedIdsForCategory(category.uuid, readFeedItemsList);
+
+        int read = 0;
+        int notRead = 0;
+        int readLater = 0;
+
+        for (final UUID feedId : feedIds) {
+            final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedId);
+            final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+
+            final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems);
+
+            read += feedReadReport.read;
+            notRead += feedReadReport.notRead;
+            readLater += feedReadReport.readLater;
+        }
+
+        return new CategoryReport(category.uuid, category.name, feedIds, read, notRead, readLater);
     }
 
     private void assertCategoryNameUnique(String name, String id) throws ServiceException {
