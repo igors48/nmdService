@@ -1,4 +1,4 @@
-package unit.feed.controller.reads;
+package unit.feed.controller.categories;
 
 import nmd.rss.collector.controller.CategoryReport;
 import nmd.rss.reader.Category;

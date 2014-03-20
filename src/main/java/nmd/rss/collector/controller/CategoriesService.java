@@ -5,6 +5,7 @@ import nmd.rss.collector.Transactions;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.updater.FeedHeadersRepository;
+import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
@@ -28,10 +29,11 @@ public class CategoriesService {
     private final CategoriesRepository categoriesRepository;
     private final ReadFeedItemsRepository readFeedItemsRepository;
     private final FeedHeadersRepository feedHeadersRepository;
+    private final FeedItemsRepository feedItemsRepository;
 
     private final Transactions transactions;
 
-    public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final Transactions transactions) {
+    public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final Transactions transactions) {
         assertNotNull(categoriesRepository);
         this.categoriesRepository = categoriesRepository;
 
@@ -40,6 +42,9 @@ public class CategoriesService {
 
         assertNotNull(feedHeadersRepository);
         this.feedHeadersRepository = feedHeadersRepository;
+
+        assertNotNull(feedItemsRepository);
+        this.feedItemsRepository = feedItemsRepository;
 
         assertNotNull(transactions);
         this.transactions = transactions;
@@ -89,9 +94,10 @@ public class CategoriesService {
             final Set<Category> categories = getAllCategoriesWithMain();
             final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
 
+            //public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItem> items, final ReadFeedItems readFeedItems)
             for (final Category category : categories) {
                 final List<UUID> feedIds = findFeedIdsForCategory(category.uuid, readFeedItemsList);
-                final CategoryReport categoryReport = new CategoryReport(category.uuid, category.name, feedIds);
+                final CategoryReport categoryReport = new CategoryReport(category.uuid, category.name, feedIds, 0, 0, 0);
 
                 reports.add(categoryReport);
             }

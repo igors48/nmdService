@@ -13,11 +13,12 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
-import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
+
+//import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -32,14 +33,14 @@ public class UpdatesServiceWrapper {
     public static ResponseBody updateCurrentFeed() {
 
         // try {
-            /*
-            final FeedUpdateReport report = UPDATES_SERVICE.updateCurrentFeed();
-            final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
+        /*
+        final FeedUpdateReport report = UPDATES_SERVICE.updateCurrentFeed();
+        final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
 
-            LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
+        LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
 
-            return createJsonResponse(response);
-            */
+        return createJsonResponse(response);
+        */
         final int updatedFeedCount = UPDATES_SERVICE.updateFeedSeries(8000);
 
         return createJsonResponse(create(format("[ %d ] feeds were updated", updatedFeedCount)));
@@ -72,7 +73,7 @@ public class UpdatesServiceWrapper {
 
         final FeedUpdateTaskScheduler feedUpdateTaskScheduler = new CycleFeedUpdateTaskScheduler(GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY, GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY, GAE_TRANSACTIONS);
 
-        return new UpdatesService(GAE_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY, feedUpdateTaskScheduler, GAE_URL_FETCHER, GAE_TRANSACTIONS);
+        return new UpdatesService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY, feedUpdateTaskScheduler, GAE_URL_FETCHER, GAE_TRANSACTIONS);
     }
 
 }

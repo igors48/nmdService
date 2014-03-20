@@ -50,21 +50,9 @@ public class ReadsService extends AbstractService {
 
             for (final FeedHeader header : headers) {
                 final List<FeedItem> items = this.feedItemsRepository.loadItems(header.id);
-
-                final Set<String> storedGuids = getStoredGuids(items);
                 final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(header.id);
 
-                final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
-
-                final FeedItem topItem = findLastNotReadFeedItem(items, readFeedItems.readItemIds);
-                final String topItemId = topItem == null ? null : topItem.guid;
-                final String topItemLink = topItem == null ? null : topItem.link;
-
-                final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
-
-                final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
-
-                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink);
+                final FeedReadReport feedReadReport = createFeedReadReport(header, items, readFeedItems);
 
                 report.add(feedReadReport);
             }
@@ -225,6 +213,22 @@ public class ReadsService extends AbstractService {
         final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
 
         return getStoredGuids(items);
+    }
+
+    public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItem> items, final ReadFeedItems readFeedItems) {
+        final Set<String> storedGuids = getStoredGuids(items);
+
+        final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
+
+        final FeedItem topItem = findLastNotReadFeedItem(items, readFeedItems.readItemIds);
+        final String topItemId = topItem == null ? null : topItem.guid;
+        final String topItemLink = topItem == null ? null : topItem.link;
+
+        final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
+
+        final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
+
+        return new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink);
     }
 
     public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
