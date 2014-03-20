@@ -23,11 +23,11 @@ public class DeleteCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryIsDeletedThenItWillNotBeIncludedInReport() {
-        final Category category = this.readsService.addCategory(FIRST_NAME);
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
 
-        this.readsService.deleteCategory(category.uuid);
+        this.categoriesService.deleteCategory(category.uuid);
 
-        final List<CategoryReport> reports = this.readsService.getCategoriesReport();
+        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
         final CategoryReport report = findForCategory(category.uuid, reports);
 
         assertNull(report);
@@ -35,9 +35,9 @@ public class DeleteCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void mainCategoryCanNotBeDeleted() {
-        this.readsService.deleteCategory(MAIN_CATEGORY_ID);
+        this.categoriesService.deleteCategory(MAIN_CATEGORY_ID);
 
-        final List<CategoryReport> reports = this.readsService.getCategoriesReport();
+        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
 
         assertEquals(1, reports.size());
 
@@ -48,11 +48,11 @@ public class DeleteCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void whenNotExistsCategoryIsDeletedThenNothingWillHappened() {
-        final Category category = this.readsService.addCategory(FIRST_NAME);
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
 
-        this.readsService.deleteCategory(randomUUID().toString());
+        this.categoriesService.deleteCategory(randomUUID().toString());
 
-        final List<CategoryReport> reports = this.readsService.getCategoriesReport();
+        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
 
         assertEquals(2, reports.size());
 
@@ -62,14 +62,14 @@ public class DeleteCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryIsDeletedThenAllTheyFeedsWillBeAssignedToMainCategory() throws ServiceException {
-        final Category category = this.readsService.addCategory(FIRST_NAME);
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
 
         final UUID firstFeedId = addValidFirstRssFeed(category.uuid);
         final UUID secondFeedId = addValidSecondRssFeed(category.uuid);
 
-        this.readsService.deleteCategory(category.uuid);
+        this.categoriesService.deleteCategory(category.uuid);
 
-        final List<CategoryReport> reports = this.readsService.getCategoriesReport();
+        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
 
         assertEquals(1, reports.size());
 

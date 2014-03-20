@@ -25,11 +25,11 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryIsRenamedThenItNewNameWillBeReturnedInReport() throws ServiceException {
-        final Category category = this.readsService.addCategory(FIRST_NAME);
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
 
-        this.readsService.renameCategory(category.uuid, SECOND_NAME);
+        this.categoriesService.renameCategory(category.uuid, SECOND_NAME);
 
-        final List<CategoryReport> report = this.readsService.getCategoriesReport();
+        final List<CategoryReport> report = this.categoriesService.getCategoriesReport();
         final CategoryReport renamed = findForCategory(category.uuid, report);
 
         assertEquals(SECOND_NAME, renamed.name);
@@ -37,22 +37,22 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
 
     @Test(expected = ServiceException.class)
     public void whenCategoryWithNewNameAlreadyExistsThenExceptionWillBeThrown() throws ServiceException {
-        final Category first = this.readsService.addCategory(FIRST_NAME);
-        this.readsService.addCategory(SECOND_NAME);
+        final Category first = this.categoriesService.addCategory(FIRST_NAME);
+        this.categoriesService.addCategory(SECOND_NAME);
 
-        this.readsService.renameCategory(first.uuid, SECOND_NAME);
+        this.categoriesService.renameCategory(first.uuid, SECOND_NAME);
     }
 
     @Test(expected = ServiceException.class)
     public void whenCategoryWithGivenIdIsNotFoundThenExceptionWillBeThrown() throws ServiceException {
-        this.readsService.renameCategory(randomUUID().toString(), SECOND_NAME);
+        this.categoriesService.renameCategory(randomUUID().toString(), SECOND_NAME);
     }
 
     @Test
     public void mainCategoryCanNotBeRenamed() throws ServiceException {
-        this.readsService.renameCategory(MAIN_CATEGORY_ID, SECOND_NAME);
+        this.categoriesService.renameCategory(MAIN_CATEGORY_ID, SECOND_NAME);
 
-        final List<CategoryReport> report = this.readsService.getCategoriesReport();
+        final List<CategoryReport> report = this.categoriesService.getCategoriesReport();
         final CategoryReport renamed = findForCategory(MAIN_CATEGORY_ID, report);
 
         assertEquals(MAIN.name, renamed.name);
@@ -60,13 +60,13 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryIsRenamedThenAllAssignedFeedWillBeRetained() throws ServiceException {
-        final Category category = this.readsService.addCategory(FIRST_NAME);
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
         final UUID firstFeedId = addValidFirstRssFeed(category.uuid);
         final UUID secondFeedId = addValidSecondRssFeed(category.uuid);
 
-        this.readsService.renameCategory(category.uuid, SECOND_NAME);
+        this.categoriesService.renameCategory(category.uuid, SECOND_NAME);
 
-        final List<CategoryReport> report = this.readsService.getCategoriesReport();
+        final List<CategoryReport> report = this.categoriesService.getCategoriesReport();
         final CategoryReport renamed = findForCategory(category.uuid, report);
 
         assertTrue(renamed.feedIds.contains(firstFeedId));
@@ -75,11 +75,11 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryIsRenamedThenCategoryWithItsOldNameNotExists() throws ServiceException {
-        final Category category = this.readsService.addCategory(FIRST_NAME);
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
 
-        this.readsService.renameCategory(category.uuid, SECOND_NAME);
+        this.categoriesService.renameCategory(category.uuid, SECOND_NAME);
 
-        final List<CategoryReport> reports = this.readsService.getCategoriesReport();
+        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
 
         for (final CategoryReport report : reports) {
             assertNotEquals(FIRST_NAME, report.name);
@@ -88,11 +88,11 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryNewNameSameAsOldThenNothingWillBeChanged() throws ServiceException {
-        final Category category = this.readsService.addCategory(FIRST_NAME);
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
 
-        this.readsService.renameCategory(category.uuid, FIRST_NAME);
+        this.categoriesService.renameCategory(category.uuid, FIRST_NAME);
 
-        final List<CategoryReport> reports = this.readsService.getCategoriesReport();
+        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
 
         assertEquals(2, reports.size());
 

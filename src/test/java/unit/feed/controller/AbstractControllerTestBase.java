@@ -1,9 +1,6 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.CategoryReport;
-import nmd.rss.collector.controller.FeedsService;
-import nmd.rss.collector.controller.ReadsService;
-import nmd.rss.collector.controller.UpdatesService;
+import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
@@ -96,6 +93,7 @@ public abstract class AbstractControllerTestBase {
     protected FeedsService feedsService;
     protected UpdatesService updatesService;
     protected ReadsService readsService;
+    protected CategoriesService categoriesService;
 
     @Before
     public void before() throws ServiceException {
@@ -113,7 +111,8 @@ public abstract class AbstractControllerTestBase {
 
         this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.fetcherStub, transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
-        this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.fetcherStub, transactionsStub);
+        this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, transactionsStub);
+        this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, transactionsStub);
     }
 
     protected UUID addValidFirstRssFeed(final String categoryId) throws ServiceException {

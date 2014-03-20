@@ -24,7 +24,7 @@ public class ControllerClearTest extends AbstractControllerTestBase {
 
         this.readsService.markItemAsRead(firstFeedId, "read_first");
         this.readsService.markItemAsRead(secondFeedId, "read_second");
-        this.readsService.addCategory("category");
+        this.categoriesService.addCategory("category");
 
         this.feedsService.clear();
     }

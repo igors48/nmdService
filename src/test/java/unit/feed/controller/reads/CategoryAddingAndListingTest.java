@@ -20,7 +20,7 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
 
     @Test
     public void whenEverythingStartsThenOnlyEmptyMainCategoryExists() {
-        final List<CategoryReport> categoriesReport = this.readsService.getCategoriesReport();
+        final List<CategoryReport> categoriesReport = this.categoriesService.getCategoriesReport();
 
         assertEquals(1, categoriesReport.size());
         assertEquals(Category.MAIN_CATEGORY_ID, categoriesReport.get(0).id);
@@ -29,9 +29,9 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryWasAddedThenItWillBeReturnInSetAsEmpty() {
-        final Category created = this.readsService.addCategory(NEW_CATEGORY_NAME);
+        final Category created = this.categoriesService.addCategory(NEW_CATEGORY_NAME);
 
-        final List<CategoryReport> categoriesReport = this.readsService.getCategoriesReport();
+        final List<CategoryReport> categoriesReport = this.categoriesService.getCategoriesReport();
 
         assertEquals(2, categoriesReport.size());
         assertTrue(findForCategory(created.uuid, categoriesReport).feedIds.isEmpty());
@@ -39,32 +39,32 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
 
     @Test
     public void whenTryToCreateAnotherCategoryWithSameNameThenPreviousCategoryReturns() {
-        final Category first = this.readsService.addCategory(NEW_CATEGORY_NAME);
-        final Category second = this.readsService.addCategory(NEW_CATEGORY_NAME);
+        final Category first = this.categoriesService.addCategory(NEW_CATEGORY_NAME);
+        final Category second = this.categoriesService.addCategory(NEW_CATEGORY_NAME);
 
         assertEquals(first, second);
-        assertEquals(2, this.readsService.getCategoriesReport().size());
+        assertEquals(2, this.categoriesService.getCategoriesReport().size());
     }
 
     @Test
     public void whenTryToCreateMainCategoryThenMainCategoryReturns() {
-        final Category created = this.readsService.addCategory(Category.MAIN.name);
+        final Category created = this.categoriesService.addCategory(Category.MAIN.name);
 
         assertEquals(Category.MAIN, created);
-        assertEquals(1, this.readsService.getCategoriesReport().size());
+        assertEquals(1, this.categoriesService.getCategoriesReport().size());
     }
 
     @Test
     public void categoriesWithSpacesAtTheEndsOrInDifferentCasesAreTreatedAsTheSameAndNoDuplicatesWillBeCreated() {
-        final Category first = this.readsService.addCategory(NEW_CATEGORY_NAME);
-        final Category spaceBefore = this.readsService.addCategory(" " + NEW_CATEGORY_NAME);
-        final Category spaceAfter = this.readsService.addCategory(NEW_CATEGORY_NAME + " ");
-        final Category diffCase = this.readsService.addCategory(" " + NEW_CATEGORY_NAME.toUpperCase());
+        final Category first = this.categoriesService.addCategory(NEW_CATEGORY_NAME);
+        final Category spaceBefore = this.categoriesService.addCategory(" " + NEW_CATEGORY_NAME);
+        final Category spaceAfter = this.categoriesService.addCategory(NEW_CATEGORY_NAME + " ");
+        final Category diffCase = this.categoriesService.addCategory(" " + NEW_CATEGORY_NAME.toUpperCase());
 
         assertEquals(first, spaceAfter);
         assertEquals(first, spaceBefore);
         assertEquals(first, diffCase);
-        assertEquals(2, this.readsService.getCategoriesReport().size());
+        assertEquals(2, this.categoriesService.getCategoriesReport().size());
     }
 
 }

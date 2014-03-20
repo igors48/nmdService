@@ -69,6 +69,12 @@ public class AbstractService {
         }
     }
 
+    protected List<FeedItem> getFeedOldItems(final FeedHeader feedHeader) {
+        final List<FeedItem> feedItems = feedHeader == null ? new ArrayList<FeedItem>() : this.feedItemsRepository.loadItems(feedHeader.id);
+
+        return feedItems == null ? new ArrayList<FeedItem>() : feedItems;
+    }
+
     private Feed fetchAsTwitterUrl(final String twitterUrl) throws ServiceException {
 
         try {
@@ -92,12 +98,6 @@ public class AbstractService {
         final String data = this.fetcher.fetch(feedUrl);
 
         return parse(feedUrl, data);
-    }
-
-    protected List<FeedItem> getFeedOldItems(final FeedHeader feedHeader) {
-        final List<FeedItem> feedItems = feedHeader == null ? new ArrayList<FeedItem>() : this.feedItemsRepository.loadItems(feedHeader.id);
-
-        return feedItems == null ? new ArrayList<FeedItem>() : feedItems;
     }
 
 }

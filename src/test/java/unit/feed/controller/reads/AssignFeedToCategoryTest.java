@@ -20,14 +20,14 @@ public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedIsAssignedToSecondCategoryThenItIsUnAssignedFromFirst() throws ServiceException {
-        final Category firstCategory = this.readsService.addCategory("first");
-        final Category secondCategory = this.readsService.addCategory("second");
+        final Category firstCategory = this.categoriesService.addCategory("first");
+        final Category secondCategory = this.categoriesService.addCategory("second");
 
         final UUID feedId = addValidFirstRssFeed(firstCategory.uuid);
 
-        this.readsService.assignFeedToCategory(feedId, secondCategory.uuid);
+        this.categoriesService.assignFeedToCategory(feedId, secondCategory.uuid);
 
-        final List<CategoryReport> categoryReports = this.readsService.getCategoriesReport();
+        final List<CategoryReport> categoryReports = this.categoriesService.getCategoriesReport();
         final CategoryReport main = findForCategory(firstCategory.uuid, categoryReports);
         final CategoryReport second = findForCategory(secondCategory.uuid, categoryReports);
 
@@ -37,16 +37,16 @@ public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
 
     @Test(expected = ServiceException.class)
     public void whenFeedIsNotFoundThenExceptionOccurs() throws ServiceException {
-        final Category secondCategory = this.readsService.addCategory("second");
+        final Category secondCategory = this.categoriesService.addCategory("second");
 
-        this.readsService.assignFeedToCategory(UUID.randomUUID(), secondCategory.uuid);
+        this.categoriesService.assignFeedToCategory(UUID.randomUUID(), secondCategory.uuid);
     }
 
     @Test(expected = ServiceException.class)
     public void whenCategoryIsNotFoundThenExceptionOccurs() throws ServiceException {
         final UUID feedId = addValidFirstRssFeed();
 
-        this.readsService.assignFeedToCategory(feedId, UUID.randomUUID().toString());
+        this.categoriesService.assignFeedToCategory(feedId, UUID.randomUUID().toString());
     }
 
 }

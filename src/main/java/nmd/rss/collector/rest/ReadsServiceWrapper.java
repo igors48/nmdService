@@ -28,7 +28,7 @@ public class ReadsServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServiceWrapper.class.getName());
 
-    private static final ReadsService READS_SERVICE = new ReadsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_READ_FEED_ITEMS_REPOSITORY, GAE_CACHED_CATEGORIES_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
+    private static final ReadsService READS_SERVICE = new ReadsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_READ_FEED_ITEMS_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
 
     public static ResponseBody getFeedsReadReport() {
         final List<FeedReadReport> feedReadReport = READS_SERVICE.getFeedsReadReport();

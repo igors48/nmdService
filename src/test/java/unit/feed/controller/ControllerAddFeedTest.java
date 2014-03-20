@@ -91,11 +91,11 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedAddedToCategoryThenItIsBecameMemberOfIt() throws ServiceException {
-        final Category category = this.readsService.addCategory("new");
+        final Category category = this.categoriesService.addCategory("new");
 
         final UUID feedId = addValidFirstRssFeed(category.uuid);
 
-        final List<CategoryReport> categoryReports = this.readsService.getCategoriesReport();
+        final List<CategoryReport> categoryReports = this.categoriesService.getCategoriesReport();
         final CategoryReport report = findForCategory(category.uuid, categoryReports);
 
         assertTrue(report.feedIds.contains(feedId));
