@@ -26,7 +26,7 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedUpdatedThenMergeReportReturns() throws Exception {
-        final UUID feedId = addValidFirstRssFeed();
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
 
         final FeedUpdateReport report = this.updatesService.updateFeed(feedId);
 

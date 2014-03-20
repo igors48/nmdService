@@ -44,7 +44,7 @@ public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
 
     @Test(expected = ServiceException.class)
     public void whenCategoryIsNotFoundThenExceptionOccurs() throws ServiceException {
-        final UUID feedId = addValidFirstRssFeed();
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
 
         this.categoriesService.assignFeedToCategory(feedId, UUID.randomUUID().toString());
     }

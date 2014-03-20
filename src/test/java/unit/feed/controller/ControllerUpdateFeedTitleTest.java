@@ -18,7 +18,7 @@ public class ControllerUpdateFeedTitleTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedIdIsCorrectThenTitleUpdates() throws ServiceException {
-        UUID feedId = addValidFirstRssFeed();
+        UUID feedId = addValidFirstRssFeedToMainCategory();
 
         this.feedsService.updateFeedTitle(feedId, UPDATED_TITLE);
 

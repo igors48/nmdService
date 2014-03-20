@@ -21,15 +21,15 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedFetchedOkAndParsedOkItAdds() throws ServiceException {
-        final UUID id = addValidFirstRssFeed();
+        final UUID id = addValidFirstRssFeedToMainCategory();
 
         assertNotNull(id);
     }
 
     @Test
     public void whenFeedWithSameLinkAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
-        final UUID firstId = addValidFirstRssFeed();
-        final UUID secondId = addValidFirstRssFeed();
+        final UUID firstId = addValidFirstRssFeedToMainCategory();
+        final UUID secondId = addValidFirstRssFeedToMainCategory();
 
         assertEquals(firstId, secondId);
     }
@@ -63,28 +63,28 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedAddedThenNewUpdateTaskCreates() throws ServiceException {
-        final UUID id = addValidFirstRssFeed();
+        final UUID id = addValidFirstRssFeedToMainCategory();
 
         assertNotNull(this.feedUpdateTaskRepositoryStub.loadTaskForFeedId(id));
     }
 
     @Test
     public void whenFeedAddedThenItHeaderStores() throws ServiceException {
-        final UUID id = addValidFirstRssFeed();
+        final UUID id = addValidFirstRssFeedToMainCategory();
 
         assertNotNull(this.feedHeadersRepositoryStub.loadHeader(id));
     }
 
     @Test
     public void whenFeedAddedThenItItemsStores() throws ServiceException {
-        final UUID id = addValidFirstRssFeed();
+        final UUID id = addValidFirstRssFeedToMainCategory();
 
         assertNotNull(this.feedItemsRepositoryStub.loadItems(id));
     }
 
     @Test
     public void whenFeedAddedThenReadItemsCreatedForIt() throws ServiceException {
-        final UUID id = addValidFirstRssFeed();
+        final UUID id = addValidFirstRssFeedToMainCategory();
 
         assertNotNull(this.readFeedItemsRepositoryStub.load(id));
     }
