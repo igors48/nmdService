@@ -7,7 +7,9 @@ import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.persistence.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
+import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
+import nmd.rss.reader.gae.CategoryConverter;
 import nmd.rss.reader.gae.ReadFeedItemsConverter;
 import org.junit.Test;
 
@@ -126,6 +128,17 @@ public class ConvertersTest {
         final FeedItem restored = FeedItemHelper.convert(helper);
 
         assertEquals(FeedItemHelper.MAX_DESCRIPTION_LENGTH, restored.description.length());
+    }
+
+    @Test
+    public void categoryEntityRoundtrip() {
+        final Category category = new Category("uuid", "name");
+
+        final Entity entity = CategoryConverter.convert(category, SAMPLE_KEY);
+
+        final Category restored = CategoryConverter.convert(entity);
+
+        assertEquals(category, restored);
     }
 
 }
