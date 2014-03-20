@@ -92,6 +92,33 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
         );
     }
 
+    $scope.markAllAsRead = function () {
+        blockUi.block();
+
+        $scope.touchedItemId = '';
+        lastUsedIds.storeFeedId($routeParams.feedId);
+        
+        var response = reads.mark({
+                feedId: $routeParams.feedId
+            },
+            function () {
+                serverResponseHandler(response,
+                    function() {
+                        $scope.feedLink = '';
+                        $scope.loadItemsReport($routeParams.feedId);
+                    }
+                )
+            },
+            function () {
+                serverErrorHandler(
+                    function () {
+                        $scope.loadItemsReport($routeParams.feedId);
+                    }
+                )
+            }
+        );
+    }
+
     $scope.toggleReadLater = function (feedId, itemId) {
         blockUi.block();
 
