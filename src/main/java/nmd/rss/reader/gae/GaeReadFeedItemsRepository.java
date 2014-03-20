@@ -43,7 +43,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
     public ReadFeedItems load(final UUID feedId) {
         assertNotNull(feedId);
 
-        final Entity entity = loadEntity(feedId, FEED, READ_FEED_ITEM, false);
+        final Entity entity = loadEntity(feedId.toString(), FEED, READ_FEED_ITEM, false);
 
         return entity == null ? empty(feedId) : convert(entity);
     }
@@ -54,7 +54,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
         delete(readFeedItems.feedId);
 
-        final Key feedRootKey = getEntityRootKey(readFeedItems.feedId, FEED);
+        final Key feedRootKey = getEntityRootKey(readFeedItems.feedId.toString(), FEED);
         final Entity entity = convert(feedRootKey, readFeedItems);
 
         DATASTORE_SERVICE.put(entity);
@@ -64,7 +64,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
     public void delete(final UUID feedId) {
         assertNotNull(feedId);
 
-        deleteEntity(feedId, FEED, READ_FEED_ITEM);
+        deleteEntity(feedId.toString(), FEED, READ_FEED_ITEM);
     }
 
     private GaeReadFeedItemsRepository() {

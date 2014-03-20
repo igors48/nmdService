@@ -30,7 +30,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
     public FeedHeader loadHeader(final UUID feedId) {
         assertNotNull(feedId);
 
-        final Entity entity = loadEntity(feedId, FEED, FEED_HEADER, false);
+        final Entity entity = loadEntity(feedId.toString(), FEED, FEED_HEADER, false);
 
         return entity == null ? null : convert(entity);
     }
@@ -54,7 +54,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
     public void deleteHeader(final UUID feedId) {
         assertNotNull(feedId);
 
-        deleteEntity(feedId, FEED, FEED_HEADER);
+        deleteEntity(feedId.toString(), FEED, FEED_HEADER);
     }
 
     @Override
@@ -72,7 +72,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
     public void storeHeader(final FeedHeader feedHeader) {
         assertNotNull(feedHeader);
 
-        final Entity entity = convert(feedHeader, getEntityRootKey(feedHeader.id, RootKind.FEED));
+        final Entity entity = convert(feedHeader, getEntityRootKey(feedHeader.id.toString(), RootKind.FEED));
 
         DATASTORE_SERVICE.put(entity);
     }

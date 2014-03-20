@@ -16,7 +16,6 @@ import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static java.lang.Integer.MAX_VALUE;
@@ -53,14 +52,14 @@ public class GaeRootRepository implements Transactions {
         // empty
     }
 
-    public static Key getEntityRootKey(final UUID uuid, final RootKind rootKind) {
+    public static Key getEntityRootKey(final String uuid, final RootKind rootKind) {
         assertNotNull(uuid);
         assertNotNull(rootKind);
 
-        return KeyFactory.createKey(ROOT_KEY, rootKind.value, uuid.toString());
+        return KeyFactory.createKey(ROOT_KEY, rootKind.value, uuid);
     }
 
-    public static Entity loadEntity(final UUID uuid, final RootKind rootKind, final Kind kind, final boolean keysOnly) {
+    public static Entity loadEntity(final String uuid, final RootKind rootKind, final Kind kind, final boolean keysOnly) {
         assertNotNull(uuid);
         assertNotNull(kind);
 
@@ -78,7 +77,7 @@ public class GaeRootRepository implements Transactions {
         return preparedQuery.asList(withLimit(MAX_VALUE));
     }
 
-    public static void deleteEntity(final UUID uuid, final RootKind rootKind, final Kind kind) {
+    public static void deleteEntity(final String uuid, final RootKind rootKind, final Kind kind) {
         assertNotNull(uuid);
         assertNotNull(kind);
 
@@ -89,7 +88,7 @@ public class GaeRootRepository implements Transactions {
         }
     }
 
-    private static PreparedQuery prepareQuery(final UUID uuid, final RootKind rootKind, final Kind kind, final boolean keysOnly) {
+    private static PreparedQuery prepareQuery(final String uuid, final RootKind rootKind, final Kind kind, final boolean keysOnly) {
         final Key feedRootKey = getEntityRootKey(uuid, rootKind);
         final Query query = new Query(kind.value).setAncestor(feedRootKey);
 

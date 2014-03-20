@@ -42,7 +42,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
-        final Key feedRootKey = getEntityRootKey(feedUpdateTask.feedId, FEED);
+        final Key feedRootKey = getEntityRootKey(feedUpdateTask.feedId.toString(), FEED);
         final Entity entity = convert(feedUpdateTask, feedRootKey);
 
         DATASTORE_SERVICE.put(entity);
@@ -52,7 +52,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
         assertNotNull(feedId);
 
-        final Entity entity = loadEntity(feedId, FEED, FEED_UPDATE_TASK, false);
+        final Entity entity = loadEntity(feedId.toString(), FEED, FEED_UPDATE_TASK, false);
 
         return entity == null ? null : convert(entity);
     }
@@ -61,7 +61,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     public void deleteTaskForFeedId(final UUID feedId) {
         assertNotNull(feedId);
 
-        deleteEntity(feedId, FEED, FEED_UPDATE_TASK);
+        deleteEntity(feedId.toString(), FEED, FEED_UPDATE_TASK);
     }
 
     private GaeFeedUpdateTaskRepository() {
