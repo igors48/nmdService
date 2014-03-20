@@ -101,5 +101,5 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
         assertEquals(category.uuid, renamed.id);
         assertEquals(category.name, renamed.name);
     }
-    //check handling of wrong names
+
 }

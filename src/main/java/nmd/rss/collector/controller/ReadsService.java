@@ -310,10 +310,29 @@ public class ReadsService extends AbstractService {
     public void deleteCategory(final String categoryId) {
         assertStringIsValid(categoryId);
 
+        if (Category.MAIN_CATEGORY_ID.equals(categoryId)) {
+            return;
+        }
+
         Transaction transaction = null;
 
         try {
             transaction = this.transactions.beginOne();
+
+            final Category category = this.categoriesRepository.load(categoryId);
+
+            if (category != null) {
+                final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
+                final List<ReadFeedItems> readFeedItemsListForCategory = findReadFeedItemsForCategory(category.uuid, readFeedItemsList);
+
+                for (final ReadFeedItems items : readFeedItemsListForCategory) {
+                    final ReadFeedItems updated = items.changeCategory(Category.MAIN_CATEGORY_ID);
+
+                    this.readFeedItemsRepository.store(updated);
+                }
+
+                this.categoriesRepository.delete(categoryId);
+            }
 
             transaction.commit();
         } finally {
@@ -411,6 +430,19 @@ public class ReadsService extends AbstractService {
         }
 
         return feedIds;
+    }
+
+    private List<ReadFeedItems> findReadFeedItemsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
+        final List<ReadFeedItems> list = new ArrayList<>();
+
+        for (final ReadFeedItems readFeedItems : readFeedItemsList) {
+
+            if (readFeedItems.categoryId.equals(categoryId)) {
+                list.add(readFeedItems);
+            }
+        }
+
+        return list;
     }
 
     private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
