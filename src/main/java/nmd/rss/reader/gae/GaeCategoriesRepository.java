@@ -5,6 +5,9 @@ import nmd.rss.reader.Category;
 
 import java.util.Set;
 
+import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.assertStringIsValid;
+
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 12.03.14
@@ -14,12 +17,14 @@ public class GaeCategoriesRepository implements CategoriesRepository {
     public static final CategoriesRepository GAE_CATEGORIES_REPOSITORY = new GaeCategoriesRepository();
 
     @Override
-    public void store(Category category) {
-
+    public void store(final Category category) {
+        assertNotNull(category);
     }
 
     @Override
-    public Category load(String categoryId) {
+    public Category load(final String categoryId) {
+        assertStringIsValid(categoryId);
+
         return null;
     }
 
@@ -29,8 +34,8 @@ public class GaeCategoriesRepository implements CategoriesRepository {
     }
 
     @Override
-    public void delete(String categoryId) {
-
+    public void delete(final String categoryId) {
+        assertStringIsValid(categoryId);
     }
 
     @Override
