@@ -6,6 +6,7 @@ import nmd.rss.collector.scheduler.FeedUpdateTask;
 
 import java.util.UUID;
 
+import static nmd.rss.collector.gae.persistence.Kind.FEED_UPDATE_TASK;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -14,8 +15,6 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedUpdateTaskEntityConverter {
 
-    public static final String KIND = "FeedUpdateTask";
-
     private static final String FEED_ID = "feedId";
     private static final String MAX_FEED_ITEMS_COUNT = "maxFeedItemsCount";
 
@@ -23,7 +22,7 @@ public class FeedUpdateTaskEntityConverter {
         assertNotNull(updateTask);
         assertNotNull(feedKey);
 
-        final Entity entity = new Entity(KIND, feedKey);
+        final Entity entity = new Entity(FEED_UPDATE_TASK.value, feedKey);
 
         entity.setProperty(FEED_ID, updateTask.feedId.toString());
         entity.setProperty(MAX_FEED_ITEMS_COUNT, updateTask.maxFeedItemsCount);

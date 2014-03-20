@@ -6,6 +6,7 @@ import nmd.rss.collector.feed.FeedHeader;
 
 import java.util.UUID;
 
+import static nmd.rss.collector.gae.persistence.Kind.FEED_HEADER;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -13,8 +14,6 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Date : 15.10.13
  */
 public class FeedHeaderEntityConverter {
-
-    public static final String KIND = "FeedHeader";
 
     public static final String FEED_LINK = "feedLink";
 
@@ -27,7 +26,7 @@ public class FeedHeaderEntityConverter {
         assertNotNull(header);
         assertNotNull(feedKey);
 
-        final Entity entity = new Entity(KIND, feedKey);
+        final Entity entity = new Entity(FEED_HEADER.value, feedKey);
 
         entity.setProperty(HEADER_ID, header.id.toString());
         entity.setProperty(FEED_LINK, header.feedLink);

@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static nmd.rss.collector.gae.persistence.Kind.READ_FEED_ITEM;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -21,8 +22,6 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Date : 26.11.13
  */
 public class ReadFeedItemsConverter {
-
-    public static final String KIND = "ReadFeedItem";
 
     private static final Gson GSON = new Gson();
 
@@ -40,7 +39,7 @@ public class ReadFeedItemsConverter {
         assertNotNull(feedKey);
         assertNotNull(readFeedItems);
 
-        final Entity entity = new Entity(KIND, feedKey);
+        final Entity entity = new Entity(READ_FEED_ITEM.value, feedKey);
 
         entity.setProperty(FEED_ID, readFeedItems.feedId.toString());
         entity.setProperty(COUNT, readFeedItems.readItemIds.size());
