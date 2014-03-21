@@ -100,8 +100,6 @@ public class UpdatesService extends AbstractService {
         final List<FeedUpdateReport> updateReports = new ArrayList<>();
         final List<ServiceError> errors = new ArrayList<>();
 
-        int count = 0;
-
         final Set<FeedUpdateTask> updated = new HashSet<>();
 
         while (!quota.expired()) {
@@ -132,10 +130,9 @@ public class UpdatesService extends AbstractService {
             }
 
             updated.add(currentTask);
-            ++count;
         }
 
-        LOGGER.info(format("[ %d ] feeds were updated", count));
+        LOGGER.info(format("[ %d ] feeds were updated", updated.size()));
 
         return new FeedSeriesUpdateReport(updateReports, errors);
     }

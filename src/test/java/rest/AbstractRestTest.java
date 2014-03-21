@@ -81,12 +81,16 @@ public abstract class AbstractRestTest {
         return given().get(UPDATES_SERVLET_URL + feedId).asString();
     }
 
+    protected static FeedMergeReportResponse updateFeedWithReport(final String feedId) {
+        return GSON.fromJson(assertSuccessResponse(updateFeed(feedId)), FeedMergeReportResponse.class);
+    }
+
     protected static String updateCurrentFeed() {
         return updateFeed("");
     }
 
-    protected static FeedMergeReportResponse updateCurrentFeedWithReport() {
-        return GSON.fromJson(assertSuccessResponse(updateFeed("")), FeedMergeReportResponse.class);
+    protected static FeedSeriesUpdateResponse updateCurrentFeedWithReport() {
+        return GSON.fromJson(assertSuccessResponse(updateFeed("")), FeedSeriesUpdateResponse.class);
     }
 
     protected String getReadsReportAsString() {
