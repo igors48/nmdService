@@ -1,5 +1,6 @@
 package nmd.rss.collector.rest;
 
+import nmd.rss.collector.controller.FeedSeriesUpdateReport;
 import nmd.rss.collector.controller.FeedUpdateReport;
 import nmd.rss.collector.controller.UpdatesService;
 import nmd.rss.collector.error.ServiceException;
@@ -26,6 +27,8 @@ public class UpdatesServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapper.class.getName());
 
+    private static final int UPDATE_TIME_QUOTA = 8000;
+
     private static final UpdatesService UPDATES_SERVICE = createUpdatesService();
 
     public static ResponseBody updateCurrentFeed() {
@@ -39,9 +42,9 @@ public class UpdatesServiceWrapper {
 
         return createJsonResponse(response);
         */
-        final int updatedFeedCount = UPDATES_SERVICE.updateFeedSeries(8000);
+        final FeedSeriesUpdateReport report = UPDATES_SERVICE.updateFeedSeries(UPDATE_TIME_QUOTA);
 
-        return createJsonResponse(create(format("[ %d ] feeds were updated", updatedFeedCount)));
+        return createJsonResponse(create(format("[ %d ] feeds were updated", report.updated.size() + report.errors.size())));
         /*} catch (ServiceException exception) {
             final ServiceError serviceError = exception.getError();
 

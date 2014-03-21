@@ -12,10 +12,7 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -100,6 +97,7 @@ public class UpdatesService extends AbstractService {
         }
     }
 
+    //TODO remove
     public FeedUpdateReport updateCurrentFeed() throws ServiceException {
         final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
@@ -110,8 +108,11 @@ public class UpdatesService extends AbstractService {
         return updateFeed(currentTask.feedId);
     }
 
-    public int updateFeedSeries(long timeQuota) /*throws ServiceException*/ {
+    public FeedSeriesUpdateReport updateFeedSeries(long timeQuota) {
         assertPositive(timeQuota);
+
+        final List<FeedUpdateReport> updateReports = new ArrayList<>();
+        final List<ServiceError> errors = new ArrayList<>();
 
         int count = 0;
 
@@ -129,10 +130,12 @@ public class UpdatesService extends AbstractService {
 
             try {
                 final FeedUpdateReport report = updateFeed(currentTask.feedId);
+                updateReports.add(report);
 
                 LOGGER.info(format("A: [ %d ] R: [ %d ] D: [ %d ] Feed link [ %s ] id [ %s ] updated.", report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size(), report.feedLink, report.feedId));
             } catch (ServiceException exception) {
                 final ServiceError serviceError = exception.getError();
+                errors.add(serviceError);
 
                 LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
 
@@ -147,7 +150,7 @@ public class UpdatesService extends AbstractService {
 
         LOGGER.info(format("[ %d ] feeds were updated", count));
 
-        return count;
+        return new FeedSeriesUpdateReport(updateReports, errors);
     }
 
 }
