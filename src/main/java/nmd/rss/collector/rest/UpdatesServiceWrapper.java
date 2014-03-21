@@ -1,8 +1,6 @@
 package nmd.rss.collector.rest;
 
-import nmd.rss.collector.controller.FeedSeriesUpdateReport;
-import nmd.rss.collector.controller.FeedUpdateReport;
-import nmd.rss.collector.controller.UpdatesService;
+import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
@@ -27,31 +25,15 @@ public class UpdatesServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapper.class.getName());
 
-    private static final int UPDATE_TIME_QUOTA = 8000;
+    private static final int UPDATE_PERIOD = 8000;
 
     private static final UpdatesService UPDATES_SERVICE = createUpdatesService();
 
-    public static ResponseBody updateCurrentFeed() {
-
-        // try {
-        /*
-        final FeedUpdateReport report = UPDATES_SERVICE.updateCurrentFeed();
-        final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
-
-        LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
-
-        return createJsonResponse(response);
-        */
-        final FeedSeriesUpdateReport report = UPDATES_SERVICE.updateFeedSeries(UPDATE_TIME_QUOTA);
+    public static ResponseBody updateCurrentFeeds() {
+        final TimeQuota quota = new FixedTimeQuota(UPDATE_PERIOD);
+        final FeedSeriesUpdateReport report = UPDATES_SERVICE.updateFeedSeries(quota);
 
         return createJsonResponse(create(format("[ %d ] feeds were updated", report.updated.size() + report.errors.size())));
-        /*} catch (ServiceException exception) {
-            final ServiceError serviceError = exception.getError();
-
-            LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
-
-            return createErrorJsonResponse(exception);
-        }*/
     }
 
     public static ResponseBody updateFeed(final UUID feedId) {

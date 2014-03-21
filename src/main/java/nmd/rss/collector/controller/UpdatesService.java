@@ -17,11 +17,9 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
-import static java.lang.System.currentTimeMillis;
 import static nmd.rss.collector.error.ServiceError.noScheduledTask;
 import static nmd.rss.collector.error.ServiceError.wrongFeedTaskId;
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertPositive;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 
 /**
@@ -108,8 +106,8 @@ public class UpdatesService extends AbstractService {
         return updateFeed(currentTask.feedId);
     }
 
-    public FeedSeriesUpdateReport updateFeedSeries(long timeQuota) {
-        assertPositive(timeQuota);
+    public FeedSeriesUpdateReport updateFeedSeries(final TimeQuota timeQuota) {
+        assertNotNull(timeQuota);
 
         final List<FeedUpdateReport> updateReports = new ArrayList<>();
         final List<ServiceError> errors = new ArrayList<>();
@@ -118,10 +116,7 @@ public class UpdatesService extends AbstractService {
 
         final Set<FeedUpdateTask> updated = new HashSet<>();
 
-        long startTime = currentTimeMillis();
-        long currentTime = currentTimeMillis();
-
-        while (currentTime - startTime < timeQuota) {
+        while (timeQuota.hasTime()) {
             final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
             if (updated.contains(currentTask)) {
@@ -138,14 +133,10 @@ public class UpdatesService extends AbstractService {
                 errors.add(serviceError);
 
                 LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
-
             }
 
             updated.add(currentTask);
             ++count;
-
-            currentTime = currentTimeMillis();
-
         }
 
         LOGGER.info(format("[ %d ] feeds were updated", count));
