@@ -25,7 +25,7 @@ public class UpdatesServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapper.class.getName());
 
-    private static final int UPDATE_PERIOD = 8000;
+    private static final int UPDATE_PERIOD = 9000;
 
     private static final UpdatesService UPDATES_SERVICE = createUpdatesService();
 
