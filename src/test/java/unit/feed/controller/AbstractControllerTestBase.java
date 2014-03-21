@@ -1,25 +1,23 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.*;
+import nmd.rss.collector.controller.FeedsService;
+import nmd.rss.collector.controller.ReadsService;
+import nmd.rss.collector.controller.UpdatesService;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedItemsMergeReport;
 import org.junit.Before;
-import unit.feed.controller.stub.*;
 import unit.feed.scheduler.FeedUpdateTaskRepositoryStub;
 import unit.feed.scheduler.FeedUpdateTaskSchedulerContextRepositoryStub;
 import unit.feed.updater.FeedUpdateTaskSchedulerStub;
 
 import java.util.*;
 
-import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
-
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.06.13
  */
-//TODO need to rename and repackage
 public abstract class AbstractControllerTestBase {
 
     protected static final String VALID_FIRST_RSS_FEED_LINK = "valid-first-feed-link";
@@ -87,13 +85,11 @@ public abstract class AbstractControllerTestBase {
     protected FeedItemsRepositoryStub feedItemsRepositoryStub;
     protected FeedUpdateTaskRepositoryStub feedUpdateTaskRepositoryStub;
     protected ReadFeedItemsRepositoryStub readFeedItemsRepositoryStub;
-    protected CategoriesRepositoryStub categoriesRepositoryStub;
     protected FeedUpdateTaskSchedulerContextRepositoryStub feedUpdateTaskSchedulerContextRepositoryStub;
 
     protected FeedsService feedsService;
     protected UpdatesService updatesService;
     protected ReadsService readsService;
-    protected CategoriesService categoriesService;
 
     @Before
     public void before() throws ServiceException {
@@ -105,34 +101,25 @@ public abstract class AbstractControllerTestBase {
         this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
         this.feedUpdateTaskSchedulerStub = new FeedUpdateTaskSchedulerStub();
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
-        this.categoriesRepositoryStub = new CategoriesRepositoryStub();
-
         this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
 
-        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.fetcherStub, transactionsStub);
+        this.feedUpdateTaskSchedulerStub = new CycleFeedUpdateTaskScheduler(this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, transactionsStub);
+
+        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.fetcherStub, transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, transactionsStub);
-        this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, transactionsStub);
     }
 
-    protected UUID addValidFirstRssFeed(final String categoryId) throws ServiceException {
+    protected UUID addValidFirstRssFeed() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        return this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, categoryId);
+        return this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK);
     }
 
-    protected UUID addValidFirstRssFeedToMainCategory() throws ServiceException {
-        return this.addValidFirstRssFeed(MAIN_CATEGORY_ID);
-    }
-
-    protected UUID addValidSecondRssFeed(final String categoryId) throws ServiceException {
+    protected UUID addValidSecondRssFeed() throws ServiceException {
         this.fetcherStub.setData(VALID_RSS_FEED);
 
-        return this.feedsService.addFeed(VALID_SECOND_RSS_FEED_LINK, categoryId);
-    }
-
-    protected UUID addValidSecondRssFeedToMainCategory() throws ServiceException {
-        return this.addValidSecondRssFeed(MAIN_CATEGORY_ID);
+        return this.feedsService.addFeed(VALID_SECOND_RSS_FEED_LINK);
     }
 
     protected FeedHeader createFeedWithOneItem() {
@@ -162,19 +149,5 @@ public abstract class AbstractControllerTestBase {
             // empty
         }
     }
-
-    protected static CategoryReport findForCategory(final String categoryId, final List<CategoryReport> categoriesReport) {
-
-        for (final CategoryReport categoryReport : categoriesReport) {
-
-            if (categoryReport.id.equals(categoryId)) {
-                return categoryReport;
-            }
-
-        }
-
-        return null;
-    }
-
 
 }
