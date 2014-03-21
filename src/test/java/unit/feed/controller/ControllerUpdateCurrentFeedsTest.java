@@ -43,17 +43,16 @@ public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase
         assertEquals(1, report.updated.size());
         assertTrue(report.errors.isEmpty());
     }
-    /*
+
     @Test
     public void whenQuotaExpiredThenUpdateProcessWillBeFinished() throws ServiceException {
         addValidFirstRssFeed();
+        addValidSecondRssFeed();
 
-        FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(2));
+        FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(3));
 
-        assertEquals(1, report.updated.size());
+        assertEquals(2, report.updated.size());
         assertTrue(report.errors.isEmpty());
     }
-    */
-    //when quota expired then update process will be finished
 
 }
