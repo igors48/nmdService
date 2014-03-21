@@ -17,7 +17,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
-import static nmd.rss.collector.error.ServiceError.noScheduledTask;
 import static nmd.rss.collector.error.ServiceError.wrongFeedTaskId;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -95,19 +94,8 @@ public class UpdatesService extends AbstractService {
         }
     }
 
-    //TODO remove
-    public FeedUpdateReport updateCurrentFeed() throws ServiceException {
-        final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
-
-        if (currentTask == null) {
-            throw new ServiceException(noScheduledTask());
-        }
-
-        return updateFeed(currentTask.feedId);
-    }
-
-    public FeedSeriesUpdateReport updateFeedSeries(final TimeQuota timeQuota) {
-        assertNotNull(timeQuota);
+    public FeedSeriesUpdateReport updateCurrentFeeds(final Quota quota) {
+        assertNotNull(quota);
 
         final List<FeedUpdateReport> updateReports = new ArrayList<>();
         final List<ServiceError> errors = new ArrayList<>();
@@ -116,7 +104,7 @@ public class UpdatesService extends AbstractService {
 
         final Set<FeedUpdateTask> updated = new HashSet<>();
 
-        while (timeQuota.hasTime()) {
+        while (!quota.expired()) {
             final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
             if (updated.contains(currentTask)) {

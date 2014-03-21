@@ -30,8 +30,8 @@ public class UpdatesServiceWrapper {
     private static final UpdatesService UPDATES_SERVICE = createUpdatesService();
 
     public static ResponseBody updateCurrentFeeds() {
-        final TimeQuota quota = new FixedTimeQuota(UPDATE_PERIOD);
-        final FeedSeriesUpdateReport report = UPDATES_SERVICE.updateFeedSeries(quota);
+        final Quota quota = new TimeQuota(UPDATE_PERIOD);
+        final FeedSeriesUpdateReport report = UPDATES_SERVICE.updateCurrentFeeds(quota);
 
         return createJsonResponse(create(format("[ %d ] feeds were updated", report.updated.size() + report.errors.size())));
     }
