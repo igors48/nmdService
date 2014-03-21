@@ -107,7 +107,15 @@ public class UpdatesService extends AbstractService {
         while (!quota.expired()) {
             final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
-            if (currentTask == null || updated.contains(currentTask)) {
+            if (currentTask == null) {
+                LOGGER.info("There is no feed for update");
+
+                break;
+            }
+
+            if (updated.contains(currentTask)) {
+                LOGGER.info(format("Feed [ %s ] was already updated in this series", currentTask.feedId));
+
                 break;
             }
 
