@@ -1,9 +1,9 @@
 package nmd.rss.collector.rest;
 
-import nmd.rss.collector.controller.FeedUpdateReport;
-import nmd.rss.collector.controller.UpdatesService;
+import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
+import nmd.rss.collector.rest.responses.FeedSeriesUpdateResponse;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
 
@@ -17,7 +17,6 @@ import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEE
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
-import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -28,6 +27,7 @@ public class UpdatesServiceWrapper {
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapper.class.getName());
 
     private static final UpdatesService UPDATES_SERVICE = createUpdatesService();
+    private static final long UPDATE_PERIOD = 9000;
 
     public static ResponseBody updateCurrentFeeds() {
         final Quota quota = new TimeQuota(UPDATE_PERIOD);
