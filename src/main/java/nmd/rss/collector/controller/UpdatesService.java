@@ -107,7 +107,7 @@ public class UpdatesService extends AbstractService {
         while (!quota.expired()) {
             final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
 
-            if (updated.contains(currentTask)) {
+            if (currentTask == null || updated.contains(currentTask)) {
                 break;
             }
 

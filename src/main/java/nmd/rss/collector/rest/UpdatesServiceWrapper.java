@@ -3,6 +3,7 @@ package nmd.rss.collector.rest;
 import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
+import nmd.rss.collector.rest.responses.FeedSeriesUpdateResponse;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
 
@@ -15,7 +16,6 @@ import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
-import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -32,8 +32,9 @@ public class UpdatesServiceWrapper {
     public static ResponseBody updateCurrentFeeds() {
         final Quota quota = new TimeQuota(UPDATE_PERIOD);
         final FeedSeriesUpdateReport report = UPDATES_SERVICE.updateCurrentFeeds(quota);
+        final FeedSeriesUpdateResponse response = FeedSeriesUpdateResponse.convert(report);
 
-        return createJsonResponse(create(format("[ %d ] feeds were updated", report.updated.size() + report.errors.size())));
+        return createJsonResponse(response);
     }
 
     public static ResponseBody updateFeed(final UUID feedId) {

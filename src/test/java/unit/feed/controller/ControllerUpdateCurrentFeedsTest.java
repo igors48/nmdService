@@ -13,10 +13,18 @@ import static org.junit.Assert.assertTrue;
 public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase {
 
     @Test
+    public void whenNoFeedsThenEmptyReportIsReturned() throws Exception {
+        final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(1));
+
+        assertTrue(report.updated.isEmpty());
+        assertTrue(report.errors.isEmpty());
+    }
+
+    @Test
     public void whenFeedIsUpdateCorrectlyThenItWillBeIncludedInUpdates() throws ServiceException {
         addValidFirstRssFeed();
 
-        FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(1));
+        final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(1));
 
         assertEquals(1, report.updated.size());
         assertTrue(report.errors.isEmpty());
@@ -28,7 +36,7 @@ public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase
 
         this.fetcherStub.simulateError(true);
 
-        FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(1));
+        final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(1));
 
         assertEquals(1, report.errors.size());
         assertTrue(report.updated.isEmpty());
@@ -38,7 +46,7 @@ public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase
     public void whenCurrentFeedHadUpdatedAlreadyInThisCallThenUpdateProcessWillBeFinished() throws ServiceException {
         addValidFirstRssFeed();
 
-        FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(2));
+        final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(2));
 
         assertEquals(1, report.updated.size());
         assertTrue(report.errors.isEmpty());
@@ -49,7 +57,7 @@ public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase
         addValidFirstRssFeed();
         addValidSecondRssFeed();
 
-        FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(3));
+        final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(3));
 
         assertEquals(2, report.updated.size());
         assertTrue(report.errors.isEmpty());
