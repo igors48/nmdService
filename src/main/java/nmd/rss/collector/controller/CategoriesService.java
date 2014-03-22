@@ -18,9 +18,9 @@ import java.util.Set;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.*;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
+import static nmd.rss.reader.Category.isValidCategoryName;
 
 /**
  * @author : igu
@@ -52,27 +52,25 @@ public class CategoriesService {
     }
 
     public Category addCategory(final String name) {
-        assertStringIsValid(name);
+        guard(isValidCategoryName(name));
 
         Transaction transaction = null;
 
         try {
             transaction = this.transactions.beginOne();
 
-            final String trimmed = name.trim();
-
             final Set<Category> categories = getAllCategoriesWithMain();
 
             for (final Category category : categories) {
 
-                if (category.name.equalsIgnoreCase(trimmed)) {
+                if (category.name.equalsIgnoreCase(name)) {
                     transaction.commit();
 
                     return category;
                 }
             }
 
-            final Category created = new Category(UUID.randomUUID().toString(), trimmed);
+            final Category created = new Category(UUID.randomUUID().toString(), name);
 
             this.categoriesRepository.store(created);
 

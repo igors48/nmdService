@@ -2,12 +2,31 @@ package nmd.rss.collector.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.UUID;
+import java.util.regex.Pattern;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
 public final class Parameter {
+
+    private static final Pattern FILE_NAME_CHARS = Pattern.compile("[_a-zA-Z0-9\\-\\.]+");
+
+    public static boolean isContainOnlyFileNameChars(final String value) {
+        return FILE_NAME_CHARS.matcher(value).matches();
+    }
+
+    public static boolean isVaildUuid(final String value) {
+
+        try {
+            UUID.fromString(value);
+
+            return true;
+        } catch (Exception exception) {
+            return false;
+        }
+    }
 
     public static boolean isValidString(final String value) {
         return value != null && !value.isEmpty();

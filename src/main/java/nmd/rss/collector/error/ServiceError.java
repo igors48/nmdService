@@ -107,6 +107,12 @@ public class ServiceError {
                 "Category with given name already exists. Try to use another name.");
     }
 
+    public static ServiceError invalidCategoryName(final String categoryName) {
+        return new ServiceError(ErrorCode.INVALID_CATEGORY_NAME,
+                format("Category name [ %s ] invalid", categoryName),
+                "Invalid category name. Try to use another name.");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

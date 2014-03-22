@@ -1,6 +1,7 @@
 package nmd.rss.reader;
 
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -11,14 +12,16 @@ public class Category {
     public static final String MAIN_CATEGORY_ID = "main";
     public static final Category MAIN = new Category(MAIN_CATEGORY_ID, MAIN_CATEGORY_ID);
 
+    private static final int MAXIMUM_CATEGORY_NAME_LENGTH = 16;
+
     public final String uuid;
     public final String name;
 
     public Category(final String uuid, final String name) {
-        assertStringIsValid(uuid);
+        guard(isValidCategoryId(uuid));
         this.uuid = uuid;
 
-        assertStringIsValid(name);
+        guard(isValidCategoryName(name));
         this.name = name;
     }
 
@@ -44,6 +47,36 @@ public class Category {
         int result = uuid.hashCode();
         result = 31 * result + name.hashCode();
         return result;
+    }
+
+    public static boolean isValidCategoryName(final String value) {
+
+        if (!isValidString(value)) {
+            return false;
+        }
+
+        if (value.length() > MAXIMUM_CATEGORY_NAME_LENGTH) {
+            return false;
+        }
+
+        if (!isContainOnlyFileNameChars(value)) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static boolean isValidCategoryId(final String value) {
+
+        if (!isValidString(value)) {
+            return false;
+        }
+
+        if (!(value.equals(Category.MAIN_CATEGORY_ID) || isVaildUuid(value))) {
+            return false;
+        }
+
+        return true;
     }
 
 }

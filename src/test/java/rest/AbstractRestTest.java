@@ -20,6 +20,7 @@ public abstract class AbstractRestTest {
     protected static final String UPDATES_SERVLET_URL = "/secure/v01/updates/";
     protected static final String READS_SERVLET_URL = "/secure/v01/reads/";
     protected static final String EXPORTS_SERVLET_URL = "/v01/feeds/";
+    protected static final String CATEGORIES_SERVLET_URL = "/secure/v01/categories/";
 
     protected static final String FIRST_FEED_URL = "http://localhost:8080/feed/feed_win_1251.xml";
     protected static final String FIRST_FEED_TITLE = "Bash.im";
@@ -48,6 +49,14 @@ public abstract class AbstractRestTest {
 
     protected static String addFeed(final String url) {
         return given().body(url).post(FEEDS_SERVLET_URL).asString();
+    }
+
+    protected static CategoryResponse addCategoryWithResponse(final String name) {
+        return GSON.fromJson(assertSuccessResponse(addCategory(name)), CategoryResponse.class);
+    }
+
+    protected static String addCategory(final String name) {
+        return given().body(name).post(CATEGORIES_SERVLET_URL).asString();
     }
 
     protected static FeedHeadersResponse getFeedHeaders() {
@@ -84,10 +93,6 @@ public abstract class AbstractRestTest {
 
     protected static FeedMergeReportResponse updateFeedWithReport(final String feedId) {
         return GSON.fromJson(assertSuccessResponse(updateFeed(feedId)), FeedMergeReportResponse.class);
-    }
-
-    protected static String updateCurrentFeed() {
-        return updateFeed("");
     }
 
     protected static FeedSeriesUpdateResponse updateCurrentFeedWithReport() {

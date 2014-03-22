@@ -132,7 +132,9 @@ public class ConvertersTest {
 
     @Test
     public void categoryEntityRoundtrip() {
-        final Category category = new Category("uuid", "name");
+        final UUID uuid = UUID.randomUUID();
+
+        final Category category = new Category(uuid.toString(), "name");
 
         final Entity entity = CategoryConverter.convert(category, SAMPLE_KEY);
 

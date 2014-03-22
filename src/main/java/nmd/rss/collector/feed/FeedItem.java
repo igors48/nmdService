@@ -24,7 +24,7 @@ public class FeedItem implements Serializable {
     public FeedItem(final String title, final String description, final String link, final Date date, final boolean dateReal, final String guid) {
         assertNotNull(title);
         assertNotNull(description);
-        assertTrue(isValidString(title) || isValidString(description));
+        guard(isValidString(title) || isValidString(description));
         this.title = title;
         this.description = description;
 

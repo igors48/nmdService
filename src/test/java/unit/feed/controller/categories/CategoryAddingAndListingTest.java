@@ -55,14 +55,10 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
     }
 
     @Test
-    public void categoriesWithSpacesAtTheEndsOrInDifferentCasesAreTreatedAsTheSameAndNoDuplicatesWillBeCreated() {
+    public void categoriesInDifferentCasesAreTreatedAsTheSameAndNoDuplicatesWillBeCreated() {
         final Category first = this.categoriesService.addCategory(NEW_CATEGORY_NAME);
-        final Category spaceBefore = this.categoriesService.addCategory(" " + NEW_CATEGORY_NAME);
-        final Category spaceAfter = this.categoriesService.addCategory(NEW_CATEGORY_NAME + " ");
-        final Category diffCase = this.categoriesService.addCategory(" " + NEW_CATEGORY_NAME.toUpperCase());
+        final Category diffCase = this.categoriesService.addCategory(NEW_CATEGORY_NAME.toUpperCase());
 
-        assertEquals(first, spaceAfter);
-        assertEquals(first, spaceBefore);
         assertEquals(first, diffCase);
         assertEquals(2, this.categoriesService.getCategoriesReport().size());
     }

@@ -8,8 +8,8 @@ import java.util.UUID;
 
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.*;
+import static nmd.rss.reader.Category.isValidCategoryName;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -25,7 +25,7 @@ public class CategoriesServiceWrapper {
                     GAE_TRANSACTIONS);
 
     public static ResponseBody addCategory(final String name) {
-        assertStringIsValid(name);
+        guard(isValidCategoryName(name));
 
         final Category category = CATEGORIES_SERVICE.addCategory(name);
         final CategoryResponse response = CategoryResponse.convert(category);

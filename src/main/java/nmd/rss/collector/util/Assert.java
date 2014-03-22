@@ -9,22 +9,22 @@ import static nmd.rss.collector.util.Parameter.*;
 public final class Assert {
 
     public static void assertStringIsValid(final String value) {
-        assertTrue(isValidString(value));
+        guard(isValidString(value));
     }
 
     public static void assertPositive(final long value) {
-        assertTrue(isPositive(value));
+        guard(isPositive(value));
     }
 
     public static void assertNotNull(final Object value) {
-        assertTrue(notNull(value));
+        guard(notNull(value));
     }
 
     public static void assertValidUrl(final String value) {
-        assertTrue(isValidUrl(value));
+        guard(isValidUrl(value));
     }
 
-    public static void assertTrue(final boolean value) {
+    public static void guard(final boolean value) {
 
         if (!value) {
             throw new IllegalArgumentException();
