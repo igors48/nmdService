@@ -1,4 +1,4 @@
-package nmd.rss.collector.rest.responses;
+package nmd.rss.collector.rest.responses.helper;
 
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.error.ServiceError;

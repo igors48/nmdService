@@ -3,6 +3,7 @@ package rest;
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.*;
+import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;

@@ -1,6 +1,7 @@
 package nmd.rss.collector.rest.responses;
 
 import nmd.rss.collector.controller.FeedReadReport;
+import nmd.rss.collector.rest.responses.helper.FeedReadReportHelper;
 
 import java.util.ArrayList;
 import java.util.List;

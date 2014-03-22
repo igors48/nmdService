@@ -1,9 +1,9 @@
 package rest;
 
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.FeedHeaderHelper;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
+import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

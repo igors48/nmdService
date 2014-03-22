@@ -3,6 +3,8 @@ package nmd.rss.collector.rest.responses;
 import nmd.rss.collector.controller.FeedSeriesUpdateReport;
 import nmd.rss.collector.controller.FeedUpdateReport;
 import nmd.rss.collector.error.ServiceError;
+import nmd.rss.collector.rest.responses.helper.ErrorResponseHelper;
+import nmd.rss.collector.rest.responses.helper.FeedMergeReportResponseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
