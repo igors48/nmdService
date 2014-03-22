@@ -5,8 +5,9 @@ import nmd.rss.collector.Cache;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
+import static nmd.rss.reader.Category.isValidCategoryId;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -22,16 +23,16 @@ public class CachedCategoriesRepository implements CategoriesRepository {
     private final Cache cache;
 
     public CachedCategoriesRepository(final CategoriesRepository repository, final Cache cache) {
-        assertNotNull(repository);
+        guard(notNull(repository));
         this.repository = repository;
 
-        assertNotNull(cache);
+        guard(notNull(cache));
         this.cache = cache;
     }
 
     @Override
     public synchronized void store(final Category category) {
-        assertNotNull(category);
+        guard(notNull(category));
 
         this.repository.store(category);
 
@@ -40,7 +41,7 @@ public class CachedCategoriesRepository implements CategoriesRepository {
 
     @Override
     public synchronized Category load(final String categoryId) {
-        assertStringIsValid(categoryId);
+        guard(isValidCategoryId(categoryId));
 
         final Set<Category> categories = loadAll();
 
@@ -63,7 +64,7 @@ public class CachedCategoriesRepository implements CategoriesRepository {
 
     @Override
     public synchronized void delete(final String categoryId) {
-        assertStringIsValid(categoryId);
+        guard(isValidCategoryId(categoryId));
 
         this.repository.delete(categoryId);
 

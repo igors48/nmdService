@@ -18,8 +18,11 @@ import java.util.Set;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
-import static nmd.rss.collector.util.Assert.*;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedId;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
+import static nmd.rss.reader.Category.isValidCategoryId;
 import static nmd.rss.reader.Category.isValidCategoryName;
 
 /**
@@ -35,19 +38,19 @@ public class CategoriesService {
     private final Transactions transactions;
 
     public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final Transactions transactions) {
-        assertNotNull(categoriesRepository);
+        guard(notNull(categoriesRepository));
         this.categoriesRepository = categoriesRepository;
 
-        assertNotNull(readFeedItemsRepository);
+        guard(notNull(readFeedItemsRepository));
         this.readFeedItemsRepository = readFeedItemsRepository;
 
-        assertNotNull(feedHeadersRepository);
+        guard(notNull(feedHeadersRepository));
         this.feedHeadersRepository = feedHeadersRepository;
 
-        assertNotNull(feedItemsRepository);
+        guard(notNull(feedItemsRepository));
         this.feedItemsRepository = feedItemsRepository;
 
-        assertNotNull(transactions);
+        guard(notNull(transactions));
         this.transactions = transactions;
     }
 
@@ -108,8 +111,8 @@ public class CategoriesService {
     }
 
     public void assignFeedToCategory(final UUID feedId, final String categoryId) throws ServiceException {
-        assertNotNull(feedId);
-        assertStringIsValid(categoryId);
+        guard(isValidFeedId(feedId));
+        guard(isValidCategoryId(categoryId));
 
         Transaction transaction = null;
 
@@ -131,7 +134,7 @@ public class CategoriesService {
     }
 
     public void deleteCategory(final String categoryId) {
-        assertStringIsValid(categoryId);
+        guard(isValidCategoryId(categoryId));
 
         if (Category.MAIN_CATEGORY_ID.equals(categoryId)) {
             return;
@@ -164,8 +167,8 @@ public class CategoriesService {
     }
 
     public void renameCategory(final String categoryId, final String newName) throws ServiceException {
-        assertStringIsValid(categoryId);
-        assertStringIsValid(newName);
+        guard(isValidCategoryId(categoryId));
+        guard(isValidCategoryName(newName));
 
         if (Category.MAIN_CATEGORY_ID.equals(categoryId)) {
             return;

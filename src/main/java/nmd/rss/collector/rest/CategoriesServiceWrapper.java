@@ -6,9 +6,11 @@ import nmd.rss.reader.Category;
 
 import java.util.UUID;
 
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedId;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
-import static nmd.rss.collector.util.Assert.*;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.reader.Category.isValidCategoryId;
 import static nmd.rss.reader.Category.isValidCategoryName;
 
 /**
@@ -38,21 +40,21 @@ public class CategoriesServiceWrapper {
     }
 
     public static ResponseBody assignFeedToCategory(final UUID feedId, final String categoryId) {
-        assertNotNull(feedId);
-        assertStringIsValid(categoryId);
+        guard(isValidFeedId(feedId));
+        guard(isValidCategoryId(categoryId));
 
         return null;
     }
 
     public static ResponseBody deleteCategory(final String categoryId) {
-        assertStringIsValid(categoryId);
+        guard(isValidCategoryId(categoryId));
 
         return null;
     }
 
     public static ResponseBody renameCategory(final String categoryId, final String newName) {
-        assertStringIsValid(categoryId);
-        assertStringIsValid(newName);
+        guard(isValidCategoryId(categoryId));
+        guard(isValidCategoryName(newName));
 
         return null;
     }

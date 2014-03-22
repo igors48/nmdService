@@ -18,7 +18,7 @@ public class FeedHeader implements Serializable {
     public final String link;
 
     public FeedHeader(final UUID id, final String feedLink, final String title, final String description, final String link) {
-        assertNotNull(id);
+        guard(isValidFeedId(id));
         this.id = id;
 
         assertValidUrl(feedLink);
@@ -66,6 +66,10 @@ public class FeedHeader implements Serializable {
         result = 31 * result + link.hashCode();
 
         return result;
+    }
+
+    public static boolean isValidFeedId(final UUID feedId) {
+        return feedId != null;
     }
 
 }

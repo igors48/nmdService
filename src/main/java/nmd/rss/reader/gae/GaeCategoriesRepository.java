@@ -12,8 +12,9 @@ import java.util.Set;
 
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.gae.persistence.Kind.CATEGORY;
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
+import static nmd.rss.reader.Category.isValidCategoryId;
 import static nmd.rss.reader.gae.CategoryConverter.convert;
 
 /**
@@ -26,7 +27,7 @@ public class GaeCategoriesRepository implements CategoriesRepository {
 
     @Override
     public void store(final Category category) {
-        assertNotNull(category);
+        guard(notNull(category));
 
         final Key rootKey = getEntityRootKey(category.uuid, RootKind.CATEGORY);
         final Entity entity = convert(category, rootKey);
@@ -36,7 +37,7 @@ public class GaeCategoriesRepository implements CategoriesRepository {
 
     @Override
     public Category load(final String categoryId) {
-        assertStringIsValid(categoryId);
+        guard(isValidCategoryId(categoryId));
 
         final Entity entity = loadEntity(categoryId, RootKind.CATEGORY, CATEGORY, false);
 
@@ -60,7 +61,7 @@ public class GaeCategoriesRepository implements CategoriesRepository {
 
     @Override
     public void delete(final String categoryId) {
-        assertStringIsValid(categoryId);
+        guard(isValidCategoryId(categoryId));
 
         deleteEntity(categoryId, RootKind.CATEGORY, CATEGORY);
     }
