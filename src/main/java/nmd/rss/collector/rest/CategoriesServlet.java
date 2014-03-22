@@ -21,4 +21,11 @@ public class CategoriesServlet extends AbstractRestServlet {
 
         return (isValidCategoryName(name)) ? addCategory(name) : createErrorJsonResponse(invalidCategoryName(name));
     }
+
+    // GET -- get categories report
+    @Override
+    protected ResponseBody handleGet(final HttpServletRequest request) {
+        return CategoriesServiceWrapper.getCategoriesReport();
+    }
+
 }
