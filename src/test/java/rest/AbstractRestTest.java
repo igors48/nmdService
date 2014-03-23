@@ -59,6 +59,12 @@ public abstract class AbstractRestTest {
         return given().body(name).post(CATEGORIES_SERVLET_URL).asString();
     }
 
+    protected static CategoriesReportResponse getCategoriesReport() {
+        final String response = given().given().get(CATEGORIES_SERVLET_URL).asString();
+
+        return GSON.fromJson(assertSuccessResponse(response), CategoriesReportResponse.class);
+    }
+
     protected static FeedHeadersResponse getFeedHeaders() {
         final String response = given().get(FEEDS_SERVLET_URL).asString();
 

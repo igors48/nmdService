@@ -1,8 +1,10 @@
 package nmd.rss.collector.rest.responses;
 
+import nmd.rss.collector.rest.responses.payload.CategoryPayload;
 import nmd.rss.reader.Category;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -10,23 +12,13 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class CategoryResponse extends SuccessResponse {
 
-    public String name;
-    public String id;
+    public CategoryPayload category;
 
-    private CategoryResponse() {
-        this.name = "";
-        this.id = "";
-    }
+    public CategoryResponse(final Category category) {
+        super();
 
-    public static CategoryResponse convert(final Category category) {
-        assertNotNull(category);
-
-        final CategoryResponse response = new CategoryResponse();
-
-        response.name = category.name;
-        response.id = category.uuid;
-
-        return response;
+        guard(notNull(category));
+        this.category = new CategoryPayload(category);
     }
 
 }

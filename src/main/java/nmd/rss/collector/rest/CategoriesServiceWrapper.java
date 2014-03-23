@@ -1,9 +1,12 @@
 package nmd.rss.collector.rest;
 
 import nmd.rss.collector.controller.CategoriesService;
+import nmd.rss.collector.controller.CategoryReport;
+import nmd.rss.collector.rest.responses.CategoriesReportResponse;
 import nmd.rss.collector.rest.responses.CategoryResponse;
 import nmd.rss.reader.Category;
 
+import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.feed.FeedHeader.isValidFeedId;
@@ -30,13 +33,16 @@ public class CategoriesServiceWrapper {
         guard(isValidCategoryName(name));
 
         final Category category = CATEGORIES_SERVICE.addCategory(name);
-        final CategoryResponse response = CategoryResponse.convert(category);
+        final CategoryResponse response = new CategoryResponse(category);
 
         return createJsonResponse(response);
     }
 
     public static ResponseBody getCategoriesReport() {
-        return null;
+        final List<CategoryReport> reports = CATEGORIES_SERVICE.getCategoriesReport();
+        final CategoriesReportResponse response = new CategoriesReportResponse(reports);
+
+        return createJsonResponse(response);
     }
 
     public static ResponseBody assignFeedToCategory(final UUID feedId, final String categoryId) {

@@ -18,8 +18,8 @@ public class AddCategoryTest extends AbstractRestTest {
     public void whenCategoryNameValidThenCategoryWillBeCreatedAndReturned() {
         final CategoryResponse response = addCategoryWithResponse("category");
 
-        assertTrue(isValidCategoryName(response.name));
-        assertTrue(isValidCategoryId(response.id));
+        assertTrue(isValidCategoryName(response.category.name));
+        assertTrue(isValidCategoryId(response.category.id));
     }
 
     @Test
