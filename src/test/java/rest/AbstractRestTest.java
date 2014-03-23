@@ -2,8 +2,10 @@ package rest;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
+import nmd.rss.collector.rest.requests.AddFeedRequest;
 import nmd.rss.collector.rest.responses.*;
 import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
+import nmd.rss.reader.Category;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -48,7 +50,14 @@ public abstract class AbstractRestTest {
     }
 
     protected static String addFeed(final String url) {
-        return given().body(url).post(FEEDS_SERVLET_URL).asString();
+        final AddFeedRequest addFeedRequest = new AddFeedRequest();
+
+        addFeedRequest.feedUrl = url;
+        addFeedRequest.categoryId = Category.MAIN_CATEGORY_ID;
+
+        final String requestBody = GSON.toJson(addFeedRequest);
+
+        return given().body(requestBody).post(FEEDS_SERVLET_URL).asString();
     }
 
     protected static CategoryResponse addCategoryWithResponse(final String name) {
