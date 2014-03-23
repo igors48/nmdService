@@ -22,7 +22,6 @@ import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
-import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -34,14 +33,14 @@ public class FeedsServiceWrapper {
 
     private static final FeedsService FEEDS_SERVICE = new FeedsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY, GAE_CACHED_READ_FEED_ITEMS_REPOSITORY, GAE_CACHED_CATEGORIES_REPOSITORY, GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
 
-    public static ResponseBody addFeed(final String feedUrl) {
+    public static ResponseBody addFeed(final String feedUrl, final String categoryId) {
 
         try {
-            final UUID feedId = FEEDS_SERVICE.addFeed(feedUrl, MAIN_CATEGORY_ID);
+            final UUID feedId = FEEDS_SERVICE.addFeed(feedUrl, categoryId);
 
             final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
 
-            LOGGER.info(format("Feed [ %s ] added. Id is [ %s ]", feedUrl, feedId));
+            LOGGER.info(format("Feed [ %s ] added to category [ %s ]. Id is [ %s ]", feedUrl, categoryId, feedId));
 
             return createJsonResponse(feedIdResponse);
         } catch (ServiceException exception) {

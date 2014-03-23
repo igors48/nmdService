@@ -113,6 +113,18 @@ public class ServiceError {
                 "Invalid category name. Try to use another name.");
     }
 
+    public static ServiceError invalidFeedUrl(final String feedUrl) {
+        return new ServiceError(ErrorCode.INVALID_FEED_URL,
+                format("Feed url [ %s ] invalid", feedUrl),
+                "Invalid feed url. Check the url.");
+    }
+
+    public static ServiceError invalidCategoryId(final String categoryId) {
+        return new ServiceError(ErrorCode.INVALID_FEED_URL,
+                format("Category identifier [ %s ] invalid", categoryId),
+                "Invalid category identifier. Check the identifier.");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

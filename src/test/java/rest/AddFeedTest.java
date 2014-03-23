@@ -57,7 +57,7 @@ public class AddFeedTest extends AbstractRestTest {
     public void whenFeedUrlIsEmptyThenErrorReturns() {
         final String response = addFeed("");
 
-        assertErrorResponse(response, ErrorCode.URL_FETCH_ERROR);
+        assertErrorResponse(response, ErrorCode.INVALID_FEED_URL);
     }
 
 }

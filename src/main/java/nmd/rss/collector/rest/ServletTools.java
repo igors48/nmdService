@@ -2,6 +2,7 @@ package nmd.rss.collector.rest;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
+import nmd.rss.collector.rest.requests.AddFeedRequest;
 import nmd.rss.collector.rest.responses.ErrorResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -91,6 +92,18 @@ public final class ServletTools {
             close(reader);
         }
     }
+
+    public static AddFeedRequest convert(final String requestBody) {
+
+        try {
+            return GSON.fromJson(requestBody, AddFeedRequest.class);
+        } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, "Error reading add feed request body", exception);
+
+            return null;
+        }
+    }
+
 
     public static void writeResponseBody(final ResponseBody responseBody, final HttpServletResponse response) throws IOException {
         assertNotNull(responseBody);

@@ -42,6 +42,10 @@ public final class Parameter {
 
     public static boolean isValidUrl(final String value) {
 
+        if (!isValidString(value)) {
+            return false;
+        }
+
         try {
             new URI(value);
 

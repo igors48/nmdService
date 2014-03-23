@@ -20,10 +20,11 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.unknownCategory;
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.*;
+import static nmd.rss.collector.util.Parameter.isValidUrl;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 import static nmd.rss.collector.util.UrlTools.normalizeUrl;
+import static nmd.rss.reader.Category.isValidCategoryId;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -59,8 +60,8 @@ public class FeedsService extends AbstractService {
     }
 
     public UUID addFeed(final String feedUrl, final String categoryId) throws ServiceException {
-        assertStringIsValid(feedUrl);
-        assertStringIsValid(categoryId);
+        guard(isValidUrl(feedUrl));
+        guard(isValidCategoryId(categoryId));
 
         Transaction transaction = null;
 

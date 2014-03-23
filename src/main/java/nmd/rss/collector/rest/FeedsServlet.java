@@ -1,5 +1,8 @@
 package nmd.rss.collector.rest;
 
+import nmd.rss.collector.rest.requests.AddFeedRequest;
+import nmd.rss.reader.Category;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
@@ -7,6 +10,7 @@ import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.rest.FeedsServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.*;
+import static nmd.rss.collector.util.Parameter.isValidUrl;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -32,9 +36,17 @@ public class FeedsServlet extends AbstractRestServlet {
     // POST -- add feed
     @Override
     protected ResponseBody handlePost(final HttpServletRequest request) {
-        final String feedUrl = readRequestBody(request);
+        final String requestBody = readRequestBody(request);
+        final AddFeedRequest addFeedRequest = convert(requestBody);
 
-        return (feedUrl == null || feedUrl.isEmpty()) ? createErrorJsonResponse(urlFetcherError(feedUrl)) : addFeed(feedUrl);
+        if (!isValidUrl(addFeedRequest.feedUrl)) {
+            return createErrorJsonResponse(invalidFeedUrl(addFeedRequest.feedUrl));
+        }
+
+        if (!Category.isValidCategoryId(addFeedRequest.categoryId)) {
+            return createErrorJsonResponse(invalidCategoryId(addFeedRequest.categoryId));
+        }
+        return addFeed(addFeedRequest.feedUrl, addFeedRequest.categoryId);
     }
 
     // PUT /{feedId} -- update feed title
