@@ -5,7 +5,7 @@ import nmd.rss.collector.rest.responses.CategoryResponse;
 import org.junit.Test;
 
 import static nmd.rss.reader.Category.isValidCategoryId;
-import static nmd.rss.reader.Category.isValidCategoryName;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
@@ -14,11 +14,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class AddCategoryTest extends AbstractRestTest {
 
+    public static final String CATEGORY = "category";
+
     @Test
     public void whenCategoryNameValidThenCategoryWillBeCreatedAndReturned() {
-        final CategoryResponse response = addCategoryWithResponse("category");
+        final CategoryResponse response = addCategoryWithResponse(CATEGORY);
 
-        assertTrue(isValidCategoryName(response.category.name));
+        assertEquals(CATEGORY, response.category.name);
         assertTrue(isValidCategoryId(response.category.id));
     }
 

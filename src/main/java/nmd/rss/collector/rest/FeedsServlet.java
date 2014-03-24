@@ -46,6 +46,7 @@ public class FeedsServlet extends AbstractRestServlet {
         if (!Category.isValidCategoryId(addFeedRequest.categoryId)) {
             return createErrorJsonResponse(invalidCategoryId(addFeedRequest.categoryId));
         }
+
         return addFeed(addFeedRequest.feedUrl, addFeedRequest.categoryId);
     }
 

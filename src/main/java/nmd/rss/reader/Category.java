@@ -1,5 +1,7 @@
 package nmd.rss.reader;
 
+import java.io.Serializable;
+
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.Parameter.*;
 
@@ -7,7 +9,7 @@ import static nmd.rss.collector.util.Parameter.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 01.02.14
  */
-public class Category {
+public class Category implements Serializable {
 
     public static final String MAIN_CATEGORY_ID = "main";
     public static final Category MAIN = new Category(MAIN_CATEGORY_ID, MAIN_CATEGORY_ID);

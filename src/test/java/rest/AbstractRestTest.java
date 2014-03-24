@@ -5,10 +5,10 @@ import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.requests.AddFeedRequest;
 import nmd.rss.collector.rest.responses.*;
 import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
-import nmd.rss.reader.Category;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -42,18 +42,24 @@ public abstract class AbstractRestTest {
     }
 
     protected static FeedIdResponse addFirstFeed() {
-        return GSON.fromJson(assertSuccessResponse(addFeed(FIRST_FEED_URL)), FeedIdResponse.class);
+        return addFeedWithResponse(FIRST_FEED_URL, MAIN_CATEGORY_ID);
     }
 
     protected static FeedIdResponse addSecondFeed() {
-        return GSON.fromJson(assertSuccessResponse(addFeed(SECOND_FEED_URL)), FeedIdResponse.class);
+        return addFeedWithResponse(SECOND_FEED_URL, MAIN_CATEGORY_ID);
     }
 
-    protected static String addFeed(final String url) {
+    protected static FeedIdResponse addFeedWithResponse(final String url, final String categoryId) {
+        final String response = addFeed(url, categoryId);
+
+        return GSON.fromJson(assertSuccessResponse(response), FeedIdResponse.class);
+    }
+
+    protected static String addFeed(final String url, final String categoryId) {
         final AddFeedRequest addFeedRequest = new AddFeedRequest();
 
         addFeedRequest.feedUrl = url;
-        addFeedRequest.categoryId = Category.MAIN_CATEGORY_ID;
+        addFeedRequest.categoryId = categoryId;
 
         final String requestBody = GSON.toJson(addFeedRequest);
 

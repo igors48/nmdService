@@ -65,13 +65,13 @@ public class FeedsService extends AbstractService {
 
         Transaction transaction = null;
 
-        assertCategoryIdValid(categoryId);
-
-        final String feedUrlInLowerCase = normalizeUrl(feedUrl);
-        final Feed feed = fetchFeed(feedUrlInLowerCase);
-
         try {
             transaction = this.transactions.beginOne();
+
+            assertCategoryIdValid(categoryId);
+
+            final String feedUrlInLowerCase = normalizeUrl(feedUrl);
+            final Feed feed = fetchFeed(feedUrlInLowerCase);
 
             FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
 
