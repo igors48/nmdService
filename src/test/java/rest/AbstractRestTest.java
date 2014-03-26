@@ -74,6 +74,10 @@ public abstract class AbstractRestTest {
         return given().body(name).post(CATEGORIES_SERVLET_URL).asString();
     }
 
+    protected static String deleteCategory(final String categoryId) {
+        return given().delete(CATEGORIES_SERVLET_URL + categoryId).asString();
+    }
+
     protected static CategoriesReportResponse getCategoriesReport() {
         final String response = given().given().get(CATEGORIES_SERVLET_URL).asString();
 

@@ -120,7 +120,7 @@ public class ServiceError {
     }
 
     public static ServiceError invalidCategoryId(final String categoryId) {
-        return new ServiceError(ErrorCode.INVALID_FEED_URL,
+        return new ServiceError(ErrorCode.INVALID_CATEGORY_ID,
                 format("Category identifier [ %s ] invalid", categoryId),
                 "Invalid category identifier. Check the identifier.");
     }

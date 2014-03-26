@@ -8,10 +8,13 @@ import nmd.rss.reader.Category;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
+import static java.lang.String.format;
 import static nmd.rss.collector.feed.FeedHeader.isValidFeedId;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
+import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.reader.Category.isValidCategoryId;
 import static nmd.rss.reader.Category.isValidCategoryName;
@@ -21,6 +24,8 @@ import static nmd.rss.reader.Category.isValidCategoryName;
  * Date : 22.03.2014
  */
 public class CategoriesServiceWrapper {
+
+    private static final Logger LOGGER = Logger.getLogger(CategoriesServiceWrapper.class.getName());
 
     private static final CategoriesService CATEGORIES_SERVICE =
             new CategoriesService(GAE_CACHED_CATEGORIES_REPOSITORY,
@@ -35,12 +40,16 @@ public class CategoriesServiceWrapper {
         final Category category = CATEGORIES_SERVICE.addCategory(name);
         final CategoryResponse response = new CategoryResponse(category);
 
+        LOGGER.info(format("Category [ %s ] was created. It is id [ %s ]", category.name, category.uuid));
+
         return createJsonResponse(response);
     }
 
     public static ResponseBody getCategoriesReport() {
         final List<CategoryReport> reports = CATEGORIES_SERVICE.getCategoriesReport();
         final CategoriesReportResponse response = new CategoriesReportResponse(reports);
+
+        LOGGER.info("Categories report was created");
 
         return createJsonResponse(response);
     }
@@ -55,7 +64,13 @@ public class CategoriesServiceWrapper {
     public static ResponseBody deleteCategory(final String categoryId) {
         guard(isValidCategoryId(categoryId));
 
-        return null;
+        CATEGORIES_SERVICE.deleteCategory(categoryId);
+
+        final String message = format("Category [ %s ] removed", categoryId);
+
+        LOGGER.info(message);
+
+        return createJsonResponse(create(message));
     }
 
     public static ResponseBody renameCategory(final String categoryId, final String newName) {

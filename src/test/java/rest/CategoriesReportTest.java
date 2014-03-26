@@ -27,21 +27,21 @@ public class CategoriesReportTest extends AbstractRestTest {
 
         assertEquals(2, response.reports.size());
 
-        final CategoryReportPayload firstReport = response.reports.get(0);
-        final CategoryReportPayload secondReport = response.reports.get(1);
+        final CategoryReportPayload mainCategoryReport = response.reports.get(response.reports.get(0).name.equals(Category.MAIN_CATEGORY_ID) ? 0 : 1);
+        final CategoryReportPayload secondCategoryReport = response.reports.get(response.reports.get(0).name.equals(Category.MAIN_CATEGORY_ID) ? 1 : 0);
 
-        assertEquals(categoryResponse.category.id, firstReport.id);
-        assertEquals(CATEGORY_NAME, firstReport.name);
-        assertEquals(1, firstReport.feedCount);
-        assertEquals(100, firstReport.notRead);
-        assertEquals(0, firstReport.read);
-        assertEquals(0, firstReport.readLater);
+        assertEquals(categoryResponse.category.id, secondCategoryReport.id);
+        assertEquals(CATEGORY_NAME, secondCategoryReport.name);
+        assertEquals(1, secondCategoryReport.feedCount);
+        assertEquals(100, secondCategoryReport.notRead);
+        assertEquals(0, secondCategoryReport.read);
+        assertEquals(0, secondCategoryReport.readLater);
 
-        assertEquals(Category.MAIN_CATEGORY_ID, secondReport.id);
-        assertEquals(Category.MAIN_CATEGORY_ID, secondReport.name);
-        assertEquals(1, secondReport.feedCount);
-        assertEquals(100, secondReport.notRead);
-        assertEquals(0, secondReport.read);
-        assertEquals(0, secondReport.readLater);
+        assertEquals(Category.MAIN_CATEGORY_ID, mainCategoryReport.id);
+        assertEquals(Category.MAIN_CATEGORY_ID, mainCategoryReport.name);
+        assertEquals(1, mainCategoryReport.feedCount);
+        assertEquals(100, mainCategoryReport.notRead);
+        assertEquals(0, mainCategoryReport.read);
+        assertEquals(0, mainCategoryReport.readLater);
     }
 }
