@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  */
 public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBase {
 
-    private static final String TWITTER_URL = "twitter_url";
+    private static final String TWITTER_URL = "http://domain.com/twitter_url";
 
     @Test
     public void allFeedHeaderFieldsWereTrimmedAndAssignedProperly() {

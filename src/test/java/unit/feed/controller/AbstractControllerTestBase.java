@@ -20,20 +20,20 @@ import java.util.*;
  */
 public abstract class AbstractControllerTestBase {
 
-    protected static final String VALID_FIRST_RSS_FEED_LINK = "valid-first-feed-link";
-    protected static final String VALID_SECOND_RSS_FEED_LINK = "valid-second-feed-link";
+    protected static final String VALID_FIRST_RSS_FEED_LINK = "http://domain.com/valid-first-feed-link";
+    protected static final String VALID_SECOND_RSS_FEED_LINK = "http://domain.com/valid-second-feed-link";
     protected static final String FEED_TITLE = "title";
     protected static final String FEED_DESCRIPTION = "description";
-    protected static final String FEED_LINK = "link";
+    protected static final String FEED_LINK = "http://domain.com/link";
 
     protected static final String FIRST_FEED_ITEM_TITLE = "first_title";
     protected static final String FIRST_FEED_ITEM_DESCRIPTION = "first_description";
-    protected static final String FIRST_FEED_ITEM_LINK = "first_link";
+    protected static final String FIRST_FEED_ITEM_LINK = "http://domain.com/first_link";
     protected static final String FIRST_FEED_ITEM_GUID = "first_guid";
 
     protected static final String SECOND_FEED_ITEM_TITLE = "second_title";
     protected static final String SECOND_FEED_ITEM_DESCRIPTION = "second_description";
-    protected static final String SECOND_FEED_ITEM_LINK = "second_link";
+    protected static final String SECOND_FEED_ITEM_LINK = "http://domain.com/second_link";
     protected static final String SECOND_FEED_ITEM_GUID = "second_guid";
 
     protected static final FeedItem FIRST_FEED_ITEM = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(1), true, FIRST_FEED_ITEM_GUID);

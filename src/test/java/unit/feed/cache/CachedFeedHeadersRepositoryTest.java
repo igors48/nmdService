@@ -21,9 +21,9 @@ public class CachedFeedHeadersRepositoryTest {
 
     private static final UUID STORED_FEED_ID = randomUUID();
 
-    private static final String STORED_FEED_LINK = "feed-link";
-    private static final FeedHeader STORED = new FeedHeader(STORED_FEED_ID, STORED_FEED_LINK, "stored-feed-title", "stored-description", "stored-link");
-    private static final FeedHeader CACHED = new FeedHeader(STORED_FEED_ID, STORED_FEED_LINK, "cached-feed-title", "cached-description", "cached-link");
+    private static final String STORED_FEED_LINK = "http://domain.com";
+    private static final FeedHeader STORED = new FeedHeader(STORED_FEED_ID, STORED_FEED_LINK, "stored-feed-title", "stored-description", "http://domain.com/stored");
+    private static final FeedHeader CACHED = new FeedHeader(STORED_FEED_ID, STORED_FEED_LINK, "cached-feed-title", "cached-description", "http://domain.com/cached");
 
     private CachedFeedHeadersRepository repository;
 

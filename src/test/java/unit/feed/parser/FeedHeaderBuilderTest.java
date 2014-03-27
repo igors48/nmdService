@@ -15,8 +15,8 @@ import static org.junit.Assert.assertNull;
  */
 public class FeedHeaderBuilderTest {
 
-    private static final String URL = "url";
-    private static final String LINK = "link";
+    private static final String URL = "http://domain.com/url";
+    private static final String LINK = "http://domain.com/link";
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
     private static final UUID GUID = UUID.randomUUID();

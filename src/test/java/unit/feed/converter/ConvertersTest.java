@@ -27,10 +27,10 @@ public class ConvertersTest {
 
     private static final Key SAMPLE_KEY = KeyFactory.stringToKey("ag9zfnJzcy1jb2xsZWN0b3JyHQsSEEZlZWRIZWFkZXJFbnRpdHkYgICAgIi0vwgM");
 
-    private static final FeedItem FIRST_FEED_ITEM = new FeedItem("title-first", "description-first", "link-first", new Date(), false, "guid-first");
-    private static final FeedItem SECOND_FEED_ITEM = new FeedItem("title-second", "description-second", "link-second", new Date(), true, "guid-second");
+    private static final FeedItem FIRST_FEED_ITEM = new FeedItem("title-first", "description-first", "http://domain.com/link-first", new Date(), false, "guid-first");
+    private static final FeedItem SECOND_FEED_ITEM = new FeedItem("title-second", "description-second", "http://domain.com/link-second", new Date(), true, "guid-second");
 
-    private static final FeedItem LONG_DESCRIPTION_FEED_ITEM = new FeedItem("title-second", "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", "link-second", new Date(), true, "guid-second");
+    private static final FeedItem LONG_DESCRIPTION_FEED_ITEM = new FeedItem("title-second", "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", "http://domain.com/link-second", new Date(), true, "guid-second");
 
     private static final List<FeedItem> FEED_LIST = Arrays.asList(FIRST_FEED_ITEM, SECOND_FEED_ITEM);
 
@@ -50,7 +50,7 @@ public class ConvertersTest {
 
     @Test
     public void feedHeaderEntityRoundtrip() {
-        final FeedHeader origin = new FeedHeader(UUID.randomUUID(), "feedLink", "title", "description", "link");
+        final FeedHeader origin = new FeedHeader(UUID.randomUUID(), "http://domain.com/feedLink", "title", "description", "http://domain.com/link");
 
         final Entity entity = FeedHeaderEntityConverter.convert(origin, SAMPLE_KEY);
 

@@ -16,7 +16,7 @@ public class FeedItemBuilderTest {
 
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
-    private static final String LINK = "link";
+    private static final String LINK = "http://domain.com/link";
     private static final String ALTERNATE_DESCRIPTION = "alternate_description";
     private static final String GUID = "guid";
     private static final Date DATE = new Date(1);

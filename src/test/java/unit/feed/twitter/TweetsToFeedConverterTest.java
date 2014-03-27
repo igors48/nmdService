@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNull;
  */
 public class TweetsToFeedConverterTest extends AbstractTweetConverterTestBase {
 
-    private static final String TWITTER_URL = "twitter_url";
+    private static final String TWITTER_URL = "http://domain.com/twitter_url";
     private static Date SOME_DATE = new Date(1);
 
     @Test
