@@ -15,6 +15,7 @@ public class ServletToolsParsePathInfoTest {
 
     @Test
     public void extractElementsPart() {
+        assertEquals(new ArrayList<String>(), parse(null));
         assertEquals(new ArrayList<String>(), parse(""));
         assertEquals(new ArrayList<String>(), parse("/"));
         assertEquals(new ArrayList<String>(), parse("///"));

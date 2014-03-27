@@ -38,11 +38,12 @@ public class CategoriesServlet extends AbstractRestServlet {
     protected ResponseBody handleDelete(final HttpServletRequest request) {
         final String pathInfo = request.getPathInfo();
 
-        if (pathInfo == null) {
+        final List<String> elements = parse(pathInfo);
+
+        if (elements.isEmpty()) {
             return createErrorJsonResponse(invalidCategoryId(""));
         }
 
-        final List<String> elements = parse(pathInfo);
         final String first = elements.get(0);
 
         return isValidCategoryId(first) ? deleteCategory(first) : createErrorJsonResponse(invalidCategoryId(first));

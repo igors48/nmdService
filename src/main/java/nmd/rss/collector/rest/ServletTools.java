@@ -49,12 +49,8 @@ public final class ServletTools {
     public static FeedAndItemIds parseFeedAndItemIds(final String pathInfo) {
 
         try {
-
-            if (pathInfo == null) {
-                return null;
-            }
-
             final List<String> elements = parse(pathInfo);
+
             final UUID feedId = UUID.fromString(elements.get(0));
             final String itemId = elements.size() > 1 ? elements.get(1) : "";
 
@@ -135,9 +131,11 @@ public final class ServletTools {
     }
 
     public static List<String> parse(final String pathInfo) {
-        assertNotNull(pathInfo);
-
         final List<String> elements = new ArrayList<>();
+
+        if (pathInfo == null) {
+            return elements;
+        }
 
         String copy = pathInfo.trim();
 
