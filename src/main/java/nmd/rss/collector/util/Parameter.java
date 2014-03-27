@@ -1,7 +1,8 @@
 package nmd.rss.collector.util;
 
-import java.net.URI;
-import java.net.URISyntaxException;
+
+import org.apache.commons.validator.routines.UrlValidator;
+
 import java.util.regex.Pattern;
 
 import static java.util.UUID.fromString;
@@ -11,6 +12,9 @@ import static java.util.UUID.fromString;
  * Date : 28.04.13
  */
 public final class Parameter {
+
+    private static final String[] SCHEMES = {"http", "https"};
+    private static final UrlValidator URL_VALIDATOR = new UrlValidator(SCHEMES);
 
     private static final Pattern FILE_NAME_CHARS = Pattern.compile("[_a-zA-Z0-9\\-\\.]+");
 
@@ -42,18 +46,7 @@ public final class Parameter {
     }
 
     public static boolean isValidUrl(final String value) {
-
-        if (!isValidString(value)) {
-            return false;
-        }
-
-        try {
-            new URI(value);
-
-            return true;
-        } catch (URISyntaxException e) {
-            return false;
-        }
+        return URL_VALIDATOR.isValid(value);
     }
 
     private Parameter() {
