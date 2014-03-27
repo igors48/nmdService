@@ -78,6 +78,10 @@ public abstract class AbstractRestTest {
         return given().delete(CATEGORIES_SERVLET_URL + categoryId).asString();
     }
 
+    protected static String renameCategory(final String categoryId, final String newName) {
+        return given().body(newName).put(CATEGORIES_SERVLET_URL + categoryId).asString();
+    }
+
     protected static CategoriesReportResponse getCategoriesReport() {
         final String response = given().given().get(CATEGORIES_SERVLET_URL).asString();
 

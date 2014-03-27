@@ -1,12 +1,12 @@
 package nmd.rss.collector.rest;
 
+import nmd.rss.collector.feed.FeedHeader;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-import static nmd.rss.collector.error.ServiceError.invalidCategoryId;
-import static nmd.rss.collector.error.ServiceError.invalidCategoryName;
-import static nmd.rss.collector.rest.CategoriesServiceWrapper.addCategory;
-import static nmd.rss.collector.rest.CategoriesServiceWrapper.deleteCategory;
+import static nmd.rss.collector.error.ServiceError.*;
+import static nmd.rss.collector.rest.CategoriesServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.parse;
 import static nmd.rss.collector.rest.ServletTools.readRequestBody;
@@ -47,6 +47,43 @@ public class CategoriesServlet extends AbstractRestServlet {
         final String first = elements.get(0);
 
         return isValidCategoryId(first) ? deleteCategory(first) : createErrorJsonResponse(invalidCategoryId(first));
+    }
+
+    // PUT -- /{categoryId} rename category
+    // PUT -- /{categoryId}/{feedId} assign feed to category
+    @Override
+    protected ResponseBody handlePut(final HttpServletRequest request) {
+        final String pathInfo = request.getPathInfo();
+        final List<String> elements = parse(pathInfo);
+
+        if (elements.isEmpty()) {
+            return createErrorJsonResponse(invalidCategoryId(""));
+        }
+
+        final String categoryId = elements.get(0);
+
+        if (!isValidCategoryId(categoryId)) {
+            return createErrorJsonResponse(invalidCategoryId(categoryId));
+        }
+
+        if (elements.size() == 1) {
+            final String categoryName = readRequestBody(request);
+
+            if (!isValidCategoryName(categoryName)) {
+                return createErrorJsonResponse(invalidCategoryName(categoryName));
+            }
+
+            return renameCategory(categoryId, categoryName);
+        } else {
+            final String feedId = elements.get(1);
+
+            if (!FeedHeader.isValidFeedId(feedId)) {
+                return createErrorJsonResponse(invalidFeedId(feedId));
+            }
+        }
+
+
+        return super.handlePut(request);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
 }

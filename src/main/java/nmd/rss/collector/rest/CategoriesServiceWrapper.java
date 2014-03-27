@@ -2,17 +2,20 @@ package nmd.rss.collector.rest;
 
 import nmd.rss.collector.controller.CategoriesService;
 import nmd.rss.collector.controller.CategoryReport;
+import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.rest.responses.CategoriesReportResponse;
 import nmd.rss.collector.rest.responses.CategoryResponse;
 import nmd.rss.reader.Category;
 
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.rss.collector.feed.FeedHeader.isValidFeedId;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
+import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
 import static nmd.rss.collector.util.Assert.guard;
@@ -77,7 +80,19 @@ public class CategoriesServiceWrapper {
         guard(isValidCategoryId(categoryId));
         guard(isValidCategoryName(newName));
 
-        return null;
+        try {
+            CATEGORIES_SERVICE.renameCategory(categoryId, newName);
+
+            final String message = format("Category [ %s ] name was changed to [ %s ]", categoryId, newName);
+
+            LOGGER.info(message);
+
+            return createJsonResponse(create(message));
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error changing category [ %s ] name to [ %s ]", categoryId, newName));
+
+            return createErrorJsonResponse(exception);
+        }
     }
 
 }
