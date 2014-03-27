@@ -82,6 +82,10 @@ public abstract class AbstractRestTest {
         return given().body(newName).put(CATEGORIES_SERVLET_URL + categoryId).asString();
     }
 
+    protected static String assignFeedToCategory(final String categoryId, final String feedId) {
+        return given().put(CATEGORIES_SERVLET_URL + categoryId + "/" + feedId).asString();
+    }
+
     protected static CategoriesReportResponse getCategoriesReport() {
         final String response = given().given().get(CATEGORIES_SERVLET_URL).asString();
 

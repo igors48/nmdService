@@ -4,6 +4,7 @@ import nmd.rss.collector.feed.FeedHeader;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.rest.CategoriesServiceWrapper.*;
@@ -80,10 +81,9 @@ public class CategoriesServlet extends AbstractRestServlet {
             if (!FeedHeader.isValidFeedId(feedId)) {
                 return createErrorJsonResponse(invalidFeedId(feedId));
             }
+
+            return assignFeedToCategory(UUID.fromString(feedId), categoryId);
         }
-
-
-        return super.handlePut(request);    //To change body of overridden methods use File | Settings | File Templates.
     }
 
 }

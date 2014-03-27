@@ -61,7 +61,19 @@ public class CategoriesServiceWrapper {
         guard(isValidFeedId(feedId));
         guard(isValidCategoryId(categoryId));
 
-        return null;
+        try {
+            CATEGORIES_SERVICE.assignFeedToCategory(feedId, categoryId);
+
+            final String message = format("Feed [ %s ] was assigned to category [ %s ]", feedId, categoryId);
+
+            LOGGER.info(message);
+
+            return createJsonResponse(create(message));
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error assigning feed [ %s ] to category [ %s ]", feedId, categoryId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
     }
 
     public static ResponseBody deleteCategory(final String categoryId) {
@@ -89,7 +101,7 @@ public class CategoriesServiceWrapper {
 
             return createJsonResponse(create(message));
         } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error changing category [ %s ] name to [ %s ]", categoryId, newName));
+            LOGGER.log(Level.SEVERE, format("Error changing category [ %s ] name to [ %s ]", categoryId, newName), exception);
 
             return createErrorJsonResponse(exception);
         }

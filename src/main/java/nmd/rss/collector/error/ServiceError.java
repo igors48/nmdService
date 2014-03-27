@@ -95,8 +95,8 @@ public class ServiceError {
                 "Possibly feed update schedule is empty. Check registered feeds list.");
     }
 
-    public static ServiceError unknownCategory(final String categoryId) {
-        return new ServiceError(ErrorCode.UNKNOWN_CATEGORY,
+    public static ServiceError wrongCategoryId(final String categoryId) {
+        return new ServiceError(ErrorCode.WRONG_CATEGORY_ID,
                 format("There is no category with id [ %s ]", categoryId),
                 "Possibly category id is wrong. Check category id.");
     }

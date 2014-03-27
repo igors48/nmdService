@@ -2,8 +2,9 @@ package nmd.rss.collector.util;
 
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.UUID;
 import java.util.regex.Pattern;
+
+import static java.util.UUID.fromString;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -17,10 +18,10 @@ public final class Parameter {
         return FILE_NAME_CHARS.matcher(value).matches();
     }
 
-    public static boolean isVaildUuid(final String value) {
+    public static boolean isValidUuid(final String value) {
 
         try {
-            UUID.fromString(value);
+            fromString(value);
 
             return true;
         } catch (Exception exception) {

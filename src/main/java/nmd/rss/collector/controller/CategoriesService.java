@@ -231,7 +231,7 @@ public class CategoriesService {
         final Category category = this.categoriesRepository.load(categoryId);
 
         if (category == null) {
-            throw new ServiceException(unknownCategory(categoryId));
+            throw new ServiceException(wrongCategoryId(categoryId));
         }
 
         return category;

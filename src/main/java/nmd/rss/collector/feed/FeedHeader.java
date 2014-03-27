@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.*;
-import static nmd.rss.collector.util.Parameter.isVaildUuid;
+import static nmd.rss.collector.util.Parameter.isValidUuid;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -74,7 +74,7 @@ public class FeedHeader implements Serializable {
     }
 
     public static boolean isValidFeedId(final String feedId) {
-        return isVaildUuid(feedId);
+        return isValidUuid(feedId);
     }
 
 }

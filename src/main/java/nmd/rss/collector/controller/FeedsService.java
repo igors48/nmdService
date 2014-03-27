@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.error.ServiceError.unknownCategory;
+import static nmd.rss.collector.error.ServiceError.wrongCategoryId;
 import static nmd.rss.collector.util.Assert.*;
 import static nmd.rss.collector.util.Parameter.isValidUrl;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -214,7 +214,7 @@ public class FeedsService extends AbstractService {
         final Category category = this.categoriesRepository.load(categoryId);
 
         if (category == null) {
-            throw new ServiceException(unknownCategory(categoryId));
+            throw new ServiceException(wrongCategoryId(categoryId));
         }
     }
 

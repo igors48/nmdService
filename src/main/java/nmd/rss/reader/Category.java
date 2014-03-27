@@ -74,7 +74,7 @@ public class Category implements Serializable {
             return false;
         }
 
-        if (!(value.equals(Category.MAIN_CATEGORY_ID) || isVaildUuid(value))) {
+        if (!(value.equals(Category.MAIN_CATEGORY_ID) || isValidUuid(value))) {
             return false;
         }
 
