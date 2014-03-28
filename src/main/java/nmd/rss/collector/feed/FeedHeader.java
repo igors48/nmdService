@@ -3,7 +3,6 @@ package nmd.rss.collector.feed;
 import java.io.Serializable;
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.Parameter.*;
 
@@ -39,7 +38,7 @@ public class FeedHeader implements Serializable {
     }
 
     public FeedHeader changeTitle(final String newTitle) {
-        assertStringIsValid(newTitle);
+        guard(isValidFeedTitle(newTitle));
 
         return new FeedHeader(this.id, this.feedLink, newTitle, this.description, this.link);
     }

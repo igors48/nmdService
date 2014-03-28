@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedTitle;
 import static nmd.rss.collector.rest.FeedsServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.*;
@@ -62,7 +63,7 @@ public class FeedsServlet extends AbstractRestServlet {
 
         final String feedTitle = readRequestBody(request);
 
-        return (feedTitle == null || feedTitle.isEmpty()) ? createErrorJsonResponse(invalidFeedTitle(feedTitle)) : updateFeedTitle(feedId, feedTitle);
+        return (isValidFeedTitle(feedTitle)) ? updateFeedTitle(feedId, feedTitle) : createErrorJsonResponse(invalidFeedTitle(feedTitle));
     }
 
     // DELETE /{feedId} -- delete feed
