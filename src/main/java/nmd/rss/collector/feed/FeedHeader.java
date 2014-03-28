@@ -3,14 +3,17 @@ package nmd.rss.collector.feed;
 import java.io.Serializable;
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.*;
-import static nmd.rss.collector.util.Parameter.isValidUuid;
+import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
 public class FeedHeader implements Serializable {
+
+    public static final int MAX_DESCRIPTION_AND_TITLE_LENGTH = 255;
 
     public final UUID id;
     public final String feedLink;
@@ -22,16 +25,16 @@ public class FeedHeader implements Serializable {
         guard(isValidFeedId(id));
         this.id = id;
 
-        assertValidUrl(feedLink);
+        guard(isValidUrl(feedLink));
         this.feedLink = feedLink;
 
-        assertStringIsValid(title);
+        guard(isValidFeedTitle(title));
         this.title = title;
 
-        assertStringIsValid(title);
+        guard(isValidFeedDescription(description));
         this.description = description;
 
-        assertValidUrl(link);
+        guard(isValidUrl(link));
         this.link = link;
     }
 
@@ -75,6 +78,14 @@ public class FeedHeader implements Serializable {
 
     public static boolean isValidFeedId(final String feedId) {
         return isValidUuid(feedId);
+    }
+
+    public static boolean isValidFeedTitle(final String feedTitle) {
+        return isValidString(feedTitle) && feedTitle.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
+    }
+
+    public static boolean isValidFeedDescription(final String feedDescription) {
+        return isValidString(feedDescription) && feedDescription.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
     }
 
 }

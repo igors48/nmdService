@@ -83,6 +83,7 @@ public class TweetConversionTools {
 
         final UUID id = UUID.randomUUID();
 
+        //TODO cut title and description and validate other parameters
         return new FeedHeader(id, twitterLink.trim(), title, description, feedLink);
     }
 

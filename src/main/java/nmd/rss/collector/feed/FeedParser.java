@@ -70,6 +70,7 @@ public final class FeedParser {
         final String feedDescription = trimOrUse(description, feedUrl);
         final String feedTitle = trimOrUse(title, feedUrl);
 
+        //TODO cut title and description and validate other parameters
         return new FeedHeader(guid, feedUrl, feedTitle, feedDescription, feedLink);
     }
 
