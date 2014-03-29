@@ -6,7 +6,7 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 31.08.13
  */
-public class UrlTools {
+public final class UrlTools {
 
     public static String normalizeUrl(final String feedUrl) {
         assertStringIsValid(feedUrl);
