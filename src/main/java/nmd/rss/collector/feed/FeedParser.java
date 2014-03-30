@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import static nmd.rss.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static nmd.rss.collector.feed.FeedHeader.create;
+import static nmd.rss.collector.feed.FeedItem.MAX_TITLE_AND_DESCRIPTION_LENGTH;
 import static nmd.rss.collector.util.Assert.*;
 import static nmd.rss.collector.util.StringTools.cutTo;
 
@@ -87,8 +88,8 @@ public final class FeedParser {
             return null;
         }
 
-        final String itemTitle = trimOrUse(title, itemLink);
-        final String itemDescription = trimOrUse(description, alternateDescription);
+        final String itemTitle = cutTo(trimOrUse(title, itemLink), MAX_TITLE_AND_DESCRIPTION_LENGTH);
+        final String itemDescription = cutTo(trimOrUse(description, alternateDescription), MAX_TITLE_AND_DESCRIPTION_LENGTH);
         final boolean itemDateReal = date != null;
         final Date feedDate = itemDateReal ? date : currentDate;
 

@@ -20,8 +20,11 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.wrongCategoryId;
-import static nmd.rss.collector.util.Assert.*;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderTitle;
+import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.Parameter.isValidUrl;
+import static nmd.rss.collector.util.Parameter.notNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 import static nmd.rss.collector.util.UrlTools.normalizeUrl;
 import static nmd.rss.reader.Category.isValidCategoryId;
@@ -43,19 +46,19 @@ public class FeedsService extends AbstractService {
     public FeedsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
-        assertNotNull(transactions);
+        guard(notNull(transactions));
         this.transactions = transactions;
 
-        assertNotNull(feedUpdateTaskRepository);
+        guard(notNull(feedUpdateTaskRepository));
         this.feedUpdateTaskRepository = feedUpdateTaskRepository;
 
-        assertNotNull(feedUpdateTaskSchedulerContextRepository);
+        guard(notNull(feedUpdateTaskSchedulerContextRepository));
         this.feedUpdateTaskSchedulerContextRepository = feedUpdateTaskSchedulerContextRepository;
 
-        assertNotNull(readFeedItemsRepository);
+        guard(notNull(readFeedItemsRepository));
         this.readFeedItemsRepository = readFeedItemsRepository;
 
-        assertNotNull(categoriesRepository);
+        guard(notNull(categoriesRepository));
         this.categoriesRepository = categoriesRepository;
     }
 
@@ -68,7 +71,7 @@ public class FeedsService extends AbstractService {
         try {
             transaction = this.transactions.beginOne();
 
-            assertCategoryIdValid(categoryId);
+            assertCategoryExists(categoryId);
 
             final String feedUrlInLowerCase = normalizeUrl(feedUrl);
             final Feed feed = fetchFeed(feedUrlInLowerCase);
@@ -104,8 +107,8 @@ public class FeedsService extends AbstractService {
     }
 
     public void updateFeedTitle(final UUID feedId, final String title) throws ServiceException {
-        assertNotNull(feedId);
-        assertStringIsValid(title);
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidFeedHeaderTitle(title));
 
         Transaction transaction = null;
 
@@ -125,7 +128,7 @@ public class FeedsService extends AbstractService {
     }
 
     public void removeFeed(final UUID feedId) {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
 
@@ -160,7 +163,7 @@ public class FeedsService extends AbstractService {
     }
 
     public Feed getFeed(final UUID feedId) throws ServiceException {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
 
@@ -205,7 +208,7 @@ public class FeedsService extends AbstractService {
         }
     }
 
-    private void assertCategoryIdValid(final String categoryId) throws ServiceException {
+    private void assertCategoryExists(final String categoryId) throws ServiceException {
 
         if (Category.MAIN_CATEGORY_ID.equals(categoryId)) {
             return;

@@ -14,9 +14,11 @@ import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.*;
 
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 import static nmd.rss.reader.FeedItemsComparator.compare;
 
@@ -32,10 +34,10 @@ public class ReadsService extends AbstractService {
     public ReadsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
-        assertNotNull(transactions);
+        guard(notNull(transactions));
         this.transactions = transactions;
 
-        assertNotNull(readFeedItemsRepository);
+        guard(notNull(readFeedItemsRepository));
         this.readFeedItemsRepository = readFeedItemsRepository;
     }
 
@@ -66,7 +68,7 @@ public class ReadsService extends AbstractService {
     }
 
     public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ServiceException {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
 
@@ -113,8 +115,8 @@ public class ReadsService extends AbstractService {
     }
 
     public void toggleReadLaterItemMark(final UUID feedId, final String itemId) throws ServiceException {
-        assertNotNull(feedId);
-        assertStringIsValid(itemId);
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidFeedItemGuid(itemId));
 
         Transaction transaction = null;
 
@@ -149,8 +151,8 @@ public class ReadsService extends AbstractService {
     }
 
     public void markItemAsRead(final UUID feedId, final String itemId) throws ServiceException {
-        assertNotNull(feedId);
-        assertStringIsValid(itemId);
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidFeedItemGuid(itemId));
 
         Transaction transaction = null;
 
@@ -182,7 +184,7 @@ public class ReadsService extends AbstractService {
     }
 
     public void markAllItemsAsRead(final UUID feedId) throws ServiceException {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
 
@@ -216,6 +218,10 @@ public class ReadsService extends AbstractService {
     }
 
     public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItem> items, final ReadFeedItems readFeedItems) {
+        guard(notNull(header));
+        guard(notNull(items));
+        guard(notNull(readFeedItems));
+
         final Set<String> storedGuids = getStoredGuids(items);
 
         final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
@@ -232,8 +238,8 @@ public class ReadsService extends AbstractService {
     }
 
     public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
-        assertNotNull(items);
-        assertNotNull(readGuids);
+        guard(notNull(items));
+        guard(notNull(readGuids));
 
         Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
 

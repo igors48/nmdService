@@ -18,7 +18,7 @@ import java.util.Set;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
-import static nmd.rss.collector.feed.FeedHeader.isValidFeedId;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.Parameter.notNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
@@ -111,7 +111,7 @@ public class CategoriesService {
     }
 
     public void assignFeedToCategory(final UUID feedId, final String categoryId) throws ServiceException {
-        guard(isValidFeedId(feedId));
+        guard(isValidFeedHeaderId(feedId));
         guard(isValidCategoryId(categoryId));
 
         Transaction transaction = null;
@@ -245,6 +245,16 @@ public class CategoriesService {
         return categories;
     }
 
+    private FeedHeader loadFeedHeader(final UUID feedId) throws ServiceException {
+        FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
+
+        if (header == null) {
+            throw new ServiceException(wrongFeedId(feedId));
+        }
+
+        return header;
+    }
+
     private static List<UUID> findFeedIdsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
         final List<UUID> feedIds = new ArrayList<>();
 
@@ -258,7 +268,7 @@ public class CategoriesService {
         return feedIds;
     }
 
-    private List<ReadFeedItems> findReadFeedItemsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
+    private static List<ReadFeedItems> findReadFeedItemsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
         final List<ReadFeedItems> list = new ArrayList<>();
 
         for (final ReadFeedItems readFeedItems : readFeedItemsList) {
@@ -269,16 +279,6 @@ public class CategoriesService {
         }
 
         return list;
-    }
-
-    private FeedHeader loadFeedHeader(final UUID feedId) throws ServiceException {
-        FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
-
-        if (header == null) {
-            throw new ServiceException(wrongFeedId(feedId));
-        }
-
-        return header;
     }
 
 }

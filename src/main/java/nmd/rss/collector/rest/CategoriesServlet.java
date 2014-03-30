@@ -78,7 +78,7 @@ public class CategoriesServlet extends AbstractRestServlet {
         } else {
             final String feedId = elements.get(1);
 
-            if (!FeedHeader.isValidFeedId(feedId)) {
+            if (!FeedHeader.isValidFeedHeaderId(feedId)) {
                 return createErrorJsonResponse(invalidFeedId(feedId));
             }
 

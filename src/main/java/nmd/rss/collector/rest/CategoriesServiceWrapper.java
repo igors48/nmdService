@@ -3,6 +3,7 @@ package nmd.rss.collector.rest;
 import nmd.rss.collector.controller.CategoriesService;
 import nmd.rss.collector.controller.CategoryReport;
 import nmd.rss.collector.error.ServiceException;
+import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.rest.responses.CategoriesReportResponse;
 import nmd.rss.collector.rest.responses.CategoryResponse;
 import nmd.rss.reader.Category;
@@ -13,7 +14,6 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
-import static nmd.rss.collector.feed.FeedHeader.isValidFeedId;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
@@ -58,7 +58,7 @@ public class CategoriesServiceWrapper {
     }
 
     public static ResponseBody assignFeedToCategory(final UUID feedId, final String categoryId) {
-        guard(isValidFeedId(feedId));
+        guard(FeedHeader.isValidFeedHeaderId(feedId));
         guard(isValidCategoryId(categoryId));
 
         try {

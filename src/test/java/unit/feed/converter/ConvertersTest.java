@@ -30,8 +30,6 @@ public class ConvertersTest {
     private static final FeedItem FIRST_FEED_ITEM = new FeedItem("title-first", "description-first", "http://domain.com/link-first", new Date(), false, "guid-first");
     private static final FeedItem SECOND_FEED_ITEM = new FeedItem("title-second", "description-second", "http://domain.com/link-second", new Date(), true, "guid-second");
 
-    private static final FeedItem LONG_DESCRIPTION_FEED_ITEM = new FeedItem("title-second", "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", "http://domain.com/link-second", new Date(), true, "guid-second");
-
     private static final List<FeedItem> FEED_LIST = Arrays.asList(FIRST_FEED_ITEM, SECOND_FEED_ITEM);
 
     private static final String FIRST_READ_ITEM_ID = "first";
@@ -120,14 +118,6 @@ public class ConvertersTest {
         assertTrue(restored.readLaterItemIds.contains(SECOND_READ_LATER_ITEM_ID));
 
         assertEquals(MAIN_CATEGORY_ID, restored.categoryId);
-    }
-
-    @Test
-    public void whenFeedItemDescriptionLargerThanLimitThenItCuts() {
-        final FeedItemHelper helper = FeedItemHelper.convert(LONG_DESCRIPTION_FEED_ITEM);
-        final FeedItem restored = FeedItemHelper.convert(helper);
-
-        assertEquals(FeedItemHelper.MAX_DESCRIPTION_LENGTH, restored.description.length());
     }
 
     @Test

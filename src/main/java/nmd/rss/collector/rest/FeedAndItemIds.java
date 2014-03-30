@@ -2,7 +2,10 @@ package nmd.rss.collector.rest;
 
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.feed.FeedItem.isValidFeedItemGuid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * User: igu
@@ -14,10 +17,10 @@ public class FeedAndItemIds {
     public final String itemId;
 
     public FeedAndItemIds(final UUID feedId, final String itemId) {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
         this.feedId = feedId;
 
-        assertNotNull(itemId);
+        guard(notNull(itemId) && (itemId.isEmpty() || isValidFeedItemGuid(itemId)));
         this.itemId = itemId;
     }
 

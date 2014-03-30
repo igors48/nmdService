@@ -18,7 +18,9 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.rss.collector.error.ServiceError.wrongFeedTaskId;
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 
 /**
@@ -36,18 +38,18 @@ public class UpdatesService extends AbstractService {
     public UpdatesService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
-        assertNotNull(transactions);
+        guard(notNull(transactions));
         this.transactions = transactions;
 
-        assertNotNull(feedUpdateTaskRepository);
+        guard(notNull(feedUpdateTaskRepository));
         this.feedUpdateTaskRepository = feedUpdateTaskRepository;
 
-        assertNotNull(scheduler);
+        guard(notNull(scheduler));
         this.scheduler = scheduler;
     }
 
     public FeedUpdateReport updateFeed(final UUID feedId) throws ServiceException {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
 
         Transaction getFeedHeaderAndTaskTransaction = null;
 
@@ -95,7 +97,7 @@ public class UpdatesService extends AbstractService {
     }
 
     public FeedSeriesUpdateReport updateCurrentFeeds(final Quota quota) {
-        assertNotNull(quota);
+        guard(notNull(quota));
 
         final List<FeedUpdateReport> updateReports = new ArrayList<>();
         final List<ServiceError> errors = new ArrayList<>();

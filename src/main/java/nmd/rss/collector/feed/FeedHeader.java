@@ -21,16 +21,16 @@ public class FeedHeader implements Serializable {
     public final String link;
 
     public FeedHeader(final UUID id, final String feedLink, final String title, final String description, final String link) {
-        guard(isValidFeedId(id));
+        guard(isValidFeedHeaderId(id));
         this.id = id;
 
         guard(isValidUrl(feedLink));
         this.feedLink = feedLink;
 
-        guard(isValidFeedTitle(title));
+        guard(isValidFeedHeaderTitle(title));
         this.title = title;
 
-        guard(isValidFeedDescription(description));
+        guard(isValidFeedHeaderDescription(description));
         this.description = description;
 
         guard(isValidUrl(link));
@@ -38,7 +38,7 @@ public class FeedHeader implements Serializable {
     }
 
     public FeedHeader changeTitle(final String newTitle) {
-        guard(isValidFeedTitle(newTitle));
+        guard(isValidFeedHeaderTitle(newTitle));
 
         return new FeedHeader(this.id, this.feedLink, newTitle, this.description, this.link);
     }
@@ -71,25 +71,25 @@ public class FeedHeader implements Serializable {
         return result;
     }
 
-    public static boolean isValidFeedId(final UUID feedId) {
+    public static boolean isValidFeedHeaderId(final UUID feedId) {
         return feedId != null;
     }
 
-    public static boolean isValidFeedId(final String feedId) {
+    public static boolean isValidFeedHeaderId(final String feedId) {
         return isValidUuid(feedId);
     }
 
-    public static boolean isValidFeedTitle(final String feedTitle) {
+    public static boolean isValidFeedHeaderTitle(final String feedTitle) {
         return isValidString(feedTitle) && feedTitle.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
     }
 
-    public static boolean isValidFeedDescription(final String feedDescription) {
+    public static boolean isValidFeedHeaderDescription(final String feedDescription) {
         return isValidString(feedDescription) && feedDescription.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
     }
 
     public static FeedHeader create(final UUID id, final String feedLink, final String title, final String description, final String link) {
 
-        if (!isValidFeedId(id)) {
+        if (!isValidFeedHeaderId(id)) {
             return null;
         }
 
@@ -97,11 +97,11 @@ public class FeedHeader implements Serializable {
             return null;
         }
 
-        if (!isValidFeedTitle(title)) {
+        if (!isValidFeedHeaderTitle(title)) {
             return null;
         }
 
-        if (!isValidFeedDescription(description)) {
+        if (!isValidFeedHeaderDescription(description)) {
             return null;
         }
 
