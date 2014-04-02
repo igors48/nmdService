@@ -1,4 +1,4 @@
-package nmd.rss.collector.rest.responses.helper;
+package nmd.rss.collector.rest.responses.payload;
 
 import nmd.rss.collector.controller.FeedItemReport;
 
@@ -8,7 +8,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * User: igu
  * Date: 13.12.13
  */
-public class FeedItemReportHelper {
+public class FeedItemReportPayload {
 
     private String feedId = "";
     private String title = "";
@@ -18,14 +18,14 @@ public class FeedItemReportHelper {
     private boolean read = false;
     private boolean readLater = false;
 
-    private FeedItemReportHelper() {
+    private FeedItemReportPayload() {
         // empty
     }
 
-    public static FeedItemReportHelper convert(final FeedItemReport feedItemReport) {
+    public static FeedItemReportPayload convert(final FeedItemReport feedItemReport) {
         assertNotNull(feedItemReport);
 
-        final FeedItemReportHelper helper = new FeedItemReportHelper();
+        final FeedItemReportPayload helper = new FeedItemReportPayload();
 
         helper.feedId = feedItemReport.feedId.toString();
         helper.title = feedItemReport.title;
