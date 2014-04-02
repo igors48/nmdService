@@ -2,6 +2,7 @@ package nmd.rss.collector.rest.responses;
 
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.error.ServiceError;
+import nmd.rss.collector.rest.responses.payload.ErrorPayload;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
@@ -12,16 +13,14 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class ErrorResponse extends BaseResponse {
 
-    private ErrorCode code = null;
-    private String message = null;
-    private String hints = null;
+    private ErrorPayload error;
 
     private ErrorResponse() {
         // empty
     }
 
     public ErrorCode getCode() {
-        return this.code;
+        return this.error.code;
     }
 
     public static ErrorResponse create(final ErrorCode code, final String message, final String hints) {
@@ -32,9 +31,8 @@ public class ErrorResponse extends BaseResponse {
         final ErrorResponse result = new ErrorResponse();
 
         result.status = ResponseType.ERROR;
-        result.code = code;
-        result.message = message;
-        result.hints = hints;
+
+        result.error = ErrorPayload.create(code, message, hints);
 
         return result;
     }

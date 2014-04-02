@@ -24,7 +24,7 @@ public class GetFeedHeadersTest extends AbstractRestTest {
 
         final FeedHeadersResponse feedHeaders = getFeedHeaders();
 
-        assertEquals(2, feedHeaders.getPayload().size());
+        assertEquals(2, feedHeaders.getHeaders().size());
     }
 
     @Test

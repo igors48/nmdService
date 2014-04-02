@@ -3,8 +3,8 @@ package nmd.rss.collector.rest.responses;
 import nmd.rss.collector.controller.FeedSeriesUpdateReport;
 import nmd.rss.collector.controller.FeedUpdateReport;
 import nmd.rss.collector.error.ServiceError;
-import nmd.rss.collector.rest.responses.helper.ErrorResponseHelper;
 import nmd.rss.collector.rest.responses.helper.FeedMergeReportResponseHelper;
+import nmd.rss.collector.rest.responses.payload.ErrorPayload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,9 +18,9 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class FeedSeriesUpdateResponse extends SuccessResponse {
 
     private List<FeedMergeReportResponseHelper> updates;
-    private List<ErrorResponseHelper> errors;
+    private List<ErrorPayload> errors;
 
-    public FeedSeriesUpdateResponse(final List<FeedMergeReportResponseHelper> updates, final List<ErrorResponseHelper> errors) {
+    public FeedSeriesUpdateResponse(final List<FeedMergeReportResponseHelper> updates, final List<ErrorPayload> errors) {
         assertNotNull(updates);
         this.updates = updates;
 
@@ -32,7 +32,7 @@ public class FeedSeriesUpdateResponse extends SuccessResponse {
         return this.updates;
     }
 
-    public List<ErrorResponseHelper> getErrors() {
+    public List<ErrorPayload> getErrors() {
         return this.errors;
     }
 
@@ -47,10 +47,10 @@ public class FeedSeriesUpdateResponse extends SuccessResponse {
             updates.add(helper);
         }
 
-        final List<ErrorResponseHelper> errors = new ArrayList<>();
+        final List<ErrorPayload> errors = new ArrayList<>();
 
         for (final ServiceError error : report.errors) {
-            final ErrorResponseHelper helper = ErrorResponseHelper.create(error);
+            final ErrorPayload helper = ErrorPayload.create(error);
 
             errors.add(helper);
         }

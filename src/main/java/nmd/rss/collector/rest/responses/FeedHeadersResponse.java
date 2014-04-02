@@ -14,14 +14,14 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedHeadersResponse extends SuccessResponse {
 
-    private List<FeedHeaderPayload> payload = null;
+    private List<FeedHeaderPayload> headers = null;
 
     private FeedHeadersResponse() {
         // empty
     }
 
-    public List<FeedHeaderPayload> getPayload() {
-        return this.payload;
+    public List<FeedHeaderPayload> getHeaders() {
+        return this.headers;
     }
 
     public static FeedHeadersResponse convert(final List<FeedHeader> headers) {
@@ -36,7 +36,7 @@ public class FeedHeadersResponse extends SuccessResponse {
         }
 
         final FeedHeadersResponse result = new FeedHeadersResponse();
-        result.payload = payload;
+        result.headers = payload;
 
         return result;
     }
