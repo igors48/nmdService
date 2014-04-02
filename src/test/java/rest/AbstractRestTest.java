@@ -55,10 +55,7 @@ public abstract class AbstractRestTest {
     }
 
     protected static String addFeed(final String url, final String categoryId) {
-        final AddFeedRequest addFeedRequest = new AddFeedRequest();
-
-        addFeedRequest.feedUrl = url;
-        addFeedRequest.categoryId = categoryId;
+        final AddFeedRequest addFeedRequest = AddFeedRequest.create(url, categoryId);
 
         final String requestBody = GSON.toJson(addFeedRequest);
 

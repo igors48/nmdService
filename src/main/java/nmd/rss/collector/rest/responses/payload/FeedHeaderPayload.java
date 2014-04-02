@@ -19,6 +19,28 @@ public class FeedHeaderPayload {
         // empty
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FeedHeaderPayload that = (FeedHeaderPayload) o;
+
+        if (feedId != null ? !feedId.equals(that.feedId) : that.feedId != null) return false;
+        if (feedLink != null ? !feedLink.equals(that.feedLink) : that.feedLink != null) return false;
+        if (feedTitle != null ? !feedTitle.equals(that.feedTitle) : that.feedTitle != null) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = feedLink != null ? feedLink.hashCode() : 0;
+        result = 31 * result + (feedId != null ? feedId.hashCode() : 0);
+        result = 31 * result + (feedTitle != null ? feedTitle.hashCode() : 0);
+        return result;
+    }
+
     public static FeedHeaderPayload create(final String feedLink, final String feedId, final String feedTitle) {
         assertStringIsValid(feedLink);
         assertStringIsValid(feedId);

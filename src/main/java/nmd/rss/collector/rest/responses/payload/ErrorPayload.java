@@ -4,7 +4,9 @@ import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.error.ServiceError;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.isValidString;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -21,9 +23,9 @@ public class ErrorPayload {
     }
 
     public static ErrorPayload create(final ErrorCode code, final String message, final String hints) {
-        assertNotNull(code);
-        assertStringIsValid(message);
-        assertStringIsValid(hints);
+        guard(notNull(code));
+        guard(isValidString(message));
+        guard(isValidString(hints));
 
         final ErrorPayload result = new ErrorPayload();
 
