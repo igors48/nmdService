@@ -1,12 +1,18 @@
 package nmd.rss.collector.rest;
 
+import nmd.rss.collector.rest.requests.AddFeedRequest;
+
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderTitle;
 import static nmd.rss.collector.rest.FeedsServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.*;
+import static nmd.rss.collector.util.Parameter.isValidUrl;
+import static nmd.rss.reader.Category.isValidCategoryId;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -26,15 +32,24 @@ public class FeedsServlet extends AbstractRestServlet {
 
         final UUID feedId = parseFeedId(pathInfo);
 
-        return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : getFeedHeader(feedId);
+        return isValidFeedHeaderId(feedId) ? getFeedHeader(feedId) : createErrorJsonResponse(invalidFeedId(pathInfo));
     }
 
     // POST -- add feed
     @Override
     protected ResponseBody handlePost(final HttpServletRequest request) {
-        final String feedUrl = readRequestBody(request);
+        final String requestBody = readRequestBody(request);
+        final AddFeedRequest addFeedRequest = convert(requestBody);
 
-        return (feedUrl == null || feedUrl.isEmpty()) ? createErrorJsonResponse(urlFetcherError(feedUrl)) : addFeed(feedUrl);
+        if (!isValidUrl(addFeedRequest.feedUrl)) {
+            return createErrorJsonResponse(invalidFeedUrl(addFeedRequest.feedUrl));
+        }
+
+        if (!isValidCategoryId(addFeedRequest.categoryId)) {
+            return createErrorJsonResponse(invalidCategoryId(addFeedRequest.categoryId));
+        }
+
+        return addFeed(addFeedRequest.feedUrl, addFeedRequest.categoryId);
     }
 
     // PUT /{feedId} -- update feed title
@@ -49,7 +64,7 @@ public class FeedsServlet extends AbstractRestServlet {
 
         final String feedTitle = readRequestBody(request);
 
-        return (feedTitle == null || feedTitle.isEmpty()) ? createErrorJsonResponse(invalidFeedTitle(feedTitle)) : updateFeedTitle(feedId, feedTitle);
+        return isValidFeedHeaderTitle(feedTitle) ? updateFeedTitle(feedId, feedTitle) : createErrorJsonResponse(invalidFeedTitle(feedTitle));
     }
 
     // DELETE /{feedId} -- delete feed
@@ -59,7 +74,7 @@ public class FeedsServlet extends AbstractRestServlet {
 
         final UUID feedId = parseFeedId(pathInfo);
 
-        return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : removeFeed(feedId);
+        return isValidFeedHeaderId(feedId) ? removeFeed(feedId) : createErrorJsonResponse(invalidFeedId(pathInfo));
     }
 
 }

@@ -2,10 +2,13 @@ package rest;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
+import nmd.rss.collector.rest.requests.AddFeedRequest;
 import nmd.rss.collector.rest.responses.*;
+import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -19,12 +22,13 @@ public abstract class AbstractRestTest {
     protected static final String UPDATES_SERVLET_URL = "/secure/v01/updates/";
     protected static final String READS_SERVLET_URL = "/secure/v01/reads/";
     protected static final String EXPORTS_SERVLET_URL = "/v01/feeds/";
+    protected static final String CATEGORIES_SERVLET_URL = "/secure/v01/categories/";
 
-    protected static final String FIRST_FEED_URL = "http://localhost:8080/feed/feed_win_1251.xml";
+    protected static final String FIRST_FEED_URL = "http://127.0.0.1:8080/feed/feed_win_1251.xml";
     protected static final String FIRST_FEED_TITLE = "Bash.im";
-    protected static final String SECOND_FEED_URL = "http://localhost:8080/feed/feed_win_1251_2.xml";
-    protected static final String INVALID_FEED_URL = "http://localhost:8080/feed/not_exist.xml";
-    protected static final String UNREACHABLE_FEED_URL = "http://localhost:8081/feed/not_exist.xml";
+    protected static final String SECOND_FEED_URL = "http://127.0.0.1:8080/feed/feed_win_1251_2.xml";
+    protected static final String INVALID_FEED_URL = "http://127.0.0.1:8080/feed/not_exist.xml";
+    protected static final String UNREACHABLE_FEED_URL = "http://127.0.0.1:8081/feed/not_exist.xml";
 
     private static final Gson GSON = new Gson();
 
@@ -38,15 +42,54 @@ public abstract class AbstractRestTest {
     }
 
     protected static FeedIdResponse addFirstFeed() {
-        return GSON.fromJson(assertSuccessResponse(addFeed(FIRST_FEED_URL)), FeedIdResponse.class);
+        return addFeedWithResponse(FIRST_FEED_URL, MAIN_CATEGORY_ID);
     }
 
     protected static FeedIdResponse addSecondFeed() {
-        return GSON.fromJson(assertSuccessResponse(addFeed(SECOND_FEED_URL)), FeedIdResponse.class);
+        return addFeedWithResponse(SECOND_FEED_URL, MAIN_CATEGORY_ID);
     }
 
-    protected static String addFeed(final String url) {
-        return given().body(url).post(FEEDS_SERVLET_URL).asString();
+    protected static FeedIdResponse addFeedWithResponse(final String url, final String categoryId) {
+        final String response = addFeed(url, categoryId);
+
+        return GSON.fromJson(assertSuccessResponse(response), FeedIdResponse.class);
+    }
+
+    protected static String addFeed(final String url, final String categoryId) {
+        final AddFeedRequest addFeedRequest = new AddFeedRequest();
+
+        addFeedRequest.feedUrl = url;
+        addFeedRequest.categoryId = categoryId;
+
+        final String requestBody = GSON.toJson(addFeedRequest);
+
+        return given().body(requestBody).post(FEEDS_SERVLET_URL).asString();
+    }
+
+    protected static CategoryResponse addCategoryWithResponse(final String name) {
+        return GSON.fromJson(assertSuccessResponse(addCategory(name)), CategoryResponse.class);
+    }
+
+    protected static String addCategory(final String name) {
+        return given().body(name).post(CATEGORIES_SERVLET_URL).asString();
+    }
+
+    protected static String deleteCategory(final String categoryId) {
+        return given().delete(CATEGORIES_SERVLET_URL + categoryId).asString();
+    }
+
+    protected static String renameCategory(final String categoryId, final String newName) {
+        return given().body(newName).put(CATEGORIES_SERVLET_URL + categoryId).asString();
+    }
+
+    protected static String assignFeedToCategory(final String categoryId, final String feedId) {
+        return given().put(CATEGORIES_SERVLET_URL + categoryId + "/" + feedId).asString();
+    }
+
+    protected static CategoriesReportResponse getCategoriesReport() {
+        final String response = given().given().get(CATEGORIES_SERVLET_URL).asString();
+
+        return GSON.fromJson(assertSuccessResponse(response), CategoriesReportResponse.class);
     }
 
     protected static FeedHeadersResponse getFeedHeaders() {
@@ -81,12 +124,12 @@ public abstract class AbstractRestTest {
         return given().get(UPDATES_SERVLET_URL + feedId).asString();
     }
 
-    protected static String updateCurrentFeed() {
-        return updateFeed("");
+    protected static FeedMergeReportResponse updateFeedWithReport(final String feedId) {
+        return GSON.fromJson(assertSuccessResponse(updateFeed(feedId)), FeedMergeReportResponse.class);
     }
 
-    protected static FeedMergeReportResponse updateCurrentFeedWithReport() {
-        return GSON.fromJson(assertSuccessResponse(updateFeed("")), FeedMergeReportResponse.class);
+    protected static FeedSeriesUpdateResponse updateCurrentFeedWithReport() {
+        return GSON.fromJson(assertSuccessResponse(updateFeed("")), FeedSeriesUpdateResponse.class);
     }
 
     protected String getReadsReportAsString() {

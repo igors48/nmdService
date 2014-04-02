@@ -16,7 +16,17 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>reads</servlet-name>
+        <servlet-name>categories</servlet-name>
+        <servlet-class>nmd.rss.collector.rest.CategoriesServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>categories</servlet-name>
+        <url-pattern>/@security.key@/v01/categories/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+    <servlet-name>reads</servlet-name>
         <servlet-class>nmd.rss.collector.rest.ReadsServlet</servlet-class>
     </servlet>
 

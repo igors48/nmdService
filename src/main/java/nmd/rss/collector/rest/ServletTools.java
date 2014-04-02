@@ -2,6 +2,7 @@ package nmd.rss.collector.rest;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
+import nmd.rss.collector.rest.requests.AddFeedRequest;
 import nmd.rss.collector.rest.responses.ErrorResponse;
 
 import javax.servlet.http.HttpServletRequest;
@@ -48,12 +49,8 @@ public final class ServletTools {
     public static FeedAndItemIds parseFeedAndItemIds(final String pathInfo) {
 
         try {
-
-            if (pathInfo == null) {
-                return null;
-            }
-
             final List<String> elements = parse(pathInfo);
+
             final UUID feedId = UUID.fromString(elements.get(0));
             final String itemId = elements.size() > 1 ? elements.get(1) : "";
 
@@ -92,6 +89,18 @@ public final class ServletTools {
         }
     }
 
+    public static AddFeedRequest convert(final String requestBody) {
+
+        try {
+            return GSON.fromJson(requestBody, AddFeedRequest.class);
+        } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, "Error reading add feed request body", exception);
+
+            return null;
+        }
+    }
+
+
     public static void writeResponseBody(final ResponseBody responseBody, final HttpServletResponse response) throws IOException {
         assertNotNull(responseBody);
         assertNotNull(response);
@@ -122,9 +131,11 @@ public final class ServletTools {
     }
 
     public static List<String> parse(final String pathInfo) {
-        assertNotNull(pathInfo);
-
         final List<String> elements = new ArrayList<>();
+
+        if (pathInfo == null) {
+            return elements;
+        }
 
         String copy = pathInfo.trim();
 

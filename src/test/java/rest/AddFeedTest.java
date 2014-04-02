@@ -1,11 +1,12 @@
 package rest;
 
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.FeedHeaderHelper;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
+import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
 import org.junit.Test;
 
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -41,23 +42,23 @@ public class AddFeedTest extends AbstractRestTest {
 
     @Test
     public void whenFeedIsCorruptThenErrorReturns() {
-        final String response = addFeed(INVALID_FEED_URL);
+        final String response = addFeed(INVALID_FEED_URL, MAIN_CATEGORY_ID);
 
         assertErrorResponse(response, ErrorCode.FEED_PARSE_ERROR);
     }
 
     @Test
     public void whenFeedIsUnreachableThenErrorReturns() {
-        final String response = addFeed(UNREACHABLE_FEED_URL);
+        final String response = addFeed(UNREACHABLE_FEED_URL, MAIN_CATEGORY_ID);
 
         assertErrorResponse(response, ErrorCode.URL_FETCH_ERROR);
     }
 
     @Test
     public void whenFeedUrlIsEmptyThenErrorReturns() {
-        final String response = addFeed("");
+        final String response = addFeed("", MAIN_CATEGORY_ID);
 
-        assertErrorResponse(response, ErrorCode.URL_FETCH_ERROR);
+        assertErrorResponse(response, ErrorCode.INVALID_FEED_URL);
     }
 
 }

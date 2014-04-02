@@ -19,11 +19,13 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.rss.collector.feed.FeedParser.parse;
 import static nmd.rss.collector.twitter.TweetConversionTools.convertToFeed;
 import static nmd.rss.collector.twitter.TwitterClientTools.getTwitterUserName;
 import static nmd.rss.collector.twitter.TwitterClientTools.isItTwitterUrl;
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -36,17 +38,19 @@ public class AbstractService {
     protected final UrlFetcher fetcher;
 
     public AbstractService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final UrlFetcher fetcher) {
-        assertNotNull(feedHeadersRepository);
+        guard(notNull(feedHeadersRepository));
         this.feedHeadersRepository = feedHeadersRepository;
 
-        assertNotNull(feedItemsRepository);
+        guard(notNull(feedItemsRepository));
         this.feedItemsRepository = feedItemsRepository;
 
-        assertNotNull(fetcher);
+        guard(notNull(fetcher));
         this.fetcher = fetcher;
     }
 
     public FeedHeader loadFeedHeader(final UUID feedId) throws ServiceException {
+        guard(isValidFeedHeaderId(feedId));
+
         FeedHeader header = this.feedHeadersRepository.loadHeader(feedId);
 
         if (header == null) {
@@ -69,6 +73,12 @@ public class AbstractService {
         }
     }
 
+    protected List<FeedItem> getFeedOldItems(final FeedHeader feedHeader) {
+        final List<FeedItem> feedItems = feedHeader == null ? new ArrayList<FeedItem>() : this.feedItemsRepository.loadItems(feedHeader.id);
+
+        return feedItems == null ? new ArrayList<FeedItem>() : feedItems;
+    }
+
     private Feed fetchAsTwitterUrl(final String twitterUrl) throws ServiceException {
 
         try {
@@ -88,16 +98,10 @@ public class AbstractService {
         }
     }
 
-    private Feed fetchAsCommonUrl(String feedUrl) throws UrlFetcherException, FeedParserException {
+    private Feed fetchAsCommonUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
         final String data = this.fetcher.fetch(feedUrl);
 
         return parse(feedUrl, data);
-    }
-
-    protected List<FeedItem> getFeedOldItems(final FeedHeader feedHeader) {
-        final List<FeedItem> feedItems = feedHeader == null ? new ArrayList<FeedItem>() : this.feedItemsRepository.loadItems(feedHeader.id);
-
-        return feedItems == null ? new ArrayList<FeedItem>() : feedItems;
     }
 
 }

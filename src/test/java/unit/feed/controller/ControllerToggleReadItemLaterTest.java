@@ -61,12 +61,12 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
     public void whenNotActualReadItemFoundWhileMarkingThenTheyRemoved() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithOneItem();
 
-        this.readFeedItemsRepositoryStub.store(feedHeader.id, new ReadFeedItems(new Date(),
+        this.readFeedItemsRepositoryStub.store(new ReadFeedItems(feedHeader.id, new Date(),
                 new HashSet<String>(),
                 new HashSet<String>() {{
                     add(NOT_EXISTS_ID);
                     add(FIRST_FEED_ITEM_GUID);
-                }}, Category.DEFAULT_CATEGORY_ID));
+                }}, Category.MAIN_CATEGORY_ID));
 
         this.readsService.toggleReadLaterItemMark(feedHeader.id, FIRST_FEED_ITEM_GUID);
 

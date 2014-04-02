@@ -19,11 +19,12 @@ public class ControllerClearTest extends AbstractControllerTestBase {
     public void before() throws ServiceException {
         super.before();
 
-        final UUID firstFeedId = addValidFirstRssFeed();
-        final UUID secondFeedId = addValidSecondRssFeed();
+        final UUID firstFeedId = addValidFirstRssFeedToMainCategory();
+        final UUID secondFeedId = addValidSecondRssFeedToMainCategory();
 
         this.readsService.markItemAsRead(firstFeedId, "read_first");
         this.readsService.markItemAsRead(secondFeedId, "read_second");
+        this.categoriesService.addCategory("category");
 
         this.feedsService.clear();
     }
@@ -51,6 +52,11 @@ public class ControllerClearTest extends AbstractControllerTestBase {
     @Test
     public void whenClearedThenNoSchedulerContextRemain() {
         assertTrue(this.feedUpdateTaskSchedulerContextRepositoryStub.isEmpty());
+    }
+
+    @Test
+    public void whenClearedThenNoCategoriesRemain() {
+        assertTrue(this.categoriesRepositoryStub.isEmpty());
     }
 
 }

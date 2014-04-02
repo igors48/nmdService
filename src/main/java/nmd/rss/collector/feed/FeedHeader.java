@@ -3,13 +3,16 @@ package nmd.rss.collector.feed;
 import java.io.Serializable;
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.*;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
 public class FeedHeader implements Serializable {
+
+    public static final int MAX_DESCRIPTION_AND_TITLE_LENGTH = 255;
 
     public final UUID id;
     public final String feedLink;
@@ -18,24 +21,24 @@ public class FeedHeader implements Serializable {
     public final String link;
 
     public FeedHeader(final UUID id, final String feedLink, final String title, final String description, final String link) {
-        assertNotNull(id);
+        guard(isValidFeedHeaderId(id));
         this.id = id;
 
-        assertValidUrl(feedLink);
+        guard(isValidUrl(feedLink));
         this.feedLink = feedLink;
 
-        assertStringIsValid(title);
+        guard(isValidFeedHeaderTitle(title));
         this.title = title;
 
-        assertStringIsValid(title);
+        guard(isValidFeedHeaderDescription(description));
         this.description = description;
 
-        assertValidUrl(link);
+        guard(isValidUrl(link));
         this.link = link;
     }
 
     public FeedHeader changeTitle(final String newTitle) {
-        assertStringIsValid(newTitle);
+        guard(isValidFeedHeaderTitle(newTitle));
 
         return new FeedHeader(this.id, this.feedLink, newTitle, this.description, this.link);
     }
@@ -66,6 +69,47 @@ public class FeedHeader implements Serializable {
         result = 31 * result + link.hashCode();
 
         return result;
+    }
+
+    public static boolean isValidFeedHeaderId(final UUID feedId) {
+        return feedId != null;
+    }
+
+    public static boolean isValidFeedHeaderId(final String feedId) {
+        return isValidUuid(feedId);
+    }
+
+    public static boolean isValidFeedHeaderTitle(final String feedTitle) {
+        return isValidString(feedTitle) && feedTitle.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
+    }
+
+    public static boolean isValidFeedHeaderDescription(final String feedDescription) {
+        return isValidString(feedDescription) && feedDescription.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
+    }
+
+    public static FeedHeader create(final UUID id, final String feedLink, final String title, final String description, final String link) {
+
+        if (!isValidFeedHeaderId(id)) {
+            return null;
+        }
+
+        if (!isValidUrl(feedLink)) {
+            return null;
+        }
+
+        if (!isValidFeedHeaderTitle(title)) {
+            return null;
+        }
+
+        if (!isValidFeedHeaderDescription(description)) {
+            return null;
+        }
+
+        if (!isValidUrl(link)) {
+            return null;
+        }
+
+        return new FeedHeader(id, feedLink, title, description, link);
     }
 
 }

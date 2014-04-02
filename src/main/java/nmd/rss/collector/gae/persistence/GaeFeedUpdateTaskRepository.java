@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.gae.persistence.FeedUpdateTaskEntityConverter.KIND;
 import static nmd.rss.collector.gae.persistence.FeedUpdateTaskEntityConverter.convert;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
+import static nmd.rss.collector.gae.persistence.Kind.FEED_UPDATE_TASK;
+import static nmd.rss.collector.gae.persistence.RootKind.FEED;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -24,7 +25,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
 
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
-        final List<Entity> entities = loadEntities(KIND);
+        final List<Entity> entities = loadEntities(FEED_UPDATE_TASK);
 
         final List<FeedUpdateTask> tasks = new ArrayList<>(entities.size());
 
@@ -41,7 +42,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
-        final Key feedRootKey = getFeedRootKey(feedUpdateTask.feedId);
+        final Key feedRootKey = getEntityRootKey(feedUpdateTask.feedId.toString(), FEED);
         final Entity entity = convert(feedUpdateTask, feedRootKey);
 
         DATASTORE_SERVICE.put(entity);
@@ -51,7 +52,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
         assertNotNull(feedId);
 
-        final Entity entity = loadEntity(feedId, KIND, false);
+        final Entity entity = loadEntity(feedId.toString(), FEED, FEED_UPDATE_TASK, false);
 
         return entity == null ? null : convert(entity);
     }
@@ -60,7 +61,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     public void deleteTaskForFeedId(final UUID feedId) {
         assertNotNull(feedId);
 
-        deleteEntity(feedId, KIND);
+        deleteEntity(feedId.toString(), FEED, FEED_UPDATE_TASK);
     }
 
     private GaeFeedUpdateTaskRepository() {

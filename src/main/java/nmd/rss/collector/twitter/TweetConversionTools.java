@@ -9,14 +9,17 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static nmd.rss.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
+import static nmd.rss.collector.feed.FeedHeader.create;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.StringTools.cutTo;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.02.14
  */
-public class TweetConversionTools {
+public final class TweetConversionTools {
 
     private static final SimpleDateFormat TWITTER_DATE_PARSER;
 
@@ -83,11 +86,12 @@ public class TweetConversionTools {
 
         final UUID id = UUID.randomUUID();
 
-        return new FeedHeader(id, twitterLink.trim(), title, description, feedLink);
+        return create(id, twitterLink.trim(), cutTo(title, MAX_DESCRIPTION_AND_TITLE_LENGTH), cutTo(description, MAX_DESCRIPTION_AND_TITLE_LENGTH), feedLink);
     }
 
     public static FeedItem convertToItem(final Tweet tweet, final Date current) {
         assertNotNull(tweet);
+        assertNotNull(current);
 
         final String text = tweet.getText();
 

@@ -22,13 +22,13 @@ public class FeedExporterTest {
     private static final String RSS_FEED_URL = "http://www.3dnews.ru/news/rss";
     private static final String HEADER_TITLE = "headerTitle";
     private static final String HEADER_DESCRIPTION = "headerDescription";
-    private static final String HEADER_LINK = "headerLink";
+    private static final String HEADER_LINK = "http://domain.com/headerLink";
 
     @Test
     public void roundtrip() throws FeedExporterException, FeedParserException {
         final FeedHeader header = new FeedHeader(UUID.randomUUID(), RSS_FEED_URL, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
-        final FeedItem first = new FeedItem("firstTitle", "firstDescription", "firstLink", new Date(48), true, "firstLink");
-        final FeedItem second = new FeedItem("secondTitle", "secondDescription", "secondLink", new Date(50), true, "secondLink");
+        final FeedItem first = new FeedItem("firstTitle", "firstDescription", "http://domain.com/firstLink", new Date(48), true, "http://domain.com/firstLink");
+        final FeedItem second = new FeedItem("secondTitle", "secondDescription", "http://domain.com/secondLink", new Date(50), true, "http://domain.com/secondLink");
         final List<FeedItem> items = new ArrayList<>();
         items.add(first);
         items.add(second);

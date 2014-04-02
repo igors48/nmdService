@@ -9,9 +9,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.gae.persistence.FeedItemListEntityConverter.KIND;
 import static nmd.rss.collector.gae.persistence.FeedItemListEntityConverter.convert;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
+import static nmd.rss.collector.gae.persistence.Kind.FEED_ITEM;
+import static nmd.rss.collector.gae.persistence.RootKind.FEED;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -29,7 +30,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
 
         deleteItems(feedId);
 
-        final Key feedRootKey = getFeedRootKey(feedId);
+        final Key feedRootKey = getEntityRootKey(feedId.toString(), FEED);
         final Entity entity = convert(feedRootKey, feedId, items);
 
         DATASTORE_SERVICE.put(entity);
@@ -39,7 +40,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final Entity entity = loadEntity(feedId, KIND, false);
+        final Entity entity = loadEntity(feedId.toString(), FEED, FEED_ITEM, false);
 
         return entity == null ? new ArrayList<FeedItem>() : convert(entity);
     }
@@ -48,7 +49,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     public void deleteItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        deleteEntity(feedId, KIND);
+        deleteEntity(feedId.toString(), FEED, FEED_ITEM);
     }
 
     private GaeFeedItemsRepository() {

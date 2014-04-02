@@ -5,12 +5,15 @@ import com.google.appengine.api.datastore.Key;
 import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
+import static nmd.rss.collector.gae.persistence.Kind.READ_FEED_ITEM;
+import static nmd.rss.collector.gae.persistence.RootKind.FEED;
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.reader.ReadFeedItems.EMPTY;
-import static nmd.rss.reader.gae.ReadFeedItemsConverter.KIND;
+import static nmd.rss.reader.ReadFeedItems.empty;
 import static nmd.rss.reader.gae.ReadFeedItemsConverter.convert;
 
 /**
@@ -22,23 +25,37 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
     public static final ReadFeedItemsRepository GAE_READ_FEED_ITEMS_REPOSITORY = new GaeReadFeedItemsRepository();
 
     @Override
-    public ReadFeedItems load(final UUID feedId) {
-        assertNotNull(feedId);
+    public List<ReadFeedItems> loadAll() {
+        final List<ReadFeedItems> list = new ArrayList<>();
 
-        final Entity entity = loadEntity(feedId, KIND, false);
+        final List<Entity> entities = loadEntities(READ_FEED_ITEM);
 
-        return entity == null ? EMPTY : convert(entity);
+        for (final Entity entity : entities) {
+            final ReadFeedItems readFeedItems = convert(entity);
+
+            list.add(readFeedItems);
+        }
+
+        return list;
     }
 
     @Override
-    public void store(final UUID feedId, final ReadFeedItems readFeedItems) {
+    public ReadFeedItems load(final UUID feedId) {
         assertNotNull(feedId);
+
+        final Entity entity = loadEntity(feedId.toString(), FEED, READ_FEED_ITEM, false);
+
+        return entity == null ? empty(feedId) : convert(entity);
+    }
+
+    @Override
+    public void store(final ReadFeedItems readFeedItems) {
         assertNotNull(readFeedItems);
 
-        delete(feedId);
+        delete(readFeedItems.feedId);
 
-        final Key feedRootKey = getFeedRootKey(feedId);
-        final Entity entity = convert(feedRootKey, feedId, readFeedItems);
+        final Key feedRootKey = getEntityRootKey(readFeedItems.feedId.toString(), FEED);
+        final Entity entity = convert(feedRootKey, readFeedItems);
 
         DATASTORE_SERVICE.put(entity);
     }
@@ -47,7 +64,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
     public void delete(final UUID feedId) {
         assertNotNull(feedId);
 
-        deleteEntity(feedId, KIND);
+        deleteEntity(feedId.toString(), FEED, READ_FEED_ITEM);
     }
 
     private GaeReadFeedItemsRepository() {

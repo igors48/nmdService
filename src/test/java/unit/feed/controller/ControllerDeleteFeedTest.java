@@ -43,7 +43,7 @@ public class ControllerDeleteFeedTest extends AbstractControllerTestBase {
     }
 
     private UUID createAndDeleteFeed() throws ServiceException {
-        final UUID feedId = addValidFirstRssFeed();
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
         this.feedsService.removeFeed(feedId);
 
         return feedId;

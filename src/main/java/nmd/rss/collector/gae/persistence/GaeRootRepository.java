@@ -10,11 +10,12 @@ import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.cached.CachedFeedHeadersRepository;
 import nmd.rss.collector.updater.cached.CachedFeedItemsRepository;
+import nmd.rss.reader.CachedCategoriesRepository;
 import nmd.rss.reader.CachedReadFeedItemsRepository;
+import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.List;
-import java.util.UUID;
 
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static java.lang.Integer.MAX_VALUE;
@@ -23,7 +24,7 @@ import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEE
 import static nmd.rss.collector.gae.persistence.GaeFeedItemsRepository.GAE_FEED_ITEMS_REPOSITORY;
 import static nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.reader.gae.GaeCategoriesRepository.GAE_CATEGORIES_REPOSITORY;
 import static nmd.rss.reader.gae.GaeReadFeedItemsRepository.GAE_READ_FEED_ITEMS_REPOSITORY;
 
 /**
@@ -39,57 +40,57 @@ public class GaeRootRepository implements Transactions {
     public static final FeedUpdateTaskRepository GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY = new CachedFeedUpdateTaskRepository(GAE_FEED_UPDATE_TASK_REPOSITORY, MEM_CACHE);
     public static final FeedHeadersRepository GAE_CACHED_FEED_HEADERS_REPOSITORY = new CachedFeedHeadersRepository(GAE_FEED_HEADERS_REPOSITORY, MEM_CACHE);
     public static final ReadFeedItemsRepository GAE_CACHED_READ_FEED_ITEMS_REPOSITORY = new CachedReadFeedItemsRepository(GAE_READ_FEED_ITEMS_REPOSITORY, MEM_CACHE);
+    public static final CategoriesRepository GAE_CACHED_CATEGORIES_REPOSITORY = new CachedCategoriesRepository(GAE_CATEGORIES_REPOSITORY, MEM_CACHE);
 
     public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
 
     private static final String FEEDS_ENTITY_KIND = "Feeds";
-    private static final String FEED_ENTITY_KIND = "Feed";
 
-    private static final Key FEEDS_ROOT_KEY = KeyFactory.createKey(FEEDS_ENTITY_KIND, FEEDS_ENTITY_KIND);
+    private static final Key ROOT_KEY = KeyFactory.createKey(FEEDS_ENTITY_KIND, FEEDS_ENTITY_KIND);
 
-    @Override
-    public Transaction beginOne() {
-        return DATASTORE_SERVICE.beginTransaction();
+    private GaeRootRepository() {
+        // empty
     }
 
-    public static Key getFeedRootKey(final UUID feedId) {
-        assertNotNull(feedId);
+    public static Key getEntityRootKey(final String uuid, final RootKind rootKind) {
+        assertNotNull(uuid);
+        assertNotNull(rootKind);
 
-        return KeyFactory.createKey(FEEDS_ROOT_KEY, FEED_ENTITY_KIND, feedId.toString());
+        return KeyFactory.createKey(ROOT_KEY, rootKind.value, uuid);
     }
 
-    public static Entity loadEntity(final UUID feedId, final String kind, final boolean keysOnly) {
-        assertNotNull(feedId);
-        assertStringIsValid(kind);
+    public static Entity loadEntity(final String uuid, final RootKind rootKind, final Kind kind, final boolean keysOnly) {
+        assertNotNull(uuid);
+        assertNotNull(kind);
 
-        final PreparedQuery preparedQuery = prepareQuery(feedId, kind, keysOnly);
+        final PreparedQuery preparedQuery = prepareQuery(uuid, rootKind, kind, keysOnly);
 
         return preparedQuery.asSingleEntity();
     }
 
-    public static List<Entity> loadEntities(final String kind) {
-        assertStringIsValid(kind);
+    public static List<Entity> loadEntities(final Kind kind) {
+        assertNotNull(kind);
 
-        final Query query = new Query(kind);
+        final Query query = new Query(kind.value);
         final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
 
         return preparedQuery.asList(withLimit(MAX_VALUE));
     }
 
-    public static void deleteEntity(final UUID feedId, final String kind) {
-        assertNotNull(feedId);
-        assertStringIsValid(kind);
+    public static void deleteEntity(final String uuid, final RootKind rootKind, final Kind kind) {
+        assertNotNull(uuid);
+        assertNotNull(kind);
 
-        final Entity victim = loadEntity(feedId, kind, true);
+        final Entity victim = loadEntity(uuid, rootKind, kind, true);
 
         if (victim != null) {
             DATASTORE_SERVICE.delete(victim.getKey());
         }
     }
 
-    private static PreparedQuery prepareQuery(final UUID feedId, final String kind, final boolean keysOnly) {
-        final Key feedRootKey = getFeedRootKey(feedId);
-        final Query query = new Query(kind).setAncestor(feedRootKey);
+    private static PreparedQuery prepareQuery(final String uuid, final RootKind rootKind, final Kind kind, final boolean keysOnly) {
+        final Key feedRootKey = getEntityRootKey(uuid, rootKind);
+        final Query query = new Query(kind.value).setAncestor(feedRootKey);
 
         if (keysOnly) {
             query.setKeysOnly();
@@ -98,8 +99,9 @@ public class GaeRootRepository implements Transactions {
         return DATASTORE_SERVICE.prepare(query);
     }
 
-    private GaeRootRepository() {
-        // empty
+    @Override
+    public Transaction beginOne() {
+        return DATASTORE_SERVICE.beginTransaction();
     }
 
 }

@@ -8,6 +8,7 @@ import nmd.rss.collector.feed.FeedItem;
 import java.util.List;
 import java.util.UUID;
 
+import static nmd.rss.collector.gae.persistence.Kind.FEED_ITEM;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -15,8 +16,6 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Date: 21.10.13
  */
 public class FeedItemListEntityConverter {
-
-    public static final String KIND = "FeedItem";
 
     public static final String FEED_ID = "feedId";
     public static final String COUNT = "count";
@@ -26,7 +25,7 @@ public class FeedItemListEntityConverter {
         assertNotNull(feedId);
         assertNotNull(feedItems);
 
-        final Entity entity = new Entity(KIND, feedKey);
+        final Entity entity = new Entity(FEED_ITEM.value, feedKey);
 
         entity.setProperty(FEED_ID, feedId.toString());
         entity.setProperty(COUNT, feedItems.size());

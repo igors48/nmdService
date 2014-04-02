@@ -14,9 +14,11 @@ import nmd.rss.reader.ReadFeedItemsRepository;
 
 import java.util.*;
 
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 import static nmd.rss.reader.FeedItemsComparator.compare;
 
@@ -32,40 +34,11 @@ public class ReadsService extends AbstractService {
     public ReadsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
-        assertNotNull(transactions);
+        guard(notNull(transactions));
         this.transactions = transactions;
 
-        assertNotNull(readFeedItemsRepository);
+        guard(notNull(readFeedItemsRepository));
         this.readFeedItemsRepository = readFeedItemsRepository;
-    }
-
-    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
-        assertNotNull(items);
-        assertNotNull(readGuids);
-
-        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
-
-        for (final FeedItem candidate : items) {
-
-            if (!readGuids.contains(candidate.guid)) {
-                return candidate;
-            }
-        }
-
-        return null;
-    }
-
-    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
-        int count = 0;
-
-        for (final FeedItem item : items) {
-
-            if (item.date.compareTo(lastUpdate) > 0) {
-                ++count;
-            }
-        }
-
-        return count;
     }
 
     public List<FeedReadReport> getFeedsReadReport() {
@@ -79,21 +52,9 @@ public class ReadsService extends AbstractService {
 
             for (final FeedHeader header : headers) {
                 final List<FeedItem> items = this.feedItemsRepository.loadItems(header.id);
-
-                final Set<String> storedGuids = getStoredGuids(items);
                 final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(header.id);
 
-                final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
-
-                final FeedItem topItem = findLastNotReadFeedItem(items, readFeedItems.readItemIds);
-                final String topItemId = topItem == null ? null : topItem.guid;
-                final String topItemLink = topItem == null ? null : topItem.link;
-
-                final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
-
-                final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
-
-                final FeedReadReport feedReadReport = new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink);
+                final FeedReadReport feedReadReport = createFeedReadReport(header, items, readFeedItems);
 
                 report.add(feedReadReport);
             }
@@ -107,7 +68,7 @@ public class ReadsService extends AbstractService {
     }
 
     public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ServiceException {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
 
@@ -154,8 +115,8 @@ public class ReadsService extends AbstractService {
     }
 
     public void toggleReadLaterItemMark(final UUID feedId, final String itemId) throws ServiceException {
-        assertNotNull(feedId);
-        assertStringIsValid(itemId);
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidFeedItemGuid(itemId));
 
         Transaction transaction = null;
 
@@ -179,8 +140,8 @@ public class ReadsService extends AbstractService {
                     backedReadLaterItemIds.add(itemId);
                 }
 
-                final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(readFeedItems.lastUpdate, readFeedItems.readItemIds, backedReadLaterItemIds, readFeedItems.categoryId);
-                this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
+                final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, readFeedItems.lastUpdate, readFeedItems.readItemIds, backedReadLaterItemIds, readFeedItems.categoryId);
+                this.readFeedItemsRepository.store(updatedReadFeedItems);
             }
 
             transaction.commit();
@@ -190,8 +151,8 @@ public class ReadsService extends AbstractService {
     }
 
     public void markItemAsRead(final UUID feedId, final String itemId) throws ServiceException {
-        assertNotNull(feedId);
-        assertStringIsValid(itemId);
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidFeedItemGuid(itemId));
 
         Transaction transaction = null;
 
@@ -213,8 +174,8 @@ public class ReadsService extends AbstractService {
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
-            this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, new Date(), comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
+            this.readFeedItemsRepository.store(updatedReadFeedItems);
 
             transaction.commit();
         } finally {
@@ -223,7 +184,7 @@ public class ReadsService extends AbstractService {
     }
 
     public void markAllItemsAsRead(final UUID feedId) throws ServiceException {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
 
@@ -241,8 +202,8 @@ public class ReadsService extends AbstractService {
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
             readLaterGuids.addAll(readFeedItems.readLaterItemIds);
 
-            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(new Date(), readGuids, readLaterGuids, readFeedItems.categoryId);
-            this.readFeedItemsRepository.store(feedId, updatedReadFeedItems);
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, new Date(), readGuids, readLaterGuids, readFeedItems.categoryId);
+            this.readFeedItemsRepository.store(updatedReadFeedItems);
 
             transaction.commit();
         } finally {
@@ -254,6 +215,55 @@ public class ReadsService extends AbstractService {
         final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
 
         return getStoredGuids(items);
+    }
+
+    public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItem> items, final ReadFeedItems readFeedItems) {
+        guard(notNull(header));
+        guard(notNull(items));
+        guard(notNull(readFeedItems));
+
+        final Set<String> storedGuids = getStoredGuids(items);
+
+        final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
+
+        final FeedItem topItem = findLastNotReadFeedItem(items, readFeedItems.readItemIds);
+        final String topItemId = topItem == null ? null : topItem.guid;
+        final String topItemLink = topItem == null ? null : topItem.link;
+
+        final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
+
+        final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
+
+        return new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink);
+    }
+
+    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
+        guard(notNull(items));
+        guard(notNull(readGuids));
+
+        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
+
+        for (final FeedItem candidate : items) {
+
+            if (!readGuids.contains(candidate.guid)) {
+                return candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
+        int count = 0;
+
+        for (final FeedItem item : items) {
+
+            if (item.date.compareTo(lastUpdate) > 0) {
+                ++count;
+            }
+        }
+
+        return count;
     }
 
     private static int countReadLaterItems(final List<FeedItem> items, final Set<String> readLaterItemIds) {

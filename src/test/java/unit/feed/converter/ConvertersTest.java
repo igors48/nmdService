@@ -7,13 +7,15 @@ import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.gae.persistence.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
+import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
+import nmd.rss.reader.gae.CategoryConverter;
 import nmd.rss.reader.gae.ReadFeedItemsConverter;
 import org.junit.Test;
 
 import java.util.*;
 
-import static nmd.rss.reader.Category.DEFAULT_CATEGORY_ID;
+import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -25,10 +27,8 @@ public class ConvertersTest {
 
     private static final Key SAMPLE_KEY = KeyFactory.stringToKey("ag9zfnJzcy1jb2xsZWN0b3JyHQsSEEZlZWRIZWFkZXJFbnRpdHkYgICAgIi0vwgM");
 
-    private static final FeedItem FIRST_FEED_ITEM = new FeedItem("title-first", "description-first", "link-first", new Date(), false, "guid-first");
-    private static final FeedItem SECOND_FEED_ITEM = new FeedItem("title-second", "description-second", "link-second", new Date(), true, "guid-second");
-
-    private static final FeedItem LONG_DESCRIPTION_FEED_ITEM = new FeedItem("title-second", "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789", "link-second", new Date(), true, "guid-second");
+    private static final FeedItem FIRST_FEED_ITEM = new FeedItem("title-first", "description-first", "http://domain.com/link-first", new Date(), false, "guid-first");
+    private static final FeedItem SECOND_FEED_ITEM = new FeedItem("title-second", "description-second", "http://domain.com/link-second", new Date(), true, "guid-second");
 
     private static final List<FeedItem> FEED_LIST = Arrays.asList(FIRST_FEED_ITEM, SECOND_FEED_ITEM);
 
@@ -48,7 +48,7 @@ public class ConvertersTest {
 
     @Test
     public void feedHeaderEntityRoundtrip() {
-        final FeedHeader origin = new FeedHeader(UUID.randomUUID(), "feedLink", "title", "description", "link");
+        final FeedHeader origin = new FeedHeader(UUID.randomUUID(), "http://domain.com/feedLink", "title", "description", "http://domain.com/link");
 
         final Entity entity = FeedHeaderEntityConverter.convert(origin, SAMPLE_KEY);
 
@@ -100,11 +100,13 @@ public class ConvertersTest {
     @Test
     public void readFeedItemsEntityRoundtrip() {
         final Date date = new Date();
-        final ReadFeedItems origin = new ReadFeedItems(date, READ_FEED_ITEMS, READ_LATER_FEED_ITEMS, DEFAULT_CATEGORY_ID);
-        final Entity entity = ReadFeedItemsConverter.convert(SAMPLE_KEY, UUID.randomUUID(), origin);
+        final UUID feedId = UUID.randomUUID();
+        final ReadFeedItems origin = new ReadFeedItems(feedId, date, READ_FEED_ITEMS, READ_LATER_FEED_ITEMS, MAIN_CATEGORY_ID);
+        final Entity entity = ReadFeedItemsConverter.convert(SAMPLE_KEY, origin);
 
         final ReadFeedItems restored = ReadFeedItemsConverter.convert(entity);
 
+        assertEquals(feedId, restored.feedId);
         assertEquals(date, restored.lastUpdate);
 
         assertEquals(READ_FEED_ITEMS.size(), restored.readItemIds.size());
@@ -115,15 +117,20 @@ public class ConvertersTest {
         assertTrue(restored.readLaterItemIds.contains(FIRST_READ_LATER_ITEM_ID));
         assertTrue(restored.readLaterItemIds.contains(SECOND_READ_LATER_ITEM_ID));
 
-        assertEquals(DEFAULT_CATEGORY_ID, restored.categoryId);
+        assertEquals(MAIN_CATEGORY_ID, restored.categoryId);
     }
 
     @Test
-    public void whenFeedItemDescriptionLargerThanLimitThenItCuts() {
-        final FeedItemHelper helper = FeedItemHelper.convert(LONG_DESCRIPTION_FEED_ITEM);
-        final FeedItem restored = FeedItemHelper.convert(helper);
+    public void categoryEntityRoundtrip() {
+        final UUID uuid = UUID.randomUUID();
 
-        assertEquals(FeedItemHelper.MAX_DESCRIPTION_LENGTH, restored.description.length());
+        final Category category = new Category(uuid.toString(), "name");
+
+        final Entity entity = CategoryConverter.convert(category, SAMPLE_KEY);
+
+        final Category restored = CategoryConverter.convert(entity);
+
+        assertEquals(category, restored);
     }
 
 }

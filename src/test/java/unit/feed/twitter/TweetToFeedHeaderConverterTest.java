@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
+import static nmd.rss.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static nmd.rss.collector.twitter.TweetConversionTools.convertToHeader;
 import static org.junit.Assert.*;
 
@@ -15,7 +16,8 @@ import static org.junit.Assert.*;
  */
 public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBase {
 
-    private static final String TWITTER_URL = "twitter_url";
+    private static final String TWITTER_URL = "http://domain.com/twitter_url";
+    private static final String LONG_STRING = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
 
     @Test
     public void allFeedHeaderFieldsWereTrimmedAndAssignedProperly() {
@@ -148,5 +150,15 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
         assertNull(convertToHeader(TWITTER_URL, this.tweet));
     }
 
+    @Test
+    public void longUserNameAndDescriptionAreCut() {
+        this.tweet.getUser().setName(LONG_STRING);
+        this.tweet.getUser().setDescription(LONG_STRING);
+
+        final FeedHeader header = convertToHeader(TWITTER_URL, this.tweet);
+
+        assertTrue(header.description.length() == MAX_DESCRIPTION_AND_TITLE_LENGTH);
+        assertTrue(header.title.length() == MAX_DESCRIPTION_AND_TITLE_LENGTH);
+    }
 
 }

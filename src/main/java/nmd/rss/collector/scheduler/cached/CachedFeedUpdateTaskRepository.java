@@ -32,14 +32,14 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
     }
 
     @Override
-    public List<FeedUpdateTask> loadAllTasks() {
+    public synchronized List<FeedUpdateTask> loadAllTasks() {
         final List<FeedUpdateTask> cached = (List<FeedUpdateTask>) this.cache.get(KEY);
 
         return cached == null ? loadCache() : cached;
     }
 
     @Override
-    public void storeTask(FeedUpdateTask feedUpdateTask) {
+    public synchronized void storeTask(FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
         this.repository.storeTask(feedUpdateTask);
@@ -48,7 +48,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
     }
 
     @Override
-    public FeedUpdateTask loadTaskForFeedId(UUID feedId) {
+    public synchronized FeedUpdateTask loadTaskForFeedId(UUID feedId) {
         assertNotNull(feedId);
 
         final List<FeedUpdateTask> tasks = loadAllTasks();
@@ -64,7 +64,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
     }
 
     @Override
-    public void deleteTaskForFeedId(UUID feedId) {
+    public synchronized void deleteTaskForFeedId(UUID feedId) {
         assertNotNull(feedId);
 
         this.repository.deleteTaskForFeedId(feedId);

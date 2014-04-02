@@ -16,7 +16,7 @@ public class ControllerGetFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedAddedThenItReturns() throws ServiceException {
-        final UUID feedId = addValidFirstRssFeed();
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
         final Feed feed = this.feedsService.getFeed(feedId);
 
         assertNotNull(feed);

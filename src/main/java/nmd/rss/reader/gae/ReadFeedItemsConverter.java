@@ -14,6 +14,7 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
+import static nmd.rss.collector.gae.persistence.Kind.READ_FEED_ITEM;
 import static nmd.rss.collector.util.Assert.assertNotNull;
 
 /**
@@ -21,8 +22,6 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  * Date : 26.11.13
  */
 public class ReadFeedItemsConverter {
-
-    public static final String KIND = "ReadFeedItem";
 
     private static final Gson GSON = new Gson();
 
@@ -36,14 +35,13 @@ public class ReadFeedItemsConverter {
     private static final Type SET_HELPER_TYPE = new TypeToken<Set<String>>() {
     }.getType();
 
-    public static Entity convert(final Key feedKey, final UUID feedId, final ReadFeedItems readFeedItems) {
+    public static Entity convert(final Key feedKey, final ReadFeedItems readFeedItems) {
         assertNotNull(feedKey);
-        assertNotNull(feedId);
         assertNotNull(readFeedItems);
 
-        final Entity entity = new Entity(KIND, feedKey);
+        final Entity entity = new Entity(READ_FEED_ITEM.value, feedKey);
 
-        entity.setProperty(FEED_ID, feedId.toString());
+        entity.setProperty(FEED_ID, readFeedItems.feedId.toString());
         entity.setProperty(COUNT, readFeedItems.readItemIds.size());
         entity.setProperty(LAST_UPDATE, readFeedItems.lastUpdate);
         entity.setProperty(CATEGORY_ID, readFeedItems.categoryId);
@@ -78,9 +76,10 @@ public class ReadFeedItemsConverter {
             readLaterItemIds = GSON.fromJson(readLaterFeedItemsAsString, SET_HELPER_TYPE);
         }
 
-        final String categoryId = entity.hasProperty(CATEGORY_ID) ? (String) entity.getProperty(CATEGORY_ID) : Category.DEFAULT_CATEGORY_ID;
+        final String categoryId = entity.hasProperty(CATEGORY_ID) ? (String) entity.getProperty(CATEGORY_ID) : Category.MAIN_CATEGORY_ID;
+        final UUID feedId = UUID.fromString((String) entity.getProperty(FEED_ID));
 
-        return new ReadFeedItems(lastUpdate, readItemsIds, readLaterItemIds, categoryId);
+        return new ReadFeedItems(feedId, lastUpdate, readItemsIds, readLaterItemIds, categoryId);
     }
 
 }

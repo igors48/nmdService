@@ -1,10 +1,9 @@
 package nmd.rss.collector.rest;
 
-import nmd.rss.collector.controller.FeedUpdateReport;
-import nmd.rss.collector.controller.UpdatesService;
-import nmd.rss.collector.error.ServiceError;
+import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
+import nmd.rss.collector.rest.responses.FeedSeriesUpdateResponse;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
 
@@ -28,23 +27,14 @@ public class UpdatesServiceWrapper {
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapper.class.getName());
 
     private static final UpdatesService UPDATES_SERVICE = createUpdatesService();
+    private static final long UPDATE_PERIOD = 9000;
 
-    public static ResponseBody updateCurrentFeed() {
+    public static ResponseBody updateCurrentFeeds() {
+        final Quota quota = new TimeQuota(UPDATE_PERIOD);
+        final FeedSeriesUpdateReport report = UPDATES_SERVICE.updateCurrentFeeds(quota);
+        final FeedSeriesUpdateResponse response = FeedSeriesUpdateResponse.convert(report);
 
-        try {
-            final FeedUpdateReport report = UPDATES_SERVICE.updateCurrentFeed();
-            final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
-
-            LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
-
-            return createJsonResponse(response);
-        } catch (ServiceException exception) {
-            final ServiceError serviceError = exception.getError();
-
-            LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
-
-            return createErrorJsonResponse(exception);
-        }
+        return createJsonResponse(response);
     }
 
     public static ResponseBody updateFeed(final UUID feedId) {

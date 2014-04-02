@@ -23,15 +23,15 @@ public class FeedItemsMergerMergeTest {
     private static final int REALLY_BIG_FEED = 1000;
     private static final int REALLY_SMALL_FEED = 1;
 
-    private static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48), true, UUID.randomUUID().toString());
-    private static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(50), true, UUID.randomUUID().toString());
+    private static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "http://domain.com/oldFirstLink", new Date(48), true, UUID.randomUUID().toString());
+    private static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "http://domain.com/oldSecondLink", new Date(50), true, UUID.randomUUID().toString());
 
-    private static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "youngFirstLink", new Date(58), true, UUID.randomUUID().toString());
-    private static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", new Date(60), true, UUID.randomUUID().toString());
-    private static final FeedItem OLD_SECOND_DUPLICATE = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(52), true, UUID.randomUUID().toString());
+    private static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "http://domain.com/youngFirstLink", new Date(58), true, UUID.randomUUID().toString());
+    private static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "http://domain.com/youngSecondLink", new Date(60), true, UUID.randomUUID().toString());
+    private static final FeedItem OLD_SECOND_DUPLICATE = new FeedItem("oldSecondTitle", "oldSecondDescription", "http://domain.com/oldSecondLink", new Date(52), true, UUID.randomUUID().toString());
 
-    private static final FeedItem OLD_WITH_NOT_REAL_DATE = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48), false, UUID.randomUUID().toString());
-    private static final FeedItem YOUNG_WITH_NOT_REAL_DATE = new FeedItem("youngFirstTitle", "youngFirstDescription", "oldFirstLink", new Date(58), false, UUID.randomUUID().toString());
+    private static final FeedItem OLD_WITH_NOT_REAL_DATE = new FeedItem("oldFirstTitle", "oldFirstDescription", "http://domain.com/oldFirstLink", new Date(48), false, UUID.randomUUID().toString());
+    private static final FeedItem YOUNG_WITH_NOT_REAL_DATE = new FeedItem("youngFirstTitle", "youngFirstDescription", "http://domain.com/oldFirstLink", new Date(58), false, UUID.randomUUID().toString());
 
     private List<FeedItem> olds;
     private List<FeedItem> youngs;

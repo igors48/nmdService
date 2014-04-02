@@ -13,7 +13,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -26,8 +27,8 @@ public final class FeedExporter {
     private static final DateFormat DATE_FORMAT = new SimpleDateFormat("E, d MMM yyyy HH:mm:ss Z", Locale.US);
 
     public static String export(final FeedHeader header, final List<FeedItem> items) throws FeedExporterException {
-        assertNotNull(header);
-        assertNotNull(items);
+        guard(notNull(header));
+        guard(notNull(items));
 
         try {
             final List<Item> channelItems = new ArrayList<>();

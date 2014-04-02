@@ -2,11 +2,12 @@ package nmd.rss.reader;
 
 import nmd.rss.collector.Cache;
 
+import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import static java.lang.String.format;
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.reader.ReadFeedItems.empty;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -14,6 +15,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
 
+    public static final String KEY = "Reads";
     private static final Logger LOGGER = Logger.getLogger(CachedReadFeedItemsRepository.class.getName());
 
     private final ReadFeedItemsRepository repository;
@@ -27,51 +29,53 @@ public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
         this.cache = cache;
     }
 
-    public static String keyFor(final UUID uuid) {
-        assertNotNull(uuid);
+    @Override
+    public synchronized List<ReadFeedItems> loadAll() {
+        final List<ReadFeedItems> cached = (List<ReadFeedItems>) this.cache.get(KEY);
 
-        return "READ-" + uuid;
+        return cached == null ? loadCache() : cached;
     }
 
     @Override
-    public ReadFeedItems load(final UUID feedId) {
+    public synchronized ReadFeedItems load(final UUID feedId) {
         assertNotNull(feedId);
 
-        final ReadFeedItems items;
+        final List<ReadFeedItems> itemsList = loadAll();
 
-        final String key = keyFor(feedId);
+        for (final ReadFeedItems items : itemsList) {
 
-        final ReadFeedItems cached = (ReadFeedItems) this.cache.get(key);
-
-        if (cached == null) {
-            final ReadFeedItems stored = this.repository.load(feedId);
-            this.cache.put(key, stored);
-
-            items = stored;
-
-            LOGGER.info(format("Read feed [ %s ] items was taken from datastore", feedId));
-        } else {
-            items = cached;
+            if (items.feedId.equals(feedId)) {
+                return items;
+            }
         }
 
-        return items;
+        return empty(feedId);
     }
 
     @Override
-    public void store(final UUID feedId, final ReadFeedItems readFeedItems) {
-        assertNotNull(feedId);
+    public synchronized void store(final ReadFeedItems readFeedItems) {
         assertNotNull(readFeedItems);
 
-        this.cache.put(keyFor(feedId), readFeedItems);
-        this.repository.store(feedId, readFeedItems);
+        this.cache.delete(KEY);
+        this.repository.store(readFeedItems);
     }
 
     @Override
-    public void delete(final UUID feedId) {
+    public synchronized void delete(final UUID feedId) {
         assertNotNull(feedId);
 
-        this.cache.delete(keyFor(feedId));
+        this.cache.delete(KEY);
         this.repository.delete(feedId);
+    }
+
+    private List<ReadFeedItems> loadCache() {
+        final List<ReadFeedItems> readFeedItemsList = this.repository.loadAll();
+
+        this.cache.put(KEY, readFeedItemsList);
+
+        LOGGER.info("Read items were loaded from datastore");
+
+        return readFeedItemsList;
     }
 
 }

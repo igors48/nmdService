@@ -31,16 +31,16 @@ public class FeedsServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(FeedsServiceWrapper.class.getName());
 
-    private static final FeedsService FEEDS_SERVICE = new FeedsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY, GAE_CACHED_READ_FEED_ITEMS_REPOSITORY, GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
+    private static final FeedsService FEEDS_SERVICE = new FeedsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY, GAE_CACHED_READ_FEED_ITEMS_REPOSITORY, GAE_CACHED_CATEGORIES_REPOSITORY, GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
 
-    public static ResponseBody addFeed(final String feedUrl) {
+    public static ResponseBody addFeed(final String feedUrl, final String categoryId) {
 
         try {
-            final UUID feedId = FEEDS_SERVICE.addFeed(feedUrl);
+            final UUID feedId = FEEDS_SERVICE.addFeed(feedUrl, categoryId);
 
             final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
 
-            LOGGER.info(format("Feed [ %s ] added. Id is [ %s ]", feedUrl, feedId));
+            LOGGER.info(format("Feed [ %s ] added to category [ %s ]. Id is [ %s ]", feedUrl, categoryId, feedId));
 
             return createJsonResponse(feedIdResponse);
         } catch (ServiceException exception) {

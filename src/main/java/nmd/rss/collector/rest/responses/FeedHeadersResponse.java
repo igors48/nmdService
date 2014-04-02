@@ -1,6 +1,7 @@
 package nmd.rss.collector.rest.responses;
 
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
 
 import java.util.ArrayList;
 import java.util.List;

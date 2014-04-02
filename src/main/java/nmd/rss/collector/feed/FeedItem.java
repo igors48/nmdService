@@ -3,14 +3,16 @@ package nmd.rss.collector.feed;
 import java.io.Serializable;
 import java.util.Date;
 
-import static nmd.rss.collector.util.Assert.*;
-import static nmd.rss.collector.util.Parameter.isValidString;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 28.04.13
  */
 public class FeedItem implements Serializable {
+
+    public static final int MAX_TITLE_AND_DESCRIPTION_LENGTH = 255;
 
     private static final int ONE_SECOND = 1000;
 
@@ -22,21 +24,21 @@ public class FeedItem implements Serializable {
     public final String guid;
 
     public FeedItem(final String title, final String description, final String link, final Date date, final boolean dateReal, final String guid) {
-        assertNotNull(title);
-        assertNotNull(description);
-        assertTrue(isValidString(title) || isValidString(description));
+        guard(isValidFeedItemTitle(title));
         this.title = title;
+
+        guard(isValidFeedItemDescription(description));
         this.description = description;
 
-        assertValidUrl(link);
+        guard(isValidFeedItemLink(link));
         this.link = link;
 
-        assertNotNull(date);
+        guard(isValidFeedItemDate(date));
         this.date = date;
 
         this.dateReal = dateReal;
 
-        assertStringIsValid(guid);
+        guard(isValidFeedItemGuid(guid));
         this.guid = guid;
     }
 
@@ -90,4 +92,25 @@ public class FeedItem implements Serializable {
         result = 31 * result + guid.hashCode();
         return result;
     }
+
+    public static boolean isValidFeedItemTitle(final String value) {
+        return isValidString(value) && value.length() <= MAX_TITLE_AND_DESCRIPTION_LENGTH;
+    }
+
+    public static boolean isValidFeedItemDescription(final String value) {
+        return isValidString(value) && value.length() <= MAX_TITLE_AND_DESCRIPTION_LENGTH;
+    }
+
+    public static boolean isValidFeedItemLink(final String value) {
+        return isValidUrl(value);
+    }
+
+    public static boolean isValidFeedItemDate(final Date value) {
+        return notNull(value);
+    }
+
+    public static boolean isValidFeedItemGuid(final String value) {
+        return isValidString(value);
+    }
+
 }

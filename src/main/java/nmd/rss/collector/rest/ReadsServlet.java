@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.rss.collector.rest.ReadsServiceWrapper.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ServletTools.*;
@@ -30,7 +31,7 @@ public class ReadsServlet extends AbstractRestServlet {
 
         final UUID feedId = parseFeedId(pathInfo);
 
-        return feedId == null ? createErrorJsonResponse(invalidFeedId(pathInfo)) : getFeedItemsReport(feedId);
+        return isValidFeedHeaderId(feedId) ? getFeedItemsReport(feedId) : createErrorJsonResponse(invalidFeedId(pathInfo));
     }
 
     //PUT /{feedId}/{itemId}&mark-as=read|read-later -- mark item as read or read later
@@ -39,6 +40,7 @@ public class ReadsServlet extends AbstractRestServlet {
     protected ResponseBody handlePut(final HttpServletRequest request) {
         final String pathInfo = request.getPathInfo();
 
+        //TODO how validate it members
         final FeedAndItemIds feedAndItemIds = parseFeedAndItemIds(pathInfo);
 
         if (feedAndItemIds == null) {

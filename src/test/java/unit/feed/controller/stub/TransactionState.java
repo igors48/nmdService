@@ -1,4 +1,4 @@
-package unit.feed.controller;
+package unit.feed.controller.stub;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

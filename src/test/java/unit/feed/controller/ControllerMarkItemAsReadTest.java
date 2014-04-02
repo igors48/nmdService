@@ -71,9 +71,9 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
     public void whenNotActualReadItemFoundWhileMarkingThenTheyRemoved() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithOneItem();
 
-        this.readFeedItemsRepositoryStub.store(feedHeader.id, new ReadFeedItems(new Date(), new HashSet<String>() {{
+        this.readFeedItemsRepositoryStub.store(new ReadFeedItems(feedHeader.id, new Date(), new HashSet<String>() {{
             add(NOT_EXISTS_ID);
-        }}, new HashSet<String>(), Category.DEFAULT_CATEGORY_ID));
+        }}, new HashSet<String>(), Category.MAIN_CATEGORY_ID));
 
         this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
 

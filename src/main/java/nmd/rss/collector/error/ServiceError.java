@@ -95,6 +95,36 @@ public class ServiceError {
                 "Possibly feed update schedule is empty. Check registered feeds list.");
     }
 
+    public static ServiceError wrongCategoryId(final String categoryId) {
+        return new ServiceError(ErrorCode.WRONG_CATEGORY_ID,
+                format("There is no category with id [ %s ]", categoryId),
+                "Possibly category id is wrong. Check category id.");
+    }
+
+    public static ServiceError categoryAlreadyExists(final String categoryName) {
+        return new ServiceError(ErrorCode.CATEGORY_ALREADY_EXISTS,
+                format("Category [ %s ] already exists", categoryName),
+                "Category with given name already exists. Try to use another name.");
+    }
+
+    public static ServiceError invalidCategoryName(final String categoryName) {
+        return new ServiceError(ErrorCode.INVALID_CATEGORY_NAME,
+                format("Category name [ %s ] invalid", categoryName),
+                "Invalid category name. Try to use another name.");
+    }
+
+    public static ServiceError invalidFeedUrl(final String feedUrl) {
+        return new ServiceError(ErrorCode.INVALID_FEED_URL,
+                format("Feed url [ %s ] invalid", feedUrl),
+                "Invalid feed url. Check the url.");
+    }
+
+    public static ServiceError invalidCategoryId(final String categoryId) {
+        return new ServiceError(ErrorCode.INVALID_CATEGORY_ID,
+                format("Category identifier [ %s ] invalid", categoryId),
+                "Invalid category identifier. Check the identifier.");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
