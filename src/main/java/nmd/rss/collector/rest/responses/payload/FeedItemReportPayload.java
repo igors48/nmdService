@@ -10,19 +10,19 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedItemReportPayload {
 
-    private String feedId = "";
-    private String title = "";
-    private String link = "";
-    private long date = 0;
-    private String itemId = "";
-    private boolean read = false;
-    private boolean readLater = false;
+    public String feedId = "";
+    public String title = "";
+    public String link = "";
+    public long date = 0;
+    public String itemId = "";
+    public boolean read = false;
+    public boolean readLater = false;
 
     private FeedItemReportPayload() {
         // empty
     }
 
-    public static FeedItemReportPayload convert(final FeedItemReport feedItemReport) {
+    public static FeedItemReportPayload create(final FeedItemReport feedItemReport) {
         assertNotNull(feedItemReport);
 
         final FeedItemReportPayload helper = new FeedItemReportPayload();

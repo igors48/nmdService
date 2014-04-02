@@ -19,7 +19,7 @@ public class DeleteFeedTest extends AbstractRestTest {
     public void whenFeedWithExistentIdDeletedThenSuccessResponseReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        final String response = deleteFeed(feedIdResponse.getFeedId().toString());
+        final String response = deleteFeed(feedIdResponse.feedId.toString());
 
         assertSuccessResponse(response);
     }
@@ -28,11 +28,11 @@ public class DeleteFeedTest extends AbstractRestTest {
     public void whenFeedWithExistentIdDeletedThenItDoesNotReturnInList() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        deleteFeed(feedIdResponse.getFeedId().toString());
+        deleteFeed(feedIdResponse.feedId.toString());
 
         final FeedHeadersResponse feedsResponse = getFeedHeaders();
 
-        assertTrue(feedsResponse.getHeaders().isEmpty());
+        assertTrue(feedsResponse.headers.isEmpty());
     }
 
     @Test

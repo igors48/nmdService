@@ -31,7 +31,7 @@ public class MarkFeedItemCommonTest extends AbstractRestTest {
     public void whenMarkModeIsInvalidThenErrorReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        assertErrorResponse(markItem(feedIdResponse.getFeedId().toString(), "guid", "invalidMarkMode"), ErrorCode.INVALID_MARK_MODE);
+        assertErrorResponse(markItem(feedIdResponse.feedId.toString(), "guid", "invalidMarkMode"), ErrorCode.INVALID_MARK_MODE);
     }
 
 }

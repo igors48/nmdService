@@ -3,8 +3,8 @@ package nmd.rss.collector.rest.responses;
 import nmd.rss.collector.controller.FeedSeriesUpdateReport;
 import nmd.rss.collector.controller.FeedUpdateReport;
 import nmd.rss.collector.error.ServiceError;
-import nmd.rss.collector.rest.responses.helper.FeedMergeReportResponseHelper;
 import nmd.rss.collector.rest.responses.payload.ErrorPayload;
+import nmd.rss.collector.rest.responses.payload.FeedMergeReportPayload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,32 +17,32 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedSeriesUpdateResponse extends SuccessResponse {
 
-    private List<FeedMergeReportResponseHelper> updates;
-    private List<ErrorPayload> errors;
+    public List<FeedMergeReportPayload> updates;
+    public List<ErrorPayload> errors;
 
-    public FeedSeriesUpdateResponse(final List<FeedMergeReportResponseHelper> updates, final List<ErrorPayload> errors) {
+    private FeedSeriesUpdateResponse() {
+        // empty
+    }
+
+    public static FeedSeriesUpdateResponse create(final List<FeedMergeReportPayload> updates, final List<ErrorPayload> errors) {
         assertNotNull(updates);
-        this.updates = updates;
-
         assertNotNull(errors);
-        this.errors = errors;
-    }
 
-    public List<FeedMergeReportResponseHelper> getUpdates() {
-        return this.updates;
-    }
+        final FeedSeriesUpdateResponse response = new FeedSeriesUpdateResponse();
 
-    public List<ErrorPayload> getErrors() {
-        return this.errors;
+        response.updates = updates;
+        response.errors = errors;
+
+        return response;
     }
 
     public static FeedSeriesUpdateResponse convert(final FeedSeriesUpdateReport report) {
         assertNotNull(report);
 
-        final List<FeedMergeReportResponseHelper> updates = new ArrayList<>();
+        final List<FeedMergeReportPayload> updates = new ArrayList<>();
 
         for (final FeedUpdateReport update : report.updated) {
-            final FeedMergeReportResponseHelper helper = FeedMergeReportResponseHelper.convert(update);
+            final FeedMergeReportPayload helper = FeedMergeReportPayload.create(update);
 
             updates.add(helper);
         }
@@ -55,7 +55,7 @@ public class FeedSeriesUpdateResponse extends SuccessResponse {
             errors.add(helper);
         }
 
-        return new FeedSeriesUpdateResponse(updates, errors);
+        return create(updates, errors);
     }
 
 }

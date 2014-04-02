@@ -1,6 +1,7 @@
 package nmd.rss.collector.rest.responses;
 
 import nmd.rss.collector.controller.FeedUpdateReport;
+import nmd.rss.collector.rest.responses.payload.FeedMergeReportPayload;
 
 import java.util.UUID;
 
@@ -12,77 +13,33 @@ import static nmd.rss.collector.util.Assert.*;
  */
 public class FeedMergeReportResponse extends SuccessResponse {
 
-    private String feedLink = null;
-    private UUID feedId = null;
-    private int removed = 0;
-    private int retained = 0;
-    private int added = 0;
+    public FeedMergeReportPayload report;
 
     private FeedMergeReportResponse() {
         // empty
     }
 
-    public UUID getFeedId() {
-        return this.feedId;
-    }
-
-    public FeedMergeReportResponse(final String feedLink, final UUID feedId, final int removed, final int retained, final int added) {
+    public static FeedMergeReportResponse create(final UUID feedId, final String feedLink, final int removed, final int retained, final int added) {
         assertStringIsValid(feedLink);
-        this.feedLink = feedLink;
-
         assertNotNull(feedId);
-        this.feedId = feedId;
-
         assertPositive(removed);
-        this.removed = removed;
-
         assertPositive(retained);
-        this.retained = retained;
-
         assertPositive(added);
-        this.added = added;
+
+        final FeedMergeReportResponse response = new FeedMergeReportResponse();
+
+        response.report = FeedMergeReportPayload.create(feedId, feedLink, removed, retained, added);
+
+        return response;
     }
 
-    @Override
-    public boolean equals(final Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        if (!super.equals(o)) return false;
-
-        FeedMergeReportResponse that = (FeedMergeReportResponse) o;
-
-        if (added != that.added) return false;
-        if (removed != that.removed) return false;
-        if (retained != that.retained) return false;
-        if (feedId != null ? !feedId.equals(that.feedId) : that.feedId != null) return false;
-        if (feedLink != null ? !feedLink.equals(that.feedLink) : that.feedLink != null) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = super.hashCode();
-        result = 31 * result + (feedLink != null ? feedLink.hashCode() : 0);
-        result = 31 * result + (feedId != null ? feedId.hashCode() : 0);
-        result = 31 * result + removed;
-        result = 31 * result + retained;
-        result = 31 * result + added;
-        return result;
-    }
-
-    public static FeedMergeReportResponse convert(final FeedUpdateReport report) {
+    public static FeedMergeReportResponse create(final FeedUpdateReport report) {
         assertNotNull(report);
 
-        final FeedMergeReportResponse result = new FeedMergeReportResponse();
+        final FeedMergeReportResponse response = new FeedMergeReportResponse();
 
-        result.feedId = report.feedId;
-        result.feedLink = report.feedLink;
-        result.added = report.mergeReport.added.size();
-        result.removed = report.mergeReport.removed.size();
-        result.retained = report.mergeReport.retained.size();
+        response.report = FeedMergeReportPayload.create(report);
 
-        return result;
+        return response;
     }
-
 }

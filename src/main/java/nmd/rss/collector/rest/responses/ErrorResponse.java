@@ -13,14 +13,10 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class ErrorResponse extends BaseResponse {
 
-    private ErrorPayload error;
+    public ErrorPayload error;
 
     private ErrorResponse() {
         // empty
-    }
-
-    public ErrorCode getCode() {
-        return this.error.code;
     }
 
     public static ErrorResponse create(final ErrorCode code, final String message, final String hints) {

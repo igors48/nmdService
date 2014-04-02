@@ -21,7 +21,7 @@ public class FeedExportTest extends AbstractRestTest {
     public void whenFeedIdExistsThenFeedDataReturnsInXmlFormat() throws FeedParserException {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        final String response = exportFeed(feedIdResponse.getFeedId().toString());
+        final String response = exportFeed(feedIdResponse.feedId.toString());
 
         final Feed feed = parse(FIRST_FEED_URL, response);
 

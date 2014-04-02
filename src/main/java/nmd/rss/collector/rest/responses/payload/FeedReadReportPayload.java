@@ -23,7 +23,7 @@ public class FeedReadReportPayload {
         // empty
     }
 
-    public static FeedReadReportPayload convert(final FeedReadReport feedReadReport) {
+    public static FeedReadReportPayload create(final FeedReadReport feedReadReport) {
         assertNotNull(feedReadReport);
 
         final FeedReadReportPayload feedReadReportHelper = new FeedReadReportPayload();

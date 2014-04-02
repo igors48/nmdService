@@ -18,7 +18,7 @@ public class CategoryResponse extends SuccessResponse {
         super();
 
         guard(notNull(category));
-        this.category = new CategoryPayload(category);
+        this.category = CategoryPayload.create(category);
     }
 
 }

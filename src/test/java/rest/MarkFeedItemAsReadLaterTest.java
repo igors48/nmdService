@@ -13,7 +13,7 @@ public class MarkFeedItemAsReadLaterTest extends AbstractRestTest {
     public void whenItemMarkedAsReadLaterInExistsFeedThenSuccessResponseReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        assertSuccessResponse(markItemAsReadLater(feedIdResponse.getFeedId().toString(), "guid"));
+        assertSuccessResponse(markItemAsReadLater(feedIdResponse.feedId.toString(), "guid"));
     }
 
 }

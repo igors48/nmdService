@@ -41,7 +41,7 @@ public class UpdatesServiceWrapper {
 
         try {
             final FeedUpdateReport report = UPDATES_SERVICE.updateFeed(feedId);
-            final FeedMergeReportResponse response = FeedMergeReportResponse.convert(report);
+            final FeedMergeReportResponse response = FeedMergeReportResponse.create(report);
 
             LOGGER.info(format("Feed with id [ %s ] link [ %s ] updated. Added [ %d ] retained [ %d ] removed [ %d ] items", report.feedId, report.feedLink, report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size()));
 

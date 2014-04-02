@@ -18,7 +18,7 @@ public class AssignFeedToCategoryTest extends AbstractRestTest {
         final FeedIdResponse feedIdResponse = addFeedWithResponse(FIRST_FEED_URL, Category.MAIN_CATEGORY_ID);
         final CategoryResponse categoryResponse = addCategoryWithResponse("category");
 
-        final String response = assignFeedToCategory(categoryResponse.category.id, feedIdResponse.getFeedId().toString());
+        final String response = assignFeedToCategory(categoryResponse.category.id, feedIdResponse.feedId.toString());
 
         assertSuccessResponse(response);
     }
@@ -45,7 +45,7 @@ public class AssignFeedToCategoryTest extends AbstractRestTest {
     public void whenCategoryIdIsNotValidThenErrorReturns() {
         final FeedIdResponse feedIdResponse = addFeedWithResponse(FIRST_FEED_URL, Category.MAIN_CATEGORY_ID);
 
-        final String response = assignFeedToCategory("invalid", feedIdResponse.getFeedId().toString());
+        final String response = assignFeedToCategory("invalid", feedIdResponse.feedId.toString());
 
         assertErrorResponse(response, ErrorCode.INVALID_CATEGORY_ID);
     }
@@ -54,7 +54,7 @@ public class AssignFeedToCategoryTest extends AbstractRestTest {
     public void whenCategoryIdIsUnknownThenErrorReturns() {
         final FeedIdResponse feedIdResponse = addFeedWithResponse(FIRST_FEED_URL, Category.MAIN_CATEGORY_ID);
 
-        final String response = assignFeedToCategory(UUID.randomUUID().toString(), feedIdResponse.getFeedId().toString());
+        final String response = assignFeedToCategory(UUID.randomUUID().toString(), feedIdResponse.feedId.toString());
 
         assertErrorResponse(response, ErrorCode.WRONG_CATEGORY_ID);
     }

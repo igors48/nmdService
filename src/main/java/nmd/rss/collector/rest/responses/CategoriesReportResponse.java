@@ -24,7 +24,7 @@ public class CategoriesReportResponse extends SuccessResponse {
         this.reports = new ArrayList<>();
 
         for (final CategoryReport report : reports) {
-            final CategoryReportPayload categoryReportPayload = new CategoryReportPayload(report);
+            final CategoryReportPayload categoryReportPayload = CategoryReportPayload.create(report);
             this.reports.add(categoryReportPayload);
         }
     }

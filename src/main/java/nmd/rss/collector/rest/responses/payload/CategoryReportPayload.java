@@ -18,15 +18,23 @@ public class CategoryReportPayload {
     public int notRead;
     public int readLater;
 
-    public CategoryReportPayload(final CategoryReport report) {
+    private CategoryReportPayload() {
+        // empty
+    }
+
+    public static CategoryReportPayload create(final CategoryReport report) {
         guard(notNull(report));
 
-        this.id = report.id;
-        this.name = report.name;
-        this.feedCount = report.feedIds.size();
-        this.read = report.read;
-        this.notRead = report.notRead;
-        this.readLater = report.readLater;
+        final CategoryReportPayload categoryReportPayload = new CategoryReportPayload();
+
+        categoryReportPayload.id = report.id;
+        categoryReportPayload.name = report.name;
+        categoryReportPayload.feedCount = report.feedIds.size();
+        categoryReportPayload.read = report.read;
+        categoryReportPayload.notRead = report.notRead;
+        categoryReportPayload.readLater = report.readLater;
+
+        return categoryReportPayload;
     }
 
 }

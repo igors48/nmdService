@@ -2,7 +2,7 @@ package nmd.rss.collector.rest.responses;
 
 import nmd.rss.collector.controller.FeedItemReport;
 import nmd.rss.collector.controller.FeedItemsReport;
-import nmd.rss.collector.rest.responses.helper.FeedItemReportHelper;
+import nmd.rss.collector.rest.responses.payload.FeedItemReportPayload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,44 +15,24 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedItemsReportResponse extends SuccessResponse {
 
-    private String id;
-    private String title;
-    private int read;
-    private int notRead;
-    private int readLater;
-    private List<FeedItemReportHelper> reports = null;
+    public String id;
+    public String title;
+    public int read;
+    public int notRead;
+    public int readLater;
+    public List<FeedItemReportPayload> reports = null;
 
     private FeedItemsReportResponse() {
         // empty
     }
 
-    public int getRead() {
-        return this.read;
-    }
-
-    public int getNotRead() {
-        return this.notRead;
-    }
-
-    public String getTitle() {
-        return this.title;
-    }
-
-    public int getReadLater() {
-        return this.readLater;
-    }
-
-    public List<FeedItemReportHelper> getReports() {
-        return this.reports;
-    }
-
     public static FeedItemsReportResponse convert(final FeedItemsReport feedItemsReport) {
         assertNotNull(feedItemsReport);
 
-        final List<FeedItemReportHelper> helpers = new ArrayList<>();
+        final List<FeedItemReportPayload> helpers = new ArrayList<>();
 
         for (final FeedItemReport feedItemReport : feedItemsReport.reports) {
-            final FeedItemReportHelper helper = FeedItemReportHelper.convert(feedItemReport);
+            final FeedItemReportPayload helper = FeedItemReportPayload.create(feedItemReport);
 
             helpers.add(helper);
         }

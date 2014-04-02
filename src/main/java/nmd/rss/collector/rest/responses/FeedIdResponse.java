@@ -10,14 +10,10 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedIdResponse extends SuccessResponse {
 
-    private UUID feedId = null;
+    public UUID feedId = null;
 
     private FeedIdResponse() {
         // empty
-    }
-
-    public UUID getFeedId() {
-        return this.feedId;
     }
 
     @Override

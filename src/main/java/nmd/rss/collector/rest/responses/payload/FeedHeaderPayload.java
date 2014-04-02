@@ -19,42 +19,21 @@ public class FeedHeaderPayload {
         // empty
     }
 
-    public FeedHeaderPayload(final String feedLink, final String feedId, final String feedTitle) {
+    public static FeedHeaderPayload create(final String feedLink, final String feedId, final String feedTitle) {
         assertStringIsValid(feedLink);
-        this.feedLink = feedLink;
-
         assertStringIsValid(feedId);
-        this.feedId = feedId;
-
         assertStringIsValid(feedTitle);
-        this.feedTitle = feedTitle;
+
+        final FeedHeaderPayload feedHeaderPayload = new FeedHeaderPayload();
+
+        feedHeaderPayload.feedLink = feedLink;
+        feedHeaderPayload.feedId = feedId;
+        feedHeaderPayload.feedTitle = feedTitle;
+
+        return feedHeaderPayload;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FeedHeaderPayload that = (FeedHeaderPayload) o;
-
-        if (!feedId.equals(that.feedId)) return false;
-        if (!feedLink.equals(that.feedLink)) return false;
-        if (!feedTitle.equals(that.feedTitle)) return false;
-
-        return true;
-    }
-
-    @Override
-    public int hashCode() {
-        int result = feedLink.hashCode();
-
-        result = 31 * result + feedId.hashCode();
-        result = 31 * result + feedTitle.hashCode();
-
-        return result;
-    }
-
-    public static FeedHeaderPayload convert(final FeedHeader header) {
+    public static FeedHeaderPayload create(final FeedHeader header) {
         assertNotNull(header);
 
         final FeedHeaderPayload result = new FeedHeaderPayload();

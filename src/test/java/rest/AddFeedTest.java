@@ -26,10 +26,10 @@ public class AddFeedTest extends AbstractRestTest {
 
         final FeedHeadersResponse feedsResponse = getFeedHeaders();
 
-        final FeedHeaderPayload feedHeaderPayload = new FeedHeaderPayload(FIRST_FEED_URL, feedIdResponse.getFeedId().toString(), FIRST_FEED_TITLE);
+        final FeedHeaderPayload feedHeaderPayload = FeedHeaderPayload.create(FIRST_FEED_URL, feedIdResponse.feedId.toString(), FIRST_FEED_TITLE);
 
-        assertEquals(1, feedsResponse.getHeaders().size());
-        assertEquals(feedHeaderPayload, feedsResponse.getHeaders().get(0));
+        assertEquals(1, feedsResponse.headers.size());
+        assertEquals(feedHeaderPayload, feedsResponse.headers.get(0));
     }
 
     @Test

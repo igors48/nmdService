@@ -22,14 +22,14 @@ public class ReadFeedTest extends AbstractRestTest {
 
         final FeedReadReportsResponse response = getReadsReport();
 
-        assertFalse(response.getReports().isEmpty());
+        assertFalse(response.reports.isEmpty());
     }
 
     @Test
     public void whenThereAreNoFeedsThenNoReportsReturn() {
         final FeedReadReportsResponse response = getReadsReport();
 
-        assertTrue(response.getReports().isEmpty());
+        assertTrue(response.reports.isEmpty());
     }
 
     @Test
@@ -46,14 +46,14 @@ public class ReadFeedTest extends AbstractRestTest {
     public void whenFeedIdIsFoundThenReportReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        final FeedItemsReportResponse feedItemsReportResponse = getFeedItemsReport(feedIdResponse.getFeedId().toString());
+        final FeedItemsReportResponse feedItemsReportResponse = getFeedItemsReport(feedIdResponse.feedId.toString());
 
-        assertFalse(feedItemsReportResponse.getTitle().isEmpty());
-        assertFalse(feedItemsReportResponse.getReports().isEmpty());
+        assertFalse(feedItemsReportResponse.title.isEmpty());
+        assertFalse(feedItemsReportResponse.reports.isEmpty());
 
-        assertEquals(0, feedItemsReportResponse.getRead());
-        assertEquals(0, feedItemsReportResponse.getReadLater());
-        assertTrue(feedItemsReportResponse.getNotRead() > 0);
+        assertEquals(0, feedItemsReportResponse.read);
+        assertEquals(0, feedItemsReportResponse.readLater);
+        assertTrue(feedItemsReportResponse.notRead > 0);
     }
 
 }

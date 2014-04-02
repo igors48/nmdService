@@ -18,21 +18,21 @@ public class FeedUpdateTest extends AbstractRestTest {
 
     @Test
     public void whenCurrentFeedExistsThenItUpdatesAndReportReturns() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
+        addFirstFeed();
 
         final FeedSeriesUpdateResponse report = updateCurrentFeedWithReport();
 
-        assertEquals(0, report.getErrors().size());
-        assertEquals(1, report.getUpdates().size());
+        assertEquals(0, report.errors.size());
+        assertEquals(1, report.updates.size());
     }
 
     @Test
     public void whenFeedIdExistsThenFeedUpdatesAndReportReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        final FeedMergeReportResponse report = updateFeedWithReport(feedIdResponse.getFeedId().toString());
+        final FeedMergeReportResponse report = updateFeedWithReport(feedIdResponse.feedId.toString());
 
-        final FeedMergeReportResponse expected = new FeedMergeReportResponse(FIRST_FEED_URL, feedIdResponse.getFeedId(), 0, 100, 0);
+        final FeedMergeReportResponse expected = FeedMergeReportResponse.create(feedIdResponse.feedId, FIRST_FEED_URL, 0, 100, 0);
 
         assertEquals(expected, report);
     }

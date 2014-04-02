@@ -169,7 +169,7 @@ public abstract class AbstractRestTest {
         final ErrorResponse errorResponse = GSON.fromJson(response, ErrorResponse.class);
 
         assertEquals(ResponseType.ERROR, errorResponse.getStatus());
-        assertEquals(errorCode, errorResponse.getCode());
+        assertEquals(errorCode, errorResponse.error.code);
     }
 
     protected static String assertSuccessResponse(final String response) {

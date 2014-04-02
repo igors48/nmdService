@@ -13,7 +13,7 @@ public class UpdateFeedTitleTest extends AbstractRestTest {
 
     @Test
     public void whenFeedIdAndNewTitleAreValidThenSuccessReturns() {
-        final UUID feedId = addFirstFeed().getFeedId();
+        final UUID feedId = addFirstFeed().feedId;
 
         final String response = updateFeedTitle(feedId.toString(), "updated_title");
 
@@ -36,7 +36,7 @@ public class UpdateFeedTitleTest extends AbstractRestTest {
 
     @Test
     public void whenTitleIsEmptyThenErrorReturns() {
-        final UUID feedId = addFirstFeed().getFeedId();
+        final UUID feedId = addFirstFeed().feedId;
 
         final String response = updateFeedTitle(feedId.toString(), "");
 
@@ -45,7 +45,7 @@ public class UpdateFeedTitleTest extends AbstractRestTest {
 
     @Test
     public void whenTitleContainsSpacesOnlyThenErrorReturns() {
-        final UUID feedId = addFirstFeed().getFeedId();
+        final UUID feedId = addFirstFeed().feedId;
 
         final String response = updateFeedTitle(feedId.toString(), "    ");
 

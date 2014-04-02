@@ -1,7 +1,7 @@
 package nmd.rss.collector.rest.responses;
 
 import nmd.rss.collector.controller.FeedReadReport;
-import nmd.rss.collector.rest.responses.helper.FeedReadReportHelper;
+import nmd.rss.collector.rest.responses.payload.FeedReadReportPayload;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,25 +14,21 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedReadReportsResponse extends SuccessResponse {
 
-    private List<FeedReadReportHelper> reports = null;
+    public List<FeedReadReportPayload> reports = null;
 
     private FeedReadReportsResponse() {
         // empty
     }
 
-    public List<FeedReadReportHelper> getReports() {
-        return this.reports;
-    }
-
     public static FeedReadReportsResponse convert(final List<FeedReadReport> reports) {
         assertNotNull(reports);
 
-        final List<FeedReadReportHelper> helpers = new ArrayList<>();
+        final List<FeedReadReportPayload> helpers = new ArrayList<>();
 
         final FeedReadReportsResponse feedReadReportsResponse = new FeedReadReportsResponse();
 
         for (final FeedReadReport report : reports) {
-            final FeedReadReportHelper helper = FeedReadReportHelper.convert(report);
+            final FeedReadReportPayload helper = FeedReadReportPayload.create(report);
 
             helpers.add(helper);
         }

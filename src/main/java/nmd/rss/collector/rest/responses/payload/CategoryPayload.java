@@ -14,10 +14,19 @@ public class CategoryPayload {
     public String name;
     public String id;
 
-    public CategoryPayload(final Category category) {
+    private CategoryPayload() {
+        // empty
+    }
+
+    public static CategoryPayload create(final Category category) {
         guard(notNull(category));
-        this.name = category.name;
-        this.id = category.uuid;
+
+        final CategoryPayload categoryPayload = new CategoryPayload();
+
+        categoryPayload.name = category.name;
+        categoryPayload.id = category.uuid;
+
+        return categoryPayload;
     }
 
 }

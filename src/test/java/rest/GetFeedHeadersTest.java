@@ -24,17 +24,17 @@ public class GetFeedHeadersTest extends AbstractRestTest {
 
         final FeedHeadersResponse feedHeaders = getFeedHeaders();
 
-        assertEquals(2, feedHeaders.getHeaders().size());
+        assertEquals(2, feedHeaders.headers.size());
     }
 
     @Test
     public void whenFeedIdIsExistsThenHeaderReturns() {
         final FeedIdResponse feedId = addFirstFeed();
-        final String feedIdAsString = feedId.getFeedId().toString();
+        final String feedIdAsString = feedId.feedId.toString();
 
         final FeedHeadersResponse feedHeader = getFeedHeader(feedIdAsString);
 
-        final FeedHeader header = new FeedHeader(feedId.getFeedId(), FIRST_FEED_URL, FIRST_FEED_TITLE, FIRST_FEED_TITLE, FIRST_FEED_URL);
+        final FeedHeader header = new FeedHeader(feedId.feedId, FIRST_FEED_URL, FIRST_FEED_TITLE, FIRST_FEED_TITLE, FIRST_FEED_URL);
         final FeedHeadersResponse expected = FeedHeadersResponse.convert(Arrays.asList(header));
 
         assertEquals(expected, feedHeader);

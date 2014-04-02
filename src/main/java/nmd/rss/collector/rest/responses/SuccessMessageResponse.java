@@ -8,7 +8,7 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class SuccessMessageResponse extends SuccessResponse {
 
-    private String message = "";
+    public String message = "";
 
     private SuccessMessageResponse() {
         // empty
