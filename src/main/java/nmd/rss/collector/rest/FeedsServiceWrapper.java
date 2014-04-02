@@ -6,7 +6,6 @@ import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.rest.responses.FeedHeaderResponse;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 
@@ -16,11 +15,13 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
+import static java.util.Arrays.asList;
 import static nmd.rss.collector.exporter.FeedExporter.export;
 import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
+import static nmd.rss.collector.rest.responses.FeedHeadersResponse.convert;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
 
 /**
@@ -79,7 +80,7 @@ public class FeedsServiceWrapper {
 
     public static ResponseBody getFeedHeaders() {
         final List<FeedHeader> headers = FEEDS_SERVICE.getFeedHeaders();
-        final FeedHeadersResponse feedHeadersResponse = FeedHeadersResponse.convert(headers);
+        final FeedHeadersResponse feedHeadersResponse = convert(headers);
 
         LOGGER.info(format("[ %s ] feed headers found", headers.size()));
 
@@ -90,7 +91,7 @@ public class FeedsServiceWrapper {
 
         try {
             final FeedHeader header = FEEDS_SERVICE.loadFeedHeader(feedId);
-            final FeedHeaderResponse response = FeedHeaderResponse.convert(header);
+            final FeedHeadersResponse response = convert(asList(header));
 
             LOGGER.info(format("Header for feed [ %s ] returned", feedId));
 

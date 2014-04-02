@@ -4,7 +4,6 @@ import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.requests.AddFeedRequest;
 import nmd.rss.collector.rest.responses.*;
-import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
@@ -98,10 +97,10 @@ public abstract class AbstractRestTest {
         return GSON.fromJson(assertSuccessResponse(response), FeedHeadersResponse.class);
     }
 
-    protected static FeedHeaderHelper getFeedHeader(final String feedId) {
+    protected static FeedHeadersResponse getFeedHeader(final String feedId) {
         final String response = getFeedHeaderAsString(feedId);
 
-        return GSON.fromJson(assertSuccessResponse(response), FeedHeaderHelper.class);
+        return GSON.fromJson(assertSuccessResponse(response), FeedHeadersResponse.class);
     }
 
     protected static String getFeedHeaderAsString(String feedId) {

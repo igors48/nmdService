@@ -32,7 +32,7 @@ public class DeleteFeedTest extends AbstractRestTest {
 
         final FeedHeadersResponse feedsResponse = getFeedHeaders();
 
-        assertTrue(feedsResponse.getHeaders().isEmpty());
+        assertTrue(feedsResponse.getPayload().isEmpty());
     }
 
     @Test

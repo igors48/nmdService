@@ -3,7 +3,7 @@ package rest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
-import nmd.rss.collector.rest.responses.helper.FeedHeaderHelper;
+import nmd.rss.collector.rest.responses.payload.FeedHeaderPayload;
 import org.junit.Test;
 
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
@@ -26,10 +26,10 @@ public class AddFeedTest extends AbstractRestTest {
 
         final FeedHeadersResponse feedsResponse = getFeedHeaders();
 
-        final FeedHeaderHelper feedHeaderHelper = new FeedHeaderHelper(FIRST_FEED_URL, feedIdResponse.getFeedId().toString(), FIRST_FEED_TITLE);
+        final FeedHeaderPayload feedHeaderPayload = new FeedHeaderPayload(FIRST_FEED_URL, feedIdResponse.getFeedId().toString(), FIRST_FEED_TITLE);
 
-        assertEquals(1, feedsResponse.getHeaders().size());
-        assertEquals(feedHeaderHelper, feedsResponse.getHeaders().get(0));
+        assertEquals(1, feedsResponse.getPayload().size());
+        assertEquals(feedHeaderPayload, feedsResponse.getPayload().get(0));
     }
 
     @Test
