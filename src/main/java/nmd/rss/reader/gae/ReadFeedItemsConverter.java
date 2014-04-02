@@ -5,7 +5,6 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
 
 import java.lang.reflect.Type;
@@ -60,13 +59,12 @@ public class ReadFeedItemsConverter {
     public static ReadFeedItems convert(Entity entity) {
         assertNotNull(entity);
 
-        //TODO remove hasProperty check after full table update
-        final Date lastUpdate = entity.hasProperty(LAST_UPDATE) ? (Date) entity.getProperty(LAST_UPDATE) : new Date();
+        final Date lastUpdate = (Date) entity.getProperty(LAST_UPDATE);
 
         final String readFeedItemsAsString = ((Text) entity.getProperty(READ_ITEMS)).getValue();
         final Set<String> readItemsIds = GSON.fromJson(readFeedItemsAsString, SET_HELPER_TYPE);
 
-        final String readLaterFeedItemsAsString = entity.hasProperty(READ_LATER_ITEMS) ? ((Text) entity.getProperty(READ_LATER_ITEMS)).getValue() : "";
+        final String readLaterFeedItemsAsString = ((Text) entity.getProperty(READ_LATER_ITEMS)).getValue();
 
         final Set<String> readLaterItemIds;
 
@@ -76,7 +74,7 @@ public class ReadFeedItemsConverter {
             readLaterItemIds = GSON.fromJson(readLaterFeedItemsAsString, SET_HELPER_TYPE);
         }
 
-        final String categoryId = entity.hasProperty(CATEGORY_ID) ? (String) entity.getProperty(CATEGORY_ID) : Category.MAIN_CATEGORY_ID;
+        final String categoryId = (String) entity.getProperty(CATEGORY_ID);
         final UUID feedId = UUID.fromString((String) entity.getProperty(FEED_ID));
 
         return new ReadFeedItems(feedId, lastUpdate, readItemsIds, readLaterItemIds, categoryId);
