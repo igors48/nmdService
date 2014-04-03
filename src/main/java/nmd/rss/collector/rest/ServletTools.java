@@ -15,8 +15,11 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static java.lang.String.valueOf;
+import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.CloseableTools.close;
+import static nmd.rss.collector.util.Parameter.isPositive;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -27,6 +30,8 @@ public final class ServletTools {
     private static final Logger LOGGER = Logger.getLogger(ServletTools.class.getName());
 
     private static final String UTF_8 = "UTF-8";
+    private static final String SERVER_PROCESSING_TIME_HEADER = "Server-Processing-Time";
+
     private static final Gson GSON = new Gson();
 
     public static UUID parseFeedId(final String pathInfo) {
@@ -67,7 +72,7 @@ public final class ServletTools {
     }
 
     public static String readRequestBody(final HttpServletRequest request) {
-        assertNotNull(request);
+        guard(notNull(request));
 
         BufferedReader reader = null;
 
@@ -101,19 +106,24 @@ public final class ServletTools {
     }
 
 
-    public static void writeResponseBody(final ResponseBody responseBody, final HttpServletResponse response) throws IOException {
-        assertNotNull(responseBody);
-        assertNotNull(response);
+    public static void writeResponseBody(final long startTime, final ResponseBody responseBody, final HttpServletResponse response) throws IOException {
+        guard(isPositive(startTime));
+        guard(notNull(responseBody));
+        guard(notNull(response));
 
         response.setContentType(responseBody.contentType.mime);
         response.setCharacterEncoding(UTF_8);
 
+        final long processingTime = System.currentTimeMillis() - startTime;
+        response.setHeader(SERVER_PROCESSING_TIME_HEADER, valueOf(processingTime));
+
         response.getWriter().print(responseBody.content);
     }
 
-    public static void writeException(final Exception exception, final HttpServletResponse response) {
-        assertNotNull(exception);
-        assertNotNull(response);
+    public static void writeException(final long startTime, final Exception exception, final HttpServletResponse response) {
+        guard(isPositive(startTime));
+        guard(notNull(exception));
+        guard(notNull(response));
 
         String message = exception.getMessage();
         message = message == null || message.isEmpty() ? exception.getClass().getSimpleName() : message;
@@ -124,7 +134,7 @@ public final class ServletTools {
         final ResponseBody responseBody = new ResponseBody(ContentType.JSON, content);
 
         try {
-            writeResponseBody(responseBody, response);
+            writeResponseBody(startTime, responseBody, response);
         } catch (IOException e) {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
         }

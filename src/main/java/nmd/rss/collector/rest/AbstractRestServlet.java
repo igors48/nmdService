@@ -19,6 +19,7 @@ public abstract class AbstractRestServlet extends HttpServlet {
 
     @Override
     protected void service(final HttpServletRequest request, final HttpServletResponse response) {
+        final long startTime = System.currentTimeMillis();
 
         try {
             final ResponseBody responseBody = createResponseBody(request);
@@ -26,12 +27,12 @@ public abstract class AbstractRestServlet extends HttpServlet {
             if (responseBody == null) {
                 super.service(request, response);
             } else {
-                writeResponseBody(responseBody, response);
+                writeResponseBody(startTime, responseBody, response);
             }
         } catch (Exception exception) {
             LOGGER.log(Level.SEVERE, "Unhandled exception", exception);
 
-            writeException(exception, response);
+            writeException(startTime, exception, response);
         }
     }
 
