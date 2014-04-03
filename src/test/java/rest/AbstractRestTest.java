@@ -1,14 +1,18 @@
 package rest;
 
 import com.google.gson.Gson;
+import com.jayway.restassured.response.Response;
 import nmd.rss.collector.error.ErrorCode;
+import nmd.rss.collector.rest.ServletTools;
 import nmd.rss.collector.rest.requests.AddFeedRequest;
 import nmd.rss.collector.rest.responses.*;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
+import static nmd.rss.collector.util.Parameter.isPositive;
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * User: igu
@@ -37,7 +41,7 @@ public abstract class AbstractRestTest {
     }
 
     protected static void clearState() {
-        given().body("").post(CLEAR_SERVLET_URL);
+        assertServerProcessingTimeHeaderValid(given().body("").post(CLEAR_SERVLET_URL));
     }
 
     protected static FeedIdResponse addFirstFeed() {
@@ -59,7 +63,7 @@ public abstract class AbstractRestTest {
 
         final String requestBody = GSON.toJson(addFeedRequest);
 
-        return given().body(requestBody).post(FEEDS_SERVLET_URL).asString();
+        return assertServerProcessingTimeHeaderValid(given().body(requestBody).post(FEEDS_SERVLET_URL)).asString();
     }
 
     protected static CategoryResponse addCategoryWithResponse(final String name) {
@@ -67,29 +71,29 @@ public abstract class AbstractRestTest {
     }
 
     protected static String addCategory(final String name) {
-        return given().body(name).post(CATEGORIES_SERVLET_URL).asString();
+        return assertServerProcessingTimeHeaderValid(given().body(name).post(CATEGORIES_SERVLET_URL)).asString();
     }
 
     protected static String deleteCategory(final String categoryId) {
-        return given().delete(CATEGORIES_SERVLET_URL + categoryId).asString();
+        return assertServerProcessingTimeHeaderValid(given().delete(CATEGORIES_SERVLET_URL + categoryId)).asString();
     }
 
     protected static String renameCategory(final String categoryId, final String newName) {
-        return given().body(newName).put(CATEGORIES_SERVLET_URL + categoryId).asString();
+        return assertServerProcessingTimeHeaderValid(given().body(newName).put(CATEGORIES_SERVLET_URL + categoryId)).asString();
     }
 
     protected static String assignFeedToCategory(final String categoryId, final String feedId) {
-        return given().put(CATEGORIES_SERVLET_URL + categoryId + "/" + feedId).asString();
+        return assertServerProcessingTimeHeaderValid(given().put(CATEGORIES_SERVLET_URL + categoryId + "/" + feedId)).asString();
     }
 
     protected static CategoriesReportResponse getCategoriesReport() {
-        final String response = given().given().get(CATEGORIES_SERVLET_URL).asString();
+        final String response = assertServerProcessingTimeHeaderValid(given().get(CATEGORIES_SERVLET_URL)).asString();
 
         return GSON.fromJson(assertSuccessResponse(response), CategoriesReportResponse.class);
     }
 
     protected static FeedHeadersResponse getFeedHeaders() {
-        final String response = given().get(FEEDS_SERVLET_URL).asString();
+        final String response = assertServerProcessingTimeHeaderValid(given().get(FEEDS_SERVLET_URL)).asString();
 
         return GSON.fromJson(assertSuccessResponse(response), FeedHeadersResponse.class);
     }
@@ -101,23 +105,23 @@ public abstract class AbstractRestTest {
     }
 
     protected static String getFeedHeaderAsString(String feedId) {
-        return given().get(FEEDS_SERVLET_URL + feedId).asString();
+        return assertServerProcessingTimeHeaderValid(given().get(FEEDS_SERVLET_URL + feedId)).asString();
     }
 
     protected static String deleteFeed(final String feedId) {
-        return given().delete(FEEDS_SERVLET_URL + feedId).asString();
+        return assertServerProcessingTimeHeaderValid(given().delete(FEEDS_SERVLET_URL + feedId)).asString();
     }
 
     protected static String updateFeedTitle(final String feedId, final String title) {
-        return given().body(title).put(FEEDS_SERVLET_URL + feedId).asString();
+        return assertServerProcessingTimeHeaderValid(given().body(title).put(FEEDS_SERVLET_URL + feedId)).asString();
     }
 
     protected static String exportFeed(final String feedId) {
-        return given().get(EXPORTS_SERVLET_URL + feedId).asString();
+        return assertServerProcessingTimeHeaderValid(given().get(EXPORTS_SERVLET_URL + feedId)).asString();
     }
 
     protected static String updateFeed(final String feedId) {
-        return given().get(UPDATES_SERVLET_URL + feedId).asString();
+        return assertServerProcessingTimeHeaderValid(given().get(UPDATES_SERVLET_URL + feedId)).asString();
     }
 
     protected static FeedMergeReportResponse updateFeedWithReport(final String feedId) {
@@ -129,11 +133,11 @@ public abstract class AbstractRestTest {
     }
 
     protected String getReadsReportAsString() {
-        return given().get(READS_SERVLET_URL).asString();
+        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL)).asString();
     }
 
     protected String getFeedItemsReportAsString(final String feedId) {
-        return given().get(READS_SERVLET_URL + feedId).asString();
+        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId)).asString();
     }
 
     protected FeedReadReportsResponse getReadsReport() {
@@ -147,7 +151,7 @@ public abstract class AbstractRestTest {
     protected String markItem(final String feedId, String itemId, String markMode) {
         final String parameter = markMode.isEmpty() ? "" : "?markAs=" + markMode;
 
-        return given().put(READS_SERVLET_URL + feedId + "/" + itemId + parameter).asString();
+        return assertServerProcessingTimeHeaderValid(given().put(READS_SERVLET_URL + feedId + "/" + itemId + parameter)).asString();
     }
 
     protected String markItemAsRead(final String feedId, String itemId) {
@@ -173,6 +177,14 @@ public abstract class AbstractRestTest {
         final SuccessMessageResponse successResponse = GSON.fromJson(response, SuccessMessageResponse.class);
 
         assertEquals(ResponseType.SUCCESS, successResponse.getStatus());
+
+        return response;
+    }
+
+    private static Response assertServerProcessingTimeHeaderValid(final Response response) {
+        final String headerValue = response.getHeader(ServletTools.SERVER_PROCESSING_TIME_HEADER);
+
+        assertTrue(isPositive(Integer.valueOf(headerValue)));
 
         return response;
     }

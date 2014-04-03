@@ -29,8 +29,9 @@ public final class ServletTools {
 
     private static final Logger LOGGER = Logger.getLogger(ServletTools.class.getName());
 
+    public static final String SERVER_PROCESSING_TIME_HEADER = "Server-Processing-Time";
+
     private static final String UTF_8 = "UTF-8";
-    private static final String SERVER_PROCESSING_TIME_HEADER = "Server-Processing-Time";
 
     private static final Gson GSON = new Gson();
 
