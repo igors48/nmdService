@@ -5,7 +5,9 @@ import nmd.rss.collector.rest.responses.payload.FeedMergeReportPayload;
 
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.*;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -20,11 +22,11 @@ public class FeedMergeReportResponse extends SuccessResponse {
     }
 
     public static FeedMergeReportResponse create(final UUID feedId, final String feedLink, final int removed, final int retained, final int added) {
-        assertStringIsValid(feedLink);
-        assertNotNull(feedId);
-        assertPositive(removed);
-        assertPositive(retained);
-        assertPositive(added);
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidUrl(feedLink));
+        guard(isPositive(removed));
+        guard(isPositive(retained));
+        guard(isPositive(added));
 
         final FeedMergeReportResponse response = new FeedMergeReportResponse();
 
@@ -34,7 +36,7 @@ public class FeedMergeReportResponse extends SuccessResponse {
     }
 
     public static FeedMergeReportResponse create(final FeedUpdateReport report) {
-        assertNotNull(report);
+        guard(notNull(report));
 
         final FeedMergeReportResponse response = new FeedMergeReportResponse();
 

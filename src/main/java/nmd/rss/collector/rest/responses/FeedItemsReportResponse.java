@@ -7,7 +7,8 @@ import nmd.rss.collector.rest.responses.payload.FeedItemReportPayload;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * User: igu
@@ -20,14 +21,14 @@ public class FeedItemsReportResponse extends SuccessResponse {
     public int read;
     public int notRead;
     public int readLater;
-    public List<FeedItemReportPayload> reports = null;
+    public List<FeedItemReportPayload> reports;
 
     private FeedItemsReportResponse() {
         // empty
     }
 
     public static FeedItemsReportResponse convert(final FeedItemsReport feedItemsReport) {
-        assertNotNull(feedItemsReport);
+        guard(notNull(feedItemsReport));
 
         final List<FeedItemReportPayload> helpers = new ArrayList<>();
 

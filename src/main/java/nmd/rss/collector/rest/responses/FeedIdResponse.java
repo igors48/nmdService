@@ -2,7 +2,8 @@ package nmd.rss.collector.rest.responses;
 
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.util.Assert.guard;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -10,7 +11,7 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedIdResponse extends SuccessResponse {
 
-    public UUID feedId = null;
+    public UUID feedId;
 
     private FeedIdResponse() {
         // empty
@@ -37,7 +38,7 @@ public class FeedIdResponse extends SuccessResponse {
     }
 
     public static FeedIdResponse create(final UUID feedId) {
-        assertNotNull(feedId);
+        guard(isValidFeedHeaderId(feedId));
 
         final FeedIdResponse result = new FeedIdResponse();
 

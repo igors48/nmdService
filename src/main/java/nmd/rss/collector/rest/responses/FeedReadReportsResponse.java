@@ -6,7 +6,8 @@ import nmd.rss.collector.rest.responses.payload.FeedReadReportPayload;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -14,14 +15,14 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedReadReportsResponse extends SuccessResponse {
 
-    public List<FeedReadReportPayload> reports = null;
+    public List<FeedReadReportPayload> reports;
 
     private FeedReadReportsResponse() {
         // empty
     }
 
     public static FeedReadReportsResponse convert(final List<FeedReadReport> reports) {
-        assertNotNull(reports);
+        guard(notNull(reports));
 
         final List<FeedReadReportPayload> helpers = new ArrayList<>();
 

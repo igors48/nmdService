@@ -17,16 +17,25 @@ public class CategoriesReportResponse extends SuccessResponse {
 
     public List<CategoryReportPayload> reports;
 
-    public CategoriesReportResponse(final List<CategoryReport> reports) {
-        super();
+    private CategoriesReportResponse() {
+        // empty
+    }
 
+    public static CategoriesReportResponse create(final List<CategoryReport> reports) {
         guard(notNull(reports));
-        this.reports = new ArrayList<>();
+
+        final List<CategoryReportPayload> categoryReportPayloads = new ArrayList<>();
 
         for (final CategoryReport report : reports) {
             final CategoryReportPayload categoryReportPayload = CategoryReportPayload.create(report);
-            this.reports.add(categoryReportPayload);
+            categoryReportPayloads.add(categoryReportPayload);
         }
+
+        final CategoriesReportResponse categoriesReportResponse = new CategoriesReportResponse();
+
+        categoriesReportResponse.reports = categoryReportPayloads;
+
+        return categoriesReportResponse;
     }
 
 }

@@ -14,11 +14,18 @@ public class CategoryResponse extends SuccessResponse {
 
     public CategoryPayload category;
 
-    public CategoryResponse(final Category category) {
-        super();
+    private CategoryResponse() {
+        // empty
+    }
 
+    public static CategoryResponse create(final Category category) {
         guard(notNull(category));
-        this.category = CategoryPayload.create(category);
+
+        final CategoryResponse categoryResponse = new CategoryResponse();
+
+        categoryResponse.category = CategoryPayload.create(category);
+
+        return categoryResponse;
     }
 
 }

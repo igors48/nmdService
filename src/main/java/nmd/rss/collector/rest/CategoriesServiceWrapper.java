@@ -41,7 +41,7 @@ public class CategoriesServiceWrapper {
         guard(isValidCategoryName(name));
 
         final Category category = CATEGORIES_SERVICE.addCategory(name);
-        final CategoryResponse response = new CategoryResponse(category);
+        final CategoryResponse response = CategoryResponse.create(category);
 
         LOGGER.info(format("Category [ %s ] was created. It is id [ %s ]", category.name, category.uuid));
 
@@ -50,7 +50,7 @@ public class CategoriesServiceWrapper {
 
     public static ResponseBody getCategoriesReport() {
         final List<CategoryReport> reports = CATEGORIES_SERVICE.getCategoriesReport();
-        final CategoriesReportResponse response = new CategoriesReportResponse(reports);
+        final CategoriesReportResponse response = CategoriesReportResponse.create(reports);
 
         LOGGER.info("Categories report was created");
 

@@ -9,7 +9,8 @@ import nmd.rss.collector.rest.responses.payload.FeedMergeReportPayload;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -25,8 +26,8 @@ public class FeedSeriesUpdateResponse extends SuccessResponse {
     }
 
     public static FeedSeriesUpdateResponse create(final List<FeedMergeReportPayload> updates, final List<ErrorPayload> errors) {
-        assertNotNull(updates);
-        assertNotNull(errors);
+        guard(notNull(updates));
+        guard(notNull(errors));
 
         final FeedSeriesUpdateResponse response = new FeedSeriesUpdateResponse();
 
@@ -37,7 +38,7 @@ public class FeedSeriesUpdateResponse extends SuccessResponse {
     }
 
     public static FeedSeriesUpdateResponse convert(final FeedSeriesUpdateReport report) {
-        assertNotNull(report);
+        guard(notNull(report));
 
         final List<FeedMergeReportPayload> updates = new ArrayList<>();
 

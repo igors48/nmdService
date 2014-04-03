@@ -1,6 +1,7 @@
 package nmd.rss.collector.rest.responses;
 
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.isValidString;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -8,14 +9,14 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class SuccessMessageResponse extends SuccessResponse {
 
-    public String message = "";
+    public String message;
 
     private SuccessMessageResponse() {
         // empty
     }
 
     public static SuccessMessageResponse create(final String message) {
-        assertStringIsValid(message);
+        guard(isValidString(message));
 
         final SuccessMessageResponse result = new SuccessMessageResponse();
 
