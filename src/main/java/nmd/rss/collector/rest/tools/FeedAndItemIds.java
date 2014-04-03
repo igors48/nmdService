@@ -1,4 +1,4 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.tools;
 
 import java.util.UUID;
 

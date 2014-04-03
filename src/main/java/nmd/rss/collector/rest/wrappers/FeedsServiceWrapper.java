@@ -1,4 +1,4 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.wrappers;
 
 import nmd.rss.collector.controller.FeedsService;
 import nmd.rss.collector.error.ServiceError;
@@ -8,6 +8,8 @@ import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
+import nmd.rss.collector.rest.tools.ContentType;
+import nmd.rss.collector.rest.tools.ResponseBody;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,10 +21,10 @@ import static java.util.Arrays.asList;
 import static nmd.rss.collector.exporter.FeedExporter.export;
 import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
-import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.FeedHeadersResponse.convert;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
+import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
+import static nmd.rss.collector.rest.tools.ResponseBody.createJsonResponse;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

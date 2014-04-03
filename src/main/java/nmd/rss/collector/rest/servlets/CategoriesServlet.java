@@ -1,16 +1,19 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.servlets;
 
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.rest.AbstractRestServlet;
+import nmd.rss.collector.rest.tools.ResponseBody;
+import nmd.rss.collector.rest.wrappers.CategoriesServiceWrapper;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
-import static nmd.rss.collector.rest.CategoriesServiceWrapper.*;
-import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.ServletTools.parse;
-import static nmd.rss.collector.rest.ServletTools.readRequestBody;
+import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
+import static nmd.rss.collector.rest.tools.ServletTools.parse;
+import static nmd.rss.collector.rest.tools.ServletTools.readRequestBody;
+import static nmd.rss.collector.rest.wrappers.CategoriesServiceWrapper.*;
 import static nmd.rss.reader.Category.isValidCategoryId;
 import static nmd.rss.reader.Category.isValidCategoryName;
 

@@ -1,13 +1,16 @@
 package nmd.rss.collector.rest;
 
+import nmd.rss.collector.rest.servlets.ReadsServlet;
+import nmd.rss.collector.rest.tools.ResponseBody;
+
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static nmd.rss.collector.rest.ServletTools.writeException;
-import static nmd.rss.collector.rest.ServletTools.writeResponseBody;
+import static nmd.rss.collector.rest.tools.ServletTools.writeException;
+import static nmd.rss.collector.rest.tools.ServletTools.writeResponseBody;
 
 /**
  * User: igu

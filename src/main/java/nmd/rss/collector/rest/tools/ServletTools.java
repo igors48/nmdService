@@ -1,4 +1,4 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.tools;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ErrorCode;
@@ -29,7 +29,7 @@ public final class ServletTools {
 
     private static final Logger LOGGER = Logger.getLogger(ServletTools.class.getName());
 
-    public static final String SERVER_PROCESSING_TIME_HEADER = "Server-Processing-Time";
+    public static final String SERVER_PROCESSING_TIME_HEADER = "Orb-Server-Processing-Time";
 
     private static final String UTF_8 = "UTF-8";
 

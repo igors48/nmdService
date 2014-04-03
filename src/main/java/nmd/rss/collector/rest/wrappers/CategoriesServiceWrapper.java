@@ -1,4 +1,4 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.wrappers;
 
 import nmd.rss.collector.controller.CategoriesService;
 import nmd.rss.collector.controller.CategoryReport;
@@ -6,6 +6,7 @@ import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.rest.responses.CategoriesReportResponse;
 import nmd.rss.collector.rest.responses.CategoryResponse;
+import nmd.rss.collector.rest.tools.ResponseBody;
 import nmd.rss.reader.Category;
 
 import java.util.List;
@@ -15,9 +16,9 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
-import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
+import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
+import static nmd.rss.collector.rest.tools.ResponseBody.createJsonResponse;
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.reader.Category.isValidCategoryId;
 import static nmd.rss.reader.Category.isValidCategoryName;

@@ -1,4 +1,4 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.tools;
 
 import com.google.gson.Gson;
 import nmd.rss.collector.error.ServiceError;

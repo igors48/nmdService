@@ -1,9 +1,10 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.wrappers;
 
 import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
 import nmd.rss.collector.rest.responses.FeedSeriesUpdateResponse;
+import nmd.rss.collector.rest.tools.ResponseBody;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
 
@@ -15,8 +16,8 @@ import static java.lang.String.format;
 import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
 import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
 import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
-import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.ResponseBody.createJsonResponse;
+import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
+import static nmd.rss.collector.rest.tools.ResponseBody.createJsonResponse;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

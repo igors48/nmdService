@@ -1,8 +1,11 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.servlets;
+
+import nmd.rss.collector.rest.AbstractRestServlet;
+import nmd.rss.collector.rest.tools.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
-import static nmd.rss.collector.rest.FeedsServiceWrapper.clear;
+import static nmd.rss.collector.rest.wrappers.FeedsServiceWrapper.clear;
 
 /**
  * User: igu

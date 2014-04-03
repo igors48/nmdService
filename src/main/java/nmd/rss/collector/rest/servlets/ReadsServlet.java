@@ -1,13 +1,17 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.servlets;
+
+import nmd.rss.collector.rest.AbstractRestServlet;
+import nmd.rss.collector.rest.tools.FeedAndItemIds;
+import nmd.rss.collector.rest.tools.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.rss.collector.rest.ReadsServiceWrapper.*;
-import static nmd.rss.collector.rest.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.ServletTools.*;
+import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
+import static nmd.rss.collector.rest.tools.ServletTools.*;
+import static nmd.rss.collector.rest.wrappers.ReadsServiceWrapper.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -40,7 +44,6 @@ public class ReadsServlet extends AbstractRestServlet {
     protected ResponseBody handlePut(final HttpServletRequest request) {
         final String pathInfo = request.getPathInfo();
 
-        //TODO how validate it members
         final FeedAndItemIds feedAndItemIds = parseFeedAndItemIds(pathInfo);
 
         if (feedAndItemIds == null) {

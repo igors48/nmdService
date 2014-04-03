@@ -1,7 +1,7 @@
 package unit.tool;
 
-import nmd.rss.collector.rest.FeedAndItemIds;
-import nmd.rss.collector.rest.ServletTools;
+import nmd.rss.collector.rest.tools.FeedAndItemIds;
+import nmd.rss.collector.rest.tools.ServletTools;
 import org.junit.Test;
 
 import java.util.UUID;
