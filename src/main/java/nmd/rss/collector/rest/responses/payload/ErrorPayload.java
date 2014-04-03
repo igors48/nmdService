@@ -14,9 +14,9 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class ErrorPayload {
 
-    public ErrorCode code = null;
-    public String message = null;
-    public String hints = null;
+    public ErrorCode code;
+    public String message;
+    public String hints;
 
     private ErrorPayload() {
         // empty

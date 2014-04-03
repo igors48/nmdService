@@ -2,8 +2,11 @@ package nmd.rss.collector.rest.responses.payload;
 
 import nmd.rss.collector.feed.FeedHeader;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertStringIsValid;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderTitle;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.isValidUrl;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -11,9 +14,9 @@ import static nmd.rss.collector.util.Assert.assertStringIsValid;
  */
 public class FeedHeaderPayload {
 
-    public String feedLink = null;
-    public String feedId = null;
-    public String feedTitle = null;
+    public String feedLink;
+    public String feedId;
+    public String feedTitle;
 
     private FeedHeaderPayload() {
         // empty
@@ -42,9 +45,9 @@ public class FeedHeaderPayload {
     }
 
     public static FeedHeaderPayload create(final String feedLink, final String feedId, final String feedTitle) {
-        assertStringIsValid(feedLink);
-        assertStringIsValid(feedId);
-        assertStringIsValid(feedTitle);
+        guard(isValidUrl(feedLink));
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidFeedHeaderTitle(feedTitle));
 
         final FeedHeaderPayload feedHeaderPayload = new FeedHeaderPayload();
 
@@ -56,7 +59,7 @@ public class FeedHeaderPayload {
     }
 
     public static FeedHeaderPayload create(final FeedHeader header) {
-        assertNotNull(header);
+        guard(notNull(header));
 
         final FeedHeaderPayload result = new FeedHeaderPayload();
 

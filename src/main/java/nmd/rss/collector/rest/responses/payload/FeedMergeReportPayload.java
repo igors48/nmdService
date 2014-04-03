@@ -4,7 +4,9 @@ import nmd.rss.collector.controller.FeedUpdateReport;
 
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.*;
+import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -12,18 +14,18 @@ import static nmd.rss.collector.util.Assert.*;
  */
 public class FeedMergeReportPayload {
 
-    public String feedLink = null;
-    public UUID feedId = null;
-    public int removed = 0;
-    public int retained = 0;
-    public int added = 0;
+    public String feedLink;
+    public UUID feedId;
+    public int removed;
+    public int retained;
+    public int added;
 
     public static FeedMergeReportPayload create(final UUID feedId, final String feedLink, final int removed, final int retained, final int added) {
-        assertStringIsValid(feedLink);
-        assertNotNull(feedId);
-        assertPositive(removed);
-        assertPositive(retained);
-        assertPositive(added);
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidUrl(feedLink));
+        guard(isPositive(removed));
+        guard(isPositive(retained));
+        guard(isPositive(added));
 
         final FeedMergeReportPayload feedMergeReportPayload = new FeedMergeReportPayload();
 
@@ -37,7 +39,7 @@ public class FeedMergeReportPayload {
     }
 
     public static FeedMergeReportPayload create(final FeedUpdateReport report) {
-        assertNotNull(report);
+        guard(notNull(report));
 
         return create(report.feedId, report.feedLink, report.mergeReport.removed.size(), report.mergeReport.retained.size(), report.mergeReport.added.size());
     }

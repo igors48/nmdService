@@ -2,7 +2,8 @@ package nmd.rss.collector.rest.responses.payload;
 
 import nmd.rss.collector.controller.FeedItemReport;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * User: igu
@@ -10,20 +11,20 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class FeedItemReportPayload {
 
-    public String feedId = "";
-    public String title = "";
-    public String link = "";
-    public long date = 0;
-    public String itemId = "";
-    public boolean read = false;
-    public boolean readLater = false;
+    public String feedId;
+    public String title;
+    public String link;
+    public long date;
+    public String itemId;
+    public boolean read;
+    public boolean readLater;
 
     private FeedItemReportPayload() {
         // empty
     }
 
     public static FeedItemReportPayload create(final FeedItemReport feedItemReport) {
-        assertNotNull(feedItemReport);
+        guard(notNull(feedItemReport));
 
         final FeedItemReportPayload helper = new FeedItemReportPayload();
 
