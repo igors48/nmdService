@@ -41,6 +41,10 @@ public class FeedsServlet extends AbstractRestServlet {
         final String requestBody = readRequestBody(request);
         final AddFeedRequest addFeedRequest = convert(requestBody);
 
+        if (addFeedRequest == null) {
+            return createErrorJsonResponse(invalidFeedUrl(""));
+        }
+
         if (!isValidUrl(addFeedRequest.feedUrl)) {
             return createErrorJsonResponse(invalidFeedUrl(addFeedRequest.feedUrl));
         }
