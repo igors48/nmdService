@@ -1,10 +1,11 @@
-package rest;
+package rest.feeds;
 
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import nmd.rss.collector.rest.responses.payload.FeedHeaderPayload;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;

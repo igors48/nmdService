@@ -1,10 +1,11 @@
-package rest;
+package rest.categories;
 
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.CategoryResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import nmd.rss.reader.Category;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 import java.util.UUID;
 

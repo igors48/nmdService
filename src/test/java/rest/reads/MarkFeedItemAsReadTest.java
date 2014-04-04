@@ -1,7 +1,8 @@
-package rest;
+package rest.reads;
 
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

@@ -1,10 +1,11 @@
-package rest;
+package rest.reads;
 
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import nmd.rss.collector.rest.responses.FeedItemsReportResponse;
 import nmd.rss.collector.rest.responses.FeedReadReportsResponse;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 import java.util.UUID;
 

@@ -1,9 +1,10 @@
-package rest;
+package rest.updates;
 
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
 import nmd.rss.collector.rest.responses.FeedSeriesUpdateResponse;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 import static java.util.UUID.randomUUID;
 import static nmd.rss.collector.error.ErrorCode.INVALID_FEED_ID;

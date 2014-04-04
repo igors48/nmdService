@@ -1,8 +1,9 @@
-package rest;
+package rest.categories;
 
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.rest.responses.CategoryResponse;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 import static nmd.rss.reader.Category.isValidCategoryId;
 import static org.junit.Assert.assertEquals;

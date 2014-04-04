@@ -1,7 +1,8 @@
-package rest;
+package rest.feeds;
 
 import nmd.rss.collector.error.ErrorCode;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 import java.util.UUID;
 

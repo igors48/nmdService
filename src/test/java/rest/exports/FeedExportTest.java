@@ -1,9 +1,10 @@
-package rest;
+package rest.exports;
 
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedParserException;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 import static java.util.UUID.randomUUID;
 import static nmd.rss.collector.error.ErrorCode.INVALID_FEED_ID;

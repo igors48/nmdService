@@ -1,10 +1,11 @@
-package rest;
+package rest.categories;
 
 import nmd.rss.collector.rest.responses.CategoriesReportResponse;
 import nmd.rss.collector.rest.responses.CategoryResponse;
 import nmd.rss.collector.rest.responses.payload.CategoryReportPayload;
 import nmd.rss.reader.Category;
 import org.junit.Test;
+import rest.AbstractRestTest;
 
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
