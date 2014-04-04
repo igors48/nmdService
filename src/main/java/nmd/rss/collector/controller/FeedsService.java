@@ -135,10 +135,7 @@ public class FeedsService extends AbstractService {
         try {
             transaction = this.transactions.beginOne();
 
-            this.feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
-            this.feedHeadersRepository.deleteHeader(feedId);
-            this.feedItemsRepository.deleteItems(feedId);
-            this.readFeedItemsRepository.delete(feedId);
+            removeFeedComponents(feedId);
 
             transaction.commit();
         } finally {
@@ -195,7 +192,7 @@ public class FeedsService extends AbstractService {
             final List<FeedHeader> backedHeaders = new ArrayList<>(headers);
 
             for (final FeedHeader header : backedHeaders) {
-                removeFeed(header.id);
+                removeFeedComponents(header.id);
             }
 
             this.feedUpdateTaskSchedulerContextRepository.clear();
@@ -206,6 +203,13 @@ public class FeedsService extends AbstractService {
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    private void removeFeedComponents(final UUID feedId) {
+        this.feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
+        this.feedHeadersRepository.deleteHeader(feedId);
+        this.feedItemsRepository.deleteItems(feedId);
+        this.readFeedItemsRepository.delete(feedId);
     }
 
     private void assertCategoryExists(final String categoryId) throws ServiceException {

@@ -9,9 +9,24 @@ import nmd.rss.collector.Transactions;
  */
 public class TransactionsStub implements Transactions {
 
+    private Transaction previous;
+
     @Override
     public Transaction beginOne() {
-        return new TransactionStub();
+
+        assertOpenedTransactionNotActive();
+
+        return this.previous = new TransactionStub();
+    }
+
+    public void assertOpenedTransactionNotActive() {
+
+        if (this.previous != null) {
+
+            if (this.previous.isActive()) {
+                throw new IllegalStateException("Not closed transaction");
+            }
+        }
     }
 
 }

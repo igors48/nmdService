@@ -7,6 +7,7 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.rss.reader.Category;
+import org.junit.After;
 import org.junit.Before;
 import unit.feed.controller.stub.*;
 import unit.feed.scheduler.FeedUpdateTaskRepositoryStub;
@@ -93,9 +94,11 @@ public abstract class AbstractControllerTestBase {
     protected ReadsService readsService;
     protected CategoriesService categoriesService;
 
+    private TransactionsStub transactionsStub;
+
     @Before
     public void before() throws ServiceException {
-        final TransactionsStub transactionsStub = new TransactionsStub();
+        this.transactionsStub = new TransactionsStub();
 
         this.fetcherStub = new UrlFetcherStub();
         this.feedHeadersRepositoryStub = new FeedHeadersRepositoryStub();
@@ -105,12 +108,17 @@ public abstract class AbstractControllerTestBase {
         this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
         this.categoriesRepositoryStub = new CategoriesRepositoryStub();
 
-        this.feedUpdateTaskSchedulerStub = new CycleFeedUpdateTaskScheduler(this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, transactionsStub);
+        this.feedUpdateTaskSchedulerStub = new CycleFeedUpdateTaskScheduler(this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.transactionsStub);
 
-        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.fetcherStub, transactionsStub);
-        this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, transactionsStub);
-        this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, transactionsStub);
-        this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, transactionsStub);
+        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.fetcherStub, this.transactionsStub);
+        this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
+        this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, this.transactionsStub);
+        this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.transactionsStub);
+    }
+
+    @After
+    public void tearDown() {
+        this.transactionsStub.assertOpenedTransactionNotActive();
     }
 
     protected UUID addValidFirstRssFeed(final String categoryId) throws ServiceException {
