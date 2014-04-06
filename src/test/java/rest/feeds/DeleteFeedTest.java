@@ -1,14 +1,11 @@
 package rest.feeds;
 
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import org.junit.Test;
 import rest.AbstractRestTest;
 
 import java.util.UUID;
-
-import static org.junit.Assert.assertTrue;
 
 /**
  * User: igu
@@ -23,17 +20,6 @@ public class DeleteFeedTest extends AbstractRestTest {
         final String response = deleteFeed(feedIdResponse.feedId.toString());
 
         assertSuccessResponse(response);
-    }
-
-    @Test
-    public void whenFeedWithExistentIdDeletedThenItDoesNotReturnInList() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        deleteFeed(feedIdResponse.feedId.toString());
-
-        final FeedHeadersResponse feedsResponse = getFeedHeaders();
-
-        assertTrue(feedsResponse.headers.isEmpty());
     }
 
     @Test

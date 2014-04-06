@@ -1,14 +1,10 @@
 package rest.feeds;
 
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.FeedHeadersResponse;
-import nmd.rss.collector.rest.responses.FeedIdResponse;
-import nmd.rss.collector.rest.responses.payload.FeedHeaderPayload;
 import org.junit.Test;
 import rest.AbstractRestTest;
 
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
-import static org.junit.Assert.assertEquals;
 
 /**
  * User: igu
@@ -19,26 +15,6 @@ public class AddFeedTest extends AbstractRestTest {
     @Test
     public void whenFeedAddedThenItsIdReturnsAsValidUuid() {
         addFirstFeed();
-    }
-
-    @Test
-    public void whenFeedAddedThenItIsReturnedInList() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        final FeedHeadersResponse feedsResponse = getFeedHeaders();
-
-        final FeedHeaderPayload feedHeaderPayload = FeedHeaderPayload.create(FIRST_FEED_URL, feedIdResponse.feedId.toString(), FIRST_FEED_TITLE);
-
-        assertEquals(1, feedsResponse.headers.size());
-        assertEquals(feedHeaderPayload, feedsResponse.headers.get(0));
-    }
-
-    @Test
-    public void whenSameFeedAddedSecondTimeThenUuidFromFirstAttemptReturns() {
-        final FeedIdResponse firstFeedIdResponse = addFirstFeed();
-        final FeedIdResponse secondFeedIdResponse = addFirstFeed();
-
-        assertEquals(firstFeedIdResponse, secondFeedIdResponse);
     }
 
     @Test
