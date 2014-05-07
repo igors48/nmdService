@@ -15,6 +15,8 @@
 
     <property name="src.web.inf.directory" value="${dir.base}/war/WEB-INF"/>
     <property name="src.meta.inf.directory" value="${dir.base}/war/META-INF"/>
+    <property name="src.angular.app.directory" value="${dir.base}/war/angular/app/"/>
+
     <property name="war.directory" value="${dir.release}/war/"/>
     <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
     <property name="lib.directory" value="${web.inf.directory}/lib/"/>
@@ -141,7 +143,7 @@
 
 
     <fileset id="source.test.filtered.java" dir="${dir.source.test.java}">
-        <include name="/unit/**/AssignFeedToCategoryTest.java"/>
+        <include name="/unit/**/CachedFeedItemsRepositoryTest.java"/>
     </fileset>
 
 
@@ -149,6 +151,10 @@
         <include name="**/*.java"/>
     </fileset>
 
+    <filterset id="identifier.and.security">
+        <filter token="application.identifier" value="${application.identifier}"/>
+        <filter token="security.key" value="${security.key}"/>
+    </filterset>
 
     <target name="-prepare_dir">
         <delete dir="${param.dir}" includeEmptyDirs="true" quiet="false"/>
@@ -281,6 +287,61 @@
     </target>
 
 
+    <target name="-delete_resources">
+
+        <delete dir="${war.directory}/js/"/>
+        <delete dir="${war.directory}/partials/"/>
+        <delete dir="${war.directory}/css/"/>
+        <delete dir="${war.directory}/img/"/>
+        <delete dir="${war.directory}/lib/"/>
+
+        <delete file="${war.directory}/index.html"/>
+
+    </target>
+
+
+    <target name="-copy_resources">
+
+        <copy todir="${war.directory}/js/">
+            <fileset dir="${src.angular.app.directory}/js/"/>
+
+            <filterset refid="identifier.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/partials/">
+            <fileset dir="${src.angular.app.directory}/partials/"/>
+
+            <filterset refid="identifier.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/">
+            <fileset file="${src.angular.app.directory}/index.html"/>
+
+            <filterset refid="identifier.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/css/">
+            <fileset dir="${src.angular.app.directory}/css/"/>
+        </copy>
+
+        <copy todir="${war.directory}/img/">
+            <fileset dir="${src.angular.app.directory}/img/"/>
+        </copy>
+
+        <copy todir="${war.directory}/lib/">
+            <fileset dir="${src.angular.app.directory}/lib/"/>
+        </copy>
+
+    </target>
+
+
+    <target name="update_resources">
+
+        <antcall target="-delete_resources"/>
+        <antcall target="-copy_resources"/>
+
+    </target>
+
     <target name="release">
 
         <antcall target="-prepare_dir">
@@ -328,10 +389,6 @@
             <fileset dir="${dir.dependencies.runtime}"/>
         </copy>
 
-        <filterset id="identifier.and.security">
-            <filter token="application.identifier" value="${application.identifier}"/>
-            <filter token="security.key" value="${security.key}"/>
-        </filterset>
 
         <copy file="${src.web.inf.directory}/appengine-web.xml" todir="${web.inf.directory}">
             <fileset dir="${dir.base}/war/WEB-INF">
@@ -347,39 +404,11 @@
             </fileset>
         </copy>
 
+        <antcall target="-copy_resources"/>
+
         <!--static files for test mode only-->
         <copy todir="${war.directory}/feed/">
             <fileset dir="${dir.base}/war/feed/"/>
-        </copy>
-
-        <copy todir="${war.directory}/js/">
-            <fileset dir="${dir.base}/war/angular/app/js/"/>
-
-            <filterset refid="identifier.and.security"/>
-        </copy>
-
-        <copy todir="${war.directory}/partials/">
-            <fileset dir="${dir.base}/war/angular/app/partials/"/>
-
-            <filterset refid="identifier.and.security"/>
-        </copy>
-
-        <copy todir="${war.directory}/">
-            <fileset file="${dir.base}/war/angular/app/index.html"/>
-
-            <filterset refid="identifier.and.security"/>
-        </copy>
-
-        <copy todir="${war.directory}/css/">
-            <fileset dir="${dir.base}/war/angular/app/css/"/>
-        </copy>
-
-        <copy todir="${war.directory}/img/">
-            <fileset dir="${dir.base}/war/angular/app/img/"/>
-        </copy>
-
-        <copy todir="${war.directory}/lib/">
-            <fileset dir="${dir.base}/war/angular/app/lib/"/>
         </copy>
 
     </target>
