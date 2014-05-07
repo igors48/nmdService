@@ -1,6 +1,6 @@
 'use strict';
 
-controllers.controller('itemViewController', ['$scope', '$window', '$routeParams', 'reads', 'lastUsedIds', 'blockUi', function ($scope, $window, $routeParams, reads, lastUsedIds, blockUi) {
+controllers.controller('itemViewController', ['$scope', '$location', '$window', '$routeParams', 'reads', 'lastUsedIds', 'blockUi', function ($scope, $location, $window, $routeParams, reads, lastUsedIds, blockUi) {
 
     //TODO code duplication
     function showSuccessMessage (message) {
@@ -48,9 +48,11 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
                     function() {
                         $scope.feedTitle = itemsReport.title;
                         $scope.reports = itemsReport.reports;
+                        $scope.read = itemsReport.read;
+                        $scope.notRead = itemsReport.notRead;
+                        $scope.readLater = itemsReport.readLater;
 
-                        $scope.touchedItemId = lastUsedIds.getLastUsedItemId();    
-                        showSuccessMessage('r: ' + itemsReport.read + ' n: ' + itemsReport.notRead + ' l: ' + itemsReport.readLater);
+                        $scope.touchedItemId = lastUsedIds.getLastUsedItemId();
                     })
             },
             function () {
@@ -147,7 +149,11 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
             }
         );
     }
-    
+
+    $scope.backToFeeds = function () {
+        $location.path('/feeds');
+    }
+
     lastUsedIds.storeFeedId($routeParams.feedId);
     $scope.loadItemsReport($routeParams.feedId);
 }]);

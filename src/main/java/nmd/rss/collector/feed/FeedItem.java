@@ -94,11 +94,11 @@ public class FeedItem implements Serializable {
     }
 
     public static boolean isValidFeedItemTitle(final String value) {
-        return isValidString(value) && value.length() <= MAX_TITLE_AND_DESCRIPTION_LENGTH;
+        return notNull(value) && value.length() <= MAX_TITLE_AND_DESCRIPTION_LENGTH;
     }
 
     public static boolean isValidFeedItemDescription(final String value) {
-        return isValidString(value) && value.length() <= MAX_TITLE_AND_DESCRIPTION_LENGTH;
+        return notNull(value) && value.length() <= MAX_TITLE_AND_DESCRIPTION_LENGTH;
     }
 
     public static boolean isValidFeedItemLink(final String value) {
