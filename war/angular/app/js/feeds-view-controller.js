@@ -87,7 +87,8 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
 
             $scope.showAddingNewFeedMessage();
 
-            var response = feeds.save($scope.feedLink,
+            var response = feeds.save(
+                {feedUrl: $scope.feedLink, categoryId: 'main'},
                 function () {
                     serverResponseHandler(response,
                         function () {
