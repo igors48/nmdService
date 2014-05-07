@@ -31,7 +31,7 @@ controllers.controller('itemViewController', ['$scope', '$window', '$routeParams
         } else {
             blockUi.unblock();
 
-            showErrorMessage('Error : ' + response.message + ' ' + response.hints);
+            showErrorMessage('Error : ' + response.error.message + ' ' + response.error.hints);
         }
     }
 

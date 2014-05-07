@@ -21,7 +21,7 @@ controllers.controller('feedsViewController', ['$scope', '$window', '$location',
         };
 
         $scope.showErrorResponseMessage = function (response) {
-            showStatusMessage('Error : ' + response.message + ' ' + response.hints)
+            showStatusMessage('Error : ' + response.error.message + ' ' + response.error.hints)
         };
 
         $scope.showLoadingFeedsMessage = function () {

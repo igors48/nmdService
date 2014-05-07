@@ -21,7 +21,7 @@ controllers.controller('updateFeedTitleViewController', ['$scope', '$routeParams
         };
 
         $scope.showErrorResponseMessage = function (response) {
-            showStatusMessage('Error : ' + response.message + ' ' + response.hints)
+            showStatusMessage('Error : ' + response.error.message + ' ' + response.error.hints)
         };
 
         $scope.showLoadingMessage = function () {

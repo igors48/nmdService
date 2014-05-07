@@ -33,7 +33,7 @@ controllers.controller('feedViewController', ['$scope', '$location', '$routePara
         } else {
             blockUi.unblock();
 
-            showErrorMessage('Error : ' + response.message + ' ' + response.hints);
+            showErrorMessage('Error : ' + response.error.message + ' ' + response.error.hints);
         }
     }
 
