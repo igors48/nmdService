@@ -84,7 +84,7 @@ public class FeedHeader implements Serializable {
     }
 
     public static boolean isValidFeedHeaderDescription(final String feedDescription) {
-        return isValidString(feedDescription) && feedDescription.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
+        return notNull(feedDescription) && feedDescription.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
     }
 
     public static FeedHeader create(final UUID id, final String feedLink, final String title, final String description, final String link) {
