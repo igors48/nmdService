@@ -2,11 +2,11 @@ package unit.feed.cache;
 
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.cached.CachedFeedUpdateTaskRepository;
+import nmd.rss.collector.scheduler.cached.CachedFeedUpdateTasks;
 import org.junit.Before;
 import org.junit.Test;
 import unit.feed.scheduler.FeedUpdateTaskRepositoryStub;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,14 +32,14 @@ public class CachedFeedUpdateTaskRepositoryTest {
     @Before
     public void setUp() {
         this.cacheStub = new CacheStub();
-        this.cacheStub.put(CachedFeedUpdateTaskRepository.KEY, new ArrayList<FeedUpdateTask>() {{
-            add(CACHED);
-        }});
+//        this.cacheStub.put(CachedFeedUpdateTaskRepository.KEY, new ArrayList<FeedUpdateTask>() {{
+//            add(CACHED);
+//        }});
 
         this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
         this.feedUpdateTaskRepositoryStub.storeTask(STORED);
 
-        this.repository = new CachedFeedUpdateTaskRepository(this.feedUpdateTaskRepositoryStub, this.cacheStub);
+        this.repository = new CachedFeedUpdateTaskRepository(this.feedUpdateTaskRepositoryStub, 1, this.cacheStub);
     }
 
     @Test
@@ -64,10 +64,10 @@ public class CachedFeedUpdateTaskRepositoryTest {
     public void whenTaskIsStoredThenCacheIsUpdated() {
         this.repository.storeTask(STORED);
 
-        final List<FeedUpdateTask> tasks = (List<FeedUpdateTask>) this.cacheStub.get(CachedFeedUpdateTaskRepository.KEY);
+        final CachedFeedUpdateTasks tasks = (CachedFeedUpdateTasks) this.cacheStub.get(CachedFeedUpdateTaskRepository.KEY);
 
-        assertEquals(1, tasks.size());
-        assertTrue(tasks.contains(STORED));
+        assertEquals(1, tasks.getTasks().size());
+        assertTrue(tasks.getTasks().contains(STORED));
     }
 
     @Test

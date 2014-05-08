@@ -5,7 +5,6 @@ import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 
 import java.util.List;
-import java.util.ListIterator;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -56,7 +55,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
     }
 
     @Override
-    public void updateTask(final FeedUpdateTask feedUpdateTask) {
+    public synchronized void updateTask(final FeedUpdateTask feedUpdateTask) {
         guard(notNull(feedUpdateTask));
 
         final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
@@ -65,12 +64,6 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
         if (cachedFeedUpdateTasks.flushNeeded()) {
             flush(cachedFeedUpdateTasks);
         }
-    }
-
-    private void flush(final CachedFeedUpdateTasks cachedFeedUpdateTasks) {
-        cachedFeedUpdateTasks.resetWritesCounter();
-
-        LOGGER.info("Cached feed update tasks were flushed to datastore");
     }
 
     @Override
@@ -99,34 +92,6 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
         this.cache.delete(KEY);
     }
 
-    private List<FeedUpdateTask> loadCache() {
-        final List<FeedUpdateTask> tasks = this.repository.loadAllTasks();
-
-        this.cache.put(KEY, tasks);
-
-        LOGGER.info("Feed update tasks were loaded from datastore");
-
-        return tasks;
-    }
-
-    private void updateTaskInCache(final FeedUpdateTask feedUpdateTask) {
-        final List<FeedUpdateTask> cached = loadAllTasks();
-
-        for (final ListIterator<FeedUpdateTask> iterator = cached.listIterator(); iterator.hasNext(); ) {
-            final FeedUpdateTask current = iterator.next();
-
-            if (current.feedId.equals(feedUpdateTask.feedId)) {
-                iterator.set(feedUpdateTask);
-                this.cache.put(KEY, cached);
-
-                return;
-            }
-        }
-
-        cached.add(feedUpdateTask);
-        this.cache.put(KEY, cached);
-    }
-
     private CachedFeedUpdateTasks getCachedTasks() {
         CachedFeedUpdateTasks tasks = (CachedFeedUpdateTasks) this.cache.get(KEY);
 
@@ -139,4 +104,17 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
         return tasks;
     }
+
+    private void flush(final CachedFeedUpdateTasks cachedFeedUpdateTasks) {
+        final List<FeedUpdateTask> tasks = cachedFeedUpdateTasks.getTasks();
+
+        for (final FeedUpdateTask task : tasks) {
+            this.repository.storeTask(task);
+        }
+
+        cachedFeedUpdateTasks.resetWritesCounter();
+
+        LOGGER.info("Cached feed update tasks were flushed to datastore");
+    }
+
 }
