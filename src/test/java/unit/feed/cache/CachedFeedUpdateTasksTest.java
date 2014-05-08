@@ -84,7 +84,7 @@ public class CachedFeedUpdateTasksTest {
         this.cachedTasks.addOrUpdate(SECOND_TASK);
         this.cachedTasks.addOrUpdate(SECOND_TASK);
 
-        this.cachedTasks.resetCounter();
+        this.cachedTasks.resetWritesCounter();
 
         assertFalse(this.cachedTasks.flushNeeded());
     }

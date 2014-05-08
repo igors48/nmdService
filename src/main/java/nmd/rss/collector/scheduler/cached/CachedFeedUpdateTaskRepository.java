@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.logging.Logger;
 
 import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.isPositive;
 import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
@@ -23,11 +24,15 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
     public static final String KEY = "FeedUpdateTasks";
 
     private final FeedUpdateTaskRepository repository;
+    private final int maxCacheWritesBeforeFlush;
     private final Cache cache;
 
-    public CachedFeedUpdateTaskRepository(final FeedUpdateTaskRepository repository, final Cache cache) {
+    public CachedFeedUpdateTaskRepository(final FeedUpdateTaskRepository repository, final int maxCacheWritesBeforeFlush, final Cache cache) {
         guard(notNull(repository));
         this.repository = repository;
+
+        guard(isPositive(maxCacheWritesBeforeFlush));
+        this.maxCacheWritesBeforeFlush = maxCacheWritesBeforeFlush;
 
         guard(notNull(cache));
         this.cache = cache;
@@ -35,31 +40,45 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
     @Override
     public synchronized List<FeedUpdateTask> loadAllTasks() {
-        final List<FeedUpdateTask> cached = (List<FeedUpdateTask>) this.cache.get(KEY);
+        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
 
-        return cached == null ? loadCache() : cached;
+        return cachedFeedUpdateTasks.getTasks();
     }
 
     @Override
-    public synchronized void storeTask(FeedUpdateTask feedUpdateTask) {
+    public synchronized void storeTask(final FeedUpdateTask feedUpdateTask) {
         guard(notNull(feedUpdateTask));
 
         this.repository.storeTask(feedUpdateTask);
 
-        updateTaskInCache(feedUpdateTask);
+        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
+        cachedFeedUpdateTasks.addOrUpdate(feedUpdateTask);
     }
 
     @Override
     public void updateTask(final FeedUpdateTask feedUpdateTask) {
         guard(notNull(feedUpdateTask));
-        //To change body of implemented methods use File | Settings | File Templates.
+
+        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
+        cachedFeedUpdateTasks.addOrUpdate(feedUpdateTask);
+
+        if (cachedFeedUpdateTasks.flushNeeded()) {
+            flush(cachedFeedUpdateTasks);
+        }
+    }
+
+    private void flush(final CachedFeedUpdateTasks cachedFeedUpdateTasks) {
+        cachedFeedUpdateTasks.resetWritesCounter();
+
+        LOGGER.info("Cached feed update tasks were flushed to datastore");
     }
 
     @Override
-    public synchronized FeedUpdateTask loadTaskForFeedId(UUID feedId) {
+    public synchronized FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
         guard(notNull(feedId));
 
-        final List<FeedUpdateTask> tasks = loadAllTasks();
+        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
+        final List<FeedUpdateTask> tasks = cachedFeedUpdateTasks.getTasks();
 
         for (final FeedUpdateTask task : tasks) {
 
@@ -72,7 +91,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
     }
 
     @Override
-    public synchronized void deleteTaskForFeedId(UUID feedId) {
+    public synchronized void deleteTaskForFeedId(final UUID feedId) {
         guard(notNull(feedId));
 
         this.repository.deleteTaskForFeedId(feedId);
@@ -102,11 +121,22 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
                 return;
             }
-
         }
 
         cached.add(feedUpdateTask);
         this.cache.put(KEY, cached);
     }
 
+    private CachedFeedUpdateTasks getCachedTasks() {
+        CachedFeedUpdateTasks tasks = (CachedFeedUpdateTasks) this.cache.get(KEY);
+
+        if (tasks == null) {
+            final List<FeedUpdateTask> stored = this.repository.loadAllTasks();
+            tasks = new CachedFeedUpdateTasks(stored, this.maxCacheWritesBeforeFlush);
+
+            this.cache.put(KEY, tasks);
+        }
+
+        return tasks;
+    }
 }

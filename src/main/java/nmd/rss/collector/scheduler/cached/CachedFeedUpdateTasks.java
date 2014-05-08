@@ -24,7 +24,7 @@ public class CachedFeedUpdateTasks implements Serializable {
         guard(isPositive(maxWriteCount));
         this.maxWriteCount = maxWriteCount;
 
-        resetCounter();
+        resetWritesCounter();
     }
 
     public void addOrUpdate(final FeedUpdateTask feedUpdateTask) {
@@ -61,7 +61,7 @@ public class CachedFeedUpdateTasks implements Serializable {
         return this.tasks;
     }
 
-    public void resetCounter() {
+    public void resetWritesCounter() {
         this.updatesCount = 0;
     }
 
