@@ -51,7 +51,7 @@ public class FeedUpdateTaskEntityConverter {
             final String statisticHelperJson = (String) entity.getProperty(STATISTIC);
             statisticHelper = GSON.fromJson(statisticHelperJson, StatisticHelper.class);
         } else {
-            statisticHelper = new StatisticHelper(0, 0);
+            statisticHelper = new StatisticHelper();
         }
 
         return new FeedUpdateTask(feedId, maxFeedItemsCount, statisticHelper.updates, statisticHelper.executions);

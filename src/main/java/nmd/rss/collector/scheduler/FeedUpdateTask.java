@@ -3,8 +3,9 @@ package nmd.rss.collector.scheduler;
 import java.io.Serializable;
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.assertPositive;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.isPositive;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -22,17 +23,26 @@ public class FeedUpdateTask implements Serializable {
     }
 
     public FeedUpdateTask(final UUID feedId, final int maxFeedItemsCount, final int updates, final int executions) {
-        assertNotNull(feedId);
+        guard(notNull(feedId));
         this.feedId = feedId;
 
-        assertPositive(maxFeedItemsCount);
+        guard(isPositive(maxFeedItemsCount));
         this.maxFeedItemsCount = maxFeedItemsCount;
 
-        assertPositive(updates);
+        guard(isPositive(updates));
         this.updates = updates;
 
-        assertPositive(executions);
+        guard(isPositive(executions));
         this.executions = executions;
+    }
+
+    public FeedUpdateTask updateStatistic(final int updated) {
+        guard(isPositive(updated));
+
+        final int newUpdates = this.updates + updated;
+        final int newExecutions = this.executions + 1;
+
+        return new FeedUpdateTask(this.feedId, this.maxFeedItemsCount, newUpdates, newExecutions);
     }
 
     @Override

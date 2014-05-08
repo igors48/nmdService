@@ -84,6 +84,9 @@ public class UpdatesService extends AbstractService {
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, updateTask.maxFeedItemsCount);
             final boolean nothingChanged = mergeReport.added.isEmpty() && mergeReport.removed.isEmpty();
 
+            final FeedUpdateTask updatedTask = updateTask.updateStatistic(mergeReport.added.size());
+            this.feedUpdateTaskRepository.storeTask(updatedTask);
+
             if (!nothingChanged) {
                 this.feedItemsRepository.storeItems(header.id, mergeReport.getAddedAndRetained());
             }
@@ -102,7 +105,7 @@ public class UpdatesService extends AbstractService {
         final List<FeedUpdateReport> updateReports = new ArrayList<>();
         final List<ServiceError> errors = new ArrayList<>();
 
-        final Set<FeedUpdateTask> updated = new HashSet<>();
+        final Set<UUID> updated = new HashSet<>();
 
         while (!quota.expired()) {
             final FeedUpdateTask currentTask = this.scheduler.getCurrentTask();
@@ -113,7 +116,7 @@ public class UpdatesService extends AbstractService {
                 break;
             }
 
-            if (updated.contains(currentTask)) {
+            if (updated.contains(currentTask.feedId)) {
                 LOGGER.info(format("Feed [ %s ] was already updated in this series", currentTask.feedId));
 
                 break;
@@ -131,7 +134,7 @@ public class UpdatesService extends AbstractService {
                 LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
             }
 
-            updated.add(currentTask);
+            updated.add(currentTask.feedId);
         }
 
         LOGGER.info(format("[ %d ] feeds were updated", updated.size()));
