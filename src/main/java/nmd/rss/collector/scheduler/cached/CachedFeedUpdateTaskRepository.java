@@ -5,6 +5,7 @@ import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 
 import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
 import java.util.logging.Logger;
 
@@ -44,7 +45,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
         this.repository.storeTask(feedUpdateTask);
 
-        this.cache.delete(KEY);
+        updateTaskInCache(feedUpdateTask);
     }
 
     @Override
@@ -80,6 +81,25 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
         LOGGER.info("Feed update tasks were loaded from datastore");
 
         return tasks;
+    }
+
+    private void updateTaskInCache(final FeedUpdateTask feedUpdateTask) {
+        final List<FeedUpdateTask> cached = loadAllTasks();
+
+        for (final ListIterator<FeedUpdateTask> iterator = cached.listIterator(); iterator.hasNext(); ) {
+            final FeedUpdateTask current = iterator.next();
+
+            if (current.feedId.equals(feedUpdateTask.feedId)) {
+                iterator.set(feedUpdateTask);
+                this.cache.put(KEY, cached);
+
+                return;
+            }
+
+        }
+
+        cached.add(feedUpdateTask);
+        this.cache.put(KEY, cached);
     }
 
 }

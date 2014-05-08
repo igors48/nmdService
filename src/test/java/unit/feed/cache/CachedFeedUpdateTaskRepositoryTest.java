@@ -61,10 +61,13 @@ public class CachedFeedUpdateTaskRepositoryTest {
     }
 
     @Test
-    public void whenTaskIsStoredThenCacheIsCleared() {
+    public void whenTaskIsStoredThenCacheIsUpdated() {
         this.repository.storeTask(STORED);
 
-        assertTrue(this.cacheStub.isEmpty());
+        final List<FeedUpdateTask> tasks = (List<FeedUpdateTask>) this.cacheStub.get(CachedFeedUpdateTaskRepository.KEY);
+
+        assertEquals(1, tasks.size());
+        assertTrue(tasks.contains(STORED));
     }
 
     @Test
