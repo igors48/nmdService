@@ -17,7 +17,7 @@ public class CachedFeedUpdateTasks implements Serializable {
 
     private int updatesCount;
 
-    private CachedFeedUpdateTasks(final List<FeedUpdateTask> tasks, final int maxWriteCount) {
+    public CachedFeedUpdateTasks(final List<FeedUpdateTask> tasks, final int maxWriteCount) {
         guard(notNull(tasks));
         this.tasks = tasks;
 
