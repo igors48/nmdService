@@ -13,6 +13,8 @@ public interface FeedUpdateTaskRepository {
 
     void storeTask(FeedUpdateTask feedUpdateTask);
 
+    void updateTask(FeedUpdateTask feedUpdateTask);
+
     FeedUpdateTask loadTaskForFeedId(UUID feedId);
 
     void deleteTaskForFeedId(UUID feedId);

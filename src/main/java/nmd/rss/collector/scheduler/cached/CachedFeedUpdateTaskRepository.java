@@ -9,7 +9,8 @@ import java.util.ListIterator;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -25,10 +26,10 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
     private final Cache cache;
 
     public CachedFeedUpdateTaskRepository(final FeedUpdateTaskRepository repository, final Cache cache) {
-        assertNotNull(repository);
+        guard(notNull(repository));
         this.repository = repository;
 
-        assertNotNull(cache);
+        guard(notNull(cache));
         this.cache = cache;
     }
 
@@ -41,7 +42,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
     @Override
     public synchronized void storeTask(FeedUpdateTask feedUpdateTask) {
-        assertNotNull(feedUpdateTask);
+        guard(notNull(feedUpdateTask));
 
         this.repository.storeTask(feedUpdateTask);
 
@@ -49,8 +50,14 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
     }
 
     @Override
+    public void updateTask(final FeedUpdateTask feedUpdateTask) {
+        guard(notNull(feedUpdateTask));
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
     public synchronized FeedUpdateTask loadTaskForFeedId(UUID feedId) {
-        assertNotNull(feedId);
+        guard(notNull(feedId));
 
         final List<FeedUpdateTask> tasks = loadAllTasks();
 
@@ -66,7 +73,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
     @Override
     public synchronized void deleteTaskForFeedId(UUID feedId) {
-        assertNotNull(feedId);
+        guard(notNull(feedId));
 
         this.repository.deleteTaskForFeedId(feedId);
 
