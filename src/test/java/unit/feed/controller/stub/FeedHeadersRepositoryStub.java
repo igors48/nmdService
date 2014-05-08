@@ -35,7 +35,7 @@ public class FeedHeadersRepositoryStub implements FeedHeadersRepository {
 
     @Override
     public List<FeedHeader> loadHeaders() {
-        return this.feedHeaders;
+        return new ArrayList<>(this.feedHeaders);
     }
 
     @Override

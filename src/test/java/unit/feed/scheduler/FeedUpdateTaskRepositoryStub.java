@@ -25,7 +25,7 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
 
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
-        return this.tasks;
+        return new ArrayList<>(this.tasks);
     }
 
     @Override

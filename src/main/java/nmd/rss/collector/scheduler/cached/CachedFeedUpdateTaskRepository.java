@@ -50,20 +50,26 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
 
         this.repository.storeTask(feedUpdateTask);
 
-        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
-        cachedFeedUpdateTasks.addOrUpdate(feedUpdateTask);
+        updateCache(feedUpdateTask);
     }
 
     @Override
     public synchronized void updateTask(final FeedUpdateTask feedUpdateTask) {
         guard(notNull(feedUpdateTask));
 
-        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
-        cachedFeedUpdateTasks.addOrUpdate(feedUpdateTask);
+        final CachedFeedUpdateTasks cachedFeedUpdateTasks = updateCache(feedUpdateTask);
 
         if (cachedFeedUpdateTasks.flushNeeded()) {
             flush(cachedFeedUpdateTasks);
         }
+    }
+
+    private CachedFeedUpdateTasks updateCache(FeedUpdateTask feedUpdateTask) {
+        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
+        cachedFeedUpdateTasks.addOrUpdate(feedUpdateTask);
+
+        this.cache.put(KEY, cachedFeedUpdateTasks);
+        return cachedFeedUpdateTasks;
     }
 
     @Override
@@ -100,6 +106,8 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
             tasks = new CachedFeedUpdateTasks(stored, this.maxCacheWritesBeforeFlush);
 
             this.cache.put(KEY, tasks);
+
+            LOGGER.info("Feed update tasks were loaded from datastore");
         }
 
         return tasks;
