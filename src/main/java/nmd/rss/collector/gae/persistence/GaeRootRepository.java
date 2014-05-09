@@ -35,7 +35,7 @@ public class GaeRootRepository implements Transactions {
 
     public static final Transactions GAE_TRANSACTIONS = new GaeRootRepository();
 
-    private static final int MAX_CACHED_FEED_UPDATE_TASK_REPOSITORY_BEFORE_FLUSH = 30;
+    private static final int MAX_CACHED_FEED_UPDATE_TASK_REPOSITORY_BEFORE_FLUSH = 100;
 
     public static final FeedUpdateTaskSchedulerContextRepository GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY = new CachedFeedUpdateTaskSchedulerContextRepository(MEM_CACHE);
     public static final FeedItemsRepository GAE_CACHED_FEED_ITEMS_REPOSITORY = new CachedFeedItemsRepository(GAE_FEED_ITEMS_REPOSITORY, MEM_CACHE);
