@@ -33,9 +33,9 @@ import static nmd.rss.reader.gae.GaeReadFeedItemsRepository.GAE_READ_FEED_ITEMS_
  */
 public class GaeRootRepository implements Transactions {
 
-    public static final Transactions GAE_TRANSACTIONS = new GaeRootRepository();
+    private static final int MAX_CACHED_FEED_UPDATE_TASK_REPOSITORY_BEFORE_FLUSH = 300;
 
-    private static final int MAX_CACHED_FEED_UPDATE_TASK_REPOSITORY_BEFORE_FLUSH = 200;
+    public static final Transactions GAE_TRANSACTIONS = new GaeRootRepository();
 
     public static final FeedUpdateTaskSchedulerContextRepository GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY = new CachedFeedUpdateTaskSchedulerContextRepository(MEM_CACHE);
     public static final FeedItemsRepository GAE_CACHED_FEED_ITEMS_REPOSITORY = new CachedFeedItemsRepository(GAE_FEED_ITEMS_REPOSITORY, MEM_CACHE);
