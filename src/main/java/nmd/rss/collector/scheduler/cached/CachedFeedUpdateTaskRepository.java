@@ -62,14 +62,8 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
         if (cachedFeedUpdateTasks.flushNeeded()) {
             flush(cachedFeedUpdateTasks);
         }
-    }
-
-    private CachedFeedUpdateTasks updateCache(FeedUpdateTask feedUpdateTask) {
-        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
-        cachedFeedUpdateTasks.addOrUpdate(feedUpdateTask);
 
         this.cache.put(KEY, cachedFeedUpdateTasks);
-        return cachedFeedUpdateTasks;
     }
 
     @Override
@@ -96,6 +90,15 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
         this.repository.deleteTaskForFeedId(feedId);
 
         this.cache.delete(KEY);
+    }
+
+    private CachedFeedUpdateTasks updateCache(FeedUpdateTask feedUpdateTask) {
+        final CachedFeedUpdateTasks cachedFeedUpdateTasks = getCachedTasks();
+        cachedFeedUpdateTasks.addOrUpdate(feedUpdateTask);
+
+        this.cache.put(KEY, cachedFeedUpdateTasks);
+
+        return cachedFeedUpdateTasks;
     }
 
     private CachedFeedUpdateTasks getCachedTasks() {

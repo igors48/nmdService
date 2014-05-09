@@ -85,7 +85,8 @@ public class UpdatesService extends AbstractService {
             final boolean nothingChanged = mergeReport.added.isEmpty() && mergeReport.removed.isEmpty();
 
             final FeedUpdateTask updatedTask = updateTask.updateStatistic(mergeReport.added.size());
-            this.feedUpdateTaskRepository.storeTask(updatedTask);
+            //this.feedUpdateTaskRepository.storeTask(updatedTask);
+            this.feedUpdateTaskRepository.updateTask(updatedTask);
 
             if (!nothingChanged) {
                 this.feedItemsRepository.storeItems(header.id, mergeReport.getAddedAndRetained());
