@@ -46,7 +46,7 @@ public final class Parameter {
     }
 
     public static boolean isValidUrl(final String value) {
-        return URL_VALIDATOR.isValid(value.toLowerCase());
+        return notNull(value) && URL_VALIDATOR.isValid(value.toLowerCase());
     }
 
     private Parameter() {
