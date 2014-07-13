@@ -54,27 +54,19 @@ public final class TweetConversionTools {
 
         final UserEntities entities = user.getEntities();
 
-        if (entities == null) {
-            return null;
-        }
+        final Url url = getUrl(entities);
+        final Urls first = getFirstUrl(url);
+        final String expandedFirstUrl = getExpandedFirstUrl(first);
 
-        final Url url = entities.getUrl();
+        final String feedLink = isBlank(expandedFirstUrl) ? twitterLink : expandedFirstUrl;
 
-        if (url == null) {
-            return null;
-        }
+        final UUID id = UUID.randomUUID();
 
-        final List<Urls> urls = url.getUrls();
+        return create(id, twitterLink.trim(), cutTo(title, MAX_DESCRIPTION_AND_TITLE_LENGTH), cutTo(description, MAX_DESCRIPTION_AND_TITLE_LENGTH), feedLink);
+    }
 
-        if (urls == null || urls.isEmpty()) {
-            return null;
-        }
-
-        final Urls first = urls.get(0);
-
-        if (first == null) {
-            return null;
-        }
+    private static String getExpandedFirstUrl(Urls first) {
+        if (first == null) return null;
 
         final String expandedUrl = first.getExpanded_url();
 
@@ -82,11 +74,27 @@ public final class TweetConversionTools {
             return null;
         }
 
-        final String feedLink = expandedUrl.trim();
+        return expandedUrl.trim();
+    }
 
-        final UUID id = UUID.randomUUID();
+    private static Urls getFirstUrl(Url url) {
+        if (url == null) return null;
 
-        return create(id, twitterLink.trim(), cutTo(title, MAX_DESCRIPTION_AND_TITLE_LENGTH), cutTo(description, MAX_DESCRIPTION_AND_TITLE_LENGTH), feedLink);
+        final List<Urls> urls = url.getUrls();
+
+        if (urls == null || urls.isEmpty()) {
+            return null;
+        }
+
+        return urls.get(0);
+    }
+
+    private static Url getUrl(UserEntities entities) {
+        if (entities == null) {
+            return null;
+        }
+
+        return entities.getUrl();
     }
 
     public static FeedItem convertToItem(final Tweet tweet, final Date current) {

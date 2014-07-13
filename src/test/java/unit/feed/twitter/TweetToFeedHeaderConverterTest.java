@@ -102,52 +102,52 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserEntitiesNullThenNullReturns() {
+    public void whenUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().setEntities(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlInUserEntitiesNullThenNullReturns() {
+    public void whenUrlInUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().setUrl(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlListInUserEntitiesNullThenNullReturns() {
+    public void whenUrlListInUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().setUrls(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlListInUserEntitiesEmptyThenNullReturns() {
+    public void whenUrlListInUserEntitiesEmptyThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().setUrls(new ArrayList<Urls>());
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstUrlsElementInUserEntitiesNullThenNullReturns() {
+    public void whenFirstUrlsElementInUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().getUrls().set(0, null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstExpandedUrlInUserEntitiesNullThenNullReturns() {
+    public void whenFirstExpandedUrlInUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().getUrls().get(0).setExpanded_url(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstExpandedUrlInUserEntitiesEmptyThenNullReturns() {
+    public void whenFirstExpandedUrlInUserEntitiesEmptyThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().getUrls().get(0).setExpanded_url("");
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
