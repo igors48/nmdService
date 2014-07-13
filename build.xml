@@ -15,7 +15,7 @@
 
     <property name="src.web.inf.directory" value="${dir.base}/war/WEB-INF"/>
     <property name="src.meta.inf.directory" value="${dir.base}/war/META-INF"/>
-    <property name="src.touch.app.directory" value="${dir.base}/war/touch/"/>
+    <property name="src.angular.app.directory" value="${dir.base}/war/angular/app/"/>
 
     <property name="war.directory" value="${dir.release}/war/"/>
     <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
@@ -289,6 +289,10 @@
 
     <target name="-delete_resources">
 
+        <delete dir="${war.directory}/js/"/>
+        <delete dir="${war.directory}/partials/"/>
+        <delete dir="${war.directory}/css/"/>
+        <delete dir="${war.directory}/img/"/>
         <delete dir="${war.directory}/lib/"/>
 
         <delete file="${war.directory}/index.html"/>
@@ -298,12 +302,35 @@
 
     <target name="-copy_resources">
 
-        <copy todir="${war.directory}/">
-            <fileset file="${src.touch.app.directory}/index.html"/>
+        <copy todir="${war.directory}/js/">
+            <fileset dir="${src.angular.app.directory}/js/"/>
 
             <filterset refid="identifier.and.security"/>
         </copy>
 
+        <copy todir="${war.directory}/partials/">
+            <fileset dir="${src.angular.app.directory}/partials/"/>
+
+            <filterset refid="identifier.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/">
+            <fileset file="${src.angular.app.directory}/index.html"/>
+
+            <filterset refid="identifier.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/css/">
+            <fileset dir="${src.angular.app.directory}/css/"/>
+        </copy>
+
+        <copy todir="${war.directory}/img/">
+            <fileset dir="${src.angular.app.directory}/img/"/>
+        </copy>
+
+        <copy todir="${war.directory}/lib/">
+            <fileset dir="${src.angular.app.directory}/lib/"/>
+        </copy>
 
     </target>
 
