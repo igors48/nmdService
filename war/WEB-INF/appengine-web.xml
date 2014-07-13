@@ -5,13 +5,14 @@
     <threadsafe>true</threadsafe>
 
     <static-files>
-        <include path="js/**.js"/>
+        <!--<include path="js/**.js"/>
         <include path="css/**.css"/>
         <include path="lib/angular/**.js"/>
         <include path="partials/**.html"/>
         <include path="img/**.*"/>
 
-        <include path="feed/**.xml"/>
+        <include path="feed/**.xml"/>-->
+        <include path="**.*"/>
     </static-files>
 
 </appengine-web-app>
