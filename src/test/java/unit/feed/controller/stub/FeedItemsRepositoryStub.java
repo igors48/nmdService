@@ -3,10 +3,7 @@ package unit.feed.controller.stub;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.updater.FeedItemsRepository;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -27,7 +24,9 @@ public class FeedItemsRepositoryStub implements FeedItemsRepository {
 
     @Override
     public List<FeedItem> loadItems(final UUID feedId) {
-        return this.items.get(feedId);
+        final List<FeedItem> feedItems = this.items.get(feedId);
+
+        return feedItems == null ? null : new ArrayList<>(feedItems);
     }
 
     @Override

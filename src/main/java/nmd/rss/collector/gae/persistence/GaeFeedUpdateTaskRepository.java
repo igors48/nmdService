@@ -42,10 +42,17 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
         assertNotNull(feedUpdateTask);
 
+        deleteTaskForFeedId(feedUpdateTask.feedId);
+
         final Key feedRootKey = getEntityRootKey(feedUpdateTask.feedId.toString(), FEED);
         final Entity entity = convert(feedUpdateTask, feedRootKey);
 
         DATASTORE_SERVICE.put(entity);
+    }
+
+    @Override
+    public void updateTask(FeedUpdateTask feedUpdateTask) {
+        storeTask(feedUpdateTask);
     }
 
     @Override

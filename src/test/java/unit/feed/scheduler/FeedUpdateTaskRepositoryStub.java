@@ -4,7 +4,6 @@ import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
@@ -26,41 +25,56 @@ public class FeedUpdateTaskRepositoryStub implements FeedUpdateTaskRepository {
 
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
-        return this.tasks;
+        return new ArrayList<>(this.tasks);
     }
 
     @Override
     public void storeTask(final FeedUpdateTask feedUpdateTask) {
-        this.tasks.add(feedUpdateTask);
+        final int index = find(feedUpdateTask.feedId);
+
+        if (index == -1) {
+            this.tasks.add(feedUpdateTask);
+        } else {
+            this.tasks.set(index, feedUpdateTask);
+        }
+    }
+
+    @Override
+    public void updateTask(final FeedUpdateTask feedUpdateTask) {
+        storeTask(feedUpdateTask);
     }
 
     @Override
     public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
+        final int index = find(feedId);
 
-        for (final FeedUpdateTask candidate : this.tasks) {
-
-            if (candidate.feedId.equals(feedId)) {
-                return candidate;
-            }
-        }
-
-        return null;
+        return index == -1 ? null : this.tasks.get(index);
     }
 
     @Override
     public void deleteTaskForFeedId(final UUID feedId) {
+        final int index = find(feedId);
 
-        for (final Iterator<FeedUpdateTask> iterator = this.tasks.iterator(); iterator.hasNext(); ) {
-            final FeedUpdateTask candidate = iterator.next();
-
-            if (candidate.feedId.equals(feedId)) {
-                iterator.remove();
-            }
+        if (index != -1) {
+            this.tasks.remove(index);
         }
     }
 
     public boolean isEmpty() {
         return this.tasks.isEmpty();
+    }
+
+    private int find(final UUID feedId) {
+
+        for (int index = 0; index < this.tasks.size(); ++index) {
+            final FeedUpdateTask current = this.tasks.get(index);
+
+            if (current.feedId.equals(feedId)) {
+                return index;
+            }
+        }
+
+        return -1;
     }
 
 }

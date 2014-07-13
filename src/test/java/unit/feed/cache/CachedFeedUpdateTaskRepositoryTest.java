@@ -2,11 +2,11 @@ package unit.feed.cache;
 
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.cached.CachedFeedUpdateTaskRepository;
+import nmd.rss.collector.scheduler.cached.CachedFeedUpdateTasks;
 import org.junit.Before;
 import org.junit.Test;
 import unit.feed.scheduler.FeedUpdateTaskRepositoryStub;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -32,18 +32,19 @@ public class CachedFeedUpdateTaskRepositoryTest {
     @Before
     public void setUp() {
         this.cacheStub = new CacheStub();
-        this.cacheStub.put(CachedFeedUpdateTaskRepository.KEY, new ArrayList<FeedUpdateTask>() {{
-            add(CACHED);
-        }});
 
         this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
         this.feedUpdateTaskRepositoryStub.storeTask(STORED);
 
-        this.repository = new CachedFeedUpdateTaskRepository(this.feedUpdateTaskRepositoryStub, this.cacheStub);
+        this.repository = new CachedFeedUpdateTaskRepository(this.feedUpdateTaskRepositoryStub, 2, this.cacheStub);
     }
 
     @Test
     public void whenListIsCachedThenItemsAreTakenFromCache() {
+        this.feedUpdateTaskRepositoryStub.storeTask(CACHED);
+        this.repository.loadAllTasks();
+
+        this.feedUpdateTaskRepositoryStub.storeTask(STORED);
         final List<FeedUpdateTask> tasks = this.repository.loadAllTasks();
 
         assertEquals(1, tasks.size());
@@ -61,10 +62,13 @@ public class CachedFeedUpdateTaskRepositoryTest {
     }
 
     @Test
-    public void whenTaskIsStoredThenCacheIsCleared() {
+    public void whenTaskIsStoredThenCacheIsUpdated() {
         this.repository.storeTask(STORED);
 
-        assertTrue(this.cacheStub.isEmpty());
+        final CachedFeedUpdateTasks tasks = (CachedFeedUpdateTasks) this.cacheStub.get(CachedFeedUpdateTaskRepository.KEY);
+
+        assertEquals(1, tasks.getTasks().size());
+        assertTrue(tasks.getTasks().contains(STORED));
     }
 
     @Test
@@ -86,6 +90,17 @@ public class CachedFeedUpdateTaskRepositoryTest {
         this.repository.deleteTaskForFeedId(STORED_FEED_ID);
 
         assertTrue(this.cacheStub.isEmpty());
+    }
+
+    @Test
+    public void cachedItemsFlushedToRepositoryOnlyAfterSpecifiedCountOfWrites() {
+        this.repository.storeTask(STORED);
+
+        this.repository.updateTask(CACHED);
+        assertFalse(this.feedUpdateTaskRepositoryStub.loadAllTasks().contains(CACHED));
+
+        this.repository.updateTask(CACHED);
+        assertTrue(this.feedUpdateTaskRepositoryStub.loadAllTasks().contains(CACHED));
     }
 
 }
