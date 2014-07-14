@@ -110,6 +110,35 @@ public final class TweetConversionTools {
         final String title = text.trim();
 
         final TweetEntities entities = tweet.getEntities();
+        final String expandedUrl = getLinkFromTweetEntities(entities);
+
+        if (expandedUrl == null) {
+            return null;
+        }
+
+        final String link = /*isBlank(expandedUrl) ? createTweetUrl(tweet.getUser().getName(), tweet.getId_str()) :*/ expandedUrl;
+
+        final String dateAsString = tweet.getCreated_at();
+
+        final boolean dateReal;
+
+        final Date date = parse(dateAsString);
+        final Date itemDate;
+
+        if (date == null) {
+            dateReal = false;
+            itemDate = current;
+        } else {
+            dateReal = true;
+            itemDate = date;
+        }
+
+        final String id = UUID.randomUUID().toString();
+
+        return new FeedItem(title, title, link, itemDate, dateReal, id);
+    }
+
+    private static String getLinkFromTweetEntities(final TweetEntities entities) {
 
         if (entities == null) {
             return null;
@@ -133,26 +162,11 @@ public final class TweetConversionTools {
             return null;
         }
 
-        final String link = expandedUrl.trim();
+        return expandedUrl.trim();
+    }
 
-        final String dateAsString = tweet.getCreated_at();
-
-        final boolean dateReal;
-
-        final Date date = parse(dateAsString);
-        final Date itemDate;
-
-        if (date == null) {
-            dateReal = false;
-            itemDate = current;
-        } else {
-            dateReal = true;
-            itemDate = date;
-        }
-
-        final String id = UUID.randomUUID().toString();
-
-        return new FeedItem(title, title, link, itemDate, dateReal, id);
+    private static String createTweetUrl(final String userName, final String tweetIdAsString) {
+        return null;
     }
 
     public static Feed convertToFeed(final String twitterLink, final List<Tweet> tweets, final Date current) {

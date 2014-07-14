@@ -8,16 +8,20 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
  */
 public class Tweet {
 
+    private String id_str;
     private String created_at;
     private String text;
     private User user;
     private TweetEntities entities;
 
     Tweet() {
-        this("", "", new User(), new TweetEntities());
+        this("", "", "", new User(), new TweetEntities());
     }
 
-    public Tweet(final String created, final String text, final User user, final TweetEntities entities) {
+    public Tweet(final String id_str, final String created, final String text, final User user, final TweetEntities entities) {
+        assertNotNull(id_str);
+        this.id_str = id_str;
+
         assertNotNull(created);
         this.created_at = created;
 
@@ -29,6 +33,14 @@ public class Tweet {
 
         assertNotNull(entities);
         this.entities = entities;
+    }
+
+    public String getId_str() {
+        return id_str;
+    }
+
+    public void setId_str(String id_str) {
+        this.id_str = id_str;
     }
 
     public String getCreated_at() {

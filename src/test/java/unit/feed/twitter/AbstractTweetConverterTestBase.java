@@ -5,6 +5,7 @@ import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -49,7 +50,7 @@ public abstract class AbstractTweetConverterTestBase {
         }};
         final TweetEntities tweetEntities = new TweetEntities(tweetEntitiesUrls);
 
-        this.tweet = new Tweet(CREATED, TEXT, user, tweetEntities);
+        this.tweet = new Tweet(UUID.randomUUID().toString(), CREATED, TEXT, user, tweetEntities);
         this.tweets = new ArrayList<Tweet>() {{
             add(tweet);
         }};
