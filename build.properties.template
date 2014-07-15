@@ -1,3 +1,7 @@
+email=
+
 application.identifier=
 security.key=secure
-email=
+
+twitter.apiKey=
+twitter.apiSecret=

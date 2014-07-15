@@ -4,6 +4,11 @@
     <version>1</version>
     <threadsafe>true</threadsafe>
 
+    <system-properties>
+        <property name="twitter.apiKey" value="@twitter.apiKey@"/>
+        <property name="twitter.apiSecret" value="@twitter.apiSecret@"/>
+    </system-properties>
+
     <static-files>
         <include path="js/**.js"/>
         <include path="css/**.css"/>
