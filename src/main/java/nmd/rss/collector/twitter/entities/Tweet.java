@@ -36,7 +36,7 @@ public class Tweet {
     }
 
     public String getId_str() {
-        return id_str;
+        return this.id_str;
     }
 
     public void setId_str(String id_str) {

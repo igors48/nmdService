@@ -46,45 +46,45 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenTweetEntitiesIsNullThenNullReturns() {
+    public void whenTweetEntitiesIsNullThenTweetUrlIsUsed() {
         this.tweet.setEntities(null);
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        assertEquals(makeTweetUrl(), convertToItem(this.tweet, SOME_DATE).link);
     }
 
     @Test
-    public void whenUrlsInTweetEntitiesIsNullThenNullReturns() {
+    public void whenUrlsInTweetEntitiesIsNullThenThenTweetUrlIsUsed() {
         this.tweet.getEntities().setUrls(null);
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        assertEquals(makeTweetUrl(), convertToItem(this.tweet, SOME_DATE).link);
     }
 
     @Test
-    public void whenUrlsInTweetEntitiesIsEmptyThenNullReturns() {
+    public void whenUrlsInTweetEntitiesIsEmptyThenTweetUrlIsUsed() {
         this.tweet.getEntities().setUrls(new ArrayList<Urls>());
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        assertEquals(makeTweetUrl(), convertToItem(this.tweet, SOME_DATE).link);
     }
 
     @Test
-    public void whenFirstElementInUrlsInTweetEntitiesIsNullThenNullReturns() {
+    public void whenFirstElementInUrlsInTweetEntitiesIsNullThenTweetUrlIsUsed() {
         this.tweet.getEntities().getUrls().set(0, null);
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        assertEquals(makeTweetUrl(), convertToItem(this.tweet, SOME_DATE).link);
     }
 
     @Test
-    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsNullThenNullReturns() {
+    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsNullThenTweetUrlIsUsed() {
         this.tweet.getEntities().getUrls().get(0).setExpanded_url(null);
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        assertEquals(makeTweetUrl(), convertToItem(this.tweet, SOME_DATE).link);
     }
 
     @Test
-    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsEmptyThenNullReturns() {
+    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsEmptyThenTweetUrlIsUsed() {
         this.tweet.getEntities().getUrls().get(0).setExpanded_url("");
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        assertEquals(makeTweetUrl(), convertToItem(this.tweet, SOME_DATE).link);
     }
 
     @Test

@@ -9,16 +9,20 @@ import static nmd.rss.collector.util.Assert.assertNotNull;
 public class User {
 
     private String name;
+    private String screen_name;
     private String description;
     private UserEntities entities;
 
     User() {
-        this("", "", new UserEntities());
+        this("", "", "", new UserEntities());
     }
 
-    public User(final String name, final String description, final UserEntities entities) {
+    public User(final String name, final String screen_name, final String description, final UserEntities entities) {
         assertNotNull(name);
         this.name = name;
+
+        assertNotNull(screen_name);
+        this.screen_name = screen_name;
 
         assertNotNull(description);
         this.description = description;
@@ -33,6 +37,14 @@ public class User {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public String getScreen_name() {
+        return this.screen_name;
+    }
+
+    public void setScreen_name(String screen_name) {
+        this.screen_name = screen_name;
     }
 
     public String getDescription() {

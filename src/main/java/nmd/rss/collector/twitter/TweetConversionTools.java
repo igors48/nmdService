@@ -9,6 +9,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
+import static java.lang.String.format;
 import static nmd.rss.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static nmd.rss.collector.feed.FeedHeader.create;
 import static nmd.rss.collector.util.Assert.assertNotNull;
@@ -20,6 +21,8 @@ import static nmd.rss.collector.util.StringTools.cutTo;
  * Date : 28.02.14
  */
 public final class TweetConversionTools {
+
+    private static final String TWEET_URL_TEMPLATE = "https://twitter.com/%s/status/%s";
 
     private static final SimpleDateFormat TWITTER_DATE_PARSER;
 
@@ -112,11 +115,7 @@ public final class TweetConversionTools {
         final TweetEntities entities = tweet.getEntities();
         final String expandedUrl = getLinkFromTweetEntities(entities);
 
-        if (expandedUrl == null) {
-            return null;
-        }
-
-        final String link = /*isBlank(expandedUrl) ? createTweetUrl(tweet.getUser().getName(), tweet.getId_str()) :*/ expandedUrl;
+        final String link = isBlank(expandedUrl) ? createTweetUrl(tweet.getUser().getScreen_name(), tweet.getId_str()) : expandedUrl;
 
         final String dateAsString = tweet.getCreated_at();
 
@@ -165,8 +164,11 @@ public final class TweetConversionTools {
         return expandedUrl.trim();
     }
 
-    private static String createTweetUrl(final String userName, final String tweetIdAsString) {
-        return null;
+    public static String createTweetUrl(final String userName, final String tweetIdAsString) {
+        assertStringIsValid(userName);
+        assertStringIsValid(tweetIdAsString);
+
+        return format(TWEET_URL_TEMPLATE, userName.trim(), tweetIdAsString.trim());
     }
 
     public static Feed convertToFeed(final String twitterLink, final List<Tweet> tweets, final Date current) {

@@ -1,11 +1,11 @@
 package unit.feed.twitter;
 
+import nmd.rss.collector.twitter.TweetConversionTools;
 import nmd.rss.collector.twitter.entities.*;
 import org.junit.Before;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -15,11 +15,13 @@ public abstract class AbstractTweetConverterTestBase {
 
     protected static final String FIRST_USER_ENTITY_EXPANDED_URL = "http://domain.com/firstUserEntityExpandedUrl";
     protected static final String USER_NAME = "userName";
+    protected static final String USER_SCREEN_NAME = "userScreenName";
     protected static final String USER_DESCRIPTION = "userDescription";
     protected static final String FIRST_TWEET_ENTITY_EXPANDED_URL = "http://domain.com/firstTweetEntityExpandedUrl";
     protected static final String CREATED = "Thu Dec 23 18:26:07 +0000 2010";
     protected static final String TEXT = "text";
 
+    private static final String TWEET_ID_AS_STRING = "48";
     private static final String FIRST_USER_ENTITY_URL = "http://domain.com/firstUserEntityUrl";
     private static final String SECOND_USER_ENTITY_URL = "http://domain.com/secondUserEntityUrl";
     private static final String SECOND_USER_ENTITY_EXPANDED_URL = "http://domain.com/secondUserEntityExpandedUrl";
@@ -40,7 +42,7 @@ public abstract class AbstractTweetConverterTestBase {
         }};
         final Url userEntityUrl = new Url(userEntityUrls);
         final UserEntities userEntities = new UserEntities(userEntityUrl);
-        final User user = new User(USER_NAME + " ", USER_DESCRIPTION + " ", userEntities);
+        final User user = new User(USER_NAME + " ", USER_SCREEN_NAME + " ", USER_DESCRIPTION + " ", userEntities);
 
         final Urls firstTweetEntityUrl = new Urls(FIRST_TWEET_ENTITY_URL + " ", FIRST_TWEET_ENTITY_EXPANDED_URL + " ");
         final Urls secondTweetEntityUrl = new Urls(SECOND_TWEET_ENTITY_URL + " ", SECOND_TWEET_ENTITY_EXPANDED_URL + " ");
@@ -50,10 +52,13 @@ public abstract class AbstractTweetConverterTestBase {
         }};
         final TweetEntities tweetEntities = new TweetEntities(tweetEntitiesUrls);
 
-        this.tweet = new Tweet(UUID.randomUUID().toString(), CREATED, TEXT, user, tweetEntities);
+        this.tweet = new Tweet(TWEET_ID_AS_STRING, CREATED, TEXT, user, tweetEntities);
         this.tweets = new ArrayList<Tweet>() {{
             add(tweet);
         }};
     }
 
+    protected String makeTweetUrl() {
+        return TweetConversionTools.createTweetUrl(USER_SCREEN_NAME, TWEET_ID_AS_STRING);
+    }
 }
