@@ -158,11 +158,11 @@
         <filter token="twitter.apiSecret" value="${twitter.apiSecret}"/>
     </filterset>
 
-    <target name="get_commit_SHA">
+    <target name="-get_commit_SHA">
 
-        <exec executable="${git.executable}" outputproperty="git.sha">
+        <exec executable="${git.executable}" outputproperty="git.sha" failonerror="true">
             <arg value="log"/>
-            <arg value="--pretty=format:'%h'"/>
+            <arg value="--pretty=format:%h"/>
             <arg value="-n"/>
             <arg value="1"/>
         </exec>
@@ -171,7 +171,7 @@
 
     </target>
         
-    <target name="fail_if_not_clean">
+    <target name="-fail_if_not_clean">
 
         <exec executable="${git.executable}" failonerror="true">
             <arg value="diff"/>
@@ -366,7 +366,7 @@
 
     </target>
 
-    <target name="release">
+    <target name="build" depends="-get_commit_SHA">
 
         <antcall target="-prepare_dir">
             <param name="param.dir" value="${dir.release}"/>
@@ -413,6 +413,7 @@
             <fileset dir="${dir.dependencies.runtime}"/>
         </copy>
 
+        <echo message="Latest commit SHA [ ${git.sha} ]"/>
 
         <copy file="${src.web.inf.directory}/appengine-web.xml" todir="${web.inf.directory}">
             <fileset dir="${dir.base}/war/WEB-INF">
@@ -420,6 +421,10 @@
             </fileset>
 
             <filterset refid="properties.and.security"/>
+
+            <filterset>
+                <filter token="git.sha" value="${git.sha}"/>
+            </filterset>
         </copy>
 
         <copy todir="${meta.inf.directory}">
@@ -437,6 +442,9 @@
 
     </target>
 
+    <target name="release" depends="-fail_if_not_clean, build">
+    </target>
+        
     <target name="update">
 
         <input message="Enter password : " addproperty="gae.password">
