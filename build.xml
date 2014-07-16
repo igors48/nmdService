@@ -159,6 +159,7 @@
     </filterset>
 
     <target name="get_commit_SHA">
+
         <exec executable="${git.executable}" outputproperty="git.sha">
             <arg value="log"/>
             <arg value="--pretty=format:'%h'"/>
@@ -166,16 +167,17 @@
             <arg value="1"/>
         </exec>
 
-        <echo message="${git.sha}"/>
+        <echo message="Latest commit SHA [ ${git.sha} ]"/>
+
     </target>
         
     <target name="fail_if_not_clean">
+
         <exec executable="${git.executable}" failonerror="true">
             <arg value="diff"/>
             <arg value="--exit-code"/>
         </exec>
 
-        <echo message="${git.sha}"/>
     </target>
         
     <target name="-prepare_dir">
