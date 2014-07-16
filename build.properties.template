@@ -5,3 +5,5 @@ security.key=secure
 
 twitter.apiKey=
 twitter.apiSecret=
+
+git.executable=

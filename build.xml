@@ -158,6 +158,17 @@
         <filter token="twitter.apiSecret" value="${twitter.apiSecret}"/>
     </filterset>
 
+    <target name="get_commit_SHA">
+        <exec executable="${git.executable}" outputproperty="git.sha">
+            <arg value="log"/>
+            <arg value="--pretty=format:'%h'"/>
+            <arg value="-n"/>
+            <arg value="1"/>
+        </exec>
+
+        <echo message="${git.sha}"/>
+    </target>
+        
     <target name="-prepare_dir">
         <delete dir="${param.dir}" includeEmptyDirs="true" quiet="false"/>
         <mkdir dir="${param.dir}"/>
