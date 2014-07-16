@@ -169,6 +169,15 @@
         <echo message="${git.sha}"/>
     </target>
         
+    <target name="fail_if_not_clean">
+        <exec executable="${git.executable}" failonerror="true">
+            <arg value="diff"/>
+            <arg value="--exit-code"/>
+        </exec>
+
+        <echo message="${git.sha}"/>
+    </target>
+        
     <target name="-prepare_dir">
         <delete dir="${param.dir}" includeEmptyDirs="true" quiet="false"/>
         <mkdir dir="${param.dir}"/>
