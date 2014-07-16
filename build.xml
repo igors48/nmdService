@@ -442,10 +442,7 @@
 
     </target>
 
-    <target name="release" depends="-fail_if_not_clean, build">
-    </target>
-        
-    <target name="update">
+    <target name="update" depends="-fail_if_not_clean, build">
 
         <input message="Enter password : " addproperty="gae.password">
             <handler type="secure"/>
