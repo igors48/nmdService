@@ -15,7 +15,7 @@
 
     <property name="src.web.inf.directory" value="${dir.base}/war/WEB-INF"/>
     <property name="src.meta.inf.directory" value="${dir.base}/war/META-INF"/>
-    <property name="src.angular.app.directory" value="${dir.base}/war/angular/app/"/>
+    <property name="src.ionic.app.directory" value="${dir.base}/war/ionic/"/>
 
     <property name="war.directory" value="${dir.release}/war/"/>
     <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
@@ -170,7 +170,7 @@
         <echo message="Latest commit SHA [ ${git.sha} ]"/>
 
     </target>
-        
+
     <target name="-fail_if_not_clean">
 
         <exec executable="${git.executable}" failonerror="true">
@@ -179,7 +179,7 @@
         </exec>
 
     </target>
-        
+
     <target name="-prepare_dir">
         <delete dir="${param.dir}" includeEmptyDirs="true" quiet="false"/>
         <mkdir dir="${param.dir}"/>
@@ -326,34 +326,26 @@
 
     <target name="-copy_resources">
 
-        <copy todir="${war.directory}/js/">
-            <fileset dir="${src.angular.app.directory}/js/"/>
+        <copy todir="${war.directory}/">
+            <fileset file="${src.ionic.app.directory}/index.html"/>
 
             <filterset refid="properties.and.security"/>
         </copy>
 
         <copy todir="${war.directory}/partials/">
-            <fileset dir="${src.angular.app.directory}/partials/"/>
+            <fileset dir="${src.ionic.app.directory}/partials/"/>
 
             <filterset refid="properties.and.security"/>
         </copy>
 
-        <copy todir="${war.directory}/">
-            <fileset file="${src.angular.app.directory}/index.html"/>
+        <copy todir="${war.directory}/js/">
+            <fileset dir="${src.ionic.app.directory}/js/"/>
 
             <filterset refid="properties.and.security"/>
-        </copy>
-
-        <copy todir="${war.directory}/css/">
-            <fileset dir="${src.angular.app.directory}/css/"/>
-        </copy>
-
-        <copy todir="${war.directory}/img/">
-            <fileset dir="${src.angular.app.directory}/img/"/>
         </copy>
 
         <copy todir="${war.directory}/lib/">
-            <fileset dir="${src.angular.app.directory}/lib/"/>
+            <fileset dir="${src.ionic.app.directory}/lib/"/>
         </copy>
 
     </target>

@@ -10,11 +10,9 @@
     </system-properties>
 
     <static-files>
-        <include path="js/**.js"/>
-        <include path="css/**.css"/>
-        <include path="lib/angular/**.js"/>
-        <include path="partials/**.html"/>
-        <include path="img/**.*"/>
+        <include path="lib/**.*"/>
+        <include path="js/**.*"/>
+        <include path="partials/**.*"/>
 
         <include path="feed/**.xml"/>
     </static-files>

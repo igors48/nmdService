@@ -1,0 +1,19 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <h1 class="title">Categories</h1>
+
+    <div class="buttons">
+        <button class="button button-clear ion-android-add" ng-click="addCategory()"></button>
+    </div>
+</ion-header-bar>
+
+<ion-content>
+    <ion-list>
+        <ion-item ng-repeat="report in reports">
+            {{report.name}}
+        </ion-item>
+    </ion-list>
+</ion-content>
+
+<ion-footer-bar align-title="left" class="bar-dark">
+    <h1 class="title">Title!</h1>
+</ion-footer-bar>
