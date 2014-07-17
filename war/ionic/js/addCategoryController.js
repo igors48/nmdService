@@ -6,8 +6,8 @@ controllers.controller('addCategoryController',
 
     function ($scope, $state, categories) {
 
-        $scope.addNewCategory = function () {
-            var categoryName = $scope.categoryName;
+        $scope.addNewCategory = function (newCategoryName) {
+            var categoryName = this.categoryName;
             debugger;
         }
     }
