@@ -2,9 +2,7 @@
 
 controllers.controller('addCategoryController',
 
-    ['$scope', '$state', 'categories',
-
-    function ($scope, $state, categories) {
+    function ($scope, $state, $ionicLoading, $ionicPopup, categories) {
     	$scope.category = { name: ''};
 
     	$scope.backToList = function () {
@@ -12,17 +10,38 @@ controllers.controller('addCategoryController',
     	};
 
         $scope.addNewCategory = function (category) {
+            $ionicLoading.show({
+                template: 'Creating new category...'
+            });
+
         	categories.save(category.name, onAddCategorySuccess, onServerFault);
         };
 
-        //TODO message about operation status
         var onAddCategorySuccess = function (response) {
-        	debugger;
+            $ionicLoading.hide();
+
+            if (response.status === 'SUCCESS') {
+                $ionicPopup.alert({
+                    title: 'Information',
+                    //TODO string format utility
+                    template: 'Category [ ' + response.category.name + ' ] is created.'
+                });
+            } else {
+                $ionicPopup.alert({
+                    title: 'Error',
+                    template: response.error.message
+                });
+            }
+        	
+            //debugger;
         };
 
-        var onServerFault = function (response) {
-			debugger;       		
+         //TODO server fault page
+       var onServerFault = function (response) {
+            $ionicLoading.hide();
+
+			//debugger;       		
         };
     }
 
-]);
+);
