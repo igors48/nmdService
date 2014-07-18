@@ -1,15 +1,15 @@
 <ion-header-bar align-title="left" class="bar-dark">
-    <h1 class="title">Categories</h1>
+    <h1 class="title">Category</h1>
 
     <div class="buttons">
-        <button class="button button-clear ion-android-add" ng-click="addCategory()"></button>
+        <button class="button button-clear ion-android-add" ng-click="addFeed()"></button>
     </div>
 </ion-header-bar>
 
 <ion-content>
     <ion-list>
-        <ion-item ng-repeat="category in categories" ng-click="openCategory('{{category.id}}')">
-            {{category.name}}
+        <ion-item ng-repeat="feed in feeds" ng-click="openFeed('{{feed.id}}')">
+            {{feed.name}}
         </ion-item>
     </ion-list>
 </ion-content>

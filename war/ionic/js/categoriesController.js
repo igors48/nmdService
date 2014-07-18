@@ -8,6 +8,11 @@ controllers.controller('categoriesController',
             $state.go('add-category');
         };
 
+        $scope.openCategory = function (categoryId) {
+            //debugger;
+            $state.go('category', { id : categoryId });
+        };
+
         //TODO open category
         var loadCategoriesReport = function () {
             $ionicLoading.show({
@@ -21,7 +26,7 @@ controllers.controller('categoriesController',
         var onLoadCategoriesReportCompleted = function (response) {
             $ionicLoading.hide();
 
-            $scope.reports = response.reports;
+            $scope.categories = response.reports;
         };
 
         //TODO server fault page
