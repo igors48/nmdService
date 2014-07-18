@@ -34,4 +34,10 @@ orb.config(function($stateProvider, $urlRouterProvider) {
         controller: 'addFeedController'
       })
 
+      .state('feed', {
+        url: '/feed/{id}',
+        templateUrl: 'partials/feed.html',
+        controller: 'feedController'
+      })
+
 });

@@ -5,9 +5,12 @@ controllers.controller('categoryController',
     function ($scope, $state, $stateParams, $ionicLoading, feeds) {
 
         $scope.addFeed = function () {
-            debugger;
-
             $state.go('add-feed', { id : $stateParams.id });
+        };
+
+        $scope.openFeed = function (feedId) {
+            debugger;
+            $state.go('feed', { id : feedId });
         };
 
         var loadCategoryReport = function () {
