@@ -24,8 +24,14 @@ orb.config(function($stateProvider, $urlRouterProvider) {
       
       .state('category', {
         url: '/category/{id}',
-        templateUrl: 'partials/category.html'/*,
-        controller: 'addCategoryController'*/
+        templateUrl: 'partials/category.html',
+        controller: 'categoryController'
+      })
+
+      .state('add-feed', {
+        url: '/add-feed/{id}',
+        templateUrl: 'partials/add-feed.html',
+        controller: 'addFeedController'
       })
 
 });
