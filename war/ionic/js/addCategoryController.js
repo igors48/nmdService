@@ -6,8 +6,10 @@ controllers.controller('addCategoryController',
 
     function ($scope, $state, categories) {
 
-        $scope.addNewCategory = function (newCategoryName) {
-            var categoryName = this.categoryName;
+        $scope.addNewCategory = function (categoryName) {
+            var name = this.categoryName;
+
+            this.categoryName = categoryName + '-' + categoryName;
             debugger;
         }
     }
