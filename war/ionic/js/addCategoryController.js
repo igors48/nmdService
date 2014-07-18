@@ -5,13 +5,24 @@ controllers.controller('addCategoryController',
     ['$scope', '$state', 'categories',
 
     function ($scope, $state, categories) {
+    	$scope.category = { name: ''};
 
-        $scope.addNewCategory = function (categoryName) {
-            var name = this.categoryName;
+    	$scope.backToList = function () {
+    		$state.go('categories');
+    	};
 
-            this.categoryName = categoryName + '-' + categoryName;
-            debugger;
-        }
+        $scope.addNewCategory = function (category) {
+        	categories.save(category.name, onAddCategorySuccess, onServerFault);
+        };
+
+        //TODO message about operation status
+        var onAddCategorySuccess = function (response) {
+        	debugger;
+        };
+
+        var onServerFault = function (response) {
+			debugger;       		
+        };
     }
 
 ]);

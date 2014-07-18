@@ -15,7 +15,7 @@ controllers.controller('categoriesController',
         };
 
         var onLoadCategoriesReportCompleted = function (response) {
-                $scope.reports = response.reports;
+            $scope.reports = response.reports;
         };
 
         var onServerFault = function () {

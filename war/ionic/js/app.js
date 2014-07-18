@@ -1,6 +1,6 @@
 'use strict';
 
-var orb = angular.module('orb', ['ionic', 'ui.router', 'orb.services', 'orb.controllers']);
+var orb = angular.module('orb', ['ionic', 'orb.services', 'orb.controllers']);
 
 var controllers = angular.module('orb.controllers', []);
 
