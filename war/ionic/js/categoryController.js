@@ -9,7 +9,7 @@ controllers.controller('categoryController',
         };
 
         $scope.openFeed = function (feedId) {
-            debugger;
+            //debugger;
             $state.go('feed', { id : feedId });
         };
 

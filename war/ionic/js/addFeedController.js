@@ -14,7 +14,7 @@ controllers.controller('addFeedController',
                 template: 'Adding new feed...'
             });
 
-            debugger;
+            //debugger;
             
         	feeds.save(
                 {

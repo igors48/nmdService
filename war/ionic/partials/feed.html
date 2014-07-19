@@ -1,12 +1,14 @@
 <ion-header-bar align-title="left" class="bar-dark">
-    <h1 class="title">Feed</h1>
+    <h1 class="title">{{feed.title}}</h1>
 
 </ion-header-bar>
 
 <ion-content>
     <ion-list>
         <ion-item ng-repeat="item in items">
-            {{item.title}}
+            <a ng-show="{{!item.read}}" href="{{item.link}}" target="_blank"
+               ng-click="markAsRead(item.feedId, item.itemId)"><b>{{item.title}}</b></a>
+            <a ng-show="{{item.read}}" href="{{item.link}}" target="_blank">{{item.title}}</a>
         </ion-item>
     </ion-list>
 </ion-content>
