@@ -10,9 +10,11 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
+import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.reader.Category.MAIN;
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -69,8 +71,8 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
         final List<CategoryReport> report = this.categoriesService.getCategoriesReport();
         final CategoryReport renamed = findForCategory(category.uuid, report);
 
-        assertTrue(renamed.feedIds.contains(firstFeedId));
-        assertTrue(renamed.feedIds.contains(secondFeedId));
+        assertNotNull(findForFeed(firstFeedId, renamed.feedReadReports));
+        assertNotNull(findForFeed(secondFeedId, renamed.feedReadReports));
     }
 
     @Test

@@ -196,25 +196,29 @@ public class CategoriesService {
     }
 
     private CategoryReport createCategoryReport(final List<ReadFeedItems> readFeedItemsList, final Category category) {
-        final List<UUID> feedIds = findFeedIdsForCategory(category.uuid, readFeedItemsList);
-
         int read = 0;
         int notRead = 0;
         int readLater = 0;
 
-        for (final UUID feedId : feedIds) {
-            final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedId);
-            final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
-            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+        final List<FeedReadReport> feedReadReports = new ArrayList<>();
 
-            final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems);
+        for (final ReadFeedItems readFeedItems : readFeedItemsList) {
 
-            read += feedReadReport.read;
-            notRead += feedReadReport.notRead;
-            readLater += feedReadReport.readLater;
+            if (readFeedItems.categoryId.equals(category.uuid)) {
+                final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
+                final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(readFeedItems.feedId);
+
+                final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems);
+
+                read += feedReadReport.read;
+                notRead += feedReadReport.notRead;
+                readLater += feedReadReport.readLater;
+
+                feedReadReports.add(feedReadReport);
+            }
         }
 
-        return new CategoryReport(category.uuid, category.name, feedIds, read, notRead, readLater);
+        return new CategoryReport(category.uuid, category.name, feedReadReports, read, notRead, readLater);
     }
 
     private void assertCategoryNameUnique(String name, String id) throws ServiceException {
@@ -254,19 +258,6 @@ public class CategoriesService {
         }
 
         return header;
-    }
-
-    private static List<UUID> findFeedIdsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
-        final List<UUID> feedIds = new ArrayList<>();
-
-        for (final ReadFeedItems readFeedItems : readFeedItemsList) {
-
-            if (readFeedItems.categoryId.equals(categoryId)) {
-                feedIds.add(readFeedItems.feedId);
-            }
-        }
-
-        return feedIds;
     }
 
     private static List<ReadFeedItems> findReadFeedItemsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {

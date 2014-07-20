@@ -30,6 +30,8 @@ controllers.controller('categoryController',
         var onLoadCategoryReportCompleted = function (response) {
             $ionicLoading.hide();
 
+            debugger;
+
             $scope.feeds = response.headers;
         };
 

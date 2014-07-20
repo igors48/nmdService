@@ -9,8 +9,8 @@ import unit.feed.controller.AbstractControllerTestBase;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static nmd.rss.collector.util.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -31,8 +31,8 @@ public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
         final CategoryReport main = findForCategory(firstCategory.uuid, categoryReports);
         final CategoryReport second = findForCategory(secondCategory.uuid, categoryReports);
 
-        assertFalse(main.feedIds.contains(feedId));
-        assertTrue(second.feedIds.contains(feedId));
+        assertNull(findForFeed(feedId, main.feedReadReports));
+        assertNotNull(findForFeed(feedId, second.feedReadReports));
     }
 
     @Test(expected = ServiceException.class)

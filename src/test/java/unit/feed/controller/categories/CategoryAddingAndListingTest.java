@@ -24,7 +24,7 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
 
         assertEquals(1, categoriesReport.size());
         assertEquals(Category.MAIN_CATEGORY_ID, categoriesReport.get(0).id);
-        assertTrue(categoriesReport.get(0).feedIds.isEmpty());
+        assertTrue(categoriesReport.get(0).feedReadReports.isEmpty());
     }
 
     @Test
@@ -34,7 +34,7 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
         final List<CategoryReport> categoriesReport = this.categoriesService.getCategoriesReport();
 
         assertEquals(2, categoriesReport.size());
-        assertTrue(findForCategory(created.uuid, categoriesReport).feedIds.isEmpty());
+        assertTrue(findForCategory(created.uuid, categoriesReport).feedReadReports.isEmpty());
     }
 
     @Test

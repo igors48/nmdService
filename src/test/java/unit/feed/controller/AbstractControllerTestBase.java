@@ -181,4 +181,16 @@ public abstract class AbstractControllerTestBase {
         return null;
     }
 
+    protected static FeedReadReport findForFeed(final UUID feedId, final List<FeedReadReport> reports) {
+
+        for (final FeedReadReport report : reports) {
+
+            if (report.feedId.equals(feedId)) {
+                return report;
+            }
+        }
+
+        return null;
+    }
+
 }

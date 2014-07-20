@@ -9,7 +9,6 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 
@@ -98,7 +97,7 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
         final List<CategoryReport> categoryReports = this.categoriesService.getCategoriesReport();
         final CategoryReport report = findForCategory(category.uuid, categoryReports);
 
-        guard(report.feedIds.contains(feedId));
+        assertNotNull(findForFeed(feedId, report.feedReadReports));
     }
 
     @Test(expected = ServiceException.class)

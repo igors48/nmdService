@@ -29,7 +29,7 @@ controllers.controller('categoriesController',
             $scope.categories = response.reports;
         };
 
-        //TODO server fault page
+        //TODO server fault page. rename to onFatalError
         var onServerFault = function () {
             $ionicLoading.hide();
 

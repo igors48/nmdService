@@ -10,6 +10,7 @@ import unit.feed.controller.AbstractControllerTestBase;
 import java.util.List;
 import java.util.UUID;
 
+import static nmd.rss.collector.util.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -28,7 +29,7 @@ public class CategoryReportTest extends AbstractControllerTestBase {
 
         assertEquals(Category.MAIN_CATEGORY_ID, first.id);
         assertEquals(Category.MAIN_CATEGORY_ID, first.name);
-        assertTrue(first.feedIds.isEmpty());
+        assertTrue(first.feedReadReports.isEmpty());
         assertEquals(0, first.read);
         assertEquals(0, first.notRead);
         assertEquals(0, first.readLater);
@@ -48,7 +49,7 @@ public class CategoryReportTest extends AbstractControllerTestBase {
 
         assertEquals(Category.MAIN_CATEGORY_ID, first.id);
         assertEquals(Category.MAIN_CATEGORY_ID, first.name);
-        assertTrue(first.feedIds.contains(feedId));
+        assertNotNull(findForFeed(feedId, first.feedReadReports));
         assertEquals(1, first.read);
         assertEquals(1, first.notRead);
         assertEquals(0, first.readLater);

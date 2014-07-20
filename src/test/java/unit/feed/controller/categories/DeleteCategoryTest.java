@@ -10,8 +10,10 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
+import static nmd.rss.collector.util.Assert.assertNotNull;
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -75,8 +77,8 @@ public class DeleteCategoryTest extends AbstractControllerTestBase {
 
         final CategoryReport report = findForCategory(MAIN_CATEGORY_ID, reports);
 
-        assertTrue(report.feedIds.contains(firstFeedId));
-        assertTrue(report.feedIds.contains(secondFeedId));
+        assertNotNull(findForFeed(firstFeedId, report.feedReadReports));
+        assertNotNull(findForFeed(secondFeedId, report.feedReadReports));
     }
 
 }

@@ -29,7 +29,7 @@ public class CategoryReportPayload {
 
         categoryReportPayload.id = report.id;
         categoryReportPayload.name = report.name;
-        categoryReportPayload.feedCount = report.feedIds.size();
+        categoryReportPayload.feedCount = report.feedReadReports.size();
         categoryReportPayload.read = report.read;
         categoryReportPayload.notRead = report.notRead;
         categoryReportPayload.readLater = report.readLater;
