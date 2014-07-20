@@ -5,6 +5,7 @@ import nmd.rss.collector.controller.CategoryReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.rest.responses.CategoriesReportResponse;
+import nmd.rss.collector.rest.responses.CategoryReportResponse;
 import nmd.rss.collector.rest.responses.CategoryResponse;
 import nmd.rss.collector.rest.tools.ResponseBody;
 import nmd.rss.reader.Category;
@@ -56,6 +57,23 @@ public class CategoriesServiceWrapper {
         LOGGER.info("Categories report was created");
 
         return createJsonResponse(response);
+    }
+
+    public static ResponseBody getCategoryReport(final String categoryId) {
+        guard(isValidCategoryId(categoryId));
+
+        try {
+            final CategoryReport report = CATEGORIES_SERVICE.getCategoryReport(categoryId);
+            final CategoryReportResponse response = CategoryReportResponse.create(report);
+
+            LOGGER.info("Category report was created");
+
+            return createJsonResponse(response);
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error creating report for category [ %s ]", categoryId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
     }
 
     public static ResponseBody assignFeedToCategory(final UUID feedId, final String categoryId) {

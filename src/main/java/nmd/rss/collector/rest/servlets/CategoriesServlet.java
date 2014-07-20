@@ -35,7 +35,15 @@ public class CategoriesServlet extends AbstractRestServlet {
     // GET -- /{categoryId} get category report
     @Override
     protected ResponseBody handleGet(final HttpServletRequest request) {
-        return CategoriesServiceWrapper.getCategoriesReport();
+        final List<String> elements = parse(request.getPathInfo());
+
+        if (elements.isEmpty()) {
+            return CategoriesServiceWrapper.getCategoriesReport();
+        }
+
+        final String first = elements.get(0);
+
+        return isValidCategoryId(first) ? getCategoryReport(first) : createErrorJsonResponse(invalidCategoryId(first));
     }
 
     // DELETE -- /{categoryId} delete category
