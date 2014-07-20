@@ -4,12 +4,19 @@
 </ion-header-bar>
 
 <ion-content>
+
     <ion-list>
-        <ion-item ng-repeat="item in items">
-            <a ng-show="{{!item.read}}" href="{{item.link}}" target="_blank"
-               ng-click="markAsRead(item.feedId, item.itemId)"><b>{{item.title}}</b></a>
-            <a ng-show="{{item.read}}" href="{{item.link}}" target="_blank">{{item.title}}</a>
-        </ion-item>
+        <a ng-repeat="item in items" href="{{item.link}}" target="_blank"
+           ng-click="markAsRead(item.feedId, item.itemId)">
+            <div class="card">
+                <div class="item item-divider bar-positive">
+                    <h4>{{item.date | date:'d MMM HH:mm'}}</h4>
+                </div>
+                <div class="item item-text-wrap">
+                    <h3>{{item.title}}</h3>
+                </div>
+            </div>
+        </a>
     </ion-list>
 </ion-content>
 
