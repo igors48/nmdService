@@ -85,6 +85,26 @@ public class CategoriesService {
         }
     }
 
+    public CategoryReport getCategoryReport(final String categoryId) throws ServiceException {
+        guard(isValidCategoryId(categoryId));
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final Category category = loadCategory(categoryId);
+            final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
+            final CategoryReport categoryReport = createCategoryReport(readFeedItemsList, category);
+
+            transaction.commit();
+
+            return categoryReport;
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
     public List<CategoryReport> getCategoriesReport() {
         Transaction transaction = null;
 
@@ -233,6 +253,11 @@ public class CategoriesService {
     }
 
     private Category loadCategory(String categoryId) throws ServiceException {
+
+        if (categoryId.equals(Category.MAIN_CATEGORY_ID)) {
+            return Category.MAIN;
+        }
+
         final Category category = this.categoriesRepository.load(categoryId);
 
         if (category == null) {

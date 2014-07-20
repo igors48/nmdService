@@ -32,6 +32,7 @@ public class CategoriesServlet extends AbstractRestServlet {
     }
 
     // GET -- get categories report
+    // GET -- /{categoryId} get category report
     @Override
     protected ResponseBody handleGet(final HttpServletRequest request) {
         return CategoriesServiceWrapper.getCategoriesReport();
