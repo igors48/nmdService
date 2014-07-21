@@ -92,6 +92,16 @@ public abstract class AbstractRestTest {
         return GSON.fromJson(assertSuccessResponse(response), CategoriesReportResponse.class);
     }
 
+    protected static String getCategoryReportAsString(final String categoryId) {
+        return assertServerProcessingTimeHeaderValid(given().get(CATEGORIES_SERVLET_URL + categoryId)).asString();
+    }
+
+    protected static CategoryReportResponse getCategoryReport(final String categoryId) {
+        final String response = assertServerProcessingTimeHeaderValid(given().get(CATEGORIES_SERVLET_URL + categoryId)).asString();
+
+        return GSON.fromJson(assertSuccessResponse(response), CategoryReportResponse.class);
+    }
+
     protected static FeedHeadersResponse getFeedHeaders() {
         final String response = assertServerProcessingTimeHeaderValid(given().get(FEEDS_SERVLET_URL)).asString();
 
