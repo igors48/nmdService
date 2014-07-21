@@ -2,15 +2,15 @@
 
 controllers.controller('categoryController',
 
-    function ($scope, $state, $stateParams, $ionicLoading, feeds) {
+    function ($scope, $state, $stateParams, $ionicLoading, categories) {
 
         $scope.addFeed = function () {
-            $state.go('add-feed', { id : $stateParams.id });
+            $state.go('add-feed', { id: $stateParams.id });
         };
 
         $scope.openFeed = function (feedId) {
             //debugger;
-            $state.go('feed', { id : feedId });
+            $state.go('feed', { id: feedId });
         };
 
         var loadCategoryReport = function () {
@@ -18,7 +18,7 @@ controllers.controller('categoryController',
                 template: 'Loading category...'
             });
 
-            feeds.query(
+            categories.query(
                 { 
                     categoryId: $stateParams.id
                 },
@@ -30,9 +30,10 @@ controllers.controller('categoryController',
         var onLoadCategoryReportCompleted = function (response) {
             $ionicLoading.hide();
 
-            debugger;
+            //debugger;
 
-            $scope.feeds = response.headers;
+            $scope.category = { title: response.report.name };
+            $scope.feeds = response.report.feedReports;
         };
 
         //TODO server fault page
