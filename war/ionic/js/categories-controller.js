@@ -25,9 +25,14 @@ controllers.controller('categoriesController',
             categories.query(onLoadCategoriesReportCompleted, onServerFault);
         };
 
-        //TODO handle possible error
         var onLoadCategoriesReportCompleted = function (response) {
             $ionicLoading.hide();
+
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
+            }
 
             $scope.categories = response.reports;
         };
