@@ -12,6 +12,7 @@
     <static-files>
         <include path="lib/**.*"/>
         <include path="js/**.*"/>
+        <include path="css/**.*"/>
         <include path="partials/**.*"/>
 
         <include path="feed/**.xml"/>

@@ -344,6 +344,12 @@
             <filterset refid="properties.and.security"/>
         </copy>
 
+        <copy todir="${war.directory}/css/">
+            <fileset dir="${src.ionic.app.directory}/css/"/>
+
+            <filterset refid="properties.and.security"/>
+        </copy>
+
         <copy todir="${war.directory}/lib/">
             <fileset dir="${src.ionic.app.directory}/lib/"/>
         </copy>
