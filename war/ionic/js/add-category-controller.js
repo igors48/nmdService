@@ -3,6 +3,8 @@
 controllers.controller('addCategoryController',
 
     function ($scope, $state, $ionicLoading, $ionicPopup, categories) {
+        $scope.utilities = AppUtilities.utilities;
+
     	$scope.category = { name: ''};
 
     	$scope.backToList = function () {
@@ -35,13 +37,11 @@ controllers.controller('addCategoryController',
         	
             //debugger;
         };
-
-         //TODO server fault page
-       var onServerFault = function (response) {
-            $ionicLoading.hide();
-
-			//debugger;       		
+        
+        var onServerFault = function () {
+            $scope.utilities.showFatalError($ionicPopup, $ionicLoading)        
         };
+        
     }
 
 );
