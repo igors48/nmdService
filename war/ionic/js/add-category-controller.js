@@ -22,20 +22,16 @@ controllers.controller('addCategoryController',
         var onAddCategorySuccess = function (response) {
             $ionicLoading.hide();
 
-            if (response.status === 'SUCCESS') {
-                $ionicPopup.alert({
-                    title: 'Information',
-                    //TODO string format utility
-                    template: 'Category [ ' + response.category.name + ' ] is created.'
-                });
-            } else {
-                $ionicPopup.alert({
-                    title: 'Error',
-                    template: response.error.message
-                });
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
             }
-        	
-            //debugger;
+
+            $ionicPopup.alert({
+                title: 'Information',
+                template: 'Category [ {0} ] was created.'.format(response.category.name)
+            });
         };
         
         var onServerFault = function () {

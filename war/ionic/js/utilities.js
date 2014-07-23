@@ -21,8 +21,15 @@ AppUtilities.utilities = {
 		}	
 
 		$ionicPopup.alert({
-                    title: 'Fatal Error',
-                    template: 'Sorry, try later'
+            title: 'Fatal Error',
+            template: 'Sorry, try later'
+        });
+	},
+
+	showError: function ($ionicPopup, response) {
+    	$ionicPopup.alert({
+            title: 'Error',
+            template: '<h4>{0}</h4><h6>{1}</h6>'.format(response.error.message, response.error.hints)
         });
 	}
 
