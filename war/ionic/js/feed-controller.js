@@ -3,6 +3,7 @@
 controllers.controller('feedController',
 
     function ($scope, $state, $stateParams, $ionicLoading, reads) {
+        $scope.utilities = AppUtilities.utilities;
 
         $scope.markAsRead = function (feedId, itemId) {
             $ionicLoading.show({
@@ -47,10 +48,8 @@ controllers.controller('feedController',
             $scope.items = response.reports;
         };
 
-        //TODO server fault page
         var onServerFault = function () {
-            $ionicLoading.hide();
-
+            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);       
         };
 
         loadFeedReport();

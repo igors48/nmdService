@@ -3,6 +3,7 @@
 controllers.controller('categoryController',
 
     function ($scope, $state, $stateParams, $ionicLoading, categories) {
+        $scope.utilities = AppUtilities.utilities;
 
         $scope.addFeed = function () {
             $state.go('add-feed', { id: $stateParams.id });
@@ -36,10 +37,8 @@ controllers.controller('categoryController',
             $scope.feeds = response.report.feedReports;
         };
 
-        //TODO server fault page
         var onServerFault = function () {
-            $ionicLoading.hide();
-
+            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);        
         };
 
         loadCategoryReport();

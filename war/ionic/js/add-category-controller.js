@@ -39,7 +39,7 @@ controllers.controller('addCategoryController',
         };
         
         var onServerFault = function () {
-            $scope.utilities.showFatalError($ionicPopup, $ionicLoading)        
+            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);        
         };
         
     }

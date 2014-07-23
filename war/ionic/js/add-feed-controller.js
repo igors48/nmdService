@@ -3,6 +3,8 @@
 controllers.controller('addFeedController',
 
     function ($scope, $state, $stateParams, $ionicLoading, $ionicPopup, feeds) {
+        $scope.utilities = AppUtilities.utilities;
+
     	$scope.feed = { url: ''};
 
     	$scope.backToList = function () {
@@ -44,11 +46,8 @@ controllers.controller('addFeedController',
             //debugger;
         };
 
-         //TODO server fault page
-       var onServerFault = function (response) {
-            $ionicLoading.hide();
-
-			//debugger;       		
+        var onServerFault = function () {
+            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);        
         };
     }
 

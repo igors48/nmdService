@@ -3,6 +3,7 @@
 controllers.controller('categoriesController',
 
     function ($scope, $state, $ionicLoading, categories) {
+        $scope.utilities = AppUtilities.utilities;
 
         $scope.addCategory = function () {
             $state.go('add-category');
@@ -29,10 +30,8 @@ controllers.controller('categoriesController',
             $scope.categories = response.reports;
         };
 
-        //TODO server fault page. rename to onFatalError
         var onServerFault = function () {
-            $ionicLoading.hide();
-
+            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);        
         };
 
         loadCategoriesReport();
