@@ -7,11 +7,18 @@
 </ion-header-bar>
 
 <ion-content>
-    <ion-list>
-        <ion-item ng-repeat="category in categories" ng-click="openCategory('{{category.id}}')">
-            {{category.name}}
-        </ion-item>
-    </ion-list>
+    <div class="list">
+        <div class="item item-icon-left item-button-right" ng-repeat="category in categories" ng-click="openCategory('{{category.id}}')">
+            <i class="icon ion-android-folder"></i>
+            <h2>{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}</h2>
+            <button class="button">
+                <span class="badge badge-assertive">0ssdfsdd</span>
+            </button>
+            <button class="button button-clear">
+                <i class="icon ion-android-mixer"></i>
+            </button>
+        </div>
+    </div>
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
