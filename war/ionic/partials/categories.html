@@ -10,11 +10,18 @@
     <div class="list">
         <div class="item item-icon-left item-button-right" ng-repeat="category in categories" ng-click="openCategory('{{category.id}}')">
             <i class="icon ion-android-folder"></i>
-            <h2>{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}{{category.name}}</h2>
-            <button class="button">
-                <span class="badge badge-assertive">0ssdfsdd</span>
-            </button>
-            <button class="button button-clear">
+            <div>
+                <h2>{{category.name}}</h2>
+            </div>
+            <div>
+            <p>
+                <span class="ion-social-rss"></span>&nbsp;{{category.feedCount}}&nbsp;&nbsp;
+                <span class="ion-eye"></span>&nbsp;{{category.read}}&nbsp;&nbsp;
+                <span class="ion-eye-disabled"></span>&nbsp;{{category.notRead}}&nbsp;&nbsp;
+                <span class="ion-android-clock"></span>&nbsp;{{category.readLater}}&nbsp;&nbsp;
+            </p>
+            </div>
+            <button class="button button-clear" ng-click="editCategory('{{category.id}}')">
                 <i class="icon ion-android-mixer"></i>
             </button>
         </div>
@@ -22,5 +29,5 @@
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
-    <h1 class="title">Title!</h1>
+    <h1 class="title">Orb. News server</h1>
 </ion-footer-bar>

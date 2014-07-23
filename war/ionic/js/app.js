@@ -22,6 +22,12 @@ orb.config(function($stateProvider, $urlRouterProvider) {
         controller: 'addCategoryController'
       })
       
+      .state('edit-category', {
+        url: '/edit-category/{id}',
+        templateUrl: 'partials/edit-category.html'/*,
+        controller: 'addCategoryController'*/
+      })
+      
       .state('category', {
         url: '/category/{id}',
         templateUrl: 'partials/category.html',
