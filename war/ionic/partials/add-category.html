@@ -1,4 +1,7 @@
 <ion-header-bar align-title="left" class="bar-dark">
+	<div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToCategories()"></button>
+    </div>
     <h1 class="title">Add category</h1>
 </ion-header-bar>
 
@@ -8,7 +11,6 @@
             <input type="text" placeholder="Enter category name" ng-model="category.name">
         </label>
 	    <button class="button button-block button-balanced" ng-click="addNewCategory(category)">Add</button>
-        <button class="button button-block button-positive" ng-click="backToList()">Back To Categories</button>
     </div>
 </ion-content>
 

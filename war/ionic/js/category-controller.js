@@ -5,12 +5,15 @@ controllers.controller('categoryController',
     function ($scope, $state, $stateParams, $ionicLoading, categories) {
         $scope.utilities = AppUtilities.utilities;
 
+        $scope.backToCategories = function () {
+            $state.go('categories');
+        };
+
         $scope.addFeed = function () {
             $state.go('add-feed', { id: $stateParams.id });
         };
 
         $scope.openFeed = function (feedId) {
-            //debugger;
             $state.go('feed', { id: feedId });
         };
 
@@ -27,11 +30,14 @@ controllers.controller('categoryController',
                 onServerFault);
         };
 
-        //TODO handle possible error
         var onLoadCategoryReportCompleted = function (response) {
             $ionicLoading.hide();
 
-            //debugger;
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
+            }
 
             $scope.category = { title: response.report.name };
             $scope.feeds = response.report.feedReports;

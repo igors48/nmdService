@@ -2,12 +2,12 @@
 
 controllers.controller('addCategoryController',
 
-    function ($scope, $state, $ionicLoading, $ionicPopup, categories) {
+    function ($scope, $rootScope, $state, $ionicLoading, $ionicPopup, categories) {
         $scope.utilities = AppUtilities.utilities;
 
     	$scope.category = { name: ''};
 
-    	$scope.backToList = function () {
+    	$scope.backToCategories = function () {
     		$state.go('categories');
     	};
 
@@ -27,6 +27,9 @@ controllers.controller('addCategoryController',
 
                 return;
             }
+
+            $scope.category.name = '';
+            $rootScope.lastCategoryId = response.category.id;
 
             $ionicPopup.alert({
                 title: 'Information',

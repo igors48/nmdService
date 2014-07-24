@@ -7,7 +7,7 @@ controllers.controller('addFeedController',
 
     	$scope.feed = { url: ''};
 
-    	$scope.backToList = function () {
+    	$scope.backToCategory = function () {
     		$state.go('category', { id : $stateParams.id });
     	};
 
