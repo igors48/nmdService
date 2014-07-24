@@ -2,7 +2,9 @@
 
 controllers.controller('categoriesController',
 
-    function ($scope, $rootScope, $state, $ionicLoading, categories) {
+    function ($scope, $rootScope, $state, $ionicLoading, $ionicPopup, categories) {
+        $scope.showUi = false;
+
         $scope.utilities = AppUtilities.utilities;
 
         $scope.openCategory = function (categoryId) {
@@ -38,6 +40,7 @@ controllers.controller('categoriesController',
                 return;
             }
 
+            $scope.showUi = true;
             $scope.categories = response.reports;
         };
 

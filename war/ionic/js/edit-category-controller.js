@@ -1,23 +1,15 @@
 'use strict';
 
-controllers.controller('categoryController',
+controllers.controller('editCategoryController',
 
-    function ($scope, $state, $stateParams, $ionicLoading, $ionicPopup, categories) {
+    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, categories) {
         $scope.showUi = false;
 
         $scope.utilities = AppUtilities.utilities;
 
-        $scope.backToCategories = function () {
-            $state.go('categories');
-        };
-
-        $scope.addFeed = function () {
-            $state.go('add-feed', { id: $stateParams.id });
-        };
-
-        $scope.openFeed = function (feedId) {
-            $state.go('feed', { id: feedId });
-        };
+    	$scope.backToCategories = function () {
+    		$state.go('categories');
+    	};
 
         var loadCategoryReport = function () {
             $ionicLoading.show({
@@ -43,8 +35,10 @@ controllers.controller('categoryController',
 
             $scope.showUi = true;
 
-            $scope.category = { title: response.report.name };
-            $scope.feeds = response.report.feedReports;
+            $scope.category = { 
+                name: response.report.name,
+                feeds: response.report.feedReports.length
+            };
         };
 
         var onServerFault = function () {
@@ -53,4 +47,5 @@ controllers.controller('categoryController',
 
         loadCategoryReport();
     }
+
 );

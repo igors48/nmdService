@@ -2,11 +2,11 @@
     <h1 class="title">Categories</h1>
 
     <div class="buttons">
-        <button class="button button-clear ion-android-add" ng-click="addCategory()"></button>
+        <button class="button button-clear ion-android-add" ng-cloak ng-show="showUi" ng-click="addCategory()"></button>
     </div>
 </ion-header-bar>
 
-<ion-content>
+<ion-content ng-cloak ng-show="showUi">
     <div class="list">
         <div class="item item-icon-left item-button-right" ng-repeat="category in categories"  ng-class="($root.lastCategoryId==category.id) ? 'last-used' : ''"  ng-click="openCategory('{{category.id}}')">
             <i class="icon ion-android-folder orange-front"></i>

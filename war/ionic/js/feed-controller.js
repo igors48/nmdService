@@ -2,7 +2,9 @@
 
 controllers.controller('feedController',
 
-    function ($scope, $state, $stateParams, $ionicLoading, reads) {
+    function ($scope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
+        $scope.showUi = false;
+
         $scope.utilities = AppUtilities.utilities;
 
         $scope.markAsRead = function (feedId, itemId) {
@@ -40,10 +42,17 @@ controllers.controller('feedController',
                 onServerFault);
         };
 
-        //TODO handle possible error
         var onLoadFeedReportCompleted = function (response) {
             $ionicLoading.hide();
 
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
+            }
+
+            $scope.showUi = true;
+ 
             $scope.feed = { title: response.title };
             $scope.items = response.reports;
         };

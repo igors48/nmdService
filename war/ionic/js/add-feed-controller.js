@@ -3,7 +3,9 @@
 controllers.controller('addFeedController',
 
     function ($scope, $state, $stateParams, $ionicLoading, $ionicPopup, feeds) {
-        $scope.utilities = AppUtilities.utilities;
+       $scope.showUi = true;
+
+       $scope.utilities = AppUtilities.utilities;
 
     	$scope.feed = { url: ''};
 
@@ -16,8 +18,6 @@ controllers.controller('addFeedController',
                 template: 'Adding new feed...'
             });
 
-            //debugger;
-            
         	feeds.save(
                 {
                     feedUrl: feed.url, 
@@ -33,17 +33,11 @@ controllers.controller('addFeedController',
             if (response.status === 'SUCCESS') {
                 $ionicPopup.alert({
                     title: 'Information',
-                    //TODO string format utility
                     template: 'Feed is added.'
                 });
             } else {
-                $ionicPopup.alert({
-                    title: 'Error',
-                    template: response.error.message
-                });
+                $scope.utilities.showError($ionicPopup, response);
             }
-        	
-            //debugger;
         };
 
         var onServerFault = function () {

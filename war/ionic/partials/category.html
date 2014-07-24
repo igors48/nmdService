@@ -6,11 +6,11 @@
     <h1 class="title">{{category.title}}</h1>
 
     <div class="buttons">
-        <button class="button button-clear ion-android-add" ng-click="addFeed()"></button>
+        <button class="button button-clear ion-android-add" ng-cloak ng-show="showUi" ng-click="addFeed()"></button>
     </div>
 </ion-header-bar>
 
-<ion-content>
+<ion-content ng-cloak ng-show="showUi">
     <ion-list>
         <ion-item ng-repeat="feed in feeds" ng-click="openFeed('{{feed.feedId}}')">
             {{feed.feedTitle}}

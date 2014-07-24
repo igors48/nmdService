@@ -3,6 +3,8 @@
 controllers.controller('addCategoryController',
 
     function ($scope, $rootScope, $state, $ionicLoading, $ionicPopup, categories) {
+        $scope.showUi = true;
+
         $scope.utilities = AppUtilities.utilities;
 
     	$scope.category = { name: ''};
