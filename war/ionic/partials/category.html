@@ -16,9 +16,8 @@
              ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''" ng-click="">
             <i class="icon ion-social-rss orange-front"></i>
 
-            <div>
-                <h2>{{feed.feedTitle}}</h2>
-            </div>
+            <a>
+            <h2>{{feed.feedTitle}}</h2>
 
             <div>
                 <p>
@@ -28,6 +27,7 @@
                     <span class="ion-android-clock blue-front"></span>&nbsp;{{feed.readLater}}&nbsp;&nbsp;
                 </p>
             </div>
+            </a>
 
             <div class="buttons">
                 <button class="button button-clear ion-android-mixer" ng-click=""></button>
