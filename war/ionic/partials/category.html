@@ -11,11 +11,30 @@
 </ion-header-bar>
 
 <ion-content ng-cloak ng-show="showUi">
-    <ion-list>
-        <ion-item ng-repeat="feed in feeds" ng-click="openFeed('{{feed.feedId}}')">
-            {{feed.feedTitle}}
-        </ion-item>
-    </ion-list>
+    <div class="list">
+        <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds"
+             ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''" ng-click="">
+            <i class="icon ion-social-rss orange-front"></i>
+
+            <div>
+                <h2>{{feed.feedTitle}}</h2>
+            </div>
+
+            <div>
+                <p>
+                    <span class="ion-eye blue-front"></span>&nbsp;{{feed.read}}&nbsp;&nbsp;
+                    <span class="ion-eye-disabled blue-front"></span>&nbsp;{{feed.notRead}}&nbsp;&nbsp;
+                    <span class="ion-flash blue-front"></span>&nbsp;{{feed.addedFromLastVisit}}&nbsp;&nbsp;
+                    <span class="ion-android-clock blue-front"></span>&nbsp;{{feed.readLater}}&nbsp;&nbsp;
+                </p>
+            </div>
+
+            <div class="buttons">
+                <button class="button button-clear ion-android-mixer" ng-click=""></button>
+                <button class="button button-clear ion-flash" ng-click="openFeed('{{feed.feedId}}')"></button>
+            </div>
+        </div>
+    </div>
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
