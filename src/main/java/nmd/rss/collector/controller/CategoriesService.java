@@ -186,6 +186,7 @@ public class CategoriesService {
             final Category category = loadCategory(categoryId);
             final Category renamed = category.changeName(trimmed);
 
+            this.categoriesRepository.delete(categoryId);
             this.categoriesRepository.store(renamed);
 
             transaction.commit();
