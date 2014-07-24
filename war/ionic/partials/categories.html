@@ -8,20 +8,22 @@
 
 <ion-content>
     <div class="list">
-        <div class="item item-icon-left item-button-right" ng-repeat="category in categories" ng-click="openCategory('{{category.id}}')">
+        <div class="item item-icon-left item-button-right" ng-repeat="category in categories"  ng-class="($root.lastCategoryId==category.id) ? 'last-used' : ''"  ng-click="openCategory('{{category.id}}')">
             <i class="icon ion-android-folder orange-front"></i>
 
             <div>
                 <h2>{{category.name}}</h2>
             </div>
+
             <div>
-            <p>
-                <span class="ion-social-rss blue-front"></span>&nbsp;{{category.feedCount}}&nbsp;&nbsp;
-                <span class="ion-eye blue-front"></span>&nbsp;{{category.read}}&nbsp;&nbsp;
-                <span class="ion-eye-disabled blue-front"></span>&nbsp;{{category.notRead}}&nbsp;&nbsp;
-                <span class="ion-android-clock blue-front"></span>&nbsp;{{category.readLater}}&nbsp;&nbsp;
-            </p>
+                <p>
+                    <span class="ion-social-rss blue-front"></span>&nbsp;{{category.feedCount}}&nbsp;&nbsp;
+                    <span class="ion-eye blue-front"></span>&nbsp;{{category.read}}&nbsp;&nbsp;
+                    <span class="ion-eye-disabled blue-front"></span>&nbsp;{{category.notRead}}&nbsp;&nbsp;
+                    <span class="ion-android-clock blue-front"></span>&nbsp;{{category.readLater}}&nbsp;&nbsp;
+                </p>
             </div>
+
             <button class="button button-clear" ng-click="editCategory('{{category.id}}')">
                 <i class="icon ion-android-mixer"></i>
             </button>

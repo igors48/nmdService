@@ -2,10 +2,12 @@
 
 controllers.controller('categoriesController',
 
-    function ($scope, $state, $ionicLoading, categories) {
+    function ($scope, $rootScope, $state, $ionicLoading, categories) {
         $scope.utilities = AppUtilities.utilities;
 
         $scope.openCategory = function (categoryId) {
+            $rootScope.lastCategoryId = categoryId;
+
             $state.go('category', { id : categoryId });
         };
 
@@ -14,6 +16,8 @@ controllers.controller('categoriesController',
         };
 
         $scope.editCategory = function (categoryId) {
+            $rootScope.lastCategoryId = categoryId;
+
             $state.go('edit-category', { id : categoryId });
         };
 
