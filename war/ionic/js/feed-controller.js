@@ -2,14 +2,20 @@
 
 controllers.controller('feedController',
 
-    function ($scope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
+    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
         $scope.showUi = false;
 
         $scope.utilities = AppUtilities.utilities;
 
+        $scope.backToCategory = function () {
+            $state.go('category', { id: $stateParams.categoryId });
+        };
+
         $scope.markAsRead = function (feedId, itemId) {
+            $rootScope.lastItemId = itemId;
+
             $ionicLoading.show({
-                template: 'Loading feed...'
+                template: 'Marking item...'
             });
 
             reads.mark(
@@ -36,7 +42,7 @@ controllers.controller('feedController',
 
             reads.query(
                 { 
-                    feedId: $stateParams.id
+                    feedId: $stateParams.feedId
                 },
                 onLoadFeedReportCompleted,
                 onServerFault);

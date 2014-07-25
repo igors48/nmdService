@@ -2,7 +2,7 @@
 
 controllers.controller('addFeedController',
 
-    function ($scope, $state, $stateParams, $ionicLoading, $ionicPopup, feeds) {
+    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, feeds) {
        $scope.showUi = true;
 
        $scope.utilities = AppUtilities.utilities;
@@ -31,6 +31,8 @@ controllers.controller('addFeedController',
             $ionicLoading.hide();
 
             if (response.status === 'SUCCESS') {
+                $rootScope.lastFeedId = response.feedId;
+
                 $ionicPopup.alert({
                     title: 'Information',
                     template: 'Feed is added.'

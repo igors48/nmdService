@@ -1,6 +1,9 @@
 <ion-header-bar align-title="left" class="bar-dark">
-    <h1 class="title">{{feed.title}}</h1>
+    <div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToCategory()"></button>
+    </div>
 
+    <h1 class="title">{{feed.title}}</h1>
 </ion-header-bar>
 
 <ion-content ng-cloak ng-show="showUi">
@@ -8,12 +11,12 @@
     <ion-list>
         <a ng-repeat="item in items" href="{{item.link}}" target="_blank"
            ng-click="markAsRead(item.feedId, item.itemId)">
-            <div class="card">
-                <div class="item item-divider bar-positive">
-                    <h4>{{item.date | date:'d MMM HH:mm'}}</h4>
+            <div class="card" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
+                <div class="item item-divider">
+                    <h4 ng-class="item.read ? '' : 'orange-front'">{{item.date | date:'d MMM HH:mm'}}</h4>
                 </div>
-                <div class="item item-text-wrap">
-                    <h3>{{item.title}}</h3>
+                <div class="item item-text-wrap" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
+                    <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
                 </div>
             </div>
         </a>
@@ -21,5 +24,5 @@
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
-    <h1 class="title">Title!</h1>
+    <h1 class="title"></h1>
 </ion-footer-bar>

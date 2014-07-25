@@ -2,7 +2,7 @@
 
 controllers.controller('categoryController',
 
-    function ($scope, $state, $stateParams, $ionicLoading, $ionicPopup, categories) {
+    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, categories, reads) {
         $scope.showUi = false;
 
         $scope.utilities = AppUtilities.utilities;
@@ -16,7 +16,41 @@ controllers.controller('categoryController',
         };
 
         $scope.openFeed = function (feedId) {
-            $state.go('feed', { id: feedId });
+            $rootScope.lastFeedId = feedId;
+
+            $state.go('feed', { 
+                categoryId: $stateParams.id, 
+                feedId: feedId 
+            });
+        };
+
+        $scope.markAsRead = function (feedId, topItemId) {
+            
+            if (topItemId.length === 0) {
+                return;
+            }
+        
+            $rootScope.lastItemId = topItemId;
+
+            $ionicLoading.show({
+                template: 'Marking item...'
+            });
+
+            reads.mark(
+                {
+                    feedId: feedId,
+                    itemId: topItemId,
+                    markAs: 'read'
+                },
+                onMarkAsReadSuccess,
+                onServerFault
+            );
+        };
+
+        var onMarkAsReadSuccess = function (response) {
+            $ionicLoading.hide();
+
+            loadCategoryReport();
         };
 
         var loadCategoryReport = function () {

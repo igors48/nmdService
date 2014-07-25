@@ -12,31 +12,30 @@
 
 <ion-content ng-cloak ng-show="showUi">
     <div class="list">
-        <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds"
-             ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''" ng-click="">
-            <i class="icon ion-social-rss orange-front"></i>
+        <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds" ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''">
+            <a class="block-link" href="{{feed.topItemLink}}" target="_blank" ng-click="markAsRead(feed.feedId, feed.topItemId)">
+                <i class="icon ion-social-rss orange-front"></i>
 
-            <a>
-            <h2>{{feed.feedTitle}}</h2>
+                <h2>{{feed.feedTitle}}</h2>
 
-            <div>
-                <p>
-                    <span class="ion-eye blue-front"></span>&nbsp;{{feed.read}}&nbsp;&nbsp;
-                    <span class="ion-eye-disabled blue-front"></span>&nbsp;{{feed.notRead}}&nbsp;&nbsp;
-                    <span class="ion-flash blue-front"></span>&nbsp;{{feed.addedFromLastVisit}}&nbsp;&nbsp;
-                    <span class="ion-android-clock blue-front"></span>&nbsp;{{feed.readLater}}&nbsp;&nbsp;
-                </p>
-            </div>
+                <div>
+                    <p>
+                        <span class="ion-eye blue-front"></span>&nbsp;{{feed.read}}&nbsp;&nbsp;
+                        <span class="ion-eye-disabled blue-front"></span>&nbsp;{{feed.notRead}}&nbsp;&nbsp;
+                        <span class="ion-flash blue-front"></span>&nbsp;{{feed.addedFromLastVisit}}&nbsp;&nbsp;
+                        <span class="ion-android-clock blue-front"></span>&nbsp;{{feed.readLater}}&nbsp;&nbsp;
+                    </p>
+                </div>
             </a>
 
             <div class="buttons">
                 <button class="button button-clear ion-android-mixer" ng-click=""></button>
-                <button class="button button-clear ion-flash" ng-click="openFeed('{{feed.feedId}}')"></button>
+                <button class="button button-clear ion-arrow-right-b" ng-click="openFeed('{{feed.feedId}}')"></button>
             </div>
         </div>
     </div>
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
-    <h1 class="title">Title!</h1>
+    <h1 class="title"></h1>
 </ion-footer-bar>
