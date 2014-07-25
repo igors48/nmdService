@@ -7,20 +7,20 @@
 </ion-header-bar>
 
 <ion-content ng-cloak ng-show="showUi">
-
-    <ion-list>
-        <a ng-repeat="item in items" href="{{item.link}}" target="_blank"
+    <div class="list">
+        <a class="block-link" ng-repeat="item in items" href="{{item.link}}" target="_blank"
            ng-click="markAsRead(item.feedId, item.itemId)">
-            <div class="card" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
+            <div ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                 <div class="item item-divider">
-                    <h4 ng-class="item.read ? '' : 'orange-front'">{{item.date | date:'d MMM HH:mm'}}</h4>
+                    <h4 class="blue-front"><span class="icon ion-calendar"></span>&nbsp;{{item.date | date:'d MMM HH:mm'}}</h4>                    
                 </div>
                 <div class="item item-text-wrap" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                     <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
                 </div>
             </div>
         </a>
-    </ion-list>
+    </div>
+
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
