@@ -13,7 +13,7 @@
 <ion-content ng-cloak ng-show="showUi">
     <div class="list">
         <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds" ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''">
-            <a class="block-link" href="{{feed.topItemLink}}" target="_blank" ng-click="openTopItem(feed.feedId, feed.topItemId)">
+            <div ng-click="openFeed(feed.feedId)">
                 <i class="icon ion-social-rss orange-front"></i>
 
                 <h2>{{feed.feedTitle}}</h2>
@@ -26,11 +26,11 @@
                         <span class="ion-android-clock blue-front"></span>&nbsp;{{feed.readLater}}&nbsp;&nbsp;
                     </p>
                 </div>
-            </a>
+            </div>
 
             <div class="buttons">
                 <button class="button button-clear ion-android-mixer" ng-click=""></button>
-                <button class="button button-clear ion-arrow-right-b" ng-click="openFeed('{{feed.feedId}}')"></button>
+                <a href="{{feed.topItemLink}}" target="_blank" class="block-link button button-clear ion-flash" ng-click="openTopItem(feed.feedId, feed.topItemId)" ng-show="feed.topItemLink!=''"></a>
             </div>
         </div>
     </div>

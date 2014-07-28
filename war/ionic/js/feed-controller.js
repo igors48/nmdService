@@ -66,8 +66,9 @@ controllers.controller('feedController',
             $ionicPopup.alert({
                     title: 'Information',
                     template: 'All items were marked read.'
-            }).then($scope.loadFeedReport);
+            });
 
+            $scope.loadFeedReport();
         };
 
         var onMarkAsReadCompleted = function (response) {
