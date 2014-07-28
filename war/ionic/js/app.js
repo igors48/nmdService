@@ -41,9 +41,9 @@ orb.config(function($stateProvider, $urlRouterProvider) {
       })
 
       .state('edit-feed', {
-        url: '/edit-feed/{id}',
-        templateUrl: 'partials/edit-feed.html'/*,
-        controller: 'editFeedController'*/
+        url: '/edit-feed/{categoryId}/{feedId}',
+        templateUrl: 'partials/edit-feed.html',
+        controller: 'editFeedController'
       })
 
       .state('feed', {

@@ -28,7 +28,8 @@ controllers.controller('categoryController',
             $rootScope.lastFeedId = feedId;
 
             $state.go('edit-feed', {                 
-                id: feedId 
+                categoryId: $stateParams.id, 
+                feedId: feedId 
             });
         };
 
