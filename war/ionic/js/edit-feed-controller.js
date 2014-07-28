@@ -12,6 +12,7 @@ controllers.controller('editFeedController',
         };
 
         $scope.onRenameChosen = function () {
+            $scope.feed.newName = $scope.feed.name;
             $scope.mode = 'rename';
         };
 
@@ -24,6 +25,21 @@ controllers.controller('editFeedController',
 
         $scope.onCancelChosen = function () {
             $scope.mode = 'choose';
+        };
+
+        $scope.onRenameFeed = function () {
+            $ionicLoading.show({
+                template: 'Renaming feed...'
+            });
+
+            feeds.update(
+                {
+                    feedId: $stateParams.feedId
+                },
+                $scope.feed.newName,
+                onRenameFeedCompleted,
+                onServerFault
+            );
         };
 
         $scope.onDeleteFeed = function () {
@@ -51,6 +67,21 @@ controllers.controller('editFeedController',
                 },
                 onLoadFeedReportCompleted,
                 onServerFault);
+        };
+
+        var onRenameFeedCompleted = function (response) {
+            $ionicLoading.hide();
+
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
+            }
+
+            $ionicPopup.alert({
+                    title: 'Information',
+                    template: 'Feed is updated.'
+            }).then($scope.backToCategory);
         };
 
         var onLoadFeedReportCompleted = function (response) {

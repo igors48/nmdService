@@ -25,9 +25,9 @@
         <div ng-switch-when="rename">
             <h4>Enter new name</h4>
             <label class="item item-input">
-                <input type="text" placeholder="" ng-model="category.newName">
+                <input type="text" placeholder="" ng-model="feed.newName">
             </label>
-            <button class="button button-block button-balanced" ng-click="">Rename</button>
+            <button class="button button-block button-balanced" ng-click="onRenameFeed()">Rename</button>
             <button class="button button-block button-positive" ng-click="onCancelChosen()">Cancel</button>
         </div>
 
