@@ -11,7 +11,7 @@ controllers.controller('feedController',
             $state.go('category', { id: $stateParams.categoryId });
         };
 
-        $scope.loadFeedReport = function () {
+        var loadFeedReport = function () {
             $ionicLoading.show({
                 template: 'Loading feed...'
             });
@@ -63,13 +63,13 @@ controllers.controller('feedController',
 
             $ionicLoading.hide();
 
-            $scope.loadFeedReport();
+            loadFeedReport();
         };
 
         var onMarkAsReadCompleted = function (response) {
             $ionicLoading.hide();
 
-            $scope.loadFeedReport();
+            loadFeedReport();
         };
 
         var onLoadFeedReportCompleted = function (response) {
@@ -91,6 +91,6 @@ controllers.controller('feedController',
             $scope.utilities.showFatalError($ionicPopup, $ionicLoading);       
         };
 
-        $scope.loadFeedReport();
+        loadFeedReport();
     }
 );
