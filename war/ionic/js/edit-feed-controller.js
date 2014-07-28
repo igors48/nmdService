@@ -17,6 +17,12 @@ controllers.controller('editFeedController',
         };
 
         $scope.onAssignChosen = function () {
+            $state.go('select-feed-category',
+                {
+                    categoryId: $stateParams.categoryId,
+                    feedId: $stateParams.feedId
+                }
+            );
         };
 
         $scope.onDeleteChosen = function () {

@@ -3,9 +3,10 @@
 angular.module('orb.services', ['ngResource'])
 
     .factory('categories', function ($resource) {
-        return $resource('/@security.key@/v01/categories/:categoryId',
+        return $resource('/@security.key@/v01/categories/:categoryId/:feedId',
             {
-                categoryId: '@categoryId'
+                categoryId: '@categoryId',
+                feedId: '@feedId'
             },
             {
                 'query': {method: 'GET'},
