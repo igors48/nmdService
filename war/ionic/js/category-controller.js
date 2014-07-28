@@ -24,12 +24,13 @@ controllers.controller('categoryController',
             });
         };
 
-        $scope.markAsRead = function (feedId, topItemId) {
+        $scope.openTopItem = function (feedId, topItemId) {
             
             if (topItemId.length === 0) {
                 return;
             }
         
+            $rootScope.lastFeedId = feedId;
             $rootScope.lastItemId = topItemId;
 
             $ionicLoading.show({
