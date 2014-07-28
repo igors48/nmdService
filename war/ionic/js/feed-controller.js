@@ -11,6 +11,19 @@ controllers.controller('feedController',
             $state.go('category', { id: $stateParams.categoryId });
         };
 
+        $scope.loadFeedReport = function () {
+            $ionicLoading.show({
+                template: 'Loading feed...'
+            });
+
+            reads.query(
+                { 
+                    feedId: $stateParams.feedId
+                },
+                onLoadFeedReportCompleted,
+                onServerFault);
+        };
+
         $scope.markAsRead = function (feedId, itemId) {
             $rootScope.lastItemId = itemId;
 
@@ -24,28 +37,43 @@ controllers.controller('feedController',
                     itemId: itemId,
                     markAs: 'read'
                 },
-                onMarkAsReadSuccess,
+                onMarkAsReadCompleted,
                 onServerFault
             );
         };
 
-        var onMarkAsReadSuccess = function (response) {
-            $ionicLoading.hide();
-
-            loadFeedReport();
-        };
-
-        var loadFeedReport = function () {
+        $scope.markAllItemsRead = function () {
             $ionicLoading.show({
-                template: 'Loading feed...'
+                template: 'Marking items...'
             });
 
-            reads.query(
-                { 
-                    feedId: $stateParams.feedId
-                },
-                onLoadFeedReportCompleted,
-                onServerFault);
+            var feedId = $stateParams.feedId;
+
+            $rootScope.lastFeed = feedId;
+
+            reads.mark({
+                feedId: feedId
+            },
+            onMarkAllItemsReadCompleted,
+            onServerFault);
+        };
+
+        var onMarkAllItemsReadCompleted = function (response) {
+            var me = this;
+
+            $ionicLoading.hide();
+
+            $ionicPopup.alert({
+                    title: 'Information',
+                    template: 'All items were marked read.'
+            }).then($scope.loadFeedReport);
+
+        };
+
+        var onMarkAsReadCompleted = function (response) {
+            $ionicLoading.hide();
+
+            $scope.loadFeedReport();
         };
 
         var onLoadFeedReportCompleted = function (response) {
@@ -67,6 +95,6 @@ controllers.controller('feedController',
             $scope.utilities.showFatalError($ionicPopup, $ionicLoading);       
         };
 
-        loadFeedReport();
+        $scope.loadFeedReport();
     }
 );
