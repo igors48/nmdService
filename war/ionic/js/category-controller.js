@@ -24,6 +24,14 @@ controllers.controller('categoryController',
             });
         };
 
+        $scope.editFeed = function (feedId) {
+            $rootScope.lastFeedId = feedId;
+
+            $state.go('edit-feed', {                 
+                id: feedId 
+            });
+        };
+
         $scope.openTopItem = function (feedId, topItemId) {
             
             if (topItemId.length === 0) {
