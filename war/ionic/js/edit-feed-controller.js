@@ -2,7 +2,7 @@
 
 controllers.controller('editFeedController',
 
-    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
+    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads, feeds) {
         $scope.showUi = false;
 
         $scope.utilities = AppUtilities.utilities;
@@ -24,6 +24,20 @@ controllers.controller('editFeedController',
 
         $scope.onCancelChosen = function () {
             $scope.mode = 'choose';
+        };
+
+        $scope.onDeleteFeed = function () {
+            $ionicLoading.show({
+                template: 'Deleting feed...'
+            });
+
+            feeds.delete(
+                {
+                    feedId: $stateParams.feedId
+                },
+                onDeleteFeedCompleted,
+                onServerFault
+            );
         };
 
         var loadFeedReadReport = function () {
@@ -55,6 +69,21 @@ controllers.controller('editFeedController',
                 name: response.title,
                 items: response.reports.length
             };
+        };
+
+        var onDeleteFeedCompleted = function (response) {
+            $ionicLoading.hide();
+
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
+            }
+
+            $ionicPopup.alert({
+                    title: 'Information',
+                    template: 'Feed is deleted.'
+            }).then($scope.backToCategory);
         };
 
         var onServerFault = function () {
