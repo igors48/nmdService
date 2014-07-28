@@ -3,10 +3,10 @@
         <button class="button button-clear ion-android-arrow-back" ng-click="backToCategories()"></button>
     </div>
 
-    <h1 class="title">{{category.title}}</h1>
+    <h1 class="title" ng-cloak ng-show="showUi">{{category.title}}</h1>
 
-    <div class="buttons">
-        <button class="button button-clear ion-android-add" ng-cloak ng-show="showUi" ng-click="addFeed()"></button>
+    <div class="buttons" ng-cloak ng-show="showUi">
+        <button class="button button-clear ion-android-add" ng-click="addFeed()"></button>
     </div>
 </ion-header-bar>
 

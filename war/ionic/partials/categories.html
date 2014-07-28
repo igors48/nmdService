@@ -1,8 +1,8 @@
 <ion-header-bar align-title="left" class="bar-dark">
-    <h1 class="title">Categories</h1>
+    <h1 class="title" ng-cloak ng-show="showUi">Categories</h1>
 
-    <div class="buttons">
-        <button class="button button-clear ion-android-add" ng-cloak ng-show="showUi" ng-click="addCategory()"></button>
+    <div class="buttons" ng-cloak ng-show="showUi">
+        <button class="button button-clear ion-android-add" ng-click="addCategory()"></button>
     </div>
 </ion-header-bar>
 
