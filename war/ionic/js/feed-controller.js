@@ -63,11 +63,6 @@ controllers.controller('feedController',
 
             $ionicLoading.hide();
 
-            $ionicPopup.alert({
-                    title: 'Information',
-                    template: 'All items were marked read.'
-            });
-
             $scope.loadFeedReport();
         };
 
