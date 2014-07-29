@@ -161,7 +161,8 @@ public class ReadsService extends AbstractService {
 
             loadFeedHeader(feedId);
 
-            final Set<String> storedGuids = getStoredGuids(feedId);
+            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            final Set<String> storedGuids = getStoredGuids(items);
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
             final Set<String> readGuids = new HashSet<>();
@@ -196,7 +197,8 @@ public class ReadsService extends AbstractService {
             final Set<String> readGuids = new HashSet<>();
             final Set<String> readLaterGuids = new HashSet<>();
 
-            final Set<String> storedGuids = getStoredGuids(feedId);
+            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            final Set<String> storedGuids = getStoredGuids(items);
             readGuids.addAll(storedGuids);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
