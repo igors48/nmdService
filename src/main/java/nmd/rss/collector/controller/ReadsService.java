@@ -162,6 +162,7 @@ public class ReadsService extends AbstractService {
             loadFeedHeader(feedId);
 
             final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            final FeedItem youngest = findYoungest(items);
             final Set<String> storedGuids = getStoredGuids(items);
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
@@ -175,7 +176,8 @@ public class ReadsService extends AbstractService {
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, new Date(), comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
+            final Date lastUpdate = youngest == null ? new Date() : youngest.date;
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
             transaction.commit();
@@ -198,13 +200,15 @@ public class ReadsService extends AbstractService {
             final Set<String> readLaterGuids = new HashSet<>();
 
             final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            final FeedItem youngest = findYoungest(items);
             final Set<String> storedGuids = getStoredGuids(items);
             readGuids.addAll(storedGuids);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
             readLaterGuids.addAll(readFeedItems.readLaterItemIds);
 
-            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, new Date(), readGuids, readLaterGuids, readFeedItems.categoryId);
+            final Date lastUpdate = youngest == null ? new Date() : youngest.date;
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, readGuids, readLaterGuids, readFeedItems.categoryId);
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
             transaction.commit();
@@ -289,6 +293,24 @@ public class ReadsService extends AbstractService {
         }
 
         return storedGuids;
+    }
+
+    private static FeedItem findYoungest(final List<FeedItem> items) {
+
+        if (items.isEmpty()) {
+            return null;
+        }
+
+        FeedItem youngest = items.get(0);
+
+        for (final FeedItem item : items) {
+
+            if (item.date.getTime() > youngest.date.getTime()) {
+                youngest = item;
+            }
+        }
+
+        return youngest;
     }
 
 }

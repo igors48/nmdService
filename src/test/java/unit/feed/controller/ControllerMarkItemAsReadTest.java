@@ -42,18 +42,17 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
     }
 
     @Test
-    public void whenItemsMarkAsReadThenLastUpdateDataUpdates() throws ServiceException {
+    public void whenItemsMarkAsReadThenLastUpdateDataUpdatesToYoungestFeedItemDate() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithTwoItems();
 
         this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
-        final Date firstDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
 
         pauseOneMillisecond();
 
         this.readsService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
         final Date secondDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
 
-        assertEquals(1, secondDate.compareTo(firstDate));
+        assertEquals(secondDate, SECOND_FEED_ITEM.date);
     }
 
     @Test

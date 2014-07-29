@@ -2,8 +2,10 @@ package unit.feed.controller;
 
 import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.error.ServiceException;
+import nmd.rss.collector.feed.FeedHeader;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -41,6 +43,17 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
         final FeedItemsReport secondReport = this.readsService.getFeedItemsReport(feedId);
 
         assertTrue(secondReport.reports.get(0).readLater);
+    }
+
+    @Test
+    public void whenAllItemsMarkedAsReadThenLastUpdateDateSetToYoungestFeedItemDate() throws ServiceException {
+        final FeedHeader feedHeader = createFeedWithTwoItems();
+
+        this.readsService.markAllItemsAsRead(feedHeader.id);
+
+        final Date lastUpdate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
+
+        assertEquals(lastUpdate, SECOND_FEED_ITEM.date);
     }
 
 }
