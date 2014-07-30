@@ -241,7 +241,7 @@ public class ReadsService extends AbstractService {
 
         final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
 
-        return new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink);
+        return new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate);
     }
 
     public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {

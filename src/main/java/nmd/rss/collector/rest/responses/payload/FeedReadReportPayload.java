@@ -19,6 +19,7 @@ public class FeedReadReportPayload {
     public int addedFromLastVisit;
     public String topItemId;
     public String topItemLink;
+    public long lastUpdate;
 
     private FeedReadReportPayload() {
         // empty
@@ -37,6 +38,7 @@ public class FeedReadReportPayload {
         feedReadReportHelper.addedFromLastVisit = feedReadReport.addedFromLastVisit;
         feedReadReportHelper.topItemId = feedReadReport.topItemId == null ? "" : feedReadReport.topItemId;
         feedReadReportHelper.topItemLink = feedReadReport.topItemLink == null ? "" : feedReadReport.topItemLink;
+        feedReadReportHelper.lastUpdate = feedReadReport.lastUpdate.getTime();
 
         return feedReadReportHelper;
     }
