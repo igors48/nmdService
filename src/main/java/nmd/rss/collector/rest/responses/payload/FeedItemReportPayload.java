@@ -18,6 +18,7 @@ public class FeedItemReportPayload {
     public String itemId;
     public boolean read;
     public boolean readLater;
+    public boolean addedSinceLastView;
 
     private FeedItemReportPayload() {
         // empty
@@ -34,6 +35,7 @@ public class FeedItemReportPayload {
         helper.itemId = feedItemReport.itemId;
         helper.read = feedItemReport.read;
         helper.readLater = feedItemReport.readLater;
+        helper.addedSinceLastView = feedItemReport.addedSinceLastView;
 
         helper.date = feedItemReport.date.getTime();
 

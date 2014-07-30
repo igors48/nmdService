@@ -109,7 +109,7 @@ public class ReadsService extends AbstractService {
 
             transaction.commit();
 
-            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, feedItemReports);
+            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, feedItemReports, readFeedItems.lastUpdate);
         } finally {
             rollbackIfActive(transaction);
         }

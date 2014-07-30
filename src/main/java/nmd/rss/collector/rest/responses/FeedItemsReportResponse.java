@@ -22,6 +22,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
     public int notRead;
     public int readLater;
     public List<FeedItemReportPayload> reports;
+    public long lastUpdate;
 
     private FeedItemsReportResponse() {
         // empty
@@ -46,6 +47,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
         response.notRead = feedItemsReport.notRead;
         response.readLater = feedItemsReport.readLater;
         response.reports = helpers;
+        response.lastUpdate = feedItemsReport.lastUpdate.getTime();
 
         return response;
     }

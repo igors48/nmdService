@@ -7,10 +7,7 @@ import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedItemsMergeReport;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.Assert.*;
 
@@ -52,6 +49,16 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
 
         assertEquals(feedHeader.title, feedItemsReport.title);
+    }
+
+    @Test
+    public void whenFeedItemsReportReturnsThenFeedLastUpdateTimeSetCorrectly() throws ServiceException {
+        final FeedHeader feedHeader = createFeedWithTwoItems();
+
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
+        final Date storedLastUpdate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
+
+        assertEquals(storedLastUpdate, feedItemsReport.lastUpdate);
     }
 
     @Test
