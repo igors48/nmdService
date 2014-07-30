@@ -17,8 +17,9 @@ public class FeedItemReport {
     public final String itemId;
     public final boolean read;
     public final boolean readLater;
+    public final boolean addedSinceLastView;
 
-    public FeedItemReport(final UUID feedId, final String title, final String description, final String link, final Date date, final String itemId, final boolean read, final boolean readLater) {
+    public FeedItemReport(final UUID feedId, final String title, final String description, final String link, final Date date, final String itemId, final boolean read, final boolean readLater, final boolean addedSinceLastView) {
         this.feedId = feedId;
         this.title = title;
         this.description = description;
@@ -27,6 +28,7 @@ public class FeedItemReport {
         this.itemId = itemId;
         this.read = read;
         this.readLater = readLater;
+        this.addedSinceLastView = addedSinceLastView;
     }
 
 }

@@ -91,8 +91,9 @@ public class ReadsService extends AbstractService {
             for (final FeedItem feedItem : feedItems) {
                 final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
                 final boolean readLaterItem = readFeedItems.readLaterItemIds.contains(feedItem.guid);
+                final boolean addedSinceLastView = readFeedItems.lastUpdate.compareTo(feedItem.date) < 0;
 
-                final FeedItemReport feedItemReport = new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.link, feedItem.date, feedItem.guid, readItem, readLaterItem);
+                final FeedItemReport feedItemReport = new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.link, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView);
                 feedItemReports.add(feedItemReport);
 
                 if (readItem) {

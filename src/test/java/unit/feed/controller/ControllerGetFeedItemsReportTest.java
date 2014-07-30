@@ -3,8 +3,13 @@ package unit.feed.controller;
 import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.feed.FeedItemsMergeReport;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.*;
@@ -73,6 +78,24 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
 
         assertTrue(feedItemsReport.reports.get(0).read);
         assertFalse(feedItemsReport.reports.get(1).read);
+    }
+
+    @Test
+    public void whenFeedItemAddedAfterLastUpdateThenItIsCorrectlyMarked() throws ServiceException {
+        final FeedHeader feedHeader = createFeedWithOneItem();
+
+        this.readsService.markAllItemsAsRead(feedHeader.id);
+
+        final List<FeedItem> retainedItems = Arrays.asList(FIRST_FEED_ITEM);
+        final List<FeedItem> addedItems = Arrays.asList(SECOND_FEED_ITEM);
+        final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(new ArrayList<FeedItem>(), retainedItems, addedItems);
+
+        this.feedItemsRepositoryStub.storeItems(feedHeader.id, feedItemsMergeReport.getAddedAndRetained());
+
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
+
+        assertTrue(feedItemsReport.reports.get(0).addedSinceLastView);
+        assertFalse(feedItemsReport.reports.get(1).addedSinceLastView);
     }
 
 }
