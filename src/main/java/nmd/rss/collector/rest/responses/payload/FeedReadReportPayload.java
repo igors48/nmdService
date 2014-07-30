@@ -12,6 +12,7 @@ import static nmd.rss.collector.util.Parameter.notNull;
 public class FeedReadReportPayload {
 
     public String feedId;
+    public String feedType;
     public String feedTitle;
     public int read;
     public int notRead;
@@ -28,19 +29,20 @@ public class FeedReadReportPayload {
     public static FeedReadReportPayload create(final FeedReadReport feedReadReport) {
         guard(notNull(feedReadReport));
 
-        final FeedReadReportPayload feedReadReportHelper = new FeedReadReportPayload();
+        final FeedReadReportPayload feedReadReportPayload = new FeedReadReportPayload();
 
-        feedReadReportHelper.feedId = feedReadReport.feedId.toString();
-        feedReadReportHelper.feedTitle = feedReadReport.feedTitle;
-        feedReadReportHelper.read = feedReadReport.read;
-        feedReadReportHelper.notRead = feedReadReport.notRead;
-        feedReadReportHelper.readLater = feedReadReport.readLater;
-        feedReadReportHelper.addedFromLastVisit = feedReadReport.addedFromLastVisit;
-        feedReadReportHelper.topItemId = feedReadReport.topItemId == null ? "" : feedReadReport.topItemId;
-        feedReadReportHelper.topItemLink = feedReadReport.topItemLink == null ? "" : feedReadReport.topItemLink;
-        feedReadReportHelper.lastUpdate = feedReadReport.lastUpdate.getTime();
+        feedReadReportPayload.feedId = feedReadReport.feedId.toString();
+        feedReadReportPayload.feedType = feedReadReport.feedType.toString();
+        feedReadReportPayload.feedTitle = feedReadReport.feedTitle;
+        feedReadReportPayload.read = feedReadReport.read;
+        feedReadReportPayload.notRead = feedReadReport.notRead;
+        feedReadReportPayload.readLater = feedReadReport.readLater;
+        feedReadReportPayload.addedFromLastVisit = feedReadReport.addedFromLastVisit;
+        feedReadReportPayload.topItemId = feedReadReport.topItemId == null ? "" : feedReadReport.topItemId;
+        feedReadReportPayload.topItemLink = feedReadReport.topItemLink == null ? "" : feedReadReport.topItemLink;
+        feedReadReportPayload.lastUpdate = feedReadReport.lastUpdate.getTime();
 
-        return feedReadReportHelper;
+        return feedReadReportPayload;
     }
 
 }

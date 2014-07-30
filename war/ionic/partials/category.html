@@ -15,7 +15,10 @@
         <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds"
              ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''">
             <div ng-click="openFeed(feed.feedId)">
-                <i class="icon ion-social-rss orange-front"></i>
+                <div ng-switch="feed.feedType">
+                    <i ng-switch-when="RSS" class="icon ion-social-rss orange-front"></i>
+                    <i ng-switch-when="TWITTER" class="icon ion-social-twitter blue-front"></i>
+                </div>
 
                 <h2>{{feed.feedTitle}}</h2>
 

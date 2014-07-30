@@ -12,6 +12,7 @@ import static nmd.rss.collector.util.Assert.*;
 public class FeedReadReport {
 
     public final UUID feedId;
+    public final FeedType feedType;
     public final String feedTitle;
     public final int read;
     public final int notRead;
@@ -21,9 +22,12 @@ public class FeedReadReport {
     public final String topItemLink;
     public final Date lastUpdate;
 
-    public FeedReadReport(final UUID feedId, final String feedTitle, final int read, final int notRead, final int readLater, final int addedFromLastVisit, final String topItemId, final String topItemLink, final Date lastUpdate) {
+    public FeedReadReport(final UUID feedId, final FeedType feedType, final String feedTitle, final int read, final int notRead, final int readLater, final int addedFromLastVisit, final String topItemId, final String topItemLink, final Date lastUpdate) {
         assertNotNull(feedId);
         this.feedId = feedId;
+
+        assertNotNull(feedType);
+        this.feedType = feedType;
 
         assertStringIsValid(feedTitle);
         this.feedTitle = feedTitle;

@@ -5,6 +5,7 @@ import nmd.rss.collector.Transactions;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
+import nmd.rss.collector.twitter.TwitterClientTools;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
@@ -241,7 +242,9 @@ public class ReadsService extends AbstractService {
 
         final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
 
-        return new FeedReadReport(header.id, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate);
+        final FeedType feedType = TwitterClientTools.isItTwitterUrl(header.feedLink) ? FeedType.TWITTER : FeedType.RSS;
+
+        return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate);
     }
 
     public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
