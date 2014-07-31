@@ -91,6 +91,8 @@ public class UpdatesService extends AbstractService {
 
             if (notTheSame) {
                 this.feedItemsRepository.storeItems(header.id, addedAndRetained);
+            } else {
+                LOGGER.info("There are no changes. Nothing to store");
             }
 
             updateFeedTransaction.commit();
