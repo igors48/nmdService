@@ -1,4 +1,4 @@
-package rest.sandbox;
+package sandbox;
 
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedItem;
@@ -29,12 +29,15 @@ public class TwitterUpdates {
         List<FeedItem> news = secondFeed.items;
 
         final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, news, 1000);
+        final List<FeedItem> addedAndRetained = mergeReport.getAddedAndRetained();
 
-        System.out.println(mergeReport);
+        final boolean theSame = FeedItemsMerger.listEqualsIgnoringGuid(addedAndRetained, olds);
+
+        System.out.println(theSame);
     }
 
     private Feed createFeed() throws IOException {
-        final TwitterClient client = new TwitterClient("tjOc6yZT0a0QzxOLEpqGg", "avqQAxuOVlpHm09YsukVxfdIBAlhjVRqbWmVzJ1yVgs");
+        final TwitterClient client = new TwitterClient("*", "*");
         String twitterUrl = "https://twitter.com/royksopp";
         final String userName = getTwitterUserName(twitterUrl);
         final List<Tweet> tweets = client.fetchTweets(userName, 1000);

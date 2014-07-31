@@ -82,14 +82,15 @@ public class UpdatesService extends AbstractService {
             List<FeedItem> olds = getFeedOldItems(header);
 
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, updateTask.maxFeedItemsCount);
-            final boolean nothingChanged = mergeReport.added.isEmpty() && mergeReport.removed.isEmpty();
+            final List<FeedItem> addedAndRetained = mergeReport.getAddedAndRetained();
+
+            final boolean notTheSame = !FeedItemsMerger.listEqualsIgnoringGuid(olds, addedAndRetained);
 
             final FeedUpdateTask updatedTask = updateTask.updateStatistic(mergeReport.added.size());
-            //this.feedUpdateTaskRepository.storeTask(updatedTask);
             this.feedUpdateTaskRepository.updateTask(updatedTask);
 
-            if (!nothingChanged) {
-                this.feedItemsRepository.storeItems(header.id, mergeReport.getAddedAndRetained());
+            if (notTheSame) {
+                this.feedItemsRepository.storeItems(header.id, addedAndRetained);
             }
 
             updateFeedTransaction.commit();
