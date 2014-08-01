@@ -266,7 +266,7 @@ public class ReadsService extends AbstractService {
         }
 
         if (youngerThanLastViewed.isEmpty()) {
-            //find youngest not read
+            //find youngest not read item
         }
         for (final FeedItem candidate : items) {
             final boolean olderThanLastViewedItem = candidate.date.compareTo(lastViewedItemTime) < 0;
