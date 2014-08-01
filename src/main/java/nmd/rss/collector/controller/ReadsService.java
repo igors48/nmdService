@@ -252,37 +252,33 @@ public class ReadsService extends AbstractService {
         guard(notNull(items));
         guard(notNull(readGuids));
         guard(notNull(lastViewedItemTime));
-        // filter not read items
-        Collections.sort(items, TIMESTAMP_ASCENDING_COMPARATOR);
 
-        final List<FeedItem> youngerThanLastViewed = new ArrayList<>();
+        final List<FeedItem> notReads = findNotReadItems(items, readGuids);
 
-        for (final FeedItem candidate : items) {
+        Collections.sort(notReads, TIMESTAMP_ASCENDING_COMPARATOR);
+
+        for (final FeedItem candidate : notReads) {
             final boolean youngerThanLastViewedItem = candidate.date.compareTo(lastViewedItemTime) > 0;
 
             if (youngerThanLastViewedItem) {
-                youngerThanLastViewed.add(candidate);
-            }
-        }
-
-        if (youngerThanLastViewed.isEmpty()) {
-            //find youngest not read item
-        }
-        for (final FeedItem candidate : items) {
-            final boolean olderThanLastViewedItem = candidate.date.compareTo(lastViewedItemTime) < 0;
-
-            if (olderThanLastViewedItem) {
-                continue;
-            }
-
-            final boolean notRead = !readGuids.contains(candidate.guid);
-
-            if (notRead) {
                 return candidate;
             }
         }
 
-        return null;
+        return notReads.isEmpty() ? null : notReads.get(notReads.size() - 1);
+    }
+
+    private static List<FeedItem> findNotReadItems(List<FeedItem> items, Set<String> readGuids) {
+        final List<FeedItem> notReads = new ArrayList<>();
+
+        for (final FeedItem candidate : items) {
+            final boolean notRead = !readGuids.contains(candidate.guid);
+
+            if (notRead) {
+                notReads.add(candidate);
+            }
+        }
+        return notReads;
     }
 
     private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {

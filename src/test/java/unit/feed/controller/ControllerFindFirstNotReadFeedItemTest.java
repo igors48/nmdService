@@ -25,10 +25,10 @@ public class ControllerFindFirstNotReadFeedItemTest {
     }};
 
     @Test
-    public void whenThereAreNoReadItemsThenFirstReturns() {
+    public void whenThereAreNoReadItemsThenLastReturns() {
         final FeedItem last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>(), new Date(0));
 
-        assertEquals("first", last.guid);
+        assertEquals("third", last.guid);
     }
 
     @Test
