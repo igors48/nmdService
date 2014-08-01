@@ -17,6 +17,7 @@ import java.util.*;
 
 import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.rss.collector.feed.FeedItem.isValidFeedItemGuid;
+import static nmd.rss.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
 import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.Parameter.notNull;
@@ -234,7 +235,7 @@ public class ReadsService extends AbstractService {
 
         final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
 
-        final FeedItem topItem = findLastNotReadFeedItem(items, readFeedItems.readItemIds);
+        final FeedItem topItem = findFirstNotReadFeedItem(items, readFeedItems.readItemIds);
         final String topItemId = topItem == null ? null : topItem.guid;
         final String topItemLink = topItem == null ? null : topItem.link;
 
@@ -247,11 +248,11 @@ public class ReadsService extends AbstractService {
         return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate);
     }
 
-    public static FeedItem findLastNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
+    public static FeedItem findFirstNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
         guard(notNull(items));
         guard(notNull(readGuids));
 
-        Collections.sort(items, TIMESTAMP_DESCENDING_COMPARATOR);
+        Collections.sort(items, TIMESTAMP_ASCENDING_COMPARATOR);
 
         for (final FeedItem candidate : items) {
 
