@@ -235,7 +235,7 @@ public class ReadsService extends AbstractService {
 
         final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
 
-        final FeedItem topItem = findFirstNotReadFeedItem(items, readFeedItems.readItemIds);
+        final FeedItem topItem = findFirstNotReadFeedItem(items, readFeedItems.readItemIds, readFeedItems.lastUpdate);
         final String topItemId = topItem == null ? null : topItem.guid;
         final String topItemLink = topItem == null ? null : topItem.link;
 
@@ -248,15 +248,36 @@ public class ReadsService extends AbstractService {
         return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate);
     }
 
-    public static FeedItem findFirstNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids) {
+    public static FeedItem findFirstNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids, final Date lastViewedItemTime) {
         guard(notNull(items));
         guard(notNull(readGuids));
-
+        guard(notNull(lastViewedItemTime));
+        // filter not read items
         Collections.sort(items, TIMESTAMP_ASCENDING_COMPARATOR);
 
-        for (final FeedItem candidate : items) {
+        final List<FeedItem> youngerThanLastViewed = new ArrayList<>();
 
-            if (!readGuids.contains(candidate.guid)) {
+        for (final FeedItem candidate : items) {
+            final boolean youngerThanLastViewedItem = candidate.date.compareTo(lastViewedItemTime) > 0;
+
+            if (youngerThanLastViewedItem) {
+                youngerThanLastViewed.add(candidate);
+            }
+        }
+
+        if (youngerThanLastViewed.isEmpty()) {
+            //find youngest not read
+        }
+        for (final FeedItem candidate : items) {
+            final boolean olderThanLastViewedItem = candidate.date.compareTo(lastViewedItemTime) < 0;
+
+            if (olderThanLastViewedItem) {
+                continue;
+            }
+
+            final boolean notRead = !readGuids.contains(candidate.guid);
+
+            if (notRead) {
                 return candidate;
             }
         }

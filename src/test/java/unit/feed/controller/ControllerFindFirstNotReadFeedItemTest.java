@@ -26,7 +26,7 @@ public class ControllerFindFirstNotReadFeedItemTest {
 
     @Test
     public void whenThereAreNoReadItemsThenFirstReturns() {
-        final FeedItem last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>());
+        final FeedItem last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>(), new Date(0));
 
         assertEquals("first", last.guid);
     }
@@ -35,14 +35,14 @@ public class ControllerFindFirstNotReadFeedItemTest {
     public void whenThereIsReadItemsThenFirstNotReadReturns() {
         FeedItem last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>() {{
             add("third");
-        }});
+        }}, new Date(0));
 
         assertEquals("first", last.guid);
 
         last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>() {{
             add("third");
             add("first");
-        }});
+        }}, new Date(0));
 
         assertEquals("second", last.guid);
     }
@@ -53,7 +53,7 @@ public class ControllerFindFirstNotReadFeedItemTest {
             add("third");
             add("second");
             add("first");
-        }});
+        }}, new Date(0));
 
         assertNull(last);
     }
@@ -64,7 +64,7 @@ public class ControllerFindFirstNotReadFeedItemTest {
             add("third");
             add("second");
             add("first");
-        }});
+        }}, new Date(0));
 
         assertNull(last);
     }
