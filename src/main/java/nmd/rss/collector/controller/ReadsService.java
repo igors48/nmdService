@@ -257,14 +257,16 @@ public class ReadsService extends AbstractService {
 
         Collections.sort(notReads, TIMESTAMP_ASCENDING_COMPARATOR);
 
-        for (final FeedItem candidate : notReads) {
-            final boolean youngerThanLastViewedItem = candidate.date.compareTo(lastViewedItemTime) > 0;
+        if (!readGuids.isEmpty()) {
 
-            if (youngerThanLastViewedItem) {
-                return candidate;
+            for (final FeedItem candidate : notReads) {
+                final boolean youngerThanLastViewedItem = candidate.date.compareTo(lastViewedItemTime) > 0;
+
+                if (youngerThanLastViewedItem) {
+                    return candidate;
+                }
             }
         }
-
         return notReads.isEmpty() ? null : notReads.get(notReads.size() - 1);
     }
 
