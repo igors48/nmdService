@@ -4,7 +4,7 @@
     <cron>
         <url>/@security.key@/v01/updates/</url>
         <description>Updates current feed</description>
-        <schedule>every 1 minutes</schedule>
+        <schedule>every 2 minutes</schedule>
     </cron>
 
 </cronentries>
