@@ -81,6 +81,45 @@ public final class FeedItemsMerger {
         return new FeedItemsMergeReport(removed, retained, added);
     }
 
+    public static boolean listEqualsIgnoringGuid(final List<FeedItem> first, final List<FeedItem> second) {
+        assertNotNull(first);
+        assertNotNull(second);
+
+        if (first.size() != second.size()) {
+            return false;
+        }
+
+        final List<FeedItem> secondCopy = new ArrayList<>(second);
+
+        for (final FeedItem candidate : first) {
+
+            final int index = find(candidate, secondCopy);
+
+            if (index == -1) {
+                return false;
+            }
+
+            secondCopy.remove(index);
+        }
+
+        return true;
+    }
+
+    private static int find(final FeedItem item, final List<FeedItem> list) {
+        int index = 0;
+
+        for (final FeedItem candidate : list) {
+
+            if (item.equalsExcludeGuid(candidate)) {
+                return index;
+            }
+
+            ++index;
+        }
+
+        return -1;
+    }
+
     private static List<FeedItem> findByLink(final String link, final List<FeedItem> candidates) {
         final List<FeedItem> result = new ArrayList<>();
 
