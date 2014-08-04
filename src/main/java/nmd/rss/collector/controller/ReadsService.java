@@ -187,6 +187,7 @@ public class ReadsService extends AbstractService {
 
             final Date lastUpdate = readFeedItems.lastUpdate.compareTo(feedItem.date) > 0 ? readFeedItems.lastUpdate : feedItem.date;
             final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
+
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
             transaction.commit();
@@ -218,6 +219,7 @@ public class ReadsService extends AbstractService {
 
             final Date lastUpdate = youngest == null ? new Date() : youngest.date;
             final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, readGuids, readLaterGuids, readFeedItems.categoryId);
+
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
             transaction.commit();

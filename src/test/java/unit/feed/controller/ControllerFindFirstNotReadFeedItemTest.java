@@ -19,9 +19,9 @@ import static org.junit.Assert.assertNull;
 public class ControllerFindFirstNotReadFeedItemTest {
 
     private static final List<FeedItem> FEED_ITEMS = new ArrayList<FeedItem>() {{
-        add(new FeedItem("first", "first", "http://domain.com/first", new Date(0), true, "first"));
-        add(new FeedItem("second", "second", "http://domain.com/second", new Date(1), true, "second"));
-        add(new FeedItem("third", "third", "http://domain.com/third", new Date(2), true, "third"));
+        add(new FeedItem("first", "first", "http://domain.com/first", new Date(1), true, "first"));
+        add(new FeedItem("second", "second", "http://domain.com/second", new Date(2), true, "second"));
+        add(new FeedItem("third", "third", "http://domain.com/third", new Date(3), true, "third"));
     }};
 
     @Test
@@ -29,22 +29,6 @@ public class ControllerFindFirstNotReadFeedItemTest {
         final FeedItem last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>(), new Date(0));
 
         assertEquals("third", last.guid);
-    }
-
-    @Test
-    public void whenThereIsReadItemsThenFirstNotReadReturns() {
-        FeedItem last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>() {{
-            add("third");
-        }}, new Date(0));
-
-        assertEquals("first", last.guid);
-
-        last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>() {{
-            add("third");
-            add("first");
-        }}, new Date(0));
-
-        assertEquals("second", last.guid);
     }
 
     @Test
@@ -67,6 +51,25 @@ public class ControllerFindFirstNotReadFeedItemTest {
         }}, new Date(0));
 
         assertNull(last);
+    }
+
+    @Test
+    public void whenNotReadItemYoungerThanLastUpdatedExistsThenFirstOfItReturns() {
+        final FeedItem last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>() {{
+            add("first");
+        }}, new Date(1));
+
+        assertEquals("second", last.guid);
+    }
+
+    @Test
+    public void whenNotReadItemYoungerThanLastUpdatedNotExistsThenLatestOfPreviousNotReadsReturns() {
+        final FeedItem last = findFirstNotReadFeedItem(FEED_ITEMS, new HashSet<String>() {{
+            add("second");
+            add("third");
+        }}, new Date(3));
+
+        assertEquals("first", last.guid);
     }
 
 }
