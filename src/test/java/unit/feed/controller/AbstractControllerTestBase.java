@@ -37,8 +37,14 @@ public abstract class AbstractControllerTestBase {
     protected static final String SECOND_FEED_ITEM_LINK = "http://domain.com/second_link";
     protected static final String SECOND_FEED_ITEM_GUID = "second_guid";
 
+    protected static final String THIRD_FEED_ITEM_TITLE = "third_title";
+    protected static final String THIRD_FEED_ITEM_DESCRIPTION = "third_description";
+    protected static final String THIRD_FEED_ITEM_LINK = "http://domain.com/third_link";
+    protected static final String THIRD_FEED_ITEM_GUID = "third_guid";
+
     protected static final FeedItem FIRST_FEED_ITEM = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(1), true, FIRST_FEED_ITEM_GUID);
     protected static final FeedItem SECOND_FEED_ITEM = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(2), true, SECOND_FEED_ITEM_GUID);
+    protected static final FeedItem THIRD_FEED_ITEM = new FeedItem(THIRD_FEED_ITEM_TITLE, THIRD_FEED_ITEM_DESCRIPTION, THIRD_FEED_ITEM_LINK, new Date(3), true, THIRD_FEED_ITEM_GUID);
 
     private static final FeedHeader FEED_HEADER = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
 
@@ -147,6 +153,10 @@ public abstract class AbstractControllerTestBase {
 
     protected FeedHeader createFeedWithTwoItems() {
         return createSampleFeed(FIRST_FEED_ITEM, SECOND_FEED_ITEM);
+    }
+
+    protected FeedHeader createFeedWithThreeItems() {
+        return createSampleFeed(FIRST_FEED_ITEM, SECOND_FEED_ITEM, THIRD_FEED_ITEM);
     }
 
     protected FeedHeader createSampleFeed(final FeedItem... items) {

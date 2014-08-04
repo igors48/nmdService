@@ -165,7 +165,13 @@ public class ReadsService extends AbstractService {
             loadFeedHeader(feedId);
 
             final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
-            final FeedItem youngest = findYoungest(items);
+
+            final FeedItem feedItem = find(itemId, items);
+
+            if (feedItem == null) {
+                return;
+            }
+
             final Set<String> storedGuids = getStoredGuids(items);
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
@@ -179,7 +185,7 @@ public class ReadsService extends AbstractService {
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final Date lastUpdate = youngest == null ? new Date() : youngest.date;
+            final Date lastUpdate = readFeedItems.lastUpdate.compareTo(feedItem.date) > 0 ? readFeedItems.lastUpdate : feedItem.date;
             final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
@@ -267,6 +273,7 @@ public class ReadsService extends AbstractService {
                 }
             }
         }
+
         return notReads.isEmpty() ? null : notReads.get(notReads.size() - 1);
     }
 
@@ -335,6 +342,18 @@ public class ReadsService extends AbstractService {
         }
 
         return youngest;
+    }
+
+    private static FeedItem find(String itemId, List<FeedItem> items) {
+
+        for (final FeedItem candidate : items) {
+
+            if (candidate.guid.equals(itemId)) {
+                return candidate;
+            }
+        }
+
+        return null;
     }
 
 }

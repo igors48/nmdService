@@ -42,7 +42,7 @@ public class ReadFeedItems implements Serializable {
     public static ReadFeedItems empty(final UUID feedId) {
         assertNotNull(feedId);
 
-        return new ReadFeedItems(feedId, new Date(), new HashSet<String>(), new HashSet<String>(), MAIN_CATEGORY_ID);
+        return new ReadFeedItems(feedId, new Date(0), new HashSet<String>(), new HashSet<String>(), MAIN_CATEGORY_ID);
     }
 
     public ReadFeedItems changeCategory(final String categoryId) {

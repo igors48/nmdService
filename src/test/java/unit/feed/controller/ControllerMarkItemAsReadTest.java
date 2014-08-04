@@ -42,20 +42,6 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
     }
 
     @Test
-    public void whenItemsMarkAsReadThenLastUpdateDataUpdatesToYoungestFeedItemDate() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
-
-        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
-
-        pauseOneMillisecond();
-
-        this.readsService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
-        final Date secondDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
-
-        assertEquals(secondDate, SECOND_FEED_ITEM.date);
-    }
-
-    @Test
     public void whenItemIdDoesNotExistInFeedItemsIdListThenItDoesNotStore() throws ServiceException {
         final FeedHeader feedHeader = createFeedWithOneItem();
 
@@ -98,6 +84,45 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
     @Test(expected = ServiceException.class)
     public void whenTryToMarkItemOfNotExistsFeedThenErrorReturns() throws ServiceException {
         this.readsService.markItemAsRead(UUID.randomUUID(), FIRST_FEED_ITEM_GUID);
+    }
+
+    @Test
+    public void whenThereIsNoReadItemsThenLatUpdateDataEqualsToEpoch() {
+        final FeedHeader feedHeader = createFeedWithTwoItems();
+
+        final Date lastUpdate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
+
+        assertEquals(0, lastUpdate.getTime());
+    }
+
+    @Test
+    public void whenReadItemTimeOlderThenLastUpdateThenLastUpdateTimeDoesNotUpdate() throws ServiceException {
+        final FeedHeader feedHeader = createFeedWithThreeItems();
+
+        this.readsService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
+
+        pauseOneMillisecond();
+
+        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+
+        final Date secondDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
+
+        assertEquals(secondDate, SECOND_FEED_ITEM.date);
+    }
+
+    @Test
+    public void whenReadItemTimeYoungerThenLastUpdateThenLastUpdateIsUpdated() throws ServiceException {
+        final FeedHeader feedHeader = createFeedWithThreeItems();
+
+        this.readsService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
+
+        pauseOneMillisecond();
+
+        this.readsService.markItemAsRead(feedHeader.id, THIRD_FEED_ITEM_GUID);
+
+        final Date secondDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
+
+        assertEquals(secondDate, THIRD_FEED_ITEM.date);
     }
 
 }
