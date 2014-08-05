@@ -1,4 +1,4 @@
-package unit.feed.controller;
+package unit.feed.controller.stub;
 
 import nmd.rss.collector.scheduler.FeedUpdateTask;
 import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;

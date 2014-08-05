@@ -140,7 +140,7 @@ public class ReadsService extends AbstractService {
             final int lastIndex;
 
             if (offset + size >= feedItems.size() - 1) {
-                lastIndex = feedItems.size() - 1;
+                lastIndex = feedItems.size();
                 last = true;
             } else {
                 lastIndex = offset + size;
@@ -328,7 +328,7 @@ public class ReadsService extends AbstractService {
         return notReads.isEmpty() ? null : notReads.get(notReads.size() - 1);
     }
 
-    private static FeedItemReport getFeedItemReport(final UUID feedId, final ReadFeedItems readFeedItems, final FeedItem feedItem) {
+    public static FeedItemReport getFeedItemReport(final UUID feedId, final ReadFeedItems readFeedItems, final FeedItem feedItem) {
         final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
         final boolean readLaterItem = readFeedItems.readLaterItemIds.contains(feedItem.guid);
         final boolean addedSinceLastView = readFeedItems.lastUpdate.compareTo(feedItem.date) < 0;

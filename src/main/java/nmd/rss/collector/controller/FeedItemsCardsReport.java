@@ -19,9 +19,9 @@ public class FeedItemsCardsReport {
     public final String title;
     public final boolean first;
     public final boolean last;
-    public final List<FeedItemReport> feedItemsCardsReports;
+    public final List<FeedItemReport> reports;
 
-    public FeedItemsCardsReport(final UUID feedId, final String title, final boolean first, final boolean last, final List<FeedItemReport> feedItemsCardsReports) {
+    public FeedItemsCardsReport(final UUID feedId, final String title, final boolean first, final boolean last, final List<FeedItemReport> reports) {
         guard(isValidFeedHeaderId(feedId));
         this.feedId = feedId;
 
@@ -31,8 +31,8 @@ public class FeedItemsCardsReport {
         this.first = first;
         this.last = last;
 
-        guard(notNull(feedItemsCardsReports));
-        this.feedItemsCardsReports = feedItemsCardsReports;
+        guard(notNull(reports));
+        this.reports = reports;
     }
 
     public FeedItemsCardsReport(final UUID feedId, final String title) {
