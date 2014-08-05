@@ -1,0 +1,21 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToCategory()"></button>
+    </div>
+
+    <h1 class="title" ng-cloak ng-show="showUi">{{feed.title}}</h1>
+
+    <div class="buttons">
+        <button class="button button-clear ion-android-storage" ng-click="switchToListView()"></button>
+    </div>
+</ion-header-bar>
+
+<ion-content ng-cloak ng-show="showUi">
+
+</ion-content>
+
+<ion-footer-bar align-title="left" class="bar-dark">
+    <div class="button-bar" ng-cloak ng-show="showUi">
+        <a class="button" ng-click="markAllItemsRead()">Mark all items read</a>
+    </div>
+</ion-footer-bar>

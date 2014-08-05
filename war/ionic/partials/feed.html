@@ -4,6 +4,10 @@
     </div>
 
     <h1 class="title" ng-cloak ng-show="showUi">{{feed.title}}</h1>
+
+    <div class="buttons">
+        <button class="button button-clear ion-android-note" ng-click="switchToCardView()"></button>
+    </div>
 </ion-header-bar>
 
 <ion-content ng-cloak ng-show="showUi">

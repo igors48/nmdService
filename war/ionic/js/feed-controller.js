@@ -58,6 +58,13 @@ controllers.controller('feedController',
             onServerFault);
         };
 
+        $scope.switchToCardView = function () {
+            $state.go('feed-card', { 
+                categoryId: $stateParams.categoryId, 
+                feedId: $stateParams.feedId 
+            });
+        };
+
         var onMarkAllItemsReadCompleted = function (response) {
             var me = this;
 
