@@ -20,6 +20,7 @@ import static nmd.rss.collector.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.rss.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
 import static nmd.rss.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.isPositive;
 import static nmd.rss.collector.util.Parameter.notNull;
 import static nmd.rss.collector.util.TransactionTools.rollbackIfActive;
 import static nmd.rss.reader.FeedItemsComparator.compare;
@@ -91,20 +92,17 @@ public class ReadsService extends AbstractService {
             int readLater = 0;
 
             for (final FeedItem feedItem : feedItems) {
-                final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
-                final boolean readLaterItem = readFeedItems.readLaterItemIds.contains(feedItem.guid);
-                final boolean addedSinceLastView = readFeedItems.lastUpdate.compareTo(feedItem.date) < 0;
+                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
 
-                final FeedItemReport feedItemReport = new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.link, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView);
                 feedItemReports.add(feedItemReport);
 
-                if (readItem) {
+                if (feedItemReport.read) {
                     ++read;
                 } else {
                     ++notRead;
                 }
 
-                if (readLaterItem) {
+                if (feedItemReport.readLater) {
                     ++readLater;
                 }
             }
@@ -112,6 +110,57 @@ public class ReadsService extends AbstractService {
             transaction.commit();
 
             return new FeedItemsReport(header.id, header.title, read, notRead, readLater, feedItemReports, readFeedItems.lastUpdate);
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) throws ServiceException {
+        guard(isValidFeedHeaderId(feedId));
+        guard(isPositive(offset));
+        guard(isPositive(size));
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final FeedHeader header = loadFeedHeader(feedId);
+
+            final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
+
+            final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
+
+            if (offset > feedItems.size()) {
+                return new FeedItemsCardsReport(header.id, header.title);
+            }
+
+            final boolean first = offset == 0;
+            final boolean last;
+            final int lastIndex;
+
+            if (offset + size >= feedItems.size() - 1) {
+                lastIndex = feedItems.size() - 1;
+                last = true;
+            } else {
+                lastIndex = offset + size;
+                last = false;
+            }
+
+            Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
+            final List<FeedItem> feedItemsPart = feedItems.subList(offset, lastIndex);
+
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+
+            for (final FeedItem feedItem : feedItemsPart) {
+                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
+
+                feedItemReports.add(feedItemReport);
+            }
+
+            transaction.commit();
+
+            return new FeedItemsCardsReport(header.id, header.title, first, last, feedItemReports);
         } finally {
             rollbackIfActive(transaction);
         }
@@ -277,6 +326,14 @@ public class ReadsService extends AbstractService {
         }
 
         return notReads.isEmpty() ? null : notReads.get(notReads.size() - 1);
+    }
+
+    private static FeedItemReport getFeedItemReport(final UUID feedId, final ReadFeedItems readFeedItems, final FeedItem feedItem) {
+        final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
+        final boolean readLaterItem = readFeedItems.readLaterItemIds.contains(feedItem.guid);
+        final boolean addedSinceLastView = readFeedItems.lastUpdate.compareTo(feedItem.date) < 0;
+
+        return new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.link, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView);
     }
 
     private static List<FeedItem> findNotReadItems(List<FeedItem> items, Set<String> readGuids) {
