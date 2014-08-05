@@ -23,17 +23,16 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
 
     @Test
     public void whenFeedItemsCardsReportReturnsThenReportItemsSortFromNewToOld() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
+        final FeedHeader feedHeader = createFeedWithThreeItems();
 
         final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
 
-        assertEquals(2, feedItemsCardsReport.reports.size());
         assertTrue(feedItemsCardsReport.reports.get(0).date.getTime() > feedItemsCardsReport.reports.get(1).date.getTime());
     }
 
     @Test
     public void whenFeedItemsCardsReportReturnsThenFeedTitleSetCorrectly() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
+        final FeedHeader feedHeader = createFeedWithThreeItems();
 
         final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
 
@@ -42,7 +41,7 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
 
     @Test
     public void whenFeedItemsCardsReportReturnsThenFeedIdSetCorrectly() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
+        final FeedHeader feedHeader = createFeedWithThreeItems();
 
         final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
 
