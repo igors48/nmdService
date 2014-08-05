@@ -3,7 +3,7 @@
 controllers.controller('feedCardController',
 
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
-        $scope.showUi = false;
+        $scope.showUi = true/*false*/;
 
         $scope.utilities = AppUtilities.utilities;
 
@@ -12,7 +12,7 @@ controllers.controller('feedCardController',
         };
 
         $scope.switchToListView = function () {
-           $state.go('feed', { 
+            $state.go('feed', { 
                 categoryId: $stateParams.categoryId, 
                 feedId: $stateParams.feedId 
             });
