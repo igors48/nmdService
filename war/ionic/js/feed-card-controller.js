@@ -121,6 +121,7 @@ controllers.controller('feedCardController',
             $scope.card.date = current.date;
             $scope.card.title = current.title;
             $scope.card.description = current.description;
+            $scope.card.link = current.link;
         };
 
         loadCards();

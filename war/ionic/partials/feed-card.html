@@ -11,9 +11,11 @@
 </ion-header-bar>
 
 <ion-content ng-cloak ng-show="showUi">
-    <h4>{{card.title}}</h4> 
-    <h6>{{card.date | date:'d MMM HH:mm'}}</h6> 
-    <h5>{{card.description}}</h5> 
+    <a class="block-link" href="{{card.link}}" target="_blank">
+        <h4>{{card.title}}</h4> 
+        <h6>{{card.date | date:'d MMM HH:mm'}}</h6> 
+        <h5>{{card.description}}</h5> 
+    </a>    
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
