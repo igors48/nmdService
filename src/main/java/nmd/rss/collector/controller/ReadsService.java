@@ -139,7 +139,7 @@ public class ReadsService extends AbstractService {
             final boolean last;
             final int lastIndex;
 
-            if (offset + size >= feedItems.size() - 1) {
+            if (offset + size >= feedItems.size()) {
                 lastIndex = feedItems.size();
                 last = true;
             } else {
