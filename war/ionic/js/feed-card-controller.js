@@ -112,9 +112,15 @@ controllers.controller('feedCardController',
         };
 
         var showCurrentCard = function () {
-            $scope.card = {};
+            $scope.feed = {};
+            $scope.feed.title = currentPage.title;
 
-            $scope.card.description = currentPage.reports[currentItem].description;
+            var current = currentPage.reports[currentItem];
+
+            $scope.card = {};
+            $scope.card.date = current.date;
+            $scope.card.title = current.title;
+            $scope.card.description = current.description;
         };
 
         loadCards();
