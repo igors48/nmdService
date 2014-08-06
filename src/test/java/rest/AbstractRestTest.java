@@ -146,6 +146,14 @@ public abstract class AbstractRestTest {
         return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL)).asString();
     }
 
+    protected FeedItemsCardsReportResponse getReadsCardsReport(final String feedId, final String offset, final String size) {
+        return GSON.fromJson(assertSuccessResponse(getReadsCardsReportAsString(feedId, offset, size)), FeedItemsCardsReportResponse.class);
+    }
+
+    protected String getReadsCardsReportAsString(final String feedId, final String offset, final String size) {
+        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "/" + offset + "/" + size)).asString();
+    }
+
     protected String getFeedItemsReportAsString(final String feedId) {
         return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId)).asString();
     }
