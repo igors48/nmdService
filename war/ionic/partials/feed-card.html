@@ -11,13 +11,13 @@
 </ion-header-bar>
 
 <ion-content ng-cloak ng-show="showUi">
-
+    <p>{{card.description}}</p> 
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
     <div class="button-bar" ng-cloak ng-show="showUi">
-        <a class="button" ng-click="">Prev</a>
+        <a class="button" ng-click="onPrev()">Prev</a>
         <a class="button" ng-click="">Mark&amp;Next</a>
-        <a class="button" ng-click="">Next</a>
+        <a class="button" ng-click="onNext()">Next</a>
     </div>
 </ion-footer-bar>
