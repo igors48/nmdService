@@ -7,6 +7,7 @@ controllers.controller('feedCardController',
         var pageSize = 5;
 
         var currentItem = 0;
+        var firstIsCurrent = true;
         var currentPage = {};
 
         $scope.showUi = false;
@@ -57,6 +58,7 @@ controllers.controller('feedCardController',
             }
 
             pageOffset = pageOffset - pageSize;
+            firstIsCurrent = false;
 
             loadCards();
         };
@@ -68,6 +70,7 @@ controllers.controller('feedCardController',
             }
 
             pageOffset = pageOffset + pageSize;
+            firstIsCurrent = true;
 
             loadCards();
         };
@@ -99,7 +102,7 @@ controllers.controller('feedCardController',
             $scope.showUi = true; 
 
             currentPage = response;
-            currentItem = 0;
+            currentItem = firstIsCurrent ? 0 : currentPage.reports.length - 1;
 
             showCurrentCard();
         };
