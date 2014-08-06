@@ -156,4 +156,45 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
         assertEquals(first.guid, feedItemsCardsReport.reports.get(2).itemId);
     }
 
+    @Test
+    public void whenOffsetPlusSizeEqualToItemsCountThenEntireListReturns() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
+
+        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 3);
+
+        assertEquals(3, feedItemsCardsReport.reports.size());
+        assertEquals(third.guid, feedItemsCardsReport.reports.get(0).itemId);
+        assertEquals(second.guid, feedItemsCardsReport.reports.get(1).itemId);
+        assertEquals(first.guid, feedItemsCardsReport.reports.get(2).itemId);
+    }
+
+    @Test
+    public void whenOffsetPlusSizeLesserThanItemsCountThenOnlyRequestedPartReturns() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
+
+        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 1, 2);
+
+        assertEquals(2, feedItemsCardsReport.reports.size());
+        assertEquals(second.guid, feedItemsCardsReport.reports.get(0).itemId);
+        assertEquals(first.guid, feedItemsCardsReport.reports.get(1).itemId);
+    }
+
+    @Test
+    public void whenSizeIsZeroThanNoReportReturns() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
+
+        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 1, 0);
+
+        assertTrue(feedItemsCardsReport.reports.isEmpty());
+    }
+
 }

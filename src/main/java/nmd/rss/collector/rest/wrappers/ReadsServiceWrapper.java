@@ -1,9 +1,11 @@
 package nmd.rss.collector.rest.wrappers;
 
+import nmd.rss.collector.controller.FeedItemsCardsReport;
 import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.controller.ReadsService;
 import nmd.rss.collector.error.ServiceException;
+import nmd.rss.collector.rest.responses.FeedItemsCardsReportResponse;
 import nmd.rss.collector.rest.responses.FeedItemsReportResponse;
 import nmd.rss.collector.rest.responses.FeedReadReportsResponse;
 import nmd.rss.collector.rest.tools.ResponseBody;
@@ -102,6 +104,21 @@ public class ReadsServiceWrapper {
             return createJsonResponse(response);
         } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error getting feed [ %s ] items report ", feedId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
+    }
+
+    public static ResponseBody getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) {
+        try {
+            FeedItemsCardsReport report = READS_SERVICE.getFeedItemsCardsReport(feedId, offset, size);
+            FeedItemsCardsReportResponse response = FeedItemsCardsReportResponse.convert(report);
+
+            LOGGER.info(format("Feed [ %s ] items cards report created", feedId));
+
+            return createJsonResponse(response);
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error getting feed [ %s ] items cards report ", feedId), exception);
 
             return createErrorJsonResponse(exception);
         }

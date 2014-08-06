@@ -35,6 +35,24 @@ public final class ServletTools {
 
     private static final Gson GSON = new Gson();
 
+    public static UUID parseUuid(final String string) {
+
+        try {
+            return UUID.fromString(string);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    public static Integer parseInteger(final String string) {
+
+        try {
+            return Integer.valueOf(string);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
     public static UUID parseFeedId(final String pathInfo) {
 
         if (pathInfoIsEmpty(pathInfo)) {

@@ -125,6 +125,12 @@ public class ServiceError {
                 "Invalid category identifier. Check the identifier.");
     }
 
+    public static ServiceError invalidOffsetOrSize(final String offset, final String size) {
+        return new ServiceError(ErrorCode.INVALID_OFFSET_OR_SIZE,
+                format("Invalid page offset [ %s ] or size [ %s ]", offset, size),
+                "Invalid pagination parameters. Check them.");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
