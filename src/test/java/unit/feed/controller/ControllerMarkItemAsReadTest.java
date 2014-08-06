@@ -4,6 +4,7 @@ import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
 import org.junit.Test;
@@ -22,9 +23,10 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
 
     @Test
     public void whenItemMarkAsReadThenItDoesNotReturnAsNotRead() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
-        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, feedItem.guid);
         final List<FeedReadReport> readReports = this.readsService.getFeedsReadReport();
 
         assertNull(readReports.get(0).topItemId);
@@ -32,18 +34,20 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
 
     @Test
     public void whenItemMarkAsReadThenItStoresInRepository() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
-        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, feedItem.guid);
 
         final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).readItemIds;
 
-        assertTrue(readItems.contains(FIRST_FEED_ITEM_GUID));
+        assertTrue(readItems.contains(feedItem.guid));
     }
 
     @Test
     public void whenItemIdDoesNotExistInFeedItemsIdListThenItDoesNotStore() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
         this.readsService.markItemAsRead(feedHeader.id, NOT_EXISTS_ID);
 
@@ -54,13 +58,14 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
 
     @Test
     public void whenNotActualReadItemFoundWhileMarkingThenTheyRemoved() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
         this.readFeedItemsRepositoryStub.store(new ReadFeedItems(feedHeader.id, new Date(), new HashSet<String>() {{
             add(NOT_EXISTS_ID);
         }}, new HashSet<String>(), Category.MAIN_CATEGORY_ID));
 
-        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, feedItem.guid);
 
         final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).readItemIds;
 
@@ -69,10 +74,11 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
 
     @Test
     public void whenItemMarkedReadThenReadLaterMarkResets() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
-        this.readsService.toggleReadLaterItemMark(feedHeader.id, FIRST_FEED_ITEM_GUID);
-        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
+        this.readsService.markItemAsRead(feedHeader.id, feedItem.guid);
 
         final FeedItemsReport readReport = this.readsService.getFeedItemsReport(feedHeader.id);
 
@@ -83,12 +89,14 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
 
     @Test(expected = ServiceException.class)
     public void whenTryToMarkItemOfNotExistsFeedThenErrorReturns() throws ServiceException {
-        this.readsService.markItemAsRead(UUID.randomUUID(), FIRST_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(UUID.randomUUID(), UUID.randomUUID().toString());
     }
 
     @Test
     public void whenThereIsNoReadItemsThenLatUpdateDataEqualsToEpoch() {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedHeader feedHeader = createSampleFeed(first, second);
 
         final Date lastUpdate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
 
@@ -97,32 +105,38 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
 
     @Test
     public void whenReadItemTimeOlderThenLastUpdateThenLastUpdateTimeDoesNotUpdate() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithThreeItems();
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
 
-        this.readsService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, second.guid);
 
         pauseOneMillisecond();
 
-        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, first.guid);
 
         final Date secondDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
 
-        assertEquals(secondDate, SECOND_FEED_ITEM.date);
+        assertEquals(secondDate, second.date);
     }
 
     @Test
     public void whenReadItemTimeYoungerThenLastUpdateThenLastUpdateIsUpdated() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithThreeItems();
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
 
-        this.readsService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, second.guid);
 
         pauseOneMillisecond();
 
-        this.readsService.markItemAsRead(feedHeader.id, THIRD_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, third.guid);
 
         final Date secondDate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
 
-        assertEquals(secondDate, THIRD_FEED_ITEM.date);
+        assertEquals(secondDate, third.date);
     }
 
 }

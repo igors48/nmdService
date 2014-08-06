@@ -8,7 +8,6 @@ import nmd.rss.collector.feed.FeedItemsMergeReport;
 import org.junit.Test;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
@@ -29,7 +28,8 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTestBase
 
     @Test
     public void whenFeedExistsThenItIsParticipateInReport() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
         final List<FeedReadReport> report = this.readsService.getFeedsReadReport();
 
@@ -45,25 +45,26 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTestBase
 
     @Test
     public void whenNotReadItemExistsThenItReturns() {
-        createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        createSampleFeed(feedItem);
 
         final List<FeedReadReport> readReports = this.readsService.getFeedsReadReport();
 
-        assertEquals(FIRST_FEED_ITEM_GUID, readReports.get(0).topItemId);
-        assertEquals(FIRST_FEED_ITEM_LINK, readReports.get(0).topItemLink);
+        assertEquals(feedItem.guid, readReports.get(0).topItemId);
+        assertEquals(feedItem.link, readReports.get(0).topItemLink);
     }
 
     @Test
     public void whenFeedItemAddedAfterLastVisitThenItIncludedInAddedFromLastVisitCounter() throws ServiceException {
-        final FeedItem first = new FeedItem(FIRST_FEED_ITEM_TITLE, FIRST_FEED_ITEM_DESCRIPTION, FIRST_FEED_ITEM_LINK, new Date(), true, FIRST_FEED_ITEM_GUID);
+        final FeedItem first = create(1);
 
         final FeedHeader feedHeader = createSampleFeed(first);
 
-        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.markItemAsRead(feedHeader.id, first.guid);
 
         pauseOneMillisecond();
 
-        final FeedItem second = new FeedItem(SECOND_FEED_ITEM_TITLE, SECOND_FEED_ITEM_DESCRIPTION, SECOND_FEED_ITEM_LINK, new Date(), true, SECOND_FEED_ITEM_GUID);
+        final FeedItem second = create(2);
 
         final FeedItemsMergeReport feedItemsMergeReport = new FeedItemsMergeReport(
                 new ArrayList<FeedItem>(),

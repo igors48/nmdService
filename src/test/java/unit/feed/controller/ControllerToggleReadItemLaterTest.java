@@ -3,6 +3,7 @@ package unit.feed.controller;
 import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
 import org.junit.Test;
@@ -24,9 +25,10 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
 
     @Test
     public void whenItemMarkedAsReadLaterThenThisStateStores() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
-        this.readsService.toggleReadLaterItemMark(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
 
         final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
 
@@ -35,10 +37,11 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
 
     @Test
     public void whenItemMarkedAsReadLaterTwiceThenMarkResets() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
-        this.readsService.toggleReadLaterItemMark(feedHeader.id, FIRST_FEED_ITEM_GUID);
-        this.readsService.toggleReadLaterItemMark(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
+        this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
 
         final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
 
@@ -47,28 +50,30 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
 
     @Test
     public void whenItemIdDoesNotExistInFeedItemsIdListThenItDoesNotStore() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
         this.readsService.toggleReadLaterItemMark(feedHeader.id, "not-exists");
 
         final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
 
         assertEquals(1, feedItemsReport.reports.size());
-        assertEquals(FIRST_FEED_ITEM_GUID, feedItemsReport.reports.get(0).itemId);
+        assertEquals(feedItem.guid, feedItemsReport.reports.get(0).itemId);
     }
 
     @Test
     public void whenNotActualReadItemFoundWhileMarkingThenTheyRemoved() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithOneItem();
+        final FeedItem feedItem = create(1);
+        final FeedHeader feedHeader = createSampleFeed(feedItem);
 
         this.readFeedItemsRepositoryStub.store(new ReadFeedItems(feedHeader.id, new Date(),
                 new HashSet<String>(),
                 new HashSet<String>() {{
                     add(NOT_EXISTS_ID);
-                    add(FIRST_FEED_ITEM_GUID);
+                    add(feedItem.guid);
                 }}, Category.MAIN_CATEGORY_ID));
 
-        this.readsService.toggleReadLaterItemMark(feedHeader.id, FIRST_FEED_ITEM_GUID);
+        this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
 
         final Set<String> readItems = this.readFeedItemsRepositoryStub.load(feedHeader.id).readLaterItemIds;
 
@@ -77,7 +82,7 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
 
     @Test(expected = ServiceException.class)
     public void whenTryToToggleMarkItemOfNotExistsFeedThenErrorReturns() throws ServiceException {
-        this.readsService.toggleReadLaterItemMark(UUID.randomUUID(), FIRST_FEED_ITEM_GUID);
+        this.readsService.toggleReadLaterItemMark(UUID.randomUUID(), UUID.randomUUID().toString());
     }
 
 }

@@ -3,6 +3,7 @@ package unit.feed.controller;
 import nmd.rss.collector.controller.FeedItemsCardsReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -23,7 +24,10 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
 
     @Test
     public void whenFeedItemsCardsReportReturnsThenReportItemsSortFromNewToOld() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithThreeItems();
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
 
         final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
 
@@ -32,7 +36,10 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
 
     @Test
     public void whenFeedItemsCardsReportReturnsThenFeedTitleSetCorrectly() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithThreeItems();
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
 
         final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
 
@@ -41,7 +48,10 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
 
     @Test
     public void whenFeedItemsCardsReportReturnsThenFeedIdSetCorrectly() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithThreeItems();
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
 
         final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
 
