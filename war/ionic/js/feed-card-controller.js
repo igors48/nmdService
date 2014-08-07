@@ -51,6 +51,30 @@ controllers.controller('feedCardController',
             showCurrentCard();
         };
         
+        $scope.onMarkAndNext = function() {
+            var current = currentPage.reports[currentItem];
+            current.read = true;
+
+            var feedId = current.feedId;
+            var itemId = current.itemId;
+
+            $rootScope.lastItemId = itemId;
+
+            $ionicLoading.show({
+                template: 'Marking item...'
+            });
+
+            reads.mark(
+                {
+                    feedId: feedId,
+                    itemId: itemId,
+                    markAs: 'read'
+                },
+                onMarkItemCompleted,
+                onServerFault
+            );
+        };
+
         var loadPreviousCards = function () {
 
             if (currentPage.first) {
@@ -88,7 +112,19 @@ controllers.controller('feedCardController',
                 },
                 onLoadCardsCompleted,
                 onServerFault);
-        }
+        };
+
+        var onMarkItemCompleted = function (response) {
+            $ionicLoading.hide();
+
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
+            }
+
+            $scope.onNext();
+        };
 
         var onLoadCardsCompleted = function (response) {
             $ionicLoading.hide();
