@@ -122,6 +122,8 @@ controllers.controller('feedCardController',
             $scope.card.title = current.title;
             $scope.card.description = current.description;
             $scope.card.link = current.link;
+            $scope.card.notRead = !current.read;
+            $scope.card.addedSinceLastView = current.addedSinceLastView;
         };
 
         loadCards();

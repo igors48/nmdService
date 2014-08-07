@@ -6,16 +6,24 @@
     <h1 class="title" ng-cloak ng-show="showUi">{{feed.title}}</h1>
 
     <div class="buttons">
-        <button class="button button-clear ion-android-storage" ng-click="switchToListView()"></button>
+        <button class="button button-clear ion-android-storage" ng-cloak ng-show="showUi" ng-click="switchToListView()"></button>
     </div>
 </ion-header-bar>
 
 <ion-content ng-cloak ng-show="showUi">
-    <a class="block-link" href="{{card.link}}" target="_blank">
-        <h4>{{card.title}}</h4> 
-        <h6>{{card.date | date:'d MMM HH:mm'}}</h6> 
-        <h5>{{card.description}}</h5> 
-    </a>    
+    <div class="card">
+        <a class="block-link" href="{{card.link}}" target="_blank">
+            <h4>{{card.title}}</h4> 
+
+            <h6 class="blue-front">
+                <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'d MMM HH:mm'}}&nbsp;
+                <span class="icon ion-eye-disabled" ng-show="card.notRead"></span>
+                <span class="icon ion-flash" ng-show="card.addedSinceLastView"></span>
+            </h6>
+
+            <h5>{{card.description}}</h5> 
+        </a> 
+    </div>   
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
