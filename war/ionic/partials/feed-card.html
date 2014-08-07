@@ -20,7 +20,8 @@
                 <span class="icon ion-eye-disabled" ng-show="card.notRead"></span>
             </h6>
 
-            <h5>{{card.description}}</h5> 
+            <!--<h5>{{card.description}}</h5>-->
+            <h5 ng-bind-html="card.description"></h5> 
         </a> 
     </div>   
 </ion-content>
