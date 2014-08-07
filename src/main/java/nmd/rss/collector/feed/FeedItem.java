@@ -12,7 +12,8 @@ import static nmd.rss.collector.util.Parameter.*;
  */
 public class FeedItem implements Serializable {
 
-    public static final int MAX_TITLE_AND_DESCRIPTION_LENGTH = 255;
+    public static final int MAX_TITLE_LENGTH = 255;
+    public static final int MAX_DESCRIPTION_LENGTH = 1024;
 
     private static final int ONE_SECOND = 1000;
 
@@ -94,11 +95,11 @@ public class FeedItem implements Serializable {
     }
 
     public static boolean isValidFeedItemTitle(final String value) {
-        return notNull(value) && value.length() <= MAX_TITLE_AND_DESCRIPTION_LENGTH;
+        return notNull(value) && value.length() <= MAX_TITLE_LENGTH;
     }
 
     public static boolean isValidFeedItemDescription(final String value) {
-        return notNull(value) && value.length() <= MAX_TITLE_AND_DESCRIPTION_LENGTH;
+        return notNull(value) && value.length() <= MAX_DESCRIPTION_LENGTH;
     }
 
     public static boolean isValidFeedItemLink(final String value) {

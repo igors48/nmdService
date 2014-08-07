@@ -11,9 +11,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static nmd.rss.collector.feed.FeedHeader.create;
-import static nmd.rss.collector.feed.FeedItem.MAX_TITLE_AND_DESCRIPTION_LENGTH;
 import static nmd.rss.collector.util.Assert.*;
 import static nmd.rss.collector.util.StringTools.cutTo;
 
@@ -71,8 +69,8 @@ public final class FeedParser {
         }
 
         final String feedLink = trimOrUse(link, feedUrl);
-        final String feedDescription = cutTo(trimOrUse(description, feedUrl), MAX_DESCRIPTION_AND_TITLE_LENGTH);
-        final String feedTitle = cutTo(trimOrUse(title, feedUrl), MAX_DESCRIPTION_AND_TITLE_LENGTH);
+        final String feedDescription = cutTo(trimOrUse(description, feedUrl), FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH);
+        final String feedTitle = cutTo(trimOrUse(title, feedUrl), FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH);
 
         return create(guid, feedUrl, feedTitle, feedDescription, feedLink);
     }
@@ -88,8 +86,8 @@ public final class FeedParser {
             return null;
         }
 
-        final String itemTitle = cutTo(trimOrUse(title, itemLink), MAX_TITLE_AND_DESCRIPTION_LENGTH);
-        final String itemDescription = cutTo(trimOrUse(description, alternateDescription), MAX_TITLE_AND_DESCRIPTION_LENGTH);
+        final String itemTitle = cutTo(trimOrUse(title, itemLink), FeedItem.MAX_TITLE_LENGTH);
+        final String itemDescription = cutTo(trimOrUse(description, alternateDescription), FeedItem.MAX_DESCRIPTION_LENGTH);
         final boolean itemDateReal = date != null;
         final Date feedDate = itemDateReal ? date : currentDate;
 
