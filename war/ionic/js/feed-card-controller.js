@@ -53,7 +53,6 @@ controllers.controller('feedCardController',
         
         $scope.onMarkAndNext = function() {
             var current = currentPage.reports[currentItem];
-            current.read = true;
 
             var feedId = current.feedId;
             var itemId = current.itemId;
@@ -122,6 +121,9 @@ controllers.controller('feedCardController',
 
                 return;
             }
+
+            var current = currentPage.reports[currentItem];
+            current.read = true;
 
             $scope.onNext();
         };
