@@ -17,6 +17,14 @@ public class Page<T> {
     public final boolean last;
     public final List<T> items;
 
+    public Page(final List<T> items, final boolean first, final boolean last) {
+        guard(notNull(items));
+
+        this.first = first;
+        this.last = last;
+        this.items = items;
+    }
+
     public Page(final List<T> list, final int offset, final int size) {
         guard(notNull(list));
         guard(isPositive(offset));

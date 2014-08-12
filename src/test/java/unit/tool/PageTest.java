@@ -72,6 +72,13 @@ public class PageTest {
     }
 
     @Test
+    public void whenSizeIsZeroThenNoItemsReturns() {
+        final Page<Integer> page = new Page<>(list, 2, 0);
+
+        assertTrue(page.items.isEmpty());
+    }
+
+    @Test
     public void whenRequestedListSmallerThanOriginalListThenPartOfOriginalListReturns() {
         assertEquals(asList(0, 1), new Page<>(list, 0, 2).items);
         assertEquals(asList(1, 2, 3, 4), new Page<>(list, 1, 4).items);

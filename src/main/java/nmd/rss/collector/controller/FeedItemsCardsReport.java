@@ -1,6 +1,5 @@
 package nmd.rss.collector.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -33,10 +32,6 @@ public class FeedItemsCardsReport {
 
         guard(notNull(reports));
         this.reports = reports;
-    }
-
-    public FeedItemsCardsReport(final UUID feedId, final String title) {
-        this(feedId, title, true, true, new ArrayList<FeedItemReport>());
     }
 
 }

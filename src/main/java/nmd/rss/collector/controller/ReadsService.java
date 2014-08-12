@@ -9,6 +9,7 @@ import nmd.rss.collector.twitter.TwitterClientTools;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
+import nmd.rss.collector.util.Page;
 import nmd.rss.reader.FeedItemsComparisonReport;
 import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
@@ -131,28 +132,12 @@ public class ReadsService extends AbstractService {
 
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
 
-            if (offset > feedItems.size()) {
-                return new FeedItemsCardsReport(header.id, header.title);
-            }
-
-            final boolean first = offset == 0;
-            final boolean last;
-            final int lastIndex;
-
-            if (offset + size >= feedItems.size()) {
-                lastIndex = feedItems.size();
-                last = true;
-            } else {
-                lastIndex = offset + size;
-                last = false;
-            }
-
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
-            final List<FeedItem> feedItemsPart = feedItems.subList(offset, lastIndex);
+            final Page<FeedItem> page = new Page<>(feedItems, offset, size);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
-            for (final FeedItem feedItem : feedItemsPart) {
+            for (final FeedItem feedItem : page.items) {
                 final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
 
                 feedItemReports.add(feedItemReport);
@@ -160,7 +145,7 @@ public class ReadsService extends AbstractService {
 
             transaction.commit();
 
-            return new FeedItemsCardsReport(header.id, header.title, first, last, feedItemReports);
+            return new FeedItemsCardsReport(header.id, header.title, page.first, page.last, feedItemReports);
         } finally {
             rollbackIfActive(transaction);
         }
