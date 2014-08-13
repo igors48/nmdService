@@ -6,6 +6,7 @@ import nmd.rss.collector.rest.tools.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
@@ -27,33 +28,28 @@ public class ReadsServlet extends AbstractRestServlet {
 
     //GET -- reads report
     //GET /{feedId} -- feed items report
-    //GET /{feedId}/{offset}/{size} -- feed items cards report
+    //GET /{feedId}?offset={offset}&size={size} -- feed items cards report
     @Override
     protected ResponseBody handleGet(final HttpServletRequest request) {
         final String pathInfo = request.getPathInfo();
+        final Map parameters = request.getParameterMap();
 
         if (pathInfoIsEmpty(pathInfo)) {
             return getFeedsReadReport();
         }
 
         final List<String> elements = parse(pathInfo);
+        final String element = elements.get(0);
+        final UUID feedId = parseUuid(element);
 
-        if (elements.size() == 1) {
-            final String element = elements.get(0);
-            final UUID feedId = parseUuid(element);
-
+        if (parameters.isEmpty()) {
             return isValidFeedHeaderId(feedId) ? getFeedItemsReport(feedId) : createErrorJsonResponse(invalidFeedId(pathInfo));
         }
 
-        final String feedIdAsString = elements.size() > 1 ? elements.get(0) : "";
-        final String offsetAsString = elements.size() > 1 ? elements.get(1) : "";
-        final String sizeAsString = elements.size() > 2 ? elements.get(2) : "";
-
-        if (elements.size() == 2) {
-            return createErrorJsonResponse(invalidOffsetOrSize(offsetAsString, sizeAsString));
-        }
-
+        final String offsetAsString = (String) parameters.get("offset");
         final Integer offset = parseInteger(offsetAsString);
+
+        final String sizeAsString = (String) parameters.get("size");
         final Integer size = parseInteger(sizeAsString);
 
         if (offset == null || size == null) {
@@ -63,8 +59,6 @@ public class ReadsServlet extends AbstractRestServlet {
         if (!(isPositive(offset) && isPositive(size))) {
             return createErrorJsonResponse(invalidOffsetOrSize(offsetAsString, sizeAsString));
         }
-
-        final UUID feedId = parseUuid(feedIdAsString);
 
         return isValidFeedHeaderId(feedId) ? getFeedItemsCardsReport(feedId, offset, size) : createErrorJsonResponse(invalidFeedId(pathInfo));
     }
