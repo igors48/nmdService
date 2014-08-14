@@ -3,6 +3,7 @@ package nmd.rss.collector.gae.persistence;
 import com.google.appengine.api.datastore.*;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.CategoriesService;
+import nmd.rss.collector.controller.FeedsService;
 import nmd.rss.collector.controller.ReadsService;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
@@ -60,6 +61,16 @@ public class GaeRootRepository implements Transactions {
             new ReadsService(GAE_CACHED_FEED_HEADERS_REPOSITORY,
                     GAE_CACHED_FEED_ITEMS_REPOSITORY,
                     GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
+                    GAE_URL_FETCHER,
+                    GAE_TRANSACTIONS);
+
+    public static final FeedsService FEEDS_SERVICE =
+            new FeedsService(GAE_CACHED_FEED_HEADERS_REPOSITORY,
+                    GAE_CACHED_FEED_ITEMS_REPOSITORY,
+                    GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY,
+                    GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
+                    GAE_CACHED_CATEGORIES_REPOSITORY,
+                    GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY,
                     GAE_URL_FETCHER,
                     GAE_TRANSACTIONS);
 
