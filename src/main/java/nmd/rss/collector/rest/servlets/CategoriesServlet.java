@@ -1,101 +1,25 @@
 package nmd.rss.collector.rest.servlets;
 
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.rest.AbstractRestServlet;
-import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.CategoriesServiceWrapper;
+import nmd.rss.collector.rest.BaseServlet;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.List;
-import java.util.UUID;
-
-import static nmd.rss.collector.error.ServiceError.*;
-import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.tools.ServletTools.parse;
-import static nmd.rss.collector.rest.tools.ServletTools.readRequestBody;
-import static nmd.rss.collector.rest.wrappers.CategoriesServiceWrapper.*;
-import static nmd.rss.reader.Category.isValidCategoryId;
-import static nmd.rss.reader.Category.isValidCategoryName;
+import static nmd.rss.collector.rest.CategoriesServletDeleteRequestHandler.CATEGORIES_SERVLET_DELETE_REQUEST_HANDLER;
+import static nmd.rss.collector.rest.CategoriesServletGetRequestHandler.CATEGORIES_SERVLET_GET_REQUEST_HANDLER;
+import static nmd.rss.collector.rest.CategoriesServletPostRequestHandler.CATEGORIES_SERVLET_POST_REQUEST_HANDLER;
+import static nmd.rss.collector.rest.CategoriesServletPutRequestHandler.CATEGORIES_SERVLET_PUT_REQUEST_HANDLER;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.03.2014
  */
-public class CategoriesServlet extends AbstractRestServlet {
+public class CategoriesServlet extends BaseServlet {
 
-    // POST -- add category
-    @Override
-    protected ResponseBody handlePost(final HttpServletRequest request) {
-        final String name = readRequestBody(request);
+    public CategoriesServlet() {
+        super();
 
-        return (isValidCategoryName(name)) ? addCategory(name) : createErrorJsonResponse(invalidCategoryName(name));
-    }
-
-    // GET -- get categories report
-    // GET -- /{categoryId} get category report
-    @Override
-    protected ResponseBody handleGet(final HttpServletRequest request) {
-        final List<String> elements = parse(request.getPathInfo());
-
-        if (elements.isEmpty()) {
-            return CategoriesServiceWrapper.getCategoriesReport();
-        }
-
-        final String first = elements.get(0);
-
-        return isValidCategoryId(first) ? getCategoryReport(first) : createErrorJsonResponse(invalidCategoryId(first));
-    }
-
-    // DELETE -- /{categoryId} delete category
-    @Override
-    protected ResponseBody handleDelete(final HttpServletRequest request) {
-        final String pathInfo = request.getPathInfo();
-
-        final List<String> elements = parse(pathInfo);
-
-        if (elements.isEmpty()) {
-            return createErrorJsonResponse(invalidCategoryId(""));
-        }
-
-        final String first = elements.get(0);
-
-        return isValidCategoryId(first) ? deleteCategory(first) : createErrorJsonResponse(invalidCategoryId(first));
-    }
-
-    // PUT -- /{categoryId} rename category
-    // PUT -- /{categoryId}/{feedId} assign feed to category
-    @Override
-    protected ResponseBody handlePut(final HttpServletRequest request) {
-        final String pathInfo = request.getPathInfo();
-        final List<String> elements = parse(pathInfo);
-
-        if (elements.isEmpty()) {
-            return createErrorJsonResponse(invalidCategoryId(""));
-        }
-
-        final String categoryId = elements.get(0);
-
-        if (!isValidCategoryId(categoryId)) {
-            return createErrorJsonResponse(invalidCategoryId(categoryId));
-        }
-
-        if (elements.size() == 1) {
-            final String categoryName = readRequestBody(request);
-
-            if (!isValidCategoryName(categoryName)) {
-                return createErrorJsonResponse(invalidCategoryName(categoryName));
-            }
-
-            return renameCategory(categoryId, categoryName);
-        } else {
-            final String feedId = elements.get(1);
-
-            if (!FeedHeader.isValidFeedHeaderId(feedId)) {
-                return createErrorJsonResponse(invalidFeedId(feedId));
-            }
-
-            return assignFeedToCategory(UUID.fromString(feedId), categoryId);
-        }
+        this.handlers.put("GET", CATEGORIES_SERVLET_GET_REQUEST_HANDLER);
+        this.handlers.put("POST", CATEGORIES_SERVLET_POST_REQUEST_HANDLER);
+        this.handlers.put("PUT", CATEGORIES_SERVLET_PUT_REQUEST_HANDLER);
+        this.handlers.put("DELETE", CATEGORIES_SERVLET_DELETE_REQUEST_HANDLER);
     }
 
 }
