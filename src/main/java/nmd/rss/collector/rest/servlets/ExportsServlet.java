@@ -1,7 +1,8 @@
 package nmd.rss.collector.rest.servlets;
 
 import nmd.rss.collector.rest.BaseServlet;
-import nmd.rss.collector.rest.servlets.exports.ExportsServletGetRequestHandler;
+
+import static nmd.rss.collector.rest.servlets.exports.ExportsServletGetRequestHandler.EXPORTS_SERVLET_GET_REQUEST_HANDLER;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -12,7 +13,7 @@ public class ExportsServlet extends BaseServlet {
     public ExportsServlet() {
         super();
 
-        this.handlers.put(GET, ExportsServletGetRequestHandler.EXPORTS_SERVLET_GET_REQUEST_HANDLER);
+        this.handlers.put(GET, EXPORTS_SERVLET_GET_REQUEST_HANDLER);
     }
 
 }
