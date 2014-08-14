@@ -3,6 +3,7 @@ package nmd.rss.collector.gae.persistence;
 import com.google.appengine.api.datastore.*;
 import nmd.rss.collector.Transactions;
 import nmd.rss.collector.controller.CategoriesService;
+import nmd.rss.collector.controller.ReadsService;
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 import nmd.rss.collector.scheduler.cached.CachedFeedUpdateTaskRepository;
@@ -21,6 +22,7 @@ import java.util.List;
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static java.lang.Integer.MAX_VALUE;
 import static nmd.rss.collector.gae.cache.MemCache.MEM_CACHE;
+import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
 import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
 import static nmd.rss.collector.gae.persistence.GaeFeedItemsRepository.GAE_FEED_ITEMS_REPOSITORY;
 import static nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
@@ -52,6 +54,13 @@ public class GaeRootRepository implements Transactions {
                     GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
                     GAE_CACHED_FEED_HEADERS_REPOSITORY,
                     GAE_CACHED_FEED_ITEMS_REPOSITORY,
+                    GAE_TRANSACTIONS);
+
+    public static final ReadsService READS_SERVICE =
+            new ReadsService(GAE_CACHED_FEED_HEADERS_REPOSITORY,
+                    GAE_CACHED_FEED_ITEMS_REPOSITORY,
+                    GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
+                    GAE_URL_FETCHER,
                     GAE_TRANSACTIONS);
 
     private static final String FEEDS_ENTITY_KIND = "Feeds";

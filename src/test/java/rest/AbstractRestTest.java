@@ -151,7 +151,7 @@ public abstract class AbstractRestTest {
     }
 
     protected String getReadsCardsReportAsString(final String feedId, final String offset, final String size) {
-        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "/" + offset + "/" + size)).asString();
+        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "?offset=" + offset + "&size=" + size)).asString();
     }
 
     protected String getFeedItemsReportAsString(final String feedId) {

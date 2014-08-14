@@ -5,6 +5,7 @@ import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.controller.ReadsService;
 import nmd.rss.collector.error.ServiceException;
+import nmd.rss.collector.gae.persistence.GaeRootRepository;
 import nmd.rss.collector.rest.responses.FeedItemsCardsReportResponse;
 import nmd.rss.collector.rest.responses.FeedItemsReportResponse;
 import nmd.rss.collector.rest.responses.FeedReadReportsResponse;
@@ -16,25 +17,33 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
-import static nmd.rss.collector.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
-import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
 import static nmd.rss.collector.rest.responses.FeedItemsReportResponse.convert;
 import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
 import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.rss.collector.rest.tools.ResponseBody.createJsonResponse;
+import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.06.13
  */
-public class ReadsServiceWrapper {
+public class ReadsServiceWrapper implements ReadsServiceInterface {
+
+    public static final ReadsServiceWrapper READS_SERVICE_WRAPPER = new ReadsServiceWrapper(GaeRootRepository.READS_SERVICE);
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServiceWrapper.class.getName());
 
-    private static final ReadsService READS_SERVICE = new ReadsService(GAE_CACHED_FEED_HEADERS_REPOSITORY, GAE_CACHED_FEED_ITEMS_REPOSITORY, GAE_CACHED_READ_FEED_ITEMS_REPOSITORY, GAE_URL_FETCHER, GAE_TRANSACTIONS);
+    private final ReadsService readsService;
 
-    public static ResponseBody getFeedsReadReport() {
-        final List<FeedReadReport> feedReadReport = READS_SERVICE.getFeedsReadReport();
+    public ReadsServiceWrapper(final ReadsService readsService) {
+        guard(notNull(readsService));
+        this.readsService = readsService;
+    }
+
+    @Override
+    public ResponseBody getFeedsReadReport() {
+        final List<FeedReadReport> feedReadReport = this.readsService.getFeedsReadReport();
         final FeedReadReportsResponse response = FeedReadReportsResponse.convert(feedReadReport);
 
         LOGGER.info("Feed read report created");
@@ -42,10 +51,11 @@ public class ReadsServiceWrapper {
         return createJsonResponse(response);
     }
 
-    public static ResponseBody markItemAsRead(final UUID feedId, final String itemId) {
+    @Override
+    public ResponseBody markItemAsRead(final UUID feedId, final String itemId) {
 
         try {
-            READS_SERVICE.markItemAsRead(feedId, itemId);
+            this.readsService.markItemAsRead(feedId, itemId);
 
             final String message = format("Item [ %s ] from feed [ %s ] marked as read", itemId, feedId);
 
@@ -59,10 +69,11 @@ public class ReadsServiceWrapper {
         }
     }
 
-    public static ResponseBody markAllItemsAsRead(final UUID feedId) {
+    @Override
+    public ResponseBody markAllItemsAsRead(final UUID feedId) {
 
         try {
-            READS_SERVICE.markAllItemsAsRead(feedId);
+            this.readsService.markAllItemsAsRead(feedId);
 
             final String message = format("All feed [ %s ] items marked as read", feedId);
 
@@ -76,10 +87,11 @@ public class ReadsServiceWrapper {
         }
     }
 
-    public static ResponseBody toggleItemAsReadLater(final UUID feedId, final String itemId) {
+    @Override
+    public ResponseBody toggleItemAsReadLater(final UUID feedId, final String itemId) {
 
         try {
-            READS_SERVICE.toggleReadLaterItemMark(feedId, itemId);
+            this.readsService.toggleReadLaterItemMark(feedId, itemId);
 
             final String message = format("Item [ %s ] from feed [ %s ] toggled as read later", itemId, feedId);
 
@@ -93,10 +105,11 @@ public class ReadsServiceWrapper {
         }
     }
 
-    public static ResponseBody getFeedItemsReport(final UUID feedId) {
+    @Override
+    public ResponseBody getFeedItemsReport(final UUID feedId) {
 
         try {
-            FeedItemsReport report = READS_SERVICE.getFeedItemsReport(feedId);
+            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId);
             FeedItemsReportResponse response = convert(report);
 
             LOGGER.info(format("Feed [ %s ] items report created", feedId));
@@ -109,9 +122,10 @@ public class ReadsServiceWrapper {
         }
     }
 
-    public static ResponseBody getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) {
+    @Override
+    public ResponseBody getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) {
         try {
-            FeedItemsCardsReport report = READS_SERVICE.getFeedItemsCardsReport(feedId, offset, size);
+            FeedItemsCardsReport report = this.readsService.getFeedItemsCardsReport(feedId, offset, size);
             FeedItemsCardsReportResponse response = FeedItemsCardsReportResponse.convert(report);
 
             LOGGER.info(format("Feed [ %s ] items cards report created", feedId));

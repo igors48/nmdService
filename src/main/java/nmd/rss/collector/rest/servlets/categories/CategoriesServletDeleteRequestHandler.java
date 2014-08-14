@@ -1,5 +1,6 @@
-package nmd.rss.collector.rest;
+package nmd.rss.collector.rest.servlets.categories;
 
+import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.ResponseBody;
 import nmd.rss.collector.rest.wrappers.CategoriesServiceInterface;
 import nmd.rss.collector.rest.wrappers.CategoriesServiceWrapper;

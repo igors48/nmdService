@@ -21,6 +21,11 @@ import static nmd.rss.collector.rest.tools.ServletTools.writeResponseBody;
  */
 public abstract class BaseServlet extends HttpServlet {
 
+    public static final String GET = "GET";
+    public static final String POST = "POST";
+    public static final String PUT = "PUT";
+    public static final String DELETE = "DELETE";
+
     private static final Logger LOGGER = Logger.getLogger(ReadsServlet.class.getName());
 
     protected final Map<String, Handler> handlers;
@@ -70,7 +75,8 @@ public abstract class BaseServlet extends HttpServlet {
 
         for (final Object key : requestParameters.keySet()) {
             final String keyAsString = (String) key;
-            final String valueAsString = (String) requestParameters.get(key);
+            final Object[] values = (Object[]) requestParameters.get(key);
+            final String valueAsString = values.length == 0 ? "" : (String) values[0];
 
             result.put(keyAsString, valueAsString);
         }

@@ -70,17 +70,15 @@ public final class ServletTools {
         }
     }
 
-    public static FeedAndItemIds parseFeedAndItemIds(final String pathInfo) {
+    public static FeedAndItemIds parseFeedAndItemIds(final List<String> elements) {
 
         try {
-            final List<String> elements = parse(pathInfo);
-
             final UUID feedId = UUID.fromString(elements.get(0));
             final String itemId = elements.size() > 1 ? elements.get(1) : "";
 
             return new FeedAndItemIds(feedId, itemId);
         } catch (Exception exception) {
-            LOGGER.log(Level.SEVERE, String.format("Error parse feedId and itemId from [ %s ]", pathInfo), exception);
+            LOGGER.log(Level.SEVERE, String.format("Error parse feedId and itemId from [ %s ]", elements), exception);
 
             return null;
         }

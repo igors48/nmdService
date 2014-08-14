@@ -67,11 +67,11 @@ public class ServiceError {
                 "Check feed title.");
     }
 
-    public static ServiceError invalidFeedOrItemId(final String pathInfo) {
+    public static ServiceError invalidFeedOrItemId() {
 
         return new ServiceError(ErrorCode.INVALID_FEED_OR_ITEM_ID,
-                format("Feed id or item id cannot be parsed from [ %s ] ", pathInfo),
-                "Item id cannot be parsed. Check item identifier.");
+                "Feed id or item id cannot be parsed from url ",
+                "Identifiers cannot be parsed. Check identifiers.");
     }
 
     public static ServiceError invalidMarkMode(final String markMode) {
