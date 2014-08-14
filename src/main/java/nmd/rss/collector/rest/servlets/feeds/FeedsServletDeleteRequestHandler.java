@@ -38,7 +38,7 @@ public class FeedsServletDeleteRequestHandler implements Handler {
         guard(notNull(body));
 
         if (elements.isEmpty()) {
-            createErrorJsonResponse(invalidFeedId(""));
+            return createErrorJsonResponse(invalidFeedId(""));
         }
 
         final String element = elements.get(0);
