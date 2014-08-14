@@ -1,38 +1,19 @@
 package nmd.rss.collector.rest.servlets;
 
-import nmd.rss.collector.rest.AbstractRestServlet;
-import nmd.rss.collector.rest.tools.ResponseBody;
+import nmd.rss.collector.rest.BaseServlet;
 
-import javax.servlet.http.HttpServletRequest;
-import java.util.UUID;
-
-import static nmd.rss.collector.error.ServiceError.invalidFeedId;
-import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.tools.ServletTools.parseFeedId;
-import static nmd.rss.collector.rest.tools.ServletTools.pathInfoIsEmpty;
-import static nmd.rss.collector.rest.wrappers.UpdatesServiceWrapper.updateCurrentFeeds;
-import static nmd.rss.collector.rest.wrappers.UpdatesServiceWrapper.updateFeed;
+import static nmd.rss.collector.rest.servlets.updates.UpdatesServletGetRequestHandler.UPDATES_SERVLET_GET_REQUEST_HANDLER;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.06.13
  */
-public class UpdatesServlet extends AbstractRestServlet {
+public class UpdatesServlet extends BaseServlet {
 
-    // GET -- update current feed
-    // GET /{feedId} -- update feed
-    @Override
-    protected ResponseBody handleGet(HttpServletRequest request) {
-        final String pathInfo = request.getPathInfo();
+    public UpdatesServlet() {
+        super();
 
-        if (pathInfoIsEmpty(pathInfo)) {
-            return updateCurrentFeeds();
-        }
-
-        final UUID feedId = parseFeedId(pathInfo);
-
-        return isValidFeedHeaderId(feedId) ? updateFeed(feedId) : createErrorJsonResponse(invalidFeedId(pathInfo));
+        this.handlers.put(GET, UPDATES_SERVLET_GET_REQUEST_HANDLER);
     }
 
 }

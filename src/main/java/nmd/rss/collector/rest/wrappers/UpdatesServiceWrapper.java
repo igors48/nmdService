@@ -2,6 +2,7 @@ package nmd.rss.collector.rest.wrappers;
 
 import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceException;
+import nmd.rss.collector.gae.persistence.GaeRootRepository;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
 import nmd.rss.collector.rest.responses.FeedSeriesUpdateResponse;
 import nmd.rss.collector.rest.tools.ResponseBody;
@@ -23,6 +24,8 @@ import static nmd.rss.collector.util.Parameter.notNull;
  * Date : 22.06.13
  */
 public class UpdatesServiceWrapper implements UpdatesServiceInterface {
+
+    public static final UpdatesServiceWrapper UPDATES_SERVICE_WRAPPER = new UpdatesServiceWrapper(GaeRootRepository.UPDATES_SERVICE);
 
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapper.class.getName());
 
