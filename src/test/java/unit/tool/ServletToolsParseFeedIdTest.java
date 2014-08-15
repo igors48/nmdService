@@ -5,7 +5,6 @@ import org.junit.Test;
 
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 /**
@@ -13,14 +12,6 @@ import static org.junit.Assert.assertNull;
  * Date : 18.05.13
  */
 public class ServletToolsParseFeedIdTest {
-
-    @Test
-    public void parse() {
-        final UUID origin = UUID.randomUUID();
-        final UUID parsed = ServletTools.parseFeedId("/" + origin);
-
-        assertEquals(origin, parsed);
-    }
 
     @Test
     public void ifFeedIdNotFoundNullReturns() {

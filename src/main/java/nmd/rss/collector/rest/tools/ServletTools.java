@@ -53,18 +53,16 @@ public final class ServletTools {
         }
     }
 
-    public static UUID parseFeedId(final String pathInfo) {
+    public static UUID parseFeedId(final String data) {
 
-        if (pathInfoIsEmpty(pathInfo)) {
+        if (pathInfoIsEmpty(data)) {
             return null;
         }
 
         try {
-            final String data = pathInfo.substring(1);
-
             return UUID.fromString(data);
         } catch (Exception exception) {
-            LOGGER.log(Level.SEVERE, String.format("Error parse feedId from [ %s ]", pathInfo), exception);
+            LOGGER.log(Level.SEVERE, String.format("Error parse feedId from [ %s ]", data), exception);
 
             return null;
         }
