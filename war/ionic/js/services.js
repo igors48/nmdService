@@ -32,7 +32,7 @@ angular.module('orb.services', ['ngResource'])
     })
 
     .factory('reads', function ($resource) {
-        return $resource('/@security.key@/v01/reads/:feedId/:itemId/:offset/:size',
+        return $resource('/@security.key@/v01/reads/:feedId/:itemId',
             {
                 feedId: '@feedId',
                 itemId: '@itemId',
