@@ -3,6 +3,7 @@ package nmd.rss.collector.rest.responses.payload;
 import nmd.rss.collector.controller.FeedItemReport;
 
 import static nmd.rss.collector.util.Assert.guard;
+import static nmd.rss.collector.util.HtmlTools.cleanupDescription;
 import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
@@ -33,7 +34,7 @@ public class FeedItemCardReportPayload {
         helper.feedId = feedItemReport.feedId.toString();
         helper.title = feedItemReport.title;
         helper.link = feedItemReport.link;
-        helper.description = feedItemReport.description;
+        helper.description = cleanupDescription(feedItemReport.description);
         helper.itemId = feedItemReport.itemId;
         helper.read = feedItemReport.read;
         helper.readLater = feedItemReport.readLater;
