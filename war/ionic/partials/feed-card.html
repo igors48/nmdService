@@ -13,15 +13,16 @@
 <ion-content ng-cloak ng-show="showUi">
     <div class="card">
         <a class="block-link" href="{{card.link}}" target="_blank" ng-click="onMarkAndNext()">
-            <h4>{{card.title}}</h4> 
+            <div class="item item-text-wrap">
+                <h2>{{card.title}}</h2> 
 
-            <h6 class="blue-front">
-                <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'d MMM HH:mm'}}&nbsp;
-                <span class="icon ion-eye-disabled" ng-show="card.notRead"></span>
-            </h6>
+                <h4 class="blue-front">
+                    <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'d MMM HH:mm'}}&nbsp;
+                    <span class="icon ion-eye-disabled" ng-show="card.notRead"></span>
+                </h4>
 
-            <!--<h5>{{card.description}}</h5>-->
-            <h5 ng-bind-html="card.description"></h5> 
+                <h3 ng-bind-html="card.description"></h3> 
+            </div>
         </a> 
     </div>   
 </ion-content>
