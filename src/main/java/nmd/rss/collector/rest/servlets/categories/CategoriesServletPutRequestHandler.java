@@ -3,8 +3,8 @@ package nmd.rss.collector.rest.servlets.categories;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.CategoriesServiceInterface;
 import nmd.rss.collector.rest.wrappers.CategoriesServiceWrapper;
+import nmd.rss.collector.rest.wrappers.CategoriesServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -22,11 +22,11 @@ import static nmd.rss.reader.Category.isValidCategoryName;
  */
 public class CategoriesServletPutRequestHandler implements Handler {
 
-    public static final CategoriesServletPutRequestHandler CATEGORIES_SERVLET_PUT_REQUEST_HANDLER = new CategoriesServletPutRequestHandler(CategoriesServiceWrapper.CATEGORIES_SERVICE_WRAPPER);
+    public static final CategoriesServletPutRequestHandler CATEGORIES_SERVLET_PUT_REQUEST_HANDLER = new CategoriesServletPutRequestHandler(CategoriesServiceWrapperImpl.CATEGORIES_SERVICE_WRAPPER);
 
-    private final CategoriesServiceInterface categoriesService;
+    private final CategoriesServiceWrapper categoriesService;
 
-    public CategoriesServletPutRequestHandler(final CategoriesServiceInterface categoriesService) {
+    public CategoriesServletPutRequestHandler(final CategoriesServiceWrapper categoriesService) {
         guard(notNull(categoriesService));
         this.categoriesService = categoriesService;
     }

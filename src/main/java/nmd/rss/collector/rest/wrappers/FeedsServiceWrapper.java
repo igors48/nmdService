@@ -1,153 +1,27 @@
 package nmd.rss.collector.rest.wrappers;
 
-import nmd.rss.collector.controller.FeedsService;
-import nmd.rss.collector.error.ServiceError;
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.exporter.FeedExporterException;
-import nmd.rss.collector.feed.Feed;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.gae.GaeServices;
-import nmd.rss.collector.rest.responses.FeedHeadersResponse;
-import nmd.rss.collector.rest.responses.FeedIdResponse;
-import nmd.rss.collector.rest.tools.ContentType;
 import nmd.rss.collector.rest.tools.ResponseBody;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-
-import static java.lang.String.format;
-import static java.util.Arrays.asList;
-import static nmd.rss.collector.exporter.FeedExporter.export;
-import static nmd.rss.collector.rest.responses.FeedHeadersResponse.convert;
-import static nmd.rss.collector.rest.responses.SuccessMessageResponse.create;
-import static nmd.rss.collector.rest.tools.ResponseBody.createErrorJsonResponse;
-import static nmd.rss.collector.rest.tools.ResponseBody.createJsonResponse;
-import static nmd.rss.collector.util.Assert.guard;
-import static nmd.rss.collector.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
- * Date : 22.06.13
+ * Date : 14.08.2014
  */
-public class FeedsServiceWrapper implements FeedsServiceInterface {
+public interface FeedsServiceWrapper {
 
-    public static final FeedsServiceWrapper FEEDS_SERVICE_WRAPPER = new FeedsServiceWrapper(GaeServices.FEEDS_SERVICE);
+    ResponseBody addFeed(String feedUrl, String categoryId);
 
-    private static final Logger LOGGER = Logger.getLogger(FeedsServiceWrapper.class.getName());
+    ResponseBody updateFeedTitle(UUID feedId, String title);
 
-    private final FeedsService feedsService;
+    ResponseBody removeFeed(UUID feedId);
 
-    public FeedsServiceWrapper(final FeedsService feedsService) {
-        guard(notNull(feedsService));
-        this.feedsService = feedsService;
-    }
+    ResponseBody getFeedHeaders();
 
-    @Override
-    public ResponseBody addFeed(final String feedUrl, final String categoryId) {
+    ResponseBody getFeedHeader(UUID feedId);
 
-        try {
-            final UUID feedId = this.feedsService.addFeed(feedUrl, categoryId);
+    ResponseBody getFeed(UUID feedId);
 
-            final FeedIdResponse feedIdResponse = FeedIdResponse.create(feedId);
-
-            LOGGER.info(format("Feed [ %s ] added to category [ %s ]. Id is [ %s ]", feedUrl, categoryId, feedId));
-
-            return createJsonResponse(feedIdResponse);
-        } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error adding feed [ %s ]", feedUrl), exception);
-
-            return createErrorJsonResponse(exception);
-        }
-    }
-
-    @Override
-    public ResponseBody updateFeedTitle(final UUID feedId, final String title) {
-
-        try {
-            this.feedsService.updateFeedTitle(feedId, title);
-
-            final String message = format("Feeds [ %s ] title changed to [ %s ]", feedId, title);
-
-            LOGGER.info(message);
-
-            return createJsonResponse(create(message));
-        } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error changing feed [ %s ] title", feedId), exception);
-
-            return createErrorJsonResponse(exception);
-        }
-    }
-
-    @Override
-    public ResponseBody removeFeed(final UUID feedId) {
-        this.feedsService.removeFeed(feedId);
-
-        final String message = format("Feed [ %s ] removed", feedId);
-
-        LOGGER.info(message);
-
-        return createJsonResponse(create(message));
-    }
-
-    @Override
-    public ResponseBody getFeedHeaders() {
-        final List<FeedHeader> headers = this.feedsService.getFeedHeaders();
-        final FeedHeadersResponse feedHeadersResponse = convert(headers);
-
-        LOGGER.info(format("[ %s ] feed headers found", headers.size()));
-
-        return createJsonResponse(feedHeadersResponse);
-    }
-
-    @Override
-    public ResponseBody getFeedHeader(final UUID feedId) {
-
-        try {
-            final FeedHeader header = this.feedsService.loadFeedHeader(feedId);
-            final FeedHeadersResponse response = convert(asList(header));
-
-            LOGGER.info(format("Header for feed [ %s ] returned", feedId));
-
-            return createJsonResponse(response);
-        } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error loading feed [ %s ] header", feedId), exception);
-
-            return createErrorJsonResponse(exception);
-        }
-    }
-
-    @Override
-    public ResponseBody getFeed(final UUID feedId) {
-
-        try {
-            final Feed feed = this.feedsService.getFeed(feedId);
-            final String feedAsXml = export(feed.header, feed.items);
-
-            LOGGER.info(format("Feed [ %s ] link [ %s ] items exported. Items count [ %d ]", feedId, feed.header.feedLink, feed.items.size()));
-
-            return new ResponseBody(ContentType.XML, feedAsXml);
-        } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error export feed [ %s ]", feedId), exception);
-
-            return createErrorJsonResponse(exception);
-        } catch (FeedExporterException exception) {
-            LOGGER.log(Level.SEVERE, format("Error export feed [ %s ]", feedId), exception);
-
-            return createErrorJsonResponse(ServiceError.feedExportError(feedId));
-        }
-    }
-
-    @Override
-    public ResponseBody clear() {
-        this.feedsService.clear();
-
-        final String message = "Service cleared";
-
-        LOGGER.info(message);
-
-        return createJsonResponse(create(message));
-    }
+    ResponseBody clear();
 
 }

@@ -2,8 +2,8 @@ package nmd.rss.collector.rest.servlets.categories;
 
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.CategoriesServiceInterface;
 import nmd.rss.collector.rest.wrappers.CategoriesServiceWrapper;
+import nmd.rss.collector.rest.wrappers.CategoriesServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -19,11 +19,11 @@ import static nmd.rss.reader.Category.isValidCategoryName;
  */
 public class CategoriesServletPostRequestHandler implements Handler {
 
-    public static final CategoriesServletPostRequestHandler CATEGORIES_SERVLET_POST_REQUEST_HANDLER = new CategoriesServletPostRequestHandler(CategoriesServiceWrapper.CATEGORIES_SERVICE_WRAPPER);
+    public static final CategoriesServletPostRequestHandler CATEGORIES_SERVLET_POST_REQUEST_HANDLER = new CategoriesServletPostRequestHandler(CategoriesServiceWrapperImpl.CATEGORIES_SERVICE_WRAPPER);
 
-    private final CategoriesServiceInterface categoriesService;
+    private final CategoriesServiceWrapper categoriesService;
 
-    public CategoriesServletPostRequestHandler(final CategoriesServiceInterface categoriesService) {
+    public CategoriesServletPostRequestHandler(final CategoriesServiceWrapper categoriesService) {
         guard(notNull(categoriesService));
         this.categoriesService = categoriesService;
     }

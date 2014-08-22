@@ -2,7 +2,7 @@ package nmd.rss.collector.rest.servlets.updates;
 
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.UpdatesServiceWrapper;
+import nmd.rss.collector.rest.wrappers.UpdatesServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -21,11 +21,11 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class UpdatesServletGetRequestHandler implements Handler {
 
-    public static final UpdatesServletGetRequestHandler UPDATES_SERVLET_GET_REQUEST_HANDLER = new UpdatesServletGetRequestHandler(UpdatesServiceWrapper.UPDATES_SERVICE_WRAPPER);
+    public static final UpdatesServletGetRequestHandler UPDATES_SERVLET_GET_REQUEST_HANDLER = new UpdatesServletGetRequestHandler(UpdatesServiceWrapperImpl.UPDATES_SERVICE_WRAPPER);
 
-    private final UpdatesServiceWrapper updatesService;
+    private final UpdatesServiceWrapperImpl updatesService;
 
-    public UpdatesServletGetRequestHandler(final UpdatesServiceWrapper updatesService) {
+    public UpdatesServletGetRequestHandler(final UpdatesServiceWrapperImpl updatesService) {
         guard(notNull(updatesService));
         this.updatesService = updatesService;
     }

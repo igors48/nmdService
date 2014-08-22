@@ -3,7 +3,7 @@ package nmd.rss.collector.rest.servlets.feeds;
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.requests.AddFeedRequest;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.FeedsServiceWrapper;
+import nmd.rss.collector.rest.wrappers.FeedsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -23,11 +23,11 @@ import static nmd.rss.reader.Category.isValidCategoryId;
  */
 public class FeedsServletPostRequestHandler implements Handler {
 
-    public static final FeedsServletPostRequestHandler FEEDS_SERVLET_POST_REQUEST_HANDLER = new FeedsServletPostRequestHandler(FeedsServiceWrapper.FEEDS_SERVICE_WRAPPER);
+    public static final FeedsServletPostRequestHandler FEEDS_SERVLET_POST_REQUEST_HANDLER = new FeedsServletPostRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
 
-    private final FeedsServiceWrapper feedsService;
+    private final FeedsServiceWrapperImpl feedsService;
 
-    public FeedsServletPostRequestHandler(final FeedsServiceWrapper feedsService) {
+    public FeedsServletPostRequestHandler(final FeedsServiceWrapperImpl feedsService) {
         guard(notNull(feedsService));
         this.feedsService = feedsService;
     }

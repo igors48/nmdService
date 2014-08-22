@@ -2,7 +2,7 @@ package nmd.rss.collector.rest.servlets.feeds;
 
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.FeedsServiceWrapper;
+import nmd.rss.collector.rest.wrappers.FeedsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -21,11 +21,11 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class FeedsServletGetRequestHandler implements Handler {
 
-    public static final FeedsServletGetRequestHandler FEEDS_SERVLET_GET_REQUEST_HANDLER = new FeedsServletGetRequestHandler(FeedsServiceWrapper.FEEDS_SERVICE_WRAPPER);
+    public static final FeedsServletGetRequestHandler FEEDS_SERVLET_GET_REQUEST_HANDLER = new FeedsServletGetRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
 
-    private final FeedsServiceWrapper feedsService;
+    private final FeedsServiceWrapperImpl feedsService;
 
-    public FeedsServletGetRequestHandler(final FeedsServiceWrapper feedsService) {
+    public FeedsServletGetRequestHandler(final FeedsServiceWrapperImpl feedsService) {
         guard(notNull(feedsService));
         this.feedsService = feedsService;
     }

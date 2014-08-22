@@ -2,8 +2,8 @@ package nmd.rss.collector.rest.servlets.clear;
 
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.FeedsServiceInterface;
 import nmd.rss.collector.rest.wrappers.FeedsServiceWrapper;
+import nmd.rss.collector.rest.wrappers.FeedsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -17,11 +17,11 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class ClearServletPostRequestHandler implements Handler {
 
-    public static final ClearServletPostRequestHandler CLEAR_SERVLET_POST_REQUEST_HANDLER = new ClearServletPostRequestHandler(FeedsServiceWrapper.FEEDS_SERVICE_WRAPPER);
+    public static final ClearServletPostRequestHandler CLEAR_SERVLET_POST_REQUEST_HANDLER = new ClearServletPostRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
 
-    private final FeedsServiceInterface feedsService;
+    private final FeedsServiceWrapper feedsService;
 
-    public ClearServletPostRequestHandler(final FeedsServiceInterface feedsService) {
+    public ClearServletPostRequestHandler(final FeedsServiceWrapper feedsService) {
         guard(notNull(feedsService));
         this.feedsService = feedsService;
     }

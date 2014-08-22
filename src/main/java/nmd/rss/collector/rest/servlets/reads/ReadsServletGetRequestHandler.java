@@ -2,8 +2,8 @@ package nmd.rss.collector.rest.servlets.reads;
 
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.ReadsServiceInterface;
 import nmd.rss.collector.rest.wrappers.ReadsServiceWrapper;
+import nmd.rss.collector.rest.wrappers.ReadsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -24,11 +24,11 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class ReadsServletGetRequestHandler implements Handler {
 
-    public static final ReadsServletGetRequestHandler READS_SERVLET_GET_REQUEST_HANDLER = new ReadsServletGetRequestHandler(ReadsServiceWrapper.READS_SERVICE_WRAPPER);
+    public static final ReadsServletGetRequestHandler READS_SERVLET_GET_REQUEST_HANDLER = new ReadsServletGetRequestHandler(ReadsServiceWrapperImpl.READS_SERVICE_WRAPPER);
 
-    private final ReadsServiceInterface readsService;
+    private final ReadsServiceWrapper readsService;
 
-    public ReadsServletGetRequestHandler(final ReadsServiceInterface readsService) {
+    public ReadsServletGetRequestHandler(final ReadsServiceWrapper readsService) {
         guard(notNull(readsService));
         this.readsService = readsService;
     }

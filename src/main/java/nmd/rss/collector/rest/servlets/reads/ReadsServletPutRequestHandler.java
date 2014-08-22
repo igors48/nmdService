@@ -3,8 +3,8 @@ package nmd.rss.collector.rest.servlets.reads;
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.FeedAndItemIds;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.ReadsServiceInterface;
 import nmd.rss.collector.rest.wrappers.ReadsServiceWrapper;
+import nmd.rss.collector.rest.wrappers.ReadsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -21,15 +21,15 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class ReadsServletPutRequestHandler implements Handler {
 
-    public static final ReadsServletPutRequestHandler READS_SERVLET_PUT_REQUEST_HANDLER = new ReadsServletPutRequestHandler(ReadsServiceWrapper.READS_SERVICE_WRAPPER);
+    public static final ReadsServletPutRequestHandler READS_SERVLET_PUT_REQUEST_HANDLER = new ReadsServletPutRequestHandler(ReadsServiceWrapperImpl.READS_SERVICE_WRAPPER);
 
     private static final String MARK_AS_PARAMETER_NAME = "markAs";
     private static final String MARK_AS_READ = "read";
     private static final String MARK_AS_READ_LATER = "readLater";
 
-    private final ReadsServiceInterface readsService;
+    private final ReadsServiceWrapper readsService;
 
-    public ReadsServletPutRequestHandler(final ReadsServiceInterface readsService) {
+    public ReadsServletPutRequestHandler(final ReadsServiceWrapper readsService) {
         guard(notNull(readsService));
         this.readsService = readsService;
     }

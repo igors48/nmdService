@@ -2,8 +2,8 @@ package nmd.rss.collector.rest.servlets.exports;
 
 import nmd.rss.collector.rest.Handler;
 import nmd.rss.collector.rest.tools.ResponseBody;
-import nmd.rss.collector.rest.wrappers.FeedsServiceInterface;
 import nmd.rss.collector.rest.wrappers.FeedsServiceWrapper;
+import nmd.rss.collector.rest.wrappers.FeedsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -22,11 +22,11 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class ExportsServletGetRequestHandler implements Handler {
 
-    public static final ExportsServletGetRequestHandler EXPORTS_SERVLET_GET_REQUEST_HANDLER = new ExportsServletGetRequestHandler(FeedsServiceWrapper.FEEDS_SERVICE_WRAPPER);
+    public static final ExportsServletGetRequestHandler EXPORTS_SERVLET_GET_REQUEST_HANDLER = new ExportsServletGetRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
 
-    private final FeedsServiceInterface feedsService;
+    private final FeedsServiceWrapper feedsService;
 
-    public ExportsServletGetRequestHandler(final FeedsServiceInterface feedsService) {
+    public ExportsServletGetRequestHandler(final FeedsServiceWrapper feedsService) {
         guard(notNull(feedsService));
         this.feedsService = feedsService;
     }
