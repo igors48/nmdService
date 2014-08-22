@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.cache;
+package nmd.rss.gae.cache;
 
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;

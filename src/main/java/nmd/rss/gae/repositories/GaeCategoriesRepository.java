@@ -1,8 +1,8 @@
-package nmd.rss.reader.gae;
+package nmd.rss.gae.repositories;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import nmd.rss.collector.gae.persistence.RootKind;
+import nmd.rss.gae.repositories.datastore.RootKind;
 import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.Category;
 
@@ -10,12 +10,12 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static nmd.rss.collector.gae.persistence.GaeDatastoreTools.*;
-import static nmd.rss.collector.gae.persistence.Kind.CATEGORY;
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.Parameter.notNull;
+import static nmd.rss.gae.repositories.converters.CategoryConverter.convert;
+import static nmd.rss.gae.repositories.datastore.GaeDatastoreTools.*;
+import static nmd.rss.gae.repositories.datastore.Kind.CATEGORY;
 import static nmd.rss.reader.Category.isValidCategoryId;
-import static nmd.rss.reader.gae.CategoryConverter.convert;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

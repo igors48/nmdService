@@ -1,9 +1,9 @@
-package nmd.rss.collector.gae;
+package nmd.rss.gae;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.rss.collector.Transactions;
 
-import static nmd.rss.collector.gae.persistence.GaeDatastoreTools.DATASTORE_SERVICE;
+import static nmd.rss.gae.repositories.datastore.GaeDatastoreTools.DATASTORE_SERVICE;
 
 /**
  * @author : igu
@@ -18,7 +18,7 @@ public final class GaeTransactions implements Transactions {
     }
 
     private GaeTransactions() {
-
+        // empty
     }
 
 }

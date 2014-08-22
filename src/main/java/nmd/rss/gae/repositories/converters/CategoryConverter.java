@@ -1,11 +1,11 @@
-package nmd.rss.reader.gae;
+package nmd.rss.gae.repositories.converters;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import nmd.rss.reader.Category;
 
-import static nmd.rss.collector.gae.persistence.Kind.CATEGORY;
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.gae.repositories.datastore.Kind.CATEGORY;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

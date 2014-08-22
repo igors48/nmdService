@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.persistence;
+package nmd.rss.gae.repositories;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.gae.persistence.FeedItemListEntityConverter.convert;
-import static nmd.rss.collector.gae.persistence.GaeDatastoreTools.*;
-import static nmd.rss.collector.gae.persistence.Kind.FEED_ITEM;
-import static nmd.rss.collector.gae.persistence.RootKind.FEED;
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.gae.repositories.converters.FeedItemListEntityConverter.convert;
+import static nmd.rss.gae.repositories.datastore.GaeDatastoreTools.*;
+import static nmd.rss.gae.repositories.datastore.Kind.FEED_ITEM;
+import static nmd.rss.gae.repositories.datastore.RootKind.FEED;
 
 /**
  * User: igu

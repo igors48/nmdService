@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.persistence;
+package nmd.rss.gae.repositories.converters;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;

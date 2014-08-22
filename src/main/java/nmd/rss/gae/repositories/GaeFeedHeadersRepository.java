@@ -1,22 +1,23 @@
-package nmd.rss.collector.gae.persistence;
+package nmd.rss.gae.repositories;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.updater.FeedHeadersRepository;
+import nmd.rss.gae.repositories.datastore.RootKind;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
-import static nmd.rss.collector.gae.persistence.FeedHeaderEntityConverter.FEED_LINK;
-import static nmd.rss.collector.gae.persistence.FeedHeaderEntityConverter.convert;
-import static nmd.rss.collector.gae.persistence.GaeDatastoreTools.*;
-import static nmd.rss.collector.gae.persistence.Kind.FEED_HEADER;
-import static nmd.rss.collector.gae.persistence.RootKind.FEED;
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.gae.repositories.converters.FeedHeaderEntityConverter.FEED_LINK;
+import static nmd.rss.gae.repositories.converters.FeedHeaderEntityConverter.convert;
+import static nmd.rss.gae.repositories.datastore.GaeDatastoreTools.*;
+import static nmd.rss.gae.repositories.datastore.Kind.FEED_HEADER;
+import static nmd.rss.gae.repositories.datastore.RootKind.FEED;
 
 /**
  * User: igu

@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.persistence;
+package nmd.rss.gae.repositories.converters;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
@@ -7,8 +7,8 @@ import nmd.rss.collector.scheduler.FeedUpdateTask;
 
 import java.util.UUID;
 
-import static nmd.rss.collector.gae.persistence.Kind.FEED_UPDATE_TASK;
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.gae.repositories.datastore.Kind.FEED_UPDATE_TASK;
 
 /**
  * User: igu

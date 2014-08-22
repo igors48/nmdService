@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.persistence;
+package nmd.rss.gae.repositories.datastore;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

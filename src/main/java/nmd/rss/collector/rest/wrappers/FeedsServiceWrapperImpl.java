@@ -6,11 +6,11 @@ import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.gae.GaeServices;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import nmd.rss.collector.rest.tools.ContentType;
 import nmd.rss.collector.rest.tools.ResponseBody;
+import nmd.rss.gae.GaeServices;
 
 import java.util.List;
 import java.util.UUID;

@@ -4,11 +4,11 @@ import nmd.rss.collector.controller.CategoriesService;
 import nmd.rss.collector.controller.CategoryReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.gae.GaeServices;
 import nmd.rss.collector.rest.responses.CategoriesReportResponse;
 import nmd.rss.collector.rest.responses.CategoryReportResponse;
 import nmd.rss.collector.rest.responses.CategoryResponse;
 import nmd.rss.collector.rest.tools.ResponseBody;
+import nmd.rss.gae.GaeServices;
 import nmd.rss.reader.Category;
 
 import java.util.List;

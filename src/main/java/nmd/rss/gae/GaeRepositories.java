@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae;
+package nmd.rss.gae;
 
 import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
 import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
@@ -13,12 +13,12 @@ import nmd.rss.reader.CachedReadFeedItemsRepository;
 import nmd.rss.reader.CategoriesRepository;
 import nmd.rss.reader.ReadFeedItemsRepository;
 
-import static nmd.rss.collector.gae.cache.MemCache.MEM_CACHE;
-import static nmd.rss.collector.gae.persistence.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
-import static nmd.rss.collector.gae.persistence.GaeFeedItemsRepository.GAE_FEED_ITEMS_REPOSITORY;
-import static nmd.rss.collector.gae.persistence.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
-import static nmd.rss.reader.gae.GaeCategoriesRepository.GAE_CATEGORIES_REPOSITORY;
-import static nmd.rss.reader.gae.GaeReadFeedItemsRepository.GAE_READ_FEED_ITEMS_REPOSITORY;
+import static nmd.rss.gae.cache.MemCache.MEM_CACHE;
+import static nmd.rss.gae.repositories.GaeCategoriesRepository.GAE_CATEGORIES_REPOSITORY;
+import static nmd.rss.gae.repositories.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
+import static nmd.rss.gae.repositories.GaeFeedItemsRepository.GAE_FEED_ITEMS_REPOSITORY;
+import static nmd.rss.gae.repositories.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
+import static nmd.rss.gae.repositories.GaeReadFeedItemsRepository.GAE_READ_FEED_ITEMS_REPOSITORY;
 
 /**
  * @author : igu

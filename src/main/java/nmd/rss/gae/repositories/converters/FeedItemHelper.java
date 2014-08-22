@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.persistence;
+package nmd.rss.gae.repositories.converters;
 
 import com.google.appengine.api.datastore.Text;
 import nmd.rss.collector.feed.FeedItem;

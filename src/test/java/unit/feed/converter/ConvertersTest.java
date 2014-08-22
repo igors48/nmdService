@@ -5,12 +5,10 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.gae.persistence.*;
 import nmd.rss.collector.scheduler.FeedUpdateTask;
+import nmd.rss.gae.repositories.converters.*;
 import nmd.rss.reader.Category;
 import nmd.rss.reader.ReadFeedItems;
-import nmd.rss.reader.gae.CategoryConverter;
-import nmd.rss.reader.gae.ReadFeedItemsConverter;
 import org.junit.Test;
 
 import java.util.*;

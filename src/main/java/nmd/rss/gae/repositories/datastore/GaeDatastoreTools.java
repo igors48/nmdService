@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.persistence;
+package nmd.rss.gae.repositories.datastore;
 
 import com.google.appengine.api.datastore.*;
 

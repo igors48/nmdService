@@ -5,11 +5,11 @@ import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.controller.ReadsService;
 import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.gae.GaeServices;
 import nmd.rss.collector.rest.responses.FeedItemsCardsReportResponse;
 import nmd.rss.collector.rest.responses.FeedItemsReportResponse;
 import nmd.rss.collector.rest.responses.FeedReadReportsResponse;
 import nmd.rss.collector.rest.tools.ResponseBody;
+import nmd.rss.gae.GaeServices;
 
 import java.util.List;
 import java.util.UUID;

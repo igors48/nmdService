@@ -1,4 +1,4 @@
-package nmd.rss.reader.gae;
+package nmd.rss.gae.repositories.converters;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
@@ -13,8 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static nmd.rss.collector.gae.persistence.Kind.READ_FEED_ITEM;
 import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.rss.gae.repositories.datastore.Kind.READ_FEED_ITEM;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

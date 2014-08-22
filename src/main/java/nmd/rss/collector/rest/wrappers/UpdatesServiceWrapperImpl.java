@@ -2,10 +2,10 @@ package nmd.rss.collector.rest.wrappers;
 
 import nmd.rss.collector.controller.*;
 import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.gae.GaeServices;
 import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
 import nmd.rss.collector.rest.responses.FeedSeriesUpdateResponse;
 import nmd.rss.collector.rest.tools.ResponseBody;
+import nmd.rss.gae.GaeServices;
 
 import java.util.UUID;
 import java.util.logging.Level;

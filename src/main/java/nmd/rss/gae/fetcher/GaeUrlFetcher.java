@@ -1,4 +1,4 @@
-package nmd.rss.collector.gae.fetcher;
+package nmd.rss.gae.fetcher;
 
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.collector.updater.UrlFetcherException;
