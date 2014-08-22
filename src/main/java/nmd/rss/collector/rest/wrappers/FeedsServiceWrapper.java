@@ -6,7 +6,7 @@ import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.exporter.FeedExporterException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.gae.persistence.GaeRootRepository;
+import nmd.rss.collector.gae.GaeServices;
 import nmd.rss.collector.rest.responses.FeedHeadersResponse;
 import nmd.rss.collector.rest.responses.FeedIdResponse;
 import nmd.rss.collector.rest.tools.ContentType;
@@ -33,7 +33,7 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class FeedsServiceWrapper implements FeedsServiceInterface {
 
-    public static final FeedsServiceWrapper FEEDS_SERVICE_WRAPPER = new FeedsServiceWrapper(GaeRootRepository.FEEDS_SERVICE);
+    public static final FeedsServiceWrapper FEEDS_SERVICE_WRAPPER = new FeedsServiceWrapper(GaeServices.FEEDS_SERVICE);
 
     private static final Logger LOGGER = Logger.getLogger(FeedsServiceWrapper.class.getName());
 

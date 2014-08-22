@@ -10,7 +10,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
+import static nmd.rss.collector.gae.persistence.GaeDatastoreTools.*;
 import static nmd.rss.collector.gae.persistence.Kind.CATEGORY;
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.Parameter.notNull;
@@ -73,6 +73,10 @@ public class GaeCategoriesRepository implements CategoriesRepository {
         for (final Entity entity : entities) {
             DATASTORE_SERVICE.delete(entity.getKey());
         }
+    }
+
+    private GaeCategoriesRepository() {
+        // empty
     }
 
 }

@@ -5,7 +5,7 @@ import nmd.rss.collector.controller.FeedItemsReport;
 import nmd.rss.collector.controller.FeedReadReport;
 import nmd.rss.collector.controller.ReadsService;
 import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.gae.persistence.GaeRootRepository;
+import nmd.rss.collector.gae.GaeServices;
 import nmd.rss.collector.rest.responses.FeedItemsCardsReportResponse;
 import nmd.rss.collector.rest.responses.FeedItemsReportResponse;
 import nmd.rss.collector.rest.responses.FeedReadReportsResponse;
@@ -30,7 +30,7 @@ import static nmd.rss.collector.util.Parameter.notNull;
  */
 public class ReadsServiceWrapper implements ReadsServiceInterface {
 
-    public static final ReadsServiceWrapper READS_SERVICE_WRAPPER = new ReadsServiceWrapper(GaeRootRepository.READS_SERVICE);
+    public static final ReadsServiceWrapper READS_SERVICE_WRAPPER = new ReadsServiceWrapper(GaeServices.READS_SERVICE);
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServiceWrapper.class.getName());
 

@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.rss.collector.gae.persistence.FeedUpdateTaskEntityConverter.convert;
-import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
+import static nmd.rss.collector.gae.persistence.GaeDatastoreTools.*;
 import static nmd.rss.collector.gae.persistence.Kind.FEED_UPDATE_TASK;
 import static nmd.rss.collector.gae.persistence.RootKind.FEED;
 import static nmd.rss.collector.util.Assert.assertNotNull;

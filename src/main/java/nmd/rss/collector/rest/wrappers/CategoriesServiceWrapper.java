@@ -4,7 +4,7 @@ import nmd.rss.collector.controller.CategoriesService;
 import nmd.rss.collector.controller.CategoryReport;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.gae.persistence.GaeRootRepository;
+import nmd.rss.collector.gae.GaeServices;
 import nmd.rss.collector.rest.responses.CategoriesReportResponse;
 import nmd.rss.collector.rest.responses.CategoryReportResponse;
 import nmd.rss.collector.rest.responses.CategoryResponse;
@@ -31,7 +31,7 @@ import static nmd.rss.reader.Category.isValidCategoryName;
  */
 public class CategoriesServiceWrapper implements CategoriesServiceInterface {
 
-    public static final CategoriesServiceWrapper CATEGORIES_SERVICE_WRAPPER = new CategoriesServiceWrapper(GaeRootRepository.CATEGORIES_SERVICE);
+    public static final CategoriesServiceWrapper CATEGORIES_SERVICE_WRAPPER = new CategoriesServiceWrapper(GaeServices.CATEGORIES_SERVICE);
 
     private static final Logger LOGGER = Logger.getLogger(CategoriesServiceWrapper.class.getName());
 

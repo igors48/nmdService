@@ -13,7 +13,7 @@ import java.util.UUID;
 import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
 import static nmd.rss.collector.gae.persistence.FeedHeaderEntityConverter.FEED_LINK;
 import static nmd.rss.collector.gae.persistence.FeedHeaderEntityConverter.convert;
-import static nmd.rss.collector.gae.persistence.GaeRootRepository.*;
+import static nmd.rss.collector.gae.persistence.GaeDatastoreTools.*;
 import static nmd.rss.collector.gae.persistence.Kind.FEED_HEADER;
 import static nmd.rss.collector.gae.persistence.RootKind.FEED;
 import static nmd.rss.collector.util.Assert.assertNotNull;
