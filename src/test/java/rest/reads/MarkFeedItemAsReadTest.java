@@ -1,6 +1,6 @@
 package rest.reads;
 
-import nmd.rss.collector.rest.responses.FeedIdResponse;
+import nmd.rss.http.responses.FeedIdResponse;
 import org.junit.Test;
 import rest.AbstractRestTest;
 

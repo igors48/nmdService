@@ -1,8 +1,8 @@
 package rest.reads;
 
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.FeedIdResponse;
-import nmd.rss.collector.rest.responses.FeedItemsCardsReportResponse;
+import nmd.rss.http.responses.FeedIdResponse;
+import nmd.rss.http.responses.FeedItemsCardsReportResponse;
 import org.junit.Test;
 import rest.AbstractRestTest;
 

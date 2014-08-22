@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static nmd.rss.collector.rest.tools.ServletTools.parse;
+import static nmd.rss.http.tools.ServletTools.parse;
 import static org.junit.Assert.assertEquals;
 
 /**

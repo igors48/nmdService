@@ -1,10 +1,10 @@
 package rest.categories;
 
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.CategoriesReportResponse;
-import nmd.rss.collector.rest.responses.CategoryReportResponse;
-import nmd.rss.collector.rest.responses.CategoryResponse;
-import nmd.rss.collector.rest.responses.payload.CategoryReportPayload;
+import nmd.rss.http.responses.CategoriesReportResponse;
+import nmd.rss.http.responses.CategoryReportResponse;
+import nmd.rss.http.responses.CategoryResponse;
+import nmd.rss.http.responses.payload.CategoryReportPayload;
 import nmd.rss.reader.Category;
 import org.junit.Test;
 import rest.AbstractRestTest;

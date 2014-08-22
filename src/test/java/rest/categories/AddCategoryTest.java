@@ -1,7 +1,7 @@
 package rest.categories;
 
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.responses.CategoryResponse;
+import nmd.rss.http.responses.CategoryResponse;
 import org.junit.Test;
 import rest.AbstractRestTest;
 

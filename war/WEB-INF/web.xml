@@ -7,7 +7,7 @@
 
     <servlet>
         <servlet-name>feeds</servlet-name>
-        <servlet-class>nmd.rss.collector.rest.servlets.FeedsServlet</servlet-class>
+        <servlet-class>nmd.rss.http.servlets.FeedsServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -17,7 +17,7 @@
 
     <servlet>
         <servlet-name>categories</servlet-name>
-        <servlet-class>nmd.rss.collector.rest.servlets.CategoriesServlet</servlet-class>
+        <servlet-class>nmd.rss.http.servlets.CategoriesServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -27,7 +27,7 @@
 
     <servlet>
         <servlet-name>reads</servlet-name>
-        <servlet-class>nmd.rss.collector.rest.servlets.ReadsServlet</servlet-class>
+        <servlet-class>nmd.rss.http.servlets.ReadsServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -37,7 +37,7 @@
 
     <servlet>
         <servlet-name>updates</servlet-name>
-        <servlet-class>nmd.rss.collector.rest.servlets.UpdatesServlet</servlet-class>
+        <servlet-class>nmd.rss.http.servlets.UpdatesServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -47,7 +47,7 @@
 
     <servlet>
         <servlet-name>exports</servlet-name>
-        <servlet-class>nmd.rss.collector.rest.servlets.ExportsServlet</servlet-class>
+        <servlet-class>nmd.rss.http.servlets.ExportsServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -57,7 +57,7 @@
 
     <servlet>
         <servlet-name>clear</servlet-name>
-        <servlet-class>nmd.rss.collector.rest.servlets.ClearServlet</servlet-class>
+        <servlet-class>nmd.rss.http.servlets.ClearServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

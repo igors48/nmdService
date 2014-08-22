@@ -3,9 +3,9 @@ package rest;
 import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
 import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.rest.requests.AddFeedRequest;
-import nmd.rss.collector.rest.responses.*;
-import nmd.rss.collector.rest.tools.ServletTools;
+import nmd.rss.http.requests.AddFeedRequest;
+import nmd.rss.http.responses.*;
+import nmd.rss.http.tools.ServletTools;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;

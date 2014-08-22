@@ -2,7 +2,7 @@ package rest.exports;
 
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedParserException;
-import nmd.rss.collector.rest.responses.FeedIdResponse;
+import nmd.rss.http.responses.FeedIdResponse;
 import org.junit.Test;
 import rest.AbstractRestTest;
 

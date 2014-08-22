@@ -1,8 +1,8 @@
 package rest.updates;
 
-import nmd.rss.collector.rest.responses.FeedIdResponse;
-import nmd.rss.collector.rest.responses.FeedMergeReportResponse;
-import nmd.rss.collector.rest.responses.FeedSeriesUpdateResponse;
+import nmd.rss.http.responses.FeedIdResponse;
+import nmd.rss.http.responses.FeedMergeReportResponse;
+import nmd.rss.http.responses.FeedSeriesUpdateResponse;
 import org.junit.Test;
 import rest.AbstractRestTest;
 
