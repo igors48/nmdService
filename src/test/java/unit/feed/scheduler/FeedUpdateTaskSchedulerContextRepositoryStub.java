@@ -3,7 +3,7 @@ package unit.feed.scheduler;
 import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContext;
 import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

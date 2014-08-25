@@ -19,9 +19,9 @@ import java.util.logging.Logger;
 import static java.lang.String.format;
 import static nmd.orb.collector.error.ServiceError.wrongFeedTaskId;
 import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.notNull;
-import static nmd.orb.collector.util.TransactionTools.rollbackIfActive;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.notNull;
+import static nmd.orb.util.TransactionTools.rollbackIfActive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

@@ -2,7 +2,7 @@ package nmd.orb.collector.scheduler;
 
 import java.io.Serializable;
 
-import static nmd.orb.collector.util.Assert.assertPositive;
+import static nmd.orb.util.Assert.assertPositive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

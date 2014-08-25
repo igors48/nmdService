@@ -1,6 +1,6 @@
-package nmd.orb.collector.util;
+package nmd.orb.util;
 
-import static nmd.orb.collector.util.Parameter.*;
+import static nmd.orb.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

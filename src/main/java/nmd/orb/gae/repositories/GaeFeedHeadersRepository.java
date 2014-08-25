@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.UUID;
 
 import static com.google.appengine.api.datastore.Query.FilterOperator.EQUAL;
-import static nmd.orb.collector.util.Assert.assertNotNull;
 import static nmd.orb.gae.repositories.converters.FeedHeaderEntityConverter.FEED_LINK;
 import static nmd.orb.gae.repositories.converters.FeedHeaderEntityConverter.convert;
 import static nmd.orb.gae.repositories.datastore.GaeDatastoreTools.*;
 import static nmd.orb.gae.repositories.datastore.Kind.FEED_HEADER;
 import static nmd.orb.gae.repositories.datastore.RootKind.FEED;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * User: igu

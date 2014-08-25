@@ -6,7 +6,7 @@ import java.util.List;
 
 import static com.google.appengine.api.datastore.FetchOptions.Builder.withLimit;
 import static java.lang.Integer.MAX_VALUE;
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * User: igu

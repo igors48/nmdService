@@ -9,10 +9,10 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-import static nmd.orb.collector.util.Assert.assertValidUrl;
-import static nmd.orb.collector.util.CharsetTools.convertToUtf8;
-import static nmd.orb.collector.util.CharsetTools.detectCharSet;
-import static nmd.orb.collector.util.CloseableTools.close;
+import static nmd.orb.util.Assert.assertValidUrl;
+import static nmd.orb.util.CharsetTools.convertToUtf8;
+import static nmd.orb.util.CharsetTools.detectCharSet;
+import static nmd.orb.util.CloseableTools.close;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

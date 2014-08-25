@@ -1,6 +1,6 @@
 package nmd.orb.sources.twitter.entities;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * User: igu

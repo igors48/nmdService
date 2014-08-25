@@ -12,12 +12,12 @@ import java.util.UUID;
 import static nmd.orb.collector.error.ServiceError.invalidFeedId;
 import static nmd.orb.collector.error.ServiceError.invalidOffsetOrSize;
 import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.isPositive;
-import static nmd.orb.collector.util.Parameter.notNull;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.parseInteger;
 import static nmd.orb.http.tools.ServletTools.parseUuid;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isPositive;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * @author : igu

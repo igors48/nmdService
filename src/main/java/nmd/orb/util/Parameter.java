@@ -1,4 +1,4 @@
-package nmd.orb.collector.util;
+package nmd.orb.util;
 
 
 import org.apache.commons.validator.routines.UrlValidator;

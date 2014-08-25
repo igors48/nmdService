@@ -6,8 +6,8 @@ import nmd.orb.sources.twitter.entities.Tweet;
 import java.io.IOException;
 import java.util.List;
 
-import static nmd.orb.collector.util.Assert.assertPositive;
-import static nmd.orb.collector.util.Assert.assertStringIsValid;
+import static nmd.orb.util.Assert.assertPositive;
+import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

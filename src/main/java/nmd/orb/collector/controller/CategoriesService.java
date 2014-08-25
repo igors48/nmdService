@@ -19,11 +19,11 @@ import java.util.UUID;
 
 import static nmd.orb.collector.error.ServiceError.*;
 import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.notNull;
-import static nmd.orb.collector.util.TransactionTools.rollbackIfActive;
 import static nmd.orb.reader.Category.isValidCategoryId;
 import static nmd.orb.reader.Category.isValidCategoryName;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.notNull;
+import static nmd.orb.util.TransactionTools.rollbackIfActive;
 
 /**
  * @author : igu

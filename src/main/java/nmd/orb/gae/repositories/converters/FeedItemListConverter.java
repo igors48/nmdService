@@ -8,8 +8,8 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.Assert.assertStringIsValid;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
  * User: igu

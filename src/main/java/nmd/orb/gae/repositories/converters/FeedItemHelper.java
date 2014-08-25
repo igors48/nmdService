@@ -5,7 +5,7 @@ import nmd.orb.collector.feed.FeedItem;
 
 import java.util.Date;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * User: igu

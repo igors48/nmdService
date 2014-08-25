@@ -4,8 +4,8 @@ import java.util.UUID;
 
 import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.collector.feed.FeedItem.isValidFeedItemGuid;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.notNull;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * User: igu

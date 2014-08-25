@@ -4,8 +4,8 @@ import nmd.orb.collector.feed.FeedItemsMergeReport;
 
 import java.util.UUID;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.Assert.assertValidUrl;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertValidUrl;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

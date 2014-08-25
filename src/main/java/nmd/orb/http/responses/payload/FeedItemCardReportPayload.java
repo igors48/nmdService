@@ -2,9 +2,9 @@ package nmd.orb.http.responses.payload;
 
 import nmd.orb.collector.controller.FeedItemReport;
 
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.HtmlTools.cleanupDescription;
-import static nmd.orb.collector.util.Parameter.notNull;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.HtmlTools.cleanupDescription;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * User: igu

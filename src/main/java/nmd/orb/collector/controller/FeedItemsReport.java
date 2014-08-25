@@ -4,7 +4,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.orb.collector.util.Assert.*;
+import static nmd.orb.util.Assert.*;
 
 /**
  * User: igu

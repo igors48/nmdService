@@ -3,10 +3,10 @@ package nmd.orb.http.responses.payload;
 import nmd.orb.collector.error.ErrorCode;
 import nmd.orb.collector.error.ServiceError;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.isValidString;
-import static nmd.orb.collector.util.Parameter.notNull;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isValidString;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

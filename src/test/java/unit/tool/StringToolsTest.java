@@ -2,7 +2,7 @@ package unit.tool;
 
 import org.junit.Test;
 
-import static nmd.orb.collector.util.StringTools.cutTo;
+import static nmd.orb.util.StringTools.cutTo;
 import static org.junit.Assert.assertEquals;
 
 /**

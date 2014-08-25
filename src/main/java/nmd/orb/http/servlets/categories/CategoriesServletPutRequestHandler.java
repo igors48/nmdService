@@ -11,11 +11,11 @@ import java.util.Map;
 import java.util.UUID;
 
 import static nmd.orb.collector.error.ServiceError.*;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.notNull;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.reader.Category.isValidCategoryId;
 import static nmd.orb.reader.Category.isValidCategoryName;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * @author : igu

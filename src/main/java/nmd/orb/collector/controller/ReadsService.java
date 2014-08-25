@@ -8,11 +8,11 @@ import nmd.orb.collector.feed.FeedItem;
 import nmd.orb.collector.updater.FeedHeadersRepository;
 import nmd.orb.collector.updater.FeedItemsRepository;
 import nmd.orb.collector.updater.UrlFetcher;
-import nmd.orb.collector.util.Page;
 import nmd.orb.reader.FeedItemsComparisonReport;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.reader.ReadFeedItemsRepository;
 import nmd.orb.sources.twitter.TwitterClientTools;
+import nmd.orb.util.Page;
 
 import java.util.*;
 
@@ -20,11 +20,11 @@ import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.collector.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.orb.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
 import static nmd.orb.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.isPositive;
-import static nmd.orb.collector.util.Parameter.notNull;
-import static nmd.orb.collector.util.TransactionTools.rollbackIfActive;
 import static nmd.orb.reader.FeedItemsComparator.compare;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isPositive;
+import static nmd.orb.util.Parameter.notNull;
+import static nmd.orb.util.TransactionTools.rollbackIfActive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

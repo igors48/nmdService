@@ -1,12 +1,12 @@
-package nmd.orb.collector.util;
+package nmd.orb.util;
 
 import org.htmlcleaner.*;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.notNull;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * @author : igu

@@ -8,7 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

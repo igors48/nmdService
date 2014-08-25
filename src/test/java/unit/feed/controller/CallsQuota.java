@@ -2,7 +2,7 @@ package unit.feed.controller;
 
 import nmd.orb.collector.controller.Quota;
 
-import static nmd.orb.collector.util.Assert.assertPositive;
+import static nmd.orb.util.Assert.assertPositive;
 
 /**
  * @author : igu

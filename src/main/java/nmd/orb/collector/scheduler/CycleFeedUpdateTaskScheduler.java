@@ -6,8 +6,8 @@ import nmd.orb.collector.Transactions;
 import java.util.List;
 
 import static nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContext.START_CONTEXT;
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.TransactionTools.rollbackIfActive;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.TransactionTools.rollbackIfActive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

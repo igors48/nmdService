@@ -10,8 +10,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
-import static nmd.orb.collector.util.Assert.assertNotNull;
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.util.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

@@ -1,7 +1,7 @@
 package nmd.orb.collector.controller;
 
 import static java.lang.System.currentTimeMillis;
-import static nmd.orb.collector.util.Assert.assertPositive;
+import static nmd.orb.util.Assert.assertPositive;
 
 /**
  * @author : igu

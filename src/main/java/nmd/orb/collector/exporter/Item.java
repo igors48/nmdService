@@ -1,7 +1,7 @@
 package nmd.orb.collector.exporter;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.Assert.assertStringIsValid;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

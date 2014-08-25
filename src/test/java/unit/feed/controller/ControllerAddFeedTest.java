@@ -8,8 +8,8 @@ import org.junit.Test;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.util.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
 
 /**

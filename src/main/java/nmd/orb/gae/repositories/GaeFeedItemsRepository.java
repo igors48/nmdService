@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
 import static nmd.orb.gae.repositories.converters.FeedItemListEntityConverter.convert;
 import static nmd.orb.gae.repositories.datastore.GaeDatastoreTools.*;
 import static nmd.orb.gae.repositories.datastore.Kind.FEED_ITEM;
 import static nmd.orb.gae.repositories.datastore.RootKind.FEED;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * User: igu

@@ -7,8 +7,8 @@ import java.util.List;
 
 import static nmd.orb.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
 import static nmd.orb.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.Assert.assertPositive;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertPositive;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

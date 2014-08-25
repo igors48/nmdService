@@ -7,8 +7,8 @@ import nmd.orb.collector.scheduler.FeedUpdateTask;
 
 import java.util.UUID;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
 import static nmd.orb.gae.repositories.datastore.Kind.FEED_UPDATE_TASK;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * User: igu

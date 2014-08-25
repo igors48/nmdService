@@ -12,9 +12,9 @@ import java.util.*;
 import static java.lang.String.format;
 import static nmd.orb.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static nmd.orb.collector.feed.FeedHeader.create;
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.Assert.assertStringIsValid;
-import static nmd.orb.collector.util.StringTools.cutTo;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertStringIsValid;
+import static nmd.orb.util.StringTools.cutTo;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

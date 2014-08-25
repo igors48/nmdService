@@ -1,6 +1,6 @@
-package nmd.orb.collector.util;
+package nmd.orb.util;
 
-import static nmd.orb.collector.util.Assert.assertStringIsValid;
+import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

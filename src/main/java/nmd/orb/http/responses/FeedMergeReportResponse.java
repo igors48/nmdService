@@ -6,8 +6,8 @@ import nmd.orb.http.responses.payload.FeedMergeReportPayload;
 import java.util.UUID;
 
 import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.*;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

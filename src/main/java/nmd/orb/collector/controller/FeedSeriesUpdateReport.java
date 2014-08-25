@@ -4,7 +4,7 @@ import nmd.orb.collector.error.ServiceError;
 
 import java.util.List;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * @author : igu

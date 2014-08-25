@@ -15,8 +15,8 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.orb.collector.feed.FeedHeader.create;
-import static nmd.orb.collector.util.Assert.*;
-import static nmd.orb.collector.util.StringTools.cutTo;
+import static nmd.orb.util.Assert.*;
+import static nmd.orb.util.StringTools.cutTo;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

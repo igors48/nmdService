@@ -6,9 +6,9 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.Assert.assertStringIsValid;
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
  * User: igu

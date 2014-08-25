@@ -4,7 +4,7 @@ import nmd.orb.collector.Cache;
 import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContext;
 import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * User: igu

@@ -9,8 +9,8 @@ import nmd.orb.http.tools.ServletTools;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
-import static nmd.orb.collector.util.Parameter.isPositive;
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.util.Parameter.isPositive;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

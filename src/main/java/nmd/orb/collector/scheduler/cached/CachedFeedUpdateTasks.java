@@ -8,9 +8,9 @@ import java.util.ListIterator;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.isPositive;
-import static nmd.orb.collector.util.Parameter.notNull;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isPositive;
+import static nmd.orb.util.Parameter.notNull;
 
 public class CachedFeedUpdateTasks implements Serializable {
 

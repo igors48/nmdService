@@ -15,9 +15,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static nmd.orb.collector.util.Assert.assertNotNull;
-import static nmd.orb.collector.util.Assert.assertStringIsValid;
-import static nmd.orb.collector.util.CloseableTools.close;
+import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertStringIsValid;
+import static nmd.orb.util.CloseableTools.close;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

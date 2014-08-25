@@ -1,4 +1,4 @@
-package nmd.orb.collector.util;
+package nmd.orb.util;
 
 import java.io.Closeable;
 import java.util.logging.Level;

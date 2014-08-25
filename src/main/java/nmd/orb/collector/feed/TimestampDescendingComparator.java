@@ -3,7 +3,7 @@ package nmd.orb.collector.feed;
 import java.io.Serializable;
 import java.util.Comparator;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

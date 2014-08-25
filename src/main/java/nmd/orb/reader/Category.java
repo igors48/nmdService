@@ -2,8 +2,8 @@ package nmd.orb.reader;
 
 import java.io.Serializable;
 
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.*;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

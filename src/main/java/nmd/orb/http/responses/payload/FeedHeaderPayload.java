@@ -4,9 +4,9 @@ import nmd.orb.collector.feed.FeedHeader;
 
 import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderTitle;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.isValidUrl;
-import static nmd.orb.collector.util.Parameter.notNull;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isValidUrl;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

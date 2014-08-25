@@ -2,7 +2,7 @@ package nmd.orb.collector.controller;
 
 import java.util.List;
 
-import static nmd.orb.collector.util.Assert.*;
+import static nmd.orb.util.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

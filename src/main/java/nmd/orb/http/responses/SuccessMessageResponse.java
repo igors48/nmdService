@@ -1,7 +1,7 @@
 package nmd.orb.http.responses;
 
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.isValidString;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isValidString;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

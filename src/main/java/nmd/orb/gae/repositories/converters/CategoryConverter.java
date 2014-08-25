@@ -4,8 +4,8 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import nmd.orb.reader.Category;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
 import static nmd.orb.gae.repositories.datastore.Kind.CATEGORY;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

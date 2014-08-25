@@ -3,7 +3,7 @@ package nmd.orb.sources.twitter.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * User: igu

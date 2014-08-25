@@ -10,12 +10,12 @@ import java.util.Map;
 
 import static nmd.orb.collector.error.ServiceError.invalidCategoryId;
 import static nmd.orb.collector.error.ServiceError.invalidFeedUrl;
-import static nmd.orb.collector.util.Assert.guard;
-import static nmd.orb.collector.util.Parameter.isValidUrl;
-import static nmd.orb.collector.util.Parameter.notNull;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.convert;
 import static nmd.orb.reader.Category.isValidCategoryId;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isValidUrl;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

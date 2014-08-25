@@ -13,8 +13,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-import static nmd.orb.collector.util.Assert.assertNotNull;
 import static nmd.orb.gae.repositories.datastore.Kind.READ_FEED_ITEM;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

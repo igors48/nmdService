@@ -1,6 +1,6 @@
 package unit.tool;
 
-import nmd.orb.collector.util.Page;
+import nmd.orb.util.Page;
 import org.junit.Before;
 import org.junit.Test;
 
