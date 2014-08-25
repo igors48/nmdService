@@ -3,17 +3,17 @@ package unit.feed.converter;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.scheduler.FeedUpdateTask;
-import nmd.rss.gae.repositories.converters.*;
-import nmd.rss.reader.Category;
-import nmd.rss.reader.ReadFeedItems;
+import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.collector.scheduler.FeedUpdateTask;
+import nmd.orb.gae.repositories.converters.*;
+import nmd.orb.reader.Category;
+import nmd.orb.reader.ReadFeedItems;
 import org.junit.Test;
 
 import java.util.*;
 
-import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

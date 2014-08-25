@@ -1,7 +1,7 @@
 package unit.feed.cache;
 
-import nmd.rss.reader.CachedReadFeedItemsRepository;
-import nmd.rss.reader.ReadFeedItems;
+import nmd.orb.reader.CachedReadFeedItemsRepository;
+import nmd.orb.reader.ReadFeedItems;
 import org.junit.Before;
 import org.junit.Test;
 import unit.feed.controller.stub.ReadFeedItemsRepositoryStub;
@@ -11,7 +11,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.UUID;
 
-import static nmd.rss.reader.CachedReadFeedItemsRepository.KEY;
+import static nmd.orb.reader.CachedReadFeedItemsRepository.KEY;
 import static org.junit.Assert.*;
 
 /**

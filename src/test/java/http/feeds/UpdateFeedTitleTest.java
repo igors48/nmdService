@@ -1,7 +1,7 @@
 package http.feeds;
 
 import http.AbstractHttpTest;
-import nmd.rss.collector.error.ErrorCode;
+import nmd.orb.collector.error.ErrorCode;
 import org.junit.Test;
 
 import java.util.UUID;

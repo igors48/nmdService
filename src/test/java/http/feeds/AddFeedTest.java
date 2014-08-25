@@ -1,10 +1,10 @@
 package http.feeds;
 
 import http.AbstractHttpTest;
-import nmd.rss.collector.error.ErrorCode;
+import nmd.orb.collector.error.ErrorCode;
 import org.junit.Test;
 
-import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
 
 /**
  * User: igu

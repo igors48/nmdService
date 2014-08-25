@@ -1,12 +1,12 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.*;
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
-import nmd.rss.collector.scheduler.CycleFeedUpdateTaskScheduler;
-import nmd.rss.reader.Category;
+import nmd.orb.collector.controller.*;
+import nmd.orb.collector.error.ServiceException;
+import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.collector.feed.FeedItemsMergeReport;
+import nmd.orb.collector.scheduler.CycleFeedUpdateTaskScheduler;
+import nmd.orb.reader.Category;
 import org.junit.After;
 import org.junit.Before;
 import unit.feed.controller.stub.*;

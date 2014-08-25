@@ -1,13 +1,13 @@
 package unit.feed.read;
 
-import nmd.rss.reader.FeedItemsComparisonReport;
+import nmd.orb.reader.FeedItemsComparisonReport;
 import org.junit.Test;
 
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import static nmd.rss.reader.FeedItemsComparator.compare;
+import static nmd.orb.reader.FeedItemsComparator.compare;
 import static org.junit.Assert.*;
 
 /**

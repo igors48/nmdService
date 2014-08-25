@@ -1,15 +1,15 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.CategoryReport;
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.reader.Category;
+import nmd.orb.collector.controller.CategoryReport;
+import nmd.orb.collector.error.ServiceException;
+import nmd.orb.reader.Category;
 import org.junit.Test;
 
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
-import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.collector.util.Assert.assertNotNull;
+import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 
 /**

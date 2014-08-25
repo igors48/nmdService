@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.error.ServiceException;
+import nmd.orb.collector.error.ServiceException;
 import org.junit.Before;
 import org.junit.Test;
 

@@ -1,8 +1,8 @@
 package unit.feed.cache;
 
-import nmd.rss.collector.scheduler.FeedUpdateTask;
-import nmd.rss.collector.scheduler.cached.CachedFeedUpdateTaskRepository;
-import nmd.rss.collector.scheduler.cached.CachedFeedUpdateTasks;
+import nmd.orb.collector.scheduler.FeedUpdateTask;
+import nmd.orb.collector.scheduler.cached.CachedFeedUpdateTaskRepository;
+import nmd.orb.collector.scheduler.cached.CachedFeedUpdateTasks;
 import org.junit.Before;
 import org.junit.Test;
 import unit.feed.scheduler.FeedUpdateTaskRepositoryStub;

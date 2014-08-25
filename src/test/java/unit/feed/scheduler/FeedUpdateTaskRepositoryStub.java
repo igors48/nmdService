@@ -1,7 +1,7 @@
 package unit.feed.scheduler;
 
-import nmd.rss.collector.scheduler.FeedUpdateTask;
-import nmd.rss.collector.scheduler.FeedUpdateTaskRepository;
+import nmd.orb.collector.scheduler.FeedUpdateTask;
+import nmd.orb.collector.scheduler.FeedUpdateTaskRepository;
 
 import java.util.ArrayList;
 import java.util.List;

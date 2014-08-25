@@ -1,10 +1,10 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.FeedItemReport;
-import nmd.rss.collector.controller.ReadsService;
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.reader.Category;
-import nmd.rss.reader.ReadFeedItems;
+import nmd.orb.collector.controller.FeedItemReport;
+import nmd.orb.collector.controller.ReadsService;
+import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.reader.Category;
+import nmd.orb.reader.ReadFeedItems;
 import org.junit.Test;
 
 import java.util.Date;

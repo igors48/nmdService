@@ -1,11 +1,11 @@
 package http.categories;
 
 import http.AbstractHttpTest;
-import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.http.responses.CategoryResponse;
+import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.http.responses.CategoryResponse;
 import org.junit.Test;
 
-import static nmd.rss.reader.Category.isValidCategoryId;
+import static nmd.orb.reader.Category.isValidCategoryId;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

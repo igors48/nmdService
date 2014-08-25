@@ -1,7 +1,7 @@
 package unit.feed.merger;
 
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedItemsMerger;
+import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.collector.feed.FeedItemsMerger;
 import org.junit.Test;
 
 import java.util.*;

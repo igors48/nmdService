@@ -1,9 +1,9 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.FeedItemsReport;
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItem;
+import nmd.orb.collector.controller.FeedItemsReport;
+import nmd.orb.collector.error.ServiceException;
+import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.collector.feed.FeedItem;
 import org.junit.Test;
 
 import java.util.Date;

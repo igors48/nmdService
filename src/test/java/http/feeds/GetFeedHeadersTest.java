@@ -1,10 +1,10 @@
 package http.feeds;
 
 import http.AbstractHttpTest;
-import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.http.responses.FeedHeadersResponse;
-import nmd.rss.http.responses.FeedIdResponse;
+import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.http.responses.FeedHeadersResponse;
+import nmd.orb.http.responses.FeedIdResponse;
 import org.junit.Test;
 
 import java.util.Arrays;

@@ -1,7 +1,7 @@
 package unit.tool;
 
-import nmd.rss.http.tools.FeedAndItemIds;
-import nmd.rss.http.tools.ServletTools;
+import nmd.orb.http.tools.FeedAndItemIds;
+import nmd.orb.http.tools.ServletTools;
 import org.junit.Test;
 
 import java.util.ArrayList;

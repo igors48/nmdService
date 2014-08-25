@@ -2,7 +2,7 @@ package unit.tool;
 
 import org.junit.Test;
 
-import static nmd.rss.collector.util.HtmlTools.cleanupDescription;
+import static nmd.orb.collector.util.HtmlTools.cleanupDescription;
 import static org.junit.Assert.assertEquals;
 
 /**

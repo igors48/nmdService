@@ -1,8 +1,8 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.FeedUpdateReport;
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.scheduler.FeedUpdateTask;
+import nmd.orb.collector.controller.FeedUpdateReport;
+import nmd.orb.collector.error.ServiceException;
+import nmd.orb.collector.scheduler.FeedUpdateTask;
 import org.junit.Test;
 
 import java.util.UUID;

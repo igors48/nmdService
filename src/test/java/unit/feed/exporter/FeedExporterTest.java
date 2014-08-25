@@ -1,12 +1,12 @@
 package unit.feed.exporter;
 
-import nmd.rss.collector.exporter.FeedExporter;
-import nmd.rss.collector.exporter.FeedExporterException;
-import nmd.rss.collector.feed.Feed;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.sources.rss.FeedParser;
-import nmd.rss.sources.rss.FeedParserException;
+import nmd.orb.collector.exporter.FeedExporter;
+import nmd.orb.collector.exporter.FeedExporterException;
+import nmd.orb.collector.feed.Feed;
+import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.sources.rss.FeedParser;
+import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;
 
 import java.util.ArrayList;

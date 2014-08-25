@@ -1,17 +1,17 @@
 package http.categories;
 
 import http.AbstractHttpTest;
-import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.http.responses.CategoriesReportResponse;
-import nmd.rss.http.responses.CategoryReportResponse;
-import nmd.rss.http.responses.CategoryResponse;
-import nmd.rss.http.responses.payload.CategoryReportPayload;
-import nmd.rss.reader.Category;
+import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.http.responses.CategoriesReportResponse;
+import nmd.orb.http.responses.CategoryReportResponse;
+import nmd.orb.http.responses.CategoryResponse;
+import nmd.orb.http.responses.payload.CategoryReportPayload;
+import nmd.orb.reader.Category;
 import org.junit.Test;
 
 import java.util.UUID;
 
-import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 
 /**

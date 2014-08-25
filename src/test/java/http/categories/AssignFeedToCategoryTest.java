@@ -1,10 +1,10 @@
 package http.categories;
 
 import http.AbstractHttpTest;
-import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.http.responses.CategoryResponse;
-import nmd.rss.http.responses.FeedIdResponse;
-import nmd.rss.reader.Category;
+import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.http.responses.CategoryResponse;
+import nmd.orb.http.responses.FeedIdResponse;
+import nmd.orb.reader.Category;
 import org.junit.Test;
 
 import java.util.UUID;

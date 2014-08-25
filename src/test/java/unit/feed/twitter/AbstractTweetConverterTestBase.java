@@ -1,7 +1,7 @@
 package unit.feed.twitter;
 
-import nmd.rss.sources.twitter.TweetConversionTools;
-import nmd.rss.sources.twitter.entities.*;
+import nmd.orb.sources.twitter.TweetConversionTools;
+import nmd.orb.sources.twitter.entities.*;
 import org.junit.Before;
 
 import java.util.ArrayList;

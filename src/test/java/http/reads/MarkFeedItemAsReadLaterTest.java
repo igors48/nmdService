@@ -1,7 +1,7 @@
 package http.reads;
 
 import http.AbstractHttpTest;
-import nmd.rss.http.responses.FeedIdResponse;
+import nmd.orb.http.responses.FeedIdResponse;
 import org.junit.Test;
 
 /**

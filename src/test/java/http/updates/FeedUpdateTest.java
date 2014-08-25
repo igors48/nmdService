@@ -1,14 +1,14 @@
 package http.updates;
 
 import http.AbstractHttpTest;
-import nmd.rss.http.responses.FeedIdResponse;
-import nmd.rss.http.responses.FeedMergeReportResponse;
-import nmd.rss.http.responses.FeedSeriesUpdateResponse;
+import nmd.orb.http.responses.FeedIdResponse;
+import nmd.orb.http.responses.FeedMergeReportResponse;
+import nmd.orb.http.responses.FeedSeriesUpdateResponse;
 import org.junit.Test;
 
 import static java.util.UUID.randomUUID;
-import static nmd.rss.collector.error.ErrorCode.INVALID_FEED_ID;
-import static nmd.rss.collector.error.ErrorCode.WRONG_FEED_ID;
+import static nmd.orb.collector.error.ErrorCode.INVALID_FEED_ID;
+import static nmd.orb.collector.error.ErrorCode.WRONG_FEED_ID;
 import static org.junit.Assert.assertEquals;
 
 /**

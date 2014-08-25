@@ -1,11 +1,11 @@
 package unit.feed.parser;
 
-import nmd.rss.collector.feed.FeedItem;
+import nmd.orb.collector.feed.FeedItem;
 import org.junit.Test;
 
 import java.util.Date;
 
-import static nmd.rss.sources.rss.FeedParser.build;
+import static nmd.orb.sources.rss.FeedParser.build;
 import static org.junit.Assert.*;
 
 /**

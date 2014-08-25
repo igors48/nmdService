@@ -2,15 +2,15 @@ package http;
 
 import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
-import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.http.requests.AddFeedRequest;
-import nmd.rss.http.responses.*;
-import nmd.rss.http.tools.ServletTools;
+import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.http.requests.AddFeedRequest;
+import nmd.orb.http.responses.*;
+import nmd.orb.http.tools.ServletTools;
 import org.junit.After;
 
 import static com.jayway.restassured.RestAssured.given;
-import static nmd.rss.collector.util.Parameter.isPositive;
-import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
+import static nmd.orb.collector.util.Parameter.isPositive;
+import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 

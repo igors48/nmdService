@@ -1,12 +1,12 @@
 package unit.feed.parser;
 
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.sources.rss.FeedParser;
+import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.sources.rss.FeedParser;
 import org.junit.Test;
 
 import java.util.UUID;
 
-import static nmd.rss.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
+import static nmd.orb.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

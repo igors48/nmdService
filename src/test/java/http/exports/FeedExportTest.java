@@ -1,15 +1,15 @@
 package http.exports;
 
 import http.AbstractHttpTest;
-import nmd.rss.collector.feed.Feed;
-import nmd.rss.http.responses.FeedIdResponse;
-import nmd.rss.sources.rss.FeedParserException;
+import nmd.orb.collector.feed.Feed;
+import nmd.orb.http.responses.FeedIdResponse;
+import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;
 
 import static java.util.UUID.randomUUID;
-import static nmd.rss.collector.error.ErrorCode.INVALID_FEED_ID;
-import static nmd.rss.collector.error.ErrorCode.WRONG_FEED_ID;
-import static nmd.rss.sources.rss.FeedParser.parse;
+import static nmd.orb.collector.error.ErrorCode.INVALID_FEED_ID;
+import static nmd.orb.collector.error.ErrorCode.WRONG_FEED_ID;
+import static nmd.orb.sources.rss.FeedParser.parse;
 import static org.junit.Assert.assertFalse;
 
 /**

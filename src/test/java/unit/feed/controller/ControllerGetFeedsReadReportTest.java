@@ -1,10 +1,10 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.FeedReadReport;
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
+import nmd.orb.collector.controller.FeedReadReport;
+import nmd.orb.collector.error.ServiceException;
+import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.collector.feed.FeedItemsMergeReport;
 import org.junit.Test;
 
 import java.util.ArrayList;

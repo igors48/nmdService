@@ -1,7 +1,7 @@
 package unit.feed.cache;
 
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.updater.cached.CachedFeedItemsRepository;
+import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.collector.updater.cached.CachedFeedItemsRepository;
 import org.junit.Before;
 import org.junit.Test;
 import unit.feed.controller.stub.FeedItemsRepositoryStub;
@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
-import static nmd.rss.collector.updater.cached.CachedFeedItemsRepository.keyFor;
+import static nmd.orb.collector.updater.cached.CachedFeedItemsRepository.keyFor;
 import static org.junit.Assert.*;
 
 /**

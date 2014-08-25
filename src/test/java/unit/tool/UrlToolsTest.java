@@ -1,6 +1,6 @@
 package unit.tool;
 
-import nmd.rss.collector.util.UrlTools;
+import nmd.orb.collector.util.UrlTools;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

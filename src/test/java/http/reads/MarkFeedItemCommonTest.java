@@ -1,8 +1,8 @@
 package http.reads;
 
 import http.AbstractHttpTest;
-import nmd.rss.collector.error.ErrorCode;
-import nmd.rss.http.responses.FeedIdResponse;
+import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.http.responses.FeedIdResponse;
 import org.junit.Test;
 
 import java.util.UUID;

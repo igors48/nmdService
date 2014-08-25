@@ -1,7 +1,7 @@
 package unit.feed.controller.stub;
 
-import nmd.rss.collector.scheduler.FeedUpdateTask;
-import nmd.rss.collector.scheduler.FeedUpdateTaskScheduler;
+import nmd.orb.collector.scheduler.FeedUpdateTask;
+import nmd.orb.collector.scheduler.FeedUpdateTaskScheduler;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

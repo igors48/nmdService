@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.feed.FeedItem;
+import nmd.orb.collector.feed.FeedItem;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -8,7 +8,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
-import static nmd.rss.collector.controller.ReadsService.findFirstNotReadFeedItem;
+import static nmd.orb.collector.controller.ReadsService.findFirstNotReadFeedItem;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 

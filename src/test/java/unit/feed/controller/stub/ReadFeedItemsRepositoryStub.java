@@ -1,11 +1,11 @@
 package unit.feed.controller.stub;
 
-import nmd.rss.reader.ReadFeedItems;
-import nmd.rss.reader.ReadFeedItemsRepository;
+import nmd.orb.reader.ReadFeedItems;
+import nmd.orb.reader.ReadFeedItemsRepository;
 
 import java.util.*;
 
-import static nmd.rss.reader.ReadFeedItems.empty;
+import static nmd.orb.reader.ReadFeedItems.empty;
 
 /**
  * User: igu
