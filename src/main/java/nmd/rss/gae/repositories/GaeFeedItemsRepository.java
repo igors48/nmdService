@@ -24,7 +24,7 @@ public class GaeFeedItemsRepository implements FeedItemsRepository {
     public static final FeedItemsRepository GAE_FEED_ITEMS_REPOSITORY = new GaeFeedItemsRepository();
 
     @Override
-    public void storeItems(UUID feedId, List<FeedItem> items) {
+    public void storeItems(final UUID feedId, final List<FeedItem> items) {
         assertNotNull(feedId);
         assertNotNull(items);
 

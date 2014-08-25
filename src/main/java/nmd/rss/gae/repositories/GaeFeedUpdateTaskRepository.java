@@ -51,7 +51,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     }
 
     @Override
-    public void updateTask(FeedUpdateTask feedUpdateTask) {
+    public void updateTask(final FeedUpdateTask feedUpdateTask) {
         storeTask(feedUpdateTask);
     }
 
