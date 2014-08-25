@@ -1,16 +1,12 @@
 package nmd.orb.collector.controller;
 
 import com.google.appengine.api.datastore.Transaction;
-import nmd.orb.collector.Transactions;
 import nmd.orb.collector.error.ServiceException;
-import nmd.orb.collector.updater.FeedHeadersRepository;
-import nmd.orb.collector.updater.FeedItemsRepository;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
-import nmd.orb.reader.CategoriesRepository;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
-import nmd.orb.reader.ReadFeedItemsRepository;
+import nmd.orb.repositories.*;
 
 import java.util.ArrayList;
 import java.util.List;

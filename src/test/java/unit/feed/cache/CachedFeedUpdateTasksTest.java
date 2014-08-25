@@ -1,7 +1,7 @@
 package unit.feed.cache;
 
 import nmd.orb.collector.scheduler.FeedUpdateTask;
-import nmd.orb.collector.scheduler.cached.CachedFeedUpdateTasks;
+import nmd.orb.repositories.cached.CachedFeedUpdateTasks;
 import org.junit.Before;
 import org.junit.Test;
 

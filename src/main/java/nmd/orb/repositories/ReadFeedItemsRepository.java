@@ -1,4 +1,6 @@
-package nmd.orb.reader;
+package nmd.orb.repositories;
+
+import nmd.orb.reader.ReadFeedItems;
 
 import java.util.List;
 import java.util.UUID;

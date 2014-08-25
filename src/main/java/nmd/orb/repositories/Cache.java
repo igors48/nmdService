@@ -1,4 +1,4 @@
-package nmd.orb.collector;
+package nmd.orb.repositories;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

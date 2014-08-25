@@ -1,4 +1,4 @@
-package nmd.orb.collector;
+package nmd.orb.repositories;
 
 import com.google.appengine.api.datastore.Transaction;
 

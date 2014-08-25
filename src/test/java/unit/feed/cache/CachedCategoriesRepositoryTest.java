@@ -1,7 +1,7 @@
 package unit.feed.cache;
 
-import nmd.orb.reader.CachedCategoriesRepository;
 import nmd.orb.reader.Category;
+import nmd.orb.repositories.cached.CachedCategoriesRepository;
 import org.junit.Before;
 import org.junit.Test;
 import unit.feed.controller.stub.CategoriesRepositoryStub;

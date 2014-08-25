@@ -1,7 +1,7 @@
 package unit.feed.scheduler;
 
 import nmd.orb.collector.scheduler.FeedUpdateTask;
-import nmd.orb.collector.scheduler.FeedUpdateTaskRepository;
+import nmd.orb.repositories.FeedUpdateTaskRepository;
 
 import java.util.ArrayList;
 import java.util.List;

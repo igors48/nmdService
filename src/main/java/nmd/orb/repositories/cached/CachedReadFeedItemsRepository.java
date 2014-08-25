@@ -1,6 +1,8 @@
-package nmd.orb.reader;
+package nmd.orb.repositories.cached;
 
-import nmd.orb.collector.Cache;
+import nmd.orb.reader.ReadFeedItems;
+import nmd.orb.repositories.Cache;
+import nmd.orb.repositories.ReadFeedItemsRepository;
 
 import java.util.List;
 import java.util.UUID;

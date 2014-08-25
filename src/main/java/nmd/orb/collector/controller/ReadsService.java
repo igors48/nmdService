@@ -1,16 +1,16 @@
 package nmd.orb.collector.controller;
 
 import com.google.appengine.api.datastore.Transaction;
-import nmd.orb.collector.Transactions;
 import nmd.orb.collector.error.ServiceException;
-import nmd.orb.collector.updater.FeedHeadersRepository;
-import nmd.orb.collector.updater.FeedItemsRepository;
 import nmd.orb.collector.updater.UrlFetcher;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.FeedItemsComparisonReport;
 import nmd.orb.reader.ReadFeedItems;
-import nmd.orb.reader.ReadFeedItemsRepository;
+import nmd.orb.repositories.FeedHeadersRepository;
+import nmd.orb.repositories.FeedItemsRepository;
+import nmd.orb.repositories.ReadFeedItemsRepository;
+import nmd.orb.repositories.Transactions;
 import nmd.orb.sources.twitter.TwitterClientTools;
 import nmd.orb.util.Page;
 

@@ -2,8 +2,8 @@ package nmd.orb.gae.repositories;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import nmd.orb.collector.updater.FeedItemsRepository;
 import nmd.orb.feed.FeedItem;
+import nmd.orb.repositories.FeedItemsRepository;
 
 import java.util.ArrayList;
 import java.util.List;

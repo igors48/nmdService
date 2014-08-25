@@ -1,4 +1,6 @@
-package nmd.orb.reader;
+package nmd.orb.repositories;
+
+import nmd.orb.reader.Category;
 
 import java.util.Set;
 

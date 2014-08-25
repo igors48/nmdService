@@ -1,4 +1,4 @@
-package nmd.orb.collector.updater;
+package nmd.orb.repositories;
 
 import nmd.orb.feed.FeedItem;
 

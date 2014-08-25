@@ -3,7 +3,7 @@ package nmd.orb.gae.repositories;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import nmd.orb.reader.ReadFeedItems;
-import nmd.orb.reader.ReadFeedItemsRepository;
+import nmd.orb.repositories.ReadFeedItemsRepository;
 
 import java.util.ArrayList;
 import java.util.List;

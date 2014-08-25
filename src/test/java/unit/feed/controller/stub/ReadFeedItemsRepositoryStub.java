@@ -1,7 +1,7 @@
 package unit.feed.controller.stub;
 
 import nmd.orb.reader.ReadFeedItems;
-import nmd.orb.reader.ReadFeedItemsRepository;
+import nmd.orb.repositories.ReadFeedItemsRepository;
 
 import java.util.*;
 

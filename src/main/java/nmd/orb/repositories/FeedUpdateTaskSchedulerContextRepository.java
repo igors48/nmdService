@@ -1,4 +1,6 @@
-package nmd.orb.collector.scheduler;
+package nmd.orb.repositories;
+
+import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContext;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

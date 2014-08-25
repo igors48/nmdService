@@ -1,8 +1,8 @@
-package nmd.orb.collector.scheduler.cached;
+package nmd.orb.repositories.cached;
 
-import nmd.orb.collector.Cache;
 import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContext;
-import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
+import nmd.orb.repositories.Cache;
+import nmd.orb.repositories.FeedUpdateTaskSchedulerContextRepository;
 
 import static nmd.orb.util.Assert.assertNotNull;
 

@@ -3,7 +3,7 @@ package nmd.orb.gae.repositories;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import nmd.orb.collector.scheduler.FeedUpdateTask;
-import nmd.orb.collector.scheduler.FeedUpdateTaskRepository;
+import nmd.orb.repositories.FeedUpdateTaskRepository;
 
 import java.util.ArrayList;
 import java.util.List;

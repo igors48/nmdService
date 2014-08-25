@@ -1,7 +1,7 @@
 package unit.feed.controller.stub;
 
 import com.google.appengine.api.datastore.Transaction;
-import nmd.orb.collector.Transactions;
+import nmd.orb.repositories.Transactions;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

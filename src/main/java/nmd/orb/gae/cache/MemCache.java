@@ -2,7 +2,7 @@ package nmd.orb.gae.cache;
 
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
-import nmd.orb.collector.Cache;
+import nmd.orb.repositories.Cache;
 
 import static nmd.orb.util.Assert.assertNotNull;
 

@@ -3,8 +3,8 @@ package nmd.orb.gae.repositories;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import nmd.orb.gae.repositories.datastore.RootKind;
-import nmd.orb.reader.CategoriesRepository;
 import nmd.orb.reader.Category;
+import nmd.orb.repositories.CategoriesRepository;
 
 import java.util.HashSet;
 import java.util.List;

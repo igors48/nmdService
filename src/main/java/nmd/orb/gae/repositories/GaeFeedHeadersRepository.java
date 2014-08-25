@@ -3,9 +3,9 @@ package nmd.orb.gae.repositories;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
-import nmd.orb.collector.updater.FeedHeadersRepository;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.gae.repositories.datastore.RootKind;
+import nmd.orb.repositories.FeedHeadersRepository;
 
 import java.util.ArrayList;
 import java.util.List;

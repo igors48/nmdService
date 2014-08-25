@@ -1,8 +1,8 @@
-package nmd.orb.collector.scheduler.cached;
+package nmd.orb.repositories.cached;
 
-import nmd.orb.collector.Cache;
 import nmd.orb.collector.scheduler.FeedUpdateTask;
-import nmd.orb.collector.scheduler.FeedUpdateTaskRepository;
+import nmd.orb.repositories.Cache;
+import nmd.orb.repositories.FeedUpdateTaskRepository;
 
 import java.util.List;
 import java.util.UUID;

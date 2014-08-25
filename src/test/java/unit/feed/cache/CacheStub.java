@@ -1,6 +1,6 @@
 package unit.feed.cache;
 
-import nmd.orb.collector.Cache;
+import nmd.orb.repositories.Cache;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,4 +1,6 @@
-package nmd.orb.collector.scheduler;
+package nmd.orb.repositories;
+
+import nmd.orb.collector.scheduler.FeedUpdateTask;
 
 import java.util.List;
 import java.util.UUID;

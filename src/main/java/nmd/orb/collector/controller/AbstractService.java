@@ -1,13 +1,13 @@
 package nmd.orb.collector.controller;
 
 import nmd.orb.collector.error.ServiceException;
-import nmd.orb.collector.updater.FeedHeadersRepository;
-import nmd.orb.collector.updater.FeedItemsRepository;
 import nmd.orb.collector.updater.UrlFetcher;
 import nmd.orb.collector.updater.UrlFetcherException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
+import nmd.orb.repositories.FeedHeadersRepository;
+import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;

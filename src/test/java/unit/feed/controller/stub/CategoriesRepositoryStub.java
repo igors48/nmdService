@@ -1,7 +1,7 @@
 package unit.feed.controller.stub;
 
-import nmd.orb.reader.CategoriesRepository;
 import nmd.orb.reader.Category;
+import nmd.orb.repositories.CategoriesRepository;
 
 import java.util.HashMap;
 import java.util.HashSet;

@@ -1,4 +1,4 @@
-package nmd.orb.collector.scheduler.cached;
+package nmd.orb.repositories.cached;
 
 import nmd.orb.collector.scheduler.FeedUpdateTask;
 

@@ -1,7 +1,9 @@
 package nmd.orb.collector.scheduler;
 
 import com.google.appengine.api.datastore.Transaction;
-import nmd.orb.collector.Transactions;
+import nmd.orb.repositories.FeedUpdateTaskRepository;
+import nmd.orb.repositories.FeedUpdateTaskSchedulerContextRepository;
+import nmd.orb.repositories.Transactions;
 
 import java.util.List;
 

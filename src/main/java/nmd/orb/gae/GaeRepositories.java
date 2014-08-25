@@ -1,17 +1,7 @@
 package nmd.orb.gae;
 
-import nmd.orb.collector.scheduler.FeedUpdateTaskRepository;
-import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
-import nmd.orb.collector.scheduler.cached.CachedFeedUpdateTaskRepository;
-import nmd.orb.collector.scheduler.cached.CachedFeedUpdateTaskSchedulerContextRepository;
-import nmd.orb.collector.updater.FeedHeadersRepository;
-import nmd.orb.collector.updater.FeedItemsRepository;
-import nmd.orb.collector.updater.cached.CachedFeedHeadersRepository;
-import nmd.orb.collector.updater.cached.CachedFeedItemsRepository;
-import nmd.orb.reader.CachedCategoriesRepository;
-import nmd.orb.reader.CachedReadFeedItemsRepository;
-import nmd.orb.reader.CategoriesRepository;
-import nmd.orb.reader.ReadFeedItemsRepository;
+import nmd.orb.repositories.*;
+import nmd.orb.repositories.cached.*;
 
 import static nmd.orb.gae.cache.MemCache.MEM_CACHE;
 import static nmd.orb.gae.repositories.GaeCategoriesRepository.GAE_CATEGORIES_REPOSITORY;

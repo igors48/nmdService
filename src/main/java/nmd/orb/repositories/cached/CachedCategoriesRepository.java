@@ -1,6 +1,8 @@
-package nmd.orb.reader;
+package nmd.orb.repositories.cached;
 
-import nmd.orb.collector.Cache;
+import nmd.orb.reader.Category;
+import nmd.orb.repositories.Cache;
+import nmd.orb.repositories.CategoriesRepository;
 
 import java.util.Set;
 import java.util.logging.Logger;
