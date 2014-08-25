@@ -1,12 +1,12 @@
-package nmd.orb.collector.feed;
+package nmd.orb.feed;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static nmd.orb.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
-import static nmd.orb.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
+import static nmd.orb.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
+import static nmd.orb.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.orb.util.Assert.assertNotNull;
 import static nmd.orb.util.Assert.assertPositive;
 

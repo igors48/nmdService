@@ -1,4 +1,4 @@
-package nmd.orb.collector.feed;
+package nmd.orb.feed;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -2,7 +2,7 @@ package nmd.orb.http.responses;
 
 import java.util.UUID;
 
-import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.util.Assert.guard;
 
 /**

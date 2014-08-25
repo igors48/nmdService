@@ -1,6 +1,6 @@
 package nmd.orb.collector.updater;
 
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.FeedItem;
 
 import java.util.List;
 import java.util.UUID;

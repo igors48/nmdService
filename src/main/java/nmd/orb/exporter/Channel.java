@@ -1,4 +1,4 @@
-package nmd.orb.collector.exporter;
+package nmd.orb.exporter;
 
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;

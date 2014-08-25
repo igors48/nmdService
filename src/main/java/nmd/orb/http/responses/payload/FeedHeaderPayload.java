@@ -1,9 +1,9 @@
 package nmd.orb.http.responses.payload;
 
-import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.feed.FeedHeader;
 
-import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderTitle;
+import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.orb.feed.FeedHeader.isValidFeedHeaderTitle;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isValidUrl;
 import static nmd.orb.util.Parameter.notNull;

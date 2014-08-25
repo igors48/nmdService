@@ -3,7 +3,7 @@ package nmd.orb.http.wrappers;
 import nmd.orb.collector.controller.CategoriesService;
 import nmd.orb.collector.controller.CategoryReport;
 import nmd.orb.collector.error.ServiceException;
-import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.feed.FeedHeader;
 import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.CategoriesReportResponse;
 import nmd.orb.http.responses.CategoryReportResponse;

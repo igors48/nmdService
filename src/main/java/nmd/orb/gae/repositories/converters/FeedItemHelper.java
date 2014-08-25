@@ -1,7 +1,7 @@
 package nmd.orb.gae.repositories.converters;
 
 import com.google.appengine.api.datastore.Text;
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.FeedItem;
 
 import java.util.Date;
 

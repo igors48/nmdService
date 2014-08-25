@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.FeedItem;
 import org.junit.Test;
 
 import java.util.ArrayList;

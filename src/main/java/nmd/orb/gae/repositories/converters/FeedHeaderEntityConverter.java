@@ -2,7 +2,7 @@ package nmd.orb.gae.repositories.converters;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.feed.FeedHeader;
 
 import java.util.UUID;
 

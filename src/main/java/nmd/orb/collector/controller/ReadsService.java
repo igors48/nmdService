@@ -3,11 +3,11 @@ package nmd.orb.collector.controller;
 import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.collector.Transactions;
 import nmd.orb.collector.error.ServiceException;
-import nmd.orb.collector.feed.FeedHeader;
-import nmd.orb.collector.feed.FeedItem;
 import nmd.orb.collector.updater.FeedHeadersRepository;
 import nmd.orb.collector.updater.FeedItemsRepository;
 import nmd.orb.collector.updater.UrlFetcher;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.FeedItemsComparisonReport;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.reader.ReadFeedItemsRepository;
@@ -16,10 +16,10 @@ import nmd.orb.util.Page;
 
 import java.util.*;
 
-import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.orb.collector.feed.FeedItem.isValidFeedItemGuid;
-import static nmd.orb.collector.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
-import static nmd.orb.collector.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
+import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
+import static nmd.orb.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
+import static nmd.orb.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.orb.reader.FeedItemsComparator.compare;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isPositive;

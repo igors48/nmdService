@@ -1,4 +1,4 @@
-package nmd.orb.collector.exporter;
+package nmd.orb.exporter;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

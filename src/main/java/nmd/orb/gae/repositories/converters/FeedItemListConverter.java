@@ -2,7 +2,7 @@ package nmd.orb.gae.repositories.converters;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.FeedItem;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;

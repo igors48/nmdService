@@ -1,13 +1,13 @@
 package nmd.orb.collector.controller;
 
 import nmd.orb.collector.error.ServiceException;
-import nmd.orb.collector.feed.Feed;
-import nmd.orb.collector.feed.FeedHeader;
-import nmd.orb.collector.feed.FeedItem;
 import nmd.orb.collector.updater.FeedHeadersRepository;
 import nmd.orb.collector.updater.FeedItemsRepository;
 import nmd.orb.collector.updater.UrlFetcher;
 import nmd.orb.collector.updater.UrlFetcherException;
+import nmd.orb.feed.Feed;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
 import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
@@ -19,7 +19,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.orb.collector.error.ServiceError.*;
-import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.sources.rss.FeedParser.parse;
 import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;
 import static nmd.orb.sources.twitter.TwitterClientTools.getTwitterUserName;

@@ -1,7 +1,7 @@
 package unit.feed.cache;
 
-import nmd.orb.collector.feed.FeedItem;
 import nmd.orb.collector.updater.cached.CachedFeedItemsRepository;
+import nmd.orb.feed.FeedItem;
 import org.junit.Before;
 import org.junit.Test;
 import unit.feed.controller.stub.FeedItemsRepositoryStub;

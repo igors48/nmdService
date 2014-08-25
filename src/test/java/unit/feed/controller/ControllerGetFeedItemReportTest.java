@@ -2,7 +2,7 @@ package unit.feed.controller;
 
 import nmd.orb.collector.controller.FeedItemReport;
 import nmd.orb.collector.controller.ReadsService;
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import org.junit.Test;

@@ -1,8 +1,8 @@
 package nmd.orb.collector.updater.cached;
 
 import nmd.orb.collector.Cache;
-import nmd.orb.collector.feed.FeedHeader;
 import nmd.orb.collector.updater.FeedHeadersRepository;
+import nmd.orb.feed.FeedHeader;
 
 import java.util.List;
 import java.util.UUID;

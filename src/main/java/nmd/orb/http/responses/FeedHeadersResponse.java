@@ -1,6 +1,6 @@
 package nmd.orb.http.responses;
 
-import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.feed.FeedHeader;
 import nmd.orb.http.responses.payload.FeedHeaderPayload;
 
 import java.util.ArrayList;

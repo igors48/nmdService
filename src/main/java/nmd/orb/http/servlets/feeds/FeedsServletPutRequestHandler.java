@@ -10,7 +10,7 @@ import java.util.UUID;
 
 import static nmd.orb.collector.error.ServiceError.invalidFeedId;
 import static nmd.orb.collector.error.ServiceError.invalidFeedTitle;
-import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderTitle;
+import static nmd.orb.feed.FeedHeader.isValidFeedHeaderTitle;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.parseFeedId;
 import static nmd.orb.util.Assert.guard;

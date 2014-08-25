@@ -1,7 +1,7 @@
 package unit.feed.controller.stub;
 
-import nmd.orb.collector.feed.FeedHeader;
 import nmd.orb.collector.updater.FeedHeadersRepository;
+import nmd.orb.feed.FeedHeader;
 
 import java.util.ArrayList;
 import java.util.Iterator;

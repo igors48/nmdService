@@ -1,6 +1,6 @@
 package unit.feed.twitter;
 
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.FeedItem;
 import nmd.orb.sources.twitter.entities.Urls;
 import org.junit.Test;
 

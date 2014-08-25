@@ -2,10 +2,10 @@ package unit.feed.controller;
 
 import nmd.orb.collector.controller.*;
 import nmd.orb.collector.error.ServiceException;
-import nmd.orb.collector.feed.FeedHeader;
-import nmd.orb.collector.feed.FeedItem;
-import nmd.orb.collector.feed.FeedItemsMergeReport;
 import nmd.orb.collector.scheduler.CycleFeedUpdateTaskScheduler;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemsMergeReport;
 import nmd.orb.reader.Category;
 import org.junit.After;
 import org.junit.Before;

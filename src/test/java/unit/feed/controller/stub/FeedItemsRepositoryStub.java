@@ -1,7 +1,7 @@
 package unit.feed.controller.stub;
 
-import nmd.orb.collector.feed.FeedItem;
 import nmd.orb.collector.updater.FeedItemsRepository;
+import nmd.orb.feed.FeedItem;
 
 import java.util.*;
 

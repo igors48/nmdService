@@ -1,7 +1,7 @@
 package http.exports;
 
 import http.AbstractHttpTest;
-import nmd.orb.collector.feed.Feed;
+import nmd.orb.feed.Feed;
 import nmd.orb.http.responses.FeedIdResponse;
 import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;

@@ -2,9 +2,9 @@ package unit.feed.controller;
 
 import nmd.orb.collector.controller.FeedReadReport;
 import nmd.orb.collector.error.ServiceException;
-import nmd.orb.collector.feed.FeedHeader;
-import nmd.orb.collector.feed.FeedItem;
-import nmd.orb.collector.feed.FeedItemsMergeReport;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemsMergeReport;
 import org.junit.Test;
 
 import java.util.ArrayList;

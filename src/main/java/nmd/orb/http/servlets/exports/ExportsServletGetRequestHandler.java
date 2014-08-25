@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import static nmd.orb.collector.error.ServiceError.invalidFeedId;
-import static nmd.orb.collector.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.parseFeedId;
 import static nmd.orb.util.Assert.guard;

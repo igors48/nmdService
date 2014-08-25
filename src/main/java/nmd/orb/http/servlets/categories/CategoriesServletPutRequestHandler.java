@@ -1,6 +1,6 @@
 package nmd.orb.http.servlets.categories;
 
-import nmd.orb.collector.feed.FeedHeader;
+import nmd.orb.feed.FeedHeader;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.CategoriesServiceWrapper;

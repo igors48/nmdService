@@ -4,9 +4,9 @@ import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
-import nmd.orb.collector.feed.Feed;
-import nmd.orb.collector.feed.FeedHeader;
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.Feed;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -14,7 +14,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.orb.collector.feed.FeedHeader.create;
+import static nmd.orb.feed.FeedHeader.create;
 import static nmd.orb.util.Assert.*;
 import static nmd.orb.util.StringTools.cutTo;
 

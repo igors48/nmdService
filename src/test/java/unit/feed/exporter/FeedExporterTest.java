@@ -1,10 +1,10 @@
 package unit.feed.exporter;
 
-import nmd.orb.collector.exporter.FeedExporter;
-import nmd.orb.collector.exporter.FeedExporterException;
-import nmd.orb.collector.feed.Feed;
-import nmd.orb.collector.feed.FeedHeader;
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.exporter.FeedExporter;
+import nmd.orb.exporter.FeedExporterException;
+import nmd.orb.feed.Feed;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
 import nmd.orb.sources.rss.FeedParser;
 import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;

@@ -1,8 +1,8 @@
 package nmd.orb.sources.twitter;
 
-import nmd.orb.collector.feed.Feed;
-import nmd.orb.collector.feed.FeedHeader;
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.Feed;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
 import nmd.orb.sources.twitter.entities.*;
 
 import java.text.ParseException;
@@ -10,8 +10,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.lang.String.format;
-import static nmd.orb.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
-import static nmd.orb.collector.feed.FeedHeader.create;
+import static nmd.orb.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
+import static nmd.orb.feed.FeedHeader.create;
 import static nmd.orb.util.Assert.assertNotNull;
 import static nmd.orb.util.Assert.assertStringIsValid;
 import static nmd.orb.util.StringTools.cutTo;

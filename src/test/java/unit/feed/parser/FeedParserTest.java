@@ -1,6 +1,6 @@
 package unit.feed.parser;
 
-import nmd.orb.collector.feed.Feed;
+import nmd.orb.feed.Feed;
 import nmd.orb.sources.rss.FeedParser;
 import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;

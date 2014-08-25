@@ -1,7 +1,7 @@
-package nmd.orb.collector.exporter;
+package nmd.orb.exporter;
 
-import nmd.orb.collector.feed.FeedHeader;
-import nmd.orb.collector.feed.FeedItem;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;

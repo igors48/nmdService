@@ -1,4 +1,4 @@
-package nmd.orb.collector.exporter;
+package nmd.orb.exporter;
 
 import static nmd.orb.util.Assert.assertNotNull;
 import static nmd.orb.util.Assert.assertStringIsValid;
