@@ -5,7 +5,6 @@ import nmd.rss.collector.Transactions;
 import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.twitter.TwitterClientTools;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
@@ -13,6 +12,7 @@ import nmd.rss.collector.util.Page;
 import nmd.rss.reader.FeedItemsComparisonReport;
 import nmd.rss.reader.ReadFeedItems;
 import nmd.rss.reader.ReadFeedItemsRepository;
+import nmd.rss.sources.twitter.TwitterClientTools;
 
 import java.util.*;
 

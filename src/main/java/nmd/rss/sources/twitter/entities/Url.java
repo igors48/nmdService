@@ -1,4 +1,4 @@
-package nmd.rss.collector.twitter.entities;
+package nmd.rss.sources.twitter.entities;
 
 import java.util.ArrayList;
 import java.util.List;

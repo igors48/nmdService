@@ -1,14 +1,14 @@
 package unit.feed.twitter;
 
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.twitter.entities.Urls;
+import nmd.rss.sources.twitter.entities.Urls;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import static nmd.rss.collector.twitter.TweetConversionTools.convertToItem;
-import static nmd.rss.collector.twitter.TweetConversionTools.parse;
+import static nmd.rss.sources.twitter.TweetConversionTools.convertToItem;
+import static nmd.rss.sources.twitter.TweetConversionTools.parse;
 import static org.junit.Assert.*;
 
 /**

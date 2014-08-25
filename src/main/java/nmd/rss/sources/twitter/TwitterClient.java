@@ -1,7 +1,7 @@
-package nmd.rss.collector.twitter;
+package nmd.rss.sources.twitter;
 
-import nmd.rss.collector.twitter.entities.AccessToken;
-import nmd.rss.collector.twitter.entities.Tweet;
+import nmd.rss.sources.twitter.entities.AccessToken;
+import nmd.rss.sources.twitter.entities.Tweet;
 
 import java.io.IOException;
 import java.util.List;

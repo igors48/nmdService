@@ -1,13 +1,13 @@
 package unit.feed.twitter;
 
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.twitter.entities.Urls;
+import nmd.rss.sources.twitter.entities.Urls;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
 import static nmd.rss.collector.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
-import static nmd.rss.collector.twitter.TweetConversionTools.convertToHeader;
+import static nmd.rss.sources.twitter.TweetConversionTools.convertToHeader;
 import static org.junit.Assert.*;
 
 /**

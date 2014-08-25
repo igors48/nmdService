@@ -4,16 +4,16 @@ import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedItem;
 import nmd.rss.collector.feed.FeedItemsMergeReport;
 import nmd.rss.collector.feed.FeedItemsMerger;
-import nmd.rss.collector.twitter.TwitterClient;
-import nmd.rss.collector.twitter.entities.Tweet;
+import nmd.rss.sources.twitter.TwitterClient;
+import nmd.rss.sources.twitter.entities.Tweet;
 import org.junit.Test;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import static nmd.rss.collector.twitter.TweetConversionTools.convertToFeed;
-import static nmd.rss.collector.twitter.TwitterClientTools.getTwitterUserName;
+import static nmd.rss.sources.twitter.TweetConversionTools.convertToFeed;
+import static nmd.rss.sources.twitter.TwitterClientTools.getTwitterUserName;
 
 /**
  * @author : igu

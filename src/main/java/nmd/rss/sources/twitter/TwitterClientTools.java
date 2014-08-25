@@ -1,9 +1,9 @@
-package nmd.rss.collector.twitter;
+package nmd.rss.sources.twitter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nmd.rss.collector.twitter.entities.AccessToken;
-import nmd.rss.collector.twitter.entities.Tweet;
+import nmd.rss.sources.twitter.entities.AccessToken;
+import nmd.rss.sources.twitter.entities.Tweet;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.*;

@@ -1,9 +1,9 @@
-package nmd.rss.collector.twitter;
+package nmd.rss.sources.twitter;
 
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.twitter.entities.*;
+import nmd.rss.sources.twitter.entities.*;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;

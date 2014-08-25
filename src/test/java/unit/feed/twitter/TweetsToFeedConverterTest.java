@@ -1,13 +1,13 @@
 package unit.feed.twitter;
 
 import nmd.rss.collector.feed.Feed;
-import nmd.rss.collector.twitter.entities.Tweet;
+import nmd.rss.sources.twitter.entities.Tweet;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import static nmd.rss.collector.twitter.TweetConversionTools.convertToFeed;
+import static nmd.rss.sources.twitter.TweetConversionTools.convertToFeed;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
