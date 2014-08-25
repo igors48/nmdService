@@ -1,11 +1,11 @@
-package rest.feeds;
+package http.feeds;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.http.responses.FeedHeadersResponse;
 import nmd.rss.http.responses.FeedIdResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.Arrays;
 import java.util.UUID;
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertEquals;
  * User: igu
  * Date: 09.01.14
  */
-public class GetFeedHeadersTest extends AbstractRestTest {
+public class GetFeedHeadersTest extends AbstractHttpTest {
 
     @Test
     public void whenFeedIdDoesNotSpecifiedThenAllHeadersReturn() {

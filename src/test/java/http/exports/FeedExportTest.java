@@ -1,22 +1,22 @@
-package rest.exports;
+package http.exports;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.feed.Feed;
-import nmd.rss.collector.feed.FeedParserException;
 import nmd.rss.http.responses.FeedIdResponse;
+import nmd.rss.sources.rss.FeedParserException;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import static java.util.UUID.randomUUID;
 import static nmd.rss.collector.error.ErrorCode.INVALID_FEED_ID;
 import static nmd.rss.collector.error.ErrorCode.WRONG_FEED_ID;
-import static nmd.rss.collector.feed.FeedParser.parse;
+import static nmd.rss.sources.rss.FeedParser.parse;
 import static org.junit.Assert.assertFalse;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 30.11.13
  */
-public class FeedExportTest extends AbstractRestTest {
+public class FeedExportTest extends AbstractHttpTest {
 
     @Test
     public void whenFeedIdExistsThenFeedDataReturnsInXmlFormat() throws FeedParserException {

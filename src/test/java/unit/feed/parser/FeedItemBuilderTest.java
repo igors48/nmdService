@@ -5,7 +5,7 @@ import org.junit.Test;
 
 import java.util.Date;
 
-import static nmd.rss.collector.feed.FeedParser.build;
+import static nmd.rss.sources.rss.FeedParser.build;
 import static org.junit.Assert.*;
 
 /**

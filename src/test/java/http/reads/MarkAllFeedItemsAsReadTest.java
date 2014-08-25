@@ -1,14 +1,14 @@
-package rest.reads;
+package http.reads;
 
+import http.AbstractHttpTest;
 import nmd.rss.http.responses.FeedIdResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 26.01.14
  */
-public class MarkAllFeedItemsAsReadTest extends AbstractRestTest {
+public class MarkAllFeedItemsAsReadTest extends AbstractHttpTest {
 
     @Test
     public void whenItemMarkedAsReadInExistsFeedThenSuccessResponseReturns() {

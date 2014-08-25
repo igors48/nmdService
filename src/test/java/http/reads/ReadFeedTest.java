@@ -1,11 +1,11 @@
-package rest.reads;
+package http.reads;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.FeedIdResponse;
 import nmd.rss.http.responses.FeedItemsReportResponse;
 import nmd.rss.http.responses.FeedReadReportsResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.UUID;
 
@@ -15,7 +15,7 @@ import static org.junit.Assert.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 03.12.13
  */
-public class ReadFeedTest extends AbstractRestTest {
+public class ReadFeedTest extends AbstractHttpTest {
 
     @Test
     public void whenFeedExistsThenReadReportReturns() {

@@ -1,9 +1,9 @@
-package rest.reads;
+package http.reads;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.FeedIdResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 27.01.14
  */
-public class MarkFeedItemCommonTest extends AbstractRestTest {
+public class MarkFeedItemCommonTest extends AbstractHttpTest {
 
     @Test
     public void whenMarkedItemNotExistsInFeedThenErrorReturns() {

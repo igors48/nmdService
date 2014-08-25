@@ -1,14 +1,14 @@
-package rest.categories;
+package http.categories;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.CategoryResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 /**
  * @author : igu
  */
-public class RenameCategoryTest extends AbstractRestTest {
+public class RenameCategoryTest extends AbstractHttpTest {
 
     private static final String CATEGORY_NAME = "category";
     private static final String NEW_NAME = "renamed";

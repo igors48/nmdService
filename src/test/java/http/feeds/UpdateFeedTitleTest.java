@@ -1,8 +1,8 @@
-package rest.feeds;
+package http.feeds;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.UUID;
 
@@ -10,7 +10,7 @@ import java.util.UUID;
  * User: igu
  * Date: 09.01.14
  */
-public class UpdateFeedTitleTest extends AbstractRestTest {
+public class UpdateFeedTitleTest extends AbstractHttpTest {
 
     @Test
     public void whenFeedIdAndNewTitleAreValidThenSuccessReturns() {

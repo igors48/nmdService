@@ -1,18 +1,18 @@
-package rest.categories;
+package http.categories;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.CategoryResponse;
 import nmd.rss.http.responses.FeedIdResponse;
 import nmd.rss.reader.Category;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.UUID;
 
 /**
  * @author : igu
  */
-public class AssignFeedToCategoryTest extends AbstractRestTest {
+public class AssignFeedToCategoryTest extends AbstractHttpTest {
 
     @Test
     public void whenEverythingIsOkThenSuccessReturns() {

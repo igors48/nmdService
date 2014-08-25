@@ -1,9 +1,12 @@
-package nmd.rss.collector.feed;
+package nmd.rss.sources.rss;
 
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
+import nmd.rss.collector.feed.Feed;
+import nmd.rss.collector.feed.FeedHeader;
+import nmd.rss.collector.feed.FeedItem;
 
 import java.io.StringReader;
 import java.util.ArrayList;

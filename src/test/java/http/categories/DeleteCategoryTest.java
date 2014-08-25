@@ -1,16 +1,16 @@
-package rest.categories;
+package http.categories;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.CategoryResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.UUID;
 
 /**
  * @author : igu
  */
-public class DeleteCategoryTest extends AbstractRestTest {
+public class DeleteCategoryTest extends AbstractHttpTest {
 
     @Test
     public void whenNotExistentCategoryIsRemovedThenNoErrorReturns() {

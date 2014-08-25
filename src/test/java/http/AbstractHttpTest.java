@@ -1,4 +1,4 @@
-package rest;
+package http;
 
 import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertTrue;
  * User: igu
  * Date: 28.11.13
  */
-public abstract class AbstractRestTest {
+public abstract class AbstractHttpTest {
 
     protected static final String CLEAR_SERVLET_URL = "/secure/v01/clear/";
     protected static final String FEEDS_SERVLET_URL = "/secure/v01/feeds/";

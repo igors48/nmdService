@@ -1,10 +1,10 @@
-package rest.updates;
+package http.updates;
 
+import http.AbstractHttpTest;
 import nmd.rss.http.responses.FeedIdResponse;
 import nmd.rss.http.responses.FeedMergeReportResponse;
 import nmd.rss.http.responses.FeedSeriesUpdateResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import static java.util.UUID.randomUUID;
 import static nmd.rss.collector.error.ErrorCode.INVALID_FEED_ID;
@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 01.12.13
  */
-public class FeedUpdateTest extends AbstractRestTest {
+public class FeedUpdateTest extends AbstractHttpTest {
 
     @Test
     public void whenCurrentFeedExistsThenItUpdatesAndReportReturns() {

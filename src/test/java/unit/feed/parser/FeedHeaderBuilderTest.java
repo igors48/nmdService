@@ -1,7 +1,7 @@
 package unit.feed.parser;
 
 import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedParser;
+import nmd.rss.sources.rss.FeedParser;
 import org.junit.Test;
 
 import java.util.UUID;

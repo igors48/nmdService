@@ -1,9 +1,9 @@
-package rest.categories;
+package http.categories;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.CategoryResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import static nmd.rss.reader.Category.isValidCategoryId;
 import static org.junit.Assert.assertEquals;
@@ -13,7 +13,7 @@ import static org.junit.Assert.assertTrue;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 22.03.2014
  */
-public class AddCategoryTest extends AbstractRestTest {
+public class AddCategoryTest extends AbstractHttpTest {
 
     public static final String CATEGORY = "category";
 

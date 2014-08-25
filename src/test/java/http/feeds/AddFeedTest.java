@@ -1,8 +1,8 @@
-package rest.feeds;
+package http.feeds;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
 
@@ -10,7 +10,7 @@ import static nmd.rss.reader.Category.MAIN_CATEGORY_ID;
  * User: igu
  * Date: 29.11.13
  */
-public class AddFeedTest extends AbstractRestTest {
+public class AddFeedTest extends AbstractHttpTest {
 
     @Test
     public void whenFeedAddedThenItsIdReturnsAsValidUuid() {

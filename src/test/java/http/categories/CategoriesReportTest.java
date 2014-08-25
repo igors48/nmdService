@@ -1,5 +1,6 @@
-package rest.categories;
+package http.categories;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.CategoriesReportResponse;
 import nmd.rss.http.responses.CategoryReportResponse;
@@ -7,7 +8,6 @@ import nmd.rss.http.responses.CategoryResponse;
 import nmd.rss.http.responses.payload.CategoryReportPayload;
 import nmd.rss.reader.Category;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.UUID;
 
@@ -18,7 +18,7 @@ import static org.junit.Assert.assertEquals;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 23.03.2014
  */
-public class CategoriesReportTest extends AbstractRestTest {
+public class CategoriesReportTest extends AbstractHttpTest {
 
     private static final String CATEGORY_NAME = "first";
 

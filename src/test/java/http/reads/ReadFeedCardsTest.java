@@ -1,10 +1,10 @@
-package rest.reads;
+package http.reads;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.FeedIdResponse;
 import nmd.rss.http.responses.FeedItemsCardsReportResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.UUID;
 
@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 03.12.13
  */
-public class ReadFeedCardsTest extends AbstractRestTest {
+public class ReadFeedCardsTest extends AbstractHttpTest {
 
     @Test
     public void whenFeedIdIsNotValidThenErrorReturns() {

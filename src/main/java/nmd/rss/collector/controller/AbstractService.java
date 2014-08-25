@@ -4,11 +4,11 @@ import nmd.rss.collector.error.ServiceException;
 import nmd.rss.collector.feed.Feed;
 import nmd.rss.collector.feed.FeedHeader;
 import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedParserException;
 import nmd.rss.collector.updater.FeedHeadersRepository;
 import nmd.rss.collector.updater.FeedItemsRepository;
 import nmd.rss.collector.updater.UrlFetcher;
 import nmd.rss.collector.updater.UrlFetcherException;
+import nmd.rss.sources.rss.FeedParserException;
 import nmd.rss.sources.twitter.TwitterClient;
 import nmd.rss.sources.twitter.entities.Tweet;
 
@@ -20,9 +20,9 @@ import java.util.UUID;
 
 import static nmd.rss.collector.error.ServiceError.*;
 import static nmd.rss.collector.feed.FeedHeader.isValidFeedHeaderId;
-import static nmd.rss.collector.feed.FeedParser.parse;
 import static nmd.rss.collector.util.Assert.guard;
 import static nmd.rss.collector.util.Parameter.notNull;
+import static nmd.rss.sources.rss.FeedParser.parse;
 import static nmd.rss.sources.twitter.TweetConversionTools.convertToFeed;
 import static nmd.rss.sources.twitter.TwitterClientTools.getTwitterUserName;
 import static nmd.rss.sources.twitter.TwitterClientTools.isItTwitterUrl;

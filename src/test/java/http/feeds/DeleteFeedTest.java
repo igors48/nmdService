@@ -1,9 +1,9 @@
-package rest.feeds;
+package http.feeds;
 
+import http.AbstractHttpTest;
 import nmd.rss.collector.error.ErrorCode;
 import nmd.rss.http.responses.FeedIdResponse;
 import org.junit.Test;
-import rest.AbstractRestTest;
 
 import java.util.UUID;
 
@@ -11,7 +11,7 @@ import java.util.UUID;
  * User: igu
  * Date: 03.12.13
  */
-public class DeleteFeedTest extends AbstractRestTest {
+public class DeleteFeedTest extends AbstractHttpTest {
 
     @Test
     public void whenFeedWithExistentIdDeletedThenSuccessResponseReturns() {

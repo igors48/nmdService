@@ -1,4 +1,4 @@
-package nmd.rss.collector.feed;
+package nmd.rss.sources.rss;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
