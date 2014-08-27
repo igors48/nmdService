@@ -6,10 +6,10 @@ import nmd.orb.http.responses.FeedItemsCardsReportResponse;
 import nmd.orb.http.responses.FeedItemsReportResponse;
 import nmd.orb.http.responses.FeedReadReportsResponse;
 import nmd.orb.http.tools.ResponseBody;
-import nmd.orb.services.FeedItemsCardsReport;
-import nmd.orb.services.FeedItemsReport;
-import nmd.orb.services.FeedReadReport;
 import nmd.orb.services.ReadsService;
+import nmd.orb.services.reports.FeedItemsCardsReport;
+import nmd.orb.services.reports.FeedItemsReport;
+import nmd.orb.services.reports.FeedReadReport;
 
 import java.util.List;
 import java.util.UUID;

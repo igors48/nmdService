@@ -1,4 +1,4 @@
-package nmd.orb.services;
+package nmd.orb.services.quota;
 
 import static java.lang.System.currentTimeMillis;
 import static nmd.orb.util.Assert.assertPositive;

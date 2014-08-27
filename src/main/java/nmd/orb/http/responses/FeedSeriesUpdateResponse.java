@@ -3,8 +3,8 @@ package nmd.orb.http.responses;
 import nmd.orb.error.ServiceError;
 import nmd.orb.http.responses.payload.ErrorPayload;
 import nmd.orb.http.responses.payload.FeedMergeReportPayload;
-import nmd.orb.services.FeedSeriesUpdateReport;
-import nmd.orb.services.FeedUpdateReport;
+import nmd.orb.services.reports.FeedSeriesUpdateReport;
+import nmd.orb.services.reports.FeedUpdateReport;
 
 import java.util.ArrayList;
 import java.util.List;

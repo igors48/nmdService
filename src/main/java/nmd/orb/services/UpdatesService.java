@@ -15,6 +15,9 @@ import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.repositories.FeedUpdateTaskRepository;
 import nmd.orb.repositories.Transactions;
+import nmd.orb.services.quota.Quota;
+import nmd.orb.services.reports.FeedSeriesUpdateReport;
+import nmd.orb.services.reports.FeedUpdateReport;
 
 import java.util.*;
 import java.util.logging.Level;

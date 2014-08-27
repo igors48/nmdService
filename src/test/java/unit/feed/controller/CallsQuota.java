@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.orb.services.Quota;
+import nmd.orb.services.quota.Quota;
 
 import static nmd.orb.util.Assert.assertPositive;
 

@@ -5,8 +5,8 @@ import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
-import nmd.orb.services.FeedItemsReport;
-import nmd.orb.services.FeedReadReport;
+import nmd.orb.services.reports.FeedItemsReport;
+import nmd.orb.services.reports.FeedReadReport;
 import org.junit.Test;
 
 import java.util.*;

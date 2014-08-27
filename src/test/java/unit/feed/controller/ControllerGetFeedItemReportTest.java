@@ -3,8 +3,8 @@ package unit.feed.controller;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
-import nmd.orb.services.FeedItemReport;
 import nmd.orb.services.ReadsService;
+import nmd.orb.services.reports.FeedItemReport;
 import org.junit.Test;
 
 import java.util.Date;

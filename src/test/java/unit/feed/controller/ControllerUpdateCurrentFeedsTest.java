@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
 import nmd.orb.error.ServiceException;
-import nmd.orb.services.FeedSeriesUpdateReport;
+import nmd.orb.services.reports.FeedSeriesUpdateReport;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;

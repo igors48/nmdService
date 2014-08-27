@@ -1,7 +1,7 @@
 package nmd.orb.http.responses;
 
 import nmd.orb.http.responses.payload.FeedMergeReportPayload;
-import nmd.orb.services.FeedUpdateReport;
+import nmd.orb.services.reports.FeedUpdateReport;
 
 import java.util.UUID;
 

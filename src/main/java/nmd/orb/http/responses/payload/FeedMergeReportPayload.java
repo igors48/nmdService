@@ -1,6 +1,6 @@
 package nmd.orb.http.responses.payload;
 
-import nmd.orb.services.FeedUpdateReport;
+import nmd.orb.services.reports.FeedUpdateReport;
 
 import java.util.UUID;
 
