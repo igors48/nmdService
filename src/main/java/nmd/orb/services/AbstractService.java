@@ -1,7 +1,7 @@
-package nmd.orb.collector.controller;
+package nmd.orb.services;
 
-import nmd.orb.collector.updater.UrlFetcher;
-import nmd.orb.collector.updater.UrlFetcherException;
+import nmd.orb.collector.fetcher.UrlFetcher;
+import nmd.orb.collector.fetcher.UrlFetcherException;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;

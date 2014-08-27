@@ -1,6 +1,6 @@
-package nmd.orb.collector.controller;
+package nmd.orb.services;
 
-import nmd.orb.feed.FeedItemsMergeReport;
+import nmd.orb.collector.merger.FeedItemsMergeReport;
 
 import java.util.UUID;
 

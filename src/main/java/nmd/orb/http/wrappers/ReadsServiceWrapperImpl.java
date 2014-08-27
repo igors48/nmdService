@@ -1,15 +1,15 @@
 package nmd.orb.http.wrappers;
 
-import nmd.orb.collector.controller.FeedItemsCardsReport;
-import nmd.orb.collector.controller.FeedItemsReport;
-import nmd.orb.collector.controller.FeedReadReport;
-import nmd.orb.collector.controller.ReadsService;
 import nmd.orb.error.ServiceException;
 import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedItemsCardsReportResponse;
 import nmd.orb.http.responses.FeedItemsReportResponse;
 import nmd.orb.http.responses.FeedReadReportsResponse;
 import nmd.orb.http.tools.ResponseBody;
+import nmd.orb.services.FeedItemsCardsReport;
+import nmd.orb.services.FeedItemsReport;
+import nmd.orb.services.FeedReadReport;
+import nmd.orb.services.ReadsService;
 
 import java.util.List;
 import java.util.UUID;

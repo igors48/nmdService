@@ -1,9 +1,9 @@
 package unit.feed.controller.categories;
 
-import nmd.orb.collector.controller.CategoryReport;
-import nmd.orb.collector.controller.FeedItemsReport;
 import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
+import nmd.orb.services.CategoryReport;
+import nmd.orb.services.FeedItemsReport;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
 

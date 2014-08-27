@@ -1,10 +1,10 @@
 package nmd.orb.http.responses;
 
-import nmd.orb.collector.controller.FeedSeriesUpdateReport;
-import nmd.orb.collector.controller.FeedUpdateReport;
 import nmd.orb.error.ServiceError;
 import nmd.orb.http.responses.payload.ErrorPayload;
 import nmd.orb.http.responses.payload.FeedMergeReportPayload;
+import nmd.orb.services.FeedSeriesUpdateReport;
+import nmd.orb.services.FeedUpdateReport;
 
 import java.util.ArrayList;
 import java.util.List;

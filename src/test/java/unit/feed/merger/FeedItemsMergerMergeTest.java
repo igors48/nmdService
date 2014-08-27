@@ -1,8 +1,8 @@
 package unit.feed.merger;
 
+import nmd.orb.collector.merger.FeedItemsMergeReport;
+import nmd.orb.collector.merger.FeedItemsMerger;
 import nmd.orb.feed.FeedItem;
-import nmd.orb.feed.FeedItemsMergeReport;
-import nmd.orb.feed.FeedItemsMerger;
 import org.junit.Before;
 import org.junit.Test;
 

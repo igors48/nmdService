@@ -1,7 +1,7 @@
 package unit.feed.controller.stub;
 
-import nmd.orb.collector.updater.UrlFetcher;
-import nmd.orb.collector.updater.UrlFetcherException;
+import nmd.orb.collector.fetcher.UrlFetcher;
+import nmd.orb.collector.fetcher.UrlFetcherException;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

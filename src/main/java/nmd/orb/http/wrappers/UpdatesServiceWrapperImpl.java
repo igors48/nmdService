@@ -1,11 +1,11 @@
 package nmd.orb.http.wrappers;
 
-import nmd.orb.collector.controller.*;
 import nmd.orb.error.ServiceException;
 import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedMergeReportResponse;
 import nmd.orb.http.responses.FeedSeriesUpdateResponse;
 import nmd.orb.http.tools.ResponseBody;
+import nmd.orb.services.*;
 
 import java.util.UUID;
 import java.util.logging.Level;

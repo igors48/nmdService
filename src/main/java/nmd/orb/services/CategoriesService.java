@@ -1,4 +1,4 @@
-package nmd.orb.collector.controller;
+package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.error.ServiceException;

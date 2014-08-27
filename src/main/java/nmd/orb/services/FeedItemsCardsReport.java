@@ -1,4 +1,4 @@
-package nmd.orb.collector.controller;
+package nmd.orb.services;
 
 import java.util.List;
 import java.util.UUID;

@@ -1,7 +1,7 @@
-package nmd.orb.collector.controller;
+package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
-import nmd.orb.collector.updater.UrlFetcher;
+import nmd.orb.collector.fetcher.UrlFetcher;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
@@ -16,10 +16,10 @@ import nmd.orb.util.Page;
 
 import java.util.*;
 
+import static nmd.orb.collector.merger.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
+import static nmd.orb.collector.merger.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
-import static nmd.orb.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
-import static nmd.orb.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.orb.reader.FeedItemsComparator.compare;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isPositive;

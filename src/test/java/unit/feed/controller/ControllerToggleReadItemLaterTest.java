@@ -1,11 +1,11 @@
 package unit.feed.controller;
 
-import nmd.orb.collector.controller.FeedItemsReport;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
+import nmd.orb.services.FeedItemsReport;
 import org.junit.Test;
 
 import java.util.Date;

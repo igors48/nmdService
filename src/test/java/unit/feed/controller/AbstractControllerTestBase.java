@@ -1,12 +1,12 @@
 package unit.feed.controller;
 
-import nmd.orb.collector.controller.*;
+import nmd.orb.collector.merger.FeedItemsMergeReport;
 import nmd.orb.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
-import nmd.orb.feed.FeedItemsMergeReport;
 import nmd.orb.reader.Category;
+import nmd.orb.services.*;
 import org.junit.After;
 import org.junit.Before;
 import unit.feed.controller.stub.*;

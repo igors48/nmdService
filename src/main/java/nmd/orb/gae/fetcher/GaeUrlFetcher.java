@@ -1,7 +1,7 @@
 package nmd.orb.gae.fetcher;
 
-import nmd.orb.collector.updater.UrlFetcher;
-import nmd.orb.collector.updater.UrlFetcherException;
+import nmd.orb.collector.fetcher.UrlFetcher;
+import nmd.orb.collector.fetcher.UrlFetcherException;
 
 import java.io.BufferedReader;
 import java.io.InputStream;

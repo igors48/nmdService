@@ -1,7 +1,5 @@
 package nmd.orb.http.wrappers;
 
-import nmd.orb.collector.controller.CategoriesService;
-import nmd.orb.collector.controller.CategoryReport;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.gae.GaeServices;
@@ -10,6 +8,8 @@ import nmd.orb.http.responses.CategoryReportResponse;
 import nmd.orb.http.responses.CategoryResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.reader.Category;
+import nmd.orb.services.CategoriesService;
+import nmd.orb.services.CategoryReport;
 
 import java.util.List;
 import java.util.UUID;

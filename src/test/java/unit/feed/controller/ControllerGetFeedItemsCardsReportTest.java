@@ -1,9 +1,9 @@
 package unit.feed.controller;
 
-import nmd.orb.collector.controller.FeedItemsCardsReport;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
+import nmd.orb.services.FeedItemsCardsReport;
 import org.junit.Test;
 
 import java.util.UUID;

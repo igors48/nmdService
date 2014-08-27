@@ -1,11 +1,11 @@
 package nmd.orb.gae;
 
-import nmd.orb.collector.controller.CategoriesService;
-import nmd.orb.collector.controller.FeedsService;
-import nmd.orb.collector.controller.ReadsService;
-import nmd.orb.collector.controller.UpdatesService;
 import nmd.orb.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.orb.collector.scheduler.FeedUpdateTaskScheduler;
+import nmd.orb.services.CategoriesService;
+import nmd.orb.services.FeedsService;
+import nmd.orb.services.ReadsService;
+import nmd.orb.services.UpdatesService;
 
 import static nmd.orb.gae.GaeRepositories.*;
 import static nmd.orb.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;

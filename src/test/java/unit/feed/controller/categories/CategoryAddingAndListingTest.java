@@ -1,7 +1,7 @@
 package unit.feed.controller.categories;
 
-import nmd.orb.collector.controller.CategoryReport;
 import nmd.orb.reader.Category;
+import nmd.orb.services.CategoryReport;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
 

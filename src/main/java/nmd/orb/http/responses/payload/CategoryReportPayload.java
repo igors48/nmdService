@@ -1,6 +1,6 @@
 package nmd.orb.http.responses.payload;
 
-import nmd.orb.collector.controller.CategoryReport;
+import nmd.orb.services.CategoryReport;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;

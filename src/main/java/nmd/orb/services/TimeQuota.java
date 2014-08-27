@@ -1,4 +1,4 @@
-package nmd.orb.collector.controller;
+package nmd.orb.services;
 
 import static java.lang.System.currentTimeMillis;
 import static nmd.orb.util.Assert.assertPositive;

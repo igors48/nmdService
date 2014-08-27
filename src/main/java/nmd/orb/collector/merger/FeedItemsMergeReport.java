@@ -1,4 +1,6 @@
-package nmd.orb.feed;
+package nmd.orb.collector.merger;
+
+import nmd.orb.feed.FeedItem;
 
 import java.util.ArrayList;
 import java.util.Collections;

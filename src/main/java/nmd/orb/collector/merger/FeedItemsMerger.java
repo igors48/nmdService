@@ -1,12 +1,12 @@
-package nmd.orb.feed;
+package nmd.orb.collector.merger;
+
+import nmd.orb.feed.FeedItem;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import static nmd.orb.feed.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
-import static nmd.orb.feed.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.orb.util.Assert.assertNotNull;
 import static nmd.orb.util.Assert.assertPositive;
 
@@ -134,11 +134,11 @@ public final class FeedItemsMerger {
     }
 
     private static void sortFromNewToOld(final List<FeedItem> source) {
-        Collections.sort(source, TIMESTAMP_DESCENDING_COMPARATOR);
+        Collections.sort(source, TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR);
     }
 
     private static void sortFromOldToNew(final List<FeedItem> source) {
-        Collections.sort(source, TIMESTAMP_ASCENDING_COMPARATOR);
+        Collections.sort(source, TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR);
     }
 
     private FeedItemsMerger() {

@@ -1,4 +1,4 @@
-package nmd.orb.collector.updater;
+package nmd.orb.collector.fetcher;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

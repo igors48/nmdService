@@ -1,10 +1,14 @@
-package nmd.orb.collector.controller;
+package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
+import nmd.orb.collector.fetcher.UrlFetcher;
+import nmd.orb.collector.merger.FeedItemsMergeReport;
+import nmd.orb.collector.merger.FeedItemsMerger;
 import nmd.orb.collector.scheduler.FeedUpdateTask;
-import nmd.orb.collector.updater.UrlFetcher;
 import nmd.orb.error.ServiceException;
-import nmd.orb.feed.*;
+import nmd.orb.feed.Feed;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.*;

@@ -1,4 +1,4 @@
-package nmd.orb.collector.controller;
+package nmd.orb.services;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

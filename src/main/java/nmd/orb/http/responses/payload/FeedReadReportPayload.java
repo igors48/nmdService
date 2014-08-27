@@ -1,6 +1,6 @@
 package nmd.orb.http.responses.payload;
 
-import nmd.orb.collector.controller.FeedReadReport;
+import nmd.orb.services.FeedReadReport;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;

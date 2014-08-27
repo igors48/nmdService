@@ -1,6 +1,5 @@
 package nmd.orb.http.wrappers;
 
-import nmd.orb.collector.controller.FeedsService;
 import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.exporter.FeedExporterException;
@@ -11,6 +10,7 @@ import nmd.orb.http.responses.FeedHeadersResponse;
 import nmd.orb.http.responses.FeedIdResponse;
 import nmd.orb.http.tools.ContentType;
 import nmd.orb.http.tools.ResponseBody;
+import nmd.orb.services.FeedsService;
 
 import java.util.List;
 import java.util.UUID;
