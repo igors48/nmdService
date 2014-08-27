@@ -2,7 +2,7 @@ package http;
 
 import com.google.gson.Gson;
 import com.jayway.restassured.response.Response;
-import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.error.ErrorCode;
 import nmd.orb.http.requests.AddFeedRequest;
 import nmd.orb.http.responses.*;
 import nmd.orb.http.tools.ServletTools;

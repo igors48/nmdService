@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
 import nmd.orb.collector.controller.CategoryReport;
-import nmd.orb.collector.error.ServiceException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
 import org.junit.Test;
 

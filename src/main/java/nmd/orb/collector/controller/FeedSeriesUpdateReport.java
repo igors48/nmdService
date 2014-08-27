@@ -1,6 +1,6 @@
 package nmd.orb.collector.controller;
 
-import nmd.orb.collector.error.ServiceError;
+import nmd.orb.error.ServiceError;
 
 import java.util.List;
 

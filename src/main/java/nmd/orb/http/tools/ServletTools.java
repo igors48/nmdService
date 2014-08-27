@@ -1,7 +1,7 @@
 package nmd.orb.http.tools;
 
 import com.google.gson.Gson;
-import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.error.ErrorCode;
 import nmd.orb.http.requests.AddFeedRequest;
 import nmd.orb.http.responses.ErrorResponse;
 

@@ -1,8 +1,8 @@
 package unit.feed.controller;
 
 import nmd.orb.collector.controller.*;
-import nmd.orb.collector.error.ServiceException;
 import nmd.orb.collector.scheduler.CycleFeedUpdateTaskScheduler;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.feed.FeedItemsMergeReport;

@@ -8,8 +8,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static nmd.orb.collector.error.ServiceError.invalidFeedId;
-import static nmd.orb.collector.error.ServiceError.invalidFeedTitle;
+import static nmd.orb.error.ServiceError.invalidFeedId;
+import static nmd.orb.error.ServiceError.invalidFeedTitle;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderTitle;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.parseFeedId;

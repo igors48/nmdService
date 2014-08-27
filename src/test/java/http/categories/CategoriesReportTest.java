@@ -1,7 +1,7 @@
 package http.categories;
 
 import http.AbstractHttpTest;
-import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.error.ErrorCode;
 import nmd.orb.http.responses.CategoriesReportResponse;
 import nmd.orb.http.responses.CategoryReportResponse;
 import nmd.orb.http.responses.CategoryResponse;

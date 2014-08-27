@@ -2,7 +2,7 @@ package nmd.orb.http.responses;
 
 import nmd.orb.collector.controller.FeedSeriesUpdateReport;
 import nmd.orb.collector.controller.FeedUpdateReport;
-import nmd.orb.collector.error.ServiceError;
+import nmd.orb.error.ServiceError;
 import nmd.orb.http.responses.payload.ErrorPayload;
 import nmd.orb.http.responses.payload.FeedMergeReportPayload;
 

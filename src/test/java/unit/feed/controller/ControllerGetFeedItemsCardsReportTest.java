@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
 import nmd.orb.collector.controller.FeedItemsCardsReport;
-import nmd.orb.collector.error.ServiceException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import org.junit.Test;

@@ -1,11 +1,11 @@
 package nmd.orb.collector.controller;
 
 import com.google.appengine.api.datastore.Transaction;
-import nmd.orb.collector.error.ServiceError;
-import nmd.orb.collector.error.ServiceException;
 import nmd.orb.collector.scheduler.FeedUpdateTask;
 import nmd.orb.collector.scheduler.FeedUpdateTaskScheduler;
 import nmd.orb.collector.updater.UrlFetcher;
+import nmd.orb.error.ServiceError;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.*;
 import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import static java.lang.String.format;
-import static nmd.orb.collector.error.ServiceError.wrongFeedTaskId;
+import static nmd.orb.error.ServiceError.wrongFeedTaskId;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;

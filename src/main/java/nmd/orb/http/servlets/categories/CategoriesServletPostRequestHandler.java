@@ -8,7 +8,7 @@ import nmd.orb.http.wrappers.CategoriesServiceWrapperImpl;
 import java.util.List;
 import java.util.Map;
 
-import static nmd.orb.collector.error.ServiceError.invalidCategoryName;
+import static nmd.orb.error.ServiceError.invalidCategoryName;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.reader.Category.isValidCategoryName;
 import static nmd.orb.util.Assert.guard;

@@ -2,7 +2,7 @@ package unit.feed.controller;
 
 import nmd.orb.collector.controller.FeedItemsReport;
 import nmd.orb.collector.controller.FeedReadReport;
-import nmd.orb.collector.error.ServiceException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;

@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.orb.collector.error.ServiceException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import org.junit.Test;
 

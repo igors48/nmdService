@@ -1,4 +1,4 @@
-package nmd.orb.collector.error;
+package nmd.orb.error;
 
 import static nmd.orb.util.Assert.assertNotNull;
 

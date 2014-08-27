@@ -9,8 +9,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static nmd.orb.collector.error.ServiceError.invalidFeedId;
-import static nmd.orb.collector.error.ServiceError.invalidOffsetOrSize;
+import static nmd.orb.error.ServiceError.invalidFeedId;
+import static nmd.orb.error.ServiceError.invalidOffsetOrSize;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.parseInteger;

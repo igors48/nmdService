@@ -1,4 +1,4 @@
-package nmd.orb.collector.error;
+package nmd.orb.error;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

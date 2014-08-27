@@ -1,8 +1,8 @@
 package nmd.orb.http.tools;
 
 import com.google.gson.Gson;
-import nmd.orb.collector.error.ServiceError;
-import nmd.orb.collector.error.ServiceException;
+import nmd.orb.error.ServiceError;
+import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ErrorResponse;
 
 import static nmd.orb.util.Assert.assertNotNull;

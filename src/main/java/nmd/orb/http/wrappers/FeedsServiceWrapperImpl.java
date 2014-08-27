@@ -1,8 +1,8 @@
 package nmd.orb.http.wrappers;
 
 import nmd.orb.collector.controller.FeedsService;
-import nmd.orb.collector.error.ServiceError;
-import nmd.orb.collector.error.ServiceException;
+import nmd.orb.error.ServiceError;
+import nmd.orb.error.ServiceException;
 import nmd.orb.exporter.FeedExporterException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;

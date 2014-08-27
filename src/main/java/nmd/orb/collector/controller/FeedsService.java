@@ -1,9 +1,9 @@
 package nmd.orb.collector.controller;
 
 import com.google.appengine.api.datastore.Transaction;
-import nmd.orb.collector.error.ServiceException;
 import nmd.orb.collector.scheduler.FeedUpdateTask;
 import nmd.orb.collector.updater.UrlFetcher;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.*;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.orb.collector.error.ServiceError.wrongCategoryId;
+import static nmd.orb.error.ServiceError.wrongCategoryId;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderTitle;
 import static nmd.orb.reader.Category.isValidCategoryId;

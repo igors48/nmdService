@@ -1,7 +1,7 @@
 package nmd.orb.http.responses;
 
-import nmd.orb.collector.error.ErrorCode;
-import nmd.orb.collector.error.ServiceError;
+import nmd.orb.error.ErrorCode;
+import nmd.orb.error.ServiceError;
 import nmd.orb.http.responses.payload.ErrorPayload;
 
 import static nmd.orb.util.Assert.guard;

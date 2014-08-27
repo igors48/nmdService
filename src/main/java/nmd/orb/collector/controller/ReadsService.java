@@ -1,8 +1,8 @@
 package nmd.orb.collector.controller;
 
 import com.google.appengine.api.datastore.Transaction;
-import nmd.orb.collector.error.ServiceException;
 import nmd.orb.collector.updater.UrlFetcher;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.FeedItemsComparisonReport;

@@ -4,7 +4,7 @@ import nmd.orb.collector.controller.FeedItemsCardsReport;
 import nmd.orb.collector.controller.FeedItemsReport;
 import nmd.orb.collector.controller.FeedReadReport;
 import nmd.orb.collector.controller.ReadsService;
-import nmd.orb.collector.error.ServiceException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedItemsCardsReportResponse;
 import nmd.orb.http.responses.FeedItemsReportResponse;

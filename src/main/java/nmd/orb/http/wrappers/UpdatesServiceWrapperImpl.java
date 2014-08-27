@@ -1,7 +1,7 @@
 package nmd.orb.http.wrappers;
 
 import nmd.orb.collector.controller.*;
-import nmd.orb.collector.error.ServiceException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedMergeReportResponse;
 import nmd.orb.http.responses.FeedSeriesUpdateResponse;

@@ -8,8 +8,8 @@ import nmd.orb.http.wrappers.FeedsServiceWrapperImpl;
 import java.util.List;
 import java.util.Map;
 
-import static nmd.orb.collector.error.ServiceError.invalidCategoryId;
-import static nmd.orb.collector.error.ServiceError.invalidFeedUrl;
+import static nmd.orb.error.ServiceError.invalidCategoryId;
+import static nmd.orb.error.ServiceError.invalidFeedUrl;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.convert;
 import static nmd.orb.reader.Category.isValidCategoryId;

@@ -1,8 +1,8 @@
 package nmd.orb.collector.controller;
 
-import nmd.orb.collector.error.ServiceException;
 import nmd.orb.collector.updater.UrlFetcher;
 import nmd.orb.collector.updater.UrlFetcherException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
@@ -18,7 +18,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static nmd.orb.collector.error.ServiceError.*;
+import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.sources.rss.FeedParser.parse;
 import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;

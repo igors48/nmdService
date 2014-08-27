@@ -7,8 +7,8 @@ import nmd.orb.http.responses.FeedSeriesUpdateResponse;
 import org.junit.Test;
 
 import static java.util.UUID.randomUUID;
-import static nmd.orb.collector.error.ErrorCode.INVALID_FEED_ID;
-import static nmd.orb.collector.error.ErrorCode.WRONG_FEED_ID;
+import static nmd.orb.error.ErrorCode.INVALID_FEED_ID;
+import static nmd.orb.error.ErrorCode.WRONG_FEED_ID;
 import static org.junit.Assert.assertEquals;
 
 /**

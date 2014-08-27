@@ -9,8 +9,8 @@ import nmd.orb.http.wrappers.ReadsServiceWrapperImpl;
 import java.util.List;
 import java.util.Map;
 
-import static nmd.orb.collector.error.ServiceError.invalidFeedOrItemId;
-import static nmd.orb.collector.error.ServiceError.invalidMarkMode;
+import static nmd.orb.error.ServiceError.invalidFeedOrItemId;
+import static nmd.orb.error.ServiceError.invalidMarkMode;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.parseFeedAndItemIds;
 import static nmd.orb.util.Assert.guard;

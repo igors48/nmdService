@@ -1,7 +1,7 @@
 package http.feeds;
 
 import http.AbstractHttpTest;
-import nmd.orb.collector.error.ErrorCode;
+import nmd.orb.error.ErrorCode;
 import org.junit.Test;
 
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;

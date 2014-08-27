@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static nmd.orb.collector.error.ServiceError.*;
+import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.reader.Category.isValidCategoryId;
 import static nmd.orb.reader.Category.isValidCategoryName;
