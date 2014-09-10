@@ -1,8 +1,8 @@
 package nmd.orb.http.responses;
 
 import nmd.orb.http.responses.payload.FeedItemReportPayload;
-import nmd.orb.services.reports.FeedItemReport;
-import nmd.orb.services.reports.FeedItemsReport;
+import nmd.orb.services.report.FeedItemReport;
+import nmd.orb.services.report.FeedItemsReport;
 
 import java.util.ArrayList;
 import java.util.List;

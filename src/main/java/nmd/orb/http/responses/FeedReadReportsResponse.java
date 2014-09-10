@@ -1,7 +1,7 @@
 package nmd.orb.http.responses;
 
 import nmd.orb.http.responses.payload.FeedReadReportPayload;
-import nmd.orb.services.reports.FeedReadReport;
+import nmd.orb.services.report.FeedReadReport;
 
 import java.util.ArrayList;
 import java.util.List;

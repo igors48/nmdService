@@ -1,6 +1,6 @@
 package nmd.orb.http.responses.payload;
 
-import nmd.orb.services.reports.FeedItemReport;
+import nmd.orb.services.report.FeedItemReport;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.HtmlTools.cleanupDescription;

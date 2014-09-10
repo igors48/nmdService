@@ -9,7 +9,7 @@ import nmd.orb.http.responses.CategoryResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.reader.Category;
 import nmd.orb.services.CategoriesService;
-import nmd.orb.services.reports.CategoryReport;
+import nmd.orb.services.report.CategoryReport;
 
 import java.util.List;
 import java.util.UUID;

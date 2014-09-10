@@ -2,7 +2,7 @@ package unit.feed.controller;
 
 import nmd.orb.collector.scheduler.FeedUpdateTask;
 import nmd.orb.error.ServiceException;
-import nmd.orb.services.reports.FeedUpdateReport;
+import nmd.orb.services.report.FeedUpdateReport;
 import org.junit.Test;
 
 import java.util.UUID;

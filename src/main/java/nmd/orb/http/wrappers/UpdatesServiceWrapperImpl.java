@@ -8,8 +8,8 @@ import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.UpdatesService;
 import nmd.orb.services.quota.Quota;
 import nmd.orb.services.quota.TimeQuota;
-import nmd.orb.services.reports.FeedSeriesUpdateReport;
-import nmd.orb.services.reports.FeedUpdateReport;
+import nmd.orb.services.report.FeedSeriesUpdateReport;
+import nmd.orb.services.report.FeedUpdateReport;
 
 import java.util.UUID;
 import java.util.logging.Level;

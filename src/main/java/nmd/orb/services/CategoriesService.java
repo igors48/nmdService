@@ -7,8 +7,8 @@ import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.*;
-import nmd.orb.services.reports.CategoryReport;
-import nmd.orb.services.reports.FeedReadReport;
+import nmd.orb.services.report.CategoryReport;
+import nmd.orb.services.report.FeedReadReport;
 
 import java.util.ArrayList;
 import java.util.List;

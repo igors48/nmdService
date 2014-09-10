@@ -3,7 +3,7 @@ package unit.feed.controller;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
-import nmd.orb.services.reports.FeedItemsReport;
+import nmd.orb.services.report.FeedItemsReport;
 import org.junit.Test;
 
 import java.util.Date;

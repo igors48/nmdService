@@ -4,7 +4,7 @@ import nmd.orb.collector.merger.FeedItemsMergeReport;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
-import nmd.orb.services.reports.FeedReadReport;
+import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
 
 import java.util.ArrayList;

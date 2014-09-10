@@ -1,7 +1,7 @@
 package nmd.orb.http.responses;
 
 import nmd.orb.http.responses.payload.CategoryExtendedReportPayload;
-import nmd.orb.services.reports.CategoryReport;
+import nmd.orb.services.report.CategoryReport;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;

@@ -4,7 +4,7 @@ import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.services.ReadsService;
-import nmd.orb.services.reports.FeedItemReport;
+import nmd.orb.services.report.FeedItemReport;
 import org.junit.Test;
 
 import java.util.Date;

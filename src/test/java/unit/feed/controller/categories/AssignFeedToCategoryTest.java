@@ -2,7 +2,7 @@ package unit.feed.controller.categories;
 
 import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
-import nmd.orb.services.reports.CategoryReport;
+import nmd.orb.services.report.CategoryReport;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
 
