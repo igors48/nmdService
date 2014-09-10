@@ -17,7 +17,7 @@ public class MemCache implements Cache {
     private static final MemcacheService CACHE = MemcacheServiceFactory.getMemcacheService();
 
     @Override
-    public void put(final Object key, final Object object) {
+    public synchronized void put(final Object key, final Object object) {
         assertNotNull(key);
         assertNotNull(object);
 
@@ -25,14 +25,14 @@ public class MemCache implements Cache {
     }
 
     @Override
-    public Object get(final Object key) {
+    public synchronized Object get(final Object key) {
         assertNotNull(key);
 
         return CACHE.get(key);
     }
 
     @Override
-    public boolean delete(final Object key) {
+    public synchronized boolean delete(final Object key) {
         assertNotNull(key);
 
         return CACHE.delete(key);
