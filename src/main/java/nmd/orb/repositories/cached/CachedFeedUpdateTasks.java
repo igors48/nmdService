@@ -5,16 +5,12 @@ import nmd.orb.collector.scheduler.FeedUpdateTask;
 import java.io.Serializable;
 import java.util.List;
 import java.util.ListIterator;
-import java.util.logging.Logger;
 
-import static java.lang.String.format;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 
 public class CachedFeedUpdateTasks implements Serializable {
-
-    private static final Logger LOGGER = Logger.getLogger(CachedFeedUpdateTasks.class.getName());
 
     private final int maxWriteCount;
     private final List<FeedUpdateTask> tasks;
@@ -55,8 +51,6 @@ public class CachedFeedUpdateTasks implements Serializable {
         }
 
         ++this.updatesCount;
-
-        LOGGER.info(format("Updates count is [ %d ]", this.updatesCount));
     }
 
     public boolean flushNeeded() {
