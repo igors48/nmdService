@@ -33,6 +33,10 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class AbstractService {
 
+    private static final String TWITTER_API_KEY = "twitter.apiKey";
+    private static final String TWITTER_API_SECRET = "twitter.apiSecret";
+    private static final int TWEETS_PER_FETCH = 100;
+
     protected final FeedHeadersRepository feedHeadersRepository;
     protected final FeedItemsRepository feedItemsRepository;
     protected final UrlFetcher fetcher;
@@ -82,12 +86,12 @@ public class AbstractService {
     private Feed fetchAsTwitterUrl(final String twitterUrl) throws ServiceException {
 
         try {
-            final String apiKey = System.getProperty("twitter.apiKey");
-            final String apiSecret = System.getProperty("twitter.apiSecret");
+            final String apiKey = System.getProperty(TWITTER_API_KEY);
+            final String apiSecret = System.getProperty(TWITTER_API_SECRET);
 
             final TwitterClient twitterClient = new TwitterClient(apiKey, apiSecret);
             final String userName = getTwitterUserName(twitterUrl);
-            final List<Tweet> tweets = twitterClient.fetchTweets(userName, 1000);
+            final List<Tweet> tweets = twitterClient.fetchTweets(userName, TWEETS_PER_FETCH);
             final Feed feed = convertToFeed(twitterUrl, tweets, new Date());
 
             if (feed == null) {
