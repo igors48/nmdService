@@ -6,6 +6,6 @@ package nmd.orb.collector.fetcher;
  */
 public interface UrlFetcher {
 
-    String fetch(String link) throws UrlFetcherException;
+    byte[] fetch(String link) throws UrlFetcherException;
 
 }

@@ -8,6 +8,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
 
 import static nmd.orb.util.Assert.assertValidUrl;
 import static nmd.orb.util.CharsetTools.convertToUtf8;
@@ -23,10 +24,11 @@ public class GaeUrlFetcher implements UrlFetcher {
     public static final UrlFetcher GAE_URL_FETCHER = new GaeUrlFetcher();
 
     private static final String UTF_8 = "UTF-8";
+    private static final Charset UTF8_CHARSET = Charset.forName(UTF_8);
     private static final String CONTENT_TYPE = "content-type";
 
     @Override
-    public String fetch(final String link) throws UrlFetcherException {
+    public byte[] fetch(final String link) throws UrlFetcherException {
         assertValidUrl(link);
 
         InputStreamReader urlStreamReader = null;
@@ -54,7 +56,7 @@ public class GaeUrlFetcher implements UrlFetcher {
                 result.append(line);
             }
 
-            return convertToUtf8(result.toString());
+            return convertToUtf8(result.toString()).getBytes(UTF8_CHARSET);
         } catch (Exception exception) {
             throw new UrlFetcherException(exception);
         } finally {

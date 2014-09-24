@@ -13,6 +13,7 @@ import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -36,6 +37,8 @@ public class AbstractService {
     private static final String TWITTER_API_KEY = "twitter.apiKey";
     private static final String TWITTER_API_SECRET = "twitter.apiSecret";
     private static final int TWEETS_PER_FETCH = 100;
+
+    private static final String UTF_8 = "UTF-8";
 
     protected final FeedHeadersRepository feedHeadersRepository;
     protected final FeedItemsRepository feedItemsRepository;
@@ -105,9 +108,15 @@ public class AbstractService {
     }
 
     private Feed fetchAsCommonUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
-        final String data = this.fetcher.fetch(feedUrl);
 
-        return parse(feedUrl, data);
+        try {
+            final String data = new String(this.fetcher.fetch(feedUrl), UTF_8);
+
+            return parse(feedUrl, data);
+        } catch (UnsupportedEncodingException exception) {
+            throw new FeedParserException(exception);
+        }
+
     }
 
 }

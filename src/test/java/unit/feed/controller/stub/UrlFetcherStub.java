@@ -3,11 +3,15 @@ package unit.feed.controller.stub;
 import nmd.orb.collector.fetcher.UrlFetcher;
 import nmd.orb.collector.fetcher.UrlFetcherException;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 02.05.13
  */
 public class UrlFetcherStub implements UrlFetcher {
+
+    private static final String UTF_8 = "UTF-8";
 
     private boolean simulateError;
     private String data;
@@ -17,13 +21,17 @@ public class UrlFetcherStub implements UrlFetcher {
     }
 
     @Override
-    public String fetch(final String link) throws UrlFetcherException {
+    public byte[] fetch(final String link) throws UrlFetcherException {
 
         if (this.simulateError) {
             throw new UrlFetcherException(new NullPointerException());
         }
 
-        return this.data;
+        try {
+            return this.data.getBytes(UTF_8);
+        } catch (UnsupportedEncodingException e) {
+            throw new UrlFetcherException(new NullPointerException());
+        }
     }
 
     public void setData(final String data) {
