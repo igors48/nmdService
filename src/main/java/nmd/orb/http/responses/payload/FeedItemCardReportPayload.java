@@ -3,7 +3,7 @@ package nmd.orb.http.responses.payload;
 import nmd.orb.services.report.FeedItemReport;
 
 import static nmd.orb.util.Assert.guard;
-import static nmd.orb.util.HtmlTools.cleanupDescription;
+import static nmd.orb.util.CleanupTools.cleanupDescription;
 import static nmd.orb.util.Parameter.notNull;
 
 /**

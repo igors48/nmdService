@@ -11,9 +11,9 @@ import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
+import nmd.orb.util.CleanupTools;
 
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -72,7 +72,7 @@ public class AbstractService {
         try {
             final boolean isItTwitterUrl = isItTwitterUrl(feedUrl);
 
-            return isItTwitterUrl ? fetchAsTwitterUrl(feedUrl) : fetchAsCommonUrl(feedUrl);
+            return isItTwitterUrl ? fetchAsTwitterUrl(feedUrl) : fetchAsRssUrl(feedUrl);
         } catch (final UrlFetcherException exception) {
             throw new ServiceException(urlFetcherError(feedUrl), exception);
         } catch (FeedParserException exception) {
@@ -107,16 +107,11 @@ public class AbstractService {
         }
     }
 
-    private Feed fetchAsCommonUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
+    private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
+        byte[] bytes = this.fetcher.fetch(feedUrl);
+        final String xml = CleanupTools.cleanupXml(bytes);
 
-        try {
-            final String data = new String(this.fetcher.fetch(feedUrl), UTF_8);
-
-            return parse(feedUrl, data);
-        } catch (UnsupportedEncodingException exception) {
-            throw new FeedParserException(exception);
-        }
-
+        return parse(feedUrl, xml);
     }
 
 }
