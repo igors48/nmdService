@@ -11,8 +11,14 @@ import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
-import nmd.orb.util.CleanupTools;
+import org.w3c.dom.Document;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,10 +114,19 @@ public class AbstractService {
     }
 
     private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
-        byte[] bytes = this.fetcher.fetch(feedUrl);
-        final String xml = CleanupTools.cleanupXml(bytes);
 
-        return parse(feedUrl, xml);
+        try {
+            byte[] bytes = this.fetcher.fetch(feedUrl);
+            DocumentBuilderFactory fctr = DocumentBuilderFactory.newInstance();
+            DocumentBuilder bldr = fctr.newDocumentBuilder();
+            InputSource insrc = new InputSource(new ByteArrayInputStream(bytes));
+            Document document = bldr.parse(insrc);
+            //final String xml = CleanupTools.cleanupXml(bytes);
+
+            return parse(feedUrl, document);
+        } catch (ParserConfigurationException | IOException | SAXException e) {
+            throw new FeedParserException(e);
+        }
     }
 
 }

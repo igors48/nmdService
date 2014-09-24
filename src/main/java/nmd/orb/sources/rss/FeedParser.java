@@ -7,6 +7,7 @@ import com.sun.syndication.io.SyndFeedInput;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
+import org.w3c.dom.Document;
 
 import java.io.StringReader;
 import java.util.ArrayList;
@@ -26,6 +27,38 @@ public final class FeedParser {
 
     private FeedParser() {
         // empty
+    }
+
+    public static Feed parse(final String feedUrl, final Document feedData) throws FeedParserException {
+        assertValidUrl(feedUrl);
+        assertNotNull(feedData);
+
+        try {
+            final SyndFeedInput input = new SyndFeedInput();
+            final SyndFeed feed = input.build(feedData);
+
+            final FeedHeader header = build(feedUrl, feed);
+
+            if (header == null) {
+                return null;
+            }
+
+            final List<FeedItem> items = new ArrayList<>();
+
+            for (int i = 0; i < feed.getEntries().size(); i++) {
+                final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
+                final FeedItem item = build(entry);
+
+                if (item != null) {
+                    items.add(item);
+                }
+            }
+
+            return new Feed(header, items);
+        } catch (Exception exception) {
+            throw new FeedParserException(exception);
+        }
+
     }
 
     public static Feed parse(final String feedUrl, final String feedData) throws FeedParserException {
