@@ -11,6 +11,7 @@ import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
+import nmd.orb.util.CleanupTools;
 import org.w3c.dom.Document;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -117,11 +118,10 @@ public class AbstractService {
 
         try {
             byte[] bytes = this.fetcher.fetch(feedUrl);
-            DocumentBuilderFactory fctr = DocumentBuilderFactory.newInstance();
-            DocumentBuilder bldr = fctr.newDocumentBuilder();
-            InputSource insrc = new InputSource(new ByteArrayInputStream(bytes));
-            Document document = bldr.parse(insrc);
-            //final String xml = CleanupTools.cleanupXml(bytes);
+            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            InputSource inputSource = new InputSource(new ByteArrayInputStream(bytes));
+            Document document = builder.parse(inputSource);
 
             return parse(feedUrl, document);
         } catch (ParserConfigurationException | IOException | SAXException e) {
