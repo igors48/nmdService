@@ -11,15 +11,7 @@ import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
-import nmd.orb.util.CleanupTools;
-import org.w3c.dom.Document;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,6 +25,7 @@ import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;
 import static nmd.orb.sources.twitter.TwitterClientTools.getTwitterUserName;
 import static nmd.orb.sources.twitter.TwitterClientTools.isItTwitterUrl;
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.CharsetTools.detectCharset;
 import static nmd.orb.util.Parameter.notNull;
 
 /**
@@ -44,8 +37,6 @@ public class AbstractService {
     private static final String TWITTER_API_KEY = "twitter.apiKey";
     private static final String TWITTER_API_SECRET = "twitter.apiSecret";
     private static final int TWEETS_PER_FETCH = 100;
-
-    private static final String UTF_8 = "UTF-8";
 
     protected final FeedHeadersRepository feedHeadersRepository;
     protected final FeedItemsRepository feedItemsRepository;
@@ -118,14 +109,13 @@ public class AbstractService {
 
         try {
             byte[] bytes = this.fetcher.fetch(feedUrl);
-            DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder builder = factory.newDocumentBuilder();
-            InputSource inputSource = new InputSource(new ByteArrayInputStream(bytes));
-            Document document = builder.parse(inputSource);
 
-            return parse(feedUrl, document);
-        } catch (ParserConfigurationException | IOException | SAXException e) {
-            throw new FeedParserException(e);
+            String originCharset = detectCharset(bytes);
+            String string = new String(bytes, originCharset);
+
+            return parse(feedUrl, string);
+        } catch (IOException exception) {
+            throw new FeedParserException(exception);
         }
     }
 

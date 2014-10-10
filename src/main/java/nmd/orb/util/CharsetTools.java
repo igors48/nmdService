@@ -1,6 +1,8 @@
 package nmd.orb.util;
 
 import java.nio.charset.Charset;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -15,9 +17,43 @@ public final class CharsetTools {
     private static final Pattern CHARSET_PATTERN = Pattern.compile("charset=(.*)", Pattern.CASE_INSENSITIVE);
     private static final Pattern ENCODING_PATTERN = Pattern.compile("encoding=\"(.+?)\"", Pattern.CASE_INSENSITIVE);
 
-    private static final Charset UTF8_CHARSET = Charset.forName("UTF-8");
+    private static final String UTF_8 = "UTF-8";
+    private static final String WINDOWS_1251 = "windows-1251";
+    private static final String ISO_8859_1 = "ISO-8859-1";
 
-    public static String detectCharSet(final String data) {
+    private static final Set<String> CHARSETS = new HashSet<String>() {{
+        add(UTF_8);
+        add(WINDOWS_1251);
+        add(ISO_8859_1);
+    }};
+
+    public static String detectCharset(final byte[] bytes) {
+
+        for (final String charset : CHARSETS) {
+            String foundCharset = tryCharset(bytes, charset);
+
+            if (foundCharset != null) {
+                return foundCharset;
+            }
+        }
+
+        return UTF_8;
+    }
+
+    public static String tryCharset(final byte[] bytes, String charsetName) {
+
+        try {
+            String string = new String(bytes, charsetName);
+            String foundCharsetName = CharsetTools.findCharSet(string);
+            Charset.forName(foundCharsetName);
+
+            return foundCharsetName;
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
+    public static String findCharSet(final String data) {
         assertNotNull(data);
 
         String result = null;
@@ -35,14 +71,6 @@ public final class CharsetTools {
         }
 
         return result;
-    }
-
-    public static String convertToUtf8(final String string) {
-        assertNotNull(string);
-
-        final byte[] bytes = string.getBytes(UTF8_CHARSET);
-
-        return new String(bytes, UTF8_CHARSET);
     }
 
     private CharsetTools() {
