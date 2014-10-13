@@ -115,7 +115,8 @@ public final class TweetConversionTools {
         final TweetEntities entities = tweet.getEntities();
         final String expandedUrl = getLinkFromTweetEntities(entities);
 
-        final String link = isBlank(expandedUrl) ? createTweetUrl(tweet.getUser().getScreen_name(), tweet.getId_str()) : expandedUrl;
+        final String link = createTweetUrl(tweet.getUser().getScreen_name(), tweet.getId_str());
+        final String gotoLink = isBlank(expandedUrl) ? link : expandedUrl;
 
         final String dateAsString = tweet.getCreated_at();
 
@@ -134,7 +135,7 @@ public final class TweetConversionTools {
 
         final String id = UUID.randomUUID().toString();
 
-        return new FeedItem(title, title, link, itemDate, dateReal, id);
+        return new FeedItem(title, title, link, gotoLink, itemDate, dateReal, id);
     }
 
     private static String getLinkFromTweetEntities(final TweetEntities entities) {

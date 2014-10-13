@@ -19,9 +19,9 @@ import static org.junit.Assert.assertNull;
 public class ControllerFindFirstNotReadFeedItemTest {
 
     private static final List<FeedItem> FEED_ITEMS = new ArrayList<FeedItem>() {{
-        add(new FeedItem("first", "first", "http://domain.com/first", new Date(1), true, "first"));
-        add(new FeedItem("second", "second", "http://domain.com/second", new Date(2), true, "second"));
-        add(new FeedItem("third", "third", "http://domain.com/third", new Date(3), true, "third"));
+        add(new FeedItem("first", "first", "http://domain.com/first", "http://domain.com/firstGoto", new Date(1), true, "first"));
+        add(new FeedItem("second", "second", "http://domain.com/second", "http://domain.com/secondGoto", new Date(2), true, "second"));
+        add(new FeedItem("third", "third", "http://domain.com/third", "http://domain.com/thirdGoto", new Date(3), true, "third"));
     }};
 
     @Test

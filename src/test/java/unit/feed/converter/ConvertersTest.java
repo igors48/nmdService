@@ -25,8 +25,8 @@ public class ConvertersTest {
 
     private static final Key SAMPLE_KEY = KeyFactory.stringToKey("ag9zfnJzcy1jb2xsZWN0b3JyHQsSEEZlZWRIZWFkZXJFbnRpdHkYgICAgIi0vwgM");
 
-    private static final FeedItem FIRST_FEED_ITEM = new FeedItem("title-first", "description-first", "http://domain.com/link-first", new Date(), false, "guid-first");
-    private static final FeedItem SECOND_FEED_ITEM = new FeedItem("title-second", "description-second", "http://domain.com/link-second", new Date(), true, "guid-second");
+    private static final FeedItem FIRST_FEED_ITEM = new FeedItem("title-first", "description-first", "http://domain.com/link-first", "http://domain.com/link-goto-first", new Date(), false, "guid-first");
+    private static final FeedItem SECOND_FEED_ITEM = new FeedItem("title-second", "description-second", "http://domain.com/link-second", "http://domain.com/link-goto-second", new Date(), true, "guid-second");
 
     private static final List<FeedItem> FEED_LIST = Arrays.asList(FIRST_FEED_ITEM, SECOND_FEED_ITEM);
 

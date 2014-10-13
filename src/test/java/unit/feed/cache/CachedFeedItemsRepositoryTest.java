@@ -25,12 +25,12 @@ public class CachedFeedItemsRepositoryTest {
 
     private static final String ITEM_ID = randomUUID().toString();
 
-    private static final FeedItem STORED = new FeedItem("stored-title", "stored-description", "http://domain.com/stored", new Date(1), true, ITEM_ID);
+    private static final FeedItem STORED = new FeedItem("stored-title", "stored-description", "http://domain.com/stored", "http://domain.com/storedGoto", new Date(1), true, ITEM_ID);
     private static final ArrayList<FeedItem> STORED_ITEMS = new ArrayList<FeedItem>() {{
         add(STORED);
     }};
 
-    private static final FeedItem CACHED = new FeedItem("cached-title", "cached-description", "http://domain.com/cached", new Date(1), true, ITEM_ID);
+    private static final FeedItem CACHED = new FeedItem("cached-title", "cached-description", "http://domain.com/cached", "http://domain.com/cachedGoto", new Date(1), true, ITEM_ID);
     private static final ArrayList<FeedItem> CACHED_ITEMS = new ArrayList<FeedItem>() {{
         add(CACHED);
     }};

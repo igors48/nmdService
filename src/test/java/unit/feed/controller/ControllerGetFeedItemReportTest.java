@@ -20,7 +20,7 @@ import static org.junit.Assert.*;
  */
 public class ControllerGetFeedItemReportTest {
 
-    private static final FeedItem FEED_ITEM = new FeedItem("title", "description", "http://domain.com", new Date(4), true, "guid");
+    private static final FeedItem FEED_ITEM = new FeedItem("title", "description", "http://domain.com", "http://domain-goto.com", new Date(4), true, "guid");
     private static final UUID FEED_ID = UUID.randomUUID();
 
     @Test

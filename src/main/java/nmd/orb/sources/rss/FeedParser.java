@@ -94,7 +94,7 @@ public final class FeedParser {
         final boolean itemDateReal = date != null;
         final Date feedDate = itemDateReal ? date : currentDate;
 
-        return new FeedItem(itemTitle, itemDescription, itemLink, feedDate, itemDateReal, guid);
+        return new FeedItem(itemTitle, itemDescription, itemLink, itemLink, feedDate, itemDateReal, guid);
     }
 
     private static String trim(final String string) {

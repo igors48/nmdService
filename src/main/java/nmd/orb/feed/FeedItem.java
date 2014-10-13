@@ -20,11 +20,12 @@ public class FeedItem implements Serializable {
     public final String title;
     public final String description;
     public final String link;
+    public final String gotoLink;
     public final Date date;
     public final boolean dateReal;
     public final String guid;
 
-    public FeedItem(final String title, final String description, final String link, final Date date, final boolean dateReal, final String guid) {
+    public FeedItem(final String title, final String description, final String link, final String gotoLink, final Date date, final boolean dateReal, final String guid) {
         guard(isValidFeedItemTitle(title));
         this.title = title;
 
@@ -33,6 +34,9 @@ public class FeedItem implements Serializable {
 
         guard(isValidFeedItemLink(link));
         this.link = link;
+
+        guard(isValidFeedItemLink(gotoLink));
+        this.gotoLink = gotoLink;
 
         guard(isValidFeedItemDate(date));
         this.date = date;
@@ -57,6 +61,7 @@ public class FeedItem implements Serializable {
         }
 
         if (!description.equals(feedItem.description)) return false;
+        if (!gotoLink.equals(feedItem.gotoLink)) return false;
         if (!guid.equals(feedItem.guid)) return false;
         if (!link.equals(feedItem.link)) return false;
         if (!title.equals(feedItem.title)) return false;
@@ -77,6 +82,8 @@ public class FeedItem implements Serializable {
         }
 
         if (!description.equals(feedItem.description)) return false;
+        if (!gotoLink.equals(feedItem.gotoLink)) return false;
+
         if (!link.equals(feedItem.link)) return false;
         if (!title.equals(feedItem.title)) return false;
 
@@ -88,6 +95,7 @@ public class FeedItem implements Serializable {
         int result = title.hashCode();
         result = 31 * result + description.hashCode();
         result = 31 * result + link.hashCode();
+        result = 31 * result + gotoLink.hashCode();
         result = 31 * result + date.hashCode();
         result = 31 * result + (dateReal ? 1 : 0);
         result = 31 * result + guid.hashCode();

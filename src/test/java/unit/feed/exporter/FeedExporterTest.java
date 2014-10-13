@@ -31,8 +31,13 @@ public class FeedExporterTest {
     @Test
     public void roundtrip() throws FeedExporterException, FeedParserException {
         final FeedHeader header = new FeedHeader(UUID.randomUUID(), RSS_FEED_URL, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
-        final FeedItem first = new FeedItem("firstTitle", "firstDescription", "http://domain.com/firstLink", new Date(48), true, "http://domain.com/firstLink");
-        final FeedItem second = new FeedItem("secondTitle", "secondDescription", "http://domain.com/secondLink", new Date(50), true, "http://domain.com/secondLink");
+
+        final FeedItem first = new FeedItem("firstTitle", "firstDescription", "http://domain.com/firstLink", "http://domain.com/firstGotoLink", new Date(48), true, "http://domain.com/firstLink");
+        final FeedItem second = new FeedItem("secondTitle", "secondDescription", "http://domain.com/secondLink", "http://domain.com/secondGotoLink", new Date(50), true, "http://domain.com/secondLink");
+
+        final FeedItem firstExpected = new FeedItem("firstTitle", "firstDescription", "http://domain.com/firstGotoLink", "http://domain.com/firstGotoLink", new Date(48), true, "http://domain.com/firstLink");
+        final FeedItem secondExpected = new FeedItem("secondTitle", "secondDescription", "http://domain.com/secondGotoLink", "http://domain.com/secondGotoLink", new Date(50), true, "http://domain.com/secondLink");
+
         final List<FeedItem> items = new ArrayList<>();
         items.add(first);
         items.add(second);
@@ -47,8 +52,8 @@ public class FeedExporterTest {
 
         assertEquals(items.size(), parsed.items.size());
 
-        assertTrue(first.equalsExcludeGuid(parsed.items.get(0)));
-        assertTrue(second.equalsExcludeGuid(parsed.items.get(1)));
+        assertTrue(firstExpected.equalsExcludeGuid(parsed.items.get(0)));
+        assertTrue(secondExpected.equalsExcludeGuid(parsed.items.get(1)));
     }
 
 }

@@ -183,10 +183,11 @@ public abstract class AbstractControllerTestBase {
         final String title = "title" + indexAsString;
         final String description = "description" + indexAsString;
         final String link = "http://domain.com/link" + indexAsString;
+        final String gotoLink = "http://domain.com/gotoLink" + indexAsString;
         final Date date = new Date(index);
         final boolean dateReal = true;
         final String guid = "guid" + indexAsString;
 
-        return new FeedItem(title, description, link, date, dateReal, guid);
+        return new FeedItem(title, description, link, gotoLink, date, dateReal, guid);
     }
 }

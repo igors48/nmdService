@@ -16,6 +16,7 @@ public class FeedItemHelper {
     private String title;
     private Text description;
     private String link;
+    private String gotoLink;
     private Date date;
     private boolean dateReal = true;
     private String guid;
@@ -34,6 +35,7 @@ public class FeedItemHelper {
         helper.description = new Text(feedItem.description);
         helper.guid = feedItem.guid;
         helper.link = feedItem.link;
+        helper.gotoLink = feedItem.gotoLink;
         helper.title = feedItem.title;
 
         return helper;
@@ -49,7 +51,9 @@ public class FeedItemHelper {
         final String link = feedItemHelper.link;
         final String title = feedItemHelper.title;
 
-        return new FeedItem(title, description, link, date, dateReal, guid);
+        final String gotoLink = feedItemHelper.gotoLink.isEmpty() ? feedItemHelper.link : feedItemHelper.gotoLink;
+
+        return new FeedItem(title, description, link, gotoLink, date, dateReal, guid);
     }
 
 }

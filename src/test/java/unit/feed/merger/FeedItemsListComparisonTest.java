@@ -14,11 +14,11 @@ import static org.junit.Assert.assertTrue;
  */
 public class FeedItemsListComparisonTest {
 
-    private static FeedItem FIRST = new FeedItem("first-title", "first-description", "http://domain.com/firstLink", new Date(1), true, UUID.randomUUID().toString());
-    private static FeedItem FIRST_EQ = new FeedItem("first-title", "first-description", "http://domain.com/firstLink", new Date(1), true, UUID.randomUUID().toString());
+    private static FeedItem FIRST = new FeedItem("first-title", "first-description", "http://domain.com/firstLink", "http://domain.com/firstGotoLink", new Date(1), true, UUID.randomUUID().toString());
+    private static FeedItem FIRST_EQ = new FeedItem("first-title", "first-description", "http://domain.com/firstLink", "http://domain.com/firstGotoLink", new Date(1), true, UUID.randomUUID().toString());
 
-    private static FeedItem SECOND = new FeedItem("second-title", "second-description", "http://domain.com/secondLink", new Date(1), true, UUID.randomUUID().toString());
-    private static FeedItem SECOND_EQ = new FeedItem("second-title", "second-description", "http://domain.com/secondLink", new Date(1), true, UUID.randomUUID().toString());
+    private static FeedItem SECOND = new FeedItem("second-title", "second-description", "http://domain.com/secondLink", "http://domain.com/secondGotoLink", new Date(1), true, UUID.randomUUID().toString());
+    private static FeedItem SECOND_EQ = new FeedItem("second-title", "second-description", "http://domain.com/secondLink", "http://domain.com/secondGotoLink", new Date(1), true, UUID.randomUUID().toString());
 
     @Test
     public void whenListsEmptyThenTheyEquals() {
