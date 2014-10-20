@@ -35,15 +35,17 @@ AppUtilities.utilities = {
 
   daysDifference: function (date) {
     var now = new Date().getTime();
+    var inHours = parseInt((date - now) / (3600 * 1000));
+    var inDays = parseInt((date - now) / (24 * 3600 * 1000));
 
-    return parseInt((date - now) / (24 * 3600 * 1000));
+    return inHours < -24 ? inDays + 'd' : inHours + 'h';
   },
 
-  addDaysDifference: function (items) {
+  addTimeDifference: function (items) {
     var me = this;
 
     angular.forEach(items, function (value, key) {
-      value.daysDifference = ' ( {0} ) '.format(me.daysDifference(value.date));
+      value.timeDifference = ' ( {0} ) '.format(me.daysDifference(value.date));
     })  
   }
 

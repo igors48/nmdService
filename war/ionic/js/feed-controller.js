@@ -92,7 +92,7 @@ controllers.controller('feedController',
  
             $scope.feed = { title: response.title };
 
-            $scope.utilities.addDaysDifference(response.reports);
+            $scope.utilities.addTimeDifference(response.reports);
 
             $scope.items = response.reports;
         };
