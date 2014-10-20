@@ -139,7 +139,9 @@ controllers.controller('feedCardController',
 
             $scope.showUi = true; 
 
+            $scope.utilities.addDaysDifference(response.reports);
             currentPage = response;
+
             currentItem = firstIsCurrent ? 0 : currentPage.reports.length - 1;
 
             showCurrentCard();
@@ -157,6 +159,7 @@ controllers.controller('feedCardController',
 
             $scope.card = {};
             $scope.card.date = current.date;
+            $scope.card.daysDifference = current.daysDifference;
             $scope.card.title = current.title;
             $scope.card.description = current.description;
             $scope.card.link = current.link;
