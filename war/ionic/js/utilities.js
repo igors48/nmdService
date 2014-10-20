@@ -35,8 +35,13 @@ AppUtilities.utilities = {
 
   daysDifference: function (date) {
     var now = new Date().getTime();
+    var inMinutes = parseInt((date - now) / (60 * 1000));
     var inHours = parseInt((date - now) / (3600 * 1000));
     var inDays = parseInt((date - now) / (24 * 3600 * 1000));
+
+    if (inHours === 0) {
+      return inMinutes + 'm';
+    }
 
     return inHours < -24 ? inDays + 'd' : inHours + 'h';
   },
