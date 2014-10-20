@@ -16,7 +16,7 @@
            ng-click="markAsRead(item.feedId, item.itemId)">
             <div ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                 <div class="item item-divider">
-                    <h4 class="blue-front"><span class="icon ion-calendar"></span>&nbsp;{{item.date | date:'d MMM HH:mm'}}&nbsp;<span class="icon ion-flash" ng-show="item.addedSinceLastView"></span></h4>
+                    <h4 class="blue-front"><span class="icon ion-calendar"></span>&nbsp;{{item.date | date:'EEE d MMM HH:mm'}}&nbsp;<span class="icon ion-flash" ng-show="item.addedSinceLastView"></span></h4>
                 </div>
                 <div class="item item-text-wrap" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                     <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
