@@ -45,7 +45,7 @@ AppUtilities.utilities = {
     var me = this;
 
     angular.forEach(items, function (value, key) {
-      value.timeDifference = ' ( {0} ) '.format(me.daysDifference(value.date));
+      value.timeDifference = '( {0} ) '.format(me.daysDifference(value.date));
     })  
   }
 
