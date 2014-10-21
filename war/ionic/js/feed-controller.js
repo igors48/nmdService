@@ -91,6 +91,9 @@ controllers.controller('feedController',
             $scope.showUi = true;
  
             $scope.feed = { title: response.title };
+
+            $scope.utilities.addTimeDifference(response.reports);
+
             $scope.items = response.reports;
         };
 
