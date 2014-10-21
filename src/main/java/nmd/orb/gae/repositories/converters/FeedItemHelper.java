@@ -51,7 +51,7 @@ public class FeedItemHelper {
         final String link = feedItemHelper.link;
         final String title = feedItemHelper.title;
 
-        final String gotoLink = feedItemHelper.gotoLink.isEmpty() ? feedItemHelper.link : feedItemHelper.gotoLink;
+        final String gotoLink = (feedItemHelper.gotoLink == null || feedItemHelper.gotoLink.isEmpty()) ? feedItemHelper.link : feedItemHelper.gotoLink;
 
         return new FeedItem(title, description, link, gotoLink, date, dateReal, guid);
     }
