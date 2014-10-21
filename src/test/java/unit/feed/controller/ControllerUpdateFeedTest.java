@@ -49,4 +49,13 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
         assertEquals(0, feedUpdateTask.updates);
     }
 
+    @Test
+    public void whenFeedNotUpdatedThenStoreDoesNotCalled() throws ServiceException {
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
+
+        this.updatesService.updateFeed(feedId);
+
+        assertEquals(1, this.feedItemsRepositoryStub.getStoreCount());
+    }
+
 }

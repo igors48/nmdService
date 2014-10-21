@@ -93,7 +93,12 @@ public class UpdatesService extends AbstractService {
 
             final FeedUpdateTask updatedTask = updateTask.updateStatistic(mergeReport.added.size());
             this.feedUpdateTaskRepository.updateTask(updatedTask);
-            this.feedItemsRepository.storeItems(header.id, addedAndRetained);
+
+            final boolean needsToStore = !(mergeReport.added.isEmpty() && mergeReport.removed.isEmpty());
+
+            if (needsToStore) {
+                this.feedItemsRepository.storeItems(header.id, addedAndRetained);
+            }
 
             updateFeedTransaction.commit();
 

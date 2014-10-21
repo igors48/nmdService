@@ -13,13 +13,17 @@ public class FeedItemsRepositoryStub implements FeedItemsRepository {
 
     private final Map<UUID, List<FeedItem>> items;
 
+    private int storeCount;
+
     public FeedItemsRepositoryStub() {
         this.items = new HashMap<>();
+        this.storeCount = 0;
     }
 
     @Override
     public void storeItems(UUID feedId, List<FeedItem> items) {
         this.items.put(feedId, items);
+        ++this.storeCount;
     }
 
     @Override
@@ -36,6 +40,10 @@ public class FeedItemsRepositoryStub implements FeedItemsRepository {
 
     public boolean isEmpty() {
         return this.items.isEmpty();
+    }
+
+    public int getStoreCount() {
+        return this.storeCount;
     }
 
 }
