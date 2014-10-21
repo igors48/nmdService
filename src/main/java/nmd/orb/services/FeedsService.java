@@ -88,11 +88,7 @@ public class FeedsService extends AbstractService {
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, MAX_FEED_ITEMS_COUNT);
 
             final List<FeedItem> addedAndRetained = mergeReport.getAddedAndRetained();
-            final boolean notTheSame = !FeedItemsMerger.listEqualsIgnoringGuid(olds, addedAndRetained);
-
-            if (notTheSame) {
-                this.feedItemsRepository.storeItems(feedHeader.id, addedAndRetained);
-            }
+            this.feedItemsRepository.storeItems(feedHeader.id, addedAndRetained);
 
             final ReadFeedItems existsReadItems = this.readFeedItemsRepository.load(feedHeader.id);
             final ReadFeedItems updatedReadItems = existsReadItems.changeCategory(categoryId);

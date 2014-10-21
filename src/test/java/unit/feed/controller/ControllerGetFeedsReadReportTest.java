@@ -51,7 +51,7 @@ public class ControllerGetFeedsReadReportTest extends AbstractControllerTestBase
         final List<FeedReadReport> readReports = this.readsService.getFeedsReadReport();
 
         assertEquals(feedItem.guid, readReports.get(0).topItemId);
-        assertEquals(feedItem.link, readReports.get(0).topItemLink);
+        assertEquals(feedItem.gotoLink, readReports.get(0).topItemLink);
     }
 
     @Test

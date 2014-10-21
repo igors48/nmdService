@@ -31,7 +31,7 @@ public class ControllerGetFeedItemReportTest {
 
         assertEquals(FEED_ITEM.title, report.title);
         assertEquals(FEED_ITEM.description, report.description);
-        assertEquals(FEED_ITEM.link, report.link);
+        assertEquals(FEED_ITEM.gotoLink, report.link);
         assertEquals(FEED_ITEM.date, report.date);
         assertEquals(FEED_ITEM.guid, report.itemId);
     }

@@ -280,7 +280,7 @@ public class ReadsService extends AbstractService {
 
         final FeedItem topItem = findFirstNotReadFeedItem(items, readFeedItems.readItemIds, readFeedItems.lastUpdate);
         final String topItemId = topItem == null ? null : topItem.guid;
-        final String topItemLink = topItem == null ? null : topItem.link;
+        final String topItemLink = topItem == null ? null : topItem.gotoLink;
 
         final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
 
@@ -319,7 +319,7 @@ public class ReadsService extends AbstractService {
         final boolean readLaterItem = readFeedItems.readLaterItemIds.contains(feedItem.guid);
         final boolean addedSinceLastView = readFeedItems.lastUpdate.compareTo(feedItem.date) < 0;
 
-        return new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.link, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView);
+        return new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.gotoLink, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView);
     }
 
     private static List<FeedItem> findNotReadItems(List<FeedItem> items, Set<String> readGuids) {
