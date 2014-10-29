@@ -1,7 +1,7 @@
 ### Orb. News server.
 ### How to build and deploy Orb
 #### Java
-1. Download and install Java SE 7 from ...
+1. Download and install JDK Java SE 7 from [here](http://www.oracle.com/technetwork/java/javase/downloads/jdk7-downloads-1880260.html)
  
 #### GAE
 1. Create GAE application. It is described [here](https://sites.google.com/site/gdevelopercodelabs/app-engine/creating-your-app-engine-account);
@@ -10,7 +10,7 @@
 3. Create envinronment variable `GAE_HOME` and set it`s value to path where GAE SDK was unzipped.
 
 #### Git 
-7. Download and install Git
+7. Download and install Git. I think you can use any Git you like. Git executable file is needed for build process.
 
 #### Ant 
 6. Download and install Ant from [here](http://ant.apache.org/bindownload.cgi)
