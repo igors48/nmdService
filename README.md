@@ -27,4 +27,9 @@
 
 #### Local run
 1. Run `dev_server.bat`. Wait until server started;
-2. You can test appliication by visit `locahost:8080` in your browser. Actually it is fully functional application but without cron jobs because they are not supported by GAE development server.
+2. You can test appliication by visit `locahost:8080` in your browser. Actually it is fully functional application but without cron jobs because they are not supported by GAE development server;
+3. If server started and application works you can stop it by `Ctrl-C` and deploy it on GAE server.
+
+#### GAE deploy
+1. Stop local server by `Ctrl-C` if it is run;
+2. Run `ant `
