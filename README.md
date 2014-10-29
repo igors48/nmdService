@@ -17,7 +17,7 @@
 
 #### Source
 1. Checkout repo ... ;
-2. Find `build.properties.template` and copy it to `build.properties.local`;
+2. Find `build.properties.template` in project directory and copy it to new `build.properties.local` file;
 3. Open `build.properties.local` in text editor;
 4. Fill `email`;
 5. Fill `application.identifier`;
