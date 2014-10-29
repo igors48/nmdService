@@ -10,13 +10,13 @@
 3. Create envinronment variable `GAE_HOME` and set it`s value to path where GAE SDK was unzipped.
 
 #### Git 
-7. Download and install Git. I think you can use any Git you like. Git executable file is needed for build process.
+1. Download and install Git. I think you can use any Git you like. Git executable file is needed for build process.
 
 #### Ant 
-6. Download and install Ant from [here](http://ant.apache.org/bindownload.cgi)
+1. Download and install Ant from [here](http://ant.apache.org/bindownload.cgi)
 
 #### Source
-. Checkout repo ...
+1. Checkout repo ...
 
 Run 'ant release'. You may leave application identifier and security key as is for now. Ensure that build completes without errors.
 Now we will start local server to check everything is Ok. 
