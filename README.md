@@ -13,14 +13,18 @@
 1. Download and install Git. I think you can use any Git you like. Git executable file is needed for build process.
 
 #### Ant 
-1. Download and install Ant from [here](http://ant.apache.org/bindownload.cgi)
+1. Download and install Ant from [here](http://ant.apache.org/bindownload.cgi).
 
 #### Source
-1. Checkout repo ...
-2. Find `build.properties.template` and copy it to `build.properties.local`.
-3. Open `build.properties.local` in text editor.
-4. 
+1. Checkout repo ... ;
+2. Find `build.properties.template` and copy it to `build.properties.local`;
+3. Open `build.properties.local` in text editor;
+4. Fill `email`;
+5. Fill `application.identifier`;
+6. Fill `git.executable`;
+7. Save the changes.
 
+#### Local run
 Run 'ant release'. You may leave application identifier and security key as is for now. Ensure that build completes without errors.
 Now we will start local server to check everything is Ok. 
 Run 'dev_server.bat'. 
