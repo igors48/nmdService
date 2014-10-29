@@ -22,9 +22,13 @@
 4. Fill `email`;
 5. Fill `application.identifier`;
 6. Fill `git.executable`;
+7. You may leave `security.key`, `twitter.apiKey`,  `twitter.apiSecret` as is for now.
 7. Save the changes.
 
 #### Local run
+1. Run `dev_server.bat`. Wait until server started;
+2. You can test apliication by visit `locahost:8080` in your browser.
+
 Run 'ant release'. You may leave application identifier and security key as is for now. Ensure that build completes without errors.
 Now we will start local server to check everything is Ok. 
 Run 'dev_server.bat'. 
