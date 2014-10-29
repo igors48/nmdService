@@ -4,10 +4,10 @@
 1. Download and install Java SE 7 from ...
  
 #### GAE
-1. Create GAE account
-2. Create GAE application in admin interface
-4. Download and install GAE SDK from https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Java
-5. Create envinronment variable GAE_HOME and set it to actual value
+1. Create GAE application in admin interface. It is described [here](https://sites.google.com/site/gdevelopercodelabs/app-engine/creating-your-app-engine-account);
+2. Download latest GAE SDK from https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Java;
+3. Unzip it to some directory;
+3. Create envinronment variable GAE_HOME and set it`s value to path where GAE SDK was unzipped.
 
 #### Git 
 7. Download and install Git
