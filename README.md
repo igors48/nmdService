@@ -17,6 +17,9 @@
 
 #### Source
 1. Checkout repo ...
+2. Find `build.properties.template` and copy it to `build.properties.local`.
+3. Open `build.properties.local` in text editor.
+4. 
 
 Run 'ant release'. You may leave application identifier and security key as is for now. Ensure that build completes without errors.
 Now we will start local server to check everything is Ok. 
