@@ -27,10 +27,4 @@
 
 #### Local run
 1. Run `dev_server.bat`. Wait until server started;
-2. You can test apliication by visit `locahost:8080` in your browser.
-
-Run 'ant release'. You may leave application identifier and security key as is for now. Ensure that build completes without errors.
-Now we will start local server to check everything is Ok. 
-Run 'dev_server.bat'. 
-You may leave 'application identifier' and 'security key' as is for now.
-Go 'localhost:8080' to ensure that app is running. 
+2. You can test appliication by visit `locahost:8080` in your browser. Actually it is fully functional application but without cron jobs because they are not supported by GAE development server.
