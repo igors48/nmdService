@@ -9,7 +9,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertTrue;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 29.11.13
  */
 public class ControllerClearTest extends AbstractControllerTestBase {

@@ -14,7 +14,7 @@ import java.util.*;
 import static org.junit.Assert.*;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 26.11.13
  */
 public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {

@@ -7,7 +7,7 @@ import java.util.UUID;
 import static nmd.orb.util.Assert.*;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 18.12.13
  */
 public class FeedItemsReport {

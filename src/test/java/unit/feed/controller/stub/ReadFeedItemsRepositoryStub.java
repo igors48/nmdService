@@ -8,7 +8,7 @@ import java.util.*;
 import static nmd.orb.reader.ReadFeedItems.empty;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 22.10.13
  */
 public class ReadFeedItemsRepositoryStub implements ReadFeedItemsRepository {

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.UUID;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 22.10.13
  */
 public interface ReadFeedItemsRepository {

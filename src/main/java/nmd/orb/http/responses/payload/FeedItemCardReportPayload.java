@@ -7,7 +7,7 @@ import static nmd.orb.util.CleanupTools.cleanupDescription;
 import static nmd.orb.util.Parameter.notNull;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 13.12.13
  */
 public class FeedItemCardReportPayload {

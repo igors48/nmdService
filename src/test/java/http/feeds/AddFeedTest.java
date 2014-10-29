@@ -7,7 +7,7 @@ import org.junit.Test;
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 29.11.13
  */
 public class AddFeedTest extends AbstractHttpTest {

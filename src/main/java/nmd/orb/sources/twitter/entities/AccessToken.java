@@ -1,7 +1,7 @@
 package nmd.orb.sources.twitter.entities;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 26.02.14
  */
 public class AccessToken {

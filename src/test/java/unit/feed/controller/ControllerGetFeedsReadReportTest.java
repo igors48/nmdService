@@ -14,7 +14,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 22.10.13
  */
 public class ControllerGetFeedsReadReportTest extends AbstractControllerTestBase {

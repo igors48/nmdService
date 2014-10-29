@@ -12,7 +12,7 @@ import static nmd.orb.gae.repositories.datastore.Kind.FEED_ITEM;
 import static nmd.orb.util.Assert.assertNotNull;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 21.10.13
  */
 public class FeedItemListEntityConverter {

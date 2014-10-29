@@ -3,7 +3,7 @@ package nmd.orb.sources.twitter.entities;
 import static nmd.orb.util.Assert.assertNotNull;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 26.02.14
  */
 public class Tweet {

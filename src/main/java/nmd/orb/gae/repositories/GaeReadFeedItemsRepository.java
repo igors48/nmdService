@@ -17,7 +17,7 @@ import static nmd.orb.reader.ReadFeedItems.empty;
 import static nmd.orb.util.Assert.assertNotNull;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 26.11.13
  */
 public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {

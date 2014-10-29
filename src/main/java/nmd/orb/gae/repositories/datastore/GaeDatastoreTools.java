@@ -9,7 +9,7 @@ import static java.lang.Integer.MAX_VALUE;
 import static nmd.orb.util.Assert.assertNotNull;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 15.10.13
  */
 public class GaeDatastoreTools {

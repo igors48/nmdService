@@ -13,7 +13,7 @@ import java.util.UUID;
 import static org.junit.Assert.assertEquals;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 09.01.14
  */
 public class GetFeedHeadersTest extends AbstractHttpTest {

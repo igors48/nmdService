@@ -8,7 +8,7 @@ import org.junit.Test;
 import java.util.UUID;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 03.12.13
  */
 public class DeleteFeedTest extends AbstractHttpTest {

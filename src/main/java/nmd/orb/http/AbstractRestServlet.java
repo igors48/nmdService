@@ -13,7 +13,7 @@ import static nmd.orb.http.tools.ServletTools.writeException;
 import static nmd.orb.http.tools.ServletTools.writeResponseBody;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 05.12.13
  */
 public abstract class AbstractRestServlet extends HttpServlet {

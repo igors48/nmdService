@@ -7,7 +7,7 @@ import nmd.orb.repositories.FeedUpdateTaskSchedulerContextRepository;
 import static nmd.orb.util.Assert.assertNotNull;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 14.10.13
  */
 public class CachedFeedUpdateTaskSchedulerContextRepository implements FeedUpdateTaskSchedulerContextRepository {

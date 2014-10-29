@@ -12,7 +12,7 @@ import static nmd.orb.util.Assert.assertNotNull;
 import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 21.10.13
  */
 public class FeedItemListConverter {

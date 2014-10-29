@@ -11,7 +11,7 @@ import static nmd.orb.util.Assert.assertNotNull;
 import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 25.12.13
  */
 public class ReadFeedItems implements Serializable {

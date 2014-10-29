@@ -16,7 +16,7 @@ import java.util.UUID;
 import static org.junit.Assert.*;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 23.01.14
  */
 public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBase {

@@ -11,7 +11,7 @@ import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 13.12.13
  */
 public class FeedItemsReportResponse extends SuccessResponse {
