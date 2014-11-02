@@ -1,0 +1,34 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToCategory()"></button>
+    </div>
+
+    <h1 class="title" ng-cloak ng-show="showUi">{{feed.title}}</h1>
+
+    <div class="buttons">
+        <button class="button button-clear ion-android-note" ng-cloak ng-show="showUi" ng-click="switchToCardView()"></button>
+    </div>
+</ion-header-bar>
+
+<ion-content ng-cloak ng-show="showUi">
+    <div class="list">
+        <a class="block-link" ng-repeat="item in items" href="{{item.link}}" target="_blank"
+           ng-click="markAsRead(item.feedId, item.itemId)">
+            <div ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
+                <div class="item item-divider">
+                    <h4 class="blue-front"><span class="icon ion-calendar"></span>&nbsp;{{item.date | date:'EEE d MMM HH:mm'}}&nbsp;{{item.timeDifference}}<span class="icon ion-flash" ng-show="item.addedSinceLastView"></span></h4>
+                </div>
+                <div class="item item-text-wrap" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
+                    <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
+                </div>
+            </div>
+        </a>
+    </div>
+
+</ion-content>
+
+<ion-footer-bar align-title="left" class="bar-dark">
+    <div class="button-bar" ng-cloak ng-show="showUi">
+        <a class="button" ng-click="markAllItemsRead()">Mark all items read</a>
+    </div>
+</ion-footer-bar>

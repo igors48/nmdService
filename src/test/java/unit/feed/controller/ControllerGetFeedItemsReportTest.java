@@ -1,16 +1,19 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.FeedItemsReport;
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.feed.FeedHeader;
+import nmd.orb.error.ServiceException;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
+import nmd.orb.services.report.FeedItemsReport;
 import org.junit.Test;
 
+import java.util.Date;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 13.12.13
  */
 public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase {
@@ -22,7 +25,9 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
 
     @Test
     public void whenFeedItemsReportReturnsThenReportItemsSortFromNewToOld() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedHeader feedHeader = createSampleFeed(first, second);
 
         final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
 
@@ -31,18 +36,10 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
     }
 
     @Test
-    public void whenFeedItemsReportReturnsThenFeedIdSetCorrectly() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
-
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
-
-        assertEquals(feedHeader.id, feedItemsReport.reports.get(0).feedId);
-        assertEquals(feedHeader.id, feedItemsReport.reports.get(1).feedId);
-    }
-
-    @Test
     public void whenFeedItemsReportReturnsThenFeedTitleSetCorrectly() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedHeader feedHeader = createSampleFeed(first, second);
 
         final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
 
@@ -50,29 +47,42 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
     }
 
     @Test
-    public void whenFeedItemsReportReturnsThenFeedItemCountersSetCorrectly() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
+    public void whenFeedItemsReportReturnsThenFeedIdSetCorrectly() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedHeader feedHeader = createSampleFeed(first, second);
 
-        this.readsService.markItemAsRead(feedHeader.id, FIRST_FEED_ITEM_GUID);
-        this.readsService.toggleReadLaterItemMark(feedHeader.id, SECOND_FEED_ITEM_GUID);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
+
+        assertEquals(feedHeader.id, feedItemsReport.id);
+    }
+
+    @Test
+    public void whenFeedItemsReportReturnsThenFeedLastUpdateTimeSetCorrectly() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedHeader feedHeader = createSampleFeed(first, second);
+
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
+        final Date storedLastUpdate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
+
+        assertEquals(storedLastUpdate, feedItemsReport.lastUpdate);
+    }
+
+    @Test
+    public void whenFeedItemsReportReturnsThenFeedItemCountersSetCorrectly() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedHeader feedHeader = createSampleFeed(first, second);
+
+        this.readsService.markItemAsRead(feedHeader.id, first.guid);
+        this.readsService.toggleReadLaterItemMark(feedHeader.id, second.guid);
 
         final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
 
         assertEquals(1, feedItemsReport.read);
         assertEquals(1, feedItemsReport.notRead);
         assertEquals(1, feedItemsReport.readLater);
-    }
-
-    @Test
-    public void whenFeedItemsReportReturnsThenReadItemsMarkedCorrectly() throws ServiceException {
-        final FeedHeader feedHeader = createFeedWithTwoItems();
-
-        this.readsService.markItemAsRead(feedHeader.id, SECOND_FEED_ITEM_GUID);
-
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
-
-        assertTrue(feedItemsReport.reports.get(0).read);
-        assertFalse(feedItemsReport.reports.get(1).read);
     }
 
 }

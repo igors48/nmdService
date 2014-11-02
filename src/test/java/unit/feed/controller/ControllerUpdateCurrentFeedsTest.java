@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.FeedSeriesUpdateReport;
-import nmd.rss.collector.error.ServiceException;
+import nmd.orb.error.ServiceException;
+import nmd.orb.services.report.FeedSeriesUpdateReport;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -22,7 +22,7 @@ public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase
 
     @Test
     public void whenFeedIsUpdateCorrectlyThenItWillBeIncludedInUpdates() throws ServiceException {
-        addValidFirstRssFeed();
+        addValidFirstRssFeedToMainCategory();
 
         final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(1));
 
@@ -32,7 +32,7 @@ public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase
 
     @Test
     public void whenFeedIsUpdateWithErrorThenItWillBeIncludedInErrors() throws ServiceException {
-        addValidFirstRssFeed();
+        addValidFirstRssFeedToMainCategory();
 
         this.fetcherStub.simulateError(true);
 
@@ -44,7 +44,7 @@ public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase
 
     @Test
     public void whenCurrentFeedHadUpdatedAlreadyInThisCallThenUpdateProcessWillBeFinished() throws ServiceException {
-        addValidFirstRssFeed();
+        addValidFirstRssFeedToMainCategory();
 
         final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(2));
 
@@ -54,8 +54,8 @@ public class ControllerUpdateCurrentFeedsTest extends AbstractControllerTestBase
 
     @Test
     public void whenQuotaExpiredThenUpdateProcessWillBeFinished() throws ServiceException {
-        addValidFirstRssFeed();
-        addValidSecondRssFeed();
+        addValidFirstRssFeedToMainCategory();
+        addValidSecondRssFeedToMainCategory();
 
         final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(new CallsQuota(3));
 

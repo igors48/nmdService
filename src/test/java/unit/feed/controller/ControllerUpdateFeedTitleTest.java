@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.feed.FeedHeader;
+import nmd.orb.error.ServiceException;
+import nmd.orb.feed.FeedHeader;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -18,7 +18,7 @@ public class ControllerUpdateFeedTitleTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedIdIsCorrectThenTitleUpdates() throws ServiceException {
-        UUID feedId = addValidFirstRssFeed();
+        UUID feedId = addValidFirstRssFeedToMainCategory();
 
         this.feedsService.updateFeedTitle(feedId, UPDATED_TITLE);
 

@@ -1,6 +1,6 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.error.ServiceException;
+import nmd.orb.error.ServiceException;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -43,7 +43,7 @@ public class ControllerDeleteFeedTest extends AbstractControllerTestBase {
     }
 
     private UUID createAndDeleteFeed() throws ServiceException {
-        final UUID feedId = addValidFirstRssFeed();
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
         this.feedsService.removeFeed(feedId);
 
         return feedId;

@@ -1,0 +1,19 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToEditFeed()"></button>
+    </div>
+
+    <h1 class="title" ng-cloak ng-show="showUi">Select category</h1>
+</ion-header-bar>
+
+<ion-content ng-cloak ng-show="showUi">
+    <div class="list">
+        <div class="item item-icon-left" ng-repeat="category in categories" ng-click="onSelectCategory(category.id)">
+            <i class="icon ion-android-folder orange-front"></i>
+
+            <div>
+                <h2>{{category.name}}</h2>
+            </div>
+        </div>
+    </div>
+</ion-content>

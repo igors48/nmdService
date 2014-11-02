@@ -1,0 +1,42 @@
+<ion-header-bar align-title="left" class="bar-dark">
+	<div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToCategory()"></button>
+    </div>
+    <h1 class="title" ng-cloak ng-show="showUi">Edit feed</h1>
+</ion-header-bar>
+
+<ion-content scroll="false" ng-cloak ng-show="showUi">
+    <div class="card">
+        <div class="item item-divider">
+            {{feed.name}}
+        </div>
+        <div class="item item-text-wrap">
+            Items count: {{feed.items}}
+        </div>
+    </div>
+    <div class="list list-inset" ng-switch="mode">
+
+        <div ng-switch-when="choose">
+            <button class="button button-block button-balanced" ng-click="onRenameChosen()">Rename</button>
+            <button class="button button-block button-balanced" ng-click="onAssignChosen()">Assign</button>
+            <button class="button button-block button-assertive" ng-click="onDeleteChosen()">Delete</button>
+        </div>
+
+        <div ng-switch-when="rename">
+            <h4>Enter new name</h4>
+            <label class="item item-input">
+                <input type="text" placeholder="" ng-model="feed.newName">
+            </label>
+            <button class="button button-block button-balanced" ng-click="onRenameFeed()">Rename</button>
+            <button class="button button-block button-positive" ng-click="onCancelChosen()">Cancel</button>
+        </div>
+
+        <div ng-switch-when="delete">
+            <h4>Sure to delete feed {{feed.name}} ?</h4>
+            <button class="button button-block button-assertive" ng-click="onDeleteFeed()">Delete</button>
+            <button class="button button-block button-positive" ng-click="onCancelChosen()">No</button>
+        </div>
+
+    </div>
+</ion-content>
+

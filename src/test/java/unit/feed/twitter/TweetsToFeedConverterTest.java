@@ -1,13 +1,13 @@
 package unit.feed.twitter;
 
-import nmd.rss.collector.feed.Feed;
-import nmd.rss.collector.twitter.entities.Tweet;
+import nmd.orb.feed.Feed;
+import nmd.orb.sources.twitter.entities.Tweet;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import static nmd.rss.collector.twitter.TweetConversionTools.convertToFeed;
+import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -17,7 +17,7 @@ import static org.junit.Assert.assertNull;
  */
 public class TweetsToFeedConverterTest extends AbstractTweetConverterTestBase {
 
-    private static final String TWITTER_URL = "twitter_url";
+    private static final String TWITTER_URL = "http://domain.com/twitter_url";
     private static Date SOME_DATE = new Date(1);
 
     @Test

@@ -1,8 +1,8 @@
 package unit.feed.merger;
 
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
-import nmd.rss.collector.feed.FeedItemsMerger;
+import nmd.orb.collector.merger.FeedItemsMergeReport;
+import nmd.orb.collector.merger.FeedItemsMerger;
+import nmd.orb.feed.FeedItem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -20,13 +20,13 @@ import static org.junit.Assert.assertTrue;
  */
 public class FeedItemsMergerCheckMaximumCountTest {
 
-    public static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48), true, UUID.randomUUID().toString());
-    public static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(50), true, UUID.randomUUID().toString());
-    public static final FeedItem OLD_THIRD = new FeedItem("oldThirdTitle", "oldThirdDescription", "oldThirdLink", new Date(50), true, UUID.randomUUID().toString());
+    public static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "http://domain.com/oldFirstLink", "http://domain.com/oldFirstGotoLink", new Date(48), true, UUID.randomUUID().toString());
+    public static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "http://domain.com/oldSecondLink", "http://domain.com/oldSecondGotoLink", new Date(50), true, UUID.randomUUID().toString());
+    public static final FeedItem OLD_THIRD = new FeedItem("oldThirdTitle", "oldThirdDescription", "http://domain.com/oldThirdLink", "http://domain.com/oldThirdGotoLink", new Date(50), true, UUID.randomUUID().toString());
 
-    public static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "youngFirstLink", new Date(58), true, UUID.randomUUID().toString());
-    public static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", new Date(60), true, UUID.randomUUID().toString());
-    public static final FeedItem YOUNG_THIRD = new FeedItem("youngThirdTitle", "youngThirdDescription", "youngThirdLink", new Date(62), true, UUID.randomUUID().toString());
+    public static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "http://domain.com/youngFirstLink", "http://domain.com/youngFirstGotoLink", new Date(58), true, UUID.randomUUID().toString());
+    public static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "http://domain.com/youngSecondLink", "http://domain.com/youngSecondGotoLink", new Date(60), true, UUID.randomUUID().toString());
+    public static final FeedItem YOUNG_THIRD = new FeedItem("youngThirdTitle", "youngThirdDescription", "http://domain.com/youngThirdLink", "http://domain.com/youngThirdGotoLink", new Date(62), true, UUID.randomUUID().toString());
 
     private List<FeedItem> olds;
     private List<FeedItem> youngs;

@@ -1,8 +1,8 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.Quota;
+import nmd.orb.services.quota.Quota;
 
-import static nmd.rss.collector.util.Assert.assertPositive;
+import static nmd.orb.util.Assert.assertPositive;
 
 /**
  * @author : igu

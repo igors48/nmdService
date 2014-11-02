@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static nmd.rss.collector.rest.ServletTools.parse;
+import static nmd.orb.http.tools.ServletTools.parse;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -15,6 +15,7 @@ public class ServletToolsParsePathInfoTest {
 
     @Test
     public void extractElementsPart() {
+        assertEquals(new ArrayList<String>(), parse(null));
         assertEquals(new ArrayList<String>(), parse(""));
         assertEquals(new ArrayList<String>(), parse("/"));
         assertEquals(new ArrayList<String>(), parse("///"));

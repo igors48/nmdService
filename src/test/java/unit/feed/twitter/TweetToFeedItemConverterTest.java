@@ -1,14 +1,14 @@
 package unit.feed.twitter;
 
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.twitter.entities.Urls;
+import nmd.orb.feed.FeedItem;
+import nmd.orb.sources.twitter.entities.Urls;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-import static nmd.rss.collector.twitter.TweetConversionTools.convertToItem;
-import static nmd.rss.collector.twitter.TweetConversionTools.parse;
+import static nmd.orb.sources.twitter.TweetConversionTools.convertToItem;
+import static nmd.orb.sources.twitter.TweetConversionTools.parse;
 import static org.junit.Assert.*;
 
 /**
@@ -24,7 +24,8 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
         final FeedItem feedItem = convertToItem(this.tweet, SOME_DATE);
 
         assertFalse(feedItem.guid.isEmpty());
-        assertEquals(FIRST_TWEET_ENTITY_EXPANDED_URL, feedItem.link);
+        assertEquals(FIRST_TWEET_ENTITY_EXPANDED_URL, feedItem.gotoLink);
+        assertEquals(makeTweetUrl(), feedItem.link);
         assertEquals(TEXT, feedItem.title);
         assertEquals(TEXT, feedItem.description);
         assertEquals(parse(CREATED), feedItem.date);
@@ -46,45 +47,63 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenTweetEntitiesIsNullThenNullReturns() {
+    public void whenTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() {
         this.tweet.setEntities(null);
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        final FeedItem feedItem = convertToItem(this.tweet, SOME_DATE);
+
+        assertEquals(makeTweetUrl(), feedItem.link);
+        assertEquals(makeTweetUrl(), feedItem.gotoLink);
     }
 
     @Test
-    public void whenUrlsInTweetEntitiesIsNullThenNullReturns() {
+    public void whenUrlsInTweetEntitiesIsNullThenThenTweetUrlIsUsedAsGotoLink() {
         this.tweet.getEntities().setUrls(null);
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        final FeedItem feedItem = convertToItem(this.tweet, SOME_DATE);
+
+        assertEquals(makeTweetUrl(), feedItem.link);
+        assertEquals(makeTweetUrl(), feedItem.gotoLink);
     }
 
     @Test
-    public void whenUrlsInTweetEntitiesIsEmptyThenNullReturns() {
+    public void whenUrlsInTweetEntitiesIsEmptyThenTweetUrlIsUsedAsGotoLink() {
         this.tweet.getEntities().setUrls(new ArrayList<Urls>());
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        final FeedItem feedItem = convertToItem(this.tweet, SOME_DATE);
+
+        assertEquals(makeTweetUrl(), feedItem.link);
+        assertEquals(makeTweetUrl(), feedItem.gotoLink);
     }
 
     @Test
-    public void whenFirstElementInUrlsInTweetEntitiesIsNullThenNullReturns() {
+    public void whenFirstElementInUrlsInTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() {
         this.tweet.getEntities().getUrls().set(0, null);
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        final FeedItem feedItem = convertToItem(this.tweet, SOME_DATE);
+
+        assertEquals(makeTweetUrl(), feedItem.link);
+        assertEquals(makeTweetUrl(), feedItem.gotoLink);
     }
 
     @Test
-    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsNullThenNullReturns() {
+    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() {
         this.tweet.getEntities().getUrls().get(0).setExpanded_url(null);
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        final FeedItem feedItem = convertToItem(this.tweet, SOME_DATE);
+
+        assertEquals(makeTweetUrl(), feedItem.link);
+        assertEquals(makeTweetUrl(), feedItem.gotoLink);
     }
 
     @Test
-    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsEmptyThenNullReturns() {
+    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsEmptyThenTweetUrlIsUsedAsGotoLink() {
         this.tweet.getEntities().getUrls().get(0).setExpanded_url("");
 
-        assertNull(convertToItem(this.tweet, SOME_DATE));
+        final FeedItem feedItem = convertToItem(this.tweet, SOME_DATE);
+
+        assertEquals(makeTweetUrl(), feedItem.link);
+        assertEquals(makeTweetUrl(), feedItem.gotoLink);
     }
 
     @Test

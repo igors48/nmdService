@@ -1,11 +1,11 @@
 package unit.feed.parser;
 
-import nmd.rss.collector.feed.FeedItem;
+import nmd.orb.feed.FeedItem;
 import org.junit.Test;
 
 import java.util.Date;
 
-import static nmd.rss.collector.feed.FeedParser.build;
+import static nmd.orb.sources.rss.FeedParser.build;
 import static org.junit.Assert.*;
 
 /**
@@ -16,7 +16,7 @@ public class FeedItemBuilderTest {
 
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
-    private static final String LINK = "link";
+    private static final String LINK = "http://domain.com/link";
     private static final String ALTERNATE_DESCRIPTION = "alternate_description";
     private static final String GUID = "guid";
     private static final Date DATE = new Date(1);

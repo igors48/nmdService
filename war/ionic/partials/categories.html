@@ -1,0 +1,34 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <h1 class="title" ng-cloak ng-show="showUi">Categories</h1>
+
+    <div class="buttons" ng-cloak ng-show="showUi">
+        <button class="button button-clear ion-android-add" ng-click="addCategory()"></button>
+    </div>
+</ion-header-bar>
+
+<ion-content ng-cloak ng-show="showUi">
+    <div class="list">
+        <div class="item item-icon-left item-button-right" ng-repeat="category in categories"  ng-class="($root.lastCategoryId==category.id) ? 'last-used' : ''"  ng-click="openCategory('{{category.id}}')">
+            <i class="icon ion-android-folder orange-front"></i>
+
+            <div>
+                <h2 style="-webkit-perspective: 1000;">{{category.name}}</h2>
+            </div>
+
+            <div>
+                <p style="-webkit-perspective: 1000;">
+                    <span class="ion-social-rss blue-front"></span>&nbsp;{{category.feedCount}}&nbsp;&nbsp;
+                    <span class="ion-eye blue-front"></span>&nbsp;{{category.read}}&nbsp;&nbsp;
+                    <span class="ion-eye-disabled blue-front"></span>&nbsp;{{category.notRead}}&nbsp;&nbsp;
+                    <span class="ion-android-clock blue-front"></span>&nbsp;{{category.readLater}}&nbsp;&nbsp;
+                </p>
+            </div>
+
+            <button class="button button-clear ion-android-mixer" ng-click="editCategory('{{category.id}}')"></button>
+        </div>
+    </div>
+</ion-content>
+
+<ion-footer-bar align-title="left" class="bar-dark">
+    <h1 class="title"></h1>
+</ion-footer-bar>

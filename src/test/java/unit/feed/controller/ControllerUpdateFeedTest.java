@@ -1,7 +1,8 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.controller.FeedUpdateReport;
-import nmd.rss.collector.error.ServiceException;
+import nmd.orb.collector.scheduler.FeedUpdateTask;
+import nmd.orb.error.ServiceException;
+import nmd.orb.services.report.FeedUpdateReport;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -21,8 +22,8 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
     }
 
     @Test
-    public void whenFeedUpdatedThenMergeReportReturns() throws Exception {
-        final UUID feedId = addValidFirstRssFeed();
+    public void whenFeedUpdatedThenMergeReportReturns() throws ServiceException {
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
 
         final FeedUpdateReport report = this.updatesService.updateFeed(feedId);
 
@@ -33,6 +34,28 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
         assertEquals(0, report.mergeReport.removed.size());
         assertEquals(2, report.mergeReport.retained.size());
         assertEquals(0, report.mergeReport.added.size());
+    }
+
+    @Test
+    public void whenFeedUpdatedThenStatisticUpdated() throws ServiceException {
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
+
+        this.updatesService.updateFeed(feedId);
+        this.updatesService.updateFeed(feedId);
+
+        final FeedUpdateTask feedUpdateTask = this.feedUpdateTaskRepositoryStub.loadTaskForFeedId(feedId);
+
+        assertEquals(2, feedUpdateTask.executions);
+        assertEquals(0, feedUpdateTask.updates);
+    }
+
+    @Test
+    public void whenFeedNotUpdatedThenStoreDoesNotCalled() throws ServiceException {
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
+
+        this.updatesService.updateFeed(feedId);
+
+        assertEquals(1, this.feedItemsRepositoryStub.getStoreCount());
     }
 
 }

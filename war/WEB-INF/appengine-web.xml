@@ -1,15 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <appengine-web-app xmlns="http://appengine.google.com/ns/1.0">
     <application>@application.identifier@</application>
-    <version>1</version>
+    <version>@git.sha@</version>
     <threadsafe>true</threadsafe>
 
+    <system-properties>
+        <property name="twitter.apiKey" value="@twitter.apiKey@"/>
+        <property name="twitter.apiSecret" value="@twitter.apiSecret@"/>
+    </system-properties>
+
     <static-files>
-        <include path="js/**.js"/>
-        <include path="css/**.css"/>
-        <include path="lib/angular/**.js"/>
-        <include path="partials/**.html"/>
-        <include path="img/**.*"/>
+        <include path="lib/**.*"/>
+        <include path="js/**.*"/>
+        <include path="css/**.*"/>
+        <include path="partials/**.*"/>
 
         <include path="feed/**.xml"/>
     </static-files>

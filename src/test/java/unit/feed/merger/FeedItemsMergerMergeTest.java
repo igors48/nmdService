@@ -1,8 +1,8 @@
 package unit.feed.merger;
 
-import nmd.rss.collector.feed.FeedItem;
-import nmd.rss.collector.feed.FeedItemsMergeReport;
-import nmd.rss.collector.feed.FeedItemsMerger;
+import nmd.orb.collector.merger.FeedItemsMergeReport;
+import nmd.orb.collector.merger.FeedItemsMerger;
+import nmd.orb.feed.FeedItem;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -23,15 +23,16 @@ public class FeedItemsMergerMergeTest {
     private static final int REALLY_BIG_FEED = 1000;
     private static final int REALLY_SMALL_FEED = 1;
 
-    private static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48), true, UUID.randomUUID().toString());
-    private static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(50), true, UUID.randomUUID().toString());
+    private static final FeedItem OLD_FIRST = new FeedItem("oldFirstTitle", "oldFirstDescription", "http://domain.com/oldFirstLink", "http://domain.com/oldFirstGotoLink", new Date(48), true, UUID.randomUUID().toString());
+    private static final FeedItem OLD_SECOND = new FeedItem("oldSecondTitle", "oldSecondDescription", "http://domain.com/oldSecondLink", "http://domain.com/oldSecondGotoLink", new Date(50), true, UUID.randomUUID().toString());
 
-    private static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "youngFirstLink", new Date(58), true, UUID.randomUUID().toString());
-    private static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "youngSecondLink", new Date(60), true, UUID.randomUUID().toString());
-    private static final FeedItem OLD_SECOND_DUPLICATE = new FeedItem("oldSecondTitle", "oldSecondDescription", "oldSecondLink", new Date(52), true, UUID.randomUUID().toString());
+    private static final FeedItem YOUNG_FIRST = new FeedItem("youngFirstTitle", "youngFirstDescription", "http://domain.com/youngFirstLink", "http://domain.com/youngFirstGotoLink", new Date(58), true, UUID.randomUUID().toString());
+    private static final FeedItem YOUNG_FIRST_WITH_SAME_GOTO_URL = new FeedItem("youngFirstTitle", "youngFirstDescription", "http://domain.com/youngFirstLink", "http://domain.com/oldFirstGotoLink", new Date(58), true, UUID.randomUUID().toString());
+    private static final FeedItem YOUNG_SECOND = new FeedItem("youngSecondTitle", "youngSecondDescription", "http://domain.com/youngSecondLink", "http://domain.com/youngSecondGotoLink", new Date(60), true, UUID.randomUUID().toString());
+    private static final FeedItem OLD_SECOND_DUPLICATE = new FeedItem("oldSecondTitle", "oldSecondDescription", "http://domain.com/oldSecondLink", "http://domain.com/oldSecondGotoLink", new Date(52), true, UUID.randomUUID().toString());
 
-    private static final FeedItem OLD_WITH_NOT_REAL_DATE = new FeedItem("oldFirstTitle", "oldFirstDescription", "oldFirstLink", new Date(48), false, UUID.randomUUID().toString());
-    private static final FeedItem YOUNG_WITH_NOT_REAL_DATE = new FeedItem("youngFirstTitle", "youngFirstDescription", "oldFirstLink", new Date(58), false, UUID.randomUUID().toString());
+    private static final FeedItem OLD_WITH_NOT_REAL_DATE = new FeedItem("oldFirstTitle", "oldFirstDescription", "http://domain.com/oldFirstLink", "http://domain.com/oldFirstGotoLink", new Date(48), false, UUID.randomUUID().toString());
+    private static final FeedItem YOUNG_WITH_NOT_REAL_DATE = new FeedItem("youngFirstTitle", "youngFirstDescription", "http://domain.com/oldFirstLink", "http://domain.com/oldFirstGotoLink", new Date(58), false, UUID.randomUUID().toString());
 
     private List<FeedItem> olds;
     private List<FeedItem> youngs;
@@ -162,6 +163,22 @@ public class FeedItemsMergerMergeTest {
         assertTrue(report.removed.isEmpty());
         assertEquals(1, report.retained.size());
         assertTrue(report.retained.contains(OLD_WITH_NOT_REAL_DATE));
+    }
+
+    @Test
+    public void whenOldAndYoungItemsHaveSameGotoUrlButDifferentSourceUrlThenBothAreAdded() {
+        this.youngs.clear();
+        this.youngs.add(YOUNG_FIRST_WITH_SAME_GOTO_URL);
+
+        final FeedItemsMergeReport report = FeedItemsMerger.merge(this.olds, this.youngs, REALLY_BIG_FEED);
+
+        assertEquals(1, report.added.size());
+        assertTrue(report.removed.isEmpty());
+        assertEquals(2, report.retained.size());
+
+        assertTrue(report.added.contains(YOUNG_FIRST_WITH_SAME_GOTO_URL));
+        assertTrue(report.retained.contains(OLD_FIRST));
+        assertTrue(report.retained.contains(OLD_SECOND));
     }
 
 }

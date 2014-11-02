@@ -1,0 +1,15 @@
+.block-link {
+    text-decoration: none;
+}
+
+.orange-front {
+    color: rgb(253, 128, 45);
+}
+
+.blue-front {
+    color: rgb(61, 128, 177);
+}
+
+.last-used {
+    background-color: rgb(224, 240, 255);
+}

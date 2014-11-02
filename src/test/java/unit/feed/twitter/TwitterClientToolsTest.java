@@ -2,8 +2,8 @@ package unit.feed.twitter;
 
 import org.junit.Test;
 
-import static nmd.rss.collector.twitter.TwitterClientTools.getTwitterUserName;
-import static nmd.rss.collector.twitter.TwitterClientTools.isItTwitterUrl;
+import static nmd.orb.sources.twitter.TwitterClientTools.getTwitterUserName;
+import static nmd.orb.sources.twitter.TwitterClientTools.isItTwitterUrl;
 import static org.junit.Assert.*;
 
 /**

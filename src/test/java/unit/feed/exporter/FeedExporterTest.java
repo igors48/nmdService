@@ -1,8 +1,12 @@
 package unit.feed.exporter;
 
-import nmd.rss.collector.exporter.FeedExporter;
-import nmd.rss.collector.exporter.FeedExporterException;
-import nmd.rss.collector.feed.*;
+import nmd.orb.exporter.FeedExporter;
+import nmd.orb.exporter.FeedExporterException;
+import nmd.orb.feed.Feed;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.feed.FeedItem;
+import nmd.orb.sources.rss.FeedParser;
+import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -22,13 +26,18 @@ public class FeedExporterTest {
     private static final String RSS_FEED_URL = "http://www.3dnews.ru/news/rss";
     private static final String HEADER_TITLE = "headerTitle";
     private static final String HEADER_DESCRIPTION = "headerDescription";
-    private static final String HEADER_LINK = "headerLink";
+    private static final String HEADER_LINK = "http://domain.com/headerLink";
 
     @Test
     public void roundtrip() throws FeedExporterException, FeedParserException {
         final FeedHeader header = new FeedHeader(UUID.randomUUID(), RSS_FEED_URL, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
-        final FeedItem first = new FeedItem("firstTitle", "firstDescription", "firstLink", new Date(48), true, "firstLink");
-        final FeedItem second = new FeedItem("secondTitle", "secondDescription", "secondLink", new Date(50), true, "secondLink");
+
+        final FeedItem first = new FeedItem("firstTitle", "firstDescription", "http://domain.com/firstLink", "http://domain.com/firstGotoLink", new Date(48), true, "http://domain.com/firstLink");
+        final FeedItem second = new FeedItem("secondTitle", "secondDescription", "http://domain.com/secondLink", "http://domain.com/secondGotoLink", new Date(50), true, "http://domain.com/secondLink");
+
+        final FeedItem firstExpected = new FeedItem("firstTitle", "firstDescription", "http://domain.com/firstGotoLink", "http://domain.com/firstGotoLink", new Date(48), true, "http://domain.com/firstLink");
+        final FeedItem secondExpected = new FeedItem("secondTitle", "secondDescription", "http://domain.com/secondGotoLink", "http://domain.com/secondGotoLink", new Date(50), true, "http://domain.com/secondLink");
+
         final List<FeedItem> items = new ArrayList<>();
         items.add(first);
         items.add(second);
@@ -43,8 +52,8 @@ public class FeedExporterTest {
 
         assertEquals(items.size(), parsed.items.size());
 
-        assertTrue(first.equalsExcludeGuid(parsed.items.get(0)));
-        assertTrue(second.equalsExcludeGuid(parsed.items.get(1)));
+        assertTrue(firstExpected.equalsExcludeGuid(parsed.items.get(0)));
+        assertTrue(secondExpected.equalsExcludeGuid(parsed.items.get(1)));
     }
 
 }

@@ -1,9 +1,9 @@
 package unit.feed.scheduler;
 
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContext;
-import nmd.rss.collector.scheduler.FeedUpdateTaskSchedulerContextRepository;
+import nmd.orb.collector.scheduler.FeedUpdateTaskSchedulerContext;
+import nmd.orb.repositories.FeedUpdateTaskSchedulerContextRepository;
 
-import static nmd.rss.collector.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

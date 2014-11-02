@@ -1,12 +1,13 @@
 package unit.feed.twitter;
 
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.twitter.entities.Urls;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.sources.twitter.entities.Urls;
 import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static nmd.rss.collector.twitter.TweetConversionTools.convertToHeader;
+import static nmd.orb.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
+import static nmd.orb.sources.twitter.TweetConversionTools.convertToHeader;
 import static org.junit.Assert.*;
 
 /**
@@ -15,7 +16,8 @@ import static org.junit.Assert.*;
  */
 public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBase {
 
-    private static final String TWITTER_URL = "twitter_url";
+    private static final String TWITTER_URL = "http://domain.com/twitter_url";
+    private static final String LONG_STRING = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
 
     @Test
     public void allFeedHeaderFieldsWereTrimmedAndAssignedProperly() {
@@ -100,53 +102,63 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserEntitiesNullThenNullReturns() {
+    public void whenUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().setEntities(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlInUserEntitiesNullThenNullReturns() {
+    public void whenUrlInUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().setUrl(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlListInUserEntitiesNullThenNullReturns() {
+    public void whenUrlListInUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().setUrls(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlListInUserEntitiesEmptyThenNullReturns() {
+    public void whenUrlListInUserEntitiesEmptyThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().setUrls(new ArrayList<Urls>());
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstUrlsElementInUserEntitiesNullThenNullReturns() {
+    public void whenFirstUrlsElementInUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().getUrls().set(0, null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstExpandedUrlInUserEntitiesNullThenNullReturns() {
+    public void whenFirstExpandedUrlInUserEntitiesNullThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().getUrls().get(0).setExpanded_url(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstExpandedUrlInUserEntitiesEmptyThenNullReturns() {
+    public void whenFirstExpandedUrlInUserEntitiesEmptyThenTwitterUrlReturns() {
         this.tweet.getUser().getEntities().getUrl().getUrls().get(0).setExpanded_url("");
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
+    @Test
+    public void longUserNameAndDescriptionAreCut() {
+        this.tweet.getUser().setName(LONG_STRING);
+        this.tweet.getUser().setDescription(LONG_STRING);
+
+        final FeedHeader header = convertToHeader(TWITTER_URL, this.tweet);
+
+        assertTrue(header.description.length() == MAX_DESCRIPTION_AND_TITLE_LENGTH);
+        assertTrue(header.title.length() == MAX_DESCRIPTION_AND_TITLE_LENGTH);
+    }
 
 }

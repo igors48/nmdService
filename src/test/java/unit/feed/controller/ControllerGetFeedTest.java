@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.feed.Feed;
+import nmd.orb.error.ServiceException;
+import nmd.orb.feed.Feed;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -16,7 +16,7 @@ public class ControllerGetFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedAddedThenItReturns() throws ServiceException {
-        final UUID feedId = addValidFirstRssFeed();
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
         final Feed feed = this.feedsService.getFeed(feedId);
 
         assertNotNull(feed);

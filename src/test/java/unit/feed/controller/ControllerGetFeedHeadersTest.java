@@ -1,7 +1,7 @@
 package unit.feed.controller;
 
-import nmd.rss.collector.error.ServiceException;
-import nmd.rss.collector.feed.FeedHeader;
+import nmd.orb.error.ServiceException;
+import nmd.orb.feed.FeedHeader;
 import org.junit.Test;
 
 import java.util.List;
@@ -17,8 +17,8 @@ public class ControllerGetFeedHeadersTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedsAddedThenTheyReturnInList() throws ServiceException {
-        final UUID firstFeedId = addValidFirstRssFeed();
-        final UUID secondFeedId = addValidSecondRssFeed();
+        final UUID firstFeedId = addValidFirstRssFeedToMainCategory();
+        final UUID secondFeedId = addValidSecondRssFeedToMainCategory();
 
         final List<FeedHeader> feeds = this.feedsService.getFeedHeaders();
 
@@ -30,7 +30,7 @@ public class ControllerGetFeedHeadersTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedIdExistsThenItsHeaderReturns() throws ServiceException {
-        final UUID firstFeedId = addValidFirstRssFeed();
+        final UUID firstFeedId = addValidFirstRssFeedToMainCategory();
 
         final FeedHeader loadedHeader = this.feedsService.loadFeedHeader(firstFeedId);
         final FeedHeader expectedHeader = new FeedHeader(firstFeedId, VALID_FIRST_RSS_FEED_LINK, "3DNews - Daily Digital Digest: Новости Hardware", "Новости Hardware на 3DNews", "http://www.3dnews.ru/");

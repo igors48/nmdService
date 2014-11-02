@@ -1,11 +1,12 @@
 package unit.feed.parser;
 
-import nmd.rss.collector.feed.FeedHeader;
-import nmd.rss.collector.feed.FeedParser;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.sources.rss.FeedParser;
 import org.junit.Test;
 
 import java.util.UUID;
 
+import static nmd.orb.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
@@ -15,11 +16,12 @@ import static org.junit.Assert.assertNull;
  */
 public class FeedHeaderBuilderTest {
 
-    private static final String URL = "url";
-    private static final String LINK = "link";
+    private static final String URL = "http://domain.com/url";
+    private static final String LINK = "http://domain.com/link";
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
     private static final UUID GUID = UUID.randomUUID();
+    private static final String LONG_STRING = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
 
     @Test
     public void whenFeedUrlIsNullThenNullReturns() {
@@ -138,6 +140,14 @@ public class FeedHeaderBuilderTest {
         final FeedHeader feedHeader = FeedParser.build(URL, LINK, TITLE, DESCRIPTION, GUID);
 
         assertEquals(GUID, feedHeader.id);
+    }
+
+    @Test
+    public void longTitleAndDescriptionAreCutted() {
+        final FeedHeader feedHeader = FeedParser.build(URL, LINK, LONG_STRING, LONG_STRING, GUID);
+
+        assertEquals(MAX_DESCRIPTION_AND_TITLE_LENGTH, feedHeader.title.length());
+        assertEquals(MAX_DESCRIPTION_AND_TITLE_LENGTH, feedHeader.description.length());
     }
 
 }

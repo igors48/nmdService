@@ -1,0 +1,46 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToCategories()"></button>
+    </div>
+
+    <h1 class="title" ng-cloak ng-show="showUi">{{category.title}}</h1>
+
+    <div class="buttons" ng-cloak ng-show="showUi">
+        <button class="button button-clear ion-android-add" ng-click="addFeed()"></button>
+    </div>
+</ion-header-bar>
+
+<ion-content ng-cloak ng-show="showUi">
+    <div class="list">
+        <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds"
+             ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''">
+            <div ng-click="openFeed(feed.feedId)">
+                <div ng-switch="feed.feedType">
+                    <i ng-switch-when="RSS" class="icon ion-social-rss orange-front"></i>
+                    <i ng-switch-when="TWITTER" class="icon ion-social-twitter blue-front"></i>
+                </div>
+
+                <h2>{{feed.feedTitle}}</h2>
+
+                <div>
+                    <p>
+                        <span class="ion-eye blue-front"></span>&nbsp;{{feed.lastUpdate | date:'d MMM'}}&nbsp;&nbsp;
+                        <span class="ion-eye-disabled blue-front"></span>&nbsp;{{feed.notRead}}&nbsp;&nbsp;
+                        <span class="ion-flash blue-front"></span>&nbsp;{{feed.addedFromLastVisit}}&nbsp;&nbsp;
+                        <span class="ion-android-clock blue-front"></span>&nbsp;{{feed.readLater}}&nbsp;&nbsp;
+                    </p>
+                </div>
+            </div>
+
+            <div class="buttons">
+                <button class="button button-clear ion-android-mixer" ng-click="editFeed(feed.feedId)"></button>
+                <a href="{{feed.topItemLink}}" target="_blank" class="block-link button button-clear ion-flash"
+                   ng-click="openTopItem(feed.feedId, feed.topItemId)" ng-show="feed.topItemLink!=''"></a>
+            </div>
+        </div>
+    </div>
+</ion-content>
+
+<ion-footer-bar align-title="left" class="bar-dark">
+    <h1 class="title"></h1>
+</ion-footer-bar>

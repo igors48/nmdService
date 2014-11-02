@@ -1,18 +1,18 @@
 package unit.feed.cache;
 
-import nmd.rss.reader.CachedReadFeedItemsRepository;
-import nmd.rss.reader.ReadFeedItems;
+import nmd.orb.reader.ReadFeedItems;
+import nmd.orb.repositories.cached.CachedReadFeedItemsRepository;
 import org.junit.Before;
 import org.junit.Test;
-import unit.feed.controller.ReadFeedItemsRepositoryStub;
+import unit.feed.controller.stub.ReadFeedItemsRepositoryStub;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.UUID;
 
-import static nmd.rss.reader.CachedReadFeedItemsRepository.keyFor;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static nmd.orb.repositories.cached.CachedReadFeedItemsRepository.KEY;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -22,8 +22,8 @@ public class CachedReadFeedItemsRepositoryTest {
 
     private static final UUID FEED_ID = UUID.randomUUID();
 
-    private static final ReadFeedItems CACHED = new ReadFeedItems(new Date(1), new HashSet<String>(), new HashSet<String>(), "cached");
-    private static final ReadFeedItems STORED = new ReadFeedItems(new Date(2), new HashSet<String>(), new HashSet<String>(), "stored");
+    private static final ReadFeedItems CACHED = new ReadFeedItems(FEED_ID, new Date(1), new HashSet<String>(), new HashSet<String>(), "cached");
+    private static final ReadFeedItems STORED = new ReadFeedItems(FEED_ID, new Date(2), new HashSet<String>(), new HashSet<String>(), "stored");
 
     private CachedReadFeedItemsRepository repository;
 
@@ -33,10 +33,12 @@ public class CachedReadFeedItemsRepositoryTest {
     @Before
     public void setUp() {
         this.cacheStub = new CacheStub();
-        this.cacheStub.put(keyFor(FEED_ID), CACHED);
+        this.cacheStub.put(KEY, new ArrayList<ReadFeedItems>() {{
+            add(CACHED);
+        }});
 
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
-        this.readFeedItemsRepositoryStub.store(FEED_ID, STORED);
+        this.readFeedItemsRepositoryStub.store(STORED);
 
         this.repository = new CachedReadFeedItemsRepository(this.readFeedItemsRepositoryStub, this.cacheStub);
     }
@@ -63,21 +65,21 @@ public class CachedReadFeedItemsRepositoryTest {
 
         this.repository.load(FEED_ID);
 
-        assertEquals(STORED, this.cacheStub.get(keyFor(FEED_ID)));
+        assertNotNull(this.cacheStub.get(KEY));
     }
 
     @Test
-    public void whenItemIsStoredThenCacheIsUpdated() {
-        this.repository.store(FEED_ID, STORED);
+    public void whenItemIsStoredThenCacheIsDeleted() {
+        this.repository.store(STORED);
 
-        assertEquals(STORED, this.cacheStub.get(keyFor(FEED_ID)));
+        assertNull(this.cacheStub.get(KEY));
     }
 
     @Test
-    public void whenItemIsDeletedThenCacheIsUpdated() {
+    public void whenItemIsDeletedThenCacheIsDeleted() {
         this.repository.delete(FEED_ID);
 
-        assertNull(this.cacheStub.get(keyFor(FEED_ID)));
+        assertNull(this.cacheStub.get(KEY));
     }
 
 }

@@ -15,6 +15,8 @@
 
     <property name="src.web.inf.directory" value="${dir.base}/war/WEB-INF"/>
     <property name="src.meta.inf.directory" value="${dir.base}/war/META-INF"/>
+    <property name="src.ionic.app.directory" value="${dir.base}/war/ionic/"/>
+
     <property name="war.directory" value="${dir.release}/war/"/>
     <property name="web.inf.directory" value="${dir.release}/war/WEB-INF/"/>
     <property name="lib.directory" value="${web.inf.directory}/lib/"/>
@@ -149,6 +151,34 @@
         <include name="**/*.java"/>
     </fileset>
 
+    <filterset id="properties.and.security">
+        <filter token="application.identifier" value="${application.identifier}"/>
+        <filter token="security.key" value="${security.key}"/>
+        <filter token="twitter.apiKey" value="${twitter.apiKey}"/>
+        <filter token="twitter.apiSecret" value="${twitter.apiSecret}"/>
+    </filterset>
+
+    <target name="-get_commit_SHA">
+
+        <exec executable="${git.executable}" outputproperty="git.sha" failonerror="true">
+            <arg value="log"/>
+            <arg value="--pretty=format:%h"/>
+            <arg value="-n"/>
+            <arg value="1"/>
+        </exec>
+
+        <echo message="Latest commit SHA [ ${git.sha} ]"/>
+
+    </target>
+
+    <target name="-fail_if_not_clean">
+
+        <exec executable="${git.executable}" failonerror="true">
+            <arg value="diff"/>
+            <arg value="--exit-code"/>
+        </exec>
+
+    </target>
 
     <target name="-prepare_dir">
         <delete dir="${param.dir}" includeEmptyDirs="true" quiet="false"/>
@@ -281,7 +311,60 @@
     </target>
 
 
-    <target name="release">
+    <target name="-delete_resources">
+
+        <delete dir="${war.directory}/js/"/>
+        <delete dir="${war.directory}/partials/"/>
+        <delete dir="${war.directory}/css/"/>
+        <delete dir="${war.directory}/img/"/>
+        <delete dir="${war.directory}/lib/"/>
+
+        <delete file="${war.directory}/index.html"/>
+
+    </target>
+
+
+    <target name="-copy_resources">
+
+        <copy todir="${war.directory}/">
+            <fileset file="${src.ionic.app.directory}/index.html"/>
+
+            <filterset refid="properties.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/partials/">
+            <fileset dir="${src.ionic.app.directory}/partials/"/>
+
+            <filterset refid="properties.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/js/">
+            <fileset dir="${src.ionic.app.directory}/js/"/>
+
+            <filterset refid="properties.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/css/">
+            <fileset dir="${src.ionic.app.directory}/css/"/>
+
+            <filterset refid="properties.and.security"/>
+        </copy>
+
+        <copy todir="${war.directory}/lib/">
+            <fileset dir="${src.ionic.app.directory}/lib/"/>
+        </copy>
+
+    </target>
+
+
+    <target name="update_resources">
+
+        <antcall target="-delete_resources"/>
+        <antcall target="-copy_resources"/>
+
+    </target>
+
+    <target name="build" depends="-get_commit_SHA">
 
         <antcall target="-prepare_dir">
             <param name="param.dir" value="${dir.release}"/>
@@ -328,17 +411,18 @@
             <fileset dir="${dir.dependencies.runtime}"/>
         </copy>
 
-        <filterset id="identifier.and.security">
-            <filter token="application.identifier" value="${application.identifier}"/>
-            <filter token="security.key" value="${security.key}"/>
-        </filterset>
+        <echo message="Latest commit SHA [ ${git.sha} ]"/>
 
         <copy file="${src.web.inf.directory}/appengine-web.xml" todir="${web.inf.directory}">
             <fileset dir="${dir.base}/war/WEB-INF">
                 <include name="*.xml"/>
             </fileset>
 
-            <filterset refid="identifier.and.security"/>
+            <filterset refid="properties.and.security"/>
+
+            <filterset>
+                <filter token="git.sha" value="${git.sha}"/>
+            </filterset>
         </copy>
 
         <copy todir="${meta.inf.directory}">
@@ -347,44 +431,16 @@
             </fileset>
         </copy>
 
+        <antcall target="-copy_resources"/>
+
         <!--static files for test mode only-->
         <copy todir="${war.directory}/feed/">
             <fileset dir="${dir.base}/war/feed/"/>
         </copy>
 
-        <copy todir="${war.directory}/js/">
-            <fileset dir="${dir.base}/war/angular/app/js/"/>
-
-            <filterset refid="identifier.and.security"/>
-        </copy>
-
-        <copy todir="${war.directory}/partials/">
-            <fileset dir="${dir.base}/war/angular/app/partials/"/>
-
-            <filterset refid="identifier.and.security"/>
-        </copy>
-
-        <copy todir="${war.directory}/">
-            <fileset file="${dir.base}/war/angular/app/index.html"/>
-
-            <filterset refid="identifier.and.security"/>
-        </copy>
-
-        <copy todir="${war.directory}/css/">
-            <fileset dir="${dir.base}/war/angular/app/css/"/>
-        </copy>
-
-        <copy todir="${war.directory}/img/">
-            <fileset dir="${dir.base}/war/angular/app/img/"/>
-        </copy>
-
-        <copy todir="${war.directory}/lib/">
-            <fileset dir="${dir.base}/war/angular/app/lib/"/>
-        </copy>
-
     </target>
 
-    <target name="update">
+    <target name="update" depends="-fail_if_not_clean, build">
 
         <input message="Enter password : " addproperty="gae.password">
             <handler type="secure"/>

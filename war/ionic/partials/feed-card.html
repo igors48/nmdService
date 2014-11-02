@@ -1,0 +1,36 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToCategory()"></button>
+    </div>
+
+    <h1 class="title" ng-cloak ng-show="showUi">{{feed.title}}</h1>
+
+    <div class="buttons">
+        <button class="button button-clear ion-android-storage" ng-cloak ng-show="showUi" ng-click="switchToListView()"></button>
+    </div>
+</ion-header-bar>
+
+<ion-content ng-cloak ng-show="showUi">
+    <div class="card">
+        <a class="block-link" href="{{card.link}}" target="_blank" ng-click="onMarkAndNext()">
+            <div class="item item-text-wrap">
+                <h2>{{card.title}}</h2> 
+
+                <h4 class="blue-front">
+                    <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'EEE d MMM HH:mm'}}&nbsp;{{card.timeDifference}}
+                    <span class="icon ion-eye-disabled" ng-show="card.notRead"></span>
+                </h4>
+
+                <h3 ng-bind-html="card.description"></h3> 
+            </div>
+        </a> 
+    </div>   
+</ion-content>
+
+<ion-footer-bar align-title="left" class="bar-dark">
+    <div class="button-bar" ng-cloak ng-show="showUi">
+        <a class="button" ng-click="onPrev()">Prev</a>
+        <a class="button" ng-click="onMarkAndNext()">Mark&amp;Next</a>
+        <a class="button" ng-click="onNext()">Next</a>
+    </div>
+</ion-footer-bar>

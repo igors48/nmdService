@@ -1,16 +1,18 @@
 package unit.tool;
 
-import nmd.rss.collector.rest.FeedAndItemIds;
-import nmd.rss.collector.rest.ServletTools;
+import nmd.orb.http.tools.FeedAndItemIds;
+import nmd.orb.http.tools.ServletTools;
 import org.junit.Test;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 /**
- * User: igu
+ * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 28.11.13
  */
 public class ServletToolsParseFeedAndItemIdsTest {
@@ -50,14 +52,14 @@ public class ServletToolsParseFeedAndItemIdsTest {
 
     @Test
     public void whenItemIdContainsOnlySpacesThenEmptyIdReturns() {
-        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, "  ", "");
+        final FeedAndItemIds feedAndItemIds = createAndParse(FEED_ID, "", "");
 
         assertEquals("", feedAndItemIds.itemId);
     }
 
     @Test
     public void whenPathInfoIsEmptyThenNullReturns() {
-        assertNull(ServletTools.parseFeedAndItemIds(""));
+        assertNull(ServletTools.parseFeedAndItemIds(new ArrayList<String>()));
     }
 
     @Test
@@ -74,15 +76,19 @@ public class ServletToolsParseFeedAndItemIdsTest {
     }
 
     private static FeedAndItemIds createAndParse(final String feedId, final String itemId, final String postfix) {
-        final String pathInfo = createPathInfo(feedId, itemId, postfix);
+        final List<String> elements = createPathInfo(feedId, itemId, postfix);
 
-        return ServletTools.parseFeedAndItemIds(pathInfo);
+        return ServletTools.parseFeedAndItemIds(elements);
     }
 
-    private static String createPathInfo(final String feedId, final String itemId, final String postfix) {
-        final String pathInfo = "/" + feedId + "/" + itemId;
+    private static List<String> createPathInfo(final String feedId, final String itemId, final String postfix) {
+        final List<String> pathInfo = new ArrayList<>();
 
-        return postfix.isEmpty() ? pathInfo : pathInfo + "/" + postfix;
+        pathInfo.add(feedId);
+        pathInfo.add(itemId);
+        pathInfo.add(postfix);
+
+        return pathInfo;
     }
 
 }
