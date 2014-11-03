@@ -8,6 +8,17 @@
     <div class="buttons">
         <button class="button button-clear ion-android-note" ng-cloak ng-show="showUi" ng-click="switchToCardView()"></button>
     </div>
+
+</ion-header-bar>
+
+<ion-header-bar class="bar-subheader bar-dark">
+
+    <div class="button-bar" ng-cloak ng-show="showUi">
+        <a class="button" ng-click="">All (200)</a>
+        <a class="button" ng-click=""><b class="orange-front">Not read (48)</b></a>
+        <a class="button" ng-click="">Read later (0)</a>
+    </div>
+
 </ion-header-bar>
 
 <ion-content ng-cloak ng-show="showUi">
