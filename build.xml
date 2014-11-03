@@ -411,8 +411,6 @@
             <fileset dir="${dir.dependencies.runtime}"/>
         </copy>
 
-        <echo message="Latest commit SHA [ ${git.sha} ]"/>
-
         <copy file="${src.web.inf.directory}/appengine-web.xml" todir="${web.inf.directory}">
             <fileset dir="${dir.base}/war/WEB-INF">
                 <include name="*.xml"/>
@@ -438,6 +436,8 @@
             <fileset dir="${dir.base}/war/feed/"/>
         </copy>
 
+        <echo message="Latest commit SHA [ ${git.sha} ]"/>
+
     </target>
 
     <target name="update" depends="-fail_if_not_clean, build">
@@ -453,6 +453,11 @@
             <arg value="update"/>
             <arg value="${war.directory}"/>
         </java>
+
+        <echo message=" "/>
+        <echo message=" "/>
+        <echo message="Application deployed successfully."/>
+        <echo message="Please switch application version to [ ${git.sha} ]."/>
 
     </target>
 
