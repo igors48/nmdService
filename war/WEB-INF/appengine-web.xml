@@ -7,6 +7,9 @@
     <system-properties>
         <property name="twitter.apiKey" value="@twitter.apiKey@"/>
         <property name="twitter.apiSecret" value="@twitter.apiSecret@"/>
+        <property name="git.sha" value="@git.sha@"/>
+        <property name="application.version.major" value="1"/>
+        <property name="application.version.minor" value="1"/>
     </system-properties>
 
     <static-files>
