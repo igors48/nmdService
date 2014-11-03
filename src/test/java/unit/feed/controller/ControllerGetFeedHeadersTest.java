@@ -33,7 +33,7 @@ public class ControllerGetFeedHeadersTest extends AbstractControllerTestBase {
         final UUID firstFeedId = addValidFirstRssFeedToMainCategory();
 
         final FeedHeader loadedHeader = this.feedsService.loadFeedHeader(firstFeedId);
-        final FeedHeader expectedHeader = new FeedHeader(firstFeedId, VALID_FIRST_RSS_FEED_LINK, "3DNews - Daily Digital Digest: Новости Hardware", "Новости Hardware на 3DNews", "http://www.3dnews.ru/");
+        final FeedHeader expectedHeader = new FeedHeader(firstFeedId, VALID_FIRST_RSS_FEED_LINK, "atitle", "Новости Hardware на 3DNews", "http://www.3dnews.ru/");
 
         assertEquals(expectedHeader, loadedHeader);
     }

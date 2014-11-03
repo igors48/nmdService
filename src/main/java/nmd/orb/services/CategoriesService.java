@@ -26,6 +26,7 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
 public class CategoriesService {
 
     private static final CategoryNameComparator CATEGORY_NAME_COMPARATOR = new CategoryNameComparator();
+    private static final FeedTitleComparator FEED_TITLE_COMPARATOR = new FeedTitleComparator();
 
     private final CategoriesRepository categoriesRepository;
     private final ReadFeedItemsRepository readFeedItemsRepository;
@@ -237,6 +238,8 @@ public class CategoriesService {
             }
         }
 
+        Collections.sort(feedReadReports, FEED_TITLE_COMPARATOR);
+
         return new CategoryReport(category.uuid, category.name, feedReadReports, read, notRead, readLater);
     }
 
@@ -300,14 +303,31 @@ public class CategoriesService {
     private static class CategoryNameComparator implements Comparator<CategoryReport> {
 
         @Override
-        public int compare(final CategoryReport fisrt, final CategoryReport second) {
-            guard(notNull(fisrt));
+        public int compare(final CategoryReport first, final CategoryReport second) {
+            guard(notNull(first));
             guard(notNull(second));
 
-            final String firstName = fisrt.name;
+            final String firstName = first.name;
             final String secondName = second.name;
 
             return firstName.compareTo(secondName);
         }
+
     }
+
+    private static class FeedTitleComparator implements Comparator<FeedReadReport> {
+
+        @Override
+        public int compare(final FeedReadReport first, final FeedReadReport second) {
+            guard(notNull(first));
+            guard(notNull(second));
+
+            final String firstTitle = first.feedTitle;
+            final String secondTitle = second.feedTitle;
+
+            return firstTitle.compareTo(secondTitle);
+        }
+
+    }
+
 }

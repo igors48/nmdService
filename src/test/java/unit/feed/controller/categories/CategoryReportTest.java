@@ -4,6 +4,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedItemsReport;
+import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
 
@@ -77,6 +78,18 @@ public class CategoryReportTest extends AbstractControllerTestBase {
         assertEquals("first", reports.get(0).name);
         assertEquals(Category.MAIN.name, reports.get(1).name);
         assertEquals("zet", reports.get(2).name);
+    }
+
+    @Test
+    public void whenCategoryReportCreatedThenFeedsAreSortedAlphabeticallyByTitle() throws ServiceException {
+        final UUID secondFeedId = addValidSecondRssFeedToMainCategory();
+        final UUID firstFeedId = addValidFirstRssFeedToMainCategory();
+
+        final CategoryReport report = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
+        final List<FeedReadReport> readReports = report.feedReadReports;
+
+        assertEquals(firstFeedId, readReports.get(0).feedId);
+        assertEquals(secondFeedId, readReports.get(1).feedId);
     }
 
 }

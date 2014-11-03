@@ -16,7 +16,7 @@ public class FeedItemsRepositoryStub implements FeedItemsRepository {
     private int storeCount;
 
     public FeedItemsRepositoryStub() {
-        this.items = new HashMap<>();
+        this.items = new LinkedHashMap<>();
         this.storeCount = 0;
     }
 
