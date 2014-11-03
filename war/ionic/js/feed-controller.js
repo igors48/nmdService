@@ -90,7 +90,12 @@ controllers.controller('feedController',
 
             $scope.showUi = true;
  
-            $scope.feed = { title: response.title };
+            $scope.feed = { 
+                title: response.title,
+                total: response.read + response.notRead, 
+                notRead: response.notRead,
+                readLater: response.readLater
+            };
 
             $scope.utilities.addTimeDifference(response.reports);
 
