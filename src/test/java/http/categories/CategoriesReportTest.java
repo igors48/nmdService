@@ -13,6 +13,7 @@ import java.util.UUID;
 
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -48,6 +49,17 @@ public class CategoriesReportTest extends AbstractHttpTest {
         assertEquals(100, mainCategoryReport.notRead);
         assertEquals(0, mainCategoryReport.read);
         assertEquals(0, mainCategoryReport.readLater);
+    }
+
+    @Test
+    public void whenCategoryIdIsNotGivenThenApplicationVersionReturnedInReport() {
+        final CategoryResponse categoryResponse = addCategoryWithResponse(CATEGORY_NAME);
+        addFeedWithResponse(FIRST_FEED_URL, MAIN_CATEGORY_ID);
+        addFeedWithResponse(SECOND_FEED_URL, categoryResponse.category.id);
+
+        final CategoriesReportResponse response = getCategoriesReport();
+
+        assertNotNull(response.version);
     }
 
     @Test
