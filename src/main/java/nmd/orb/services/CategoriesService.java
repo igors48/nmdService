@@ -10,10 +10,7 @@ import nmd.orb.repositories.*;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedReadReport;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
@@ -27,6 +24,8 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
  * @author : igu
  */
 public class CategoriesService {
+
+    private static final CategoryNameComparator CATEGORY_NAME_COMPARATOR = new CategoryNameComparator();
 
     private final CategoriesRepository categoriesRepository;
     private final ReadFeedItemsRepository readFeedItemsRepository;
@@ -121,6 +120,8 @@ public class CategoriesService {
             }
 
             transaction.commit();
+
+            Collections.sort(reports, CATEGORY_NAME_COMPARATOR);
 
             return reports;
         } finally {
@@ -296,4 +297,17 @@ public class CategoriesService {
         return list;
     }
 
+    private static class CategoryNameComparator implements Comparator<CategoryReport> {
+
+        @Override
+        public int compare(final CategoryReport fisrt, final CategoryReport second) {
+            guard(notNull(fisrt));
+            guard(notNull(second));
+
+            final String firstName = fisrt.name;
+            final String secondName = second.name;
+
+            return firstName.compareTo(secondName);
+        }
+    }
 }

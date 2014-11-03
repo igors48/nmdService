@@ -57,7 +57,7 @@ public class CategoryReportTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryIsFoundThenReportReturns() throws ServiceException {
-        CategoryReport report = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
+        final CategoryReport report = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
 
         assertNotNull(report);
     }
@@ -66,4 +66,17 @@ public class CategoryReportTest extends AbstractControllerTestBase {
     public void whenCategoryIsNotFoundThenExceptionThrows() throws ServiceException {
         this.categoriesService.getCategoryReport(UUID.randomUUID().toString());
     }
+
+    @Test
+    public void whenReportContainsCategoriesThenTheyAreSortedAlphabeticallyByName() {
+        this.categoriesService.addCategory("first");
+        this.categoriesService.addCategory("zet");
+
+        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
+
+        assertEquals("first", reports.get(0).name);
+        assertEquals(Category.MAIN.name, reports.get(1).name);
+        assertEquals("zet", reports.get(2).name);
+    }
+
 }
