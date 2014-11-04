@@ -42,6 +42,10 @@ controllers.controller('feedController',
             );
         };
 
+        $scope.markAsReadLater = function () {
+            alert('markAsReadLater');
+        };
+
         $scope.markAllItemsRead = function () {
             $ionicLoading.show({
                 template: 'Marking items...'

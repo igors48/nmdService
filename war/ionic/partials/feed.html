@@ -30,8 +30,11 @@
                 <div class="item item-divider">
                     <h4 class="blue-front"><span class="icon ion-calendar"></span>&nbsp;{{item.date | date:'EEE d MMM HH:mm'}}&nbsp;{{item.timeDifference}}<span class="icon ion-flash" ng-show="item.addedSinceLastView"></span></h4>
                 </div>
-                <div class="item item-text-wrap" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
+                <div class="item item-text-wrap item-button-right" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                     <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
+                    <div class="buttons">
+                        <button class="button button-clear ion-android-clock" ng-click="markAsReadLater()"></button>
+                    </div>
                 </div>
             </div>
         </a>
