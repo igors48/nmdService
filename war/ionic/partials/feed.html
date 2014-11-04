@@ -24,20 +24,29 @@
 
 <ion-content ng-cloak ng-show="showUi">
     <div class="list">
-        <a class="block-link" ng-repeat="item in items" href="{{item.link}}" target="_blank"
-           ng-click="markAsRead(item.feedId, item.itemId)">
+        <div ng-repeat="item in items">
             <div ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                 <div class="item item-divider">
-                    <h4 class="blue-front"><span class="icon ion-calendar"></span>&nbsp;{{item.date | date:'EEE d MMM HH:mm'}}&nbsp;{{item.timeDifference}}<span class="icon ion-flash" ng-show="item.addedSinceLastView"></span></h4>
+                    <a class="block-link" href="{{item.link}}" target="_blank"
+                       ng-click="markAsRead(item.feedId, item.itemId)">
+                        <h4 class="blue-front"><span class="icon ion-calendar"></span>&nbsp;{{item.date | date:'EEE d
+                            MMM HH:mm'}}&nbsp;{{item.timeDifference}}<span class="icon ion-flash"
+                                                                           ng-show="item.addedSinceLastView"></span>
+                        </h4>
+                    </a>
                 </div>
                 <div class="item item-text-wrap item-button-right" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
-                    <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
+                    <a class="block-link" href="{{item.link}}" target="_blank"
+                       ng-click="markAsRead(item.feedId, item.itemId)">
+                        <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
+                    </a>
+
                     <div class="buttons">
                         <button class="button button-clear ion-android-clock" ng-click="markAsReadLater()"></button>
                     </div>
                 </div>
             </div>
-        </a>
+        </div>
     </div>
 
 </ion-content>
