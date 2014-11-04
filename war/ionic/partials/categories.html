@@ -12,11 +12,11 @@
             <i class="icon ion-android-folder orange-front"></i>
 
             <div>
-                <h2 style="-webkit-perspective: 1000;">{{category.name}}</h2>
+                <h2>{{category.name}}</h2>
             </div>
 
             <div>
-                <p style="-webkit-perspective: 1000;">
+                <p>
                     <span class="ion-social-rss blue-front"></span>&nbsp;{{category.feedCount}}&nbsp;&nbsp;
                     <span class="ion-eye blue-front"></span>&nbsp;{{category.read}}&nbsp;&nbsp;
                     <span class="ion-eye-disabled blue-front"></span>&nbsp;{{category.notRead}}&nbsp;&nbsp;
@@ -30,5 +30,5 @@
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
-    <h6 ng-cloak  ng-show="showUi" class="orange-front">Orb. News server (version {{version.major}}.{{version.minor}}-sha1:{{version.sha1}})</h6>
+    <h6 ng-cloak  ng-show="showUi" class="orange-front">Orb. version {{version.major}}.{{version.minor}}-sha1:{{version.sha1}}</h6>
 </ion-footer-bar>
