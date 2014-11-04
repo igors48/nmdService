@@ -5,6 +5,8 @@ controllers.controller('feedController',
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
         $scope.showUi = false;
 
+        $scope.filter = 'show-all';
+
         $scope.utilities = AppUtilities.utilities;
 
         $scope.backToCategory = function () {
@@ -67,6 +69,22 @@ controllers.controller('feedController',
                 categoryId: $stateParams.categoryId, 
                 feedId: $stateParams.feedId 
             });
+        };
+
+        $scope.showAll = function () {
+            $scope.filter = 'show-all';
+        };
+
+        $scope.showNew = function () {
+            $scope.filter = 'show-new';
+        };
+
+        $scope.showNotRead = function () {
+            $scope.filter = 'show-not-read';
+        };
+
+        $scope.showReadLater = function () {
+            $scope.filter = 'show-read-later';
         };
 
         var onMarkAllItemsReadCompleted = function (response) {

@@ -14,10 +14,13 @@
 <ion-header-bar class="bar-subheader bar-dark">
 
     <div class="button-bar" ng-cloak ng-show="showUi">
-        <a class="button-energized button icon ion-eye" ng-click="">&nbsp;{{feed.total}}</a>
-        <a class="button icon ion-flash" ng-click="">&nbsp;{{feed.notRead}}</a>
-        <a class="button icon ion-eye-disabled" ng-click="">&nbsp;{{feed.notRead}}</a>
-        <a class="button icon ion-android-clock" ng-click="">&nbsp;{{feed.readLater}}</a>
+        <a ng-class="(filter=='show-all') ? 'button-energized' : ''" class="button" ng-click="showAll()">All&nbsp;{{feed.total}}</a>
+        <a ng-class="(filter=='show-new') ? 'button-energized' : ''" class="button icon ion-flash" ng-click="showNew()">
+            &nbsp;{{feed.notRead}}</a>
+        <a ng-class="(filter=='show-not-read') ? 'button-energized' : ''" class="button icon ion-eye-disabled"
+           ng-click="showNotRead()">&nbsp;{{feed.notRead}}</a>
+        <a ng-class="(filter=='show-read-later') ? 'button-energized' : ''" class="button icon ion-android-clock"
+           ng-click="showReadLater()">&nbsp;{{feed.readLater}}</a>
     </div>
 
 </ion-header-bar>
