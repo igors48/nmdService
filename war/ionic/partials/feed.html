@@ -32,9 +32,10 @@
                 <div class="item item-divider">
                     <a class="block-link" href="{{item.link}}" target="_blank"
                        ng-click="markAsRead(item.feedId, item.itemId)">
-                        <h4 class="blue-front"><span class="icon ion-calendar"></span>&nbsp;{{item.date | date:'EEE d
-                            MMM HH:mm'}}&nbsp;{{item.timeDifference}}<span class="icon ion-flash"
-                                                                           ng-show="item.addedSinceLastView"></span>
+                        <h4 class="blue-front"><span class="icon ion-calendar"></span>
+                            &nbsp;{{item.date | date:'EEE d MMM HH:mm'}}
+                            &nbsp;{{item.timeDifference}}
+                            <span class="icon ion-flash" ng-show="item.addedSinceLastView"></span>
                         </h4>
                     </a>
                 </div>
