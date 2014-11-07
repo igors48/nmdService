@@ -14,7 +14,7 @@
     <div class="list">
         <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds"
              ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''">
-            <div ng-click="openFeed(feed.feedId)">
+            <div ng-click="openFeed(feed.feedId, 'show-all')">
                 <div ng-switch="feed.feedType">
                     <i ng-switch-when="RSS" class="icon ion-social-rss orange-front"></i>
                     <i ng-switch-when="TWITTER" class="icon ion-social-twitter blue-front"></i>
@@ -25,7 +25,7 @@
                 <div>
                     <p>
                         <span class="ion-eye blue-front"></span>&nbsp;{{feed.lastUpdate | date:'d MMM'}}&nbsp;&nbsp;
-                        <span class="ion-eye-disabled blue-front"></span>&nbsp;{{feed.notRead}}&nbsp;&nbsp;
+                        <span class="ion-eye-disabled blue-front" ng-click="openFeed(feed.feedId, 'show-not-read')">&nbsp;{{feed.notRead}}&nbsp;&nbsp;</span>
                         <span class="ion-flash blue-front"></span>&nbsp;{{feed.addedFromLastVisit}}&nbsp;&nbsp;
                         <span class="ion-android-clock blue-front"></span>&nbsp;{{feed.readLater}}&nbsp;&nbsp;
                     </p>
