@@ -50,7 +50,13 @@ public class ReadsServletGetRequestHandler implements Handler {
         final UUID feedId = parseUuid(element);
 
         if (parameters.isEmpty()) {
-            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId) : createErrorJsonResponse(invalidFeedId(element));
+            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, false) : createErrorJsonResponse(invalidFeedId(element));
+        }
+
+        final String filter = parameters.get("filter");
+
+        if ("only-not-read".equals(filter)) {
+            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, true) : createErrorJsonResponse(invalidFeedId(element));
         }
 
         final String offsetAsString = parameters.get("offset");

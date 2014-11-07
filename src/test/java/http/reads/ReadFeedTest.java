@@ -57,4 +57,18 @@ public class ReadFeedTest extends AbstractHttpTest {
         assertTrue(feedItemsReportResponse.notRead > 0);
     }
 
+    @Test
+    public void whenNotReadFilterSetThenReportReturns() {
+        final FeedIdResponse feedIdResponse = addFirstFeed();
+
+        final FeedItemsReportResponse feedItemsReportResponse = getNotReadFeedItemsFilteredReport(feedIdResponse.feedId.toString());
+
+        assertFalse(feedItemsReportResponse.title.isEmpty());
+        assertFalse(feedItemsReportResponse.reports.isEmpty());
+
+        assertEquals(0, feedItemsReportResponse.read);
+        assertEquals(0, feedItemsReportResponse.readLater);
+        assertTrue(feedItemsReportResponse.notRead > 0);
+    }
+
 }

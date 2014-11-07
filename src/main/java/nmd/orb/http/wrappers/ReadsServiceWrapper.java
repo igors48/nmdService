@@ -17,7 +17,7 @@ public interface ReadsServiceWrapper {
 
     ResponseBody toggleItemAsReadLater(UUID feedId, String itemId);
 
-    ResponseBody getFeedItemsReport(UUID feedId);
+    ResponseBody getFeedItemsReport(UUID feedId, boolean onlyNotRead);
 
     ResponseBody getFeedItemsCardsReport(UUID feedId, int offset, int size);
 
