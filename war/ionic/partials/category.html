@@ -23,12 +23,12 @@
                 <h2>{{feed.feedTitle}}</h2>
 
                 <div>
-                    <p>
-                        <span class="ion-eye blue-front"></span>&nbsp;{{feed.lastUpdate | date:'d MMM'}}&nbsp;&nbsp;
+                    <h3>
+                    <span class="ion-eye blue-front"></span>&nbsp;{{feed.lastUpdate | date:'d MMM'}}&nbsp;&nbsp;
                         <span class="ion-eye-disabled blue-front" ng-click="openFeed(feed.feedId, 'show-not-read')">&nbsp;{{feed.notRead}}&nbsp;&nbsp;</span>
                         <span class="ion-flash blue-front"></span>&nbsp;{{feed.addedFromLastVisit}}&nbsp;&nbsp;
                         <span class="ion-android-clock blue-front"></span>&nbsp;{{feed.readLater}}&nbsp;&nbsp;
-                    </p>
+                    </h3>
                 </div>
             </div>
 
