@@ -30,7 +30,7 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
 
         this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, false);
 
         assertTrue(feedItemsReport.reports.get(0).readLater);
     }
@@ -43,7 +43,7 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
         this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
         this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, false);
 
         assertFalse(feedItemsReport.reports.get(0).readLater);
     }
@@ -55,7 +55,7 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
 
         this.readsService.toggleReadLaterItemMark(feedHeader.id, "not-exists");
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, false);
 
         assertEquals(1, feedItemsReport.reports.size());
         assertEquals(feedItem.guid, feedItemsReport.reports.get(0).itemId);

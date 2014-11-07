@@ -72,7 +72,7 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ServiceException {
+    public FeedItemsReport getFeedItemsReport(final UUID feedId, final boolean onlyNotRead) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
@@ -96,7 +96,11 @@ public class ReadsService extends AbstractService {
             for (final FeedItem feedItem : feedItems) {
                 final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
 
-                feedItemReports.add(feedItemReport);
+                final boolean acceptable = (!onlyNotRead) || (!feedItemReport.read);
+
+                if (acceptable) {
+                    feedItemReports.add(feedItemReport);
+                }
 
                 if (feedItemReport.read) {
                     ++read;

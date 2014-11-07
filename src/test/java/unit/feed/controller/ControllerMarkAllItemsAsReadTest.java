@@ -24,7 +24,7 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
 
         this.readsService.markAllItemsAsRead(feedId);
 
-        final FeedItemsReport report = this.readsService.getFeedItemsReport(feedId);
+        final FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, false);
 
         assertEquals(0, report.notRead);
         assertEquals(report.reports.size(), report.read);
@@ -34,14 +34,14 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
     public void whenAllItemsMarkedAsReadThenReadLaterMarkDoesNotReset() throws ServiceException {
         final UUID feedId = addValidFirstRssFeedToMainCategory();
 
-        final FeedItemsReport firstReport = this.readsService.getFeedItemsReport(feedId);
+        final FeedItemsReport firstReport = this.readsService.getFeedItemsReport(feedId, false);
         final String firstItemId = firstReport.reports.get(0).itemId;
 
         this.readsService.toggleReadLaterItemMark(feedId, firstItemId);
 
         this.readsService.markAllItemsAsRead(feedId);
 
-        final FeedItemsReport secondReport = this.readsService.getFeedItemsReport(feedId);
+        final FeedItemsReport secondReport = this.readsService.getFeedItemsReport(feedId, false);
 
         assertTrue(secondReport.reports.get(0).readLater);
     }

@@ -109,7 +109,7 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
     public ResponseBody getFeedItemsReport(final UUID feedId) {
 
         try {
-            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId);
+            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, false);
             FeedItemsReportResponse response = convert(report);
 
             LOGGER.info(format("Feed [ %s ] items report created", feedId));
