@@ -55,8 +55,12 @@ public class ReadsServletGetRequestHandler implements Handler {
 
         final String filter = parameters.get("filter");
 
-        if ("only-not-read".equals(filter)) {
+        if ("show-not-read".equals(filter)) {
             return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, true) : createErrorJsonResponse(invalidFeedId(element));
+        }
+
+        if ("show-all".equals(filter)) {
+            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, false) : createErrorJsonResponse(invalidFeedId(element));
         }
 
         final String offsetAsString = parameters.get("offset");

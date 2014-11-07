@@ -20,7 +20,8 @@ controllers.controller('categoryController',
 
             $state.go('feed', { 
                 categoryId: $stateParams.id, 
-                feedId: feedId 
+                feedId: feedId,
+                filter: 'show-all'
             });
         };
 

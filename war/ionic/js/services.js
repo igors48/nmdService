@@ -38,6 +38,7 @@ angular.module('orb.services', ['ngResource'])
                 itemId: '@itemId',
                 offset: '@offset',
                 size: '@size',
+                filter: '@filter',
                 markAs: '@markAs'
             },
             {

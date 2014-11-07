@@ -159,7 +159,7 @@ public abstract class AbstractHttpTest {
     }
 
     protected String getNotReadFeedItemsFilteredReportAsString(final String feedId) {
-        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "?filter=only-not-read")).asString();
+        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "?filter=show-not-read")).asString();
     }
 
     protected FeedReadReportsResponse getReadsReport() {
