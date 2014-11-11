@@ -91,4 +91,19 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
         assertEquals(2, feedItemsReport.addedSinceLastView);
     }
 
+    @Test
+    public void whenShowAddedFilterAppliedThenOnlyAddedItemsReturns() throws ServiceException {
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_ADDED);
+
+        final List<FeedItemReport> items = feedItemsReport.reports;
+        assertEquals(2, items.size());
+        assertEquals(second.guid, items.get(0).itemId);
+        assertEquals(first.guid, items.get(1).itemId);
+
+        assertEquals(2, feedItemsReport.notRead);
+        assertEquals(0, feedItemsReport.read);
+        assertEquals(0, feedItemsReport.readLater);
+        assertEquals(2, feedItemsReport.addedSinceLastView);
+    }
+
 }
