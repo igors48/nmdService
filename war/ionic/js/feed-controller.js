@@ -45,8 +45,22 @@ controllers.controller('feedController',
             );
         };
 
-        $scope.markAsReadLater = function () {
-            alert('markAsReadLater');
+        $scope.markAsReadLater = function (feedId, itemId) {
+            $rootScope.lastItemId = itemId;
+
+            $ionicLoading.show({
+                template: 'Marking item...'
+            });
+
+            reads.mark(
+                {
+                    feedId: feedId,
+                    itemId: itemId,
+                    markAs: 'readLater'
+                },
+                onMarkAsReadLaterCompleted,
+                onServerFault
+            );
         };
 
         $scope.markAllItemsRead = function () {
@@ -115,6 +129,12 @@ controllers.controller('feedController',
         };
 
         var onMarkAsReadCompleted = function (response) {
+            $ionicLoading.hide();
+
+            loadFeedReport();
+        };
+
+        var onMarkAsReadLaterCompleted = function (response) {
             $ionicLoading.hide();
 
             loadFeedReport();
