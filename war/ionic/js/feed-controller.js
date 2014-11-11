@@ -101,7 +101,9 @@ controllers.controller('feedController',
 
             $ionicLoading.hide();
 
-            loadFeedReport();
+            $state.go('category', {
+                id: $stateParams.categoryId
+            });
         };
 
         var onMarkAsReadCompleted = function (response) {
