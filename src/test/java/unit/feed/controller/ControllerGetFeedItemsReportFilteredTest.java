@@ -6,6 +6,7 @@ import nmd.orb.feed.FeedItem;
 import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemReport;
 import nmd.orb.services.report.FeedItemsReport;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.List;
@@ -19,19 +20,26 @@ import static org.junit.Assert.assertTrue;
  */
 public class ControllerGetFeedItemsReportFilteredTest extends AbstractControllerTestBase {
 
+    private FeedItem first;
+    private FeedItem second;
+    private FeedHeader feedHeader;
+
+    @Before
+    public void setUp() {
+        this.first = create(1);
+        this.second = create(2);
+        this.feedHeader = createSampleFeed(first, second);
+    }
+
     @Test
     public void whenShowNotReadFilterAppliedThenOnlyNotReadItemsReturns() throws ServiceException {
-        final FeedItem first = create(1);
-        final FeedItem second = create(2);
-        final FeedHeader feedHeader = createSampleFeed(first, second);
+        this.readsService.markItemAsRead(this.feedHeader.id, this.first.guid);
 
-        this.readsService.markItemAsRead(feedHeader.id, first.guid);
-
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ);
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertEquals(1, items.size());
-        assertEquals(second.guid, items.get(0).itemId);
+        assertEquals(this.second.guid, items.get(0).itemId);
 
         assertEquals(1, feedItemsReport.notRead);
         assertEquals(1, feedItemsReport.read);
@@ -41,14 +49,10 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
     @Test
     public void whenShowNotReadFilterAppliedAndThereAreNoNotReadItemsThenEmptyReportReturns() throws ServiceException {
-        final FeedItem first = create(1);
-        final FeedItem second = create(2);
-        final FeedHeader feedHeader = createSampleFeed(first, second);
+        this.readsService.markItemAsRead(this.feedHeader.id, this.first.guid);
+        this.readsService.markItemAsRead(this.feedHeader.id, this.second.guid);
 
-        this.readsService.markItemAsRead(feedHeader.id, first.guid);
-        this.readsService.markItemAsRead(feedHeader.id, second.guid);
-
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ);
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertTrue(items.isEmpty());
@@ -61,13 +65,9 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
     @Test
     public void whenShowReadLaterFilterAppliedThenOnlyNotReadItemsReturns() throws ServiceException {
-        final FeedItem first = create(1);
-        final FeedItem second = create(2);
-        final FeedHeader feedHeader = createSampleFeed(first, second);
+        this.readsService.toggleReadLaterItemMark(this.feedHeader.id, this.first.guid);
 
-        this.readsService.toggleReadLaterItemMark(feedHeader.id, first.guid);
-
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER);
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertEquals(1, items.size());
@@ -81,11 +81,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
     @Test
     public void whenShowReadLaterFilterAppliedAndThereAreNoReadLaterItemsThenEmptyReportReturns() throws ServiceException {
-        final FeedItem first = create(1);
-        final FeedItem second = create(2);
-        final FeedHeader feedHeader = createSampleFeed(first, second);
-
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER);
 
         assertTrue(feedItemsReport.reports.isEmpty());
 
