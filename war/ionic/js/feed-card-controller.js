@@ -21,7 +21,8 @@ controllers.controller('feedCardController',
         $scope.switchToListView = function () {
             $state.go('feed', { 
                 categoryId: $stateParams.categoryId, 
-                feedId: $stateParams.feedId 
+                feedId: $stateParams.feedId,
+                filter: 'show-all'                 
             });
         };
 
