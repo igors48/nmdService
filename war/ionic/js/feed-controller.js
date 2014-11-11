@@ -81,7 +81,7 @@ controllers.controller('feedController',
         };
 
         $scope.showNew = function () {
-            //$scope.filter = 'show-new';
+            //$scope.filter = 'show-added';
         };
 
         $scope.showNotRead = function () {
