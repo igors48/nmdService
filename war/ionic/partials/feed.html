@@ -16,7 +16,7 @@
     <div class="button-bar" ng-cloak ng-show="showUi">
         <a ng-class="(filter=='show-all') ? 'button-energized' : ''" class="button" ng-click="showAll()">All&nbsp;{{feed.total}}</a>
         <a ng-class="(filter=='show-new') ? 'button-energized' : ''" class="button icon ion-flash" ng-click="showNew()">
-            &nbsp;{{feed.notRead}}</a>
+            &nbsp;{{feed.addedSinceLastView}}</a>
         <a ng-class="(filter=='show-not-read') ? 'button-energized' : ''" class="button icon ion-eye-disabled"
            ng-click="showNotRead()">&nbsp;{{feed.notRead}}</a>
         <a ng-class="(filter=='show-read-later') ? 'button-energized' : ''" class="button icon ion-android-clock"

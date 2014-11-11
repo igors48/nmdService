@@ -158,8 +158,8 @@ public abstract class AbstractHttpTest {
         return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId)).asString();
     }
 
-    protected String getNotReadFeedItemsFilteredReportAsString(final String feedId) {
-        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "?filter=show-not-read")).asString();
+    protected String getFeedItemsFilteredReportAsString(final String feedId, final String filterName) {
+        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "?filter=" + filterName)).asString();
     }
 
     protected FeedReadReportsResponse getReadsReport() {
@@ -167,11 +167,19 @@ public abstract class AbstractHttpTest {
     }
 
     protected FeedItemsReportResponse getFeedItemsReport(final String feedId) {
-        return GSON.fromJson(assertSuccessResponse(getFeedItemsReportAsString(feedId)), FeedItemsReportResponse.class);
+        return GSON.fromJson(assertSuccessResponse(getFeedItemsFilteredReportAsString(feedId, "show-all")), FeedItemsReportResponse.class);
     }
 
     protected FeedItemsReportResponse getNotReadFeedItemsFilteredReport(final String feedId) {
-        return GSON.fromJson(assertSuccessResponse(getNotReadFeedItemsFilteredReportAsString(feedId)), FeedItemsReportResponse.class);
+        return GSON.fromJson(assertSuccessResponse(getFeedItemsFilteredReportAsString(feedId, "show-not-read")), FeedItemsReportResponse.class);
+    }
+
+    protected FeedItemsReportResponse getReadLaterFeedItemsFilteredReport(final String feedId) {
+        return GSON.fromJson(assertSuccessResponse(getFeedItemsFilteredReportAsString(feedId, "show-read-later")), FeedItemsReportResponse.class);
+    }
+
+    protected FeedItemsReportResponse getAddedFeedItemsFilteredReport(final String feedId) {
+        return GSON.fromJson(assertSuccessResponse(getFeedItemsFilteredReportAsString(feedId, "show-added")), FeedItemsReportResponse.class);
     }
 
     protected String markItem(final String feedId, String itemId, String markMode) {

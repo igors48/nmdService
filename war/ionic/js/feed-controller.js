@@ -135,7 +135,8 @@ controllers.controller('feedController',
                 title: response.title,
                 total: response.read + response.notRead, 
                 notRead: response.notRead,
-                readLater: response.readLater
+                readLater: response.readLater,
+                addedSinceLastView: response.addedSinceLastView
             };
 
             $scope.utilities.addTimeDifference(response.reports);
