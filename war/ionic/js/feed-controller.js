@@ -81,7 +81,11 @@ controllers.controller('feedController',
         };
 
         $scope.showNew = function () {
-            //$scope.filter = 'show-added';
+            $state.go('feed', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                filter: 'show-added'
+            });
         };
 
         $scope.showNotRead = function () {
@@ -93,7 +97,11 @@ controllers.controller('feedController',
         };
 
         $scope.showReadLater = function () {
-            //scope.filter = 'show-read-later';
+            $state.go('feed', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                filter: 'show-read-later'
+            });
         };
 
         var onMarkAllItemsReadCompleted = function (response) {
