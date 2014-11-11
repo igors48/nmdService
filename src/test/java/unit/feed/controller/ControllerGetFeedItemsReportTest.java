@@ -84,6 +84,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         assertEquals(1, feedItemsReport.read);
         assertEquals(1, feedItemsReport.notRead);
         assertEquals(1, feedItemsReport.readLater);
+        assertEquals(1, feedItemsReport.addedSinceLastView);
     }
 
 }

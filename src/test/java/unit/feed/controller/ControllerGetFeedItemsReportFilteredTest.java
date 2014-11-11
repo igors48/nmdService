@@ -36,6 +36,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
         assertEquals(1, feedItemsReport.notRead);
         assertEquals(1, feedItemsReport.read);
         assertEquals(0, feedItemsReport.readLater);
+        assertEquals(1, feedItemsReport.addedSinceLastView);
     }
 
     @Test
@@ -54,6 +55,8 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
         assertEquals(0, feedItemsReport.notRead);
         assertEquals(2, feedItemsReport.read);
+        assertEquals(0, feedItemsReport.readLater);
+        assertEquals(0, feedItemsReport.addedSinceLastView);
     }
 
     @Test
@@ -73,6 +76,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
         assertEquals(2, feedItemsReport.notRead);
         assertEquals(0, feedItemsReport.read);
         assertEquals(1, feedItemsReport.readLater);
+        assertEquals(2, feedItemsReport.addedSinceLastView);
     }
 
     @Test
@@ -88,6 +92,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
         assertEquals(2, feedItemsReport.notRead);
         assertEquals(0, feedItemsReport.read);
         assertEquals(0, feedItemsReport.readLater);
+        assertEquals(2, feedItemsReport.addedSinceLastView);
     }
 
 }

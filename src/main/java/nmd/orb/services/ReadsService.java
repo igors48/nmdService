@@ -93,6 +93,7 @@ public class ReadsService extends AbstractService {
             int read = 0;
             int notRead = 0;
             int readLater = 0;
+            int addedSinceLastView = 0;
 
             for (final FeedItem feedItem : feedItems) {
                 final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
@@ -112,11 +113,15 @@ public class ReadsService extends AbstractService {
                 if (feedItemReport.readLater) {
                     ++readLater;
                 }
+
+                if (feedItemReport.addedSinceLastView) {
+                    ++addedSinceLastView;
+                }
             }
 
             transaction.commit();
 
-            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, feedItemReports, readFeedItems.lastUpdate);
+            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate);
         } finally {
             rollbackIfActive(transaction);
         }
