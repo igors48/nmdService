@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
 public class ControllerGetFeedItemsReportFilteredTest extends AbstractControllerTestBase {
 
     @Test
-    public void whenFeedItemsReturnsThenOnlyNotReadItemsReturns() throws ServiceException {
+    public void whenShowNotReadFilterAppliedThenOnlyNotReadItemsReturns() throws ServiceException {
         final FeedItem first = create(1);
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
@@ -35,10 +35,11 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
         assertEquals(1, feedItemsReport.notRead);
         assertEquals(1, feedItemsReport.read);
+        assertEquals(0, feedItemsReport.readLater);
     }
 
     @Test
-    public void whenThereAreNoNotReadItemsThenEmptyReportReturns() throws ServiceException {
+    public void whenShowNotReadFilterAppliedAndThereAreNoNotReadItemsThenEmptyReportReturns() throws ServiceException {
         final FeedItem first = create(1);
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
@@ -53,6 +54,40 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
         assertEquals(0, feedItemsReport.notRead);
         assertEquals(2, feedItemsReport.read);
+    }
+
+    @Test
+    public void whenShowReadLaterFilterAppliedThenOnlyNotReadItemsReturns() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedHeader feedHeader = createSampleFeed(first, second);
+
+        this.readsService.toggleReadLaterItemMark(feedHeader.id, first.guid);
+
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER);
+
+        final List<FeedItemReport> items = feedItemsReport.reports;
+        assertEquals(1, items.size());
+        assertEquals(first.guid, items.get(0).itemId);
+
+        assertEquals(2, feedItemsReport.notRead);
+        assertEquals(0, feedItemsReport.read);
+        assertEquals(1, feedItemsReport.readLater);
+    }
+
+    @Test
+    public void whenShowReadLaterFilterAppliedAndThereAreNoReadLaterItemsThenEmptyReportReturns() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedHeader feedHeader = createSampleFeed(first, second);
+
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER);
+
+        assertTrue(feedItemsReport.reports.isEmpty());
+
+        assertEquals(2, feedItemsReport.notRead);
+        assertEquals(0, feedItemsReport.read);
+        assertEquals(0, feedItemsReport.readLater);
     }
 
 }
