@@ -54,4 +54,20 @@ public enum FeedItemReportFilter {
 
     public abstract boolean acceptable(final FeedItemReport candidate);
 
+    public static FeedItemReportFilter forName(final String name) {
+        guard(notNull(name));
+
+        switch (name) {
+            case "show-all":
+                return SHOW_ALL;
+            case "show-added":
+                return SHOW_ADDED;
+            case "show-not-read":
+                return SHOW_NOT_READ;
+            case "show-read-later":
+                return SHOW_READ_LATER;
+            default:
+                return SHOW_ALL;
+        }
+    }
 }

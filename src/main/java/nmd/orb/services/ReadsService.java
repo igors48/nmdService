@@ -11,6 +11,7 @@ import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 import nmd.orb.repositories.Transactions;
+import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.*;
 import nmd.orb.sources.twitter.TwitterClientTools;
 import nmd.orb.util.Page;
@@ -72,7 +73,7 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public FeedItemsReport getFeedItemsReport(final UUID feedId, final boolean onlyNotRead) throws ServiceException {
+    public FeedItemsReport getFeedItemsReport(final UUID feedId, final FeedItemReportFilter filter) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
@@ -96,7 +97,7 @@ public class ReadsService extends AbstractService {
             for (final FeedItem feedItem : feedItems) {
                 final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
 
-                final boolean acceptable = (!onlyNotRead) || (!feedItemReport.read);
+                final boolean acceptable = filter.acceptable(feedItemReport);
 
                 if (acceptable) {
                     feedItemReports.add(feedItemReport);

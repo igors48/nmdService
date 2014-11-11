@@ -1,6 +1,7 @@
 package nmd.orb.http.wrappers;
 
 import nmd.orb.http.tools.ResponseBody;
+import nmd.orb.services.filter.FeedItemReportFilter;
 
 import java.util.UUID;
 
@@ -17,7 +18,7 @@ public interface ReadsServiceWrapper {
 
     ResponseBody toggleItemAsReadLater(UUID feedId, String itemId);
 
-    ResponseBody getFeedItemsReport(UUID feedId, boolean onlyNotRead);
+    ResponseBody getFeedItemsReport(UUID feedId, FeedItemReportFilter filter);
 
     ResponseBody getFeedItemsCardsReport(UUID feedId, int offset, int size);
 

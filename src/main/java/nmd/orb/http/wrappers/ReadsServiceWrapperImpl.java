@@ -7,6 +7,7 @@ import nmd.orb.http.responses.FeedItemsReportResponse;
 import nmd.orb.http.responses.FeedReadReportsResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.ReadsService;
+import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
@@ -106,10 +107,10 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
     }
 
     @Override
-    public ResponseBody getFeedItemsReport(final UUID feedId, boolean onlyNotRead) {
+    public ResponseBody getFeedItemsReport(final UUID feedId, FeedItemReportFilter filter) {
 
         try {
-            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, onlyNotRead);
+            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, filter);
             FeedItemsReportResponse response = convert(report);
 
             LOGGER.info(format("Feed [ %s ] items report created", feedId));
@@ -124,6 +125,7 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
 
     @Override
     public ResponseBody getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) {
+
         try {
             FeedItemsCardsReport report = this.readsService.getFeedItemsCardsReport(feedId, offset, size);
             FeedItemsCardsReportResponse response = FeedItemsCardsReportResponse.convert(report);

@@ -3,6 +3,7 @@ package unit.feed.controller;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
+import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemReport;
 import nmd.orb.services.report.FeedItemsReport;
 import org.junit.Test;
@@ -26,7 +27,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
         this.readsService.markItemAsRead(feedHeader.id, first.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, true);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ);
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertEquals(1, items.size());
@@ -45,7 +46,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
         this.readsService.markItemAsRead(feedHeader.id, first.guid);
         this.readsService.markItemAsRead(feedHeader.id, second.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, true);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ);
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertTrue(items.isEmpty());

@@ -4,6 +4,7 @@ import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.ReadsServiceWrapper;
 import nmd.orb.http.wrappers.ReadsServiceWrapperImpl;
+import nmd.orb.services.filter.FeedItemReportFilter;
 
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class ReadsServletGetRequestHandler implements Handler {
     }
 
     //GET -- reads report
-    //GET /{feedId} -- feed items report
+    //GET /{feedId}?filter={filterName} -- feed items report
     //GET /{feedId}?offset={offset}&size={size} -- feed items cards report
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
@@ -50,17 +51,15 @@ public class ReadsServletGetRequestHandler implements Handler {
         final UUID feedId = parseUuid(element);
 
         if (parameters.isEmpty()) {
-            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, false) : createErrorJsonResponse(invalidFeedId(element));
+            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL) : createErrorJsonResponse(invalidFeedId(element));
         }
 
-        final String filter = parameters.get("filter");
+        final String filterName = parameters.get("filter");
 
-        if ("show-not-read".equals(filter)) {
-            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, true) : createErrorJsonResponse(invalidFeedId(element));
-        }
+        if (filterName != null) {
+            final FeedItemReportFilter filter = FeedItemReportFilter.forName(filterName);
 
-        if ("show-all".equals(filter)) {
-            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, false) : createErrorJsonResponse(invalidFeedId(element));
+            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, filter) : createErrorJsonResponse(invalidFeedId(element));
         }
 
         final String offsetAsString = parameters.get("offset");
