@@ -1,4 +1,4 @@
-package sandbox;
+package nmd.orb.sources.instagram.entities;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
