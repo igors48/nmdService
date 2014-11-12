@@ -131,6 +131,30 @@ public class ServiceError {
                 "Invalid pagination parameters. Check them.");
     }
 
+    public static ServiceError instagramNoMeta() {
+        return new ServiceError(ErrorCode.INSTAGRAM_NO_META,
+                "Instagram response does not contain meta",
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramWrongStatusCode() {
+        return new ServiceError(ErrorCode.INSTAGRAM_WRONG_STATUS_CODE,
+                "Instagram response contain wrong status code",
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramNoUsers() {
+        return new ServiceError(ErrorCode.INSTAGRAM_WRONG_STATUS_CODE,
+                "Instagram response does not contain users",
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramUserNotFound(final String userName) {
+        return new ServiceError(ErrorCode.INSTAGRAM_USER_NOT_FOUND,
+                format("Instagram user [ %s ] not found", userName),
+                "Check user name");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
