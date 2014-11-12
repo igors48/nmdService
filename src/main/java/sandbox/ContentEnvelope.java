@@ -1,6 +1,5 @@
 package sandbox;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,8 +8,8 @@ import java.util.List;
  */
 public class ContentEnvelope {
 
-    public Meta meta = new Meta();
-    public List<Data> data = new ArrayList<>();
-    public Pagination pagination = new Pagination();
+    public Meta meta;
+    public List<Data> data;
+    public Pagination pagination;
 
 }

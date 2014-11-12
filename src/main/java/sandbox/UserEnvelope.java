@@ -1,6 +1,5 @@
 package sandbox;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -9,7 +8,7 @@ import java.util.List;
  */
 public class UserEnvelope {
 
-    public Meta meta = new Meta();
-    public List<User> data = new ArrayList<>();
+    public Meta meta;
+    public List<User> data;
 
 }

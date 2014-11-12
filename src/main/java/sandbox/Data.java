@@ -6,11 +6,11 @@ package sandbox;
  */
 public class Data {
 
-    public String link = "";
-    public String type = "";
-    public long created_time = -1;
-    public Caption caption = new Caption();
-    public Images images = new Images();
-    public Videos videos = new Videos();
+    public String link;
+    public String type;
+    public Long created_time;
+    public Caption caption;
+    public Images images;
+    public Videos videos;
 
 }

@@ -6,6 +6,6 @@ package sandbox;
  */
 public class Pagination {
 
-    public String next_url = "";
+    public String next_url;
 
 }

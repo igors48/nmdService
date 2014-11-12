@@ -6,8 +6,8 @@ package sandbox;
  */
 public class Videos {
 
-    public Content low_resolution = new Content();
-    public Content standard_resolution = new Content();
-    public Content low_bandwidth = new Content();
+    public Content low_resolution;
+    public Content standard_resolution;
+    public Content low_bandwidth;
 
 }

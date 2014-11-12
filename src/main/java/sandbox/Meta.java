@@ -6,6 +6,6 @@ package sandbox;
  */
 public class Meta {
 
-    public String code = "";
+    public String code;
 
 }

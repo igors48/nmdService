@@ -6,6 +6,6 @@ package sandbox;
  */
 public class Caption {
 
-    public String text = "";
+    public String text;
 
 }

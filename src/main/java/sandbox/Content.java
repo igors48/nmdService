@@ -6,8 +6,8 @@ package sandbox;
  */
 public class Content {
 
-    public String url = "";
-    public Integer width = 0;
-    public Integer height = 0;
+    public String url;
+    public Integer width;
+    public Integer height;
 
 }

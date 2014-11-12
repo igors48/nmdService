@@ -6,7 +6,7 @@ package sandbox;
  */
 public class User {
 
-    public String username = "";
-    public String full_name = "";
-    public String id = "";
+    public String username;
+    public String full_name;
+    public String id;
 }
