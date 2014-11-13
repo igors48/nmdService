@@ -1,7 +1,6 @@
 package unit.feed.instagram;
 
 import nmd.orb.error.ErrorCode;
-import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.sources.instagram.InstagramClientTools;
 import nmd.orb.sources.instagram.entities.Meta;
@@ -14,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -87,6 +87,8 @@ public class FindUserTest extends AbstractInstagramTestBase {
 
         try {
             InstagramClientTools.findUser("wrongName", this.userEnvelope);
+
+            fail();
         } catch (ServiceException exception) {
             assertErrorOccured(exception, expectedErrorCode);
         }

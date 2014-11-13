@@ -155,6 +155,24 @@ public class ServiceError {
                 "Check user name");
     }
 
+    public static ServiceError instagramBadDataLink(final String link) {
+        return new ServiceError(ErrorCode.INSTAGRAM_BAD_DATA_LINK,
+                format("Bad data link [ %s ]", link),
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramBadDataType(final String type) {
+        return new ServiceError(ErrorCode.INSTAGRAM_BAD_DATA_TYPE,
+                format("Bad data type [ %s ]", type),
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramNoImages() {
+        return new ServiceError(ErrorCode.INSTAGRAM_NO_IMAGES,
+                "No images found",
+                "Try to repeat request later");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

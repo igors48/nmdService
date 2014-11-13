@@ -40,23 +40,31 @@ public class InstagramClientTools {
         throw new ServiceException(instagramUserNotFound(userName));
     }
 
-    public static FeedItem convert(final Data data) {
+    public static FeedItem convert(final Data data) throws ServiceException {
         guard(notNull(data));
 
         if (data.link == null) {
-
+            throw new ServiceException(instagramBadDataLink("null"));
         }
 
         final String link = data.link.trim();
 
         if (!isValidUrl(link)) {
+            throw new ServiceException(instagramBadDataLink(link));
+        }
 
+        if (data.type == null) {
+            throw new ServiceException(instagramBadDataType("null"));
         }
 
         final String type = data.type.trim();
 
         if (!("image".equals(type) || "video".equals(type))) {
+            throw new ServiceException(instagramBadDataType(type));
+        }
 
+        if (data.images == null) {
+            throw new ServiceException(instagramNoImages());
         }
 
         final String lowResolutionImage = data.images.low_resolution.url;
