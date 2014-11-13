@@ -19,32 +19,28 @@ import static org.junit.Assert.assertEquals;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 12.11.2014
  */
-public class FindUserTest {
+public class FindUserTest extends AbstractInstagramTestBase {
 
-    private Meta meta;
     private User first;
-    private User second;
-    private User third;
-    private List<User> users;
     private UserEnvelope userEnvelope;
 
     @Before
     public void setUp() throws Exception {
-        this.meta = new Meta();
-        this.meta.code = "200";
+        Meta meta = new Meta();
+        meta.code = "200";
 
         this.first = create("first");
-        this.second = create("second");
-        this.third = create("third");
+        User second = create("second");
+        User third = create("third");
 
-        this.users = new ArrayList<>();
-        this.users.add(this.first);
-        this.users.add(this.second);
-        this.users.add(this.third);
+        List<User> users = new ArrayList<>();
+        users.add(this.first);
+        users.add(second);
+        users.add(third);
 
         this.userEnvelope = new UserEnvelope();
-        this.userEnvelope.meta = this.meta;
-        this.userEnvelope.data = this.users;
+        this.userEnvelope.meta = meta;
+        this.userEnvelope.data = users;
     }
 
     @Test
@@ -88,18 +84,12 @@ public class FindUserTest {
     }
 
     private void assertErrorOccured(final ErrorCode expectedErrorCode) {
+
         try {
             InstagramClientTools.findUser("wrongName", this.userEnvelope);
         } catch (ServiceException exception) {
             assertErrorOccured(exception, expectedErrorCode);
         }
-    }
-
-    private void assertErrorOccured(final ServiceException exception, final ErrorCode expectedErrorCode) {
-        final ServiceError serviceError = exception.getError();
-        final ErrorCode errorCode = serviceError.code;
-
-        assertEquals(expectedErrorCode, errorCode);
     }
 
     private User create(final String id) {
