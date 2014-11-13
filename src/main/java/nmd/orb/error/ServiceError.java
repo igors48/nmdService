@@ -144,7 +144,7 @@ public class ServiceError {
     }
 
     public static ServiceError instagramNoUsers() {
-        return new ServiceError(ErrorCode.INSTAGRAM_WRONG_STATUS_CODE,
+        return new ServiceError(ErrorCode.INSTAGRAM_NO_USERS,
                 "Instagram response does not contain users",
                 "Try to repeat request later");
     }
