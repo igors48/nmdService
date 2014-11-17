@@ -1,14 +1,17 @@
 package nmd.orb.sources.instagram;
 
 import nmd.orb.error.ServiceException;
+import nmd.orb.feed.Feed;
+import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
-import nmd.orb.sources.instagram.entities.Data;
-import nmd.orb.sources.instagram.entities.Envelope;
-import nmd.orb.sources.instagram.entities.User;
-import nmd.orb.sources.instagram.entities.UserEnvelope;
+import nmd.orb.sources.instagram.entities.*;
 
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
+import static java.lang.String.format;
 import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.*;
@@ -17,6 +20,8 @@ import static nmd.orb.util.Parameter.*;
  * @author : igu
  */
 public class InstagramClientTools {
+
+    public static final String NO_DESCRIPTION = "No description";
 
     public static User findUser(final String userName, final UserEnvelope userEnvelope) throws ServiceException {
         guard(isValidString(userName));
@@ -40,8 +45,51 @@ public class InstagramClientTools {
         throw new ServiceException(instagramUserNotFound(userName));
     }
 
-    public static FeedItem convert(final Data data) throws ServiceException {
+    public static Feed convert(final String link, final User user, final ContentEnvelope contentEnvelope, final Date current) throws ServiceException {
+        guard(isValidUrl(link));
+        guard(notNull(user));
+        guard(notNull(contentEnvelope));
+        guard(notNull(current));
+
+        final FeedHeader header = convert(link, user);
+        final List<FeedItem> items = convert(contentEnvelope, current);
+
+        return new Feed(header, items);
+    }
+
+    public static List<FeedItem> convert(final ContentEnvelope contentEnvelope, final Date current) throws ServiceException {
+        guard(notNull(contentEnvelope));
+        guard(notNull(current));
+
+        assertMetaIsValid(contentEnvelope);
+
+        final List<FeedItem> items = new ArrayList<>();
+
+        final List<Data> dataList = contentEnvelope.data;
+
+        if (dataList == null) {
+            throw new ServiceException(instagramNoData());
+        }
+
+        for (final Data data : dataList) {
+            final FeedItem item = convert(data, current);
+
+            items.add(item);
+        }
+
+        return items;
+    }
+
+    public static FeedHeader convert(final String link, final User user) {
+        guard(isValidUrl(link));
+        guard(notNull(user));
+
+        return FeedHeader.create(UUID.randomUUID(), link, user.full_name, user.full_name, link);
+    }
+
+    public static FeedItem convert(final Data data, final Date current) throws ServiceException {
         guard(notNull(data));
+        guard(notNull(current));
 
         if (data.link == null) {
             throw new ServiceException(instagramBadDataLink("null"));
@@ -67,27 +115,62 @@ public class InstagramClientTools {
             throw new ServiceException(instagramNoImages());
         }
 
-        final String lowResolutionImage = data.images.low_resolution.url;
-        /*
-            public String link;
-            public String type;
-            public Long created_time;
-            public Caption caption;
-            public Images images;
-            public Videos videos;
-         */
+        final Content lowResolutionContent = data.images.low_resolution;
+        final Content standardResolutionContent = data.images.standard_resolution;
+        final Content thumbnailContent = data.images.thumbnail;
 
-        /*
-            public final String title;
-            public final String description;
-            public final String link;
-            public final String gotoLink;
-            public final Date date;
-            public final boolean dateReal;
-            public final String guid;
-         */
+        final String lowResolutionImageUrl = (lowResolutionContent != null && isValidUrl(lowResolutionContent.url)) ? lowResolutionContent.url : "";
+        final String standardResolutionImageUrl = (standardResolutionContent != null && isValidUrl(standardResolutionContent.url)) ? standardResolutionContent.url : "";
+        final String thumbnailImageUrl = (thumbnailContent != null && isValidUrl(thumbnailContent.url)) ? thumbnailContent.url : "";
 
-        return null;
+        final boolean noImages = lowResolutionImageUrl.isEmpty() && standardResolutionImageUrl.isEmpty() && thumbnailImageUrl.isEmpty();
+
+        if (noImages) {
+            throw new ServiceException(instagramNoImages());
+        }
+
+        final String imageUrl;
+
+        if (!thumbnailImageUrl.isEmpty()) {
+            imageUrl = thumbnailImageUrl;
+        } else if (!lowResolutionImageUrl.isEmpty()) {
+            imageUrl = lowResolutionImageUrl;
+        } else {
+            imageUrl = standardResolutionImageUrl;
+        }
+
+        final Caption caption = data.caption;
+        final String captionText;
+
+        if (caption == null) {
+            captionText = NO_DESCRIPTION;
+        } else{
+            captionText = caption.text == null ? NO_DESCRIPTION : caption.text.trim();
+        }
+
+        final String description = captionText.isEmpty() ? NO_DESCRIPTION : captionText;
+
+        final Long createdDate = data.created_time;
+
+        final boolean dateReal;
+        final Date date;
+
+        if (createdDate == null) {
+            dateReal = false;
+            date = current;
+        } else {
+            dateReal = true;
+            date = new Date(createdDate);
+        }
+
+        final String imageWithDescription = formatDescription(imageUrl, description);
+        final String itemGuid = UUID.randomUUID().toString();
+
+        return new FeedItem(description, imageWithDescription, link, link, date, dateReal, itemGuid);
+    }
+
+    public static String formatDescription(String imageUrl, String description) {
+        return format("<img src=\"%s\"></img><p>%s</p>", imageUrl, description);
     }
 
     private static void assertMetaIsValid(Envelope envelope) throws ServiceException {

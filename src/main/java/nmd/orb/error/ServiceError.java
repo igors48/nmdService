@@ -173,6 +173,12 @@ public class ServiceError {
                 "Try to repeat request later");
     }
 
+    public static ServiceError instagramNoData() {
+        return new ServiceError(ErrorCode.INSTAGRAM_NO_DATA,
+                "No data found",
+                "Try to repeat request later");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

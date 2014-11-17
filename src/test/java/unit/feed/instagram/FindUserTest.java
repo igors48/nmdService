@@ -1,6 +1,7 @@
 package unit.feed.instagram;
 
 import nmd.orb.error.ErrorCode;
+import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.sources.instagram.InstagramClientTools;
 import nmd.orb.sources.instagram.entities.Meta;
@@ -19,7 +20,7 @@ import static org.junit.Assert.fail;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 12.11.2014
  */
-public class FindUserTest extends AbstractInstagramTestBase {
+public class FindUserTest {
 
     private User first;
     private UserEnvelope userEnvelope;
@@ -94,7 +95,14 @@ public class FindUserTest extends AbstractInstagramTestBase {
         }
     }
 
-    private User create(final String id) {
+    protected void assertErrorOccured(final ServiceException exception, final ErrorCode expectedErrorCode) {
+        final ServiceError serviceError = exception.getError();
+        final ErrorCode errorCode = serviceError.code;
+
+        assertEquals(expectedErrorCode, errorCode);
+    }
+
+    public static User create(final String id) {
         final User user = new User();
 
         user.full_name = id + "full_name";
@@ -104,7 +112,7 @@ public class FindUserTest extends AbstractInstagramTestBase {
         return user;
     }
 
-    private String createUserName(final String id) {
+    private static String createUserName(final String id) {
         return id + "username";
     }
 
