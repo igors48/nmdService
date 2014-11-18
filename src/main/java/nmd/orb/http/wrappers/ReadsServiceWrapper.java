@@ -14,7 +14,7 @@ public interface ReadsServiceWrapper {
 
     ResponseBody markItemAsRead(UUID feedId, String itemId);
 
-    ResponseBody markAllItemsAsRead(UUID feedId);
+    ResponseBody markAllItemsAsRead(UUID feedId, long topItemTimestamp);
 
     ResponseBody toggleItemAsReadLater(UUID feedId, String itemId);
 

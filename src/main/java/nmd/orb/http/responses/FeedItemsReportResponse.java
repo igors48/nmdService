@@ -24,6 +24,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
     public int addedSinceLastView;
     public List<FeedItemReportPayload> reports;
     public long lastUpdate;
+    public long topItemTimestamp;
 
     private FeedItemsReportResponse() {
         // empty
@@ -50,6 +51,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
         response.addedSinceLastView = feedItemsReport.addedSinceLastView;
         response.reports = helpers;
         response.lastUpdate = feedItemsReport.lastUpdate.getTime();
+        response.topItemTimestamp = feedItemsReport.topItemDate.getTime();
 
         return response;
     }

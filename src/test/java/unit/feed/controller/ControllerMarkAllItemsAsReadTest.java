@@ -23,7 +23,7 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
     public void whenAllItemsMarkedAsReadThenAllItemsMarked() throws ServiceException {
         final UUID feedId = addValidFirstRssFeedToMainCategory();
 
-        this.readsService.markAllItemsAsRead(feedId);
+        this.readsService.markAllItemsAsRead(feedId, 0);
 
         final FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
 
@@ -40,7 +40,7 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
 
         this.readsService.toggleReadLaterItemMark(feedId, firstItemId);
 
-        this.readsService.markAllItemsAsRead(feedId);
+        this.readsService.markAllItemsAsRead(feedId, 0);
 
         final FeedItemsReport secondReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
 
@@ -53,7 +53,7 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
 
-        this.readsService.markAllItemsAsRead(feedHeader.id);
+        this.readsService.markAllItemsAsRead(feedHeader.id, 0);
 
         final Date lastUpdate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
 

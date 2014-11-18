@@ -39,7 +39,8 @@ angular.module('orb.services', ['ngResource'])
                 offset: '@offset',
                 size: '@size',
                 filter: '@filter',
-                markAs: '@markAs'
+                markAs: '@markAs',
+                topItemTimestamp: '@topItemTimestamp'
             },
             {
                 'query': {method: 'GET'},

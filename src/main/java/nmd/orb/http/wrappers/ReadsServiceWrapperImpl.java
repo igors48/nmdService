@@ -71,18 +71,18 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
     }
 
     @Override
-    public ResponseBody markAllItemsAsRead(final UUID feedId) {
+    public ResponseBody markAllItemsAsRead(final UUID feedId, long topItemTimestamp) {
 
         try {
-            this.readsService.markAllItemsAsRead(feedId);
+            this.readsService.markAllItemsAsRead(feedId, topItemTimestamp);
 
-            final String message = format("All feed [ %s ] items marked as read", feedId);
+            final String message = format("All feed [ %s ] items younger then [ %d ] marked as read", feedId, topItemTimestamp);
 
             LOGGER.info(message);
 
             return createJsonResponse(create(message));
         } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error mark feed [ %s ] items as read", feedId), exception);
+            LOGGER.log(Level.SEVERE, format("Error mark feed [ %s ] items younger then [ %d ] as read", feedId, topItemTimestamp), exception);
 
             return createErrorJsonResponse(exception);
         }

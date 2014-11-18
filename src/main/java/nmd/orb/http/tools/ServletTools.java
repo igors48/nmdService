@@ -53,6 +53,15 @@ public final class ServletTools {
         }
     }
 
+    public static Long parseLong(final String string) {
+
+        try {
+            return Long.valueOf(string);
+        } catch (Exception exception) {
+            return null;
+        }
+    }
+
     public static UUID parseFeedId(final String data) {
 
         if (pathInfoIsEmpty(data)) {

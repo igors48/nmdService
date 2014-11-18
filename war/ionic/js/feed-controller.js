@@ -3,6 +3,8 @@
 controllers.controller('feedController',
 
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
+        var topItemTimestamp = 0;
+
         $scope.showUi = false;
 
         $scope.filter = $stateParams.filter;
@@ -73,7 +75,8 @@ controllers.controller('feedController',
             $rootScope.lastFeed = feedId;
 
             reads.mark({
-                feedId: feedId
+                feedId: feedId,
+                topItemTimestamp: topItemTimestamp
             },
             onMarkAllItemsReadCompleted,
             onServerFault);
@@ -148,6 +151,8 @@ controllers.controller('feedController',
 
                 return;
             }
+
+            topItemTimestamp = response.topItemTimestamp;
 
             $scope.showUi = true;
  

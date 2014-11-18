@@ -244,8 +244,9 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public void markAllItemsAsRead(final UUID feedId) throws ServiceException {
+    public void markAllItemsAsRead(final UUID feedId, long topItemTimestamp) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
+        guard(isPositive(topItemTimestamp));
 
         Transaction transaction = null;
 
