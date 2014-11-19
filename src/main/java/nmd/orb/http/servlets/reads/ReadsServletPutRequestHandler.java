@@ -36,7 +36,7 @@ public class ReadsServletPutRequestHandler implements Handler {
     }
 
     //PUT /{feedId}/{itemId}&mark-as=read|read-later -- mark item as read or read later
-    //PUT /{feedId}?topItemTimestamp= -- mark all items as read
+    //PUT /{feedId}?topItemTimestamp=timestamp -- mark all items as read before given timestamp
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
         guard(notNull(elements));
@@ -51,6 +51,7 @@ public class ReadsServletPutRequestHandler implements Handler {
 
         if (feedAndItemIds.itemId.isEmpty()) {
             final Long topItemTimestamp = parseLong(parameters.get("topItemTimestamp"));
+
             return this.readsService.markAllItemsAsRead(feedAndItemIds.feedId, topItemTimestamp == null ? 0 : topItemTimestamp);
         }
 

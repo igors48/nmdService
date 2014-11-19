@@ -260,13 +260,15 @@ public class ReadsService extends AbstractService {
 
             final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
             final FeedItem youngest = findYoungest(items);
-            final Set<String> storedGuids = getStoredGuids(items);
+            final Set<String> storedGuids = getStoredGuids(items, topItemTimestamp);
             readGuids.addAll(storedGuids);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
             readLaterGuids.addAll(readFeedItems.readLaterItemIds);
 
-            final Date lastUpdate = youngest == null ? new Date() : youngest.date;
+            final Date youngestDate = youngest == null ? new Date() : youngest.date;
+            final Date lastUpdate = topItemTimestamp == 0 ? youngestDate : new Date(topItemTimestamp);
+
             final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, readGuids, readLaterGuids, readFeedItems.categoryId);
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
@@ -376,10 +378,21 @@ public class ReadsService extends AbstractService {
     }
 
     private static Set<String> getStoredGuids(final List<FeedItem> items) {
+        return getStoredGuids(items, 0);
+    }
+
+    private static Set<String> getStoredGuids(final List<FeedItem> items, final long beforeTimestamp) {
+        final boolean filtered = beforeTimestamp != 0;
+        final Date beforeDate = new Date(beforeTimestamp);
+
         final Set<String> storedGuids = new HashSet<>();
 
         for (final FeedItem item : items) {
-            storedGuids.add(item.guid);
+            final boolean canBeAdded = !filtered || (item.date.compareTo(beforeDate) <= 0);
+
+            if (canBeAdded) {
+                storedGuids.add(item.guid);
+            }
         }
 
         return storedGuids;
