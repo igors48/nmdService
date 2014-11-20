@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static java.lang.String.format;
 import static nmd.orb.error.ServiceError.*;
@@ -26,6 +28,7 @@ public class InstagramClientTools {
     public static final String NO_DESCRIPTION = "No description";
 
     private static final String INSTAGRAM_COM = "instagram.com";
+    private static final Pattern INSTAGRAM_USER_NAME_PATTERN = Pattern.compile("https?://instagram.com/(.+)", Pattern.CASE_INSENSITIVE);
 
     public static boolean isItInstagramUrl(final String url) {
 
@@ -43,6 +46,17 @@ public class InstagramClientTools {
             return false;
         }
 
+    }
+
+    public static String getInstagramUserName(final String url) {
+
+        if (!isItInstagramUrl(url)) {
+            return null;
+        }
+
+        final Matcher matcher = INSTAGRAM_USER_NAME_PATTERN.matcher(url);
+
+        return matcher.find() ? matcher.group(1) : null;
     }
 
     public static User findUser(final String userName, final UserEnvelope userEnvelope) throws ServiceException {
