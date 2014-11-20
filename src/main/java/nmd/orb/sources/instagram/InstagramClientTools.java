@@ -196,7 +196,7 @@ public class InstagramClientTools {
             date = current;
         } else {
             dateReal = true;
-            date = new Date(createdDate);
+            date = new Date(createdDate * 1000);
         }
 
         final String imageWithDescription = formatDescription(imageUrl, description);
