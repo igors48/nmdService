@@ -6,6 +6,8 @@ import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.sources.instagram.entities.*;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -22,6 +24,26 @@ import static nmd.orb.util.Parameter.*;
 public class InstagramClientTools {
 
     public static final String NO_DESCRIPTION = "No description";
+
+    private static final String INSTAGRAM_COM = "instagram.com";
+
+    public static boolean isItInstagramUrl(final String url) {
+
+        try {
+
+            if (url == null || url.isEmpty()) {
+                return false;
+            }
+
+            final URI uri = new URI(url);
+            final String host = uri.getHost();
+
+            return INSTAGRAM_COM.equalsIgnoreCase(host);
+        } catch (URISyntaxException exception) {
+            return false;
+        }
+
+    }
 
     public static User findUser(final String userName, final UserEnvelope userEnvelope) throws ServiceException {
         guard(isValidString(userName));
@@ -144,7 +166,7 @@ public class InstagramClientTools {
 
         if (caption == null) {
             captionText = NO_DESCRIPTION;
-        } else{
+        } else {
             captionText = caption.text == null ? NO_DESCRIPTION : caption.text.trim();
         }
 
