@@ -11,8 +11,11 @@ import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 import nmd.orb.repositories.Transactions;
-import nmd.orb.services.report.*;
-import nmd.orb.sources.twitter.TwitterClientTools;
+import nmd.orb.services.report.FeedItemReport;
+import nmd.orb.services.report.FeedItemsCardsReport;
+import nmd.orb.services.report.FeedItemsReport;
+import nmd.orb.services.report.FeedReadReport;
+import nmd.orb.sources.Source;
 import nmd.orb.util.Page;
 
 import java.util.*;
@@ -286,7 +289,7 @@ public class ReadsService extends AbstractService {
 
         final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
 
-        final FeedType feedType = TwitterClientTools.isItTwitterUrl(header.feedLink) ? FeedType.TWITTER : FeedType.RSS;
+        final Source feedType = Source.detect(header.feedLink);
 
         return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate);
     }
