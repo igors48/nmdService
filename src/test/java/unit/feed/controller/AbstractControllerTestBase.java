@@ -50,7 +50,7 @@ public abstract class AbstractControllerTestBase {
             "\t\t<title>Google Glass уже взломали</title>\n" +
             "\t\t<link>http://www.3dnews.ru/news/644778/</link>\n" +
             "\t\t<description><![CDATA[<img align=\"left\" hspace=\"15\" vspace=\"10\" src=\"http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg\" border=\"0\" height=\"85\" width=\"120\"/>ChromeOS-разработчик и хакер Лиам МакЛафлин (Liam McLoughlin) рассказал в своем Twitter, что не только понял, как получить root-доступ к Google Glass, но также сообщил, что сделать это очень просто.Так как Google Glass работает на операционной системе Android, это дает независимым...]]></description>\n" +
-            "\t\t<pubDate>Sun, 28 Apr 2013 18:26:00 +0400</pubDate>\n" +
+            "\t\t<pubDate>Sat, 27 Apr 2013 18:26:00 +0400</pubDate>\n" +
             "\t</item>\n" +
             "    </channel>\n" +
             "</rss>    ";
