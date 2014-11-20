@@ -95,7 +95,7 @@ public class FindUserTest {
         }
     }
 
-    protected void assertErrorOccured(final ServiceException exception, final ErrorCode expectedErrorCode) {
+    private void assertErrorOccured(final ServiceException exception, final ErrorCode expectedErrorCode) {
         final ServiceError serviceError = exception.getError();
         final ErrorCode errorCode = serviceError.code;
 

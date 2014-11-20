@@ -33,27 +33,7 @@ public class DataConversionTest {
     @Before
     public void setUp() {
         this.current = new Date(48);
-
-        Caption caption = new Caption();
-        caption.text = CAPTION;
-
-        Images images = new Images();
-
-        Content imageLowResolution = content(HTTP_DOMAIN_COM_IMAGE_LOW_RESOLUTION, 48, 48);
-        Content imageThumbnail = content(HTTP_DOMAIN_COM_IMAGE_THUMBNAIL, 48, 48);
-        Content imageStandardResolution = content(HTTP_DOMAIN_COM_IMAGE_STANDARD_RESOLUTION, 48, 48);
-
-        images.low_resolution = imageLowResolution;
-        images.standard_resolution = imageStandardResolution;
-        images.thumbnail = imageThumbnail;
-
-        this.data = new Data();
-
-        this.data.link = HTTP_DOMAIN_COM;
-        this.data.type = "image";
-        this.data.created_time = TIMESTAMP;
-        this.data.caption = caption;
-        this.data.images = images;
+        this.data = create();
     }
 
     @Test
@@ -177,7 +157,33 @@ public class DataConversionTest {
         }
     }
 
-    private Content content(final String url, final int width, final int height) {
+    public static Data create() {
+        Data data = new Data();
+
+        Caption caption = new Caption();
+        caption.text = CAPTION;
+
+        Images images = new Images();
+
+        Content imageLowResolution = content(HTTP_DOMAIN_COM_IMAGE_LOW_RESOLUTION, 48, 48);
+        Content imageThumbnail = content(HTTP_DOMAIN_COM_IMAGE_THUMBNAIL, 48, 48);
+        Content imageStandardResolution = content(HTTP_DOMAIN_COM_IMAGE_STANDARD_RESOLUTION, 48, 48);
+
+        images.low_resolution = imageLowResolution;
+        images.standard_resolution = imageStandardResolution;
+        images.thumbnail = imageThumbnail;
+
+
+        data.link = HTTP_DOMAIN_COM;
+        data.type = "image";
+        data.created_time = TIMESTAMP;
+        data.caption = caption;
+        data.images = images;
+
+        return data;
+    }
+
+    private static Content content(final String url, final int width, final int height) {
         final Content content = new Content();
 
         content.url = url;
