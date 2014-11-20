@@ -20,6 +20,8 @@ import static nmd.orb.util.CloseableTools.close;
  */
 public class InstagramClient {
 
+    public static final String CLIENT_ID = "b2f1ccbaed2642efb28e5710f652ca85";
+
     private static final Gson GSON = new Gson();
 
     private static final String UTF_8 = "UTF-8";
@@ -28,10 +30,9 @@ public class InstagramClient {
     private static final String RECENT_MEDIA_URL_TEMPLATE = "https://api.instagram.com/v1/users/%s/media/recent/?client_id=%s";
     public static final String SEARCH_USER_URL_TEMPLATE = "https://api.instagram.com/v1/users/search?q=%s&client_id=%s";
 
-    private static final String USER_ID = "325048554";
+    //private static final String USER_ID = "325048554";
     //private static final String USER_ID = "239641091";
     //private static final String USER_ID = "338763452";
-    private static final String CLIENT_ID = "b2f1ccbaed2642efb28e5710f652ca85";
 
     public static UserEnvelope searchUsers(final String mask, final String clientId) throws IOException {
         final String link = format(SEARCH_USER_URL_TEMPLATE, mask, clientId);

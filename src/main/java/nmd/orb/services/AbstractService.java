@@ -9,6 +9,11 @@ import nmd.orb.feed.FeedItem;
 import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.sources.Source;
+import nmd.orb.sources.instagram.InstagramClient;
+import nmd.orb.sources.instagram.InstagramClientTools;
+import nmd.orb.sources.instagram.entities.ContentEnvelope;
+import nmd.orb.sources.instagram.entities.User;
+import nmd.orb.sources.instagram.entities.UserEnvelope;
 import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
@@ -112,9 +117,18 @@ public class AbstractService {
         }
     }
 
-    private Feed fetchAsInstagramUrl(final String instagramUrl) {
+    private Feed fetchAsInstagramUrl(final String instagramUrl) throws ServiceException {
 
-        return null;
+        try {
+            final String userName = InstagramClientTools.getInstagramUserName(instagramUrl);
+            final UserEnvelope userEnvelope = InstagramClient.searchUsers(userName, InstagramClient.CLIENT_ID);
+            final User user = InstagramClientTools.findUser(userName, userEnvelope);
+            final ContentEnvelope recentMedia = InstagramClient.fetchRecentMedia(user.id, InstagramClient.CLIENT_ID);
+
+            return InstagramClientTools.convert(instagramUrl, user, recentMedia, new Date());
+        } catch (IOException exception) {
+            throw new ServiceException(urlFetcherError(instagramUrl), exception);
+        }
     }
 
     private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
