@@ -5,6 +5,7 @@ import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
+import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
@@ -80,7 +81,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
         this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
         this.readsService.markItemAsRead(feedHeader.id, feedItem.guid);
 
-        final FeedItemsReport readReport = this.readsService.getFeedItemsReport(feedHeader.id);
+        final FeedItemsReport readReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
 
         assertEquals(1, readReport.reports.size());
         assertTrue(readReport.reports.get(0).read);

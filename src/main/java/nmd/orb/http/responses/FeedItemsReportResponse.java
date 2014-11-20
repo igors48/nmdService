@@ -21,6 +21,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
     public int read;
     public int notRead;
     public int readLater;
+    public int addedSinceLastView;
     public List<FeedItemReportPayload> reports;
     public long lastUpdate;
 
@@ -46,6 +47,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
         response.read = feedItemsReport.read;
         response.notRead = feedItemsReport.notRead;
         response.readLater = feedItemsReport.readLater;
+        response.addedSinceLastView = feedItemsReport.addedSinceLastView;
         response.reports = helpers;
         response.lastUpdate = feedItemsReport.lastUpdate.getTime();
 

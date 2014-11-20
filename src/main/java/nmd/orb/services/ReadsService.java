@@ -11,6 +11,7 @@ import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 import nmd.orb.repositories.Transactions;
+import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemReport;
 import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;
@@ -75,7 +76,7 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ServiceException {
+    public FeedItemsReport getFeedItemsReport(final UUID feedId, final FeedItemReportFilter filter) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
@@ -95,11 +96,16 @@ public class ReadsService extends AbstractService {
             int read = 0;
             int notRead = 0;
             int readLater = 0;
+            int addedSinceLastView = 0;
 
             for (final FeedItem feedItem : feedItems) {
                 final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
 
-                feedItemReports.add(feedItemReport);
+                final boolean acceptable = filter.acceptable(feedItemReport);
+
+                if (acceptable) {
+                    feedItemReports.add(feedItemReport);
+                }
 
                 if (feedItemReport.read) {
                     ++read;
@@ -110,11 +116,15 @@ public class ReadsService extends AbstractService {
                 if (feedItemReport.readLater) {
                     ++readLater;
                 }
+
+                if (feedItemReport.addedSinceLastView) {
+                    ++addedSinceLastView;
+                }
             }
 
             transaction.commit();
 
-            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, feedItemReports, readFeedItems.lastUpdate);
+            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate);
         } finally {
             rollbackIfActive(transaction);
         }

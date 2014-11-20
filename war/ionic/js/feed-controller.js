@@ -5,6 +5,8 @@ controllers.controller('feedController',
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
         $scope.showUi = false;
 
+        $scope.filter = $stateParams.filter;
+
         $scope.utilities = AppUtilities.utilities;
 
         $scope.backToCategory = function () {
@@ -18,7 +20,8 @@ controllers.controller('feedController',
 
             reads.query(
                 { 
-                    feedId: $stateParams.feedId
+                    feedId: $stateParams.feedId,
+                    filter: $stateParams.filter
                 },
                 onLoadFeedReportCompleted,
                 onServerFault);
@@ -42,8 +45,22 @@ controllers.controller('feedController',
             );
         };
 
-        $scope.markAsReadLater = function () {
-            alert('markAsReadLater');
+        $scope.markAsReadLater = function (feedId, itemId) {
+            $rootScope.lastItemId = itemId;
+
+            $ionicLoading.show({
+                template: 'Marking item...'
+            });
+
+            reads.mark(
+                {
+                    feedId: feedId,
+                    itemId: itemId,
+                    markAs: 'readLater'
+                },
+                onMarkAsReadLaterCompleted,
+                onServerFault
+            );
         };
 
         $scope.markAllItemsRead = function () {
@@ -69,15 +86,55 @@ controllers.controller('feedController',
             });
         };
 
+        $scope.showAll = function () {
+            $state.go('feed', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                filter: 'show-all'
+            });
+        };
+
+        $scope.showNew = function () {
+            $state.go('feed', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                filter: 'show-added'
+            });
+        };
+
+        $scope.showNotRead = function () {
+            $state.go('feed', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                filter: 'show-not-read'
+            });
+        };
+
+        $scope.showReadLater = function () {
+            $state.go('feed', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                filter: 'show-read-later'
+            });
+        };
+
         var onMarkAllItemsReadCompleted = function (response) {
             var me = this;
 
             $ionicLoading.hide();
 
-            loadFeedReport();
+            $state.go('category', {
+                id: $stateParams.categoryId
+            });
         };
 
         var onMarkAsReadCompleted = function (response) {
+            $ionicLoading.hide();
+
+            loadFeedReport();
+        };
+
+        var onMarkAsReadLaterCompleted = function (response) {
             $ionicLoading.hide();
 
             loadFeedReport();
@@ -94,7 +151,13 @@ controllers.controller('feedController',
 
             $scope.showUi = true;
  
-            $scope.feed = { title: response.title };
+            $scope.feed = { 
+                title: response.title,
+                total: response.read + response.notRead, 
+                notRead: response.notRead,
+                readLater: response.readLater,
+                addedSinceLastView: response.addedSinceLastView
+            };
 
             $scope.utilities.addTimeDifference(response.reports);
 

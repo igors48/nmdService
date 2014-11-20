@@ -2,6 +2,7 @@ package unit.feed.controller.categories;
 
 import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
+import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
@@ -40,7 +41,7 @@ public class CategoryReportTest extends AbstractControllerTestBase {
     public void whenFeedStateWasChangedThenItWillBeReflectedInReport() throws ServiceException {
         final UUID feedId = addValidFirstRssFeedToMainCategory();
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedId);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
         final String feedItemId = feedItemsReport.reports.get(0).itemId;
 
         this.readsService.markItemAsRead(feedId, feedItemId);
