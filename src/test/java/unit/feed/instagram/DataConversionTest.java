@@ -44,7 +44,7 @@ public class DataConversionTest {
         assertEquals(InstagramClientTools.formatDescription(HTTP_DOMAIN_COM_IMAGE_THUMBNAIL, CAPTION), converted.description);
         assertEquals(HTTP_DOMAIN_COM, converted.link);
         assertEquals(HTTP_DOMAIN_COM, converted.gotoLink);
-        assertEquals(TIMESTAMP, converted.date.getTime());
+        assertEquals(TIMESTAMP * 1000, converted.date.getTime());
         assertTrue(converted.dateReal);
         assertFalse(converted.guid.isEmpty());
     }

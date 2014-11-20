@@ -156,6 +156,7 @@
         <filter token="security.key" value="${security.key}"/>
         <filter token="twitter.apiKey" value="${twitter.apiKey}"/>
         <filter token="twitter.apiSecret" value="${twitter.apiSecret}"/>
+        <filter token="instagram.clientId" value="${instagram.clientId}"/>
     </filterset>
 
     <target name="-get_commit_SHA">
