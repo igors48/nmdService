@@ -60,7 +60,7 @@ public class CachedFeedUpdateTaskRepository implements FeedUpdateTaskRepository 
         final CachedFeedUpdateTasks cachedFeedUpdateTasks = updateCache(feedUpdateTask);
 
         if (cachedFeedUpdateTasks.flushNeeded()) {
-            flush(cachedFeedUpdateTasks);
+            //flush(cachedFeedUpdateTasks);
         }
 
         this.cache.put(KEY, cachedFeedUpdateTasks);
