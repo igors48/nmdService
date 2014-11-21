@@ -39,7 +39,7 @@ public class Tweet {
         return this.id_str;
     }
 
-    public void setId_str(String id_str) {
+    public void setId_str(final String id_str) {
         this.id_str = id_str;
     }
 

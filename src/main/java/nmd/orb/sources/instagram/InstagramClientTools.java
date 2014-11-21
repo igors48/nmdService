@@ -189,20 +189,12 @@ public class InstagramClientTools {
 
         final String title = cutTo(trimOrUse(captionText, NO_DESCRIPTION), FeedItem.MAX_TITLE_LENGTH);
 
-        final Long createdDate = data.created_time;
-
-        final boolean dateReal;
-        final Date date;
-
-        if (createdDate == null) {
-            dateReal = false;
-            date = current;
-        } else {
-            dateReal = true;
-            date = new Date(createdDate * 1000);
-        }
+        final Date candiDate = data.created_time == null ? null : new Date(data.created_time * 1000);
+        final boolean dateReal = FeedItem.isDateReal(candiDate, current);
+        final Date date = dateReal ? candiDate : current;
 
         final String imageWithDescription = formatDescription(imageUrl, title);
+
         final String itemGuid = UUID.randomUUID().toString();
 
         return new FeedItem(title, imageWithDescription, link, link, date, dateReal, itemGuid);
