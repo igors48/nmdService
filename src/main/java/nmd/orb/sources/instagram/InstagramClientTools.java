@@ -19,6 +19,8 @@ import static java.lang.String.format;
 import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.*;
+import static nmd.orb.util.StringTools.cutTo;
+import static nmd.orb.util.StringTools.trimOrUse;
 
 /**
  * @author : igu
@@ -29,6 +31,7 @@ public class InstagramClientTools {
 
     private static final String INSTAGRAM_COM = "instagram.com";
     private static final Pattern INSTAGRAM_USER_NAME_PATTERN = Pattern.compile("https?://instagram.com/(.+)", Pattern.CASE_INSENSITIVE);
+    private static final String DESCRIPTION_TEMPLATE = "<img src=\"%s\"></img><p>%s</p>";
 
     public static boolean isItInstagramUrl(final String url) {
 
@@ -184,7 +187,7 @@ public class InstagramClientTools {
             captionText = caption.text == null ? NO_DESCRIPTION : caption.text.trim();
         }
 
-        final String description = captionText.isEmpty() ? NO_DESCRIPTION : captionText;
+        final String title = cutTo(trimOrUse(captionText, NO_DESCRIPTION), FeedItem.MAX_TITLE_LENGTH);
 
         final Long createdDate = data.created_time;
 
@@ -199,14 +202,17 @@ public class InstagramClientTools {
             date = new Date(createdDate * 1000);
         }
 
-        final String imageWithDescription = formatDescription(imageUrl, description);
+        final String imageWithDescription = formatDescription(imageUrl, title);
         final String itemGuid = UUID.randomUUID().toString();
 
-        return new FeedItem(description, imageWithDescription, link, link, date, dateReal, itemGuid);
+        return new FeedItem(title, imageWithDescription, link, link, date, dateReal, itemGuid);
     }
 
     public static String formatDescription(String imageUrl, String description) {
-        return format("<img src=\"%s\"></img><p>%s</p>", imageUrl, description);
+        final int maxDescriptionLength = FeedItem.MAX_TITLE_LENGTH - DESCRIPTION_TEMPLATE.length() - imageUrl.length();
+        final String cutDescription = cutTo(description, maxDescriptionLength);
+
+        return format(DESCRIPTION_TEMPLATE, imageUrl, cutDescription);
     }
 
     private static void assertMetaIsValid(Envelope envelope) throws ServiceException {

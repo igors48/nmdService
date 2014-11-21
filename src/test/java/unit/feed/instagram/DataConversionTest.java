@@ -10,6 +10,7 @@ import nmd.orb.sources.instagram.entities.Data;
 import nmd.orb.sources.instagram.entities.Images;
 import org.junit.Before;
 import org.junit.Test;
+import unit.feed.parser.FeedHeaderBuilderTest;
 
 import java.util.Date;
 
@@ -47,6 +48,24 @@ public class DataConversionTest {
         assertEquals(TIMESTAMP * 1000, converted.date.getTime());
         assertTrue(converted.dateReal);
         assertFalse(converted.guid.isEmpty());
+    }
+
+    @Test
+    public void longCaptionIsCutForFitTitle() throws ServiceException {
+        this.data.caption.text = FeedHeaderBuilderTest.LONG_STRING;
+
+        final FeedItem converted = InstagramClientTools.convert(this.data, this.current);
+
+        assertTrue(converted.title.length() <= FeedItem.MAX_TITLE_LENGTH);
+    }
+
+    @Test
+    public void longCaptionIsCutForFitDescription() throws ServiceException {
+        this.data.caption.text = FeedHeaderBuilderTest.LONG_STRING;
+
+        final FeedItem converted = InstagramClientTools.convert(this.data, this.current);
+
+        assertTrue(converted.description.length() <= FeedItem.MAX_DESCRIPTION_LENGTH);
     }
 
     @Test
