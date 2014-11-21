@@ -15,6 +15,7 @@ import java.util.UUID;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import static java.lang.String.format;
 import static java.lang.String.valueOf;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CloseableTools.close;
@@ -136,7 +137,13 @@ public final class ServletTools {
         guard(notNull(response));
 
         response.setContentType(responseBody.contentType.mime);
+        response.setContentLength(responseBody.content.length());
         response.setCharacterEncoding(UTF_8);
+
+        if (!responseBody.fileName.isEmpty()) {
+            response.setHeader("Content-Transfer-Encoding", "Binary");
+            response.setHeader("Content-Disposition", format("attachment;filename=\"%s\"", responseBody.fileName));
+        }
 
         final long processingTime = System.currentTimeMillis() - startTime;
         response.setHeader(SERVER_PROCESSING_TIME_HEADER, valueOf(processingTime));
