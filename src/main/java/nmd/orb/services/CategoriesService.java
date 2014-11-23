@@ -7,6 +7,7 @@ import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.*;
+import nmd.orb.services.report.BackupReport;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedReadReport;
 
@@ -215,6 +216,24 @@ public class CategoriesService {
         }
     }
 
+    public BackupReport createBackupReport() {
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final Set<Category> categories = this.categoriesRepository.loadAll();
+            final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+            final List<ReadFeedItems> readFeedItems = this.readFeedItemsRepository.loadAll();
+
+            transaction.commit();
+
+            return createBackupReport(categories, headers, readFeedItems);
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
     private CategoryReport createCategoryReport(final List<ReadFeedItems> readFeedItemsList, final Category category) {
         int read = 0;
         int notRead = 0;
@@ -285,6 +304,76 @@ public class CategoriesService {
         }
 
         return header;
+    }
+
+    public static BackupReport createBackupReport(final Set<Category> categories, final List<FeedHeader> headers, final List<ReadFeedItems> readFeedItems) {
+        guard(notNull(categories));
+        guard(notNull(headers));
+        guard(notNull(readFeedItems));
+
+        final Map<Category, Set<FeedHeader>> report = new HashMap<>();
+        final Set<ReadFeedItems> lostLinks = new HashSet<>();
+
+        for (final ReadFeedItems current : readFeedItems) {
+            final String categoryId = current.categoryId;
+            final UUID feedId = current.feedId;
+
+            final Category category = pick(categoryId, categories);
+            final FeedHeader header = pick(feedId, headers);
+
+            if (category != null && header != null) {
+                Set<FeedHeader> headerSet = report.get(category);
+
+                if (headerSet == null) {
+                    headerSet = new HashSet<>();
+                    report.put(category, headerSet);
+                }
+
+                headerSet.add(header);
+            } else {
+                lostLinks.add(current);
+            }
+        }
+
+        final Set<Category> emptyCategories = new HashSet<>();
+        emptyCategories.addAll(categories);
+
+        for (final Category category : emptyCategories) {
+            report.put(category, new HashSet<FeedHeader>());
+        }
+
+        final Set<FeedHeader> lostHeaders = new HashSet<>();
+        lostHeaders.addAll(headers);
+
+        return new BackupReport(report, lostLinks, emptyCategories, lostHeaders);
+    }
+
+    private static Category pick(final String id, final Set<Category> categories) {
+
+        for (final Category current : categories) {
+
+            if (current.uuid.equals(id)) {
+                categories.remove(current);
+
+                return current;
+            }
+        }
+
+        return null;
+    }
+
+    private static FeedHeader pick(final UUID id, final List<FeedHeader> feedHeaders) {
+
+        for (final FeedHeader current : feedHeaders) {
+
+            if (current.id.equals(id)) {
+                feedHeaders.remove(current);
+
+                return current;
+            }
+        }
+
+        return null;
     }
 
     private static List<ReadFeedItems> findReadFeedItemsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
