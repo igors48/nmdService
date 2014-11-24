@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -20,11 +20,11 @@ public class CachedFeedUpdateTasksTest {
     private static final int MAX_WRITES_COUNT = 2;
 
     private static final UUID FIRST_ID = UUID.randomUUID();
-    private static final FeedUpdateTask FIRST_TASK = new FeedUpdateTask(FIRST_ID, 48, 1, 1);
-    private static final FeedUpdateTask UPDATED_FIRST_TASK = new FeedUpdateTask(FIRST_ID, 48, 2, 2);
+    private static final FeedUpdateTask FIRST_TASK = new FeedUpdateTask(FIRST_ID, 48);
+    private static final FeedUpdateTask UPDATED_FIRST_TASK = new FeedUpdateTask(FIRST_ID, 48);
 
     private static final UUID SECOND_ID = UUID.randomUUID();
-    private static final FeedUpdateTask SECOND_TASK = new FeedUpdateTask(SECOND_ID, 49, 3, 3);
+    private static final FeedUpdateTask SECOND_TASK = new FeedUpdateTask(SECOND_ID, 49);
 
     private CachedFeedUpdateTasks cachedTasks;
 
@@ -34,7 +34,7 @@ public class CachedFeedUpdateTasksTest {
             add(FIRST_TASK);
         }};
 
-        this.cachedTasks = new CachedFeedUpdateTasks(tasks, MAX_WRITES_COUNT);
+        this.cachedTasks = new CachedFeedUpdateTasks(tasks);
     }
 
     @Test
@@ -58,35 +58,6 @@ public class CachedFeedUpdateTasksTest {
         assertEquals(2, fromCache.size());
         assertEquals(UPDATED_FIRST_TASK, fromCache.get(0));
         assertEquals(SECOND_TASK, fromCache.get(1));
-    }
-
-    @Test
-    public void whenNumberOfWritesLesserThanMaximumThenFlushNotNeed() {
-        assertFalse(this.cachedTasks.flushNeeded());
-
-        this.cachedTasks.addOrUpdate(SECOND_TASK);
-
-        assertFalse(this.cachedTasks.flushNeeded());
-    }
-
-    @Test
-    public void whenNumberOfWritesGreaterThanMaximumThenFlushNotNeed() {
-        this.cachedTasks.addOrUpdate(SECOND_TASK);
-        this.cachedTasks.addOrUpdate(SECOND_TASK);
-        this.cachedTasks.addOrUpdate(SECOND_TASK);
-
-        assertTrue(this.cachedTasks.flushNeeded());
-    }
-
-    @Test
-    public void afterRestFlushNotNeed() {
-        this.cachedTasks.addOrUpdate(SECOND_TASK);
-        this.cachedTasks.addOrUpdate(SECOND_TASK);
-        this.cachedTasks.addOrUpdate(SECOND_TASK);
-
-        this.cachedTasks.resetWritesCounter();
-
-        assertFalse(this.cachedTasks.flushNeeded());
     }
 
 }

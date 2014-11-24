@@ -36,7 +36,7 @@ public class CachedFeedUpdateTaskRepositoryTest {
         this.feedUpdateTaskRepositoryStub = new FeedUpdateTaskRepositoryStub();
         this.feedUpdateTaskRepositoryStub.storeTask(STORED);
 
-        this.repository = new CachedFeedUpdateTaskRepository(this.feedUpdateTaskRepositoryStub, 2, this.cacheStub);
+        this.repository = new CachedFeedUpdateTaskRepository(this.feedUpdateTaskRepositoryStub, this.cacheStub);
     }
 
     @Test
@@ -90,17 +90,6 @@ public class CachedFeedUpdateTaskRepositoryTest {
         this.repository.deleteTaskForFeedId(STORED_FEED_ID);
 
         assertTrue(this.cacheStub.isEmpty());
-    }
-
-    @Test
-    public void cachedItemsFlushedToRepositoryOnlyAfterSpecifiedCountOfWrites() {
-        this.repository.storeTask(STORED);
-
-        this.repository.updateTask(CACHED);
-        assertFalse(this.feedUpdateTaskRepositoryStub.loadAllTasks().contains(CACHED));
-
-        this.repository.updateTask(CACHED);
-        assertTrue(this.feedUpdateTaskRepositoryStub.loadAllTasks().contains(CACHED));
     }
 
 }

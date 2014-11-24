@@ -51,11 +51,6 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
     }
 
     @Override
-    public void updateTask(final FeedUpdateTask feedUpdateTask) {
-        storeTask(feedUpdateTask);
-    }
-
-    @Override
     public FeedUpdateTask loadTaskForFeedId(final UUID feedId) {
         assertNotNull(feedId);
 

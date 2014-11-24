@@ -7,24 +7,15 @@ import java.util.List;
 import java.util.ListIterator;
 
 import static nmd.orb.util.Assert.guard;
-import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 
 public class CachedFeedUpdateTasks implements Serializable {
 
-    private final int maxWriteCount;
     private final List<FeedUpdateTask> tasks;
 
-    private int updatesCount;
-
-    public CachedFeedUpdateTasks(final List<FeedUpdateTask> tasks, final int maxWriteCount) {
+    public CachedFeedUpdateTasks(final List<FeedUpdateTask> tasks) {
         guard(notNull(tasks));
         this.tasks = tasks;
-
-        guard(isPositive(maxWriteCount));
-        this.maxWriteCount = maxWriteCount;
-
-        resetWritesCounter();
     }
 
     public void addOrUpdate(final FeedUpdateTask feedUpdateTask) {
@@ -49,20 +40,10 @@ public class CachedFeedUpdateTasks implements Serializable {
         if (!updated) {
             iterator.add(feedUpdateTask);
         }
-
-        ++this.updatesCount;
-    }
-
-    public boolean flushNeeded() {
-        return this.updatesCount > this.maxWriteCount;
     }
 
     public List<FeedUpdateTask> getTasks() {
         return this.tasks;
-    }
-
-    public void resetWritesCounter() {
-        this.updatesCount = 0;
     }
 
 }
