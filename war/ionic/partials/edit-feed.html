@@ -6,14 +6,17 @@
 </ion-header-bar>
 
 <ion-content scroll="false" ng-cloak ng-show="showUi">
+    <a class="block-link" target="_blank" href="{{feed.link}}">
     <div class="card">
         <div class="item item-divider">
             {{feed.name}}
         </div>
         <div class="item item-text-wrap">
-            Items count: {{feed.items}}
+            <h3>Items count: {{feed.items}}</h3>
+            <h4>Link: {{feed.link}}</h4>
         </div>
     </div>
+    </a>
     <div class="list list-inset" ng-switch="mode">
 
         <div ng-switch-when="choose">

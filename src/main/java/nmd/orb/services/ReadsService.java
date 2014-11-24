@@ -127,7 +127,7 @@ public class ReadsService extends AbstractService {
 
             transaction.commit();
 
-            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate, topItemDate);
+            return new FeedItemsReport(header.id, header.title, header.feedLink, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate, topItemDate);
         } finally {
             rollbackIfActive(transaction);
         }

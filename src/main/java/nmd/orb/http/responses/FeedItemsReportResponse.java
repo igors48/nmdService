@@ -18,6 +18,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
 
     public String id;
     public String title;
+    public String link;
     public int read;
     public int notRead;
     public int readLater;
@@ -45,6 +46,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
 
         response.id = feedItemsReport.id.toString();
         response.title = feedItemsReport.title;
+        response.link = feedItemsReport.link;
         response.read = feedItemsReport.read;
         response.notRead = feedItemsReport.notRead;
         response.readLater = feedItemsReport.readLater;
