@@ -66,9 +66,47 @@ public class BackupReportTest {
     public void smoke() {
         final BackupReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
 
+        assertReportValid(report);
+
         assertTrue(report.lostLinks.isEmpty());
         assertTrue(report.lostHeaders.isEmpty());
+    }
 
+    @Test
+    public void lostHeaderIsIncludedInList() {
+        final FeedHeader lost = new FeedHeader(UUID.randomUUID(), HTTP_DOMAIN_COM, HTTP_DOMAIN_COM, HTTP_DOMAIN_COM, HTTP_DOMAIN_COM);
+        this.headers.add(lost);
+
+        final BackupReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
+
+        assertReportValid(report);
+
+        assertEquals(1, report.lostHeaders.size());
+        assertTrue(report.lostHeaders.contains(lost));
+        assertTrue(report.lostLinks.isEmpty());
+    }
+
+    @Test
+    public void lostLinksAreIncludedInList() {
+        final ReadFeedItems lostCategory = new ReadFeedItems(FEED_HEADER_01_ID, new Date(), new HashSet<String>(), new HashSet<String>(), UUID.randomUUID().toString());
+        final ReadFeedItems lostHeader = new ReadFeedItems(UUID.randomUUID(), new Date(), new HashSet<String>(), new HashSet<String>(), CATEGORY_01_ID);
+        final ReadFeedItems lostCompletely = new ReadFeedItems(UUID.randomUUID(), new Date(), new HashSet<String>(), new HashSet<String>(), UUID.randomUUID().toString());
+        this.readFeedItems.add(lostCategory);
+        this.readFeedItems.add(lostHeader);
+        this.readFeedItems.add(lostCompletely);
+
+        final BackupReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
+
+        assertReportValid(report);
+
+        assertEquals(3, report.lostLinks.size());
+        assertTrue(report.lostLinks.contains(lostCategory));
+        assertTrue(report.lostLinks.contains(lostHeader));
+        assertTrue(report.lostLinks.contains(lostCompletely));
+        assertTrue(report.lostHeaders.isEmpty());
+    }
+
+    private void assertReportValid(BackupReport report) {
         final Map<Category, Set<FeedHeader>> map = report.map;
         assertEquals(3, map.size());
 
@@ -89,4 +127,5 @@ public class BackupReportTest {
         final Set<FeedHeader> thirdCategoryHeaders = map.get(CATEGORY_03);
         assertTrue(thirdCategoryHeaders.isEmpty());
     }
+
 }
