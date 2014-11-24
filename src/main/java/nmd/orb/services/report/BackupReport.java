@@ -17,18 +17,14 @@ public class BackupReport {
 
     public final Map<Category, Set<FeedHeader>> map;
     public final Set<ReadFeedItems> lostLinks;
-    public final Set<Category> emptyCategories;
     public final Set<FeedHeader> lostHeaders;
 
-    public BackupReport(final Map<Category, Set<FeedHeader>> map, final Set<ReadFeedItems> lostLinks, final Set<Category> emptyCategories, final Set<FeedHeader> lostHeaders) {
+    public BackupReport(final Map<Category, Set<FeedHeader>> map, final Set<ReadFeedItems> lostLinks, final Set<FeedHeader> lostHeaders) {
         guard(notNull(map));
         this.map = map;
 
         guard(notNull(lostLinks));
         this.lostLinks = lostLinks;
-
-        guard(notNull(emptyCategories));
-        this.emptyCategories = emptyCategories;
 
         guard(notNull(lostHeaders));
         this.lostHeaders = lostHeaders;

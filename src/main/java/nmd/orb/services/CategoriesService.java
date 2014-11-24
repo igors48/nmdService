@@ -312,13 +312,18 @@ public class CategoriesService {
         guard(notNull(readFeedItems));
 
         final Map<Category, Set<FeedHeader>> report = new HashMap<>();
+
+        for (final Category category : categories) {
+            report.put(category, new HashSet<FeedHeader>());
+        }
+
         final Set<ReadFeedItems> lostLinks = new HashSet<>();
 
         for (final ReadFeedItems current : readFeedItems) {
             final String categoryId = current.categoryId;
             final UUID feedId = current.feedId;
 
-            final Category category = pick(categoryId, categories);
+            final Category category = find(categoryId, categories);
             final FeedHeader header = pick(feedId, headers);
 
             if (category != null && header != null) {
@@ -335,26 +340,17 @@ public class CategoriesService {
             }
         }
 
-        final Set<Category> emptyCategories = new HashSet<>();
-        emptyCategories.addAll(categories);
-
-        for (final Category category : emptyCategories) {
-            report.put(category, new HashSet<FeedHeader>());
-        }
-
         final Set<FeedHeader> lostHeaders = new HashSet<>();
         lostHeaders.addAll(headers);
 
-        return new BackupReport(report, lostLinks, emptyCategories, lostHeaders);
+        return new BackupReport(report, lostLinks, lostHeaders);
     }
 
-    private static Category pick(final String id, final Set<Category> categories) {
+    private static Category find(final String id, final Set<Category> categories) {
 
         for (final Category current : categories) {
 
             if (current.uuid.equals(id)) {
-                categories.remove(current);
-
                 return current;
             }
         }
