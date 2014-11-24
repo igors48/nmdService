@@ -202,14 +202,16 @@ public class InstagramClientTools {
         return new FeedItem(title, imageWithDescription, link, link, date, dateReal, itemGuid);
     }
 
-    public static String formatDescription(String imageUrl, String description) {
+    public static String formatDescription(final String imageUrl, final String description) {
+        guard(isValidUrl(imageUrl));
+
         final int maxDescriptionLength = FeedItem.MAX_TITLE_LENGTH - DESCRIPTION_TEMPLATE.length() - imageUrl.length();
         final String cutDescription = cutTo(description, maxDescriptionLength);
 
         return format(DESCRIPTION_TEMPLATE, imageUrl, cutDescription);
     }
 
-    private static void assertMetaIsValid(Envelope envelope) throws ServiceException {
+    private static void assertMetaIsValid(final Envelope envelope) throws ServiceException {
 
         if (envelope.meta == null) {
             throw new ServiceException(instagramNoMeta());
