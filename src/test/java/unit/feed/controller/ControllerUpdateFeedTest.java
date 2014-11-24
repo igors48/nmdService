@@ -1,6 +1,5 @@
 package unit.feed.controller;
 
-import nmd.orb.collector.scheduler.FeedUpdateTask;
 import nmd.orb.error.ServiceException;
 import nmd.orb.services.report.FeedUpdateReport;
 import org.junit.Test;
@@ -34,19 +33,6 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
         assertEquals(0, report.mergeReport.removed.size());
         assertEquals(2, report.mergeReport.retained.size());
         assertEquals(0, report.mergeReport.added.size());
-    }
-
-    @Test
-    public void whenFeedUpdatedThenStatisticUpdated() throws ServiceException {
-        final UUID feedId = addValidFirstRssFeedToMainCategory();
-
-        this.updatesService.updateFeed(feedId);
-        this.updatesService.updateFeed(feedId);
-
-        final FeedUpdateTask feedUpdateTask = this.feedUpdateTaskRepositoryStub.loadTaskForFeedId(feedId);
-
-        assertEquals(2, feedUpdateTask.executions);
-        assertEquals(0, feedUpdateTask.updates);
     }
 
     @Test

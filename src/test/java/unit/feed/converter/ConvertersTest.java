@@ -57,7 +57,7 @@ public class ConvertersTest {
 
     @Test
     public void feedUpdateTaskEntityRoundtrip() {
-        final FeedUpdateTask origin = new FeedUpdateTask(UUID.randomUUID(), 1000, 1, 2);
+        final FeedUpdateTask origin = new FeedUpdateTask(UUID.randomUUID(), 1000);
 
         final Entity entity = FeedUpdateTaskEntityConverter.convert(origin, SAMPLE_KEY);
 
