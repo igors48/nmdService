@@ -123,7 +123,9 @@ public class InstagramClientTools {
         guard(isValidUrl(link));
         guard(notNull(user));
 
-        return FeedHeader.create(UUID.randomUUID(), link, user.full_name, user.full_name, link);
+        final String fullName = trimOrUse(user.full_name, user.username);
+
+        return FeedHeader.create(UUID.randomUUID(), link, fullName, fullName, link);
     }
 
     public static FeedItem convert(final Data data, final Date current) throws ServiceException {

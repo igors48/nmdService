@@ -3,7 +3,6 @@ package unit.feed.instagram;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.sources.instagram.InstagramClientTools;
 import nmd.orb.sources.instagram.entities.User;
-import org.junit.Assert;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -27,6 +26,28 @@ public class UserConversionTest {
         assertEquals(LINK, header.link);
         assertEquals(user.full_name, header.title);
         assertEquals(user.full_name, header.description);
+    }
+
+    @Test
+    public void whenUserFullNameIsEmptyThenUsernameIsUsed() {
+        final User user = FindUserTest.create("user");
+        user.full_name = "";
+
+        final FeedHeader header = InstagramClientTools.convert(LINK, user);
+
+        assertEquals(user.username, header.title);
+        assertEquals(user.username, header.description);
+    }
+
+    @Test
+    public void whenUserFullNameIsNullThenUsernameIsUsed() {
+        final User user = FindUserTest.create("user");
+        user.full_name = null;
+
+        final FeedHeader header = InstagramClientTools.convert(LINK, user);
+
+        assertEquals(user.username, header.title);
+        assertEquals(user.username, header.description);
     }
 
 }

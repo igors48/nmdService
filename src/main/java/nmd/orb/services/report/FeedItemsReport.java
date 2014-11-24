@@ -15,6 +15,7 @@ public class FeedItemsReport {
 
     public final UUID id;
     public final String title;
+    public final String link;
     public final int read;
     public final int notRead;
     public final int readLater;
@@ -23,12 +24,15 @@ public class FeedItemsReport {
     public final Date lastUpdate;
     public final Date topItemDate;
 
-    public FeedItemsReport(final UUID id, final String title, final int read, final int notRead, final int readLater, final int addedSinceLastView, final List<FeedItemReport> reports, final Date lastUpdate, final Date topItemDate) {
+    public FeedItemsReport(final UUID id, final String title, final String link, final int read, final int notRead, final int readLater, final int addedSinceLastView, final List<FeedItemReport> reports, final Date lastUpdate, final Date topItemDate) {
         guard(notNull(id));
         this.id = id;
 
         guard(isValidString(title));
         this.title = title;
+
+        guard(isValidUrl(link));
+        this.link = link;
 
         guard(isPositive(read));
         this.read = read;
