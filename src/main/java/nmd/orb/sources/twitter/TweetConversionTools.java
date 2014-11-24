@@ -22,9 +22,9 @@ import static nmd.orb.util.StringTools.cutTo;
  */
 public final class TweetConversionTools {
 
-    private static final String TWEET_URL_TEMPLATE = "https://twitter.com/%s/status/%s";
+    public static final SimpleDateFormat TWITTER_DATE_PARSER;
 
-    private static final SimpleDateFormat TWITTER_DATE_PARSER;
+    private static final String TWEET_URL_TEMPLATE = "https://twitter.com/%s/status/%s";
 
     static {
         TWITTER_DATE_PARSER = new SimpleDateFormat("EEE MMM dd HH:mm:ss ZZZZZ yyyy", Locale.ENGLISH);
@@ -120,18 +120,9 @@ public final class TweetConversionTools {
 
         final String dateAsString = tweet.getCreated_at();
 
-        final boolean dateReal;
-
         final Date date = parse(dateAsString);
-        final Date itemDate;
-
-        if (date == null) {
-            dateReal = false;
-            itemDate = current;
-        } else {
-            dateReal = true;
-            itemDate = date;
-        }
+        final boolean dateReal = FeedItem.isDateReal(date, current);
+        final Date itemDate = dateReal ? date : current;
 
         final String id = UUID.randomUUID().toString();
 

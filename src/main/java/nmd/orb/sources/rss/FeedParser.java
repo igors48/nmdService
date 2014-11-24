@@ -91,7 +91,7 @@ public final class FeedParser {
 
         final String itemTitle = cutTo(trimOrUse(title, itemLink), FeedItem.MAX_TITLE_LENGTH);
         final String itemDescription = cutTo(trimOrUse(description, alternateDescription), FeedItem.MAX_DESCRIPTION_LENGTH);
-        final boolean itemDateReal = date != null;
+        final boolean itemDateReal = FeedItem.isDateReal(date, currentDate);
         final Date feedDate = itemDateReal ? date : currentDate;
 
         return new FeedItem(itemTitle, itemDescription, itemLink, itemLink, feedDate, itemDateReal, guid);

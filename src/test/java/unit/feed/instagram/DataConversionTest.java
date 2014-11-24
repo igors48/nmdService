@@ -156,8 +156,28 @@ public class DataConversionTest {
     }
 
     @Test
-    public void whenDateIsNotValidThenCurrentIsUsed() throws ServiceException {
+    public void whenDateIsNullThenCurrentIsUsed() throws ServiceException {
         this.data.created_time = null;
+
+        final FeedItem converted = InstagramClientTools.convert(this.data, this.current);
+
+        assertEquals(this.current, converted.date);
+        assertFalse(converted.dateReal);
+    }
+
+    @Test
+    public void whenDateFromFarPastThenCurrentIsUsedInstead() throws ServiceException {
+        this.data.created_time = TIMESTAMP - FeedItem.FIFTY_YEARS - FeedItem.TWENTY_FOUR_HOURS;
+
+        final FeedItem converted = InstagramClientTools.convert(this.data, this.current);
+
+        assertEquals(this.current, converted.date);
+        assertFalse(converted.dateReal);
+    }
+
+    @Test
+    public void whenDateFromFarFutureThenCurrentIsUsedInstead() throws ServiceException {
+        this.data.created_time = TIMESTAMP + FeedItem.FIFTY_YEARS;
 
         final FeedItem converted = InstagramClientTools.convert(this.data, this.current);
 
