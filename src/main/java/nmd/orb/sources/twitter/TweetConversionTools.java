@@ -12,8 +12,8 @@ import java.util.*;
 import static java.lang.String.format;
 import static nmd.orb.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static nmd.orb.feed.FeedHeader.create;
-import static nmd.orb.util.Assert.assertNotNull;
-import static nmd.orb.util.Assert.assertStringIsValid;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.*;
 import static nmd.orb.util.StringTools.cutTo;
 
 /**
@@ -36,8 +36,8 @@ public final class TweetConversionTools {
     }
 
     public static FeedHeader convertToHeader(final String twitterLink, final Tweet tweet) {
-        assertStringIsValid(twitterLink);
-        assertNotNull(tweet);
+        guard(isValidUrl(twitterLink));
+        guard(notNull(tweet));
 
         final User user = tweet.getUser();
 
@@ -68,41 +68,9 @@ public final class TweetConversionTools {
         return create(id, twitterLink.trim(), cutTo(title, MAX_DESCRIPTION_AND_TITLE_LENGTH), cutTo(description, MAX_DESCRIPTION_AND_TITLE_LENGTH), feedLink);
     }
 
-    private static String getExpandedFirstUrl(Urls first) {
-        if (first == null) return null;
-
-        final String expandedUrl = first.getExpanded_url();
-
-        if (isBlank(expandedUrl)) {
-            return null;
-        }
-
-        return expandedUrl.trim();
-    }
-
-    private static Urls getFirstUrl(Url url) {
-        if (url == null) return null;
-
-        final List<Urls> urls = url.getUrls();
-
-        if (urls == null || urls.isEmpty()) {
-            return null;
-        }
-
-        return urls.get(0);
-    }
-
-    private static Url getUrl(UserEntities entities) {
-        if (entities == null) {
-            return null;
-        }
-
-        return entities.getUrl();
-    }
-
     public static FeedItem convertToItem(final Tweet tweet, final Date current) {
-        assertNotNull(tweet);
-        assertNotNull(current);
+        guard(notNull(tweet));
+        guard(notNull(current));
 
         final String text = tweet.getText();
 
@@ -129,42 +97,15 @@ public final class TweetConversionTools {
         return new FeedItem(title, title, link, gotoLink, itemDate, dateReal, id);
     }
 
-    private static String getLinkFromTweetEntities(final TweetEntities entities) {
-
-        if (entities == null) {
-            return null;
-        }
-
-        final List<Urls> urls = entities.getUrls();
-
-        if (urls == null || urls.isEmpty()) {
-            return null;
-        }
-
-        final Urls first = urls.get(0);
-
-        if (first == null) {
-            return null;
-        }
-
-        final String expandedUrl = first.getExpanded_url();
-
-        if (isBlank(expandedUrl)) {
-            return null;
-        }
-
-        return expandedUrl.trim();
-    }
-
     public static String createTweetUrl(final String userName, final String tweetIdAsString) {
-        assertStringIsValid(userName);
-        assertStringIsValid(tweetIdAsString);
+        guard(isValidString(userName));
+        guard(isValidString(tweetIdAsString));
 
         return format(TWEET_URL_TEMPLATE, userName.trim(), tweetIdAsString.trim());
     }
 
     public static Feed convertToFeed(final String twitterLink, final List<Tweet> tweets, final Date current) {
-        assertNotNull(current);
+        guard(notNull(current));
 
         if (tweets == null || tweets.isEmpty()) {
             return null;
@@ -204,6 +145,68 @@ public final class TweetConversionTools {
         } catch (ParseException e) {
             return null;
         }
+    }
+
+    private static String getExpandedFirstUrl(final Urls first) {
+
+        if (first == null) return null;
+
+        final String expandedUrl = first.getExpanded_url();
+
+        if (isBlank(expandedUrl)) {
+            return null;
+        }
+
+        return expandedUrl.trim();
+    }
+
+    private static Urls getFirstUrl(final Url url) {
+
+        if (url == null) return null;
+
+        final List<Urls> urls = url.getUrls();
+
+        if (urls == null || urls.isEmpty()) {
+            return null;
+        }
+
+        return urls.get(0);
+    }
+
+    private static Url getUrl(final UserEntities entities) {
+
+        if (entities == null) {
+            return null;
+        }
+
+        return entities.getUrl();
+    }
+
+    private static String getLinkFromTweetEntities(final TweetEntities entities) {
+
+        if (entities == null) {
+            return null;
+        }
+
+        final List<Urls> urls = entities.getUrls();
+
+        if (urls == null || urls.isEmpty()) {
+            return null;
+        }
+
+        final Urls first = urls.get(0);
+
+        if (first == null) {
+            return null;
+        }
+
+        final String expandedUrl = first.getExpanded_url();
+
+        if (isBlank(expandedUrl)) {
+            return null;
+        }
+
+        return expandedUrl.trim();
     }
 
     private static boolean isBlank(final String string) {
