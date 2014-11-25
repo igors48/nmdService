@@ -222,7 +222,7 @@ public class CategoriesService {
         try {
             transaction = this.transactions.beginOne();
 
-            final Set<Category> categories = this.categoriesRepository.loadAll();
+            final Set<Category> categories = getAllCategoriesWithMain();
             final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
             final List<ReadFeedItems> readFeedItems = this.readFeedItemsRepository.loadAll();
 

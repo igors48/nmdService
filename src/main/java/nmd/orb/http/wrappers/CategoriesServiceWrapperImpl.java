@@ -3,12 +3,14 @@ package nmd.orb.http.wrappers;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.gae.GaeServices;
+import nmd.orb.http.responses.BackupReportResponse;
 import nmd.orb.http.responses.CategoriesReportResponse;
 import nmd.orb.http.responses.CategoryReportResponse;
 import nmd.orb.http.responses.CategoryResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.reader.Category;
 import nmd.orb.services.CategoriesService;
+import nmd.orb.services.report.BackupReport;
 import nmd.orb.services.report.CategoryReport;
 
 import java.util.List;
@@ -18,8 +20,7 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.orb.http.responses.SuccessMessageResponse.create;
-import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
-import static nmd.orb.http.tools.ResponseBody.createJsonResponse;
+import static nmd.orb.http.tools.ResponseBody.*;
 import static nmd.orb.reader.Category.isValidCategoryId;
 import static nmd.orb.reader.Category.isValidCategoryName;
 import static nmd.orb.util.Assert.guard;
@@ -133,6 +134,16 @@ public class CategoriesServiceWrapperImpl implements CategoriesServiceWrapper {
 
             return createErrorJsonResponse(exception);
         }
+    }
+
+    @Override
+    public ResponseBody createBackupReport() {
+        final BackupReport report = this.categoriesService.createBackupReport();
+        final BackupReportResponse response = BackupReportResponse.create(report);
+
+        LOGGER.info("Backup report was created");
+
+        return createJsonFileResponse(response, "backup.json");
     }
 
 }

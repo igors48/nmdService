@@ -41,6 +41,12 @@ public class ResponseBody {
         return new ResponseBody(ContentType.JSON, content);
     }
 
+    public static ResponseBody createJsonFileResponse(final Object object, final String fileName) {
+        final String content = GSON.toJson(object);
+
+        return new ResponseBody(ContentType.JSON, content, fileName);
+    }
+
     public static ResponseBody createErrorJsonResponse(final ServiceException exception) {
         final ServiceError error = exception.getError();
 

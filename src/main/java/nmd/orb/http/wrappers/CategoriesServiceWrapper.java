@@ -21,4 +21,6 @@ public interface CategoriesServiceWrapper {
 
     ResponseBody renameCategory(String categoryId, String newName);
 
+    ResponseBody createBackupReport();
+
 }
