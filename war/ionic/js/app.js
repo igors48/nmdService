@@ -64,4 +64,10 @@ orb.config(function($stateProvider, $urlRouterProvider) {
         controller: 'feedCardController'
       })
 
+      .state('admin-console', {
+        url: '/admin-console',
+        templateUrl: 'partials/admin-console.html',
+        controller: 'adminConsoleController'
+      })
+
 });

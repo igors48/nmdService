@@ -30,5 +30,11 @@
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
-    <h6 ng-cloak  ng-show="showUi" class="orange-front">Orb. version {{version.major}}.{{version.minor}}-sha1:{{version.sha1}}</h6>
+    <div>
+        <h6 ng-cloak  ng-show="showUi" class="orange-front">Orb. version {{version.major}}.{{version.minor}}-sha1:{{version.sha1}}</h6>
+    </div>
+
+    <div class="buttons item-button-right" ng-cloak ng-show="showUi">
+        <button class="button button-clear ion-android-settings" ng-click="openAdminConsole()"></button>
+    </div>
 </ion-footer-bar>
