@@ -11,10 +11,6 @@ controllers.controller('adminConsoleController',
             $state.go('categories');
         };
 
-        $scope.onBackupChosen = function () {
-            alert('backup');
-        };
-
     }
 
 );
