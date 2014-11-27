@@ -49,6 +49,15 @@ angular.module('orb.services', ['ngResource'])
         );
     })
 
+    .factory('backup', function ($resource) {
+        return $resource('/@security.key@/v01/backup',
+            {},
+            {
+                'restore': {method: 'POST'}
+            }
+        );
+    })
+
     .factory('lastUsedIds', function () {
         var lastUsedFeedId = '';
         var lastUsedItemId = '';

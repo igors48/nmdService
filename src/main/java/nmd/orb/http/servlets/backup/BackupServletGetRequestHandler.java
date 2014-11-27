@@ -28,6 +28,10 @@ public class BackupServletGetRequestHandler implements Handler {
     // GET -- get backup report
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
+        guard(notNull(elements));
+        guard(notNull(parameters));
+        guard(notNull(body));
+
         return this.categoriesService.createBackupReport();
     }
 
