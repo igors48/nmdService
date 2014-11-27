@@ -179,6 +179,12 @@ public class ServiceError {
                 "Try to repeat request later");
     }
 
+    public static ServiceError invalidBackupFile() {
+        return new ServiceError(ErrorCode.INVALID_BACKUP_FILE,
+                "Invalid backup file",
+                "Check backup file and try again");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
