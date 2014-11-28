@@ -1,14 +1,18 @@
 package nmd.orb.services;
 
+import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.error.ServiceException;
 import nmd.orb.repositories.FeedImportJobRepository;
+import nmd.orb.repositories.Transactions;
 import nmd.orb.services.importer.FeedImportJob;
+import nmd.orb.services.importer.FeedImportJobStatus;
 import nmd.orb.services.report.FeedImportStatusReport;
 
 import static nmd.orb.error.ServiceError.importJobStartedAlready;
 import static nmd.orb.services.importer.FeedImportJobStatus.STARTED;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
+import static nmd.orb.util.TransactionTools.rollbackIfActive;
 
 /**
  * Created by igor on 27.11.2014.
@@ -16,43 +20,75 @@ import static nmd.orb.util.Parameter.notNull;
 public class ImportService {
 
     private final FeedImportJobRepository feedImportJobRepository;
+    private final Transactions transactions;
 
-    public ImportService(final FeedImportJobRepository feedImportJobRepository) {
+    public ImportService(final FeedImportJobRepository feedImportJobRepository, final Transactions transactions) {
+        guard(notNull(feedImportJobRepository));
         this.feedImportJobRepository = feedImportJobRepository;
+
+        guard(notNull(transactions));
+        this.transactions = transactions;
     }
 
     public void schedule(final FeedImportJob job) throws ServiceException {
         guard(notNull(job));
 
-        final FeedImportJob current = this.feedImportJobRepository.load();
+        Transaction transaction = null;
 
-        final boolean canNotBeScheduled = (current != null) && (current.status.equals(STARTED));
+        try {
+            transaction = this.transactions.beginOne();
 
-        if (canNotBeScheduled) {
-            throw new ServiceException(importJobStartedAlready());
+            final FeedImportJob current = this.feedImportJobRepository.load();
+
+            final boolean canNotBeScheduled = (current != null) && (current.status.equals(STARTED));
+
+            if (canNotBeScheduled) {
+                throw new ServiceException(importJobStartedAlready());
+            }
+
+            this.feedImportJobRepository.store(job);
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
         }
-
-        this.feedImportJobRepository.store(job);
     }
 
     public void executeOneImport() {
 
     }
 
-    public FeedImportStatusReport start() {
-        return null;
+    public void start() {
+        changeStatus(FeedImportJobStatus.STARTED);
     }
 
-    public FeedImportStatusReport stop() {
-        return null;
+    public void stop() {
+        changeStatus(FeedImportJobStatus.STOPPED);
+    }
+
+    public void reject() {
     }
 
     public FeedImportStatusReport status() {
         return null;
     }
 
-    public FeedImportStatusReport reject() {
-        return null;
+    private void changeStatus(final FeedImportJobStatus status) {
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+            final FeedImportJob current = this.feedImportJobRepository.load();
+
+            if (current != null) {
+                current.status = status;
+                this.feedImportJobRepository.store(current);
+            }
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
 }

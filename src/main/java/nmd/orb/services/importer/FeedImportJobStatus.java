@@ -6,6 +6,6 @@ package nmd.orb.services.importer;
 public enum FeedImportJobStatus {
 
     STARTED,
-    PAUSED
+    STOPPED
 
 }
