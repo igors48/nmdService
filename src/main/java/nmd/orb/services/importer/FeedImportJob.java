@@ -1,5 +1,7 @@
 package nmd.orb.services.importer;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static nmd.orb.util.Assert.guard;
@@ -10,8 +12,10 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class FeedImportJob {
 
-    public UUID id; // TODO remove
-    public FeedImportJobStatus status;
+    private final UUID id; // TODO remove
+    private final List<FeedImportTask> tasks;
+
+    private FeedImportJobStatus status;
 
     public FeedImportJob(final UUID id, final FeedImportJobStatus status) {
         guard(notNull(id));
@@ -19,25 +23,25 @@ public class FeedImportJob {
 
         guard(notNull(status));
         this.status = status;
+
+        this.tasks = new ArrayList<>();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        FeedImportJob job = (FeedImportJob) o;
-
-        if (!id.equals(job.id)) return false;
-        if (status != job.status) return false;
-
-        return true;
+    public UUID getId() {
+        return this.id;
     }
 
-    @Override
-    public int hashCode() {
-        int result = id.hashCode();
-        result = 31 * result + status.hashCode();
-        return result;
+    public void setStatus(final FeedImportJobStatus status) {
+        guard(notNull(status));
+        this.status = status;
     }
+
+    public FeedImportJobStatus getStatus() {
+        return this.status;
+    }
+
+    public FeedImportTask getCurrentTask() {
+        return null;
+    }
+
 }

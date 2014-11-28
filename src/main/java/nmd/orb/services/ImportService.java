@@ -40,7 +40,7 @@ public class ImportService {
 
             final FeedImportJob current = this.feedImportJobRepository.load();
 
-            final boolean canNotBeScheduled = (current != null) && (current.status.equals(STARTED));
+            final boolean canNotBeScheduled = (current != null) && (current.getStatus().equals(STARTED));
 
             if (canNotBeScheduled) {
                 throw new ServiceException(importJobStartedAlready());
@@ -67,6 +67,17 @@ public class ImportService {
     }
 
     public void reject() {
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            this.feedImportJobRepository.clear();
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
     public FeedImportStatusReport status() {
@@ -78,10 +89,11 @@ public class ImportService {
 
         try {
             transaction = this.transactions.beginOne();
+
             final FeedImportJob current = this.feedImportJobRepository.load();
 
             if (current != null) {
-                current.status = status;
+                current.setStatus(status);
                 this.feedImportJobRepository.store(current);
             }
 
