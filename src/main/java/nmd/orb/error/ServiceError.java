@@ -185,6 +185,12 @@ public class ServiceError {
                 "Check backup file and try again");
     }
 
+    public static ServiceError importJobStartedAlready() {
+        return new ServiceError(ErrorCode.FEED_IMPORT_JOB_STARTED_ALREADY,
+                "Import job started already",
+                "Stop current job and try again");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
