@@ -1,7 +1,7 @@
 package unit.feed.controller.stub;
 
 import nmd.orb.repositories.FeedImportJobRepository;
-import nmd.orb.services.importer.FeedImportJob;
+import nmd.orb.services.importer.ImportJob;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
@@ -11,15 +11,15 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class FeedImportJobRepositoryStub implements FeedImportJobRepository {
 
-    private FeedImportJob job;
+    private ImportJob job;
 
     @Override
-    public FeedImportJob load() {
+    public ImportJob load() {
         return this.job;
     }
 
     @Override
-    public void store(final FeedImportJob job) {
+    public void store(final ImportJob job) {
         guard(notNull(job));
         this.job = job;
     }

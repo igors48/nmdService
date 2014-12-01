@@ -2,8 +2,8 @@ package unit.feed.controller.importer;
 
 import nmd.orb.error.ErrorCode;
 import nmd.orb.error.ServiceException;
-import nmd.orb.services.importer.FeedImportJob;
-import nmd.orb.services.importer.FeedImportJobStatus;
+import nmd.orb.services.importer.ImportJob;
+import nmd.orb.services.importer.ImportJobStatus;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -17,7 +17,7 @@ public class ImportServiceScheduleTest extends AbstractImportServiceTest {
 
     @Test
     public void whenNoCurrentJobThenJobStored() throws ServiceException {
-        final FeedImportJob job = new FeedImportJob(UUID.randomUUID(), FeedImportJobStatus.STOPPED);
+        final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
 
         this.importService.schedule(job);
 
@@ -28,10 +28,10 @@ public class ImportServiceScheduleTest extends AbstractImportServiceTest {
     public void whenCurrentJobStartedThenScheduleNewJobWillRaiseError() {
 
         try {
-            final FeedImportJob current = new FeedImportJob(UUID.randomUUID(), FeedImportJobStatus.STARTED);
+            final ImportJob current = new ImportJob(UUID.randomUUID(), ImportJobStatus.STARTED);
             this.feedImportJobRepositoryStub.store(current);
 
-            final FeedImportJob job = new FeedImportJob(UUID.randomUUID(), FeedImportJobStatus.STOPPED);
+            final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
             this.importService.schedule(job);
 
             fail();
@@ -42,10 +42,10 @@ public class ImportServiceScheduleTest extends AbstractImportServiceTest {
 
     @Test
     public void whenCurrentJobPausedThenScheduleNewJobWillReplaceIt() throws ServiceException {
-        final FeedImportJob current = new FeedImportJob(UUID.randomUUID(), FeedImportJobStatus.STOPPED);
+        final ImportJob current = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
         this.feedImportJobRepositoryStub.store(current);
 
-        final FeedImportJob job = new FeedImportJob(UUID.randomUUID(), FeedImportJobStatus.STOPPED);
+        final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
         this.importService.schedule(job);
 
         assertEquals(job, this.feedImportJobRepositoryStub.load());

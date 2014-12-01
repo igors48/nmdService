@@ -10,37 +10,37 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * @author : igu
  */
-public class FeedImportJob {
+public class ImportJob {
 
     private final UUID id; // TODO remove
-    private final List<FeedImportTask> tasks;
+    private final List<CategoryImportTaskContext> taskContexts;
 
-    private FeedImportJobStatus status;
+    private ImportJobStatus status;
 
-    public FeedImportJob(final UUID id, final FeedImportJobStatus status) {
+    public ImportJob(final UUID id, final ImportJobStatus status) {
         guard(notNull(id));
         this.id = id;
 
         guard(notNull(status));
         this.status = status;
 
-        this.tasks = new ArrayList<>();
+        this.taskContexts = new ArrayList<>();
     }
 
     public UUID getId() {
         return this.id;
     }
 
-    public void setStatus(final FeedImportJobStatus status) {
+    public void setStatus(final ImportJobStatus status) {
         guard(notNull(status));
         this.status = status;
     }
 
-    public FeedImportJobStatus getStatus() {
+    public ImportJobStatus getStatus() {
         return this.status;
     }
 
-    public FeedImportTask getCurrentTask() {
+    public ImportTask getCurrentTask() {
         return null;
     }
 

@@ -3,9 +3,8 @@ package nmd.orb.services.importer;
 /**
  * @author : igu
  */
-public enum FeedImportJobStatus {
+public interface ImportTask {
 
-    STARTED,
-    STOPPED
+    void execute();
 
 }

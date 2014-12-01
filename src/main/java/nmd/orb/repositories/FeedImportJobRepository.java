@@ -1,15 +1,15 @@
 package nmd.orb.repositories;
 
-import nmd.orb.services.importer.FeedImportJob;
+import nmd.orb.services.importer.ImportJob;
 
 /**
  * @author : igu
  */
 public interface FeedImportJobRepository {
 
-    FeedImportJob load();
+    ImportJob load();
 
-    void store(FeedImportJob job);
+    void store(ImportJob job);
 
     void clear();
 

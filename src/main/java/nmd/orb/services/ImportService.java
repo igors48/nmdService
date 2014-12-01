@@ -4,12 +4,12 @@ import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.error.ServiceException;
 import nmd.orb.repositories.FeedImportJobRepository;
 import nmd.orb.repositories.Transactions;
-import nmd.orb.services.importer.FeedImportJob;
-import nmd.orb.services.importer.FeedImportJobStatus;
+import nmd.orb.services.importer.ImportJob;
+import nmd.orb.services.importer.ImportJobStatus;
 import nmd.orb.services.report.FeedImportStatusReport;
 
 import static nmd.orb.error.ServiceError.importJobStartedAlready;
-import static nmd.orb.services.importer.FeedImportJobStatus.STARTED;
+import static nmd.orb.services.importer.ImportJobStatus.STARTED;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
 import static nmd.orb.util.TransactionTools.rollbackIfActive;
@@ -30,7 +30,7 @@ public class ImportService {
         this.transactions = transactions;
     }
 
-    public void schedule(final FeedImportJob job) throws ServiceException {
+    public void schedule(final ImportJob job) throws ServiceException {
         guard(notNull(job));
 
         Transaction transaction = null;
@@ -38,7 +38,7 @@ public class ImportService {
         try {
             transaction = this.transactions.beginOne();
 
-            final FeedImportJob current = this.feedImportJobRepository.load();
+            final ImportJob current = this.feedImportJobRepository.load();
 
             final boolean canNotBeScheduled = (current != null) && (current.getStatus().equals(STARTED));
 
@@ -59,11 +59,11 @@ public class ImportService {
     }
 
     public void start() {
-        changeStatus(FeedImportJobStatus.STARTED);
+        changeStatus(ImportJobStatus.STARTED);
     }
 
     public void stop() {
-        changeStatus(FeedImportJobStatus.STOPPED);
+        changeStatus(ImportJobStatus.STOPPED);
     }
 
     public void reject() {
@@ -84,13 +84,13 @@ public class ImportService {
         return null;
     }
 
-    private void changeStatus(final FeedImportJobStatus status) {
+    private void changeStatus(final ImportJobStatus status) {
         Transaction transaction = null;
 
         try {
             transaction = this.transactions.beginOne();
 
-            final FeedImportJob current = this.feedImportJobRepository.load();
+            final ImportJob current = this.feedImportJobRepository.load();
 
             if (current != null) {
                 current.setStatus(status);

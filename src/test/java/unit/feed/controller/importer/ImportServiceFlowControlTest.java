@@ -1,8 +1,8 @@
 package unit.feed.controller.importer;
 
 import nmd.orb.error.ServiceException;
-import nmd.orb.services.importer.FeedImportJob;
-import nmd.orb.services.importer.FeedImportJobStatus;
+import nmd.orb.services.importer.ImportJob;
+import nmd.orb.services.importer.ImportJobStatus;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -17,28 +17,28 @@ public class ImportServiceFlowControlTest extends AbstractImportServiceTest {
 
     @Test
     public void whenJobStartedThenItsStatusChanged() throws ServiceException {
-        final FeedImportJob job = new FeedImportJob(UUID.randomUUID(), FeedImportJobStatus.STOPPED);
+        final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
 
         this.importService.schedule(job);
         this.importService.start();
 
-        assertEquals(FeedImportJobStatus.STARTED, this.feedImportJobRepositoryStub.load().getStatus());
+        assertEquals(ImportJobStatus.STARTED, this.feedImportJobRepositoryStub.load().getStatus());
     }
 
     @Test
     public void whenJobStoppedThenItsStatusChanged() throws ServiceException {
-        final FeedImportJob job = new FeedImportJob(UUID.randomUUID(), FeedImportJobStatus.STOPPED);
+        final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
 
         this.importService.schedule(job);
         this.importService.start();
         this.importService.stop();
 
-        assertEquals(FeedImportJobStatus.STOPPED, this.feedImportJobRepositoryStub.load().getStatus());
+        assertEquals(ImportJobStatus.STOPPED, this.feedImportJobRepositoryStub.load().getStatus());
     }
 
     @Test
     public void whenJobRejectedThenItsRemovedFromRepository() throws ServiceException {
-        final FeedImportJob job = new FeedImportJob(UUID.randomUUID(), FeedImportJobStatus.STOPPED);
+        final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
 
         this.importService.schedule(job);
         this.importService.reject();
