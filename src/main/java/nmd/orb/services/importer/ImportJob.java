@@ -13,7 +13,7 @@ import static nmd.orb.util.Parameter.notNull;
 public class ImportJob {
 
     private final UUID id; // TODO remove
-    private final List<CategoryImportTaskContext> taskContexts;
+    private final List<CategoryImportContext> contexts;
 
     private ImportJobStatus status;
 
@@ -24,7 +24,7 @@ public class ImportJob {
         guard(notNull(status));
         this.status = status;
 
-        this.taskContexts = new ArrayList<>();
+        this.contexts = new ArrayList<>();
     }
 
     public UUID getId() {

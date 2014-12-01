@@ -10,20 +10,20 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * @author : igu
  */
-public class CategoryImportTaskContext {
+public class CategoryImportContext {
 
     private final String categoryName;
-    private final List<FeedImportTaskContext> feedImportTaskContexts;
+    private final List<FeedImportContext> feedImportContexts;
 
     private CategoryImportTaskStatus status;
     private int current;
 
-    public CategoryImportTaskContext(final String categoryName, final List<FeedImportTaskContext> feedImportTaskContexts) {
+    public CategoryImportContext(final String categoryName, final List<FeedImportContext> feedImportContexts) {
         guard(isValidCategoryName(categoryName));
         this.categoryName = categoryName;
 
-        guard(notNull(feedImportTaskContexts));
-        this.feedImportTaskContexts = feedImportTaskContexts;
+        guard(notNull(feedImportContexts));
+        this.feedImportContexts = feedImportContexts;
 
         this.status = CATEGORY_CREATE;
         this.current = 0;

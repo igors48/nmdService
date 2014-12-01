@@ -7,7 +7,7 @@ import static nmd.orb.util.Parameter.*;
 /**
  * @author : igu
  */
-public class FeedImportTaskContext {
+public class FeedImportContext {
 
     private final String feedLink;
     private final String feedTitle;
@@ -15,7 +15,7 @@ public class FeedImportTaskContext {
     private int triesLeft;
     private FeedImportTaskStatus status;
 
-    public FeedImportTaskContext(final String feedLink, final String feedTitle, final int triesLeft, final FeedImportTaskStatus status) {
+    public FeedImportContext(final String feedLink, final String feedTitle, final int triesLeft, final FeedImportTaskStatus status) {
         guard(isValidUrl(feedLink));
         this.feedLink = feedLink;
 
