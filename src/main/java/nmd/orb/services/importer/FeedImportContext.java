@@ -39,4 +39,24 @@ public class FeedImportContext {
         return this.status;
     }
 
+    public String getFeedLink() {
+        return this.feedLink;
+    }
+
+    public String getFeedTitle() {
+        return this.feedTitle;
+    }
+
+    public void decreaseTries() {
+        this.triesLeft = this.triesLeft == 0 ? 0 : --this.triesLeft;
+    }
+
+    public void setStatus(final FeedImportTaskStatus status) {
+        guard(notNull(status));
+        this.status = status;
+    }
+
+    public int getTriesLeft() {
+        return this.triesLeft;
+    }
 }
