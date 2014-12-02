@@ -13,9 +13,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
-import java.util.logging.Logger;
 
-import static java.lang.String.format;
 import static nmd.orb.feed.FeedHeader.create;
 import static nmd.orb.util.Assert.*;
 import static nmd.orb.util.StringTools.*;
@@ -25,8 +23,6 @@ import static nmd.orb.util.StringTools.*;
  * Date : 28.04.13
  */
 public final class FeedParser {
-
-    private static final Logger LOGGER = Logger.getLogger(FeedParser.class.getName());
 
     private FeedParser() {
         // empty
@@ -38,10 +34,6 @@ public final class FeedParser {
 
         try {
             final String correctedData = stripNonValidXMLCharacters(feedData);
-
-            final String cutted = cutTo(correctedData, 512);
-            LOGGER.info(format("Corrected XML [ %s ]", cutted));
-
             final StringReader reader = new StringReader(correctedData);
             final SyndFeedInput input = new SyndFeedInput();
             final SyndFeed feed = input.build(reader);
@@ -53,8 +45,6 @@ public final class FeedParser {
             }
 
             final List<FeedItem> items = new ArrayList<>();
-
-            LOGGER.info(format("Entries found [ %d ]", feed.getEntries().size()));
 
             for (int i = 0; i < feed.getEntries().size(); i++) {
                 final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
