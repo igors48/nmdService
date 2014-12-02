@@ -17,44 +17,48 @@ public class FeedImportContextTest {
 
     @Test
     public void taskCanBeExecutedWhenItHasWaitingStatus() {
-        final FeedImportContext context = new FeedImportContext(HTTP_DOMAIN_COM, TITLE, 4, FeedImportTaskStatus.WAITING);
+        final FeedImportContext context = create(4, FeedImportTaskStatus.WAITING);
 
         assertTrue(context.canBeExecuted());
     }
 
     @Test
     public void taskCanNotBeExecutedWhenItHasErrorStatusAndSomeTriesLeft() {
-        final FeedImportContext context = new FeedImportContext("http://domain.com", "title", 1, FeedImportTaskStatus.ERROR);
+        final FeedImportContext context = create(1, FeedImportTaskStatus.ERROR);
 
         assertTrue(context.canBeExecuted());
     }
 
     @Test
     public void taskCanNotBeExecutedWhenItHasNoTriesLeft() {
-        final FeedImportContext context = new FeedImportContext("http://domain.com", "title", 0, FeedImportTaskStatus.WAITING);
+        final FeedImportContext context = create(0, FeedImportTaskStatus.WAITING);
 
         assertFalse(context.canBeExecuted());
     }
 
     @Test
     public void taskCanNotBeExecutedWhenItHasCompletedStatus() {
-        final FeedImportContext context = new FeedImportContext("http://domain.com", "title", 4, FeedImportTaskStatus.COMPLETED);
+        final FeedImportContext context = create(4, FeedImportTaskStatus.COMPLETED);
 
         assertFalse(context.canBeExecuted());
     }
 
     @Test
     public void taskCanNotBeExecutedWhenItHasFailedStatus() {
-        final FeedImportContext context = new FeedImportContext("http://domain.com", "title", 4, FeedImportTaskStatus.FAILED);
+        final FeedImportContext context = create(4, FeedImportTaskStatus.FAILED);
 
         assertFalse(context.canBeExecuted());
     }
 
     @Test
     public void taskCanNotBeExecutedWhenItHasErrorStatusAndNoTriesLeft() {
-        final FeedImportContext context = new FeedImportContext("http://domain.com", "title", 0, FeedImportTaskStatus.ERROR);
+        final FeedImportContext context = create(0, FeedImportTaskStatus.ERROR);
 
         assertFalse(context.canBeExecuted());
+    }
+
+    public static FeedImportContext create(final int triesLeft, final FeedImportTaskStatus status) {
+        return new FeedImportContext(HTTP_DOMAIN_COM, TITLE, triesLeft, status);
     }
 
 }

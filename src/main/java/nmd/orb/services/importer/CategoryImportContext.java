@@ -1,11 +1,10 @@
 package nmd.orb.services.importer;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static nmd.orb.reader.Category.isValidCategoryName;
-import static nmd.orb.services.importer.CategoryImportTaskStatus.CATEGORY_CREATE;
 import static nmd.orb.util.Assert.guard;
-import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 
 /**
@@ -17,24 +16,63 @@ public class CategoryImportContext {
     private final List<FeedImportContext> feedImportContexts;
 
     private CategoryImportTaskStatus status;
-    private int current;
 
-    public CategoryImportContext(final String categoryName, final List<FeedImportContext> feedImportContexts, final int current, final CategoryImportTaskStatus status) {
+    public CategoryImportContext(final String categoryName, final List<FeedImportContext> feedImportContexts, final CategoryImportTaskStatus status) {
         guard(isValidCategoryName(categoryName));
         this.categoryName = categoryName;
 
         guard(notNull(feedImportContexts));
         this.feedImportContexts = feedImportContexts;
 
-        guard(isPositive(current));
-        this.current = 0;
-
         guard(notNull(status));
-        this.status = CATEGORY_CREATE;
+        this.status = status;
     }
 
     public boolean canBeExecuted() {
-        return false;
+
+        if (this.status.equals(CategoryImportTaskStatus.COMPLETED)) {
+            return false;
+        }
+
+        if (this.status.equals(CategoryImportTaskStatus.FEEDS_IMPORT)) {
+            final FeedImportContext candidate = findFirstExecutableTask(FeedImportTaskStatus.WAITING);
+
+            return candidate != null;
+        }
+
+        if (this.status.equals(CategoryImportTaskStatus.FEEDS_WITH_ERROR_IMPORT)) {
+            final FeedImportContext candidate = findFirstExecutableTask(FeedImportTaskStatus.ERROR);
+
+            return candidate != null;
+        }
+
+        return true;
+    }
+
+    private FeedImportContext findFirstExecutableTask(final FeedImportTaskStatus status) {
+        final List<FeedImportContext> candidates = findTasks(status);
+
+        for (final FeedImportContext candidate : candidates) {
+
+            if (candidate.canBeExecuted()) {
+                return candidate;
+            }
+        }
+
+        return null;
+    }
+
+    private List<FeedImportContext> findTasks(final FeedImportTaskStatus status) {
+        final List<FeedImportContext> result = new ArrayList<>();
+
+        for (final FeedImportContext candidate : this.feedImportContexts) {
+
+            if (candidate.getStatus().equals(status)) {
+                result.add(candidate);
+            }
+        }
+
+        return result;
     }
 
 }

@@ -35,4 +35,8 @@ public class FeedImportContext {
 
     }
 
+    public FeedImportTaskStatus getStatus() {
+        return this.status;
+    }
+
 }
