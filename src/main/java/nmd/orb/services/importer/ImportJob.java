@@ -40,8 +40,4 @@ public class ImportJob {
         return this.status;
     }
 
-    public ImportTask getCurrentTask() {
-        return null;
-    }
-
 }
