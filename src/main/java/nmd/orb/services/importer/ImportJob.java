@@ -40,4 +40,5 @@ public class ImportJob {
         return this.status;
     }
 
+    //step execution result - completed / not completed
 }

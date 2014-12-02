@@ -6,6 +6,8 @@ package nmd.orb.services.importer;
 public enum CategoryImportTaskStatus {
 
     CATEGORY_CREATE,
-    FEEDS_IMPORT
+    FEEDS_IMPORT,
+    FEEDS_WITH_ERROR_IMPORT,
+    COMPLETED
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import static nmd.orb.reader.Category.isValidCategoryName;
 import static nmd.orb.services.importer.CategoryImportTaskStatus.CATEGORY_CREATE;
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 
 /**
@@ -18,15 +19,22 @@ public class CategoryImportContext {
     private CategoryImportTaskStatus status;
     private int current;
 
-    public CategoryImportContext(final String categoryName, final List<FeedImportContext> feedImportContexts) {
+    public CategoryImportContext(final String categoryName, final List<FeedImportContext> feedImportContexts, final int current, final CategoryImportTaskStatus status) {
         guard(isValidCategoryName(categoryName));
         this.categoryName = categoryName;
 
         guard(notNull(feedImportContexts));
         this.feedImportContexts = feedImportContexts;
 
-        this.status = CATEGORY_CREATE;
+        guard(isPositive(current));
         this.current = 0;
+
+        guard(notNull(status));
+        this.status = CATEGORY_CREATE;
+    }
+
+    public boolean canBeExecuted() {
+        return false;
     }
 
 }

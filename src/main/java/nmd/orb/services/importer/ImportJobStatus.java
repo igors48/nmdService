@@ -6,6 +6,7 @@ package nmd.orb.services.importer;
 public enum ImportJobStatus {
 
     STARTED,
-    STOPPED
+    STOPPED,
+    COMPLETED
 
 }

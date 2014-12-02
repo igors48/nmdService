@@ -31,11 +31,8 @@ public class FeedImportContext {
 
     public boolean canBeExecuted() {
 
-        if (this.triesLeft < 1) {
-            return false;
-        }
+        return this.triesLeft >= 1 && (this.status.equals(FeedImportTaskStatus.WAITING) || this.status.equals(FeedImportTaskStatus.ERROR));
 
-        return this.status.equals(FeedImportTaskStatus.WAITING) || this.status.equals(FeedImportTaskStatus.ERROR);
     }
 
 }
