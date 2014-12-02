@@ -2,9 +2,9 @@ package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.error.ServiceException;
-import nmd.orb.repositories.FeedImportJobRepository;
+import nmd.orb.repositories.ImportJobContextRepository;
 import nmd.orb.repositories.Transactions;
-import nmd.orb.services.importer.ImportJob;
+import nmd.orb.services.importer.ImportJobContext;
 import nmd.orb.services.importer.ImportJobStatus;
 import nmd.orb.services.report.FeedImportStatusReport;
 
@@ -19,18 +19,18 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
  */
 public class ImportService {
 
-    private final FeedImportJobRepository feedImportJobRepository;
+    private final ImportJobContextRepository importJobContextRepository;
     private final Transactions transactions;
 
-    public ImportService(final FeedImportJobRepository feedImportJobRepository, final Transactions transactions) {
-        guard(notNull(feedImportJobRepository));
-        this.feedImportJobRepository = feedImportJobRepository;
+    public ImportService(final ImportJobContextRepository importJobContextRepository, final Transactions transactions) {
+        guard(notNull(importJobContextRepository));
+        this.importJobContextRepository = importJobContextRepository;
 
         guard(notNull(transactions));
         this.transactions = transactions;
     }
 
-    public void schedule(final ImportJob job) throws ServiceException {
+    public void schedule(final ImportJobContext job) throws ServiceException {
         guard(notNull(job));
 
         Transaction transaction = null;
@@ -38,7 +38,7 @@ public class ImportService {
         try {
             transaction = this.transactions.beginOne();
 
-            final ImportJob current = this.feedImportJobRepository.load();
+            final ImportJobContext current = this.importJobContextRepository.load();
 
             final boolean canNotBeScheduled = (current != null) && (current.getStatus().equals(STARTED));
 
@@ -46,7 +46,7 @@ public class ImportService {
                 throw new ServiceException(importJobStartedAlready());
             }
 
-            this.feedImportJobRepository.store(job);
+            this.importJobContextRepository.store(job);
 
             transaction.commit();
         } finally {
@@ -72,7 +72,7 @@ public class ImportService {
         try {
             transaction = this.transactions.beginOne();
 
-            this.feedImportJobRepository.clear();
+            this.importJobContextRepository.clear();
 
             transaction.commit();
         } finally {
@@ -90,11 +90,11 @@ public class ImportService {
         try {
             transaction = this.transactions.beginOne();
 
-            final ImportJob current = this.feedImportJobRepository.load();
+            final ImportJobContext current = this.importJobContextRepository.load();
 
             if (current != null) {
                 current.setStatus(status);
-                this.feedImportJobRepository.store(current);
+                this.importJobContextRepository.store(current);
             }
 
             transaction.commit();

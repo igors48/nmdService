@@ -1,7 +1,7 @@
 package unit.feed.controller.importer;
 
 import nmd.orb.error.ServiceException;
-import nmd.orb.services.importer.ImportJob;
+import nmd.orb.services.importer.ImportJobContext;
 import nmd.orb.services.importer.ImportJobStatus;
 import org.junit.Test;
 
@@ -17,7 +17,7 @@ public class ImportServiceFlowControlTest extends AbstractImportServiceTest {
 
     @Test
     public void whenJobStartedThenItsStatusChanged() throws ServiceException {
-        final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
+        final ImportJobContext job = new ImportJobContext(UUID.randomUUID(), ImportJobStatus.STOPPED);
 
         this.importService.schedule(job);
         this.importService.start();
@@ -27,7 +27,7 @@ public class ImportServiceFlowControlTest extends AbstractImportServiceTest {
 
     @Test
     public void whenJobStoppedThenItsStatusChanged() throws ServiceException {
-        final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
+        final ImportJobContext job = new ImportJobContext(UUID.randomUUID(), ImportJobStatus.STOPPED);
 
         this.importService.schedule(job);
         this.importService.start();
@@ -38,7 +38,7 @@ public class ImportServiceFlowControlTest extends AbstractImportServiceTest {
 
     @Test
     public void whenJobRejectedThenItsRemovedFromRepository() throws ServiceException {
-        final ImportJob job = new ImportJob(UUID.randomUUID(), ImportJobStatus.STOPPED);
+        final ImportJobContext job = new ImportJobContext(UUID.randomUUID(), ImportJobStatus.STOPPED);
 
         this.importService.schedule(job);
         this.importService.reject();

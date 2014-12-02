@@ -10,14 +10,14 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * @author : igu
  */
-public class ImportJob {
+public class ImportJobContext {
 
     private final UUID id; // TODO remove
     private final List<CategoryImportContext> contexts;
 
     private ImportJobStatus status;
 
-    public ImportJob(final UUID id, final ImportJobStatus status) {
+    public ImportJobContext(final UUID id, final ImportJobStatus status) {
         guard(notNull(id));
         this.id = id;
 

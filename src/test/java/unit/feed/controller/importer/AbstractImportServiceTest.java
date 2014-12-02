@@ -3,7 +3,7 @@ package unit.feed.controller.importer;
 import nmd.orb.services.ImportService;
 import org.junit.After;
 import org.junit.Before;
-import unit.feed.controller.stub.FeedImportJobRepositoryStub;
+import unit.feed.controller.stub.ImportJobContextRepositoryStub;
 import unit.feed.controller.stub.TransactionsStub;
 
 /**
@@ -11,7 +11,7 @@ import unit.feed.controller.stub.TransactionsStub;
  */
 public abstract class AbstractImportServiceTest {
 
-    protected FeedImportJobRepositoryStub feedImportJobRepositoryStub;
+    protected ImportJobContextRepositoryStub feedImportJobRepositoryStub;
     protected ImportService importService;
 
     private TransactionsStub transactionsStub;
@@ -20,7 +20,7 @@ public abstract class AbstractImportServiceTest {
     public void setUp() {
         this.transactionsStub = new TransactionsStub();
 
-        this.feedImportJobRepositoryStub = new FeedImportJobRepositoryStub();
+        this.feedImportJobRepositoryStub = new ImportJobContextRepositoryStub();
 
         this.importService = new ImportService(this.feedImportJobRepositoryStub, this.transactionsStub);
     }
