@@ -7,6 +7,7 @@ import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.*;
+import nmd.orb.services.importer.CategoriesServiceAdapter;
 import nmd.orb.services.report.BackupReport;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedReadReport;
@@ -24,7 +25,7 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
 /**
  * @author : igu
  */
-public class CategoriesService {
+public class CategoriesService implements CategoriesServiceAdapter {
 
     private static final CategoryNameComparator CATEGORY_NAME_COMPARATOR = new CategoryNameComparator();
     private static final FeedTitleComparator FEED_TITLE_COMPARATOR = new FeedTitleComparator();
@@ -51,6 +52,13 @@ public class CategoriesService {
 
         guard(notNull(transactions));
         this.transactions = transactions;
+    }
+
+    @Override
+    public String createCategory(final String name) {
+        guard(isValidCategoryName(name));
+
+        return addCategory(name).uuid;
     }
 
     public Category addCategory(final String name) {

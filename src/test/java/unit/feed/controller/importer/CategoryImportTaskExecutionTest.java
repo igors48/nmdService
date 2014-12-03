@@ -26,6 +26,17 @@ public class CategoryImportTaskExecutionTest {
     }
 
     @Test
+    public void whenCategoryCreationErrorThenContextStatusChangedToFailed() {
+        final CategoryImportContext context = create(CategoryImportTaskStatus.CATEGORY_CREATE);
+
+        this.categoriesServiceAdapterStub.setThrowException(true);
+
+        ImportJob.execute(context, this.categoriesServiceAdapterStub, this.feedsServiceAdapterStub);
+
+        assertEquals(CategoryImportTaskStatus.FAILED, context.getStatus());
+    }
+
+    @Test
     public void whenStateIsCategoryCreateThenCategoriesAdapterCalledOnceWithCorrectParameter() {
         final CategoryImportContext context = create(CategoryImportTaskStatus.CATEGORY_CREATE);
 
@@ -53,4 +64,21 @@ public class CategoryImportTaskExecutionTest {
         assertEquals(CategoryImportTaskStatus.FEEDS_IMPORT, context.getStatus());
     }
 
+    @Test
+    public void whenThereIsNoExecutableWaitingTaskThenContextStatusChangedToFeedsErrorImport() {
+        final CategoryImportContext context = create(CategoryImportTaskStatus.FEEDS_IMPORT);
+
+        ImportJob.execute(context, this.categoriesServiceAdapterStub, this.feedsServiceAdapterStub);
+
+        assertEquals(CategoryImportTaskStatus.FEEDS_WITH_ERROR_IMPORT, context.getStatus());
+    }
+
+    @Test
+    public void whenThereIsNoExecutableErrorTaskThenContextStatusChangedToCompleted() {
+        final CategoryImportContext context = create(CategoryImportTaskStatus.FEEDS_WITH_ERROR_IMPORT);
+
+        ImportJob.execute(context, this.categoriesServiceAdapterStub, this.feedsServiceAdapterStub);
+
+        assertEquals(CategoryImportTaskStatus.COMPLETED, context.getStatus());
+    }
 }

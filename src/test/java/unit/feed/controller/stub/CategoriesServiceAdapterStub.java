@@ -1,6 +1,5 @@
 package unit.feed.controller.stub;
 
-import nmd.orb.error.ServiceException;
 import nmd.orb.services.importer.CategoriesServiceAdapter;
 
 import java.util.UUID;
@@ -17,9 +16,15 @@ public class CategoriesServiceAdapterStub implements CategoriesServiceAdapter {
     private int callCount = 0;
     private String categoryName = "";
 
+    private boolean throwException = false;
+
     @Override
-    public String addCategory(final String name) throws ServiceException {
+    public String createCategory(final String name) {
         ++this.callCount;
+
+        if (this.throwException) {
+            throw new RuntimeException();
+        }
 
         this.categoryName = name;
 
@@ -29,6 +34,10 @@ public class CategoriesServiceAdapterStub implements CategoriesServiceAdapter {
     public void assertCalledOnce(final String name) {
         assertEquals(1, this.callCount);
         assertEquals(name, this.categoryName);
+    }
+
+    public void setThrowException(final boolean throwException) {
+        this.throwException = throwException;
     }
 
 }

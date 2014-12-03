@@ -7,6 +7,7 @@ import unit.feed.controller.AbstractControllerTestBase;
 
 import java.util.List;
 
+import static nmd.orb.reader.Category.isValidCategoryId;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -63,4 +64,17 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
         assertEquals(2, this.categoriesService.getCategoriesReport().size());
     }
 
+    @Test
+    public void whenCategoryCreatedThenItsIdReturned() {
+        final String categoryId = this.categoriesService.createCategory(NEW_CATEGORY_NAME);
+        assertTrue(isValidCategoryId(categoryId));
+    }
+
+    @Test
+    public void whenCategoryAlreadyExistsThenItsIdReturned() {
+        final Category first = this.categoriesService.addCategory(NEW_CATEGORY_NAME);
+        final String categoryId = this.categoriesService.createCategory(NEW_CATEGORY_NAME);
+
+        assertEquals(first.uuid, categoryId);
+    }
 }

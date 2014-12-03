@@ -93,13 +93,13 @@ public class ImportJob {
         final String categoryName = context.getCategoryName();
 
         try {
-            final String categoryId = adapter.addCategory(categoryName);
+            final String categoryId = adapter.createCategory(categoryName);
 
             context.setCategoryId(categoryId);
             context.setStatus(CategoryImportTaskStatus.FEEDS_IMPORT);
 
             LOGGER.info(format("Category [ %s ] created. Id is [ %s ]", categoryName, categoryId));
-        } catch (ServiceException exception) {
+        } catch (Exception exception) {
             context.setStatus(CategoryImportTaskStatus.FAILED);
 
             LOGGER.log(Level.SEVERE, format("Error creating category [ %s ]", categoryName), exception);
