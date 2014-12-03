@@ -90,15 +90,19 @@ public class ImportJob {
     }
 
     private static void createCategory(final CategoryImportContext context, final CategoriesServiceAdapter adapter) {
+        final String categoryName = context.getCategoryName();
 
         try {
-            final String categoryName = context.getCategoryName();
             final String categoryId = adapter.addCategory(categoryName);
 
             context.setCategoryId(categoryId);
             context.setStatus(CategoryImportTaskStatus.FEEDS_IMPORT);
-        } catch (ServiceException e) {
+
+            LOGGER.info(format("Category [ %s ] created. Id is [ %s ]", categoryName, categoryId));
+        } catch (ServiceException exception) {
             context.setStatus(CategoryImportTaskStatus.FAILED);
+
+            LOGGER.log(Level.SEVERE, format("Error creating category [ %s ]", categoryName), exception);
         }
     }
 

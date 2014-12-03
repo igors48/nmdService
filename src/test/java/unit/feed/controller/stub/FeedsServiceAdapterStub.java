@@ -38,6 +38,10 @@ public class FeedsServiceAdapterStub implements FeedsServiceAdapter {
         assertEquals(categoryId, this.categoryId);
     }
 
+    public void assertDidNotCalled() {
+        assertEquals(0, this.callCount);
+    }
+
     public void setThrowException(final boolean throwException) {
         this.throwException = throwException;
     }
