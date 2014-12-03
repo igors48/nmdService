@@ -44,4 +44,8 @@ public class ImportJob {
             LOGGER.info(format("Tries left [ %d ] new status is [ %s ]", triesLeft, status));
         }
     }
+
+    public static void execute(final CategoryImportContext context, final CategoriesServiceAdapter adapter) {
+
+    }
 }
