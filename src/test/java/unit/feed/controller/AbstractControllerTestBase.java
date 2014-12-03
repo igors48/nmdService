@@ -140,6 +140,12 @@ public abstract class AbstractControllerTestBase {
         return this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, categoryId);
     }
 
+    protected void addValidFirstRssFeed(final String feedTitle, final String categoryId) throws ServiceException {
+        this.fetcherStub.setData(FIRST_VALID_RSS_FEED);
+
+        this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, feedTitle, categoryId);
+    }
+
     protected UUID addValidFirstRssFeedToMainCategory() throws ServiceException {
         return addValidFirstRssFeed(Category.MAIN_CATEGORY_ID);
     }

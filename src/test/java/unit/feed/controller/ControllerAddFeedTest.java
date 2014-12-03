@@ -3,6 +3,7 @@ package unit.feed.controller;
 import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
+import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
 
 import java.util.List;
@@ -17,6 +18,8 @@ import static org.junit.Assert.assertEquals;
  * Date : 25.05.13
  */
 public class ControllerAddFeedTest extends AbstractControllerTestBase {
+
+    public static final String FEED_TITLE = "feedTitle";
 
     @Test
     public void whenFeedFetchedOkAndParsedOkItAdds() throws ServiceException {
@@ -105,4 +108,15 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
         addValidFirstRssFeed(UUID.randomUUID().toString());
     }
 
+    @Test
+    public void whenFeedCreatedThenCategoryAndTitleSetCorrectly() throws ServiceException {
+        final Category category = this.categoriesService.addCategory("new");
+        addValidFirstRssFeed(FEED_TITLE, category.uuid);
+
+        final List<CategoryReport> categoryReports = this.categoriesService.getCategoriesReport();
+        final CategoryReport categoryReport = findForCategory(category.uuid, categoryReports);
+        final FeedReadReport feedReadReport = categoryReport.feedReadReports.get(0);
+
+        assertEquals(FEED_TITLE, feedReadReport.feedTitle);
+    }
 }
