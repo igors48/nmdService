@@ -1,5 +1,7 @@
 package nmd.orb.services.importer;
 
+import nmd.orb.reader.Category;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,6 +18,7 @@ public class CategoryImportContext {
     private final List<FeedImportContext> feedImportContexts;
 
     private CategoryImportTaskStatus status;
+    private String categoryId;
 
     public CategoryImportContext(final String categoryName, final List<FeedImportContext> feedImportContexts, final CategoryImportTaskStatus status) {
         guard(isValidCategoryName(categoryName));
@@ -26,11 +29,13 @@ public class CategoryImportContext {
 
         guard(notNull(status));
         this.status = status;
+
+        this.categoryId = "";
     }
 
     public boolean canBeExecuted() {
 
-        if (this.status.equals(CategoryImportTaskStatus.COMPLETED)) {
+        if (this.status.equals(CategoryImportTaskStatus.COMPLETED) || this.status.equals(CategoryImportTaskStatus.FAILED)) {
             return false;
         }
 
@@ -49,7 +54,30 @@ public class CategoryImportContext {
         return true;
     }
 
-    private FeedImportContext findFirstExecutableTask(final FeedImportTaskStatus status) {
+    public String getCategoryId() {
+        return this.categoryId;
+    }
+
+    public void setCategoryId(final String categoryId) {
+        guard(Category.isValidCategoryId(categoryId));
+        this.categoryId = categoryId;
+    }
+
+    public CategoryImportTaskStatus getStatus() {
+        return this.status;
+    }
+
+    public String getCategoryName() {
+        return this.categoryName;
+    }
+
+    public void setStatus(final CategoryImportTaskStatus status) {
+        guard(notNull(status));
+        this.status = status;
+    }
+
+    //TODO tests
+    public FeedImportContext findFirstExecutableTask(final FeedImportTaskStatus status) {
         final List<FeedImportContext> candidates = findTasks(status);
 
         for (final FeedImportContext candidate : candidates) {

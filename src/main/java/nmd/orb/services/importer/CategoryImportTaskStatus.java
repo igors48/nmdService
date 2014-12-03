@@ -8,6 +8,7 @@ public enum CategoryImportTaskStatus {
     CATEGORY_CREATE,
     FEEDS_IMPORT,
     FEEDS_WITH_ERROR_IMPORT,
-    COMPLETED
+    COMPLETED,
+    FAILED
 
 }

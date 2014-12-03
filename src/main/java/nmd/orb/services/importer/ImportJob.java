@@ -45,7 +45,61 @@ public class ImportJob {
         }
     }
 
-    public static void execute(final CategoryImportContext context, final CategoriesServiceAdapter adapter) {
+    public static void execute(final CategoryImportContext context, final CategoriesServiceAdapter categoriesAdapter, final FeedsServiceAdapter feedsAdapter) {
+        guard(notNull(context));
+        guard(notNull(categoriesAdapter));
+        guard(notNull(feedsAdapter));
 
+        final CategoryImportTaskStatus status = context.getStatus();
+
+        switch (status) {
+            case CATEGORY_CREATE:
+                createCategory(context, categoriesAdapter);
+                break;
+            case FEEDS_IMPORT:
+                executeOneFeedImport(context, feedsAdapter);
+                break;
+            case FEEDS_WITH_ERROR_IMPORT:
+                executeOneFeedWithErrorImport(context, feedsAdapter);
+                break;
+        }
     }
+
+    private static void executeOneFeedImport(final CategoryImportContext context, final FeedsServiceAdapter feedsAdapter) {
+        final FeedImportContext candidate = context.findFirstExecutableTask(FeedImportTaskStatus.WAITING);
+
+        if (candidate == null) {
+            context.setStatus(CategoryImportTaskStatus.FEEDS_WITH_ERROR_IMPORT);
+
+            return;
+        }
+
+        execute(candidate, context.getCategoryId(), feedsAdapter);
+    }
+
+    private static void executeOneFeedWithErrorImport(final CategoryImportContext context, final FeedsServiceAdapter feedsAdapter) {
+        final FeedImportContext candidate = context.findFirstExecutableTask(FeedImportTaskStatus.ERROR);
+
+        if (candidate == null) {
+            context.setStatus(CategoryImportTaskStatus.COMPLETED);
+
+            return;
+        }
+
+        execute(candidate, context.getCategoryId(), feedsAdapter);
+    }
+
+    private static void createCategory(final CategoryImportContext context, final CategoriesServiceAdapter adapter) {
+
+        try {
+            final String categoryName = context.getCategoryName();
+            final String categoryId = adapter.addCategory(categoryName);
+
+            context.setCategoryId(categoryId);
+            context.setStatus(CategoryImportTaskStatus.FEEDS_IMPORT);
+        } catch (ServiceException e) {
+            context.setStatus(CategoryImportTaskStatus.FAILED);
+        }
+    }
+
 }

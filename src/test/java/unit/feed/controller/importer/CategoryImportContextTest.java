@@ -27,6 +27,13 @@ public class CategoryImportContextTest {
     }
 
     @Test
+    public void failedContextCanNotBeExecuted() {
+        final CategoryImportContext context = create(CategoryImportTaskStatus.FAILED);
+
+        assertFalse(context.canBeExecuted());
+    }
+
+    @Test
     public void whenFeedsImportStateAndThereIsNoWaitingTasksThenContextCanNotBeExecuted() {
         final CategoryImportContext context = create(CategoryImportTaskStatus.FEEDS_IMPORT, FeedImportContextTest.create(1, FeedImportTaskStatus.ERROR));
 
