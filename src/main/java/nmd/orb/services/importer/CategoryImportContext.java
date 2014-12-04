@@ -76,7 +76,6 @@ public class CategoryImportContext {
         this.status = status;
     }
 
-    //TODO tests
     public FeedImportContext findFirstExecutableTask(final FeedImportTaskStatus status) {
         final List<FeedImportContext> candidates = findTasks(status);
 

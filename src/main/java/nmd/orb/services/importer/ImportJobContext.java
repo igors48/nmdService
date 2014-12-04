@@ -27,6 +27,26 @@ public class ImportJobContext {
         this.contexts = new ArrayList<>();
     }
 
+    //TODO tests
+    public boolean canBeExecuted() {
+
+        return this.status.equals(ImportJobStatus.STARTED) && (findExecutableContext() != null);
+
+    }
+
+    //TODO tests
+    public CategoryImportContext findExecutableContext() {
+
+        for (final CategoryImportContext context : this.contexts) {
+
+            if (context.canBeExecuted()) {
+                return context;
+            }
+        }
+
+        return null;
+    }
+
     public UUID getId() {
         return this.id;
     }

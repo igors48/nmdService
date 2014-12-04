@@ -17,6 +17,22 @@ public class ImportJob {
 
     private static final Logger LOGGER = Logger.getLogger(ImportJob.class.getName());
 
+    public static void execute(final ImportJobContext context, final CategoriesServiceAdapter categoriesAdapter, final FeedsServiceAdapter feedsAdapter) {
+        guard(notNull(context));
+        guard(notNull(categoriesAdapter));
+        guard(notNull(feedsAdapter));
+
+        final CategoryImportContext candidate = context.findExecutableContext();
+
+        if (candidate == null) {
+            context.setStatus(ImportJobStatus.COMPLETED);
+
+            return;
+        }
+
+        execute(candidate, categoriesAdapter, feedsAdapter);
+    }
+
     public static void execute(final FeedImportContext context, final String categoryId, final FeedsServiceAdapter adapter) {
         guard(notNull(context));
         guard(isValidCategoryId(categoryId));
