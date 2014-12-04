@@ -1,8 +1,6 @@
 package nmd.orb.services.importer;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
@@ -12,19 +10,16 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ImportJobContext {
 
-    private final UUID id; // TODO remove
     private final List<CategoryImportContext> contexts;
 
     private ImportJobStatus status;
 
-    public ImportJobContext(final UUID id, final ImportJobStatus status) {
-        guard(notNull(id));
-        this.id = id;
+    public ImportJobContext(final List<CategoryImportContext> contexts, final ImportJobStatus status) {
+        guard(notNull(contexts));
+        this.contexts = contexts;
 
         guard(notNull(status));
         this.status = status;
-
-        this.contexts = new ArrayList<>();
     }
 
     //TODO tests
@@ -34,7 +29,6 @@ public class ImportJobContext {
 
     }
 
-    //TODO tests
     public CategoryImportContext findExecutableContext() {
 
         for (final CategoryImportContext context : this.contexts) {
@@ -47,10 +41,6 @@ public class ImportJobContext {
         return null;
     }
 
-    public UUID getId() {
-        return this.id;
-    }
-
     public void setStatus(final ImportJobStatus status) {
         guard(notNull(status));
         this.status = status;
@@ -60,5 +50,4 @@ public class ImportJobContext {
         return this.status;
     }
 
-    //step execution result - completed / not completed
 }

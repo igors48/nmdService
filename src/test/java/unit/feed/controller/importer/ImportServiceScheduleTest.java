@@ -2,11 +2,12 @@ package unit.feed.controller.importer;
 
 import nmd.orb.error.ErrorCode;
 import nmd.orb.error.ServiceException;
+import nmd.orb.services.importer.CategoryImportContext;
 import nmd.orb.services.importer.ImportJobContext;
 import nmd.orb.services.importer.ImportJobStatus;
 import org.junit.Test;
 
-import java.util.UUID;
+import java.util.ArrayList;
 
 import static org.junit.Assert.*;
 
@@ -17,7 +18,7 @@ public class ImportServiceScheduleTest extends AbstractImportServiceTest {
 
     @Test
     public void whenNoCurrentJobThenJobStored() throws ServiceException {
-        final ImportJobContext job = new ImportJobContext(UUID.randomUUID(), ImportJobStatus.STOPPED);
+        final ImportJobContext job = new ImportJobContext(new ArrayList<CategoryImportContext>(), ImportJobStatus.STOPPED);
 
         this.importService.schedule(job);
 
@@ -28,10 +29,10 @@ public class ImportServiceScheduleTest extends AbstractImportServiceTest {
     public void whenCurrentJobStartedThenScheduleNewJobWillRaiseError() {
 
         try {
-            final ImportJobContext current = new ImportJobContext(UUID.randomUUID(), ImportJobStatus.STARTED);
+            final ImportJobContext current = new ImportJobContext(new ArrayList<CategoryImportContext>(), ImportJobStatus.STARTED);
             this.feedImportJobRepositoryStub.store(current);
 
-            final ImportJobContext job = new ImportJobContext(UUID.randomUUID(), ImportJobStatus.STOPPED);
+            final ImportJobContext job = new ImportJobContext(new ArrayList<CategoryImportContext>(), ImportJobStatus.STOPPED);
             this.importService.schedule(job);
 
             fail();
@@ -42,10 +43,10 @@ public class ImportServiceScheduleTest extends AbstractImportServiceTest {
 
     @Test
     public void whenCurrentJobPausedThenScheduleNewJobWillReplaceIt() throws ServiceException {
-        final ImportJobContext current = new ImportJobContext(UUID.randomUUID(), ImportJobStatus.STOPPED);
+        final ImportJobContext current = new ImportJobContext(new ArrayList<CategoryImportContext>(), ImportJobStatus.STOPPED);
         this.feedImportJobRepositoryStub.store(current);
 
-        final ImportJobContext job = new ImportJobContext(UUID.randomUUID(), ImportJobStatus.STOPPED);
+        final ImportJobContext job = new ImportJobContext(new ArrayList<CategoryImportContext>(), ImportJobStatus.STOPPED);
         this.importService.schedule(job);
 
         assertEquals(job, this.feedImportJobRepositoryStub.load());
