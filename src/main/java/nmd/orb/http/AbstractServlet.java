@@ -16,7 +16,7 @@ import static nmd.orb.http.tools.ServletTools.writeResponseBody;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 05.12.13
  */
-public abstract class AbstractRestServlet extends HttpServlet {
+public abstract class AbstractServlet extends HttpServlet {
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServlet.class.getName());
 

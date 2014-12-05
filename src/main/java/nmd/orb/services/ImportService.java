@@ -37,8 +37,8 @@ public class ImportService {
         this.transactions = transactions;
     }
 
-    public void schedule(final ImportJobContext job) throws ServiceException {
-        guard(notNull(job));
+    public void schedule(final ImportJobContext context) throws ServiceException {
+        guard(notNull(context));
 
         Transaction transaction = null;
 
@@ -53,7 +53,7 @@ public class ImportService {
                 throw new ServiceException(importJobStartedAlready());
             }
 
-            this.importJobContextRepository.store(job);
+            this.importJobContextRepository.store(context);
 
             transaction.commit();
         } finally {
