@@ -6,9 +6,7 @@ import nmd.orb.services.importer.ImportJobContext;
 import nmd.orb.services.importer.ImportJobStatus;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import static java.util.Arrays.asList;
 import static org.junit.Assert.*;
 
 /**
@@ -21,11 +19,7 @@ public class ImportJobContextTest {
         final CategoryImportContext categoryImportContext01 = CategoryImportContextTest.create(CategoryImportTaskStatus.COMPLETED);
         final CategoryImportContext categoryImportContext02 = CategoryImportContextTest.create(CategoryImportTaskStatus.CATEGORY_CREATE);
 
-        final List<CategoryImportContext> contexts = new ArrayList<>();
-        contexts.add(categoryImportContext01);
-        contexts.add(categoryImportContext02);
-
-        final ImportJobContext context = new ImportJobContext(contexts, ImportJobStatus.STARTED);
+        final ImportJobContext context = create(ImportJobStatus.STARTED, categoryImportContext01, categoryImportContext02);
         final CategoryImportContext executableContext = context.findExecutableContext();
 
         assertEquals(categoryImportContext02, executableContext);
@@ -36,19 +30,33 @@ public class ImportJobContextTest {
         final CategoryImportContext categoryImportContext01 = CategoryImportContextTest.create(CategoryImportTaskStatus.COMPLETED);
         final CategoryImportContext categoryImportContext02 = CategoryImportContextTest.create(CategoryImportTaskStatus.COMPLETED);
 
-        final List<CategoryImportContext> contexts = new ArrayList<>();
-        contexts.add(categoryImportContext01);
-        contexts.add(categoryImportContext02);
-
-        final ImportJobContext context = new ImportJobContext(contexts, ImportJobStatus.STARTED);
+        final ImportJobContext context = create(ImportJobStatus.STARTED, categoryImportContext01, categoryImportContext02);
         final CategoryImportContext executableContext = context.findExecutableContext();
 
         assertNull(executableContext);
     }
 
     @Test
-    public void whenContextInStartedStateAndThereIsExecutableCategoryContextThenItCanBeExecuted() {
+    public void whenContextInStoppedThenItCanNotBeExecuted() {
+        final ImportJobContext context = create(ImportJobStatus.STOPPED);
+
+        assertFalse(context.canBeExecuted());
+    }
+
+    @Test
+    public void whenContextInCompletedThenItCanNotBeExecuted() {
+        final ImportJobContext context = create(ImportJobStatus.COMPLETED);
+
+        assertFalse(context.canBeExecuted());
+    }
+
+    @Test
+    public void whenContextInStarted() {
         fail();
+    }
+
+    private static ImportJobContext create(final ImportJobStatus status, CategoryImportContext... contexts) {
+        return new ImportJobContext(asList(contexts), status);
     }
 
 }
