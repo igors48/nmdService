@@ -10,7 +10,11 @@ import nmd.orb.gae.repositories.converters.*;
 import nmd.orb.gae.repositories.converters.helpers.FeedItemHelper;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
+import nmd.orb.services.importer.*;
 import org.junit.Test;
+import unit.feed.controller.importer.CategoryImportContextTest;
+import unit.feed.controller.importer.FeedImportContextTest;
+import unit.feed.controller.importer.ImportJobContextTest;
 
 import java.util.*;
 
@@ -130,6 +134,19 @@ public class ConvertersTest {
         final Category restored = CategoryConverter.convert(entity);
 
         assertEquals(category, restored);
+    }
+
+    @Test
+    public void importJobContextRoundtrip() {
+        final FeedImportContext feedImportContext = FeedImportContextTest.create(3, FeedImportTaskStatus.COMPLETED);
+        final CategoryImportContext categoryImportContext = CategoryImportContextTest.create(CategoryImportTaskStatus.COMPLETED, feedImportContext);
+        final ImportJobContext context = ImportJobContextTest.create(ImportJobStatus.COMPLETED, categoryImportContext);
+
+        final Entity entity = ImportJobContextConverter.convert(context, SAMPLE_KEY);
+
+        final ImportJobContext restored = ImportJobContextConverter.convert(entity);
+
+        assertEquals(context, restored);
     }
 
 }

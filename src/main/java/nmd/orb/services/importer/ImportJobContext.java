@@ -49,4 +49,27 @@ public class ImportJobContext {
         return this.status;
     }
 
+    public List<CategoryImportContext> getContexts() {
+        return this.contexts;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ImportJobContext that = (ImportJobContext) o;
+
+        if (!contexts.equals(that.contexts)) return false;
+        if (status != that.status) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = contexts.hashCode();
+        result = 31 * result + status.hashCode();
+        return result;
+    }
 }

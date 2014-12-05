@@ -83,6 +83,30 @@ public class CategoryImportContext {
         return this.feedImportContexts;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CategoryImportContext context = (CategoryImportContext) o;
+
+        if (!categoryId.equals(context.categoryId)) return false;
+        if (!categoryName.equals(context.categoryName)) return false;
+        if (!feedImportContexts.equals(context.feedImportContexts)) return false;
+        if (status != context.status) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = categoryName.hashCode();
+        result = 31 * result + feedImportContexts.hashCode();
+        result = 31 * result + status.hashCode();
+        result = 31 * result + categoryId.hashCode();
+        return result;
+    }
+
     private List<FeedImportContext> findTasks(final FeedImportTaskStatus status) {
         final List<FeedImportContext> result = new ArrayList<>();
 

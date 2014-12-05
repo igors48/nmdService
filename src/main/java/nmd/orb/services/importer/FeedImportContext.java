@@ -59,4 +59,28 @@ public class FeedImportContext {
     public int getTriesLeft() {
         return this.triesLeft;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        FeedImportContext that = (FeedImportContext) o;
+
+        if (triesLeft != that.triesLeft) return false;
+        if (!feedLink.equals(that.feedLink)) return false;
+        if (!feedTitle.equals(that.feedTitle)) return false;
+        if (status != that.status) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = feedLink.hashCode();
+        result = 31 * result + feedTitle.hashCode();
+        result = 31 * result + triesLeft;
+        result = 31 * result + status.hashCode();
+        return result;
+    }
 }
