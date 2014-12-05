@@ -71,7 +71,7 @@ public class ImportJobContextTest {
         assertFalse(context.canBeExecuted());
     }
 
-    private static ImportJobContext create(final ImportJobStatus status, CategoryImportContext... contexts) {
+    public static ImportJobContext create(final ImportJobStatus status, final CategoryImportContext... contexts) {
         return new ImportJobContext(asList(contexts), status);
     }
 

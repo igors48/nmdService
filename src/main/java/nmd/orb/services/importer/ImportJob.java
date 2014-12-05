@@ -1,7 +1,5 @@
 package nmd.orb.services.importer;
 
-import nmd.orb.error.ServiceException;
-
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,7 +47,7 @@ public class ImportJob {
             context.setStatus(FeedImportTaskStatus.COMPLETED);
 
             LOGGER.info(format("Feed [ %s ] with title [ %s ] added to category [ %s ]", feedLink, feedTitle, categoryId));
-        } catch (ServiceException exception) {
+        } catch (Exception exception) {
             LOGGER.log(Level.SEVERE, format("Error adding feed [ %s ] with title [ %s ] to category [ %s ]", feedLink, feedTitle, categoryId), exception);
 
             final int triesLeft = context.getTriesLeft();
