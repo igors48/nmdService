@@ -21,6 +21,10 @@ public class CategoryImportContext {
     private String categoryId;
 
     public CategoryImportContext(final String categoryName, final List<FeedImportContext> feedImportContexts, final CategoryImportTaskStatus status) {
+        this(categoryName, feedImportContexts, status, "");
+    }
+
+    public CategoryImportContext(final String categoryName, final List<FeedImportContext> feedImportContexts, final CategoryImportTaskStatus status, final String categoryId) {
         guard(isValidCategoryName(categoryName));
         this.categoryName = categoryName;
 
@@ -30,6 +34,7 @@ public class CategoryImportContext {
         guard(notNull(status));
         this.status = status;
 
+        guard(notNull(categoryId));
         this.categoryId = "";
     }
 
@@ -72,6 +77,10 @@ public class CategoryImportContext {
         }
 
         return null;
+    }
+
+    public List<FeedImportContext> getFeedImportContexts() {
+        return this.feedImportContexts;
     }
 
     private List<FeedImportContext> findTasks(final FeedImportTaskStatus status) {

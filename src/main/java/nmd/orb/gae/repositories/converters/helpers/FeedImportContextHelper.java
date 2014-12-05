@@ -11,9 +11,9 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class FeedImportContextHelper {
 
-    private String feedLink;
-    private String feedTitle;
-    private int triesLeft;
+    private String link;
+    private String title;
+    private int tries;
     private String status;
 
     public static FeedImportContextHelper convert(final FeedImportContext context) {
@@ -21,9 +21,9 @@ public class FeedImportContextHelper {
 
         final FeedImportContextHelper helper = new FeedImportContextHelper();
 
-        helper.feedLink = context.getFeedLink();
-        helper.feedTitle = context.getFeedTitle();
-        helper.triesLeft = context.getTriesLeft();
+        helper.link = context.getFeedLink();
+        helper.title = context.getFeedTitle();
+        helper.tries = context.getTriesLeft();
         helper.status = context.getStatus().toString();
 
         return helper;
@@ -32,9 +32,9 @@ public class FeedImportContextHelper {
     public static FeedImportContext convert(final FeedImportContextHelper helper) {
         guard(notNull(helper));
 
-        final String feedLink = helper.feedLink;
-        final String feedTitle = helper.feedTitle;
-        final int triesLeft = helper.triesLeft;
+        final String feedLink = helper.link;
+        final String feedTitle = helper.title;
+        final int triesLeft = helper.tries;
         final FeedImportTaskStatus status = FeedImportTaskStatus.valueOf(helper.status);
 
         return new FeedImportContext(feedLink, feedTitle, triesLeft, status);
