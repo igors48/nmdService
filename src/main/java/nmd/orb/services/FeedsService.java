@@ -67,18 +67,8 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         guard(isValidCategoryId(categoryId));
         guard(isValidFeedHeaderTitle(feedTitle));
 
-        Transaction transaction = null;
-
-        try {
-            transaction = this.transactions.beginOne();
-
-            final FeedHeader feedHeader = createFeed(feedLink, categoryId);
-            renameFeed(feedTitle, feedHeader);
-
-            transaction.commit();
-        } finally {
-            rollbackIfActive(transaction);
-        }
+        final FeedHeader feedHeader = createFeed(feedLink, categoryId);
+        renameFeed(feedTitle, feedHeader);
     }
 
     public UUID addFeed(final String feedUrl, final String categoryId) throws ServiceException {

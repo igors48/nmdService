@@ -4,8 +4,7 @@ import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.error.ServiceException;
 import nmd.orb.repositories.ImportJobContextRepository;
 import nmd.orb.repositories.Transactions;
-import nmd.orb.services.importer.ImportJobContext;
-import nmd.orb.services.importer.ImportJobStatus;
+import nmd.orb.services.importer.*;
 import nmd.orb.services.report.FeedImportStatusReport;
 
 import static nmd.orb.error.ServiceError.importJobStartedAlready;
@@ -20,11 +19,19 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
 public class ImportService {
 
     private final ImportJobContextRepository importJobContextRepository;
+    private final CategoriesServiceAdapter categoriesAdapter;
+    private final FeedsServiceAdapter feedsAdapter;
     private final Transactions transactions;
 
-    public ImportService(final ImportJobContextRepository importJobContextRepository, final Transactions transactions) {
+    public ImportService(final ImportJobContextRepository importJobContextRepository, final CategoriesServiceAdapter categoriesAdapter, final FeedsServiceAdapter feedsAdapter, final Transactions transactions) {
         guard(notNull(importJobContextRepository));
         this.importJobContextRepository = importJobContextRepository;
+
+        guard(notNull(categoriesAdapter));
+        this.categoriesAdapter = categoriesAdapter;
+
+        guard(notNull(feedsAdapter));
+        this.feedsAdapter = feedsAdapter;
 
         guard(notNull(transactions));
         this.transactions = transactions;
@@ -55,7 +62,23 @@ public class ImportService {
     }
 
     public void executeOneImport() {
+        Transaction transaction = null;
 
+        try {
+            transaction = this.transactions.beginOne();
+
+            final ImportJobContext context = this.importJobContextRepository.load();
+
+            if (context.canBeExecuted()) {
+                ImportJob.execute(context, this.categoriesAdapter, this.feedsAdapter);
+            }
+
+            this.importJobContextRepository.store(context);
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
     public void start() {

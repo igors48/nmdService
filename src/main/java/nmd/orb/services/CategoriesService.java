@@ -58,7 +58,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
     public String createCategory(final String name) {
         guard(isValidCategoryName(name));
 
-        return addCategory(name).uuid;
+        return addCategoryOrFindExistent(name).uuid;
     }
 
     public Category addCategory(final String name) {
@@ -69,24 +69,11 @@ public class CategoriesService implements CategoriesServiceAdapter {
         try {
             transaction = this.transactions.beginOne();
 
-            final Set<Category> categories = getAllCategoriesWithMain();
-
-            for (final Category category : categories) {
-
-                if (category.name.equalsIgnoreCase(name)) {
-                    transaction.commit();
-
-                    return category;
-                }
-            }
-
-            final Category created = new Category(UUID.randomUUID().toString(), name);
-
-            this.categoriesRepository.store(created);
+            final Category result = addCategoryOrFindExistent(name);
 
             transaction.commit();
 
-            return created;
+            return result;
         } finally {
             rollbackIfActive(transaction);
         }
@@ -242,6 +229,25 @@ public class CategoriesService implements CategoriesServiceAdapter {
         }
     }
 
+    private Category addCategoryOrFindExistent(final String name) {
+        final Category result;
+
+        final Set<Category> categories = getAllCategoriesWithMain();
+        final Category exists = findByName(name, categories);
+
+        if (exists == null) {
+            final Category created = new Category(UUID.randomUUID().toString(), name);
+
+            this.categoriesRepository.store(created);
+
+            result = created;
+        } else {
+            result = exists;
+        }
+
+        return result;
+    }
+
     private CategoryReport createCategoryReport(final List<ReadFeedItems> readFeedItemsList, final Category category) {
         int read = 0;
         int notRead = 0;
@@ -331,7 +337,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
             final String categoryId = current.categoryId;
             final UUID feedId = current.feedId;
 
-            final Category category = find(categoryId, categories);
+            final Category category = findById(categoryId, categories);
             final FeedHeader header = pick(feedId, headers);
 
             if (category != null && header != null) {
@@ -354,7 +360,19 @@ public class CategoriesService implements CategoriesServiceAdapter {
         return new BackupReport(report, lostLinks, lostHeaders);
     }
 
-    private static Category find(final String id, final Set<Category> categories) {
+    private static Category findByName(final String name, final Set<Category> categories) {
+
+        for (final Category category : categories) {
+
+            if (category.name.equalsIgnoreCase(name)) {
+                return category;
+            }
+        }
+
+        return null;
+    }
+
+    private static Category findById(final String id, final Set<Category> categories) {
 
         for (final Category current : categories) {
 
