@@ -43,6 +43,8 @@ public class ImportJobExecutionTest {
         this.feedsServiceAdapterStub.assertCallOnce(FeedImportContextTest.HTTP_DOMAIN_COM, FeedImportContextTest.TITLE, categoryImportContext.getCategoryId());
 
         ImportJob.execute(context, this.categoriesServiceAdapterStub, this.feedsServiceAdapterStub);
+        ImportJob.execute(context, this.categoriesServiceAdapterStub, this.feedsServiceAdapterStub);
+        ImportJob.execute(context, this.categoriesServiceAdapterStub, this.feedsServiceAdapterStub);
         assertEquals(ImportJobStatus.COMPLETED, context.getStatus());
     }
 

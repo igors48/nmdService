@@ -35,23 +35,8 @@ public class CategoryImportContext {
 
     public boolean canBeExecuted() {
 
-        if (this.status.equals(CategoryImportTaskStatus.COMPLETED) || this.status.equals(CategoryImportTaskStatus.FAILED)) {
-            return false;
-        }
+        return !(this.status.equals(CategoryImportTaskStatus.COMPLETED) || this.status.equals(CategoryImportTaskStatus.FAILED));
 
-        if (this.status.equals(CategoryImportTaskStatus.FEEDS_IMPORT)) {
-            final FeedImportContext candidate = findFirstExecutableTask(FeedImportTaskStatus.WAITING);
-
-            return candidate != null;
-        }
-
-        if (this.status.equals(CategoryImportTaskStatus.FEEDS_WITH_ERROR_IMPORT)) {
-            final FeedImportContext candidate = findFirstExecutableTask(FeedImportTaskStatus.ERROR);
-
-            return candidate != null;
-        }
-
-        return true;
     }
 
     public String getCategoryId() {

@@ -50,27 +50,6 @@ public class ImportJobContextTest {
         assertFalse(context.canBeExecuted());
     }
 
-    @Test
-    public void whenContextInStartedButHaveNoContextsThenItCanNotBeExecuted() {
-        final ImportJobContext context = create(ImportJobStatus.STARTED);
-
-        assertFalse(context.canBeExecuted());
-    }
-
-    @Test
-    public void whenContextInStartedAndHaveExecutableContextsThenItCanBeExecuted() {
-        final ImportJobContext context = create(ImportJobStatus.STARTED, CategoryImportContextTest.create(CategoryImportTaskStatus.CATEGORY_CREATE));
-
-        assertTrue(context.canBeExecuted());
-    }
-
-    @Test
-    public void whenContextInStartedAndHaveNoExecutableContextsThenItCanBeExecuted() {
-        final ImportJobContext context = create(ImportJobStatus.STARTED, CategoryImportContextTest.create(CategoryImportTaskStatus.COMPLETED));
-
-        assertFalse(context.canBeExecuted());
-    }
-
     public static ImportJobContext create(final ImportJobStatus status, final CategoryImportContext... contexts) {
         return new ImportJobContext(asList(contexts), status);
     }

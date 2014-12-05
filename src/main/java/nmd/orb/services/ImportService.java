@@ -61,7 +61,7 @@ public class ImportService {
         }
     }
 
-    public void executeOneImport() {
+    public void executeOne() {
         Transaction transaction = null;
 
         try {
