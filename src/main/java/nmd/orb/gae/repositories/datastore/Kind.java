@@ -10,7 +10,8 @@ public enum Kind {
     FEED_ITEM("FeedItem"),
     FEED_UPDATE_TASK("FeedUpdateTask"),
     READ_FEED_ITEM("ReadFeedItem"),
-    CATEGORY("Category");
+    CATEGORY("Category"),
+    IMPORT("Import");
 
     public final String value;
 

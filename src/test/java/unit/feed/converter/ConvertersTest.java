@@ -7,6 +7,7 @@ import nmd.orb.collector.scheduler.FeedUpdateTask;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.gae.repositories.converters.*;
+import nmd.orb.gae.repositories.converters.helpers.FeedItemHelper;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import org.junit.Test;

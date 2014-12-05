@@ -1,4 +1,4 @@
-package nmd.orb.gae.repositories.converters;
+package nmd.orb.gae.repositories.converters.helpers;
 
 import com.google.appengine.api.datastore.Text;
 import nmd.orb.feed.FeedItem;

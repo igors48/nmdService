@@ -1,4 +1,4 @@
-package unit.feed.controller.stub;
+package nmd.orb.gae.repositories;
 
 import nmd.orb.repositories.ImportJobContextRepository;
 import nmd.orb.services.importer.ImportJobContext;
@@ -9,24 +9,22 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * @author : igu
  */
-public class ImportJobContextRepositoryStub implements ImportJobContextRepository {
-
-    private ImportJobContext job;
+public class GaeImportJobContextRepository implements ImportJobContextRepository {
 
     @Override
     public ImportJobContext load() {
-        return this.job;
+        return null;
     }
 
     @Override
     public void store(final ImportJobContext context) {
         guard(notNull(context));
-        this.job = context;
+
+        clear();
     }
 
     @Override
     public void clear() {
-        this.job = null;
     }
 
 }

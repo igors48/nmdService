@@ -22,7 +22,6 @@ public class ImportJobContext {
         this.status = status;
     }
 
-    //TODO tests
     public boolean canBeExecuted() {
 
         return this.status.equals(ImportJobStatus.STARTED);

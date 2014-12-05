@@ -9,7 +9,7 @@ public interface ImportJobContextRepository {
 
     ImportJobContext load();
 
-    void store(ImportJobContext job);
+    void store(ImportJobContext context);
 
     void clear();
 
