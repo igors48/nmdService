@@ -1,5 +1,10 @@
 package nmd.orb.services.importer;
 
+import nmd.orb.error.ServiceError;
+import nmd.orb.error.ServiceException;
+import nmd.orb.feed.FeedHeader;
+import nmd.orb.http.responses.payload.FeedHeaderPayload;
+
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderTitle;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.*;
@@ -83,4 +88,20 @@ public class FeedImportContext {
         result = 31 * result + status.hashCode();
         return result;
     }
+
+    public static FeedImportContext convert(final FeedHeaderPayload payload, final int triesCount) throws ServiceException {
+        guard(notNull(payload));
+        guard(isPositive(triesCount));
+
+        if (!isValidUrl(payload.feedLink)) {
+            throw new ServiceException(ServiceError.invalidFeedUrl(payload.feedLink));
+        }
+
+        if (!FeedHeader.isValidFeedHeaderTitle(payload.feedTitle)) {
+            throw new ServiceException(ServiceError.invalidFeedTitle(payload.feedTitle));
+        }
+
+        return new FeedImportContext(payload.feedLink, payload.feedTitle, triesCount, FeedImportTaskStatus.WAITING);
+    }
+
 }
