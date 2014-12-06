@@ -1,5 +1,9 @@
 package nmd.orb.services.importer;
 
+import nmd.orb.error.ServiceError;
+import nmd.orb.error.ServiceException;
+import nmd.orb.http.responses.payload.CategoryPayload;
+import nmd.orb.http.responses.payload.FeedHeaderPayload;
 import nmd.orb.reader.Category;
 
 import java.util.ArrayList;
@@ -7,6 +11,7 @@ import java.util.List;
 
 import static nmd.orb.reader.Category.isValidCategoryName;
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 
 /**
@@ -118,6 +123,24 @@ public class CategoryImportContext {
         }
 
         return result;
+    }
+
+    public static CategoryImportContext convert(final CategoryPayload categoryPayload, final List<FeedHeaderPayload> feedHeaderPayloads, final int triesCount) throws ServiceException {
+        guard(notNull(categoryPayload));
+        guard(notNull(feedHeaderPayloads));
+        guard(isPositive(triesCount));
+
+        if (!Category.isValidCategoryName(categoryPayload.name)) {
+            throw new ServiceException(ServiceError.invalidCategoryName(categoryPayload.name));
+        }
+
+        final List<FeedImportContext> contexts = new ArrayList<>();
+
+        for (final FeedHeaderPayload feedHeaderPayload : feedHeaderPayloads) {
+            contexts.add(FeedImportContext.convert(feedHeaderPayload, triesCount));
+        }
+
+        return new CategoryImportContext(categoryPayload.name, contexts, CategoryImportTaskStatus.CATEGORY_CREATE);
     }
 
 }
