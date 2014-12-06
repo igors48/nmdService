@@ -8,6 +8,14 @@ import nmd.orb.services.importer.ImportJobContext;
  */
 public interface ImportServiceWrapper {
 
-    public ResponseBody schedule(final ImportJobContext context);
-    
+    ResponseBody schedule(final ImportJobContext context);
+
+    ResponseBody start();
+
+    ResponseBody stop();
+
+    ResponseBody reject();
+
+    ResponseBody status();
+
 }
