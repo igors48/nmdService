@@ -1,6 +1,5 @@
 package nmd.orb.http.servlets.backup;
 
-import com.google.gson.Gson;
 import nmd.orb.http.Handler;
 import nmd.orb.http.responses.BackupReportResponse;
 import nmd.orb.http.tools.ResponseBody;
@@ -22,8 +21,6 @@ public class BackupServletPostRequestHandler implements Handler {
 
     public static final BackupServletPostRequestHandler BACKUP_SERVLET_POST_REQUEST_HANDLER = new BackupServletPostRequestHandler();
 
-    private static Gson GSON = new Gson();
-
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
         guard(notNull(elements));
@@ -31,7 +28,7 @@ public class BackupServletPostRequestHandler implements Handler {
         guard(notNull(body));
 
         try {
-            final BackupReportResponse backupReportResponse = GSON.fromJson(body, BackupReportResponse.class);
+            final BackupReportResponse backupReportResponse = BackupReportResponse.convert(body);
 
             return createJsonResponse(create("Backup file is uploaded"));
         } catch (Exception exception) {

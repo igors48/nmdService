@@ -21,6 +21,26 @@ public class BackupReportPayload {
         // empty
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BackupReportPayload payload = (BackupReportPayload) o;
+
+        if (!category.equals(payload.category)) return false;
+        if (!feeds.equals(payload.feeds)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = category.hashCode();
+        result = 31 * result + feeds.hashCode();
+        return result;
+    }
+
     public static BackupReportPayload create(Category category, Set<FeedHeader> headers) {
         guard(notNull(category));
         guard(notNull(headers));

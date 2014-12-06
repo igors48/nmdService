@@ -1,5 +1,6 @@
 package nmd.orb.http.responses;
 
+import com.google.gson.Gson;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.http.responses.payload.BackupReportPayload;
 import nmd.orb.reader.Category;
@@ -17,7 +18,26 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class BackupReportResponse {
 
+    private static final Gson GSON = new Gson();
+
     public List<BackupReportPayload> backup;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BackupReportResponse that = (BackupReportResponse) o;
+
+        if (!backup.equals(that.backup)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        return backup.hashCode();
+    }
 
     public static BackupReportResponse create(final BackupReport report) {
         guard(notNull(report));
@@ -34,6 +54,12 @@ public class BackupReportResponse {
         }
 
         return response;
+    }
+
+    public static BackupReportResponse convert(final String string) {
+        guard(notNull(string));
+
+        return GSON.fromJson(string, BackupReportResponse.class);
     }
 
 }
