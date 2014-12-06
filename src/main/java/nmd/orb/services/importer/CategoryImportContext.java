@@ -8,6 +8,7 @@ import nmd.orb.reader.Category;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import static nmd.orb.reader.Category.isValidCategoryName;
 import static nmd.orb.util.Assert.guard;
@@ -125,7 +126,7 @@ public class CategoryImportContext {
         return result;
     }
 
-    public static CategoryImportContext convert(final CategoryPayload categoryPayload, final List<FeedHeaderPayload> feedHeaderPayloads, final int triesCount) throws ServiceException {
+    public static CategoryImportContext convert(final CategoryPayload categoryPayload, final Set<FeedHeaderPayload> feedHeaderPayloads, final int triesCount) throws ServiceException {
         guard(notNull(categoryPayload));
         guard(notNull(feedHeaderPayloads));
         guard(isPositive(triesCount));

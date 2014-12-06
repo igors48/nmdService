@@ -1,8 +1,13 @@
 package nmd.orb.services.importer;
 
+import nmd.orb.error.ServiceException;
+import nmd.orb.http.responses.payload.BackupReportPayload;
+
+import java.util.ArrayList;
 import java.util.List;
 
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 
 /**
@@ -72,4 +77,18 @@ public class ImportJobContext {
         result = 31 * result + status.hashCode();
         return result;
     }
+
+    public static ImportJobContext convert(final List<BackupReportPayload> payloads, final int triesCount) throws ServiceException {
+        guard(notNull(payloads));
+        guard(isPositive(triesCount));
+
+        final List<CategoryImportContext> contexts = new ArrayList<>();
+
+        for (final BackupReportPayload payload : payloads) {
+            contexts.add(CategoryImportContext.convert(payload.category, payload.feeds, triesCount));
+        }
+
+        return new ImportJobContext(contexts, ImportJobStatus.STOPPED);
+    }
+
 }

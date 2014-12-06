@@ -6,11 +6,12 @@ import nmd.orb.http.responses.payload.CategoryPayload;
 import nmd.orb.http.responses.payload.FeedHeaderPayload;
 import nmd.orb.reader.Category;
 import nmd.orb.services.importer.CategoryImportContext;
+import nmd.orb.services.importer.CategoryImportTaskStatus;
 import org.junit.Before;
 import org.junit.Test;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
@@ -25,7 +26,7 @@ public class CategoryImportContextConversionTest {
     private static final String NAME = "name";
 
     private CategoryPayload categoryPayload;
-    private List<FeedHeaderPayload> feedHeaderPayloads;
+    private Set<FeedHeaderPayload> feedHeaderPayloads;
 
     @Before
     public void setUp() {
@@ -33,7 +34,7 @@ public class CategoryImportContextConversionTest {
         this.categoryPayload = CategoryPayload.create(name);
 
         final FeedHeaderPayload feedHeaderPayload = FeedHeaderPayload.create("http://domain.com", UUID.randomUUID().toString(), "title");
-        this.feedHeaderPayloads = new ArrayList<>();
+        this.feedHeaderPayloads = new HashSet<>();
         this.feedHeaderPayloads.add(feedHeaderPayload);
     }
 
@@ -42,6 +43,7 @@ public class CategoryImportContextConversionTest {
         final CategoryImportContext context = CategoryImportContext.convert(this.categoryPayload, this.feedHeaderPayloads, TRIES_COUNT);
 
         assertEquals(NAME, context.getCategoryName());
+        assertEquals(CategoryImportTaskStatus.CATEGORY_CREATE, context.getStatus());
         assertEquals(1, context.getFeedImportContexts().size());
     }
 
