@@ -2,9 +2,11 @@ package nmd.orb.http.wrappers;
 
 import nmd.orb.error.ServiceException;
 import nmd.orb.gae.GaeServices;
+import nmd.orb.http.responses.FeedImportReportResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.ImportService;
 import nmd.orb.services.importer.ImportJobContext;
+import nmd.orb.services.report.FeedImportStatusReport;
 
 import java.util.logging.Logger;
 
@@ -76,7 +78,12 @@ public class ImportServiceWrapperImpl implements ImportServiceWrapper {
 
     @Override
     public ResponseBody status() {
-        return null;
+        final FeedImportStatusReport report = this.importService.status();
+        final FeedImportReportResponse response = FeedImportReportResponse.convert(report);
+
+        LOGGER.info("Feed import status report generated");
+
+        return createJsonResponse(response);
     }
 
 }
