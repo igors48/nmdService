@@ -104,7 +104,20 @@ public class ImportService {
     }
 
     public FeedImportStatusReport status() {
-        return null;
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final ImportJobContext context = this.importJobContextRepository.load();
+
+            transaction.commit();
+
+            return context.getStatusReport();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+
     }
 
     private void changeStatus(final ImportJobStatus status) {

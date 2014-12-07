@@ -2,6 +2,7 @@ package nmd.orb.services.importer;
 
 import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.payload.BackupReportPayload;
+import nmd.orb.services.report.FeedImportStatusReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -56,6 +57,22 @@ public class ImportJobContext {
 
     public List<CategoryImportContext> getContexts() {
         return this.contexts;
+    }
+
+    public FeedImportStatusReport getStatusReport() {
+        int scheduled = 0;
+        int imported = 0;
+        int failed = 0;
+
+        for (final CategoryImportContext context : this.contexts) {
+            final FeedImportStatusReport report = context.getStatusReport();
+
+            scheduled += report.getScheduled();
+            imported += report.getImported();
+            failed += report.getFailed();
+        }
+
+        return new FeedImportStatusReport(scheduled, imported, failed);
     }
 
     @Override

@@ -1,9 +1,7 @@
 package unit.feed.controller.importer;
 
-import nmd.orb.services.importer.CategoryImportContext;
-import nmd.orb.services.importer.CategoryImportTaskStatus;
-import nmd.orb.services.importer.ImportJobContext;
-import nmd.orb.services.importer.ImportJobStatus;
+import nmd.orb.services.importer.*;
+import nmd.orb.services.report.FeedImportStatusReport;
 import org.junit.Test;
 
 import static java.util.Arrays.asList;
@@ -13,6 +11,24 @@ import static org.junit.Assert.*;
  * @author : igu
  */
 public class ImportJobContextTest {
+
+    @Test
+    public void statusReportCalculatedCorrectly() {
+        final CategoryImportContext categoryImportContext01 = CategoryImportContextTest.create(
+                CategoryImportTaskStatus.COMPLETED,
+                FeedImportContextTest.create(3, FeedImportTaskStatus.COMPLETED));
+        final CategoryImportContext categoryImportContext02 = CategoryImportContextTest.create(
+                CategoryImportTaskStatus.CATEGORY_CREATE,
+                FeedImportContextTest.create(3, FeedImportTaskStatus.WAITING),
+                FeedImportContextTest.create(3, FeedImportTaskStatus.FAILED));
+
+        final ImportJobContext context = create(ImportJobStatus.STARTED, categoryImportContext01, categoryImportContext02);
+        final FeedImportStatusReport actual = context.getStatusReport();
+
+        final FeedImportStatusReport expected = new FeedImportStatusReport(3, 1, 1);
+
+        assertEquals(actual, expected);
+    }
 
     @Test
     public void whenThereIsAtLeastOneExecutableCategoryContextThenItIsReturned() {
