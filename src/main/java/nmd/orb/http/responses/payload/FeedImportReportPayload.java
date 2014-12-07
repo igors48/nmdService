@@ -26,7 +26,7 @@ public class FeedImportReportPayload {
         payload.scheduled = report.getScheduled();
         payload.imported = report.getImported();
         payload.failed = report.getFailed();
-        
+
         return payload;
     }
 

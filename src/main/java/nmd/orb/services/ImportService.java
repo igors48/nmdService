@@ -113,7 +113,7 @@ public class ImportService {
 
             transaction.commit();
 
-            return context.getStatusReport();
+            return context == null ? FeedImportStatusReport.DEFAULT : context.getStatusReport();
         } finally {
             rollbackIfActive(transaction);
         }

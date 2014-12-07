@@ -8,6 +8,8 @@ import static nmd.orb.util.Parameter.isPositive;
  */
 public class FeedImportStatusReport {
 
+    public static final FeedImportStatusReport DEFAULT = new FeedImportStatusReport(0, 0, 0);
+
     private final int scheduled;
     private final int imported;
     private final int failed;

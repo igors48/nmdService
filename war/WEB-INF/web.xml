@@ -75,6 +75,16 @@
         <url-pattern>/@security.key@/v01/backup</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>importer</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.ImportServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>importer</servlet-name>
+        <url-pattern>/@security.key@/v01/import</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>
