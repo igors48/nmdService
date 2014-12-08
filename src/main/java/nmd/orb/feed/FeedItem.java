@@ -2,6 +2,8 @@ package nmd.orb.feed;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.*;
@@ -11,6 +13,8 @@ import static nmd.orb.util.Parameter.*;
  * Date : 28.04.13
  */
 public class FeedItem implements Serializable {
+
+    private static final Logger LOGGER = Logger.getLogger(FeedItem.class.getName());
 
     public static final int MAX_TITLE_LENGTH = 255;
     public static final int MAX_DESCRIPTION_LENGTH = 1024;
@@ -36,6 +40,10 @@ public class FeedItem implements Serializable {
 
         guard(isValidFeedItemLink(link));
         this.link = link;
+
+        if (!isValidFeedItemLink(gotoLink)) {
+            LOGGER.log(Level.SEVERE, String.format("Item link [ %s ] Invalid goto link [ %s ]", link, gotoLink));
+        }
 
         guard(isValidFeedItemLink(gotoLink));
         this.gotoLink = gotoLink;
