@@ -1,5 +1,6 @@
 package unit.tool;
 
+import nmd.orb.util.Parameter;
 import nmd.orb.util.UrlTools;
 import org.junit.Test;
 
@@ -27,5 +28,12 @@ public class UrlToolsTest {
     @Test
     public void urlConvertedToLowerCaseWhileNormalize() {
         assertEquals("dfg", UrlTools.normalizeUrl("dFg"));
+    }
+
+    @Test
+    public void smoke() {
+        final boolean valid = Parameter.isValidUrl("http://rgg.academy");
+
+        System.out.println(valid);
     }
 }
