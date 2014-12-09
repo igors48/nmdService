@@ -5,6 +5,7 @@ import nmd.orb.util.UrlTools;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -31,9 +32,8 @@ public class UrlToolsTest {
     }
 
     @Test
-    public void smoke() {
-        final boolean valid = Parameter.isValidUrl("http://rgg.academy");
-
-        System.out.println(valid);
+    public void urlValidationSpecialCase() {
+        assertTrue(Parameter.isValidUrl("http://rgg.zone"));
     }
+
 }
