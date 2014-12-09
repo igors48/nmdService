@@ -1,9 +1,11 @@
 package unit.tool;
 
+import nmd.orb.util.Parameter;
 import nmd.orb.util.UrlTools;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -28,4 +30,10 @@ public class UrlToolsTest {
     public void urlConvertedToLowerCaseWhileNormalize() {
         assertEquals("dfg", UrlTools.normalizeUrl("dFg"));
     }
+
+    @Test
+    public void urlValidationSpecialCase() {
+        assertTrue(Parameter.isValidUrl("http://rgg.zone"));
+    }
+
 }
