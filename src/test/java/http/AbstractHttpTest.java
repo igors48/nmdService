@@ -207,10 +207,6 @@ public abstract class AbstractHttpTest {
         return GSON.fromJson(assertSuccessResponse(response), BackupReportResponse.class);
     }
 
-    protected static String postBackupReport() {
-        return assertServerProcessingTimeHeaderValid(given().body("{}").post(BACKUP_SERVLET_URL)).asString();
-    }
-
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
         final ErrorResponse errorResponse = GSON.fromJson(response, ErrorResponse.class);
 

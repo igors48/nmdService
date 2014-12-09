@@ -10,8 +10,6 @@ import java.util.UUID;
  */
 public interface UpdatesServiceWrapper {
 
-    ResponseBody updateCurrentFeeds();
-
     ResponseBody updateFeed(UUID feedId);
 
 }

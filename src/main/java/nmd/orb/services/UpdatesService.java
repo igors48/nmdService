@@ -91,9 +91,6 @@ public class UpdatesService extends AbstractService {
             final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, updateTask.maxFeedItemsCount);
             final List<FeedItem> addedAndRetained = mergeReport.getAddedAndRetained();
 
-            //final FeedUpdateTask updatedTask = updateTask.updateStatistic(mergeReport.added.size());
-            //this.feedUpdateTaskRepository.updateTask(updatedTask);
-
             final boolean needsToStore = !(mergeReport.added.isEmpty() && mergeReport.removed.isEmpty());
 
             if (needsToStore) {

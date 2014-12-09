@@ -14,9 +14,4 @@ public class GetBackupTest extends AbstractHttpTest {
         final BackupReportResponse report = getBackupReport();
     }
 
-    @Test
-    public void backupReportIsUploaded() {
-        assertSuccessResponse(postBackupReport());
-    }
-
 }

@@ -39,7 +39,7 @@ public class UpdatesServletGetRequestHandler implements Handler {
         guard(notNull(body));
 
         if (elements.isEmpty()) {
-            return this.updatesService.updateCurrentFeeds();
+            return createErrorJsonResponse(invalidFeedId(null));
         }
 
         final String pathInfo = elements.get(0);
