@@ -9,8 +9,7 @@ import org.junit.Test;
 
 import java.util.ArrayList;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.*;
 
 /**
  * @author : igu
@@ -62,6 +61,29 @@ public class ImportServiceFlowControlTest extends AbstractImportServiceTest {
         final ImportJobContext updated = this.feedImportJobRepositoryStub.load();
 
         assertEquals(ImportJobStatus.COMPLETED, updated.getStatus());
+    }
+
+    @Test
+    public void whenJobIsNotCompletedThenExecuteOneReturnsTrue() throws ServiceException {
+        final ImportJobContext original = ImportJobContextTest.create(ImportJobStatus.STOPPED, CategoryImportContextTest.create(CategoryImportTaskStatus.CATEGORY_CREATE));
+
+        this.importService.schedule(original);
+        this.importService.start();
+        assertTrue(this.importService.executeOne());
+        assertTrue(this.importService.executeOne());
+        assertTrue(this.importService.executeOne());
+    }
+
+    @Test
+    public void whenJobIsCompletedThenExecuteOneReturnsFalse() throws ServiceException {
+        final ImportJobContext original = ImportJobContextTest.create(ImportJobStatus.STOPPED, CategoryImportContextTest.create(CategoryImportTaskStatus.CATEGORY_CREATE));
+
+        this.importService.schedule(original);
+        this.importService.start();
+        this.importService.executeOne();
+        this.importService.executeOne();
+        this.importService.executeOne();
+        assertFalse(this.importService.executeOne());
     }
 
 }

@@ -5,6 +5,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.repositories.ImportJobContextRepository;
 import nmd.orb.repositories.Transactions;
 import nmd.orb.services.importer.*;
+import nmd.orb.services.quota.Quota;
 import nmd.orb.services.report.FeedImportStatusReport;
 
 import static nmd.orb.error.ServiceError.importJobStartedAlready;
@@ -61,7 +62,13 @@ public class ImportService {
         }
     }
 
-    public void executeOne() {
+    public FeedImportStatusReport executeSeries(final Quota quota) {
+        guard(notNull(quota));
+
+        return null;
+    }
+
+    public boolean executeOne() {
         Transaction transaction = null;
 
         try {
@@ -76,6 +83,8 @@ public class ImportService {
             this.importJobContextRepository.store(context);
 
             transaction.commit();
+
+            return context.canBeExecuted();
         } finally {
             rollbackIfActive(transaction);
         }
