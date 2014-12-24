@@ -60,39 +60,40 @@ public class UpdatesService extends AbstractService {
 
         Transaction getFeedHeaderAndTaskTransaction = null;
 
-        final FeedHeader header;
-        final FeedUpdateTask updateTask;
+        final String feedLink;
+        final int maxFeedItemsCount;
 
         try {
             getFeedHeaderAndTaskTransaction = this.transactions.beginOne();
 
-            header = loadFeedHeader(feedId);
+            feedLink = loadFeedHeader(feedId).feedLink;
 
-            updateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedId);
+            final FeedUpdateTask updateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedId);
 
             if (updateTask == null) {
                 throw new ServiceException(wrongFeedTaskId(feedId));
             }
+
+            maxFeedItemsCount = updateTask.maxFeedItemsCount;
 
             getFeedHeaderAndTaskTransaction.commit();
         } finally {
             rollbackIfActive(getFeedHeaderAndTaskTransaction);
         }
 
-        final Feed feed = fetchFeed(header.feedLink);
+        final Feed feed = fetchFeed(feedLink);
 
         Transaction updateFeedTransaction = null;
 
         try {
             updateFeedTransaction = this.transactions.beginOne();
 
+            final FeedHeader header = loadFeedHeader(feedId);
+
             List<FeedItem> olds = getFeedOldItems(header);
 
-            final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, updateTask.maxFeedItemsCount);
+            final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, maxFeedItemsCount);
             final List<FeedItem> addedAndRetained = mergeReport.getAddedAndRetained();
-
-            //final FeedUpdateTask updatedTask = updateTask.updateStatistic(mergeReport.added.size());
-            //this.feedUpdateTaskRepository.updateTask(updatedTask);
 
             final boolean needsToStore = !(mergeReport.added.isEmpty() && mergeReport.removed.isEmpty());
 
