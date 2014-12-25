@@ -65,7 +65,14 @@ public class ImportService {
     public FeedImportStatusReport executeSeries(final Quota quota) {
         guard(notNull(quota));
 
-        return null;
+        boolean canBeExecuted = !quota.expired();
+
+        while (canBeExecuted) {
+            boolean noMoreJobs = !executeOne();
+            canBeExecuted = !(quota.expired() || noMoreJobs);
+        }
+
+        return status();
     }
 
     public boolean executeOne() {
