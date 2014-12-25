@@ -70,4 +70,10 @@ orb.config(function($stateProvider, $urlRouterProvider) {
         controller: 'adminConsoleController'
       })
 
+      .state('reset-service', {
+        url: '/reset-service',
+        templateUrl: 'partials/reset-service.html'/*,
+        controller: 'adminConsoleController'*/
+      })
+
 });
