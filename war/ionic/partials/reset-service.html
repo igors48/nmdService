@@ -1,6 +1,6 @@
 <ion-header-bar align-title="left" class="bar-dark">
     <div class="buttons">
-        <button class="button button-clear ion-android-arrow-back" ng-click=""></button>
+        <button class="button button-clear ion-android-arrow-back" ng-click="onBackToAdminConsole()"></button>
     </div>
     <h1 class="title" ng-cloak>Reset service</h1>
 </ion-header-bar>
@@ -10,8 +10,8 @@
     <div class="list list-inset">
     	<h4>Sure to delete all server data?</h4>
     	
-        <button class="button button-block button-assertive" ng-click="">Yes</button>
-        <button class="button button-block button-positive" ng-click="">No</button>
+        <button class="button button-block button-assertive" ng-click="onResetConfirmed()">Yes</button>
+        <button class="button button-block button-positive" ng-click="onBackToAdminConsole()">No</button>
     </div>
 
 </ion-content>
