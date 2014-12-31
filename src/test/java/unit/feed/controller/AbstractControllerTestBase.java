@@ -6,10 +6,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
-import nmd.orb.services.CategoriesService;
-import nmd.orb.services.FeedsService;
-import nmd.orb.services.ReadsService;
-import nmd.orb.services.UpdatesService;
+import nmd.orb.services.*;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedReadReport;
 import org.junit.After;
@@ -101,11 +98,14 @@ public abstract class AbstractControllerTestBase {
     protected ReadFeedItemsRepositoryStub readFeedItemsRepositoryStub;
     protected FeedUpdateTaskSchedulerContextRepositoryStub feedUpdateTaskSchedulerContextRepositoryStub;
     protected CategoriesRepositoryStub categoriesRepositoryStub;
+    protected ImportJobContextRepositoryStub importJobContextRepositoryStub;
 
     protected FeedsService feedsService;
     protected UpdatesService updatesService;
     protected ReadsService readsService;
     protected CategoriesService categoriesService;
+    protected ClearService clearService;
+    protected ImportService importService;
 
     private TransactionsStub transactionsStub;
 
@@ -120,13 +120,16 @@ public abstract class AbstractControllerTestBase {
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
         this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
         this.categoriesRepositoryStub = new CategoriesRepositoryStub();
+        this.importJobContextRepositoryStub = new ImportJobContextRepositoryStub();
 
         this.feedUpdateTaskSchedulerStub = new CycleFeedUpdateTaskScheduler(this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.transactionsStub);
 
-        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.fetcherStub, this.transactionsStub);
+        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.fetcherStub, this.transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, this.transactionsStub);
         this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.transactionsStub);
+        this.importService = new ImportService(this.importJobContextRepositoryStub, this.categoriesService, this.feedsService, this.transactionsStub);
+        this.clearService = new ClearService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.transactionsStub);
     }
 
     @After

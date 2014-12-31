@@ -1,8 +1,11 @@
 package unit.feed.controller;
 
 import nmd.orb.error.ServiceException;
+import nmd.orb.services.importer.ImportJobContext;
+import nmd.orb.services.importer.ImportJobStatus;
 import org.junit.Before;
 import org.junit.Test;
+import unit.feed.controller.importer.ImportJobContextTest;
 
 import java.util.UUID;
 
@@ -26,7 +29,10 @@ public class ControllerClearTest extends AbstractControllerTestBase {
         this.readsService.markItemAsRead(secondFeedId, "read_second");
         this.categoriesService.addCategory("category");
 
-        this.feedsService.clear();
+        final ImportJobContext context = ImportJobContextTest.create(ImportJobStatus.COMPLETED);
+        this.importService.schedule(context);
+
+        this.clearService.clear();
     }
 
     @Test
@@ -57,6 +63,11 @@ public class ControllerClearTest extends AbstractControllerTestBase {
     @Test
     public void whenClearedThenNoCategoriesRemain() {
         assertTrue(this.categoriesRepositoryStub.isEmpty());
+    }
+
+    @Test
+    public void whenClearedThenNoImportJobContextRemain() {
+        assertTrue(this.importJobContextRepositoryStub.isEmpty());
     }
 
 }

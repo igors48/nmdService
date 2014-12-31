@@ -22,6 +22,4 @@ public interface FeedsServiceWrapper {
 
     ResponseBody getFeed(UUID feedId);
 
-    ResponseBody clear();
-
 }

@@ -2,12 +2,12 @@ package nmd.orb.http.servlets.clear;
 
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
-import nmd.orb.http.wrappers.FeedsServiceWrapper;
-import nmd.orb.http.wrappers.FeedsServiceWrapperImpl;
+import nmd.orb.http.wrappers.ClearServiceWrapper;
 
 import java.util.List;
 import java.util.Map;
 
+import static nmd.orb.http.wrappers.ClearServiceWrapperImpl.CLEAR_SERVICE_WRAPPER;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
 
@@ -17,13 +17,13 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ClearServletPostRequestHandler implements Handler {
 
-    public static final ClearServletPostRequestHandler CLEAR_SERVLET_POST_REQUEST_HANDLER = new ClearServletPostRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
+    public static final ClearServletPostRequestHandler CLEAR_SERVLET_POST_REQUEST_HANDLER = new ClearServletPostRequestHandler(CLEAR_SERVICE_WRAPPER);
 
-    private final FeedsServiceWrapper feedsService;
+    private final ClearServiceWrapper clearService;
 
-    public ClearServletPostRequestHandler(final FeedsServiceWrapper feedsService) {
-        guard(notNull(feedsService));
-        this.feedsService = feedsService;
+    public ClearServletPostRequestHandler(final ClearServiceWrapper clearService) {
+        guard(notNull(clearService));
+        this.clearService = clearService;
     }
 
     // POST -- clear service
@@ -33,7 +33,7 @@ public class ClearServletPostRequestHandler implements Handler {
         guard(notNull(parameters));
         guard(notNull(body));
 
-        return this.feedsService.clear();
+        return this.clearService.clear();
     }
 
 }

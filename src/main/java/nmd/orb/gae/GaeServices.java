@@ -2,6 +2,7 @@ package nmd.orb.gae;
 
 import nmd.orb.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.orb.collector.scheduler.FeedUpdateTaskScheduler;
+import nmd.orb.gae.repositories.GaeImportJobContextRepository;
 import nmd.orb.services.*;
 
 import static nmd.orb.gae.GaeRepositories.*;
@@ -39,7 +40,6 @@ public final class GaeServices {
                     GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY,
                     GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
                     GAE_CACHED_CATEGORIES_REPOSITORY,
-                    GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY,
                     GAE_URL_FETCHER,
                     GAE_TRANSACTIONS);
 
@@ -56,6 +56,17 @@ public final class GaeServices {
                     CATEGORIES_SERVICE,
                     FEEDS_SERVICE,
                     GAE_TRANSACTIONS);
+
+    public static final ClearService CLEAR_SERVICE =
+            new ClearService(GAE_CACHED_FEED_HEADERS_REPOSITORY,
+                    GAE_CACHED_FEED_ITEMS_REPOSITORY,
+                    GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY,
+                    GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY,
+                    GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
+                    GAE_CACHED_CATEGORIES_REPOSITORY,
+                    GaeImportJobContextRepository.GAE_IMPORT_JOB_CONTEXT_REPOSITORY,
+                    GAE_TRANSACTIONS
+            );
 
     private GaeServices() {
         // empty
