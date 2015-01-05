@@ -38,11 +38,12 @@ public abstract class AbstractHttpTest {
 
     @After
     public void after() {
-        clearState();
+        resetServer();
     }
 
-    protected static void clearState() {
-        assertServerProcessingTimeHeaderValid(given().body("").post(CLEAR_SERVLET_URL));
+    protected static void resetServer() {
+        final Response response = given().body("").post(CLEAR_SERVLET_URL);
+        assertSuccessResponse(assertServerProcessingTimeHeaderValid(response).asString());
     }
 
     protected static FeedIdResponse addFirstFeed() {
