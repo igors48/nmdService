@@ -15,7 +15,7 @@ import static org.junit.Assert.assertTrue;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 29.11.13
  */
-public class ControllerClearTest extends AbstractControllerTestBase {
+public class ControllerResetTest extends AbstractControllerTestBase {
 
     @Before
     @Override
@@ -32,41 +32,41 @@ public class ControllerClearTest extends AbstractControllerTestBase {
         final ImportJobContext context = ImportJobContextTest.create(ImportJobStatus.COMPLETED);
         this.importService.schedule(context);
 
-        this.clearService.clear();
+        this.resetService.reset();
     }
 
     @Test
-    public void whenClearedThenNoHeadersRemain() {
+    public void whenResetThenNoHeadersRemain() {
         assertTrue(this.feedHeadersRepositoryStub.isEmpty());
     }
 
     @Test
-    public void whenClearedThenNoItemsRemain() {
+    public void whenResetThenNoItemsRemain() {
         assertTrue(this.feedItemsRepositoryStub.isEmpty());
     }
 
     @Test
-    public void whenClearedThenNoUpdateTasksRemain() {
+    public void whenResetThenNoUpdateTasksRemain() {
         assertTrue(this.feedUpdateTaskRepositoryStub.isEmpty());
     }
 
     @Test
-    public void whenClearedThenNoReadItemsRemain() {
+    public void whenResetThenNoReadItemsRemain() {
         assertTrue(this.readFeedItemsRepositoryStub.isEmpty());
     }
 
     @Test
-    public void whenClearedThenNoSchedulerContextRemain() {
+    public void whenResetThenNoSchedulerContextRemain() {
         assertTrue(this.feedUpdateTaskSchedulerContextRepositoryStub.isEmpty());
     }
 
     @Test
-    public void whenClearedThenNoCategoriesRemain() {
+    public void whenResetThenNoCategoriesRemain() {
         assertTrue(this.categoriesRepositoryStub.isEmpty());
     }
 
     @Test
-    public void whenClearedThenNoImportJobContextRemain() {
+    public void whenResetThenNoImportJobContextRemain() {
         assertTrue(this.importJobContextRepositoryStub.isEmpty());
     }
 

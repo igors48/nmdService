@@ -56,13 +56,13 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>clear</servlet-name>
-        <servlet-class>nmd.orb.http.servlets.ClearServlet</servlet-class>
+        <servlet-name>reset</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.ResetServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>clear</servlet-name>
-        <url-pattern>/@security.key@/v01/clear</url-pattern>
+        <servlet-name>reset</servlet-name>
+        <url-pattern>/@security.key@/v01/reset</url-pattern>
     </servlet-mapping>
 
     <servlet>

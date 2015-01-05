@@ -12,7 +12,7 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
 /**
  * @author : igu
  */
-public class ClearService {
+public class ResetService {
 
     private final FeedHeadersRepository feedHeadersRepository;
     private final FeedItemsRepository feedItemsRepository;
@@ -23,7 +23,7 @@ public class ClearService {
     private final ImportJobContextRepository importJobContextRepository;
     private final Transactions transactions;
 
-    public ClearService(FeedHeadersRepository feedHeadersRepository, FeedItemsRepository feedItemsRepository, FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, FeedUpdateTaskRepository feedUpdateTaskRepository, ReadFeedItemsRepository readFeedItemsRepository, CategoriesRepository categoriesRepository, final ImportJobContextRepository importJobContextRepository, Transactions transactions) {
+    public ResetService(FeedHeadersRepository feedHeadersRepository, FeedItemsRepository feedItemsRepository, FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, FeedUpdateTaskRepository feedUpdateTaskRepository, ReadFeedItemsRepository readFeedItemsRepository, CategoriesRepository categoriesRepository, final ImportJobContextRepository importJobContextRepository, Transactions transactions) {
         this.feedHeadersRepository = feedHeadersRepository;
         this.feedItemsRepository = feedItemsRepository;
         this.feedUpdateTaskSchedulerContextRepository = feedUpdateTaskSchedulerContextRepository;
@@ -34,7 +34,7 @@ public class ClearService {
         this.transactions = transactions;
     }
 
-    public void clear() {
+    public void reset() {
 
         Transaction transaction = null;
 

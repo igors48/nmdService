@@ -57,8 +57,8 @@ public final class GaeServices {
                     FEEDS_SERVICE,
                     GAE_TRANSACTIONS);
 
-    public static final ClearService CLEAR_SERVICE =
-            new ClearService(GAE_CACHED_FEED_HEADERS_REPOSITORY,
+    public static final ResetService CLEAR_SERVICE =
+            new ResetService(GAE_CACHED_FEED_HEADERS_REPOSITORY,
                     GAE_CACHED_FEED_ITEMS_REPOSITORY,
                     GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY,
                     GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY,

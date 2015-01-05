@@ -5,7 +5,7 @@ import nmd.orb.http.tools.ResponseBody;
 /**
  * @author : igu
  */
-public interface ClearServiceWrapper {
+public interface ResetServiceWrapper {
 
     ResponseBody clear();
 
