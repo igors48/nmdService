@@ -68,6 +68,12 @@ public final class GaeServices {
                     GAE_TRANSACTIONS
             );
 
+    public static final CronService CRON_SERVICE =
+            new CronService(
+                    UPDATES_SERVICE,
+                    IMPORT_SERVICE
+            );
+
     private GaeServices() {
         // empty
     }
