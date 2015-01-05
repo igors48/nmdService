@@ -139,15 +139,4 @@ public class FeedsServiceWrapperImpl implements FeedsServiceWrapper {
         }
     }
 
-    @Override
-    public ResponseBody clear() {
-        this.feedsService.clear();
-
-        final String message = "Service cleared";
-
-        LOGGER.info(message);
-
-        return createJsonResponse(create(message));
-    }
-
 }

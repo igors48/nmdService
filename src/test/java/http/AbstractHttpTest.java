@@ -20,7 +20,7 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class AbstractHttpTest {
 
-    protected static final String CLEAR_SERVLET_URL = "/secure/v01/clear/";
+    protected static final String RESET_SERVLET_URL = "/secure/v01/reset/";
     protected static final String FEEDS_SERVLET_URL = "/secure/v01/feeds/";
     protected static final String UPDATES_SERVLET_URL = "/secure/v01/updates/";
     protected static final String READS_SERVLET_URL = "/secure/v01/reads/";
@@ -38,11 +38,12 @@ public abstract class AbstractHttpTest {
 
     @After
     public void after() {
-        clearState();
+        resetServer();
     }
 
-    protected static void clearState() {
-        assertServerProcessingTimeHeaderValid(given().body("").post(CLEAR_SERVLET_URL));
+    protected static void resetServer() {
+        final Response response = given().body("").post(RESET_SERVLET_URL);
+        assertSuccessResponse(assertServerProcessingTimeHeaderValid(response).asString());
     }
 
     protected static FeedIdResponse addFirstFeed() {

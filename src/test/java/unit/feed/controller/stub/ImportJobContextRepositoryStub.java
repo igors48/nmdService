@@ -25,4 +25,8 @@ public class ImportJobContextRepositoryStub implements ImportJobContextRepositor
         this.job = null;
     }
 
+    public boolean isEmpty() {
+        return this.job == null;
+    }
+
 }

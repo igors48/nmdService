@@ -58,6 +58,15 @@ angular.module('orb.services', ['ngResource'])
         );
     })
 
+    .factory('reset', function ($resource) {
+        return $resource('/@security.key@/v01/reset',
+            {},
+            {
+                'reset': {method: 'POST'}
+            }
+        );
+    })
+
     .factory('lastUsedIds', function () {
         var lastUsedFeedId = '';
         var lastUsedItemId = '';

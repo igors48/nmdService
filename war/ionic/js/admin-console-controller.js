@@ -11,6 +11,10 @@ controllers.controller('adminConsoleController',
             $state.go('categories');
         };
 
+        $scope.onReset = function () {
+            $state.go('reset-service');
+        };
+            
         $scope.onRestore = function () {
             var fileInput = document.getElementById('file').files[0];
             var fileReader = new FileReader();
