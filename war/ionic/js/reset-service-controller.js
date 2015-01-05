@@ -16,7 +16,6 @@ controllers.controller('resetServiceController',
             });
 
             reset.reset(
-                {}, 
                 onResetSuccess, 
                 onServerFault);        
         };
@@ -28,6 +27,8 @@ controllers.controller('resetServiceController',
                 $ionicPopup.alert({
                     title: 'Information',
                     template: 'Server reset complete.'
+                }).then(function (response) {
+                    $state.go('admin-console');    
                 });
             } else {
                 $scope.utilities.showError($ionicPopup, response);
