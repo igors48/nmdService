@@ -30,7 +30,6 @@ public class UpdatesServletGetRequestHandler implements Handler {
         this.updatesService = updatesService;
     }
 
-    // GET -- update current feed
     // GET /{feedId} -- update feed
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {

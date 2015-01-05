@@ -140,10 +140,6 @@ public abstract class AbstractHttpTest {
         return GSON.fromJson(assertSuccessResponse(updateFeed(feedId)), FeedMergeReportResponse.class);
     }
 
-    protected static FeedSeriesUpdateResponse updateCurrentFeedWithReport() {
-        return GSON.fromJson(assertSuccessResponse(updateFeed("")), FeedSeriesUpdateResponse.class);
-    }
-
     protected String getReadsReportAsString() {
         return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL)).asString();
     }
