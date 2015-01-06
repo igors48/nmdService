@@ -27,6 +27,7 @@ public abstract class AbstractHttpTest {
     protected static final String EXPORTS_SERVLET_URL = "/v01/feeds/";
     protected static final String CATEGORIES_SERVLET_URL = "/secure/v01/categories/";
     protected static final String BACKUP_SERVLET_URL = "/secure/v01/backup/";
+    protected static final String IMPORT_SERVLET_URL = "/secure/v01/import/";
 
     protected static final String FIRST_FEED_URL = "http://127.0.0.1:8080/feed/feed_win_1251.xml";
     protected static final String FIRST_FEED_TITLE = "Bash.im";
@@ -202,6 +203,12 @@ public abstract class AbstractHttpTest {
         final String response = assertServerProcessingTimeHeaderValid(given().get(BACKUP_SERVLET_URL)).asString();
 
         return GSON.fromJson(assertSuccessResponse(response), BackupReportResponse.class);
+    }
+
+    protected static FeedImportReportResponse getFeedImportReport() {
+        final String response = assertServerProcessingTimeHeaderValid(given().get(IMPORT_SERVLET_URL)).asString();
+
+        return GSON.fromJson(assertSuccessResponse(response), FeedImportReportResponse.class);
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
