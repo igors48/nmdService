@@ -211,6 +211,22 @@ public abstract class AbstractHttpTest {
         return GSON.fromJson(assertSuccessResponse(response), FeedImportReportResponse.class);
     }
 
+    protected static void deleteFeedImportJob() {
+        assertSuccessResponse(assertServerProcessingTimeHeaderValid(given().delete(IMPORT_SERVLET_URL)).asString());
+    }
+
+    protected static String sendFeedImportJobAction(final String action) {
+        return assertServerProcessingTimeHeaderValid(given().put(IMPORT_SERVLET_URL + action)).asString();
+    }
+
+    protected static void startFeedImportJob() {
+        assertSuccessResponse(sendFeedImportJobAction("start"));
+    }
+
+    protected static void stopFeedImportJob() {
+        assertSuccessResponse(sendFeedImportJobAction("stop"));
+    }
+
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
         final ErrorResponse errorResponse = GSON.fromJson(response, ErrorResponse.class);
 
