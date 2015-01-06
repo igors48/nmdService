@@ -14,7 +14,11 @@ controllers.controller('adminConsoleController',
         $scope.onReset = function () {
             $state.go('reset-service');
         };
-            
+
+        $scope.onImport = function () {
+            $state.go('import-feeds');
+        };    
+        /*    
         $scope.onRestore = function () {
             var fileInput = document.getElementById('file').files[0];
             var fileReader = new FileReader();
@@ -59,6 +63,6 @@ controllers.controller('adminConsoleController',
         var onServerFault = function () {
             $scope.utilities.showFatalError($ionicPopup, $ionicLoading);
         };
-
+*/
     }
 );

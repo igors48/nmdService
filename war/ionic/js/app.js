@@ -76,4 +76,10 @@ orb.config(function($stateProvider, $urlRouterProvider) {
         controller: 'resetServiceController'
       })
 
+      .state('import-feeds', {
+        url: '/import-feeds',
+        templateUrl: 'partials/import-feeds.html'/*,
+        controller: 'resetServiceController'*/
+      })
+
 });

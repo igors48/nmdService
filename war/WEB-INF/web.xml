@@ -72,7 +72,7 @@
 
     <servlet-mapping>
         <servlet-name>backup</servlet-name>
-        <url-pattern>/@security.key@/v01/backup</url-pattern>
+        <url-pattern>/@security.key@/v01/export</url-pattern>
     </servlet-mapping>
 
     <servlet>
