@@ -42,7 +42,7 @@ public class CategoryImportContext {
         this.status = status;
 
         guard(notNull(categoryId));
-        this.categoryId = "";
+        this.categoryId = categoryId;
     }
 
     public boolean canBeExecuted() {
