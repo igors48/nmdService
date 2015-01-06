@@ -17,6 +17,11 @@ import static org.junit.Assert.*;
 public class ImportServiceFlowControlTest extends AbstractImportServiceTest {
 
     @Test
+    public void whenNoContextThenNothingHappens() {
+        this.importService.executeOne();
+    }
+
+    @Test
     public void whenJobStartedThenItsStatusChanged() throws ServiceException {
         final ImportJobContext context = new ImportJobContext(new ArrayList<CategoryImportContext>(), ImportJobStatus.STOPPED);
 

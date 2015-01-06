@@ -83,6 +83,10 @@ public class ImportService {
 
             final ImportJobContext context = this.importJobContextRepository.load();
 
+            if (context == null) {
+                return false;
+            }
+
             if (context.canBeExecuted()) {
                 ImportJob.execute(context, this.categoriesAdapter, this.feedsAdapter);
             }

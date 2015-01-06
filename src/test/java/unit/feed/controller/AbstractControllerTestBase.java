@@ -106,6 +106,7 @@ public abstract class AbstractControllerTestBase {
     protected CategoriesService categoriesService;
     protected ResetService resetService;
     protected ImportService importService;
+    protected CronService cronService;
 
     private TransactionsStub transactionsStub;
 
@@ -130,6 +131,7 @@ public abstract class AbstractControllerTestBase {
         this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.transactionsStub);
         this.importService = new ImportService(this.importJobContextRepositoryStub, this.categoriesService, this.feedsService, this.transactionsStub);
         this.resetService = new ResetService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.transactionsStub);
+        this.cronService = new CronService(this.updatesService, this.importService);
     }
 
     @After
