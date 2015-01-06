@@ -8,6 +8,8 @@ import nmd.orb.http.wrappers.ImportServiceWrapperImpl;
 import java.util.List;
 import java.util.Map;
 
+import static nmd.orb.error.ServiceError.importJobInvalidAction;
+import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
 
@@ -33,7 +35,18 @@ public class ImportServletPutRequestHandler implements Handler {
         guard(notNull(parameters));
         guard(notNull(body));
 
-        return null;
+        final String action = elements.isEmpty() ? "" : elements.get(0);
+
+        switch (action) {
+            case "start": {
+                return this.importServiceWrapper.start();
+            }
+            case "stop": {
+                return this.importServiceWrapper.stop();
+            }
+        }
+
+        return createErrorJsonResponse(importJobInvalidAction());
     }
 
 }

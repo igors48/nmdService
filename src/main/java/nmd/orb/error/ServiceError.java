@@ -191,6 +191,12 @@ public class ServiceError {
                 "Stop current job and try again");
     }
 
+    public static ServiceError importJobInvalidAction() {
+        return new ServiceError(ErrorCode.FEED_IMPORT_JOB_INVALID_ACTION,
+                "Import job invalid action",
+                "Check action name and try again");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
