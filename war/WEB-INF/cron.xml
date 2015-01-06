@@ -2,8 +2,8 @@
 <cronentries>
 
     <cron>
-        <url>/@security.key@/v01/updates/</url>
-        <description>Updates current feed</description>
+        <url>/@security.key@/v01/cron/</url>
+        <description>Execute cron jobs</description>
         <schedule>every 1 minutes</schedule>
     </cron>
 

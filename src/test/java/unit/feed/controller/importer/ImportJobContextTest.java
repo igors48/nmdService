@@ -25,7 +25,7 @@ public class ImportJobContextTest {
         final ImportJobContext context = create(ImportJobStatus.STARTED, categoryImportContext01, categoryImportContext02);
         final FeedImportStatusReport actual = context.getStatusReport();
 
-        final FeedImportStatusReport expected = new FeedImportStatusReport(3, 1, 1);
+        final FeedImportStatusReport expected = new FeedImportStatusReport(ImportJobStatus.STARTED, 3, 1, 1);
 
         assertEquals(actual, expected);
     }

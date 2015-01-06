@@ -85,6 +85,16 @@
         <url-pattern>/@security.key@/v01/import/*</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>cron</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.CronServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>cron</servlet-name>
+        <url-pattern>/@security.key@/v01/cron</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

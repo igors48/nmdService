@@ -49,11 +49,16 @@ angular.module('orb.services', ['ngResource'])
         );
     })
 
-    .factory('backup', function ($resource) {
-        return $resource('/@security.key@/v01/backup',
-            {},
+    .factory('imports', function ($resource) {
+        return $resource('/@security.key@/v01/import/:action',
             {
-                'restore': {method: 'POST'}
+                action: '@action'
+            },
+            {
+                'status': {method: 'GET'},
+                'schedule': {method: 'POST'},
+                'reject': {method: 'DELETE'},
+                'action': {method: 'PUT'}
             }
         );
     })

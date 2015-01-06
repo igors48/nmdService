@@ -1,27 +1,18 @@
 package nmd.orb.services.report;
 
-import nmd.orb.services.importer.ImportJobStatus;
-
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isPositive;
-import static nmd.orb.util.Parameter.notNull;
 
 /**
  * @author : igu
  */
-public class FeedImportStatusReport {
+public class CategoryImportStatusReport {
 
-    public static final FeedImportStatusReport DEFAULT = new FeedImportStatusReport(ImportJobStatus.STOPPED, 0, 0, 0);
-
-    private final ImportJobStatus status;
     private final int scheduled;
     private final int imported;
     private final int failed;
 
-    public FeedImportStatusReport(final ImportJobStatus status, final int scheduled, final int imported, final int failed) {
-        guard(notNull(status));
-        this.status = status;
-
+    public CategoryImportStatusReport(final int scheduled, final int imported, final int failed) {
         guard(isPositive(scheduled));
         this.scheduled = scheduled;
 
@@ -30,10 +21,6 @@ public class FeedImportStatusReport {
 
         guard(isPositive(failed));
         this.failed = failed;
-    }
-
-    public ImportJobStatus getStatus() {
-        return this.status;
     }
 
     public int getScheduled() {
@@ -53,20 +40,18 @@ public class FeedImportStatusReport {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        FeedImportStatusReport that = (FeedImportStatusReport) o;
+        CategoryImportStatusReport report = (CategoryImportStatusReport) o;
 
-        if (failed != that.failed) return false;
-        if (imported != that.imported) return false;
-        if (scheduled != that.scheduled) return false;
-        if (status != that.status) return false;
+        if (failed != report.failed) return false;
+        if (imported != report.imported) return false;
+        if (scheduled != report.scheduled) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        int result = status.hashCode();
-        result = 31 * result + scheduled;
+        int result = scheduled;
         result = 31 * result + imported;
         result = 31 * result + failed;
         return result;

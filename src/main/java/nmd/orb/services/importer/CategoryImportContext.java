@@ -5,7 +5,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.payload.CategoryPayload;
 import nmd.orb.http.responses.payload.FeedHeaderPayload;
 import nmd.orb.reader.Category;
-import nmd.orb.services.report.FeedImportStatusReport;
+import nmd.orb.services.report.CategoryImportStatusReport;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -90,7 +90,7 @@ public class CategoryImportContext {
         return this.feedImportContexts;
     }
 
-    public FeedImportStatusReport getStatusReport() {
+    public CategoryImportStatusReport getStatusReport() {
         int scheduled = 0;
         int imported = 0;
         int failed = 0;
@@ -113,7 +113,7 @@ public class CategoryImportContext {
                     break;
             }
         }
-        return new FeedImportStatusReport(scheduled, imported, failed);
+        return new CategoryImportStatusReport(scheduled, imported, failed);
     }
 
     @Override

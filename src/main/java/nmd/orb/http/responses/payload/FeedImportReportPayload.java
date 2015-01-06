@@ -10,6 +10,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class FeedImportReportPayload {
 
+    public String status;
     public int scheduled;
     public int imported;
     public int failed;
@@ -23,6 +24,7 @@ public class FeedImportReportPayload {
 
         final FeedImportReportPayload payload = new FeedImportReportPayload();
 
+        payload.status = report.getStatus().toString();
         payload.scheduled = report.getScheduled();
         payload.imported = report.getImported();
         payload.failed = report.getFailed();

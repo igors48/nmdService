@@ -32,7 +32,7 @@ public class ImportServiceStatusReportTest extends AbstractImportServiceTest {
         this.importService.schedule(context);
         final FeedImportStatusReport report = this.importService.status();
 
-        final FeedImportStatusReport expected = new FeedImportStatusReport(1, 0, 0);
+        final FeedImportStatusReport expected = new FeedImportStatusReport(ImportJobStatus.STOPPED, 1, 0, 0);
 
         assertEquals(expected, report);
     }

@@ -2,16 +2,28 @@
     <div class="buttons">
         <button class="button button-clear ion-android-arrow-back" ng-click="onBackToAdminConsole()"></button>
     </div>
-    <h1 class="title" ng-cloak>Reset service</h1>
+    <h1 class="title" ng-cloak>Import feeds</h1>
 </ion-header-bar>
 
-<ion-content scroll="false" ng-cloak>
+<ion-content scroll="false" ng-cloak ng-show="showUi">
 
-    <div class="list list-inset">
-    	<h4>Sure to delete all server data?</h4>
-    	
-        <button class="button button-block button-assertive" ng-click="onResetConfirmed()">Yes</button>
-        <button class="button button-block button-positive" ng-click="onBackToAdminConsole()">No</button>
+    <div class="card">
+        <div class="item item-divider">
+            {{report.status}}
+        </div>
+        <div class="item item-text-wrap">
+            <h3>Scheduled: {{report.scheduled}}</h3>
+            <h3>Imported: {{report.imported}}</h3>
+            <h3>Failed: {{report.failed}}</h3>
+        </div>
+    </div>
+
+    <div class="list list-inset"> 
+        <input ng-hide="report.status === 'STARTED'" type="file" id="file" name="file"/>
+        <button ng-hide="report.status === 'STARTED'" class="button button-block button-positive" ng-click="onImport()">Import</button>
+        <button ng-show="report.status === 'STOPPED'" class="button button-block button-balanced" ng-click="onStart()">Start</button>
+        <button ng-show="report.status === 'STARTED'" class="button button-block button-positive" ng-click="onStop()">Stop</button>
+        <button ng-show="report.status === 'STOPPED'" class="button button-block button-assertive" ng-click="onReject()">Reject</button>
     </div>
 
 </ion-content>
