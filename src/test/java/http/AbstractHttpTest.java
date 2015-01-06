@@ -35,7 +35,7 @@ public abstract class AbstractHttpTest {
     protected static final String INVALID_FEED_URL = "http://127.0.0.1:8080/feed/not_exist.xml";
     protected static final String UNREACHABLE_FEED_URL = "http://127.0.0.1:8081/feed/not_exist.xml";
 
-    private static final Gson GSON = new Gson();
+    protected static final Gson GSON = new Gson();
 
     @After
     public void after() {
@@ -217,6 +217,10 @@ public abstract class AbstractHttpTest {
 
     protected static String sendFeedImportJobAction(final String action) {
         return assertServerProcessingTimeHeaderValid(given().put(IMPORT_SERVLET_URL + action)).asString();
+    }
+
+    protected static String scheduleImportJob(final String backupReport) {
+        return assertServerProcessingTimeHeaderValid(given().body(backupReport).post(IMPORT_SERVLET_URL)).asString();
     }
 
     protected static void startFeedImportJob() {

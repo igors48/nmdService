@@ -19,6 +19,16 @@ public class BackupReportResponseConversionTest {
 
     @Test
     public void roundtripTest() {
+        final BackupReport backupReport = createBackupReport();
+        final BackupReportResponse backupReportResponse = BackupReportResponse.create(backupReport);
+        final ResponseBody responseBody = ResponseBody.createJsonFileResponse(backupReportResponse, "filename");
+
+        final BackupReportResponse restoredResponse = BackupReportResponse.convert(responseBody.content);
+
+        assertEquals(backupReportResponse, restoredResponse);
+    }
+
+    public static BackupReport createBackupReport() {
         final FeedHeader feedHeader = new FeedHeader(UUID.randomUUID(), "http://domain.com", "title", "description", "http://domain.com");
         final Set<FeedHeader> set = new HashSet<>();
         set.add(feedHeader);
@@ -28,13 +38,7 @@ public class BackupReportResponseConversionTest {
         final Map<Category, Set<FeedHeader>> map = new HashMap<>();
         map.put(category, set);
 
-        final BackupReport backupReport = new BackupReport(map, new HashSet<ReadFeedItems>(), new HashSet<FeedHeader>());
-        final BackupReportResponse backupReportResponse = BackupReportResponse.create(backupReport);
-        final ResponseBody responseBody = ResponseBody.createJsonFileResponse(backupReportResponse, "filename");
-
-        final BackupReportResponse restoredResponse = BackupReportResponse.convert(responseBody.content);
-
-        assertEquals(backupReportResponse, restoredResponse);
+        return new BackupReport(map, new HashSet<ReadFeedItems>(), new HashSet<FeedHeader>());
     }
 
 }

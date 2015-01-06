@@ -41,7 +41,11 @@ public class GaeImportJobContextRepository implements ImportJobContextRepository
 
     @Override
     public void clear() {
-        DATASTORE_SERVICE.delete(KEY);
+        final List<Entity> victims = loadEntities(Kind.IMPORT);
+
+        for (final Entity victim : victims) {
+            DATASTORE_SERVICE.delete(victim.getKey());
+        }
     }
 
 }
