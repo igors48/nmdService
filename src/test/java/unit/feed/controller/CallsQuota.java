@@ -17,6 +17,11 @@ public class CallsQuota implements Quota {
     }
 
     @Override
+    public void start() {
+        // empty
+    }
+
+    @Override
     public boolean expired() {
         this.count--;
 

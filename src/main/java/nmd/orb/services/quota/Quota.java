@@ -5,6 +5,8 @@ package nmd.orb.services.quota;
  */
 public interface Quota {
 
+    void start();
+
     boolean expired();
 
 }

@@ -28,7 +28,10 @@ public class CronService {
         guard(notNull(updateQuota));
         guard(notNull(importQuota));
 
+        updateQuota.start();
         final FeedSeriesUpdateReport feedSeriesUpdateReport = this.updatesService.updateCurrentFeeds(updateQuota);
+
+        importQuota.start();
         final FeedImportStatusReport feedImportStatusReport = this.importService.executeSeries(importQuota);
 
         return new CronJobsReport(feedSeriesUpdateReport, feedImportStatusReport);

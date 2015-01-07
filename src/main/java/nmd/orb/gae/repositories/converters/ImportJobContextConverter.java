@@ -2,6 +2,7 @@ package nmd.orb.gae.repositories.converters;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 import nmd.orb.gae.repositories.converters.helpers.CategoryImportContextHelper;
 import nmd.orb.services.importer.CategoryImportContext;
 import nmd.orb.services.importer.ImportJobContext;
@@ -27,7 +28,7 @@ public class ImportJobContextConverter {
         final Entity entity = new Entity(IMPORT.value, key);
 
         entity.setProperty(STATUS, context.getStatus().toString());
-        entity.setProperty(CONTEXTS, CategoryImportContextHelper.convert(context.getContexts()));
+        entity.setProperty(CONTEXTS, new Text(CategoryImportContextHelper.convert(context.getContexts())));
 
         return entity;
     }
@@ -36,7 +37,7 @@ public class ImportJobContextConverter {
         assertNotNull(entity);
 
         final ImportJobStatus status = ImportJobStatus.valueOf((String) entity.getProperty(STATUS));
-        final List<CategoryImportContext> contexts = CategoryImportContextHelper.convert((String) entity.getProperty(CONTEXTS));
+        final List<CategoryImportContext> contexts = CategoryImportContextHelper.convert(((Text) entity.getProperty(CONTEXTS)).getValue());
 
         return new ImportJobContext(contexts, status);
     }
