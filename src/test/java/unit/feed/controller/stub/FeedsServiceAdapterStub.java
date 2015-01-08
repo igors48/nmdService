@@ -3,6 +3,8 @@ package unit.feed.controller.stub;
 import nmd.orb.error.ServiceException;
 import nmd.orb.services.importer.FeedsServiceAdapter;
 
+import java.util.UUID;
+
 import static nmd.orb.error.ServiceError.importJobStartedAlready;
 import static org.junit.Assert.assertEquals;
 
@@ -19,7 +21,7 @@ public class FeedsServiceAdapterStub implements FeedsServiceAdapter {
     private boolean throwException = false;
 
     @Override
-    public void addFeed(final String feedLink, final String feedTitle, final String categoryId) throws ServiceException {
+    public UUID addFeed(final String feedLink, final String feedTitle, final String categoryId) throws ServiceException {
         ++this.callCount;
 
         if (this.throwException) {
@@ -29,6 +31,8 @@ public class FeedsServiceAdapterStub implements FeedsServiceAdapter {
         this.feedLink = feedLink;
         this.feedTitle = feedTitle;
         this.categoryId = categoryId;
+
+        return UUID.randomUUID();
     }
 
     public void assertCallOnce(final String feedLink, final String feedTitle, final String categoryId) {
