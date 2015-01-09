@@ -54,7 +54,7 @@ controllers.controller('importFeedsController',
                 upload(data);
             }
 
-            fileReader.readAsBinaryString(fileInput);
+            fileReader.readAsText(fileInput);
         };
 
         var upload = function (data) {
