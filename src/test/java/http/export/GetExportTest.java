@@ -1,4 +1,4 @@
-package http.backup;
+package http.export;
 
 import http.AbstractHttpTest;
 import nmd.orb.http.responses.ExportReportResponse;
@@ -11,7 +11,7 @@ public class GetExportTest extends AbstractHttpTest {
 
     @Test
     public void exportReportIsReturned() {
-        final ExportReportResponse report = getBackupReport();
+        final ExportReportResponse report = getExportReport();
     }
 
 }

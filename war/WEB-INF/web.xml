@@ -66,12 +66,12 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>backup</servlet-name>
-        <servlet-class>nmd.orb.http.servlets.BackupServlet</servlet-class>
+        <servlet-name>export</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.ExportServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>backup</servlet-name>
+        <servlet-name>export</servlet-name>
         <url-pattern>/@security.key@/v01/export</url-pattern>
     </servlet-mapping>
 

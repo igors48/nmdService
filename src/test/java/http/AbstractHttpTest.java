@@ -199,7 +199,7 @@ public abstract class AbstractHttpTest {
         return markItem(feedId, itemId, "readLater");
     }
 
-    protected static ExportReportResponse getBackupReport() {
+    protected static ExportReportResponse getExportReport() {
         final String response = assertServerProcessingTimeHeaderValid(given().get(EXPORT_SERVLET_URL)).asString();
 
         return GSON.fromJson(assertSuccessResponse(response), ExportReportResponse.class);
@@ -219,8 +219,8 @@ public abstract class AbstractHttpTest {
         return assertServerProcessingTimeHeaderValid(given().put(IMPORT_SERVLET_URL + action)).asString();
     }
 
-    protected static String scheduleImportJob(final String backupReport) {
-        return assertServerProcessingTimeHeaderValid(given().body(backupReport).post(IMPORT_SERVLET_URL)).asString();
+    protected static String scheduleImportJob(final String exportReport) {
+        return assertServerProcessingTimeHeaderValid(given().body(exportReport).post(IMPORT_SERVLET_URL)).asString();
     }
 
     protected static void startFeedImportJob() {
