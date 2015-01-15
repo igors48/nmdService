@@ -8,13 +8,19 @@ import static nmd.orb.util.Assert.assertPositive;
  */
 public class TimeQuota implements Quota {
 
-    private final long startTime;
     private final long period;
+
+    private long startTime;
 
     public TimeQuota(final long period) {
         assertPositive(period);
         this.period = period;
 
+        this.startTime = currentTimeMillis();
+    }
+
+    @Override
+    public void start() {
         this.startTime = currentTimeMillis();
     }
 

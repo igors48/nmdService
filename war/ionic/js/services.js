@@ -38,11 +38,36 @@ angular.module('orb.services', ['ngResource'])
                 itemId: '@itemId',
                 offset: '@offset',
                 size: '@size',
-                markAs: '@markAs'
+                filter: '@filter',
+                markAs: '@markAs',
+                topItemTimestamp: '@topItemTimestamp'
             },
             {
                 'query': {method: 'GET'},
                 'mark': {method: 'PUT'}
+            }
+        );
+    })
+
+    .factory('imports', function ($resource) {
+        return $resource('/@security.key@/v01/import/:action',
+            {
+                action: '@action'
+            },
+            {
+                'status': {method: 'GET'},
+                'schedule': {method: 'POST'},
+                'reject': {method: 'DELETE'},
+                'action': {method: 'PUT'}
+            }
+        );
+    })
+
+    .factory('reset', function ($resource) {
+        return $resource('/@security.key@/v01/reset',
+            {},
+            {
+                'reset': {method: 'POST'}
             }
         );
     })

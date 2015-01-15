@@ -2,8 +2,10 @@ package unit.feed.controller.categories;
 
 import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
+import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedItemsReport;
+import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
 
@@ -39,7 +41,7 @@ public class CategoryReportTest extends AbstractControllerTestBase {
     public void whenFeedStateWasChangedThenItWillBeReflectedInReport() throws ServiceException {
         final UUID feedId = addValidFirstRssFeedToMainCategory();
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedId);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
         final String feedItemId = feedItemsReport.reports.get(0).itemId;
 
         this.readsService.markItemAsRead(feedId, feedItemId);
@@ -57,7 +59,7 @@ public class CategoryReportTest extends AbstractControllerTestBase {
 
     @Test
     public void whenCategoryIsFoundThenReportReturns() throws ServiceException {
-        CategoryReport report = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
+        final CategoryReport report = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
 
         assertNotNull(report);
     }
@@ -66,4 +68,29 @@ public class CategoryReportTest extends AbstractControllerTestBase {
     public void whenCategoryIsNotFoundThenExceptionThrows() throws ServiceException {
         this.categoriesService.getCategoryReport(UUID.randomUUID().toString());
     }
+
+    @Test
+    public void whenReportContainsCategoriesThenTheyAreSortedAlphabeticallyByName() {
+        this.categoriesService.addCategory("first");
+        this.categoriesService.addCategory("zet");
+
+        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
+
+        assertEquals("first", reports.get(0).name);
+        assertEquals(Category.MAIN.name, reports.get(1).name);
+        assertEquals("zet", reports.get(2).name);
+    }
+
+    @Test
+    public void whenCategoryReportCreatedThenFeedsAreSortedAlphabeticallyByTitle() throws ServiceException {
+        final UUID secondFeedId = addValidSecondRssFeedToMainCategory();
+        final UUID firstFeedId = addValidFirstRssFeedToMainCategory();
+
+        final CategoryReport report = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
+        final List<FeedReadReport> readReports = report.feedReadReports;
+
+        assertEquals(firstFeedId, readReports.get(0).feedId);
+        assertEquals(secondFeedId, readReports.get(1).feedId);
+    }
+
 }

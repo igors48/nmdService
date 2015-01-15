@@ -2,22 +2,28 @@ package nmd.orb.sources.twitter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import nmd.orb.sources.ConnectionTools;
 import nmd.orb.sources.twitter.entities.AccessToken;
 import nmd.orb.sources.twitter.entities.Tweet;
 import org.apache.commons.codec.binary.Base64;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.lang.reflect.Type;
-import java.net.*;
+import java.net.HttpURLConnection;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static nmd.orb.util.Assert.assertNotNull;
-import static nmd.orb.util.Assert.assertStringIsValid;
+import static nmd.orb.sources.ConnectionTools.readAllFromConnection;
+import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CloseableTools.close;
+import static nmd.orb.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -29,8 +35,6 @@ public class TwitterClientTools {
     private static final String TIMELINE_API_URL_TEMPLATE = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=%d";
 
     private static final String UTF_8 = "UTF-8";
-    private static final String GET = "GET";
-    private static final String POST = "POST";
     private static final String AUTHORIZATION = "Authorization";
     private static final String BEARER = "Bearer ";
     private static final String BASIC = "Basic ";
@@ -47,12 +51,11 @@ public class TwitterClientTools {
     }.getType();
 
     public static List<Tweet> fetchTweets(final AccessToken accessToken, final String screenName, final int count) throws IOException {
-        final URL url = new URL(format(TIMELINE_API_URL_TEMPLATE, screenName, count));
+        guard(notNull(accessToken));
+        guard(isValidString(screenName));
+        guard(isPositive(count));
 
-        final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-        connection.setDoOutput(true);
-        connection.setDoInput(true);
-        connection.setRequestMethod(GET);
+        final HttpURLConnection connection = ConnectionTools.setupConnection(format(TIMELINE_API_URL_TEMPLATE, screenName, count), ConnectionTools.Method.GET);
         connection.setRequestProperty(AUTHORIZATION, BEARER + accessToken.getAccess_token());
 
         final String content = readAllFromConnection(connection);
@@ -61,8 +64,8 @@ public class TwitterClientTools {
     }
 
     public static AccessToken getAccessToken(final String apiKey, String apiSecret) throws IOException {
-        assertStringIsValid(apiKey);
-        assertStringIsValid(apiSecret);
+        guard(isValidString(apiKey));
+        guard(isValidString(apiSecret));
 
         OutputStream outputStream = null;
 
@@ -72,15 +75,9 @@ public class TwitterClientTools {
             final String bearerTokenCredential = apiKeyEncoded + ":" + apiSecretEncoded;
             final String bearerTokenCredentialBase64 = Base64.encodeBase64String(bearerTokenCredential.getBytes()).replaceAll("\n", "");
 
-            final URL url = new URL(AUTHENTICATION_URL);
-
-            final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoOutput(true);
-            connection.setDoInput(true);
-            connection.setRequestMethod(POST);
+            final HttpURLConnection connection = ConnectionTools.setupConnection(AUTHENTICATION_URL, ConnectionTools.Method.POST);
             connection.setRequestProperty(CONTENT_TYPE, APPLICATION_X_WWW_FORM_URLENCODED_CHARSET_UTF_8);
             connection.setRequestProperty(AUTHORIZATION, BASIC + bearerTokenCredentialBase64);
-
             connection.setRequestProperty("Content-Length", String.valueOf(CREDENTIALS_REQUEST_BODY.length()));
 
             outputStream = connection.getOutputStream();
@@ -91,34 +88,6 @@ public class TwitterClientTools {
             return GSON.fromJson(content, AccessToken.class);
         } finally {
             close(outputStream);
-        }
-    }
-
-    public static String readAllFromConnection(final HttpURLConnection connection) throws IOException {
-        assertNotNull(connection);
-
-        final InputStream inputStream = connection.getInputStream();
-
-        InputStreamReader inputStreamReader = null;
-        BufferedReader bufferedReader = null;
-
-        try {
-            inputStreamReader = new InputStreamReader(inputStream, UTF_8);
-            bufferedReader = new BufferedReader(inputStreamReader);
-
-            final StringBuilder result = new StringBuilder();
-
-            String line;
-
-            while ((line = bufferedReader.readLine()) != null) {
-                result.append(line);
-            }
-
-            return result.toString();
-        } finally {
-            close(bufferedReader);
-            close(inputStreamReader);
-            close(inputStream);
         }
     }
 

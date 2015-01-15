@@ -8,7 +8,7 @@ import static nmd.orb.util.Assert.assertNotNull;
  */
 public class ServiceException extends Exception {
 
-    private final ServiceError error;
+    protected final ServiceError error;
 
     public ServiceException(final ServiceError error, final Throwable cause) {
         super(cause);

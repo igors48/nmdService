@@ -131,6 +131,72 @@ public class ServiceError {
                 "Invalid pagination parameters. Check them.");
     }
 
+    public static ServiceError instagramNoMeta() {
+        return new ServiceError(ErrorCode.INSTAGRAM_NO_META,
+                "Instagram response does not contain meta",
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramWrongStatusCode() {
+        return new ServiceError(ErrorCode.INSTAGRAM_WRONG_STATUS_CODE,
+                "Instagram response contain wrong status code",
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramNoUsers() {
+        return new ServiceError(ErrorCode.INSTAGRAM_NO_USERS,
+                "Instagram response does not contain users",
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramUserNotFound(final String userName) {
+        return new ServiceError(ErrorCode.INSTAGRAM_USER_NOT_FOUND,
+                format("Instagram user [ %s ] not found", userName),
+                "Check user name");
+    }
+
+    public static ServiceError instagramBadDataLink(final String link) {
+        return new ServiceError(ErrorCode.INSTAGRAM_BAD_DATA_LINK,
+                format("Bad data link [ %s ]", link),
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramBadDataType(final String type) {
+        return new ServiceError(ErrorCode.INSTAGRAM_BAD_DATA_TYPE,
+                format("Bad data type [ %s ]", type),
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramNoImages() {
+        return new ServiceError(ErrorCode.INSTAGRAM_NO_IMAGES,
+                "No images found",
+                "Try to repeat request later");
+    }
+
+    public static ServiceError instagramNoData() {
+        return new ServiceError(ErrorCode.INSTAGRAM_NO_DATA,
+                "No data found",
+                "Try to repeat request later");
+    }
+
+    public static ServiceError invalidImportFile() {
+        return new ServiceError(ErrorCode.INVALID_IMPORT_FILE,
+                "Invalid import file",
+                "Check import file and try again");
+    }
+
+    public static ServiceError importJobStartedAlready() {
+        return new ServiceError(ErrorCode.FEED_IMPORT_JOB_STARTED_ALREADY,
+                "Import job started already",
+                "Stop current job and try again");
+    }
+
+    public static ServiceError importJobInvalidAction() {
+        return new ServiceError(ErrorCode.FEED_IMPORT_JOB_INVALID_ACTION,
+                "Import job invalid action",
+                "Check action name and try again");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

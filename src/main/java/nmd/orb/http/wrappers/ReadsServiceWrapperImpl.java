@@ -7,6 +7,7 @@ import nmd.orb.http.responses.FeedItemsReportResponse;
 import nmd.orb.http.responses.FeedReadReportsResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.ReadsService;
+import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
@@ -70,18 +71,18 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
     }
 
     @Override
-    public ResponseBody markAllItemsAsRead(final UUID feedId) {
+    public ResponseBody markAllItemsAsRead(final UUID feedId, long topItemTimestamp) {
 
         try {
-            this.readsService.markAllItemsAsRead(feedId);
+            this.readsService.markAllItemsAsRead(feedId, topItemTimestamp);
 
-            final String message = format("All feed [ %s ] items marked as read", feedId);
+            final String message = format("All feed [ %s ] items younger then [ %d ] marked as read", feedId, topItemTimestamp);
 
             LOGGER.info(message);
 
             return createJsonResponse(create(message));
         } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error mark feed [ %s ] items as read", feedId), exception);
+            LOGGER.log(Level.SEVERE, format("Error mark feed [ %s ] items younger then [ %d ] as read", feedId, topItemTimestamp), exception);
 
             return createErrorJsonResponse(exception);
         }
@@ -106,10 +107,10 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
     }
 
     @Override
-    public ResponseBody getFeedItemsReport(final UUID feedId) {
+    public ResponseBody getFeedItemsReport(final UUID feedId, FeedItemReportFilter filter) {
 
         try {
-            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId);
+            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, filter);
             FeedItemsReportResponse response = convert(report);
 
             LOGGER.info(format("Feed [ %s ] items report created", feedId));
@@ -124,6 +125,7 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
 
     @Override
     public ResponseBody getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) {
+
         try {
             FeedItemsCardsReport report = this.readsService.getFeedItemsCardsReport(feedId, offset, size);
             FeedItemsCardsReportResponse response = FeedItemsCardsReportResponse.convert(report);

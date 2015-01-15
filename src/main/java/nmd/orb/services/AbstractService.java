@@ -8,6 +8,12 @@ import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
+import nmd.orb.sources.Source;
+import nmd.orb.sources.instagram.InstagramClient;
+import nmd.orb.sources.instagram.InstagramClientTools;
+import nmd.orb.sources.instagram.entities.ContentEnvelope;
+import nmd.orb.sources.instagram.entities.User;
+import nmd.orb.sources.instagram.entities.UserEnvelope;
 import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
@@ -23,7 +29,6 @@ import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.sources.rss.FeedParser.parse;
 import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;
 import static nmd.orb.sources.twitter.TwitterClientTools.getTwitterUserName;
-import static nmd.orb.sources.twitter.TwitterClientTools.isItTwitterUrl;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CharsetTools.detectCharset;
 import static nmd.orb.util.Parameter.notNull;
@@ -68,9 +73,16 @@ public class AbstractService {
     protected Feed fetchFeed(final String feedUrl) throws ServiceException {
 
         try {
-            final boolean isItTwitterUrl = isItTwitterUrl(feedUrl);
+            final Source source = Source.detect(feedUrl);
 
-            return isItTwitterUrl ? fetchAsTwitterUrl(feedUrl) : fetchAsRssUrl(feedUrl);
+            switch (source) {
+                case TWITTER:
+                    return fetchAsTwitterUrl(feedUrl);
+                case INSTAGRAM:
+                    return fetchAsInstagramUrl(feedUrl);
+                default:
+                    return fetchAsRssUrl(feedUrl);
+            }
         } catch (final UrlFetcherException exception) {
             throw new ServiceException(urlFetcherError(feedUrl), exception);
         } catch (FeedParserException exception) {
@@ -102,6 +114,20 @@ public class AbstractService {
             return feed;
         } catch (IOException exception) {
             throw new ServiceException(urlFetcherError(twitterUrl), exception);
+        }
+    }
+
+    private Feed fetchAsInstagramUrl(final String instagramUrl) throws ServiceException {
+
+        try {
+            final String userName = InstagramClientTools.getInstagramUserName(instagramUrl);
+            final UserEnvelope userEnvelope = InstagramClient.searchUsers(userName, InstagramClient.CLIENT_ID);
+            final User user = InstagramClientTools.findUser(userName, userEnvelope);
+            final ContentEnvelope recentMedia = InstagramClient.fetchRecentMedia(user.id, InstagramClient.CLIENT_ID);
+
+            return InstagramClientTools.convert(instagramUrl, user, recentMedia, new Date());
+        } catch (IOException exception) {
+            throw new ServiceException(urlFetcherError(instagramUrl), exception);
         }
     }
 

@@ -47,7 +47,7 @@
 
     <servlet>
         <servlet-name>exports</servlet-name>
-        <servlet-class>nmd.orb.http.servlets.ExportsServlet</servlet-class>
+        <servlet-class>nmd.orb.http.servlets.ExportRssServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
@@ -56,13 +56,43 @@
     </servlet-mapping>
 
     <servlet>
-        <servlet-name>clear</servlet-name>
-        <servlet-class>nmd.orb.http.servlets.ClearServlet</servlet-class>
+        <servlet-name>reset</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.ResetServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
-        <servlet-name>clear</servlet-name>
-        <url-pattern>/@security.key@/v01/clear</url-pattern>
+        <servlet-name>reset</servlet-name>
+        <url-pattern>/@security.key@/v01/reset</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>export</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.ExportServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>export</servlet-name>
+        <url-pattern>/@security.key@/v01/export</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>importer</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.ImportServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>importer</servlet-name>
+        <url-pattern>/@security.key@/v01/import/*</url-pattern>
+    </servlet-mapping>
+
+    <servlet>
+        <servlet-name>cron</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.CronServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>cron</servlet-name>
+        <url-pattern>/@security.key@/v01/cron</url-pattern>
     </servlet-mapping>
 
     <welcome-file-list>

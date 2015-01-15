@@ -1,7 +1,7 @@
 package nmd.orb.util;
 
 
-import org.apache.commons.validator.routines.UrlValidator;
+import nmd.orb.util.apache.UrlValidator;
 
 import java.util.regex.Pattern;
 

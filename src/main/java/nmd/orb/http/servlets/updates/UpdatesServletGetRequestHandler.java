@@ -30,7 +30,6 @@ public class UpdatesServletGetRequestHandler implements Handler {
         this.updatesService = updatesService;
     }
 
-    // GET -- update current feed
     // GET /{feedId} -- update feed
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
@@ -39,7 +38,7 @@ public class UpdatesServletGetRequestHandler implements Handler {
         guard(notNull(body));
 
         if (elements.isEmpty()) {
-            return this.updatesService.updateCurrentFeeds();
+            return createErrorJsonResponse(invalidFeedId(null));
         }
 
         final String pathInfo = elements.get(0);

@@ -18,6 +18,26 @@ public class CategoryPayload {
         // empty
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CategoryPayload that = (CategoryPayload) o;
+
+        if (!id.equals(that.id)) return false;
+        if (!name.equals(that.name)) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + id.hashCode();
+        return result;
+    }
+
     public static CategoryPayload create(final Category category) {
         guard(notNull(category));
 

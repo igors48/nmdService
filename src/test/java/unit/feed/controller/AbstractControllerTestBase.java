@@ -6,10 +6,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
-import nmd.orb.services.CategoriesService;
-import nmd.orb.services.FeedsService;
-import nmd.orb.services.ReadsService;
-import nmd.orb.services.UpdatesService;
+import nmd.orb.services.*;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedReadReport;
 import org.junit.After;
@@ -34,10 +31,31 @@ public abstract class AbstractControllerTestBase {
 
     private static final FeedHeader FEED_HEADER = new FeedHeader(UUID.randomUUID(), VALID_FIRST_RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, FEED_LINK);
 
-    protected static final String VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
+    protected static final String FIRST_VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
             "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
             "   <channel>\n" +
-            "\t  <title>3DNews - Daily Digital Digest: Новости Hardware</title>\n" +
+            "\t  <title>atitle</title>\n" +
+            "\t  <link>http://www.3dnews.ru/</link>\n" +
+            "\t  <description>Новости Hardware на 3DNews</description>\n" +
+            "\t<item>\n" +
+            "\t\t<title>Смартфон LG Optimus F5 выходит во Франции 29 апреля, после чего появится и на других рынках</title>\n" +
+            "\t\t<link>http://www.3dnews.ru/news/644791/</link>\n" +
+            "\t\t<description><![CDATA[<img align=\"left\" hspace=\"15\" vspace=\"10\" src=\"http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg\" border=\"0\" height=\"85\" width=\"120\"/>Аппараты LG серии F рассчитаны на более массовый рынок, чем флагманы вроде HTC One или Samsung Galaxy S4, но это не мешает корейской компании обеспечить их хорошими характеристиками и поддержкой сетей LTE. Смартфон LG Optimus F5 был представлен вместе с...]]></description>\n" +
+            "\t\t<pubDate>Sun, 28 Apr 2013 18:26:00 +0400</pubDate>\n" +
+            "\t</item>\n" +
+            "\t<item>\n" +
+            "\t\t<title>Google Glass уже взломали</title>\n" +
+            "\t\t<link>http://www.3dnews.ru/news/644778/</link>\n" +
+            "\t\t<description><![CDATA[<img align=\"left\" hspace=\"15\" vspace=\"10\" src=\"http://www.3dnews.ru/images/rss_icons/rss_hardware_blue2.jpg\" border=\"0\" height=\"85\" width=\"120\"/>ChromeOS-разработчик и хакер Лиам МакЛафлин (Liam McLoughlin) рассказал в своем Twitter, что не только понял, как получить root-доступ к Google Glass, но также сообщил, что сделать это очень просто.Так как Google Glass работает на операционной системе Android, это дает независимым...]]></description>\n" +
+            "\t\t<pubDate>Sat, 27 Apr 2013 18:26:00 +0400</pubDate>\n" +
+            "\t</item>\n" +
+            "    </channel>\n" +
+            "</rss>    ";
+
+    protected static final String SECOND_VALID_RSS_FEED = "<?xml version=\"1.0\"?>\n" +
+            "<rss version=\"2.0\" xmlns:atom=\"http://www.w3.org/2005/Atom\">\n" +
+            "   <channel>\n" +
+            "\t  <title>btitle</title>\n" +
             "\t  <link>http://www.3dnews.ru/</link>\n" +
             "\t  <description>Новости Hardware на 3DNews</description>\n" +
             "\t<item>\n" +
@@ -80,11 +98,15 @@ public abstract class AbstractControllerTestBase {
     protected ReadFeedItemsRepositoryStub readFeedItemsRepositoryStub;
     protected FeedUpdateTaskSchedulerContextRepositoryStub feedUpdateTaskSchedulerContextRepositoryStub;
     protected CategoriesRepositoryStub categoriesRepositoryStub;
+    protected ImportJobContextRepositoryStub importJobContextRepositoryStub;
 
     protected FeedsService feedsService;
     protected UpdatesService updatesService;
     protected ReadsService readsService;
     protected CategoriesService categoriesService;
+    protected ResetService resetService;
+    protected ImportService importService;
+    protected CronService cronService;
 
     private TransactionsStub transactionsStub;
 
@@ -99,13 +121,17 @@ public abstract class AbstractControllerTestBase {
         this.readFeedItemsRepositoryStub = new ReadFeedItemsRepositoryStub();
         this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
         this.categoriesRepositoryStub = new CategoriesRepositoryStub();
+        this.importJobContextRepositoryStub = new ImportJobContextRepositoryStub();
 
         this.feedUpdateTaskSchedulerStub = new CycleFeedUpdateTaskScheduler(this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.transactionsStub);
 
-        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.fetcherStub, this.transactionsStub);
+        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.fetcherStub, this.transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, this.transactionsStub);
         this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.transactionsStub);
+        this.importService = new ImportService(this.importJobContextRepositoryStub, this.categoriesService, this.feedsService, this.transactionsStub);
+        this.resetService = new ResetService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.transactionsStub);
+        this.cronService = new CronService(this.updatesService, this.importService);
     }
 
     @After
@@ -114,9 +140,15 @@ public abstract class AbstractControllerTestBase {
     }
 
     protected UUID addValidFirstRssFeed(final String categoryId) throws ServiceException {
-        this.fetcherStub.setData(VALID_RSS_FEED);
+        this.fetcherStub.setData(FIRST_VALID_RSS_FEED);
 
         return this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, categoryId);
+    }
+
+    protected void addValidFirstRssFeed(final String feedTitle, final String categoryId) throws ServiceException {
+        this.fetcherStub.setData(FIRST_VALID_RSS_FEED);
+
+        this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, feedTitle, categoryId);
     }
 
     protected UUID addValidFirstRssFeedToMainCategory() throws ServiceException {
@@ -124,7 +156,7 @@ public abstract class AbstractControllerTestBase {
     }
 
     protected UUID addValidSecondRssFeed(final String categoryId) throws ServiceException {
-        this.fetcherStub.setData(VALID_RSS_FEED);
+        this.fetcherStub.setData(SECOND_VALID_RSS_FEED);
 
         return this.feedsService.addFeed(VALID_SECOND_RSS_FEED_LINK, categoryId);
     }

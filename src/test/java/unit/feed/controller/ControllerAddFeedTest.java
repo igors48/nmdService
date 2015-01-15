@@ -1,8 +1,10 @@
 package unit.feed.controller;
 
 import nmd.orb.error.ServiceException;
+import nmd.orb.feed.FeedHeader;
 import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
+import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
 
 import java.util.List;
@@ -11,12 +13,15 @@ import java.util.UUID;
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
 import static nmd.orb.util.Assert.assertNotNull;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 25.05.13
  */
 public class ControllerAddFeedTest extends AbstractControllerTestBase {
+
+    public static final String FEED_TITLE = "feedTitle";
 
     @Test
     public void whenFeedFetchedOkAndParsedOkItAdds() throws ServiceException {
@@ -35,7 +40,7 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedWithSameLinkButInDifferentCaseAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
-        this.fetcherStub.setData(VALID_RSS_FEED);
+        this.fetcherStub.setData(FIRST_VALID_RSS_FEED);
 
         final UUID firstId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase(), MAIN_CATEGORY_ID);
         final UUID secondId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, MAIN_CATEGORY_ID);
@@ -45,7 +50,7 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedWithSameLinkButWithSlashAtTheEndAddedSecondTimeThenPreviousIdReturns() throws ServiceException {
-        this.fetcherStub.setData(VALID_RSS_FEED);
+        this.fetcherStub.setData(FIRST_VALID_RSS_FEED);
 
         final UUID firstId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK.toUpperCase(), MAIN_CATEGORY_ID);
         final UUID secondId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK + "/", MAIN_CATEGORY_ID);
@@ -103,6 +108,38 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
     @Test(expected = ServiceException.class)
     public void whenFeedIsAddedToNotExistentCategoryThenExceptionWillBeThrown() throws ServiceException {
         addValidFirstRssFeed(UUID.randomUUID().toString());
+    }
+
+    @Test
+    public void whenFeedCreatedThenCategoryAndTitleSetCorrectly() throws ServiceException {
+        final Category category = this.categoriesService.addCategory("new");
+        addValidFirstRssFeed(FEED_TITLE, category.uuid);
+
+        final List<CategoryReport> categoryReports = this.categoriesService.getCategoriesReport();
+        final CategoryReport categoryReport = findForCategory(category.uuid, categoryReports);
+        final FeedReadReport feedReadReport = categoryReport.feedReadReports.get(0);
+
+        assertEquals(FEED_TITLE, feedReadReport.feedTitle);
+    }
+
+    @Test
+    public void whenFeedAddedWithoutTitleThenOriginalTitleIsUsed() throws ServiceException {
+        this.fetcherStub.setData(FIRST_VALID_RSS_FEED);
+
+        final UUID feedId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, "", MAIN_CATEGORY_ID);
+        final FeedHeader feedHeader = this.feedHeadersRepositoryStub.loadHeader(feedId);
+
+        assertFalse(feedHeader.title.isEmpty());
+    }
+
+    @Test
+    public void whenFeedAddedWithTitleThenThisTitleIsUsed() throws ServiceException {
+        this.fetcherStub.setData(FIRST_VALID_RSS_FEED);
+
+        final UUID feedId = this.feedsService.addFeed(VALID_FIRST_RSS_FEED_LINK, "name", MAIN_CATEGORY_ID);
+        final FeedHeader feedHeader = this.feedHeadersRepositoryStub.loadHeader(feedId);
+
+        assertEquals("name", feedHeader.title);
     }
 
 }

@@ -1,5 +1,6 @@
 package unit.feed.parser;
 
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedItem;
 import org.junit.Test;
 
@@ -92,6 +93,26 @@ public class FeedItemBuilderTest {
 
         assertEquals(DATE, feedItem.date);
         assertTrue(feedItem.dateReal);
+    }
+
+    @Test
+    public void whenDateFromFarPastThenCurrentIsUsedInstead() throws ServiceException {
+        final Date farPast = new Date(CURRENT_DATE.getTime() - FeedItem.FIFTY_YEARS - FeedItem.TWENTY_FOUR_HOURS);
+
+        final FeedItem feedItem = build(LINK, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, farPast, CURRENT_DATE, GUID);
+
+        assertEquals(CURRENT_DATE, feedItem.date);
+        assertFalse(feedItem.dateReal);
+    }
+
+    @Test
+    public void whenDateFromFarFutureThenCurrentIsUsedInstead() throws ServiceException {
+        final Date farFuture = new Date(CURRENT_DATE.getTime() + FeedItem.FIFTY_YEARS);
+
+        final FeedItem feedItem = build(LINK, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, farFuture, CURRENT_DATE, GUID);
+
+        assertEquals(CURRENT_DATE, feedItem.date);
+        assertFalse(feedItem.dateReal);
     }
 
     @Test

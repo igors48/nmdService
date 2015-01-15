@@ -6,10 +6,12 @@ import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.CategoriesReportResponse;
 import nmd.orb.http.responses.CategoryReportResponse;
 import nmd.orb.http.responses.CategoryResponse;
+import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.reader.Category;
 import nmd.orb.services.CategoriesService;
 import nmd.orb.services.report.CategoryReport;
+import nmd.orb.services.report.ExportReport;
 
 import java.util.List;
 import java.util.UUID;
@@ -18,8 +20,7 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.orb.http.responses.SuccessMessageResponse.create;
-import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
-import static nmd.orb.http.tools.ResponseBody.createJsonResponse;
+import static nmd.orb.http.tools.ResponseBody.*;
 import static nmd.orb.reader.Category.isValidCategoryId;
 import static nmd.orb.reader.Category.isValidCategoryName;
 import static nmd.orb.util.Assert.guard;
@@ -133,6 +134,16 @@ public class CategoriesServiceWrapperImpl implements CategoriesServiceWrapper {
 
             return createErrorJsonResponse(exception);
         }
+    }
+
+    @Override
+    public ResponseBody createExportReport() {
+        final ExportReport report = this.categoriesService.createExportReport();
+        final ExportReportResponse response = ExportReportResponse.create(report);
+
+        LOGGER.info("Export report was created");
+
+        return createJsonFileResponse(response, "export.json");
     }
 
 }

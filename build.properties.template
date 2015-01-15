@@ -6,4 +6,6 @@ security.key=secure
 twitter.apiKey=
 twitter.apiSecret=
 
+instagram.clientId=
+
 git.executable=

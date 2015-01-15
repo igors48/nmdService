@@ -14,6 +14,8 @@ public class FeedItem implements Serializable {
 
     public static final int MAX_TITLE_LENGTH = 255;
     public static final int MAX_DESCRIPTION_LENGTH = 1024;
+    public static final long TWENTY_FOUR_HOURS = 86400000L;
+    public static final long FIFTY_YEARS = 1577846298735L;
 
     private static final int ONE_SECOND = 1000;
 
@@ -120,6 +122,19 @@ public class FeedItem implements Serializable {
 
     public static boolean isValidFeedItemGuid(final String value) {
         return isValidString(value);
+    }
+
+    public static boolean isDateReal(final Date date, final Date current) {
+        guard(notNull(current));
+
+        if (date == null) {
+            return false;
+        }
+
+        final boolean dateFromFarPast = (current.getTime() - date.getTime()) > FIFTY_YEARS;
+        final boolean dateFromFarFuture = (date.getTime() - current.getTime()) > TWENTY_FOUR_HOURS;
+
+        return !(dateFromFarPast || dateFromFarFuture);
     }
 
 }

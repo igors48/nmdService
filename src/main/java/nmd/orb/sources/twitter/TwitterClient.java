@@ -6,8 +6,9 @@ import nmd.orb.sources.twitter.entities.Tweet;
 import java.io.IOException;
 import java.util.List;
 
-import static nmd.orb.util.Assert.assertPositive;
-import static nmd.orb.util.Assert.assertStringIsValid;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.isPositive;
+import static nmd.orb.util.Parameter.isValidString;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -19,16 +20,16 @@ public class TwitterClient {
     private final String apiSecret;
 
     public TwitterClient(final String apiKey, final String apiSecret) {
-        assertStringIsValid(apiKey);
+        guard(isValidString(apiKey));
         this.apiKey = apiKey;
 
-        assertStringIsValid(apiSecret);
+        guard(isValidString(apiSecret));
         this.apiSecret = apiSecret;
     }
 
     public List<Tweet> fetchTweets(final String screenName, final int count) throws IOException {
-        assertStringIsValid(screenName);
-        assertPositive(count);
+        guard(isValidString(screenName));
+        guard(isPositive(count));
 
         final AccessToken accessToken = TwitterClientTools.getAccessToken(this.apiKey, this.apiSecret);
 

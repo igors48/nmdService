@@ -11,8 +11,12 @@ import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 import nmd.orb.repositories.Transactions;
-import nmd.orb.services.report.*;
-import nmd.orb.sources.twitter.TwitterClientTools;
+import nmd.orb.services.filter.FeedItemReportFilter;
+import nmd.orb.services.report.FeedItemReport;
+import nmd.orb.services.report.FeedItemsCardsReport;
+import nmd.orb.services.report.FeedItemsReport;
+import nmd.orb.services.report.FeedReadReport;
+import nmd.orb.sources.Source;
 import nmd.orb.util.Page;
 
 import java.util.*;
@@ -72,7 +76,7 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public FeedItemsReport getFeedItemsReport(final UUID feedId) throws ServiceException {
+    public FeedItemsReport getFeedItemsReport(final UUID feedId, final FeedItemReportFilter filter) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
 
         Transaction transaction = null;
@@ -87,16 +91,24 @@ public class ReadsService extends AbstractService {
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
 
+            final FeedItem topItem = feedItems.isEmpty() ? null : feedItems.get(0);
+            final Date topItemDate = topItem == null ? new Date() : topItem.date;
+
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
             int read = 0;
             int notRead = 0;
             int readLater = 0;
+            int addedSinceLastView = 0;
 
             for (final FeedItem feedItem : feedItems) {
                 final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
 
-                feedItemReports.add(feedItemReport);
+                final boolean acceptable = filter.acceptable(feedItemReport);
+
+                if (acceptable) {
+                    feedItemReports.add(feedItemReport);
+                }
 
                 if (feedItemReport.read) {
                     ++read;
@@ -107,11 +119,15 @@ public class ReadsService extends AbstractService {
                 if (feedItemReport.readLater) {
                     ++readLater;
                 }
+
+                if (feedItemReport.addedSinceLastView) {
+                    ++addedSinceLastView;
+                }
             }
 
             transaction.commit();
 
-            return new FeedItemsReport(header.id, header.title, read, notRead, readLater, feedItemReports, readFeedItems.lastUpdate);
+            return new FeedItemsReport(header.id, header.title, header.feedLink, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate, topItemDate);
         } finally {
             rollbackIfActive(transaction);
         }
@@ -231,8 +247,9 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public void markAllItemsAsRead(final UUID feedId) throws ServiceException {
+    public void markAllItemsAsRead(final UUID feedId, long topItemTimestamp) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
+        guard(isPositive(topItemTimestamp));
 
         Transaction transaction = null;
 
@@ -246,13 +263,15 @@ public class ReadsService extends AbstractService {
 
             final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
             final FeedItem youngest = findYoungest(items);
-            final Set<String> storedGuids = getStoredGuids(items);
+            final Set<String> storedGuids = getStoredGuids(items, topItemTimestamp);
             readGuids.addAll(storedGuids);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
             readLaterGuids.addAll(readFeedItems.readLaterItemIds);
 
-            final Date lastUpdate = youngest == null ? new Date() : youngest.date;
+            final Date youngestDate = youngest == null ? new Date() : youngest.date;
+            final Date lastUpdate = topItemTimestamp == 0 ? youngestDate : new Date(topItemTimestamp);
+
             final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, readGuids, readLaterGuids, readFeedItems.categoryId);
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
@@ -286,7 +305,7 @@ public class ReadsService extends AbstractService {
 
         final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
 
-        final FeedType feedType = TwitterClientTools.isItTwitterUrl(header.feedLink) ? FeedType.TWITTER : FeedType.RSS;
+        final Source feedType = Source.detect(header.feedLink);
 
         return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate);
     }
@@ -362,10 +381,21 @@ public class ReadsService extends AbstractService {
     }
 
     private static Set<String> getStoredGuids(final List<FeedItem> items) {
+        return getStoredGuids(items, 0);
+    }
+
+    private static Set<String> getStoredGuids(final List<FeedItem> items, final long beforeTimestamp) {
+        final boolean filtered = beforeTimestamp != 0;
+        final Date beforeDate = new Date(beforeTimestamp);
+
         final Set<String> storedGuids = new HashSet<>();
 
         for (final FeedItem item : items) {
-            storedGuids.add(item.guid);
+            final boolean canBeAdded = !filtered || (item.date.compareTo(beforeDate) <= 0);
+
+            if (canBeAdded) {
+                storedGuids.add(item.guid);
+            }
         }
 
         return storedGuids;

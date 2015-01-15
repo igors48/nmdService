@@ -5,8 +5,8 @@ import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ErrorResponse;
 
-import static nmd.orb.util.Assert.assertNotNull;
-import static nmd.orb.util.Assert.assertStringIsValid;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -18,19 +18,33 @@ public class ResponseBody {
 
     public final ContentType contentType;
     public final String content;
+    public final String fileName;
 
     public ResponseBody(final ContentType contentType, final String content) {
-        assertNotNull(contentType);
+        this(contentType, content, "");
+    }
+
+    public ResponseBody(final ContentType contentType, final String content, final String fileName) {
+        guard(notNull(contentType));
         this.contentType = contentType;
 
-        assertStringIsValid(content);
+        guard(notNull(content));
         this.content = content;
+
+        guard(notNull(fileName));
+        this.fileName = fileName;
     }
 
     public static ResponseBody createJsonResponse(final Object object) {
         final String content = GSON.toJson(object);
 
         return new ResponseBody(ContentType.JSON, content);
+    }
+
+    public static ResponseBody createJsonFileResponse(final Object object, final String fileName) {
+        final String content = GSON.toJson(object);
+
+        return new ResponseBody(ContentType.JSON, content, fileName);
     }
 
     public static ResponseBody createErrorJsonResponse(final ServiceException exception) {

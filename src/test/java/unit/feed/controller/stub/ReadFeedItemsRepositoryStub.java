@@ -16,7 +16,7 @@ public class ReadFeedItemsRepositoryStub implements ReadFeedItemsRepository {
     private final Map<UUID, ReadFeedItems> readFeeds;
 
     public ReadFeedItemsRepositoryStub() {
-        this.readFeeds = new HashMap<>();
+        this.readFeeds = new LinkedHashMap<>();
     }
 
     @Override

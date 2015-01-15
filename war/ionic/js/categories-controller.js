@@ -23,6 +23,10 @@ controllers.controller('categoriesController',
             $state.go('edit-category', { id : categoryId });
         };
 
+        $scope.openAdminConsole = function () {
+            $state.go('admin-console');
+        };
+
         var loadCategoriesReport = function () {
             $ionicLoading.show({
                 template: 'Loading categories...'
@@ -42,6 +46,7 @@ controllers.controller('categoriesController',
 
             $scope.showUi = true;
             $scope.categories = response.reports;
+            $scope.version = response.version;
         };
 
         var onServerFault = function () {

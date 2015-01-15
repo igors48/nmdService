@@ -1,6 +1,7 @@
 package nmd.orb.http.responses;
 
 import nmd.orb.http.responses.payload.CategoryReportPayload;
+import nmd.orb.http.responses.payload.VersionInfoPayload;
 import nmd.orb.services.report.CategoryReport;
 
 import java.util.ArrayList;
@@ -15,6 +16,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class CategoriesReportResponse extends SuccessResponse {
 
+    public VersionInfoPayload version;
     public List<CategoryReportPayload> reports;
 
     private CategoriesReportResponse() {
@@ -33,6 +35,7 @@ public class CategoriesReportResponse extends SuccessResponse {
 
         final CategoriesReportResponse categoriesReportResponse = new CategoriesReportResponse();
 
+        categoriesReportResponse.version = VersionInfoPayload.create();
         categoriesReportResponse.reports = categoryReportPayloads;
 
         return categoriesReportResponse;

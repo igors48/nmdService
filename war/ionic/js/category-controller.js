@@ -15,12 +15,13 @@ controllers.controller('categoryController',
             $state.go('add-feed', { id: $stateParams.id });
         };
 
-        $scope.openFeed = function (feedId) {
+        $scope.openFeed = function (feedId, filter) {
             $rootScope.lastFeedId = feedId;
 
             $state.go('feed', { 
                 categoryId: $stateParams.id, 
-                feedId: feedId 
+                feedId: feedId,
+                filter: filter
             });
         };
 

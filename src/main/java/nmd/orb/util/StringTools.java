@@ -17,4 +17,16 @@ public final class StringTools {
         return string.length() > size ? string.substring(0, size) : string;
     }
 
+    public static String trim(final String string) {
+        return string == null ? "" : string.trim();
+    }
+
+    public static String trimOrUse(final String string, final String substitute) {
+        guard(notNull(substitute));
+
+        final String trimmed = trim(string);
+
+        return trimmed.isEmpty() ? substitute : trimmed;
+    }
+
 }

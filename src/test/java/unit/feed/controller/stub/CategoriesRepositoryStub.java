@@ -3,8 +3,8 @@ package unit.feed.controller.stub;
 import nmd.orb.reader.Category;
 import nmd.orb.repositories.CategoriesRepository;
 
-import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Set;
 
@@ -17,7 +17,7 @@ public class CategoriesRepositoryStub implements CategoriesRepository {
     private final Map<String, Category> categories;
 
     public CategoriesRepositoryStub() {
-        this.categories = new HashMap<>();
+        this.categories = new LinkedHashMap<>();
     }
 
     @Override

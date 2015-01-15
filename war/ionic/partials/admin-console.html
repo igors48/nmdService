@@ -1,0 +1,23 @@
+<ion-header-bar align-title="left" class="bar-dark">
+    <div class="buttons">
+        <button class="button button-clear ion-android-arrow-back" ng-click="backToCategories()"></button>
+    </div>
+    <h1 class="title" ng-cloak ng-show="showUi">Admin console</h1>
+</ion-header-bar>
+
+<ion-content scroll="false" ng-cloak ng-show="showUi">
+
+    <div class="list list-inset">
+        <div>
+            <a class="block-link" href="/@security.key@/v01/export">
+                <button class="button button-block button-balanced">Export</button>
+            </a>
+
+            <button class="button button-block button-balanced" ng-click="onImport()">Import</button>
+
+            <button class="button button-block button-assertive" ng-click="onReset()">Reset</button>
+        </div>
+    </div>
+
+</ion-content>
+

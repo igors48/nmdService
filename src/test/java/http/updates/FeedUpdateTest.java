@@ -3,7 +3,6 @@ package http.updates;
 import http.AbstractHttpTest;
 import nmd.orb.http.responses.FeedIdResponse;
 import nmd.orb.http.responses.FeedMergeReportResponse;
-import nmd.orb.http.responses.FeedSeriesUpdateResponse;
 import org.junit.Test;
 
 import static java.util.UUID.randomUUID;
@@ -16,16 +15,6 @@ import static org.junit.Assert.assertEquals;
  * Date : 01.12.13
  */
 public class FeedUpdateTest extends AbstractHttpTest {
-
-    @Test
-    public void whenCurrentFeedExistsThenItUpdatesAndReportReturns() {
-        addFirstFeed();
-
-        final FeedSeriesUpdateResponse report = updateCurrentFeedWithReport();
-
-        assertEquals(0, report.errors.size());
-        assertEquals(1, report.updates.size());
-    }
 
     @Test
     public void whenFeedIdExistsThenFeedUpdatesAndReportReturns() {
@@ -48,6 +37,13 @@ public class FeedUpdateTest extends AbstractHttpTest {
     @Test
     public void whenFeedIdCanNotBeParsedThenErrorReturns() {
         final String response = updateFeed("12345678");
+
+        assertErrorResponse(response, INVALID_FEED_ID);
+    }
+
+    @Test
+    public void whenFeedIdIsEmptyThenErrorReturns() {
+        final String response = updateFeed("");
 
         assertErrorResponse(response, INVALID_FEED_ID);
     }

@@ -54,6 +54,52 @@ public class ReadFeedTest extends AbstractHttpTest {
 
         assertEquals(0, feedItemsReportResponse.read);
         assertEquals(0, feedItemsReportResponse.readLater);
+        assertTrue(feedItemsReportResponse.addedSinceLastView > 0);
+        assertTrue(feedItemsReportResponse.notRead > 0);
+    }
+
+    @Test
+    public void whenNotReadFilterSetThenReportReturns() {
+        final FeedIdResponse feedIdResponse = addFirstFeed();
+
+        final FeedItemsReportResponse feedItemsReportResponse = getNotReadFeedItemsFilteredReport(feedIdResponse.feedId.toString());
+
+        assertFalse(feedItemsReportResponse.title.isEmpty());
+        assertFalse(feedItemsReportResponse.reports.isEmpty());
+
+        assertEquals(0, feedItemsReportResponse.read);
+        assertEquals(0, feedItemsReportResponse.readLater);
+        assertTrue(feedItemsReportResponse.addedSinceLastView > 0);
+        assertTrue(feedItemsReportResponse.notRead > 0);
+    }
+
+    @Test
+    public void whenReadLaterFilterSetThenReportReturns() {
+        final FeedIdResponse feedIdResponse = addFirstFeed();
+
+        final FeedItemsReportResponse feedItemsReportResponse = getReadLaterFeedItemsFilteredReport(feedIdResponse.feedId.toString());
+
+        assertFalse(feedItemsReportResponse.title.isEmpty());
+        assertTrue(feedItemsReportResponse.reports.isEmpty());
+
+        assertEquals(0, feedItemsReportResponse.read);
+        assertEquals(0, feedItemsReportResponse.readLater);
+        assertTrue(feedItemsReportResponse.addedSinceLastView > 0);
+        assertTrue(feedItemsReportResponse.notRead > 0);
+    }
+
+    @Test
+    public void whenAddedFilterSetThenReportReturns() {
+        final FeedIdResponse feedIdResponse = addFirstFeed();
+
+        final FeedItemsReportResponse feedItemsReportResponse = getAddedFeedItemsFilteredReport(feedIdResponse.feedId.toString());
+
+        assertFalse(feedItemsReportResponse.title.isEmpty());
+        assertFalse(feedItemsReportResponse.reports.isEmpty());
+
+        assertEquals(0, feedItemsReportResponse.read);
+        assertEquals(0, feedItemsReportResponse.readLater);
+        assertTrue(feedItemsReportResponse.addedSinceLastView > 0);
         assertTrue(feedItemsReportResponse.notRead > 0);
     }
 

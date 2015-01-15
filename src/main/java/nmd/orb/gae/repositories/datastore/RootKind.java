@@ -7,7 +7,8 @@ package nmd.orb.gae.repositories.datastore;
 public enum RootKind {
 
     FEED("Feed"),
-    CATEGORY("Category");
+    CATEGORY("Category"),
+    IMPORT("Import");
 
     public final String value;
 

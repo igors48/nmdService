@@ -53,7 +53,7 @@ orb.config(function($stateProvider, $urlRouterProvider) {
       })
 
       .state('feed', {
-        url: '/feed/{categoryId}/{feedId}',
+        url: '/feed/{categoryId}/{feedId}/{filter}',
         templateUrl: 'partials/feed.html',
         controller: 'feedController'
       })
@@ -62,6 +62,24 @@ orb.config(function($stateProvider, $urlRouterProvider) {
         url: '/feed-card/{categoryId}/{feedId}',
         templateUrl: 'partials/feed-card.html',
         controller: 'feedCardController'
+      })
+
+      .state('admin-console', {
+        url: '/admin-console',
+        templateUrl: 'partials/admin-console.html',
+        controller: 'adminConsoleController'
+      })
+
+      .state('reset-service', {
+        url: '/reset-service',
+        templateUrl: 'partials/reset-service.html',
+        controller: 'resetServiceController'
+      })
+
+      .state('import-feeds', {
+        url: '/import-feeds',
+        templateUrl: 'partials/import-feeds.html',
+        controller: 'importFeedsController'
       })
 
 });

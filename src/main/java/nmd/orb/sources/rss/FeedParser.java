@@ -16,7 +16,7 @@ import java.util.UUID;
 
 import static nmd.orb.feed.FeedHeader.create;
 import static nmd.orb.util.Assert.*;
-import static nmd.orb.util.StringTools.cutTo;
+import static nmd.orb.util.StringTools.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -91,20 +91,10 @@ public final class FeedParser {
 
         final String itemTitle = cutTo(trimOrUse(title, itemLink), FeedItem.MAX_TITLE_LENGTH);
         final String itemDescription = cutTo(trimOrUse(description, alternateDescription), FeedItem.MAX_DESCRIPTION_LENGTH);
-        final boolean itemDateReal = date != null;
+        final boolean itemDateReal = FeedItem.isDateReal(date, currentDate);
         final Date feedDate = itemDateReal ? date : currentDate;
 
         return new FeedItem(itemTitle, itemDescription, itemLink, itemLink, feedDate, itemDateReal, guid);
-    }
-
-    private static String trim(final String string) {
-        return string == null ? "" : string.trim();
-    }
-
-    private static String trimOrUse(final String string, final String substitute) {
-        final String trimmed = trim(string);
-
-        return trimmed.isEmpty() ? substitute : trimmed;
     }
 
     private static FeedHeader build(final String feedUrl, final SyndFeed feed) {

@@ -7,13 +7,12 @@ import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.*;
+import nmd.orb.services.importer.CategoriesServiceAdapter;
 import nmd.orb.services.report.CategoryReport;
+import nmd.orb.services.report.ExportReport;
 import nmd.orb.services.report.FeedReadReport;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
+import java.util.*;
 
 import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
@@ -26,7 +25,10 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
 /**
  * @author : igu
  */
-public class CategoriesService {
+public class CategoriesService implements CategoriesServiceAdapter {
+
+    private static final CategoryNameComparator CATEGORY_NAME_COMPARATOR = new CategoryNameComparator();
+    private static final FeedTitleComparator FEED_TITLE_COMPARATOR = new FeedTitleComparator();
 
     private final CategoriesRepository categoriesRepository;
     private final ReadFeedItemsRepository readFeedItemsRepository;
@@ -52,6 +54,13 @@ public class CategoriesService {
         this.transactions = transactions;
     }
 
+    @Override
+    public String createCategory(final String name) {
+        guard(isValidCategoryName(name));
+
+        return addCategoryOrFindExistent(name).uuid;
+    }
+
     public Category addCategory(final String name) {
         guard(isValidCategoryName(name));
 
@@ -60,24 +69,11 @@ public class CategoriesService {
         try {
             transaction = this.transactions.beginOne();
 
-            final Set<Category> categories = getAllCategoriesWithMain();
-
-            for (final Category category : categories) {
-
-                if (category.name.equalsIgnoreCase(name)) {
-                    transaction.commit();
-
-                    return category;
-                }
-            }
-
-            final Category created = new Category(UUID.randomUUID().toString(), name);
-
-            this.categoriesRepository.store(created);
+            final Category result = addCategoryOrFindExistent(name);
 
             transaction.commit();
 
-            return created;
+            return result;
         } finally {
             rollbackIfActive(transaction);
         }
@@ -121,6 +117,8 @@ public class CategoriesService {
             }
 
             transaction.commit();
+
+            Collections.sort(reports, CATEGORY_NAME_COMPARATOR);
 
             return reports;
         } finally {
@@ -213,6 +211,43 @@ public class CategoriesService {
         }
     }
 
+    public ExportReport createExportReport() {
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final Set<Category> categories = getAllCategoriesWithMain();
+            final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+            final List<ReadFeedItems> readFeedItems = this.readFeedItemsRepository.loadAll();
+
+            transaction.commit();
+
+            return createExportReport(categories, headers, readFeedItems);
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    private Category addCategoryOrFindExistent(final String name) {
+        final Category result;
+
+        final Set<Category> categories = getAllCategoriesWithMain();
+        final Category exists = findByName(name, categories);
+
+        if (exists == null) {
+            final Category created = new Category(UUID.randomUUID().toString(), name);
+
+            this.categoriesRepository.store(created);
+
+            result = created;
+        } else {
+            result = exists;
+        }
+
+        return result;
+    }
+
     private CategoryReport createCategoryReport(final List<ReadFeedItems> readFeedItemsList, final Category category) {
         int read = 0;
         int notRead = 0;
@@ -235,6 +270,8 @@ public class CategoriesService {
                 feedReadReports.add(feedReadReport);
             }
         }
+
+        Collections.sort(feedReadReports, FEED_TITLE_COMPARATOR);
 
         return new CategoryReport(category.uuid, category.name, feedReadReports, read, notRead, readLater);
     }
@@ -283,6 +320,84 @@ public class CategoriesService {
         return header;
     }
 
+    public static ExportReport createExportReport(final Set<Category> categories, final List<FeedHeader> headers, final List<ReadFeedItems> readFeedItems) {
+        guard(notNull(categories));
+        guard(notNull(headers));
+        guard(notNull(readFeedItems));
+
+        final Map<Category, Set<FeedHeader>> report = new HashMap<>();
+
+        for (final Category category : categories) {
+            report.put(category, new HashSet<FeedHeader>());
+        }
+
+        final Set<ReadFeedItems> lostLinks = new HashSet<>();
+
+        for (final ReadFeedItems current : readFeedItems) {
+            final String categoryId = current.categoryId;
+            final UUID feedId = current.feedId;
+
+            final Category category = findById(categoryId, categories);
+            final FeedHeader header = pick(feedId, headers);
+
+            if (category != null && header != null) {
+                Set<FeedHeader> headerSet = report.get(category);
+
+                if (headerSet == null) {
+                    headerSet = new HashSet<>();
+                    report.put(category, headerSet);
+                }
+
+                headerSet.add(header);
+            } else {
+                lostLinks.add(current);
+            }
+        }
+
+        final Set<FeedHeader> lostHeaders = new HashSet<>();
+        lostHeaders.addAll(headers);
+
+        return new ExportReport(report, lostLinks, lostHeaders);
+    }
+
+    private static Category findByName(final String name, final Set<Category> categories) {
+
+        for (final Category category : categories) {
+
+            if (category.name.equalsIgnoreCase(name)) {
+                return category;
+            }
+        }
+
+        return null;
+    }
+
+    private static Category findById(final String id, final Set<Category> categories) {
+
+        for (final Category current : categories) {
+
+            if (current.uuid.equals(id)) {
+                return current;
+            }
+        }
+
+        return null;
+    }
+
+    private static FeedHeader pick(final UUID id, final List<FeedHeader> feedHeaders) {
+
+        for (final FeedHeader current : feedHeaders) {
+
+            if (current.id.equals(id)) {
+                feedHeaders.remove(current);
+
+                return current;
+            }
+        }
+
+        return null;
+    }
+
     private static List<ReadFeedItems> findReadFeedItemsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
         final List<ReadFeedItems> list = new ArrayList<>();
 
@@ -294,6 +409,36 @@ public class CategoriesService {
         }
 
         return list;
+    }
+
+    private static class CategoryNameComparator implements Comparator<CategoryReport> {
+
+        @Override
+        public int compare(final CategoryReport first, final CategoryReport second) {
+            guard(notNull(first));
+            guard(notNull(second));
+
+            final String firstName = first.name;
+            final String secondName = second.name;
+
+            return firstName.compareTo(secondName);
+        }
+
+    }
+
+    private static class FeedTitleComparator implements Comparator<FeedReadReport> {
+
+        @Override
+        public int compare(final FeedReadReport first, final FeedReadReport second) {
+            guard(notNull(first));
+            guard(notNull(second));
+
+            final String firstTitle = first.feedTitle;
+            final String secondTitle = second.feedTitle;
+
+            return firstTitle.compareTo(secondTitle);
+        }
+
     }
 
 }

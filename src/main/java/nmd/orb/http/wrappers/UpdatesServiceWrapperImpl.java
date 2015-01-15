@@ -3,12 +3,8 @@ package nmd.orb.http.wrappers;
 import nmd.orb.error.ServiceException;
 import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedMergeReportResponse;
-import nmd.orb.http.responses.FeedSeriesUpdateResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.UpdatesService;
-import nmd.orb.services.quota.Quota;
-import nmd.orb.services.quota.TimeQuota;
-import nmd.orb.services.report.FeedSeriesUpdateReport;
 import nmd.orb.services.report.FeedUpdateReport;
 
 import java.util.UUID;
@@ -17,7 +13,6 @@ import java.util.logging.Logger;
 
 import static java.lang.String.format;
 import static nmd.orb.http.responses.FeedMergeReportResponse.create;
-import static nmd.orb.http.responses.FeedSeriesUpdateResponse.convert;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ResponseBody.createJsonResponse;
 import static nmd.orb.util.Assert.guard;
@@ -33,22 +28,11 @@ public class UpdatesServiceWrapperImpl implements UpdatesServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapperImpl.class.getName());
 
-    private static final long UPDATE_PERIOD = 9000;
-
     private final UpdatesService updatesService;
 
     public UpdatesServiceWrapperImpl(final UpdatesService updatesService) {
         guard(notNull(updatesService));
         this.updatesService = updatesService;
-    }
-
-    @Override
-    public ResponseBody updateCurrentFeeds() {
-        final Quota quota = new TimeQuota(UPDATE_PERIOD);
-        final FeedSeriesUpdateReport report = this.updatesService.updateCurrentFeeds(quota);
-        final FeedSeriesUpdateResponse response = convert(report);
-
-        return createJsonResponse(response);
     }
 
     @Override

@@ -20,12 +20,14 @@ import static org.junit.Assert.assertTrue;
  */
 public abstract class AbstractHttpTest {
 
-    protected static final String CLEAR_SERVLET_URL = "/secure/v01/clear/";
+    protected static final String RESET_SERVLET_URL = "/secure/v01/reset/";
     protected static final String FEEDS_SERVLET_URL = "/secure/v01/feeds/";
     protected static final String UPDATES_SERVLET_URL = "/secure/v01/updates/";
     protected static final String READS_SERVLET_URL = "/secure/v01/reads/";
     protected static final String EXPORTS_SERVLET_URL = "/v01/feeds/";
     protected static final String CATEGORIES_SERVLET_URL = "/secure/v01/categories/";
+    protected static final String EXPORT_SERVLET_URL = "/secure/v01/export/";
+    protected static final String IMPORT_SERVLET_URL = "/secure/v01/import/";
 
     protected static final String FIRST_FEED_URL = "http://127.0.0.1:8080/feed/feed_win_1251.xml";
     protected static final String FIRST_FEED_TITLE = "Bash.im";
@@ -33,15 +35,16 @@ public abstract class AbstractHttpTest {
     protected static final String INVALID_FEED_URL = "http://127.0.0.1:8080/feed/not_exist.xml";
     protected static final String UNREACHABLE_FEED_URL = "http://127.0.0.1:8081/feed/not_exist.xml";
 
-    private static final Gson GSON = new Gson();
+    protected static final Gson GSON = new Gson();
 
     @After
     public void after() {
-        clearState();
+        resetServer();
     }
 
-    protected static void clearState() {
-        assertServerProcessingTimeHeaderValid(given().body("").post(CLEAR_SERVLET_URL));
+    protected static void resetServer() {
+        final Response response = given().body("").post(RESET_SERVLET_URL);
+        assertSuccessResponse(assertServerProcessingTimeHeaderValid(response).asString());
     }
 
     protected static FeedIdResponse addFirstFeed() {
@@ -138,10 +141,6 @@ public abstract class AbstractHttpTest {
         return GSON.fromJson(assertSuccessResponse(updateFeed(feedId)), FeedMergeReportResponse.class);
     }
 
-    protected static FeedSeriesUpdateResponse updateCurrentFeedWithReport() {
-        return GSON.fromJson(assertSuccessResponse(updateFeed("")), FeedSeriesUpdateResponse.class);
-    }
-
     protected String getReadsReportAsString() {
         return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL)).asString();
     }
@@ -158,12 +157,28 @@ public abstract class AbstractHttpTest {
         return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId)).asString();
     }
 
+    protected String getFeedItemsFilteredReportAsString(final String feedId, final String filterName) {
+        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "?filter=" + filterName)).asString();
+    }
+
     protected FeedReadReportsResponse getReadsReport() {
         return GSON.fromJson(assertSuccessResponse(getReadsReportAsString()), FeedReadReportsResponse.class);
     }
 
     protected FeedItemsReportResponse getFeedItemsReport(final String feedId) {
-        return GSON.fromJson(assertSuccessResponse(getFeedItemsReportAsString(feedId)), FeedItemsReportResponse.class);
+        return GSON.fromJson(assertSuccessResponse(getFeedItemsFilteredReportAsString(feedId, "show-all")), FeedItemsReportResponse.class);
+    }
+
+    protected FeedItemsReportResponse getNotReadFeedItemsFilteredReport(final String feedId) {
+        return GSON.fromJson(assertSuccessResponse(getFeedItemsFilteredReportAsString(feedId, "show-not-read")), FeedItemsReportResponse.class);
+    }
+
+    protected FeedItemsReportResponse getReadLaterFeedItemsFilteredReport(final String feedId) {
+        return GSON.fromJson(assertSuccessResponse(getFeedItemsFilteredReportAsString(feedId, "show-read-later")), FeedItemsReportResponse.class);
+    }
+
+    protected FeedItemsReportResponse getAddedFeedItemsFilteredReport(final String feedId) {
+        return GSON.fromJson(assertSuccessResponse(getFeedItemsFilteredReportAsString(feedId, "show-added")), FeedItemsReportResponse.class);
     }
 
     protected String markItem(final String feedId, String itemId, String markMode) {
@@ -182,6 +197,38 @@ public abstract class AbstractHttpTest {
 
     protected String markItemAsReadLater(final String feedId, String itemId) {
         return markItem(feedId, itemId, "readLater");
+    }
+
+    protected static ExportReportResponse getExportReport() {
+        final String response = assertServerProcessingTimeHeaderValid(given().get(EXPORT_SERVLET_URL)).asString();
+
+        return GSON.fromJson(assertSuccessResponse(response), ExportReportResponse.class);
+    }
+
+    protected static FeedImportReportResponse getFeedImportReport() {
+        final String response = assertServerProcessingTimeHeaderValid(given().get(IMPORT_SERVLET_URL)).asString();
+
+        return GSON.fromJson(assertSuccessResponse(response), FeedImportReportResponse.class);
+    }
+
+    protected static void deleteFeedImportJob() {
+        assertSuccessResponse(assertServerProcessingTimeHeaderValid(given().delete(IMPORT_SERVLET_URL)).asString());
+    }
+
+    protected static String sendFeedImportJobAction(final String action) {
+        return assertServerProcessingTimeHeaderValid(given().put(IMPORT_SERVLET_URL + action)).asString();
+    }
+
+    protected static String scheduleImportJob(final String exportReport) {
+        return assertServerProcessingTimeHeaderValid(given().body(exportReport).post(IMPORT_SERVLET_URL)).asString();
+    }
+
+    protected static void startFeedImportJob() {
+        assertSuccessResponse(sendFeedImportJobAction("start"));
+    }
+
+    protected static void stopFeedImportJob() {
+        assertSuccessResponse(sendFeedImportJobAction("stop"));
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
