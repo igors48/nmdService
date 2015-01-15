@@ -1,7 +1,7 @@
 package http.backup;
 
 import http.AbstractHttpTest;
-import nmd.orb.http.responses.BackupReportResponse;
+import nmd.orb.http.responses.ExportReportResponse;
 import org.junit.Test;
 
 /**
@@ -11,7 +11,7 @@ public class GetBackupTest extends AbstractHttpTest {
 
     @Test
     public void backupReportIsReturned() {
-        final BackupReportResponse report = getBackupReport();
+        final ExportReportResponse report = getBackupReport();
     }
 
 }

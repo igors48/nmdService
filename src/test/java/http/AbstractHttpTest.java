@@ -199,10 +199,10 @@ public abstract class AbstractHttpTest {
         return markItem(feedId, itemId, "readLater");
     }
 
-    protected static BackupReportResponse getBackupReport() {
+    protected static ExportReportResponse getBackupReport() {
         final String response = assertServerProcessingTimeHeaderValid(given().get(BACKUP_SERVLET_URL)).asString();
 
-        return GSON.fromJson(assertSuccessResponse(response), BackupReportResponse.class);
+        return GSON.fromJson(assertSuccessResponse(response), ExportReportResponse.class);
     }
 
     protected static FeedImportReportResponse getFeedImportReport() {

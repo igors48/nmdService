@@ -13,13 +13,13 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * Created by igor on 23.11.2014.
  */
-public class BackupReport {
+public class ExportReport {
 
     public final Map<Category, Set<FeedHeader>> map;
     public final Set<ReadFeedItems> lostLinks;
     public final Set<FeedHeader> lostHeaders;
 
-    public BackupReport(final Map<Category, Set<FeedHeader>> map, final Set<ReadFeedItems> lostLinks, final Set<FeedHeader> lostHeaders) {
+    public ExportReport(final Map<Category, Set<FeedHeader>> map, final Set<ReadFeedItems> lostLinks, final Set<FeedHeader> lostHeaders) {
         guard(notNull(map));
         this.map = map;
 

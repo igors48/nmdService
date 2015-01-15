@@ -1,4 +1,4 @@
-package nmd.orb.http.servlets.backup;
+package nmd.orb.http.servlets.export;
 
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
@@ -14,13 +14,13 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * @author : igu
  */
-public class BackupServletGetRequestHandler implements Handler {
+public class ExportServletGetRequestHandler implements Handler {
 
-    public static final BackupServletGetRequestHandler BACKUP_SERVLET_GET_REQUEST_HANDLER = new BackupServletGetRequestHandler(CategoriesServiceWrapperImpl.CATEGORIES_SERVICE_WRAPPER);
+    public static final ExportServletGetRequestHandler EXPORT_SERVLET_GET_REQUEST_HANDLER = new ExportServletGetRequestHandler(CategoriesServiceWrapperImpl.CATEGORIES_SERVICE_WRAPPER);
 
     private final CategoriesServiceWrapper categoriesService;
 
-    public BackupServletGetRequestHandler(final CategoriesServiceWrapper categoriesService) {
+    public ExportServletGetRequestHandler(final CategoriesServiceWrapper categoriesService) {
         guard(notNull(categoriesService));
         this.categoriesService = categoriesService;
     }

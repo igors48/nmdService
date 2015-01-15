@@ -14,10 +14,10 @@ public class ImportJobContextConversionTest extends PayloadConversionTestBase {
 
     @Test
     public void smoke() throws ServiceException {
-        final ImportJobContext context = ImportJobContext.convert(this.backupReportPayloads, TRIES_COUNT);
+        final ImportJobContext context = ImportJobContext.convert(this.exportReportPayloads, TRIES_COUNT);
 
         assertEquals(ImportJobStatus.STOPPED, context.getStatus());
-        assertEquals(this.backupReportPayloads.size(), context.getContexts().size());
+        assertEquals(this.exportReportPayloads.size(), context.getContexts().size());
     }
 
 }

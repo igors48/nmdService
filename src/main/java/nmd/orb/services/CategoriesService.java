@@ -8,8 +8,8 @@ import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.*;
 import nmd.orb.services.importer.CategoriesServiceAdapter;
-import nmd.orb.services.report.BackupReport;
 import nmd.orb.services.report.CategoryReport;
+import nmd.orb.services.report.ExportReport;
 import nmd.orb.services.report.FeedReadReport;
 
 import java.util.*;
@@ -211,7 +211,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
         }
     }
 
-    public BackupReport createBackupReport() {
+    public ExportReport createBackupReport() {
         Transaction transaction = null;
 
         try {
@@ -320,7 +320,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
         return header;
     }
 
-    public static BackupReport createBackupReport(final Set<Category> categories, final List<FeedHeader> headers, final List<ReadFeedItems> readFeedItems) {
+    public static ExportReport createBackupReport(final Set<Category> categories, final List<FeedHeader> headers, final List<ReadFeedItems> readFeedItems) {
         guard(notNull(categories));
         guard(notNull(headers));
         guard(notNull(readFeedItems));
@@ -357,7 +357,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
         final Set<FeedHeader> lostHeaders = new HashSet<>();
         lostHeaders.addAll(headers);
 
-        return new BackupReport(report, lostLinks, lostHeaders);
+        return new ExportReport(report, lostLinks, lostHeaders);
     }
 
     private static Category findByName(final String name, final Set<Category> categories) {

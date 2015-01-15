@@ -12,12 +12,12 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * Created by igor on 25.11.2014.
  */
-public class BackupReportPayload {
+public class ExportReportPayload {
 
     public CategoryPayload category;
     public Set<FeedHeaderPayload> feeds;
 
-    private BackupReportPayload() {
+    private ExportReportPayload() {
         // empty
     }
 
@@ -26,7 +26,7 @@ public class BackupReportPayload {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        BackupReportPayload payload = (BackupReportPayload) o;
+        ExportReportPayload payload = (ExportReportPayload) o;
 
         if (!category.equals(payload.category)) return false;
         if (!feeds.equals(payload.feeds)) return false;
@@ -41,11 +41,11 @@ public class BackupReportPayload {
         return result;
     }
 
-    public static BackupReportPayload create(Category category, Set<FeedHeader> headers) {
+    public static ExportReportPayload create(Category category, Set<FeedHeader> headers) {
         guard(notNull(category));
         guard(notNull(headers));
 
-        final BackupReportPayload payload = new BackupReportPayload();
+        final ExportReportPayload payload = new ExportReportPayload();
 
         payload.category = CategoryPayload.create(category);
         payload.feeds = new HashSet<>();

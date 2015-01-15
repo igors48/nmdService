@@ -3,15 +3,15 @@ package nmd.orb.http.wrappers;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.gae.GaeServices;
-import nmd.orb.http.responses.BackupReportResponse;
 import nmd.orb.http.responses.CategoriesReportResponse;
 import nmd.orb.http.responses.CategoryReportResponse;
 import nmd.orb.http.responses.CategoryResponse;
+import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.reader.Category;
 import nmd.orb.services.CategoriesService;
-import nmd.orb.services.report.BackupReport;
 import nmd.orb.services.report.CategoryReport;
+import nmd.orb.services.report.ExportReport;
 
 import java.util.List;
 import java.util.UUID;
@@ -138,8 +138,8 @@ public class CategoriesServiceWrapperImpl implements CategoriesServiceWrapper {
 
     @Override
     public ResponseBody createBackupReport() {
-        final BackupReport report = this.categoriesService.createBackupReport();
-        final BackupReportResponse response = BackupReportResponse.create(report);
+        final ExportReport report = this.categoriesService.createBackupReport();
+        final ExportReportResponse response = ExportReportResponse.create(report);
 
         LOGGER.info("Export report was created");
 

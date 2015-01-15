@@ -1,8 +1,8 @@
 package unit.feed.controller.importer;
 
 import nmd.orb.feed.FeedHeader;
-import nmd.orb.http.responses.payload.BackupReportPayload;
 import nmd.orb.http.responses.payload.CategoryPayload;
+import nmd.orb.http.responses.payload.ExportReportPayload;
 import nmd.orb.http.responses.payload.FeedHeaderPayload;
 import nmd.orb.reader.Category;
 import org.junit.Before;
@@ -20,7 +20,7 @@ public class PayloadConversionTestBase {
     protected static final String TITLE = "title";
     protected static final String DESCRIPTION = "description";
 
-    protected List<BackupReportPayload> backupReportPayloads;
+    protected List<ExportReportPayload> exportReportPayloads;
     protected CategoryPayload categoryPayload;
     protected Set<FeedHeaderPayload> feedHeaderPayloads;
     protected FeedHeaderPayload feedHeaderPayload;
@@ -40,9 +40,9 @@ public class PayloadConversionTestBase {
         this.feedHeaders = new HashSet<>();
         this.feedHeaders.add(this.feedHeader);
 
-        this.backupReportPayloads = new ArrayList<>();
-        final BackupReportPayload backupReportPayload = BackupReportPayload.create(this.category, this.feedHeaders);
-        this.backupReportPayloads.add(backupReportPayload);
+        this.exportReportPayloads = new ArrayList<>();
+        final ExportReportPayload exportReportPayload = ExportReportPayload.create(this.category, this.feedHeaders);
+        this.exportReportPayloads.add(exportReportPayload);
     }
 
     private void createFeedHeaderPayloads() {

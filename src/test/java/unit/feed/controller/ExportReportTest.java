@@ -3,7 +3,7 @@ package unit.feed.controller;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
-import nmd.orb.services.report.BackupReport;
+import nmd.orb.services.report.ExportReport;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,7 +16,7 @@ import static org.junit.Assert.assertTrue;
 /**
  * Created by igor on 23.11.2014.
  */
-public class BackupReportTest {
+public class ExportReportTest {
 
     private static final String CATEGORY_01_ID = UUID.randomUUID().toString();
     private static final String CATEGORY_02_ID = UUID.randomUUID().toString();
@@ -64,7 +64,7 @@ public class BackupReportTest {
 
     @Test
     public void smoke() {
-        final BackupReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
+        final ExportReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
 
         assertReportValid(report);
 
@@ -77,7 +77,7 @@ public class BackupReportTest {
         final FeedHeader lost = new FeedHeader(UUID.randomUUID(), HTTP_DOMAIN_COM, HTTP_DOMAIN_COM, HTTP_DOMAIN_COM, HTTP_DOMAIN_COM);
         this.headers.add(lost);
 
-        final BackupReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
+        final ExportReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
 
         assertReportValid(report);
 
@@ -95,7 +95,7 @@ public class BackupReportTest {
         this.readFeedItems.add(lostHeader);
         this.readFeedItems.add(lostCompletely);
 
-        final BackupReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
+        final ExportReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
 
         assertReportValid(report);
 
@@ -106,7 +106,7 @@ public class BackupReportTest {
         assertTrue(report.lostHeaders.isEmpty());
     }
 
-    private void assertReportValid(BackupReport report) {
+    private void assertReportValid(ExportReport report) {
         final Map<Category, Set<FeedHeader>> map = report.map;
         assertEquals(3, map.size());
 

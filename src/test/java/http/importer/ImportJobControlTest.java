@@ -2,11 +2,11 @@ package http.importer;
 
 import http.AbstractHttpTest;
 import nmd.orb.error.ErrorCode;
-import nmd.orb.http.responses.BackupReportResponse;
+import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.http.responses.FeedImportReportResponse;
-import nmd.orb.services.report.BackupReport;
+import nmd.orb.services.report.ExportReport;
 import org.junit.Test;
-import unit.feed.controller.importer.BackupReportResponseConversionTest;
+import unit.feed.controller.importer.ExportReportResponseConversionTest;
 
 /**
  * @author : igu
@@ -49,9 +49,9 @@ public class ImportJobControlTest extends AbstractHttpTest {
 
     @Test
     public void whenImportJobScheduledThenSuccessResponseReturned() throws Exception {
-        final BackupReport backupReport = BackupReportResponseConversionTest.createBackupReport();
-        final BackupReportResponse backupReportResponse = BackupReportResponse.create(backupReport);
-        final String body = GSON.toJson(backupReportResponse);
+        final ExportReport exportReport = ExportReportResponseConversionTest.createBackupReport();
+        final ExportReportResponse exportReportResponse = ExportReportResponse.create(exportReport);
+        final String body = GSON.toJson(exportReportResponse);
 
         assertSuccessResponse(scheduleImportJob(body));
     }
@@ -59,9 +59,9 @@ public class ImportJobControlTest extends AbstractHttpTest {
 
     @Test
     public void whenSecondImportJobScheduledThenErrorResponseReturned() throws Exception {
-        final BackupReport backupReport = BackupReportResponseConversionTest.createBackupReport();
-        final BackupReportResponse backupReportResponse = BackupReportResponse.create(backupReport);
-        final String body = GSON.toJson(backupReportResponse);
+        final ExportReport exportReport = ExportReportResponseConversionTest.createBackupReport();
+        final ExportReportResponse exportReportResponse = ExportReportResponse.create(exportReport);
+        final String body = GSON.toJson(exportReportResponse);
 
         scheduleImportJob(body);
         startFeedImportJob();
