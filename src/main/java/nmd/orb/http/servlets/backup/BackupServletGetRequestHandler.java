@@ -25,7 +25,7 @@ public class BackupServletGetRequestHandler implements Handler {
         this.categoriesService = categoriesService;
     }
 
-    // GET -- get backup report
+    // GET -- get export report
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
         guard(notNull(elements));

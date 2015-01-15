@@ -70,12 +70,12 @@ public class ImportJobControlTest extends AbstractHttpTest {
 
     @Test
     public void whenImportJobIsEmptyThenErrorResponseReturned() throws Exception {
-        assertErrorResponse(scheduleImportJob(""), ErrorCode.INVALID_BACKUP_FILE);
+        assertErrorResponse(scheduleImportJob(""), ErrorCode.INVALID_IMPORT_FILE);
     }
 
     @Test
     public void whenImportJobIsIncorrectThenErrorResponseReturned() throws Exception {
-        assertErrorResponse(scheduleImportJob("^&*^&*^&"), ErrorCode.INVALID_BACKUP_FILE);
+        assertErrorResponse(scheduleImportJob("^&*^&*^&"), ErrorCode.INVALID_IMPORT_FILE);
     }
 
 }

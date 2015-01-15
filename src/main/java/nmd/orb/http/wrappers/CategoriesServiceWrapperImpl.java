@@ -141,9 +141,9 @@ public class CategoriesServiceWrapperImpl implements CategoriesServiceWrapper {
         final BackupReport report = this.categoriesService.createBackupReport();
         final BackupReportResponse response = BackupReportResponse.create(report);
 
-        LOGGER.info("Backup report was created");
+        LOGGER.info("Export report was created");
 
-        return createJsonFileResponse(response, "backup.json");
+        return createJsonFileResponse(response, "export.json");
     }
 
 }

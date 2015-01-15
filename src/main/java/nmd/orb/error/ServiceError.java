@@ -179,10 +179,10 @@ public class ServiceError {
                 "Try to repeat request later");
     }
 
-    public static ServiceError invalidBackupFile() {
-        return new ServiceError(ErrorCode.INVALID_BACKUP_FILE,
-                "Invalid backup file",
-                "Check backup file and try again");
+    public static ServiceError invalidImportFile() {
+        return new ServiceError(ErrorCode.INVALID_IMPORT_FILE,
+                "Invalid import file",
+                "Check import file and try again");
     }
 
     public static ServiceError importJobStartedAlready() {

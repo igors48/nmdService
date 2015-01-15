@@ -10,7 +10,7 @@ import nmd.orb.services.importer.ImportJobContext;
 import java.util.List;
 import java.util.Map;
 
-import static nmd.orb.error.ServiceError.invalidBackupFile;
+import static nmd.orb.error.ServiceError.invalidImportFile;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
@@ -44,7 +44,7 @@ public class ImportServletPostRequestHandler implements Handler {
 
             return this.importServiceWrapper.schedule(context);
         } catch (Exception exception) {
-            return createErrorJsonResponse(invalidBackupFile());
+            return createErrorJsonResponse(invalidImportFile());
         }
     }
 

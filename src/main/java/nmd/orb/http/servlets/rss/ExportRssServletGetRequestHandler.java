@@ -1,4 +1,4 @@
-package nmd.orb.http.servlets.exports;
+package nmd.orb.http.servlets.rss;
 
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
@@ -20,13 +20,13 @@ import static nmd.orb.util.Parameter.notNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 14.08.2014
  */
-public class ExportsServletGetRequestHandler implements Handler {
+public class ExportRssServletGetRequestHandler implements Handler {
 
-    public static final ExportsServletGetRequestHandler EXPORTS_SERVLET_GET_REQUEST_HANDLER = new ExportsServletGetRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
+    public static final ExportRssServletGetRequestHandler EXPORT_RSS_SERVLET_GET_REQUEST_HANDLER = new ExportRssServletGetRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
 
     private final FeedsServiceWrapper feedsService;
 
-    public ExportsServletGetRequestHandler(final FeedsServiceWrapper feedsService) {
+    public ExportRssServletGetRequestHandler(final FeedsServiceWrapper feedsService) {
         guard(notNull(feedsService));
         this.feedsService = feedsService;
     }
