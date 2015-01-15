@@ -137,8 +137,8 @@ public class CategoriesServiceWrapperImpl implements CategoriesServiceWrapper {
     }
 
     @Override
-    public ResponseBody createBackupReport() {
-        final ExportReport report = this.categoriesService.createBackupReport();
+    public ResponseBody createExportReport() {
+        final ExportReport report = this.categoriesService.createExportReport();
         final ExportReportResponse response = ExportReportResponse.create(report);
 
         LOGGER.info("Export report was created");

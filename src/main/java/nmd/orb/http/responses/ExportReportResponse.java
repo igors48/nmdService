@@ -20,7 +20,7 @@ public class ExportReportResponse {
 
     private static final Gson GSON = new Gson();
 
-    public List<ExportReportPayload> backup;
+    public List<ExportReportPayload> export;
 
     @Override
     public boolean equals(Object o) {
@@ -29,14 +29,14 @@ public class ExportReportResponse {
 
         ExportReportResponse that = (ExportReportResponse) o;
 
-        if (!backup.equals(that.backup)) return false;
+        if (!export.equals(that.export)) return false;
 
         return true;
     }
 
     @Override
     public int hashCode() {
-        return backup.hashCode();
+        return export.hashCode();
     }
 
     public static ExportReportResponse create(final ExportReport report) {
@@ -44,13 +44,13 @@ public class ExportReportResponse {
 
         final ExportReportResponse response = new ExportReportResponse();
 
-        response.backup = new ArrayList<>();
+        response.export = new ArrayList<>();
 
         for (final Category category : report.map.keySet()) {
             final Set<FeedHeader> headers = report.map.get(category);
 
             final ExportReportPayload payload = ExportReportPayload.create(category, headers);
-            response.backup.add(payload);
+            response.export.add(payload);
         }
 
         return response;

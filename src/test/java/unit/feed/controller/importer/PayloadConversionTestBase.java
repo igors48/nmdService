@@ -33,10 +33,10 @@ public class PayloadConversionTestBase {
         createFeedHeaderPayload();
         createFeedHeaderPayloads();
         createCategoryPayload();
-        createBackupReportPayloads();
+        createExportReportPayloads();
     }
 
-    private void createBackupReportPayloads() {
+    private void createExportReportPayloads() {
         this.feedHeaders = new HashSet<>();
         this.feedHeaders.add(this.feedHeader);
 

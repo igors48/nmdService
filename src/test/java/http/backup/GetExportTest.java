@@ -7,10 +7,10 @@ import org.junit.Test;
 /**
  * Created by igor on 25.11.2014.
  */
-public class GetBackupTest extends AbstractHttpTest {
+public class GetExportTest extends AbstractHttpTest {
 
     @Test
-    public void backupReportIsReturned() {
+    public void exportReportIsReturned() {
         final ExportReportResponse report = getBackupReport();
     }
 

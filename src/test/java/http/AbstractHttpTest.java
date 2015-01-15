@@ -26,7 +26,7 @@ public abstract class AbstractHttpTest {
     protected static final String READS_SERVLET_URL = "/secure/v01/reads/";
     protected static final String EXPORTS_SERVLET_URL = "/v01/feeds/";
     protected static final String CATEGORIES_SERVLET_URL = "/secure/v01/categories/";
-    protected static final String BACKUP_SERVLET_URL = "/secure/v01/export/";
+    protected static final String EXPORT_SERVLET_URL = "/secure/v01/export/";
     protected static final String IMPORT_SERVLET_URL = "/secure/v01/import/";
 
     protected static final String FIRST_FEED_URL = "http://127.0.0.1:8080/feed/feed_win_1251.xml";
@@ -200,7 +200,7 @@ public abstract class AbstractHttpTest {
     }
 
     protected static ExportReportResponse getBackupReport() {
-        final String response = assertServerProcessingTimeHeaderValid(given().get(BACKUP_SERVLET_URL)).asString();
+        final String response = assertServerProcessingTimeHeaderValid(given().get(EXPORT_SERVLET_URL)).asString();
 
         return GSON.fromJson(assertSuccessResponse(response), ExportReportResponse.class);
     }

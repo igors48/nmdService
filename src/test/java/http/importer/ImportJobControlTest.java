@@ -49,7 +49,7 @@ public class ImportJobControlTest extends AbstractHttpTest {
 
     @Test
     public void whenImportJobScheduledThenSuccessResponseReturned() throws Exception {
-        final ExportReport exportReport = ExportReportResponseConversionTest.createBackupReport();
+        final ExportReport exportReport = ExportReportResponseConversionTest.createExportReport();
         final ExportReportResponse exportReportResponse = ExportReportResponse.create(exportReport);
         final String body = GSON.toJson(exportReportResponse);
 
@@ -59,7 +59,7 @@ public class ImportJobControlTest extends AbstractHttpTest {
 
     @Test
     public void whenSecondImportJobScheduledThenErrorResponseReturned() throws Exception {
-        final ExportReport exportReport = ExportReportResponseConversionTest.createBackupReport();
+        final ExportReport exportReport = ExportReportResponseConversionTest.createExportReport();
         final ExportReportResponse exportReportResponse = ExportReportResponse.create(exportReport);
         final String body = GSON.toJson(exportReportResponse);
 

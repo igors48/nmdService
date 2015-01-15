@@ -32,7 +32,7 @@ public class ExportServletGetRequestHandler implements Handler {
         guard(notNull(parameters));
         guard(notNull(body));
 
-        return this.categoriesService.createBackupReport();
+        return this.categoriesService.createExportReport();
     }
 
 }

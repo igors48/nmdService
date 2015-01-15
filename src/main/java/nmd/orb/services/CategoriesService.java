@@ -211,7 +211,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
         }
     }
 
-    public ExportReport createBackupReport() {
+    public ExportReport createExportReport() {
         Transaction transaction = null;
 
         try {
@@ -223,7 +223,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             transaction.commit();
 
-            return createBackupReport(categories, headers, readFeedItems);
+            return createExportReport(categories, headers, readFeedItems);
         } finally {
             rollbackIfActive(transaction);
         }
@@ -320,7 +320,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
         return header;
     }
 
-    public static ExportReport createBackupReport(final Set<Category> categories, final List<FeedHeader> headers, final List<ReadFeedItems> readFeedItems) {
+    public static ExportReport createExportReport(final Set<Category> categories, final List<FeedHeader> headers, final List<ReadFeedItems> readFeedItems) {
         guard(notNull(categories));
         guard(notNull(headers));
         guard(notNull(readFeedItems));

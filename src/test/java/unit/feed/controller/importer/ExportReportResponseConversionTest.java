@@ -19,7 +19,7 @@ public class ExportReportResponseConversionTest {
 
     @Test
     public void roundtripTest() {
-        final ExportReport exportReport = createBackupReport();
+        final ExportReport exportReport = createExportReport();
         final ExportReportResponse exportReportResponse = ExportReportResponse.create(exportReport);
         final ResponseBody responseBody = ResponseBody.createJsonFileResponse(exportReportResponse, "filename");
 
@@ -28,7 +28,7 @@ public class ExportReportResponseConversionTest {
         assertEquals(exportReportResponse, restoredResponse);
     }
 
-    public static ExportReport createBackupReport() {
+    public static ExportReport createExportReport() {
         final FeedHeader feedHeader = new FeedHeader(UUID.randomUUID(), "http://domain.com", "title", "description", "http://domain.com");
         final Set<FeedHeader> set = new HashSet<>();
         set.add(feedHeader);

@@ -40,7 +40,7 @@ public class ImportServletPostRequestHandler implements Handler {
 
         try {
             final ExportReportResponse exportReportResponse = ExportReportResponse.convert(body);
-            final ImportJobContext context = ImportJobContext.convert(exportReportResponse.backup, DEFAULT_TRIES_COUNT);
+            final ImportJobContext context = ImportJobContext.convert(exportReportResponse.export, DEFAULT_TRIES_COUNT);
 
             return this.importServiceWrapper.schedule(context);
         } catch (Exception exception) {

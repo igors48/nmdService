@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import java.util.*;
 
-import static nmd.orb.services.CategoriesService.createBackupReport;
+import static nmd.orb.services.CategoriesService.createExportReport;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -64,7 +64,7 @@ public class ExportReportTest {
 
     @Test
     public void smoke() {
-        final ExportReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
+        final ExportReport report = createExportReport(this.categories, this.headers, this.readFeedItems);
 
         assertReportValid(report);
 
@@ -77,7 +77,7 @@ public class ExportReportTest {
         final FeedHeader lost = new FeedHeader(UUID.randomUUID(), HTTP_DOMAIN_COM, HTTP_DOMAIN_COM, HTTP_DOMAIN_COM, HTTP_DOMAIN_COM);
         this.headers.add(lost);
 
-        final ExportReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
+        final ExportReport report = createExportReport(this.categories, this.headers, this.readFeedItems);
 
         assertReportValid(report);
 
@@ -95,7 +95,7 @@ public class ExportReportTest {
         this.readFeedItems.add(lostHeader);
         this.readFeedItems.add(lostCompletely);
 
-        final ExportReport report = createBackupReport(this.categories, this.headers, this.readFeedItems);
+        final ExportReport report = createExportReport(this.categories, this.headers, this.readFeedItems);
 
         assertReportValid(report);
 
