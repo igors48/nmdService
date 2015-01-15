@@ -47,7 +47,7 @@
 
     <servlet>
         <servlet-name>exports</servlet-name>
-        <servlet-class>nmd.orb.http.servlets.ExportsServlet</servlet-class>
+        <servlet-class>nmd.orb.http.servlets.ExportRssServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>
