@@ -23,6 +23,11 @@ public class InstagramUrlToolsTest {
     @Test
     public void instagramUserNameExtraction() {
         assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL));
+        assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL + "?modal=true"));
+        assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL + "/anymess/?modal=true"));
+        assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL + "/"));
+        assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL + "?"));
+        assertEquals("skif48", getInstagramUserName("    " + VALID_INSTAGRAM_URL + "     "));
 
         assertNull(getInstagramUserName("http://instagram.com/"));
         assertNull(getInstagramUserName("http://domain.com/"));

@@ -30,7 +30,7 @@ public class InstagramClientTools {
     public static final String NO_DESCRIPTION = "No description";
 
     private static final String INSTAGRAM_COM = "instagram.com";
-    private static final Pattern INSTAGRAM_USER_NAME_PATTERN = Pattern.compile("https?://instagram.com/(.+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern INSTAGRAM_USER_NAME_PATTERN = Pattern.compile("https?://instagram.com/([^/\\?]+)", Pattern.CASE_INSENSITIVE);
     private static final String DESCRIPTION_TEMPLATE = "<img src=\"%s\"></img><p>%s</p>";
 
     public static boolean isItInstagramUrl(final String url) {
@@ -41,7 +41,7 @@ public class InstagramClientTools {
                 return false;
             }
 
-            final URI uri = new URI(url);
+            final URI uri = new URI(url.trim());
             final String host = uri.getHost();
 
             return INSTAGRAM_COM.equalsIgnoreCase(host);
@@ -57,7 +57,7 @@ public class InstagramClientTools {
             return null;
         }
 
-        final Matcher matcher = INSTAGRAM_USER_NAME_PATTERN.matcher(url);
+        final Matcher matcher = INSTAGRAM_USER_NAME_PATTERN.matcher(url.trim());
 
         return matcher.find() ? matcher.group(1) : null;
     }
