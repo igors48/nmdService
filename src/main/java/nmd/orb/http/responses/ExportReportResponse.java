@@ -22,6 +22,10 @@ public class ExportReportResponse {
 
     public List<ExportReportPayload> export;
 
+    private ExportReportResponse() {
+        // empty
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;

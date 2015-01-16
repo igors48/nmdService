@@ -20,6 +20,10 @@ public class FeedMergeReportPayload {
     public int retained;
     public int added;
 
+    private FeedMergeReportPayload() {
+        //empty
+    }
+
     public static FeedMergeReportPayload create(final UUID feedId, final String feedLink, final int removed, final int retained, final int added) {
         guard(isValidFeedHeaderId(feedId));
         guard(isValidUrl(feedLink));
