@@ -18,6 +18,7 @@ public class InstagramUrlToolsTest {
         assertFalse(isItInstagramUrl(""));
         assertFalse(isItInstagramUrl(null));
         assertTrue(isItInstagramUrl(VALID_INSTAGRAM_URL));
+        assertTrue(isItInstagramUrl("   " + VALID_INSTAGRAM_URL + "  "));
     }
 
     @Test
@@ -31,6 +32,8 @@ public class InstagramUrlToolsTest {
 
         assertNull(getInstagramUserName("http://instagram.com/"));
         assertNull(getInstagramUserName("http://domain.com/"));
+        assertNull(getInstagramUserName("http://instagram.com"));
+        assertNull(getInstagramUserName("http://domain.com"));
         assertNull(getInstagramUserName(""));
         assertNull(getInstagramUserName(null));
     }

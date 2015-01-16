@@ -43,7 +43,7 @@ public class TwitterClientTools {
     private static final String CREDENTIALS_REQUEST_BODY = "grant_type=client_credentials";
     private static final String TWITTER_COM = "twitter.com";
     private static final String MOBILE_TWITTER_COM = "mobile.twitter.com";
-    private static final Pattern TWITTER_USER_NAME_PATTERN = Pattern.compile("https?://(mobile\\.)?twitter.com/(#!/)?([^/]*)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern TWITTER_USER_NAME_PATTERN = Pattern.compile("https?://(mobile\\.)?twitter.com/(#!/)?([^#!/\\?]+)", Pattern.CASE_INSENSITIVE);
 
     private static final Gson GSON = new Gson();
 
@@ -99,7 +99,7 @@ public class TwitterClientTools {
                 return false;
             }
 
-            final URI uri = new URI(url);
+            final URI uri = new URI(url.trim());
             final String host = uri.getHost();
 
             return TWITTER_COM.equalsIgnoreCase(host) || MOBILE_TWITTER_COM.equalsIgnoreCase(host);
