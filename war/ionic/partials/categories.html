@@ -24,7 +24,8 @@
                 </p>
             </div>
 
-            <button class="button button-clear ion-android-mixer" ng-click="editCategory('{{category.id}}')"></button>
+            <button class="button button-clear ion-android-mixer" ng-show="category.id !== 'main'"
+                    ng-click="editCategory('{{category.id}}')"></button>
         </div>
     </div>
 </ion-content>
