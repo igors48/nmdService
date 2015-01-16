@@ -72,27 +72,3 @@ angular.module('orb.services', ['ngResource'])
         );
     })
 
-    .factory('lastUsedIds', function () {
-        var lastUsedFeedId = '';
-        var lastUsedItemId = '';
-
-        return {
-
-            store: function (feedId, itemId) {
-                lastUsedFeedId = feedId;
-                lastUsedItemId = itemId;
-            },
-
-            storeFeedId: function (feedId) {
-                lastUsedFeedId = feedId;
-            },
-
-            getLastUsedFeedId: function () {
-                return lastUsedFeedId;
-            },
-
-            getLastUsedItemId: function () {
-                return lastUsedItemId;
-            }
-        }
-    });
