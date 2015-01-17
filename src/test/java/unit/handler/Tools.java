@@ -1,0 +1,60 @@
+package unit.handler;
+
+import com.google.gson.Gson;
+import nmd.orb.http.Handler;
+import nmd.orb.http.tools.ResponseBody;
+import nmd.orb.http.tools.ServletTools;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**
+ * Created by igor on 17.01.2015.
+ */
+public final class Tools {
+
+    private static final Gson GSON = new Gson();
+
+    public static ResponseBody call(final Handler handler, final String url, final Object body) {
+        final String trimmed = url.trim();
+        final int questionIndex = trimmed.indexOf("?");
+
+        final String path;
+        final String parameters;
+
+        if (questionIndex == -1) {
+            path = trimmed;
+            parameters = "";
+        } else {
+            path = trimmed.substring(0, questionIndex);
+            parameters = trimmed.substring(questionIndex);
+        }
+
+        final List<String> elements = ServletTools.parse(path);
+        final Map<String, String> parametersMap = parseParameters(parameters);
+
+        return handler.handle(elements, parametersMap, GSON.toJson(body));
+    }
+
+    private static Map<String, String> parseParameters(final String parameters) {
+        final Map<String, String> result = new HashMap<>();
+
+        final String[] pairs = parameters.split("&");
+
+        for (final String pair : pairs) {
+            final String[] split = pair.split("=");
+
+            if (split.length == 2) {
+                result.put(split[0], split[1]);
+            }
+        }
+
+        return result;
+    }
+
+    private Tools() {
+        // empty
+    }
+
+}

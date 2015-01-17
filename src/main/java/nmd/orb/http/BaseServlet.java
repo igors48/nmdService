@@ -13,8 +13,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import static nmd.orb.http.tools.ServletTools.writeException;
-import static nmd.orb.http.tools.ServletTools.writeResponseBody;
+import static nmd.orb.http.tools.ServletTools.*;
 
 /**
  * @author : igu
@@ -68,20 +67,6 @@ public abstract class BaseServlet extends HttpServlet {
         final String body = ServletTools.readRequestBody(request);
 
         return handler.handle(elements, parameters, body);
-    }
-
-    private static Map<String, String> convert(final Map requestParameters) {
-        final Map<String, String> result = new HashMap<>();
-
-        for (final Object key : requestParameters.keySet()) {
-            final String keyAsString = (String) key;
-            final Object[] values = (Object[]) requestParameters.get(key);
-            final String valueAsString = values.length == 0 ? "" : (String) values[0];
-
-            result.put(keyAsString, valueAsString);
-        }
-
-        return result;
     }
 
 }
