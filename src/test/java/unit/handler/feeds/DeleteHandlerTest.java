@@ -1,5 +1,6 @@
 package unit.handler.feeds;
 
+import nmd.orb.error.ErrorCode;
 import nmd.orb.http.servlets.feeds.FeedsServletDeleteRequestHandler;
 import nmd.orb.http.wrappers.FeedsServiceWrapper;
 import org.junit.Before;
@@ -8,6 +9,7 @@ import org.mockito.Mockito;
 
 import java.util.UUID;
 
+import static unit.handler.Tools.assertError;
 import static unit.handler.Tools.call;
 
 /**
@@ -31,6 +33,22 @@ public class DeleteHandlerTest {
         call(this.handler, uuid.toString());
 
         Mockito.verify(this.feedsServiceWrapper).removeFeed(uuid);
+    }
+
+    @Test
+    public void whenFeedIdIsEmptyThenErrorReturns() {
+        assertError(
+                call(this.handler, ""),
+                ErrorCode.INVALID_FEED_ID
+        );
+    }
+
+    @Test
+    public void whenFeedIdIsInvalidThenErrorReturns() {
+        assertError(
+                call(this.handler, "invalid"),
+                ErrorCode.INVALID_FEED_ID
+        );
     }
 
 }

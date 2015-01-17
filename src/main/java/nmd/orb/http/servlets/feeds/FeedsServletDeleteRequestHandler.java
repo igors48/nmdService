@@ -44,4 +44,5 @@ public class FeedsServletDeleteRequestHandler implements Handler {
 
         return isValidFeedHeaderId(feedId) ? this.feedsService.removeFeed(feedId) : createErrorJsonResponse(invalidFeedId(element));
     }
+
 }
