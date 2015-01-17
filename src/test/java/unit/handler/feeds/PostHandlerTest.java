@@ -44,4 +44,24 @@ public class PostHandlerTest {
         );
     }
 
+    @Test
+    public void whenFeedUrlIsInvalidThenErrorReturns() {
+        final AddFeedRequest addFeedRequest = AddFeedRequest.create(HTTP_DOMAIN_COM + "*", Category.MAIN_CATEGORY_ID);
+
+        assertError(
+                call(this.handler, "", addFeedRequest),
+                ErrorCode.INVALID_FEED_URL
+        );
+    }
+
+    @Test
+    public void whenCategoryIdIsInvalidThenErrorReturns() {
+        final AddFeedRequest addFeedRequest = AddFeedRequest.create(HTTP_DOMAIN_COM, Category.MAIN_CATEGORY_ID + "*");
+
+        assertError(
+                call(this.handler, "", addFeedRequest),
+                ErrorCode.INVALID_CATEGORY_ID
+        );
+    }
+
 }
