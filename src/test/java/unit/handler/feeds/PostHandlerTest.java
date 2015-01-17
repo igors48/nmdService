@@ -1,5 +1,6 @@
 package unit.handler.feeds;
 
+import nmd.orb.error.ErrorCode;
 import nmd.orb.http.requests.AddFeedRequest;
 import nmd.orb.http.servlets.feeds.FeedsServletPostRequestHandler;
 import nmd.orb.http.wrappers.FeedsServiceWrapper;
@@ -8,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
 
+import static unit.handler.Tools.assertError;
 import static unit.handler.Tools.call;
 
 /**
@@ -27,12 +29,19 @@ public class PostHandlerTest {
     }
 
     @Test
-    public void testName() throws Exception {
+    public void happyFlow() {
         final AddFeedRequest addFeedRequest = AddFeedRequest.create(HTTP_DOMAIN_COM, Category.MAIN_CATEGORY_ID);
 
         call(this.handler, "", addFeedRequest);
-
         Mockito.verify(this.feedsServiceWrapper).addFeed(HTTP_DOMAIN_COM, Category.MAIN_CATEGORY_ID);
+    }
+
+    @Test
+    public void whenRequestBodyIsWrongThenErrorReturns() {
+        assertError(
+                call(this.handler, "", new PostHandlerTest()),
+                ErrorCode.INVALID_FEED_URL
+        );
     }
 
 }

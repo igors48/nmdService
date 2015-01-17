@@ -1,7 +1,10 @@
 package unit.handler;
 
 import com.google.gson.Gson;
+import nmd.orb.error.ErrorCode;
 import nmd.orb.http.Handler;
+import nmd.orb.http.responses.ErrorResponse;
+import nmd.orb.http.responses.ResponseType;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.tools.ServletTools;
 
@@ -9,12 +12,21 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.junit.Assert.assertEquals;
+
 /**
  * Created by igor on 17.01.2015.
  */
 public final class Tools {
 
     private static final Gson GSON = new Gson();
+
+    public static void assertError(final ResponseBody responseBody, final ErrorCode errorCode) {
+        final ErrorResponse errorResponse = GSON.fromJson(responseBody.content, ErrorResponse.class);
+
+        assertEquals(ResponseType.ERROR, errorResponse.getStatus());
+        assertEquals(errorCode, errorResponse.error.code);
+    }
 
     public static ResponseBody call(final Handler handler, final String url, final Object body) {
         final String trimmed = url.trim();
