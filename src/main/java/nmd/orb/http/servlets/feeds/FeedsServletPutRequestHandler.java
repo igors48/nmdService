@@ -2,6 +2,7 @@ package nmd.orb.http.servlets.feeds;
 
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
+import nmd.orb.http.wrappers.FeedsServiceWrapper;
 import nmd.orb.http.wrappers.FeedsServiceWrapperImpl;
 
 import java.util.List;
@@ -24,9 +25,9 @@ public class FeedsServletPutRequestHandler implements Handler {
 
     public static final FeedsServletPutRequestHandler FEEDS_SERVLET_PUT_REQUEST_HANDLER = new FeedsServletPutRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
 
-    private final FeedsServiceWrapperImpl feedsService;
+    private final FeedsServiceWrapper feedsService;
 
-    public FeedsServletPutRequestHandler(final FeedsServiceWrapperImpl feedsService) {
+    public FeedsServletPutRequestHandler(final FeedsServiceWrapper feedsService) {
         guard(notNull(feedsService));
         this.feedsService = feedsService;
     }
