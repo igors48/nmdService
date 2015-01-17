@@ -28,6 +28,10 @@ public final class Tools {
         assertEquals(errorCode, errorResponse.error.code);
     }
 
+    public static ResponseBody call(final Handler handler, final String url) {
+        return call(handler, url, null);
+    }
+
     public static ResponseBody call(final Handler handler, final String url, final Object body) {
         final String trimmed = url.trim();
         final int questionIndex = trimmed.indexOf("?");
@@ -46,7 +50,7 @@ public final class Tools {
         final List<String> elements = ServletTools.parse(path);
         final Map<String, String> parametersMap = parseParameters(parameters);
 
-        return handler.handle(elements, parametersMap, GSON.toJson(body));
+        return handler.handle(elements, parametersMap, body == null ? "" : GSON.toJson(body));
     }
 
     private static Map<String, String> parseParameters(final String parameters) {

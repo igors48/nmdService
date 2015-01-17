@@ -1,10 +1,10 @@
 package nmd.orb.http.servlets;
 
 import nmd.orb.http.BaseServlet;
+import nmd.orb.http.servlets.feeds.FeedsServletDeleteRequestHandler;
 import nmd.orb.http.servlets.feeds.FeedsServletPostRequestHandler;
 import nmd.orb.http.wrappers.FeedsServiceWrapperImpl;
 
-import static nmd.orb.http.servlets.feeds.FeedsServletDeleteRequestHandler.FEEDS_SERVLET_DELETE_REQUEST_HANDLER;
 import static nmd.orb.http.servlets.feeds.FeedsServletGetRequestHandler.FEEDS_SERVLET_GET_REQUEST_HANDLER;
 import static nmd.orb.http.servlets.feeds.FeedsServletPutRequestHandler.FEEDS_SERVLET_PUT_REQUEST_HANDLER;
 
@@ -15,6 +15,7 @@ import static nmd.orb.http.servlets.feeds.FeedsServletPutRequestHandler.FEEDS_SE
 public class FeedsServlet extends BaseServlet {
 
     private static final FeedsServletPostRequestHandler FEEDS_SERVLET_POST_REQUEST_HANDLER = new FeedsServletPostRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
+    private static final FeedsServletDeleteRequestHandler FEEDS_SERVLET_DELETE_REQUEST_HANDLER = new FeedsServletDeleteRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
 
     public FeedsServlet() {
         super();
