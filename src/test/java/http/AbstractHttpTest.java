@@ -28,6 +28,7 @@ public abstract class AbstractHttpTest {
     protected static final String CATEGORIES_SERVLET_URL = "/secure/v01/categories/";
     protected static final String EXPORT_SERVLET_URL = "/secure/v01/export/";
     protected static final String IMPORT_SERVLET_URL = "/secure/v01/import/";
+    protected static final String CRON_SERVLET_URL = "/secure/v01/cron/";
 
     protected static final String FIRST_FEED_URL = "http://127.0.0.1:8080/feed/feed_win_1251.xml";
     protected static final String FIRST_FEED_TITLE = "Bash.im";
@@ -229,6 +230,10 @@ public abstract class AbstractHttpTest {
 
     protected static void stopFeedImportJob() {
         assertSuccessResponse(sendFeedImportJobAction("stop"));
+    }
+
+    protected static String executeCronJob() {
+        return assertServerProcessingTimeHeaderValid(given().get(CRON_SERVLET_URL)).asString();
     }
 
     protected static void assertErrorResponse(final String response, final ErrorCode errorCode) {
