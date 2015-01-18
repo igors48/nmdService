@@ -73,9 +73,12 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         Transaction transaction = null;
 
         try {
+            final String feedUrlInLowerCase = normalizeUrl(feedUrl);
+            final Feed feed = fetchFeed(feedUrlInLowerCase);
+
             transaction = this.transactions.beginOne();
 
-            final FeedHeader feedHeader = createFeed(feedUrl, feedTitle, categoryId);
+            final FeedHeader feedHeader = createFeed(feed, feedTitle, categoryId);
 
             transaction.commit();
 
@@ -163,13 +166,11 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         this.feedHeadersRepository.storeHeader(newHeader);
     }
 
-    private FeedHeader createFeed(final String feedUrl, final String feedTitle, final String categoryId) throws ServiceException {
+    private FeedHeader createFeed(final Feed feed, final String feedTitle, final String categoryId) throws ServiceException {
         assertCategoryExists(categoryId);
 
-        final String feedUrlInLowerCase = normalizeUrl(feedUrl);
-        final Feed feed = fetchFeed(feedUrlInLowerCase);
-
-        FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedUrlInLowerCase);
+        final String feedLink = feed.header.feedLink;
+        FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedLink);
 
         if (feedHeader == null) {
             feedHeader = feedTitle.isEmpty() ? feed.header : feed.header.changeTitle(feedTitle);
