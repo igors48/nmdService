@@ -4,6 +4,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
 import org.junit.Test;
+import org.mockito.Mockito;
 import unit.feed.controller.AbstractControllerTestBase;
 
 import java.util.List;
@@ -73,6 +74,14 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
 
         assertNotNull(findForFeed(firstFeedId, renamed.feedReadReports));
         assertNotNull(findForFeed(secondFeedId, renamed.feedReadReports));
+    }
+
+    @Test
+    public void whenCategoryIsRenamedThenItIsRegistered() throws ServiceException {
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
+        this.categoriesService.renameCategory(category.uuid, SECOND_NAME);
+
+        Mockito.verify(this.autoExportServiceSpy, Mockito.times(2)).registerChange();
     }
 
     @Test

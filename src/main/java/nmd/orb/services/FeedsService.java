@@ -119,7 +119,7 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         try {
             transaction = this.transactions.beginOne();
 
-            removeFeedComponents(feedId, this.feedUpdateTaskRepository, this.feedHeadersRepository, this.feedItemsRepository, this.readFeedItemsRepository);
+            removeFeedComponents(feedId, this.feedUpdateTaskRepository, this.feedHeadersRepository, this.feedItemsRepository, this.readFeedItemsRepository, this.autoExportService);
 
             transaction.commit();
         } finally {
@@ -169,6 +169,8 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
 
         this.feedHeadersRepository.deleteHeader(header.id);
         this.feedHeadersRepository.storeHeader(newHeader);
+
+        this.autoExportService.registerChange();
     }
 
     private FeedHeader createFeed(final Feed feed, final String feedTitle, final String categoryId) throws ServiceException {
@@ -222,11 +224,20 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         }
     }
 
-    public static void removeFeedComponents(final UUID feedId, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository) {
+    public static void removeFeedComponents(final UUID feedId, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository, final AutoExportService autoExportService) {
+        guard(notNull(feedId));
+        guard(notNull(feedUpdateTaskRepository));
+        guard(notNull(feedHeadersRepository));
+        guard(notNull(feedItemsRepository));
+        guard(notNull(readFeedItemsRepository));
+        guard(notNull(autoExportService));
+
         feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
         feedHeadersRepository.deleteHeader(feedId);
         feedItemsRepository.deleteItems(feedId);
         readFeedItemsRepository.delete(feedId);
+
+        autoExportService.registerChange();
     }
 
 }

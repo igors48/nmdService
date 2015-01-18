@@ -3,6 +3,7 @@ package unit.feed.controller;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.UUID;
 
@@ -25,6 +26,14 @@ public class ControllerUpdateFeedTitleTest extends AbstractControllerTestBase {
         final FeedHeader header = this.feedHeadersRepositoryStub.loadHeader(feedId);
 
         assertEquals(UPDATED_TITLE, header.title);
+    }
+
+    @Test
+    public void whenFeedTitleUpdatesThenItIsRegistered() throws ServiceException {
+        UUID feedId = addValidFirstRssFeedToMainCategory();
+        this.feedsService.updateFeedTitle(feedId, UPDATED_TITLE);
+
+        Mockito.verify(this.autoExportServiceSpy, Mockito.times(2)).registerChange();
     }
 
     @Test(expected = ServiceException.class)
