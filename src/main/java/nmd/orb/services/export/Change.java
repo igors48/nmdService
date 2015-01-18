@@ -12,11 +12,15 @@ public class Change {
 
     private boolean notificationIsSent;
 
-    public Change(final long timestamp) {
+    public Change(final long timestamp, final boolean notificationIsSent) {
         guard(isPositive(timestamp));
         this.timestamp = timestamp;
 
-        this.notificationIsSent = false;
+        this.notificationIsSent = notificationIsSent;
+    }
+
+    public Change(final long timestamp) {
+        this(timestamp, false);
     }
 
     public long getTimestamp() {
@@ -29,6 +33,26 @@ public class Change {
 
     public void setNotificationIsSent(final boolean notificationIsSent) {
         this.notificationIsSent = notificationIsSent;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Change change = (Change) o;
+
+        if (notificationIsSent != change.notificationIsSent) return false;
+        if (timestamp != change.timestamp) return false;
+
+        return true;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (timestamp ^ (timestamp >>> 32));
+        result = 31 * result + (notificationIsSent ? 1 : 0);
+        return result;
     }
 
 }
