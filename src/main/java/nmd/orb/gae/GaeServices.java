@@ -32,10 +32,12 @@ public final class GaeServices {
                     CHANGE_REGISTRATION_SERVICE,
                     GAE_TRANSACTIONS);
 
+        public static final MailService MAIL_SERVICE = new MailService();
+
         public static final AutoExportService AUTO_EXPORT_SERVICE =
                 new AutoExportService(GaeChangeRepository.GAE_CHANGE_REPOSITORY,
                         CATEGORIES_SERVICE,
-                        new MailService(),
+                        MAIL_SERVICE,
                         GAE_TRANSACTIONS
                 );
 
@@ -86,7 +88,8 @@ public final class GaeServices {
     public static final CronService CRON_SERVICE =
             new CronService(
                     UPDATES_SERVICE,
-                    IMPORT_SERVICE
+                    IMPORT_SERVICE,
+                    AUTO_EXPORT_SERVICE
             );
 
     private GaeServices() {

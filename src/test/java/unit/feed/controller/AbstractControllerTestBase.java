@@ -113,6 +113,10 @@ public abstract class AbstractControllerTestBase {
     protected AutoExportService autoExportService;
 
     protected ChangeRegistrationService changeRegistrationServiceSpy;
+    protected UpdatesService updatesServiceSpy;
+    protected ImportService importServiceSpy;
+    protected AutoExportService autoExportServiceSpy;
+
     protected MailService mailServiceMock;
 
     private TransactionsStub transactionsStub;
@@ -140,12 +144,15 @@ public abstract class AbstractControllerTestBase {
 
         this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.changeRegistrationServiceSpy, this.fetcherStub, this.transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
+        this.updatesServiceSpy = Mockito.spy(this.updatesService);
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, this.transactionsStub);
         this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.changeRegistrationServiceSpy, this.transactionsStub);
         this.importService = new ImportService(this.importJobContextRepositoryStub, this.categoriesService, this.feedsService, this.transactionsStub);
+        this.importServiceSpy = Mockito.spy(this.importService);
         this.resetService = new ResetService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.changeRepositoryStub, this.changeRegistrationService, this.transactionsStub);
         this.autoExportService = new AutoExportService(this.changeRepositoryStub, this.categoriesService, this.mailServiceMock, this.transactionsStub);
-        this.cronService = new CronService(this.updatesService, this.importService);
+        this.autoExportServiceSpy = Mockito.spy(this.autoExportService);
+        this.cronService = new CronService(this.updatesServiceSpy, this.importServiceSpy, this.autoExportServiceSpy);
     }
 
     @After

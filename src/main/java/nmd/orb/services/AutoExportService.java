@@ -1,6 +1,7 @@
 package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
+import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.repositories.ChangeRepository;
@@ -8,6 +9,10 @@ import nmd.orb.repositories.Transactions;
 import nmd.orb.services.export.Change;
 import nmd.orb.services.report.ExportReport;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
+import static java.lang.String.format;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
 import static nmd.orb.util.TransactionTools.rollbackIfActive;
@@ -17,7 +22,10 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
  */
 public class AutoExportService {
 
-    public static final long FIVE_MINUTES = 5 * 60 * 1000;
+    private static final Logger LOGGER = Logger.getLogger(AutoExportService.class.getName());
+
+    public static final long FIVE_MINUTES = 5 /** 60 * 1000*/
+            ;
 
     private final ChangeRepository changeRepository;
     private final CategoriesService categoriesService;
@@ -39,7 +47,7 @@ public class AutoExportService {
         this.transactions = transactions;
     }
 
-    public boolean export(final long currentTime) throws ServiceException {
+    public boolean export(final long currentTime) {
         Transaction transaction = null;
 
         boolean notificationIsSent = false;
@@ -49,7 +57,7 @@ public class AutoExportService {
 
             final Change change = this.changeRepository.load();
 
-            if (!change.isNotificationIsSent()) {
+            if (change != null && !change.isNotificationIsSent()) {
                 final long period = currentTime - change.getTimestamp();
 
                 final boolean sendIsNeeded = (period > FIVE_MINUTES);
@@ -64,12 +72,19 @@ public class AutoExportService {
                     this.changeRepository.store(marked);
 
                     notificationIsSent = true;
+
+                    LOGGER.info("Mail with exported feeds was sent");
                 }
             }
 
             transaction.commit();
 
             return notificationIsSent;
+        } catch (ServiceException exception) {
+            final ServiceError serviceError = exception.getError();
+            LOGGER.log(Level.SEVERE, format("Error while auto export [ %s ]", serviceError), exception);
+
+            return false;
         } finally {
             rollbackIfActive(transaction);
         }

@@ -3,7 +3,6 @@ package nmd.orb.services;
 import com.google.gson.Gson;
 import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ExportReportResponse;
-import nmd.orb.http.tools.ContentType;
 
 import javax.mail.Message;
 import javax.mail.Multipart;
@@ -30,27 +29,25 @@ public class MailService {
         guard(notNull(report));
 
         try {
-            Properties props = new Properties();
-            Session session = Session.getDefaultInstance(props, null);
+            final Properties props = new Properties();
+            final Session session = Session.getDefaultInstance(props, null);
 
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("admin@example.com", "Example.com Admin"));
-            message.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress("igors48@gmail.com", "Mr. User"));
+            final Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress("noreply@appspot.com"));
+            final String exportEmail = System.getProperty("export.email");
+            message.addRecipient(Message.RecipientType.TO, new InternetAddress(exportEmail));
             message.setSubject("subject");
 
-            final String reportAsJson = GSON.toJson(report);
-            final byte[] reportAsBytes = reportAsJson.getBytes("UTF-8");
+            final Multipart multipart = new MimeMultipart();
 
-            Multipart multipart = new MimeMultipart();
-
-            MimeBodyPart htmlPart = new MimeBodyPart();
+            final MimeBodyPart htmlPart = new MimeBodyPart();
             htmlPart.setContent("export", "text/html");
             multipart.addBodyPart(htmlPart);
 
-            MimeBodyPart attachment = new MimeBodyPart();
+            final MimeBodyPart attachment = new MimeBodyPart();
             attachment.setFileName("export.json");
-            attachment.setContent(reportAsBytes, ContentType.JSON.mime);
+            final String reportAsJson = GSON.toJson(report);
+            attachment.setContent(reportAsJson, "text/html");
             multipart.addBodyPart(attachment);
 
             message.setContent(multipart);
