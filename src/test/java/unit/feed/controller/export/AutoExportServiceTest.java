@@ -1,5 +1,6 @@
 package unit.feed.controller.export;
 
+import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.services.AutoExportService;
 import nmd.orb.services.export.Change;
@@ -17,18 +18,18 @@ import static org.mockito.Mockito.*;
 public class AutoExportServiceTest extends AbstractControllerTestBase {
 
     @Test
-    public void whenPeriodGreaterThanDefinedAndNotificationIsNotSentThenItIsSent() {
+    public void whenPeriodGreaterThanDefinedAndNotificationIsNotSentThenItIsSent() throws ServiceException {
         final long start = System.currentTimeMillis();
         this.changeRegistrationService.registerChange();
 
         final boolean sent = this.autoExportService.export(start + AutoExportService.FIVE_MINUTES * 2);
 
         assertTrue(sent);
-        verify(this.mailServiceSpy, times(1)).sendChangeNotification(any(ExportReportResponse.class));
+        verify(this.mailServiceMock, times(1)).sendChangeNotification(any(ExportReportResponse.class));
     }
 
     @Test
-    public void whenPeriodGreaterThanDefinedAndNotificationIsSentThenItIsNotSent() {
+    public void whenPeriodGreaterThanDefinedAndNotificationIsSentThenItIsNotSent() throws ServiceException {
         final long start = System.currentTimeMillis();
         this.changeRegistrationService.registerChange();
 
@@ -38,22 +39,22 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
         final boolean sent = this.autoExportService.export(start + AutoExportService.FIVE_MINUTES * 2);
 
         assertFalse(sent);
-        verify(this.mailServiceSpy, never()).sendChangeNotification(any(ExportReportResponse.class));
+        verify(this.mailServiceMock, never()).sendChangeNotification(any(ExportReportResponse.class));
     }
 
     @Test
-    public void whenPeriodLesserThanDefinedAndNotificationIsNotSentThenItIsNotSent() {
+    public void whenPeriodLesserThanDefinedAndNotificationIsNotSentThenItIsNotSent() throws ServiceException {
         final long start = System.currentTimeMillis();
         this.changeRegistrationService.registerChange();
 
         final boolean sent = this.autoExportService.export(start);
 
         assertFalse(sent);
-        verify(this.mailServiceSpy, never()).sendChangeNotification(any(ExportReportResponse.class));
+        verify(this.mailServiceMock, never()).sendChangeNotification(any(ExportReportResponse.class));
     }
 
     @Test
-    public void whenPeriodLesserThanDefinedAndNotificationIsSentThenItIsNotSent() {
+    public void whenPeriodLesserThanDefinedAndNotificationIsSentThenItIsNotSent() throws ServiceException {
         final long start = System.currentTimeMillis();
         this.changeRegistrationService.registerChange();
 
@@ -63,7 +64,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
         final boolean sent = this.autoExportService.export(start);
 
         assertFalse(sent);
-        verify(this.mailServiceSpy, never()).sendChangeNotification(any(ExportReportResponse.class));
+        verify(this.mailServiceMock, never()).sendChangeNotification(any(ExportReportResponse.class));
     }
 
 }

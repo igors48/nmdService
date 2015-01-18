@@ -197,6 +197,12 @@ public class ServiceError {
                 "Check action name and try again");
     }
 
+    public static ServiceError mailServiceError() {
+        return new ServiceError(ErrorCode.MAIL_SERVICE_ERROR,
+                "Mail service error",
+                "Please try later");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

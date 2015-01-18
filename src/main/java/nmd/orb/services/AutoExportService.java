@@ -1,6 +1,7 @@
 package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
+import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.repositories.ChangeRepository;
 import nmd.orb.repositories.Transactions;
@@ -38,7 +39,7 @@ public class AutoExportService {
         this.transactions = transactions;
     }
 
-    public boolean export(final long currentTime) {
+    public boolean export(final long currentTime) throws ServiceException {
         Transaction transaction = null;
 
         boolean notificationIsSent = false;
