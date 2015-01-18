@@ -195,6 +195,8 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         final ReadFeedItems updatedReadItems = existsReadItems.changeCategory(categoryId);
         this.readFeedItemsRepository.store(updatedReadItems);
 
+        this.autoExportService.registerChange();
+
         return feedHeader;
     }
 
