@@ -100,6 +100,7 @@ public abstract class AbstractControllerTestBase {
     protected FeedUpdateTaskSchedulerContextRepositoryStub feedUpdateTaskSchedulerContextRepositoryStub;
     protected CategoriesRepositoryStub categoriesRepositoryStub;
     protected ImportJobContextRepositoryStub importJobContextRepositoryStub;
+    protected ChangeRepositoryStub changeRepositoryStub;
 
     protected FeedsService feedsService;
     protected UpdatesService updatesService;
@@ -126,10 +127,11 @@ public abstract class AbstractControllerTestBase {
         this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
         this.categoriesRepositoryStub = new CategoriesRepositoryStub();
         this.importJobContextRepositoryStub = new ImportJobContextRepositoryStub();
+        this.changeRepositoryStub = new ChangeRepositoryStub();
 
         this.feedUpdateTaskSchedulerStub = new CycleFeedUpdateTaskScheduler(this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.transactionsStub);
 
-        this.autoExportService = new AutoExportService();
+        this.autoExportService = new AutoExportService(this.changeRepositoryStub);
         this.autoExportServiceSpy = Mockito.spy(this.autoExportService);
 
         this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.autoExportServiceSpy, this.fetcherStub, this.transactionsStub);
