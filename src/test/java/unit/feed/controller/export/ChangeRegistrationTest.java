@@ -16,7 +16,7 @@ public class ChangeRegistrationTest extends AbstractControllerTestBase {
     public void whenChangeIsRegisteredThenItStoresInRepository() {
         final long startTimestamp = System.currentTimeMillis();
 
-        this.autoExportService.registerChange();
+        this.changeRegistrationService.registerChange();
 
         final Change change = this.changeRepositoryStub.load();
 

@@ -43,7 +43,7 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
     public void whenCategoryWasAddedThenItIsRegistered() {
         this.categoriesService.addCategory(NEW_CATEGORY_NAME);
 
-        Mockito.verify(this.autoExportServiceSpy, Mockito.times(1)).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(1)).registerChange();
     }
 
     @Test
@@ -82,7 +82,7 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
     public void whenCategoryCreatedThenItIsRegistered() {
         this.categoriesService.createCategory(NEW_CATEGORY_NAME);
 
-        Mockito.verify(this.autoExportServiceSpy, Mockito.times(1)).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(1)).registerChange();
     }
 
     @Test

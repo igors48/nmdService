@@ -35,11 +35,11 @@ public class CategoriesService implements CategoriesServiceAdapter {
     private final FeedHeadersRepository feedHeadersRepository;
     private final FeedItemsRepository feedItemsRepository;
 
-    private final AutoExportService autoExportService;
+    private final ChangeRegistrationService changeRegistrationService;
 
     private final Transactions transactions;
 
-    public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final AutoExportService autoExportService, final Transactions transactions) {
+    public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ChangeRegistrationService changeRegistrationService, final Transactions transactions) {
         guard(notNull(categoriesRepository));
         this.categoriesRepository = categoriesRepository;
 
@@ -52,8 +52,8 @@ public class CategoriesService implements CategoriesServiceAdapter {
         guard(notNull(feedItemsRepository));
         this.feedItemsRepository = feedItemsRepository;
 
-        guard(notNull(autoExportService));
-        this.autoExportService = autoExportService;
+        guard(notNull(changeRegistrationService));
+        this.changeRegistrationService = changeRegistrationService;
 
         guard(notNull(transactions));
         this.transactions = transactions;
@@ -180,7 +180,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
                 this.categoriesRepository.delete(categoryId);
 
-                this.autoExportService.registerChange();
+                this.changeRegistrationService.registerChange();
             }
 
             transaction.commit();
@@ -212,7 +212,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
             this.categoriesRepository.delete(categoryId);
             this.categoriesRepository.store(renamed);
 
-            this.autoExportService.registerChange();
+            this.changeRegistrationService.registerChange();
 
             transaction.commit();
         } finally {
@@ -251,7 +251,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             result = created;
 
-            this.autoExportService.registerChange();
+            this.changeRegistrationService.registerChange();
         } else {
             result = exists;
         }

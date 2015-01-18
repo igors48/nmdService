@@ -77,7 +77,7 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
     public void whenFeedAddedThenItIsRegistered() throws ServiceException {
         addValidFirstRssFeedToMainCategory();
 
-        Mockito.verify(this.autoExportServiceSpy).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy).registerChange();
     }
 
     @Test

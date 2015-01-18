@@ -109,9 +109,9 @@ public abstract class AbstractControllerTestBase {
     protected ResetService resetService;
     protected ImportService importService;
     protected CronService cronService;
-    protected AutoExportService autoExportService;
+    protected ChangeRegistrationService changeRegistrationService;
 
-    protected AutoExportService autoExportServiceSpy;
+    protected ChangeRegistrationService changeRegistrationServiceSpy;
 
     private TransactionsStub transactionsStub;
 
@@ -131,15 +131,15 @@ public abstract class AbstractControllerTestBase {
 
         this.feedUpdateTaskSchedulerStub = new CycleFeedUpdateTaskScheduler(this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.transactionsStub);
 
-        this.autoExportService = new AutoExportService(this.changeRepositoryStub);
-        this.autoExportServiceSpy = Mockito.spy(this.autoExportService);
+        this.changeRegistrationService = new ChangeRegistrationService(this.changeRepositoryStub);
+        this.changeRegistrationServiceSpy = Mockito.spy(this.changeRegistrationService);
 
-        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.autoExportServiceSpy, this.fetcherStub, this.transactionsStub);
+        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.changeRegistrationServiceSpy, this.fetcherStub, this.transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, this.transactionsStub);
-        this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.autoExportServiceSpy, this.transactionsStub);
+        this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.changeRegistrationServiceSpy, this.transactionsStub);
         this.importService = new ImportService(this.importJobContextRepositoryStub, this.categoriesService, this.feedsService, this.transactionsStub);
-        this.resetService = new ResetService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.changeRepositoryStub, this.autoExportService, this.transactionsStub);
+        this.resetService = new ResetService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.changeRepositoryStub, this.changeRegistrationService, this.transactionsStub);
         this.cronService = new CronService(this.updatesService, this.importService);
     }
 

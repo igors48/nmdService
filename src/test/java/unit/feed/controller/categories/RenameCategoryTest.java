@@ -81,7 +81,7 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
         final Category category = this.categoriesService.addCategory(FIRST_NAME);
         this.categoriesService.renameCategory(category.uuid, SECOND_NAME);
 
-        Mockito.verify(this.autoExportServiceSpy, Mockito.times(2)).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
     }
 
     @Test

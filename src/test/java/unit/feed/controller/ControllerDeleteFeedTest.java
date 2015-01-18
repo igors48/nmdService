@@ -19,7 +19,7 @@ public class ControllerDeleteFeedTest extends AbstractControllerTestBase {
     public void whenFeedRemovedThenItIsRegistered() throws ServiceException {
         createAndDeleteFeed();
 
-        Mockito.verify(this.autoExportServiceSpy, Mockito.times(2)).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
     }
 
     @Test

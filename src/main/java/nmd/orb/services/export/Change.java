@@ -31,8 +31,8 @@ public class Change {
         return this.notificationIsSent;
     }
 
-    public void setNotificationIsSent(final boolean notificationIsSent) {
-        this.notificationIsSent = notificationIsSent;
+    public Change markAsSent() {
+        return new Change(this.timestamp, true);
     }
 
     @Override

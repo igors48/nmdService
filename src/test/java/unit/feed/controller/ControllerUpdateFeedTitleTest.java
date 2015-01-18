@@ -33,7 +33,7 @@ public class ControllerUpdateFeedTitleTest extends AbstractControllerTestBase {
         UUID feedId = addValidFirstRssFeedToMainCategory();
         this.feedsService.updateFeedTitle(feedId, UPDATED_TITLE);
 
-        Mockito.verify(this.autoExportServiceSpy, Mockito.times(2)).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
     }
 
     @Test(expected = ServiceException.class)
