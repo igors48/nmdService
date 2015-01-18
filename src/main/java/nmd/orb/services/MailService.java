@@ -32,16 +32,17 @@ public class MailService {
             final Properties props = new Properties();
             final Session session = Session.getDefaultInstance(props, null);
 
-            final Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress("noreply@appspot.com"));
             final String exportEmail = System.getProperty("export.email");
+
+            final Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(exportEmail));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(exportEmail));
-            message.setSubject("subject");
+            message.setSubject("Exported feeds and categories");
 
             final Multipart multipart = new MimeMultipart();
 
             final MimeBodyPart htmlPart = new MimeBodyPart();
-            htmlPart.setContent("export", "text/html");
+            htmlPart.setContent("Please find exported feeds and categories in the attachment", "text/html");
             multipart.addBodyPart(htmlPart);
 
             final MimeBodyPart attachment = new MimeBodyPart();
