@@ -54,7 +54,7 @@ public class AutoExportService {
                 final boolean sendIsNeeded = (period > FIVE_MINUTES);
 
                 if (sendIsNeeded) {
-                    final ExportReport exportReport = this.categoriesService.createExportReport();
+                    final ExportReport exportReport = this.categoriesService.buildExportReport();
                     final ExportReportResponse attachment = ExportReportResponse.create(exportReport);
 
                     this.mailService.sendChangeNotification(attachment);

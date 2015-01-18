@@ -226,16 +226,22 @@ public class CategoriesService implements CategoriesServiceAdapter {
         try {
             transaction = this.transactions.beginOne();
 
-            final Set<Category> categories = getAllCategoriesWithMain();
-            final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
-            final List<ReadFeedItems> readFeedItems = this.readFeedItemsRepository.loadAll();
+            final ExportReport exportReport = buildExportReport();
 
             transaction.commit();
 
-            return createExportReport(categories, headers, readFeedItems);
+            return exportReport;
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    public ExportReport buildExportReport() {
+        final Set<Category> categories = getAllCategoriesWithMain();
+        final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+        final List<ReadFeedItems> readFeedItems = this.readFeedItemsRepository.loadAll();
+
+        return createExportReport(categories, headers, readFeedItems);
     }
 
     private Category addCategoryOrFindExistent(final String name) {

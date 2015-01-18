@@ -110,8 +110,11 @@ public abstract class AbstractControllerTestBase {
     protected ImportService importService;
     protected CronService cronService;
     protected ChangeRegistrationService changeRegistrationService;
+    protected MailService mailService;
+    protected AutoExportService autoExportService;
 
     protected ChangeRegistrationService changeRegistrationServiceSpy;
+    protected MailService mailServiceSpy;
 
     private TransactionsStub transactionsStub;
 
@@ -134,12 +137,16 @@ public abstract class AbstractControllerTestBase {
         this.changeRegistrationService = new ChangeRegistrationService(this.changeRepositoryStub);
         this.changeRegistrationServiceSpy = Mockito.spy(this.changeRegistrationService);
 
+        this.mailService = new MailService();
+        this.mailServiceSpy = Mockito.spy(this.mailService);
+
         this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.changeRegistrationServiceSpy, this.fetcherStub, this.transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, this.transactionsStub);
         this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.changeRegistrationServiceSpy, this.transactionsStub);
         this.importService = new ImportService(this.importJobContextRepositoryStub, this.categoriesService, this.feedsService, this.transactionsStub);
         this.resetService = new ResetService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.changeRepositoryStub, this.changeRegistrationService, this.transactionsStub);
+        this.autoExportService = new AutoExportService(this.changeRepositoryStub, this.categoriesService, this.mailServiceSpy, this.transactionsStub);
         this.cronService = new CronService(this.updatesService, this.importService);
     }
 
