@@ -1,6 +1,7 @@
 package nmd.orb.services;
 
 import nmd.orb.repositories.ChangeRepository;
+import nmd.orb.services.export.Change;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
@@ -18,7 +19,10 @@ public class AutoExportService {
     }
 
     public void registerChange() {
+        final long timestamp = System.currentTimeMillis();
+        final Change change = new Change(timestamp);
 
+        this.changeRepository.store(change);
     }
 
     public void export() {

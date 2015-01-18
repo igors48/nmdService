@@ -9,7 +9,7 @@ public interface ChangeRepository {
 
     Change load();
 
-    void store(Change context);
+    void store(Change change);
 
     void clear();
 
