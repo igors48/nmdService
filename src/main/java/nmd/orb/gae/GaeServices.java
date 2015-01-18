@@ -40,6 +40,7 @@ public final class GaeServices {
                     GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY,
                     GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
                     GAE_CACHED_CATEGORIES_REPOSITORY,
+                    new AutoExportService(),
                     GAE_URL_FETCHER,
                     GAE_TRANSACTIONS);
 

@@ -41,7 +41,9 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
     private final ReadFeedItemsRepository readFeedItemsRepository;
     private final CategoriesRepository categoriesRepository;
 
-    public FeedsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final UrlFetcher fetcher, final Transactions transactions) {
+    private final AutoExportService autoExportService;
+
+    public FeedsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final AutoExportService autoExportService, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
         guard(notNull(transactions));
@@ -55,6 +57,9 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
 
         guard(notNull(categoriesRepository));
         this.categoriesRepository = categoriesRepository;
+
+        guard(notNull(autoExportService));
+        this.autoExportService = autoExportService;
     }
 
     public UUID addFeed(final String feedLink, final String categoryId) throws ServiceException {
