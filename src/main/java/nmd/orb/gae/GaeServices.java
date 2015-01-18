@@ -68,6 +68,7 @@ public final class GaeServices {
                     GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
                     GAE_CACHED_CATEGORIES_REPOSITORY,
                     GaeImportJobContextRepository.GAE_IMPORT_JOB_CONTEXT_REPOSITORY,
+                    GaeChangeRepository.GAE_CHANGE_REPOSITORY,
                     new AutoExportService(GaeChangeRepository.GAE_CHANGE_REPOSITORY),
                     GAE_TRANSACTIONS
             );

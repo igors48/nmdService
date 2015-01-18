@@ -24,9 +24,10 @@ public class ResetService {
     private final CategoriesRepository categoriesRepository;
     private final ImportJobContextRepository importJobContextRepository;
     private final AutoExportService autoExportService;
+    private final ChangeRepository changeRepository;
     private final Transactions transactions;
 
-    public ResetService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final ImportJobContextRepository importJobContextRepository, final AutoExportService autoExportService, final Transactions transactions) {
+    public ResetService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final ImportJobContextRepository importJobContextRepository, final ChangeRepository changeRepository, final AutoExportService autoExportService, final Transactions transactions) {
         guard(notNull(feedHeadersRepository));
         this.feedHeadersRepository = feedHeadersRepository;
 
@@ -51,6 +52,9 @@ public class ResetService {
         guard(notNull(autoExportService));
         this.autoExportService = autoExportService;
 
+        guard(notNull(changeRepository));
+        this.changeRepository = changeRepository;
+
         guard(notNull(transactions));
         this.transactions = transactions;
     }
@@ -74,6 +78,8 @@ public class ResetService {
             this.categoriesRepository.clear();
 
             this.importJobContextRepository.clear();
+
+            this.changeRepository.clear();
 
             transaction.commit();
         } finally {

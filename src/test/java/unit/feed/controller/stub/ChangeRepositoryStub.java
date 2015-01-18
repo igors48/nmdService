@@ -25,4 +25,8 @@ public class ChangeRepositoryStub implements ChangeRepository {
         this.change = null;
     }
 
+    public boolean isEmpty() {
+        return this.change == null;
+    }
+
 }
