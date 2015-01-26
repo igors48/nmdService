@@ -22,7 +22,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
         final long start = System.currentTimeMillis();
         this.changeRegistrationService.registerChange();
 
-        final boolean sent = this.autoExportService.export(start + AutoExportService.FIVE_MINUTES * 2);
+        final boolean sent = this.autoExportService.export(start + AutoExportService.TWO_MINUTES * 2);
 
         assertTrue(sent);
         verify(this.mailServiceMock, times(1)).sendChangeNotification(any(ExportReportResponse.class));
@@ -36,7 +36,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
         final Change change = this.changeRepositoryStub.load();
         this.changeRepositoryStub.store(change.markAsSent());
 
-        final boolean sent = this.autoExportService.export(start + AutoExportService.FIVE_MINUTES * 2);
+        final boolean sent = this.autoExportService.export(start + AutoExportService.TWO_MINUTES * 2);
 
         assertFalse(sent);
         verify(this.mailServiceMock, never()).sendChangeNotification(any(ExportReportResponse.class));

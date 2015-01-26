@@ -24,8 +24,7 @@ public class AutoExportService {
 
     private static final Logger LOGGER = Logger.getLogger(AutoExportService.class.getName());
 
-    public static final long FIVE_MINUTES = 5 /** 60 * 1000*/
-            ;
+    public static final long TWO_MINUTES = 2 * 60 * 1000;
 
     private final ChangeRepository changeRepository;
     private final CategoriesService categoriesService;
@@ -60,7 +59,7 @@ public class AutoExportService {
             if (change != null && !change.isNotificationIsSent()) {
                 final long period = currentTime - change.getTimestamp();
 
-                final boolean sendIsNeeded = (period > FIVE_MINUTES);
+                final boolean sendIsNeeded = (period > TWO_MINUTES);
 
                 if (sendIsNeeded) {
                     final ExportReport exportReport = this.categoriesService.buildExportReport();
