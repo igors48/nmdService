@@ -10,8 +10,8 @@
     </div>
 </ion-header-bar>
 
-<ion-content ng-cloak ng-show="showUi">
-    <div class="list">
+<ion-content ng-cloak>
+    <div class="list" ng-show="showUi">
         <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds"
              ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''">
 
