@@ -11,7 +11,8 @@ public enum Kind {
     FEED_UPDATE_TASK("FeedUpdateTask"),
     READ_FEED_ITEM("ReadFeedItem"),
     CATEGORY("Category"),
-    IMPORT("Import");
+    IMPORT("Import"),
+    CHANGE("Change");
 
     public final String value;
 

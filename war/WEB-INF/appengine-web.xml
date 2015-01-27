@@ -11,6 +11,7 @@
         <property name="git.sha" value="@git.sha@"/>
         <property name="application.version.major" value="1"/>
         <property name="application.version.minor" value="2"/>
+        <property name="export.email" value="@email@"/>
     </system-properties>
 
     <static-files>

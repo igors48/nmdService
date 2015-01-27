@@ -66,7 +66,7 @@ public class InstagramClientTools {
         guard(isValidString(userName));
         guard(notNull(userEnvelope));
 
-        assertMetaIsValid(userEnvelope);
+        assertMetaIsValid(userEnvelope, userName);
 
         final List<User> users = userEnvelope.data;
 
@@ -91,16 +91,16 @@ public class InstagramClientTools {
         guard(notNull(current));
 
         final FeedHeader header = convert(link, user);
-        final List<FeedItem> items = convert(contentEnvelope, current);
+        final List<FeedItem> items = convert(contentEnvelope, current, user.username);
 
         return new Feed(header, items);
     }
 
-    public static List<FeedItem> convert(final ContentEnvelope contentEnvelope, final Date current) throws ServiceException {
+    public static List<FeedItem> convert(final ContentEnvelope contentEnvelope, final Date current, final String userName) throws ServiceException {
         guard(notNull(contentEnvelope));
         guard(notNull(current));
 
-        assertMetaIsValid(contentEnvelope);
+        assertMetaIsValid(contentEnvelope, userName);
 
         final List<FeedItem> items = new ArrayList<>();
 
@@ -211,14 +211,16 @@ public class InstagramClientTools {
         return format(DESCRIPTION_TEMPLATE, imageUrl, cutDescription);
     }
 
-    private static void assertMetaIsValid(final Envelope envelope) throws ServiceException {
+    private static void assertMetaIsValid(final Envelope envelope, final String userName) throws ServiceException {
 
         if (envelope.meta == null) {
             throw new ServiceException(instagramNoMeta());
         }
 
-        if (!"200".equals(envelope.meta.code)) {
-            throw new ServiceException(instagramWrongStatusCode());
+        final String statusCode = envelope.meta.code;
+
+        if (!"200".equals(statusCode)) {
+            throw new ServiceException(instagramWrongStatusCode(statusCode, userName));
         }
 
     }

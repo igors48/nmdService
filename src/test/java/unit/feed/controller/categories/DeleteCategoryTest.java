@@ -4,6 +4,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
 import org.junit.Test;
+import org.mockito.Mockito;
 import unit.feed.controller.AbstractControllerTestBase;
 
 import java.util.List;
@@ -79,6 +80,14 @@ public class DeleteCategoryTest extends AbstractControllerTestBase {
 
         assertNotNull(findForFeed(firstFeedId, report.feedReadReports));
         assertNotNull(findForFeed(secondFeedId, report.feedReadReports));
+    }
+
+    @Test
+    public void whenCategoryIsDeletedThenItIsRegistered() throws ServiceException {
+        final Category category = this.categoriesService.addCategory(FIRST_NAME);
+        this.categoriesService.deleteCategory(category.uuid);
+
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
     }
 
 }

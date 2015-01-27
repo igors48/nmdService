@@ -14,6 +14,7 @@ public class CronJobsReportResponse extends SuccessResponse {
 
     public FeedImportReportPayload imports;
     public FeedSeriesUpdatePayload updates;
+    public boolean autoExportMailWasSent;
 
     private CronJobsReportResponse() {
         // empty
@@ -26,6 +27,7 @@ public class CronJobsReportResponse extends SuccessResponse {
 
         response.imports = FeedImportReportPayload.convert(report.feedImportStatusReport);
         response.updates = FeedSeriesUpdatePayload.convert(report.feedSeriesUpdateReport);
+        response.autoExportMailWasSent = report.autoExportMailWasSent;
 
         return response;
     }

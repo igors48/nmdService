@@ -137,9 +137,9 @@ public class ServiceError {
                 "Try to repeat request later");
     }
 
-    public static ServiceError instagramWrongStatusCode() {
+    public static ServiceError instagramWrongStatusCode(final String statusCode, final String userName) {
         return new ServiceError(ErrorCode.INSTAGRAM_WRONG_STATUS_CODE,
-                "Instagram response contain wrong status code",
+                format("Instagram response contain wrong status code [ %s ] for user [ %s ]", statusCode, userName),
                 "Try to repeat request later");
     }
 
@@ -195,6 +195,12 @@ public class ServiceError {
         return new ServiceError(ErrorCode.FEED_IMPORT_JOB_INVALID_ACTION,
                 "Import job invalid action",
                 "Check action name and try again");
+    }
+
+    public static ServiceError mailServiceError() {
+        return new ServiceError(ErrorCode.MAIL_SERVICE_ERROR,
+                "Mail service error",
+                "Please try later");
     }
 
     @Override

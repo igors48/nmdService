@@ -6,6 +6,7 @@ import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.UUID;
@@ -70,6 +71,13 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
         final UUID id = addValidFirstRssFeedToMainCategory();
 
         assertNotNull(this.feedUpdateTaskRepositoryStub.loadTaskForFeedId(id));
+    }
+
+    @Test
+    public void whenFeedAddedThenItIsRegistered() throws ServiceException {
+        addValidFirstRssFeedToMainCategory();
+
+        Mockito.verify(this.changeRegistrationServiceSpy).registerChange();
     }
 
     @Test

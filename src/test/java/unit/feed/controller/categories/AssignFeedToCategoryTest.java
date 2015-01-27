@@ -4,6 +4,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
 import org.junit.Test;
+import org.mockito.Mockito;
 import unit.feed.controller.AbstractControllerTestBase;
 
 import java.util.List;
@@ -33,6 +34,14 @@ public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
 
         assertNull(findForFeed(feedId, main.feedReadReports));
         assertNotNull(findForFeed(feedId, second.feedReadReports));
+    }
+
+    @Test
+    public void whenFeedIsAssignedToCategoryThenItIsRegistered() throws ServiceException {
+        final Category firstCategory = this.categoriesService.addCategory("first");
+        addValidFirstRssFeed(firstCategory.uuid);
+
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
     }
 
     @Test(expected = ServiceException.class)

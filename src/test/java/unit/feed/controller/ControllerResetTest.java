@@ -70,4 +70,9 @@ public class ControllerResetTest extends AbstractControllerTestBase {
         assertTrue(this.importJobContextRepositoryStub.isEmpty());
     }
 
+    @Test
+    public void whenResetThenNoRegisteredChangeRemain() {
+        assertTrue(this.changeRepositoryStub.isEmpty());
+    }
+
 }

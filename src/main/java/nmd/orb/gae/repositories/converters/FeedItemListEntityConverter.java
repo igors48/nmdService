@@ -17,9 +17,9 @@ import static nmd.orb.util.Assert.assertNotNull;
  */
 public class FeedItemListEntityConverter {
 
-    public static final String FEED_ID = "feedId";
-    public static final String COUNT = "count";
-    public static final String ITEMS = "items";
+    private static final String FEED_ID = "feedId";
+    private static final String COUNT = "count";
+    private static final String ITEMS = "items";
 
     public static Entity convert(final Key feedKey, final UUID feedId, final List<FeedItem> feedItems) {
         assertNotNull(feedId);

@@ -11,6 +11,7 @@ import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedReadReport;
 import org.junit.After;
 import org.junit.Before;
+import org.mockito.Mockito;
 import unit.feed.controller.stub.*;
 import unit.feed.scheduler.FeedUpdateTaskRepositoryStub;
 import unit.feed.scheduler.FeedUpdateTaskSchedulerContextRepositoryStub;
@@ -99,6 +100,7 @@ public abstract class AbstractControllerTestBase {
     protected FeedUpdateTaskSchedulerContextRepositoryStub feedUpdateTaskSchedulerContextRepositoryStub;
     protected CategoriesRepositoryStub categoriesRepositoryStub;
     protected ImportJobContextRepositoryStub importJobContextRepositoryStub;
+    protected ChangeRepositoryStub changeRepositoryStub;
 
     protected FeedsService feedsService;
     protected UpdatesService updatesService;
@@ -107,6 +109,15 @@ public abstract class AbstractControllerTestBase {
     protected ResetService resetService;
     protected ImportService importService;
     protected CronService cronService;
+    protected ChangeRegistrationService changeRegistrationService;
+    protected AutoExportService autoExportService;
+
+    protected ChangeRegistrationService changeRegistrationServiceSpy;
+    protected UpdatesService updatesServiceSpy;
+    protected ImportService importServiceSpy;
+    protected AutoExportService autoExportServiceSpy;
+
+    protected MailService mailServiceMock;
 
     private TransactionsStub transactionsStub;
 
@@ -122,16 +133,26 @@ public abstract class AbstractControllerTestBase {
         this.feedUpdateTaskSchedulerContextRepositoryStub = new FeedUpdateTaskSchedulerContextRepositoryStub();
         this.categoriesRepositoryStub = new CategoriesRepositoryStub();
         this.importJobContextRepositoryStub = new ImportJobContextRepositoryStub();
+        this.changeRepositoryStub = new ChangeRepositoryStub();
 
         this.feedUpdateTaskSchedulerStub = new CycleFeedUpdateTaskScheduler(this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.transactionsStub);
 
-        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.fetcherStub, this.transactionsStub);
+        this.changeRegistrationService = new ChangeRegistrationService(this.changeRepositoryStub);
+        this.changeRegistrationServiceSpy = Mockito.spy(this.changeRegistrationService);
+
+        this.mailServiceMock = Mockito.mock(MailService.class);
+
+        this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.changeRegistrationServiceSpy, this.fetcherStub, this.transactionsStub);
         this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
+        this.updatesServiceSpy = Mockito.spy(this.updatesService);
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, this.transactionsStub);
-        this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.transactionsStub);
+        this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.changeRegistrationServiceSpy, this.transactionsStub);
         this.importService = new ImportService(this.importJobContextRepositoryStub, this.categoriesService, this.feedsService, this.transactionsStub);
-        this.resetService = new ResetService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.transactionsStub);
-        this.cronService = new CronService(this.updatesService, this.importService);
+        this.importServiceSpy = Mockito.spy(this.importService);
+        this.resetService = new ResetService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskSchedulerContextRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.importJobContextRepositoryStub, this.changeRepositoryStub, this.changeRegistrationService, this.transactionsStub);
+        this.autoExportService = new AutoExportService(this.changeRepositoryStub, this.categoriesService, this.mailServiceMock, this.transactionsStub);
+        this.autoExportServiceSpy = Mockito.spy(this.autoExportService);
+        this.cronService = new CronService(this.updatesServiceSpy, this.importServiceSpy, this.autoExportServiceSpy);
     }
 
     @After

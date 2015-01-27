@@ -25,8 +25,8 @@
 
 </ion-header-bar>
 
-<ion-content ng-cloak ng-show="showUi">
-    <div class="list">
+<ion-content ng-cloak>
+    <div class="list" ng-show="showUi">
         <div ng-repeat="item in items">
             <div ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                 <div class="item item-divider">
@@ -42,7 +42,7 @@
                 <div class="item item-text-wrap item-button-right" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                     <a class="block-link" href="{{item.link}}" target="_blank"
                        ng-click="markAsRead(item.feedId, item.itemId)">
-                        <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
+                        <h3 ng-class="item.read ? '' : 'orange-front'" ng-bind-html="item.title"></h3>
                     </a>
 
                     <div class="buttons">

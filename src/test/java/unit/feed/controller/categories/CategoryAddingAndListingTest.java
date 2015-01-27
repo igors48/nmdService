@@ -3,6 +3,7 @@ package unit.feed.controller.categories;
 import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
 import org.junit.Test;
+import org.mockito.Mockito;
 import unit.feed.controller.AbstractControllerTestBase;
 
 import java.util.List;
@@ -39,6 +40,13 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
     }
 
     @Test
+    public void whenCategoryWasAddedThenItIsRegistered() {
+        this.categoriesService.addCategory(NEW_CATEGORY_NAME);
+
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(1)).registerChange();
+    }
+
+    @Test
     public void whenTryToCreateAnotherCategoryWithSameNameThenPreviousCategoryReturns() {
         final Category first = this.categoriesService.addCategory(NEW_CATEGORY_NAME);
         final Category second = this.categoriesService.addCategory(NEW_CATEGORY_NAME);
@@ -68,6 +76,13 @@ public class CategoryAddingAndListingTest extends AbstractControllerTestBase {
     public void whenCategoryCreatedThenItsIdReturned() {
         final String categoryId = this.categoriesService.createCategory(NEW_CATEGORY_NAME);
         assertTrue(isValidCategoryId(categoryId));
+    }
+
+    @Test
+    public void whenCategoryCreatedThenItIsRegistered() {
+        this.categoriesService.createCategory(NEW_CATEGORY_NAME);
+
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(1)).registerChange();
     }
 
     @Test
