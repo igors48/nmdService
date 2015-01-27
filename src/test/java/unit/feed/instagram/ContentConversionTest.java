@@ -44,7 +44,7 @@ public class ContentConversionTest {
 
     @Test
     public void smoke() throws ServiceException {
-        final List<FeedItem> feedItems = InstagramClientTools.convert(this.contentEnvelope, this.current);
+        final List<FeedItem> feedItems = InstagramClientTools.convert(this.contentEnvelope, this.current, "first");
 
         assertFalse(feedItems.isEmpty());
     }
@@ -73,7 +73,7 @@ public class ContentConversionTest {
     private void assertConversionError(final ErrorCode errorCode) {
 
         try {
-            InstagramClientTools.convert(this.contentEnvelope, this.current);
+            InstagramClientTools.convert(this.contentEnvelope, this.current, "first");
 
             fail();
         } catch (ServiceException exception) {
