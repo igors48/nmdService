@@ -148,6 +148,8 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
+            this.changeRegistrationService.registerChange();
+
             transaction.commit();
         } finally {
             rollbackIfActive(transaction);

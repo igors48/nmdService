@@ -39,9 +39,11 @@ public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
     @Test
     public void whenFeedIsAssignedToCategoryThenItIsRegistered() throws ServiceException {
         final Category firstCategory = this.categoriesService.addCategory("first");
-        addValidFirstRssFeed(firstCategory.uuid);
+        final UUID feedId = addValidFirstRssFeed(firstCategory.uuid);
 
-        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
+        this.categoriesService.assignFeedToCategory(feedId, firstCategory.uuid);
+
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(3)).registerChange();
     }
 
     @Test(expected = ServiceException.class)
