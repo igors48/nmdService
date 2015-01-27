@@ -32,8 +32,9 @@ public class UrlToolsTest {
     }
 
     @Test
-    public void urlValidationSpecialCase() {
+    public void urlValidationSpecialCases() {
         assertTrue(Parameter.isValidUrl("http://rgg.zone"));
+        assertTrue(Parameter.isValidUrl("http://dnr.today"));
     }
 
 }

@@ -250,7 +250,8 @@ public class DomainValidator implements Serializable {
             "edu",                // accredited postsecondary US education entities
             "mil",                // United States Military
             "int",                // organizations established by international treaty
-            "zone"
+            "zone",
+            "today"
     };
 
     private static final String[] COUNTRY_CODE_TLDS = new String[]{
