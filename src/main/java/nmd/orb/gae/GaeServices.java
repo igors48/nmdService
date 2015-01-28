@@ -8,7 +8,6 @@ import nmd.orb.services.*;
 
 import static nmd.orb.gae.GaeRepositories.*;
 import static nmd.orb.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
-import static nmd.orb.gae.repositories.GaeImportJobContextRepository.GAE_IMPORT_JOB_CONTEXT_REPOSITORY;
 
 /**
  * @author : igu
@@ -16,7 +15,7 @@ import static nmd.orb.gae.repositories.GaeImportJobContextRepository.GAE_IMPORT_
 public final class GaeServices {
 
     public static final ChangeRegistrationService CHANGE_REGISTRATION_SERVICE =
-            new ChangeRegistrationService(GaeChangeRepository.GAE_CHANGE_REPOSITORY);
+            new ChangeRegistrationService(GaeChangeRepository.INSTANCE);
 
     public static final FeedUpdateTaskScheduler FEED_UPDATE_TASK_SCHEDULER =
             new CycleFeedUpdateTaskScheduler(GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY,
@@ -34,7 +33,7 @@ public final class GaeServices {
     public static final MailService MAIL_SERVICE = new MailService();
 
     public static final AutoExportService AUTO_EXPORT_SERVICE =
-            new AutoExportService(GaeChangeRepository.GAE_CHANGE_REPOSITORY,
+            new AutoExportService(GaeChangeRepository.INSTANCE,
                     CATEGORIES_SERVICE,
                     MAIL_SERVICE,
                     GaeTransactions.INSTANCE
@@ -66,7 +65,7 @@ public final class GaeServices {
                     GaeTransactions.INSTANCE);
 
     public static final ImportService IMPORT_SERVICE =
-            new ImportService(GAE_IMPORT_JOB_CONTEXT_REPOSITORY,
+            new ImportService(GaeImportJobContextRepository.INSTANCE,
                     CATEGORIES_SERVICE,
                     FEEDS_SERVICE,
                     GaeTransactions.INSTANCE);
@@ -78,8 +77,8 @@ public final class GaeServices {
                     GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY,
                     GAE_CACHED_READ_FEED_ITEMS_REPOSITORY,
                     GAE_CACHED_CATEGORIES_REPOSITORY,
-                    GaeImportJobContextRepository.GAE_IMPORT_JOB_CONTEXT_REPOSITORY,
-                    GaeChangeRepository.GAE_CHANGE_REPOSITORY,
+                    GaeImportJobContextRepository.INSTANCE,
+                    GaeChangeRepository.INSTANCE,
                     CHANGE_REGISTRATION_SERVICE,
                     GaeTransactions.INSTANCE
             );

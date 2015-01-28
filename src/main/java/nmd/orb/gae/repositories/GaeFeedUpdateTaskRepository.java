@@ -20,9 +20,9 @@ import static nmd.orb.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 16.10.13
  */
-public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
+public enum GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
 
-    public static final FeedUpdateTaskRepository GAE_FEED_UPDATE_TASK_REPOSITORY = new GaeFeedUpdateTaskRepository();
+    INSTANCE;
 
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
@@ -65,10 +65,6 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
         assertNotNull(feedId);
 
         deleteEntity(feedId.toString(), FEED, FEED_UPDATE_TASK);
-    }
-
-    private GaeFeedUpdateTaskRepository() {
-        // empty
     }
 
 }

@@ -19,9 +19,9 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * @author : igu
  */
-public class GaeImportJobContextRepository implements ImportJobContextRepository {
+public enum GaeImportJobContextRepository implements ImportJobContextRepository {
 
-    public static final GaeImportJobContextRepository GAE_IMPORT_JOB_CONTEXT_REPOSITORY = new GaeImportJobContextRepository();
+    INSTANCE;
 
     private static final Key KEY = getEntityRootKey(IMPORT.toString(), IMPORT);
 

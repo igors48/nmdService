@@ -21,9 +21,9 @@ import static nmd.orb.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 26.11.13
  */
-public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
+public enum GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
-    public static final ReadFeedItemsRepository GAE_READ_FEED_ITEMS_REPOSITORY = new GaeReadFeedItemsRepository();
+    INSTANCE;
 
     @Override
     public List<ReadFeedItems> loadAll() {
@@ -66,10 +66,6 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
         assertNotNull(feedId);
 
         deleteEntity(feedId.toString(), FEED, READ_FEED_ITEM);
-    }
-
-    private GaeReadFeedItemsRepository() {
-        // empty
     }
 
 }

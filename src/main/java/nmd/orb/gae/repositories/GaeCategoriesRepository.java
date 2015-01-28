@@ -22,9 +22,9 @@ import static nmd.orb.util.Parameter.notNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 12.03.14
  */
-public class GaeCategoriesRepository implements CategoriesRepository {
+public enum GaeCategoriesRepository implements CategoriesRepository {
 
-    public static final CategoriesRepository GAE_CATEGORIES_REPOSITORY = new GaeCategoriesRepository();
+    INSTANCE;
 
     @Override
     public void store(final Category category) {
@@ -74,10 +74,6 @@ public class GaeCategoriesRepository implements CategoriesRepository {
         for (final Entity entity : entities) {
             Datastore.INSTANCE.getDatastoreService().delete(entity.getKey());
         }
-    }
-
-    private GaeCategoriesRepository() {
-        // empty
     }
 
 }

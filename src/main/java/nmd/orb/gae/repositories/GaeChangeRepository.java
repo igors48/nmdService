@@ -19,9 +19,9 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * Created by igor on 18.01.2015.
  */
-public class GaeChangeRepository implements ChangeRepository {
+public enum GaeChangeRepository implements ChangeRepository {
 
-    public static final ChangeRepository GAE_CHANGE_REPOSITORY = new GaeChangeRepository();
+    INSTANCE;
 
     private static final Key KEY = getEntityRootKey(CHANGE.toString(), CHANGE);
 

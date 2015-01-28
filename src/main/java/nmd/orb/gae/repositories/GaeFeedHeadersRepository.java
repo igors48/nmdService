@@ -24,9 +24,9 @@ import static nmd.orb.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 15.10.13
  */
-public class GaeFeedHeadersRepository implements FeedHeadersRepository {
+public enum GaeFeedHeadersRepository implements FeedHeadersRepository {
 
-    public static final FeedHeadersRepository GAE_FEED_HEADERS_REPOSITORY = new GaeFeedHeadersRepository();
+    INSTANCE;
 
     @Override
     public FeedHeader loadHeader(final UUID feedId) {
@@ -77,10 +77,6 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
         final Entity entity = convert(feedHeader, getEntityRootKey(feedHeader.id.toString(), RootKind.FEED));
 
         Datastore.INSTANCE.getDatastoreService().put(entity);
-    }
-
-    private GaeFeedHeadersRepository() {
-        // empty
     }
 
 }
