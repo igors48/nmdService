@@ -7,9 +7,9 @@ import nmd.orb.repositories.Transactions;
 /**
  * @author : igu
  */
-public final class GaeTransactions implements Transactions {
+public enum GaeTransactions implements Transactions {
 
-    public static final GaeTransactions GAE_TRANSACTIONS = new GaeTransactions();
+    INSTANCE;
 
     @Override
     public Transaction beginOne() {
