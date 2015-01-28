@@ -17,7 +17,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class CronServiceWrapperImpl implements CronServiceWrapper {
 
-    public static final CronServiceWrapperImpl CRON_SERVICE_WRAPPER = new CronServiceWrapperImpl(GaeServices.CRON_SERVICE);
+    public static final CronServiceWrapperImpl CRON_SERVICE_WRAPPER = new CronServiceWrapperImpl(GaeServices.INSTANCE.getCronService());
 
     private static final long UPDATE_PERIOD = 9000;
     private static final long IMPORT_PERIOD = 9000;

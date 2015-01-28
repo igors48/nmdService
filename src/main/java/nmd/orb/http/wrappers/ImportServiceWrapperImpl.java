@@ -21,7 +21,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ImportServiceWrapperImpl implements ImportServiceWrapper {
 
-    public static final ImportServiceWrapperImpl IMPORT_SERVICE_WRAPPER = new ImportServiceWrapperImpl(GaeServices.IMPORT_SERVICE);
+    public static final ImportServiceWrapperImpl IMPORT_SERVICE_WRAPPER = new ImportServiceWrapperImpl(GaeServices.INSTANCE.getImportService());
 
     private static final Logger LOGGER = Logger.getLogger(ImportServiceWrapperImpl.class.getName());
 

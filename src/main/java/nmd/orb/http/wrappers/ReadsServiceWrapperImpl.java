@@ -31,7 +31,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
 
-    public static final ReadsServiceWrapperImpl READS_SERVICE_WRAPPER = new ReadsServiceWrapperImpl(GaeServices.READS_SERVICE);
+    public static final ReadsServiceWrapperImpl READS_SERVICE_WRAPPER = new ReadsServiceWrapperImpl(GaeServices.INSTANCE.getReadsService());
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServiceWrapperImpl.class.getName());
 

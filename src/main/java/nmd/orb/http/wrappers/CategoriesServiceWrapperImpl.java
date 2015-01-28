@@ -32,7 +32,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class CategoriesServiceWrapperImpl implements CategoriesServiceWrapper {
 
-    public static final CategoriesServiceWrapperImpl CATEGORIES_SERVICE_WRAPPER = new CategoriesServiceWrapperImpl(GaeServices.CATEGORIES_SERVICE);
+    public static final CategoriesServiceWrapperImpl CATEGORIES_SERVICE_WRAPPER = new CategoriesServiceWrapperImpl(GaeServices.INSTANCE.getCategoriesService());
 
     private static final Logger LOGGER = Logger.getLogger(CategoriesServiceWrapperImpl.class.getName());
 

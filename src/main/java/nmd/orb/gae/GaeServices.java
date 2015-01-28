@@ -11,86 +11,112 @@ import static nmd.orb.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
 /**
  * @author : igu
  */
-public final class GaeServices {
+public enum GaeServices {
 
-    public static final ChangeRegistrationService CHANGE_REGISTRATION_SERVICE =
+    INSTANCE;
+
+    private final ChangeRegistrationService changeRegistrationService =
             new ChangeRegistrationService(GaeChangeRepository.INSTANCE);
 
-    public static final FeedUpdateTaskScheduler FEED_UPDATE_TASK_SCHEDULER =
-            new CycleFeedUpdateTaskScheduler(GaeRepositories.INSTANCE.getGaeFeedUpdateTaskSchedulerContextRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedUpdateTaskRepository(),
+    private final FeedUpdateTaskScheduler feedUpdateTaskScheduler =
+            new CycleFeedUpdateTaskScheduler(GaeRepositories.INSTANCE.getFeedUpdateTaskSchedulerContextRepository(),
+                    GaeRepositories.INSTANCE.getFeedUpdateTaskRepository(),
                     GaeTransactions.INSTANCE);
 
-    public static final CategoriesService CATEGORIES_SERVICE =
-            new CategoriesService(GaeRepositories.INSTANCE.getGaeCachedCategoriesRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedReadFeedItemsRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedHeadersRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedItemsRepository(),
-                    CHANGE_REGISTRATION_SERVICE,
+    private final CategoriesService categoriesService =
+            new CategoriesService(GaeRepositories.INSTANCE.getCategoriesRepository(),
+                    GaeRepositories.INSTANCE.getReadFeedItemsRepository(),
+                    GaeRepositories.INSTANCE.getFeedHeadersRepository(),
+                    GaeRepositories.INSTANCE.getFeedItemsRepository(),
+                    changeRegistrationService,
                     GaeTransactions.INSTANCE);
 
-    public static final MailService MAIL_SERVICE = new MailService();
+    private final MailService mailService = new MailService();
 
-    public static final AutoExportService AUTO_EXPORT_SERVICE =
+    private final AutoExportService autoExportService =
             new AutoExportService(GaeChangeRepository.INSTANCE,
-                    CATEGORIES_SERVICE,
-                    MAIL_SERVICE,
+                    categoriesService,
+                    mailService,
                     GaeTransactions.INSTANCE
             );
 
-    public static final ReadsService READS_SERVICE =
-            new ReadsService(GaeRepositories.INSTANCE.getGaeCachedFeedHeadersRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedItemsRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedReadFeedItemsRepository(),
+    private final ReadsService readsService =
+            new ReadsService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
+                    GaeRepositories.INSTANCE.getFeedItemsRepository(),
+                    GaeRepositories.INSTANCE.getReadFeedItemsRepository(),
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
-    public static final FeedsService FEEDS_SERVICE =
-            new FeedsService(GaeRepositories.INSTANCE.getGaeCachedFeedHeadersRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedItemsRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedUpdateTaskRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedReadFeedItemsRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedCategoriesRepository(),
-                    CHANGE_REGISTRATION_SERVICE,
+    private final FeedsService feedsService =
+            new FeedsService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
+                    GaeRepositories.INSTANCE.getFeedItemsRepository(),
+                    GaeRepositories.INSTANCE.getFeedUpdateTaskRepository(),
+                    GaeRepositories.INSTANCE.getReadFeedItemsRepository(),
+                    GaeRepositories.INSTANCE.getCategoriesRepository(),
+                    changeRegistrationService,
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
-    public static final UpdatesService UPDATES_SERVICE =
-            new UpdatesService(GaeRepositories.INSTANCE.getGaeCachedFeedHeadersRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedItemsRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedUpdateTaskRepository(),
-                    FEED_UPDATE_TASK_SCHEDULER,
+    private final UpdatesService updatesService =
+            new UpdatesService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
+                    GaeRepositories.INSTANCE.getFeedItemsRepository(),
+                    GaeRepositories.INSTANCE.getFeedUpdateTaskRepository(),
+                    feedUpdateTaskScheduler,
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
-    public static final ImportService IMPORT_SERVICE =
+    private final ImportService importService =
             new ImportService(GaeImportJobContextRepository.INSTANCE,
-                    CATEGORIES_SERVICE,
-                    FEEDS_SERVICE,
+                    categoriesService,
+                    feedsService,
                     GaeTransactions.INSTANCE);
 
-    public static final ResetService CLEAR_SERVICE =
-            new ResetService(GaeRepositories.INSTANCE.getGaeCachedFeedHeadersRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedItemsRepository(),
-                    GaeRepositories.INSTANCE.getGaeFeedUpdateTaskSchedulerContextRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedFeedUpdateTaskRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedReadFeedItemsRepository(),
-                    GaeRepositories.INSTANCE.getGaeCachedCategoriesRepository(),
+    private final ResetService resetService =
+            new ResetService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
+                    GaeRepositories.INSTANCE.getFeedItemsRepository(),
+                    GaeRepositories.INSTANCE.getFeedUpdateTaskSchedulerContextRepository(),
+                    GaeRepositories.INSTANCE.getFeedUpdateTaskRepository(),
+                    GaeRepositories.INSTANCE.getReadFeedItemsRepository(),
+                    GaeRepositories.INSTANCE.getCategoriesRepository(),
                     GaeImportJobContextRepository.INSTANCE,
                     GaeChangeRepository.INSTANCE,
-                    CHANGE_REGISTRATION_SERVICE,
+                    changeRegistrationService,
                     GaeTransactions.INSTANCE
             );
 
-    public static final CronService CRON_SERVICE =
+    private final CronService cronService =
             new CronService(
-                    UPDATES_SERVICE,
-                    IMPORT_SERVICE,
-                    AUTO_EXPORT_SERVICE
+                    updatesService,
+                    importService,
+                    autoExportService
             );
 
-    private GaeServices() {
-        // empty
+    public CategoriesService getCategoriesService() {
+        return this.categoriesService;
+    }
+
+    public ReadsService getReadsService() {
+        return this.readsService;
+    }
+
+    public FeedsService getFeedsService() {
+        return this.feedsService;
+    }
+
+    public UpdatesService getUpdatesService() {
+        return this.updatesService;
+    }
+
+    public ImportService getImportService() {
+        return this.importService;
+    }
+
+    public ResetService getResetService() {
+        return this.resetService;
+    }
+
+    public CronService getCronService() {
+        return this.cronService;
     }
 
 }

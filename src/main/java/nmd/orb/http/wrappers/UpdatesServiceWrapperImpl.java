@@ -24,7 +24,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class UpdatesServiceWrapperImpl implements UpdatesServiceWrapper {
 
-    public static final UpdatesServiceWrapperImpl UPDATES_SERVICE_WRAPPER = new UpdatesServiceWrapperImpl(GaeServices.UPDATES_SERVICE);
+    public static final UpdatesServiceWrapperImpl UPDATES_SERVICE_WRAPPER = new UpdatesServiceWrapperImpl(GaeServices.INSTANCE.getUpdatesService());
 
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapperImpl.class.getName());
 

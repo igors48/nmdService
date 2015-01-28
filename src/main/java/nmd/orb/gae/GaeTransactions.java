@@ -16,8 +16,4 @@ public enum GaeTransactions implements Transactions {
         return Datastore.INSTANCE.getDatastoreService().beginTransaction();
     }
 
-    private GaeTransactions() {
-        // empty
-    }
-
 }

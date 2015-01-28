@@ -14,11 +14,8 @@ public enum MemCache implements Cache {
 
     INSTANCE;
 
-    private final MemcacheService cache;
-
-    private MemCache() {
-        cache = MemcacheServiceFactory.getMemcacheService();
-    }
+    private final MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
+    ;
 
     @Override
     public synchronized void put(final Object key, final Object object) {

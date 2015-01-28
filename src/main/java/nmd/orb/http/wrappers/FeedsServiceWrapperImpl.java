@@ -33,7 +33,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class FeedsServiceWrapperImpl implements FeedsServiceWrapper {
 
-    public static final FeedsServiceWrapperImpl FEEDS_SERVICE_WRAPPER = new FeedsServiceWrapperImpl(GaeServices.FEEDS_SERVICE);
+    public static final FeedsServiceWrapperImpl FEEDS_SERVICE_WRAPPER = new FeedsServiceWrapperImpl(GaeServices.INSTANCE.getFeedsService());
 
     private static final Logger LOGGER = Logger.getLogger(FeedsServiceWrapperImpl.class.getName());
 
