@@ -2,6 +2,7 @@ package nmd.orb.gae.repositories;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import nmd.orb.gae.repositories.datastore.Datastore;
 import nmd.orb.gae.repositories.datastore.RootKind;
 import nmd.orb.reader.Category;
 import nmd.orb.repositories.CategoriesRepository;
@@ -32,7 +33,7 @@ public class GaeCategoriesRepository implements CategoriesRepository {
         final Key rootKey = getEntityRootKey(category.uuid, RootKind.CATEGORY);
         final Entity entity = convert(category, rootKey);
 
-        DATASTORE_SERVICE.put(entity);
+        Datastore.INSTANCE.getDatastoreService().put(entity);
     }
 
     @Override
@@ -71,7 +72,7 @@ public class GaeCategoriesRepository implements CategoriesRepository {
         final List<Entity> entities = loadEntities(CATEGORY);
 
         for (final Entity entity : entities) {
-            DATASTORE_SERVICE.delete(entity.getKey());
+            Datastore.INSTANCE.getDatastoreService().delete(entity.getKey());
         }
     }
 

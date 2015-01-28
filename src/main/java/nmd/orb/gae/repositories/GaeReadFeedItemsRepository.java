@@ -2,6 +2,7 @@ package nmd.orb.gae.repositories;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import nmd.orb.gae.repositories.datastore.Datastore;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 
@@ -57,7 +58,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
         final Key feedRootKey = getEntityRootKey(readFeedItems.feedId.toString(), FEED);
         final Entity entity = convert(feedRootKey, readFeedItems);
 
-        DATASTORE_SERVICE.put(entity);
+        Datastore.INSTANCE.getDatastoreService().put(entity);
     }
 
     @Override

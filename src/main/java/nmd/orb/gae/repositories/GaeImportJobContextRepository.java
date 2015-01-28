@@ -2,6 +2,7 @@ package nmd.orb.gae.repositories;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import nmd.orb.gae.repositories.datastore.Datastore;
 import nmd.orb.gae.repositories.datastore.Kind;
 import nmd.orb.repositories.ImportJobContextRepository;
 import nmd.orb.services.importer.ImportJobContext;
@@ -9,7 +10,8 @@ import nmd.orb.services.importer.ImportJobContext;
 import java.util.List;
 
 import static nmd.orb.gae.repositories.converters.ImportJobContextConverter.convert;
-import static nmd.orb.gae.repositories.datastore.GaeDatastoreTools.*;
+import static nmd.orb.gae.repositories.datastore.GaeDatastoreTools.getEntityRootKey;
+import static nmd.orb.gae.repositories.datastore.GaeDatastoreTools.loadEntities;
 import static nmd.orb.gae.repositories.datastore.RootKind.IMPORT;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
@@ -36,7 +38,7 @@ public class GaeImportJobContextRepository implements ImportJobContextRepository
 
         clear();
 
-        DATASTORE_SERVICE.put(convert(context, KEY));
+        Datastore.INSTANCE.getDatastoreService().put(convert(context, KEY));
     }
 
     @Override
@@ -44,7 +46,7 @@ public class GaeImportJobContextRepository implements ImportJobContextRepository
         final List<Entity> victims = loadEntities(Kind.IMPORT);
 
         for (final Entity victim : victims) {
-            DATASTORE_SERVICE.delete(victim.getKey());
+            Datastore.INSTANCE.getDatastoreService().delete(victim.getKey());
         }
     }
 
