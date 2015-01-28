@@ -1,9 +1,9 @@
 package nmd.orb.http.servlets.rss;
 
+import nmd.orb.gae.GaeWrappers;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.FeedsServiceWrapper;
-import nmd.orb.http.wrappers.FeedsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +22,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ExportRssServletGetRequestHandler implements Handler {
 
-    public static final ExportRssServletGetRequestHandler EXPORT_RSS_SERVLET_GET_REQUEST_HANDLER = new ExportRssServletGetRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
+    public static final ExportRssServletGetRequestHandler EXPORT_RSS_SERVLET_GET_REQUEST_HANDLER = new ExportRssServletGetRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
 
     private final FeedsServiceWrapper feedsService;
 

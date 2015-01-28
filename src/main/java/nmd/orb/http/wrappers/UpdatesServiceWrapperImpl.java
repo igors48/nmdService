@@ -1,7 +1,6 @@
 package nmd.orb.http.wrappers;
 
 import nmd.orb.error.ServiceException;
-import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedMergeReportResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.UpdatesService;
@@ -23,8 +22,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Date : 22.06.13
  */
 public class UpdatesServiceWrapperImpl implements UpdatesServiceWrapper {
-
-    public static final UpdatesServiceWrapperImpl UPDATES_SERVICE_WRAPPER = new UpdatesServiceWrapperImpl(GaeServices.INSTANCE.getUpdatesService());
 
     private static final Logger LOGGER = Logger.getLogger(UpdatesServiceWrapperImpl.class.getName());
 

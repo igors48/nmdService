@@ -3,7 +3,6 @@ package nmd.orb.http.servlets.reads;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.ReadsServiceWrapper;
-import nmd.orb.http.wrappers.ReadsServiceWrapperImpl;
 import nmd.orb.services.filter.FeedItemReportFilter;
 
 import java.util.List;
@@ -24,8 +23,6 @@ import static nmd.orb.util.Parameter.notNull;
  * @author : igu
  */
 public class ReadsServletGetRequestHandler implements Handler {
-
-    public static final ReadsServletGetRequestHandler READS_SERVLET_GET_REQUEST_HANDLER = new ReadsServletGetRequestHandler(ReadsServiceWrapperImpl.READS_SERVICE_WRAPPER);
 
     private final ReadsServiceWrapper readsService;
 

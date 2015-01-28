@@ -1,12 +1,11 @@
 package nmd.orb.http.servlets;
 
+import nmd.orb.gae.GaeWrappers;
 import nmd.orb.http.BaseServlet;
 import nmd.orb.http.servlets.feeds.FeedsServletDeleteRequestHandler;
+import nmd.orb.http.servlets.feeds.FeedsServletGetRequestHandler;
 import nmd.orb.http.servlets.feeds.FeedsServletPostRequestHandler;
-import nmd.orb.http.wrappers.FeedsServiceWrapperImpl;
-
-import static nmd.orb.http.servlets.feeds.FeedsServletGetRequestHandler.FEEDS_SERVLET_GET_REQUEST_HANDLER;
-import static nmd.orb.http.servlets.feeds.FeedsServletPutRequestHandler.FEEDS_SERVLET_PUT_REQUEST_HANDLER;
+import nmd.orb.http.servlets.feeds.FeedsServletPutRequestHandler;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -14,8 +13,10 @@ import static nmd.orb.http.servlets.feeds.FeedsServletPutRequestHandler.FEEDS_SE
  */
 public class FeedsServlet extends BaseServlet {
 
-    private static final FeedsServletPostRequestHandler FEEDS_SERVLET_POST_REQUEST_HANDLER = new FeedsServletPostRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
-    private static final FeedsServletDeleteRequestHandler FEEDS_SERVLET_DELETE_REQUEST_HANDLER = new FeedsServletDeleteRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
+    private static final FeedsServletPostRequestHandler FEEDS_SERVLET_POST_REQUEST_HANDLER = new FeedsServletPostRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
+    private static final FeedsServletDeleteRequestHandler FEEDS_SERVLET_DELETE_REQUEST_HANDLER = new FeedsServletDeleteRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
+    public static final FeedsServletGetRequestHandler FEEDS_SERVLET_GET_REQUEST_HANDLER = new FeedsServletGetRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
+    public static final FeedsServletPutRequestHandler FEEDS_SERVLET_PUT_REQUEST_HANDLER = new FeedsServletPutRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
 
     public FeedsServlet() {
         super();

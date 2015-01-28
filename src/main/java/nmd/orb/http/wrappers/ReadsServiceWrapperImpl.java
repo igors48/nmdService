@@ -1,7 +1,6 @@
 package nmd.orb.http.wrappers;
 
 import nmd.orb.error.ServiceException;
-import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedItemsCardsReportResponse;
 import nmd.orb.http.responses.FeedItemsReportResponse;
 import nmd.orb.http.responses.FeedReadReportsResponse;
@@ -30,8 +29,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Date : 22.06.13
  */
 public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
-
-    public static final ReadsServiceWrapperImpl READS_SERVICE_WRAPPER = new ReadsServiceWrapperImpl(GaeServices.INSTANCE.getReadsService());
 
     private static final Logger LOGGER = Logger.getLogger(ReadsServiceWrapperImpl.class.getName());
 

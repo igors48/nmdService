@@ -1,6 +1,5 @@
 package nmd.orb.http.wrappers;
 
-import nmd.orb.gae.GaeServices;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.ResetService;
 
@@ -15,8 +14,6 @@ import static nmd.orb.util.Parameter.notNull;
  * @author : igu
  */
 public class ResetServiceWrapperImpl implements ResetServiceWrapper {
-
-    public static final ResetServiceWrapperImpl RESET_SERVICE_WRAPPER = new ResetServiceWrapperImpl(GaeServices.INSTANCE.getResetService());
 
     private static final Logger LOGGER = Logger.getLogger(ResetServiceWrapperImpl.class.getName());
 

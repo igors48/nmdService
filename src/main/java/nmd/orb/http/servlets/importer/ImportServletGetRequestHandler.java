@@ -3,7 +3,6 @@ package nmd.orb.http.servlets.importer;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.ImportServiceWrapper;
-import nmd.orb.http.wrappers.ImportServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -15,8 +14,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Created by igor on 27.11.2014.
  */
 public class ImportServletGetRequestHandler implements Handler {
-
-    public static final ImportServletGetRequestHandler IMPORT_SERVLET_GET_REQUEST_HANDLER = new ImportServletGetRequestHandler(ImportServiceWrapperImpl.IMPORT_SERVICE_WRAPPER);
 
     private final ImportServiceWrapper importServiceWrapper;
 

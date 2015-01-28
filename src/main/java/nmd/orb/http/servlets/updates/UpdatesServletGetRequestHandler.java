@@ -3,7 +3,6 @@ package nmd.orb.http.servlets.updates;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.UpdatesServiceWrapper;
-import nmd.orb.http.wrappers.UpdatesServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -21,8 +20,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Date : 14.08.2014
  */
 public class UpdatesServletGetRequestHandler implements Handler {
-
-    public static final UpdatesServletGetRequestHandler UPDATES_SERVLET_GET_REQUEST_HANDLER = new UpdatesServletGetRequestHandler(UpdatesServiceWrapperImpl.UPDATES_SERVICE_WRAPPER);
 
     private final UpdatesServiceWrapper updatesService;
 

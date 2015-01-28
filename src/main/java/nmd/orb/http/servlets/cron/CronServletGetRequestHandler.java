@@ -7,7 +7,6 @@ import nmd.orb.http.wrappers.CronServiceWrapper;
 import java.util.List;
 import java.util.Map;
 
-import static nmd.orb.http.wrappers.CronServiceWrapperImpl.CRON_SERVICE_WRAPPER;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
 
@@ -15,8 +14,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Created by igor on 09.12.2014.
  */
 public class CronServletGetRequestHandler implements Handler {
-
-    public static final CronServletGetRequestHandler CRON_SERVLET_GET_REQUEST_HANDLER = new CronServletGetRequestHandler(CRON_SERVICE_WRAPPER);
 
     private final CronServiceWrapper cronService;
 

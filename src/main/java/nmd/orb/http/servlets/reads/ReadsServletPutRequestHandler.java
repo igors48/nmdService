@@ -4,7 +4,6 @@ import nmd.orb.http.Handler;
 import nmd.orb.http.tools.FeedAndItemIds;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.ReadsServiceWrapper;
-import nmd.orb.http.wrappers.ReadsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -21,8 +20,6 @@ import static nmd.orb.util.Parameter.notNull;
  * @author : igu
  */
 public class ReadsServletPutRequestHandler implements Handler {
-
-    public static final ReadsServletPutRequestHandler READS_SERVLET_PUT_REQUEST_HANDLER = new ReadsServletPutRequestHandler(ReadsServiceWrapperImpl.READS_SERVICE_WRAPPER);
 
     private static final String MARK_AS_PARAMETER_NAME = "markAs";
     private static final String MARK_AS_READ = "read";

@@ -4,7 +4,6 @@ import nmd.orb.feed.FeedHeader;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.CategoriesServiceWrapper;
-import nmd.orb.http.wrappers.CategoriesServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -21,8 +20,6 @@ import static nmd.orb.util.Parameter.notNull;
  * @author : igu
  */
 public class CategoriesServletPutRequestHandler implements Handler {
-
-    public static final CategoriesServletPutRequestHandler CATEGORIES_SERVLET_PUT_REQUEST_HANDLER = new CategoriesServletPutRequestHandler(CategoriesServiceWrapperImpl.CATEGORIES_SERVICE_WRAPPER);
 
     private final CategoriesServiceWrapper categoriesService;
 
