@@ -9,9 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -199,6 +197,22 @@ public final class ServletTools {
         }
 
         return elements;
+    }
+
+    public static Map<String, String> convert(final Map requestParameters) {
+        guard(notNull(requestParameters));
+
+        final Map<String, String> result = new HashMap<>();
+
+        for (final Object key : requestParameters.keySet()) {
+            final String keyAsString = (String) key;
+            final Object[] values = (Object[]) requestParameters.get(key);
+            final String valueAsString = values.length == 0 ? "" : (String) values[0];
+
+            result.put(keyAsString, valueAsString);
+        }
+
+        return result;
     }
 
     private ServletTools() {
