@@ -10,35 +10,36 @@ import static nmd.orb.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 05.03.14
  */
-public class MemCache implements Cache {
+public enum MemCache implements Cache {
 
-    public static final MemCache MEM_CACHE = new MemCache();
+    INSTANCE;
 
-    private static final MemcacheService CACHE = MemcacheServiceFactory.getMemcacheService();
+    private final MemcacheService cache;
+
+    private MemCache() {
+        cache = MemcacheServiceFactory.getMemcacheService();
+    }
 
     @Override
     public synchronized void put(final Object key, final Object object) {
         assertNotNull(key);
         assertNotNull(object);
 
-        CACHE.put(key, object);
+        cache.put(key, object);
     }
 
     @Override
     public synchronized Object get(final Object key) {
         assertNotNull(key);
 
-        return CACHE.get(key);
+        return cache.get(key);
     }
 
     @Override
     public synchronized boolean delete(final Object key) {
         assertNotNull(key);
 
-        return CACHE.delete(key);
+        return cache.delete(key);
     }
 
-    private MemCache() {
-        // empty
-    }
 }
