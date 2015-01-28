@@ -10,12 +10,10 @@ import nmd.orb.http.servlets.updates.UpdatesServletGetRequestHandler;
  */
 public class UpdatesServlet extends BaseServlet {
 
-    public static final UpdatesServletGetRequestHandler UPDATES_SERVLET_GET_REQUEST_HANDLER = new UpdatesServletGetRequestHandler(GaeWrappers.INSTANCE.getUpdatesServiceWrapper());
-
     public UpdatesServlet() {
         super();
 
-        this.handlers.put(GET, UPDATES_SERVLET_GET_REQUEST_HANDLER);
+        this.handlers.put(GET, new UpdatesServletGetRequestHandler(GaeWrappers.INSTANCE.getUpdatesServiceWrapper()));
     }
 
 }

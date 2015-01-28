@@ -11,15 +11,11 @@ import nmd.orb.http.servlets.reads.ReadsServletPutRequestHandler;
  */
 public class ReadsServlet extends BaseServlet {
 
-    public static final ReadsServletGetRequestHandler READS_SERVLET_GET_REQUEST_HANDLER = new ReadsServletGetRequestHandler(GaeWrappers.INSTANCE.getReadsServiceWrapper());
-    public static final ReadsServletPutRequestHandler READS_SERVLET_PUT_REQUEST_HANDLER = new ReadsServletPutRequestHandler(GaeWrappers.INSTANCE.getReadsServiceWrapper());
-
-
     public ReadsServlet() {
         super();
 
-        this.handlers.put(GET, READS_SERVLET_GET_REQUEST_HANDLER);
-        this.handlers.put(PUT, READS_SERVLET_PUT_REQUEST_HANDLER);
+        this.handlers.put(GET, new ReadsServletGetRequestHandler(GaeWrappers.INSTANCE.getReadsServiceWrapper()));
+        this.handlers.put(PUT, new ReadsServletPutRequestHandler(GaeWrappers.INSTANCE.getReadsServiceWrapper()));
     }
 
 }

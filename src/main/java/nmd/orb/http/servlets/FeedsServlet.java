@@ -13,18 +13,13 @@ import nmd.orb.http.servlets.feeds.FeedsServletPutRequestHandler;
  */
 public class FeedsServlet extends BaseServlet {
 
-    private static final FeedsServletPostRequestHandler FEEDS_SERVLET_POST_REQUEST_HANDLER = new FeedsServletPostRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
-    private static final FeedsServletDeleteRequestHandler FEEDS_SERVLET_DELETE_REQUEST_HANDLER = new FeedsServletDeleteRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
-    public static final FeedsServletGetRequestHandler FEEDS_SERVLET_GET_REQUEST_HANDLER = new FeedsServletGetRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
-    public static final FeedsServletPutRequestHandler FEEDS_SERVLET_PUT_REQUEST_HANDLER = new FeedsServletPutRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper());
-
     public FeedsServlet() {
         super();
 
-        this.handlers.put(GET, FEEDS_SERVLET_GET_REQUEST_HANDLER);
-        this.handlers.put(POST, FEEDS_SERVLET_POST_REQUEST_HANDLER);
-        this.handlers.put(PUT, FEEDS_SERVLET_PUT_REQUEST_HANDLER);
-        this.handlers.put(DELETE, FEEDS_SERVLET_DELETE_REQUEST_HANDLER);
+        this.handlers.put(GET, new FeedsServletGetRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper()));
+        this.handlers.put(POST, new FeedsServletPostRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper()));
+        this.handlers.put(PUT, new FeedsServletPutRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper()));
+        this.handlers.put(DELETE, new FeedsServletDeleteRequestHandler(GaeWrappers.INSTANCE.getFeedsServiceWrapper()));
     }
 
 }

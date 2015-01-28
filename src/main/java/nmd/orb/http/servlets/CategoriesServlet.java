@@ -13,18 +13,13 @@ import nmd.orb.http.servlets.categories.CategoriesServletPutRequestHandler;
  */
 public class CategoriesServlet extends BaseServlet {
 
-    public static final CategoriesServletDeleteRequestHandler CATEGORIES_SERVLET_DELETE_REQUEST_HANDLER = new CategoriesServletDeleteRequestHandler(GaeWrappers.INSTANCE.getCategoriesServiceWrapper());
-    public static final CategoriesServletGetRequestHandler CATEGORIES_SERVLET_GET_REQUEST_HANDLER = new CategoriesServletGetRequestHandler(GaeWrappers.INSTANCE.getCategoriesServiceWrapper());
-    public static final CategoriesServletPostRequestHandler CATEGORIES_SERVLET_POST_REQUEST_HANDLER = new CategoriesServletPostRequestHandler(GaeWrappers.INSTANCE.getCategoriesServiceWrapper());
-    public static final CategoriesServletPutRequestHandler CATEGORIES_SERVLET_PUT_REQUEST_HANDLER = new CategoriesServletPutRequestHandler(GaeWrappers.INSTANCE.getCategoriesServiceWrapper());
-
     public CategoriesServlet() {
         super();
 
-        this.handlers.put(GET, CATEGORIES_SERVLET_GET_REQUEST_HANDLER);
-        this.handlers.put(POST, CATEGORIES_SERVLET_POST_REQUEST_HANDLER);
-        this.handlers.put(PUT, CATEGORIES_SERVLET_PUT_REQUEST_HANDLER);
-        this.handlers.put(DELETE, CATEGORIES_SERVLET_DELETE_REQUEST_HANDLER);
+        this.handlers.put(GET, new CategoriesServletGetRequestHandler(GaeWrappers.INSTANCE.getCategoriesServiceWrapper()));
+        this.handlers.put(POST, new CategoriesServletPostRequestHandler(GaeWrappers.INSTANCE.getCategoriesServiceWrapper()));
+        this.handlers.put(PUT, new CategoriesServletPutRequestHandler(GaeWrappers.INSTANCE.getCategoriesServiceWrapper()));
+        this.handlers.put(DELETE, new CategoriesServletDeleteRequestHandler(GaeWrappers.INSTANCE.getCategoriesServiceWrapper()));
     }
 
 }

@@ -10,12 +10,10 @@ import nmd.orb.http.servlets.reset.ResetServletPostRequestHandler;
  */
 public class ResetServlet extends BaseServlet {
 
-    public static final ResetServletPostRequestHandler RESET_SERVLET_POST_REQUEST_HANDLER = new ResetServletPostRequestHandler(GaeWrappers.INSTANCE.getResetServiceWrapper());
-
     public ResetServlet() {
         super();
 
-        this.handlers.put(POST, RESET_SERVLET_POST_REQUEST_HANDLER);
+        this.handlers.put(POST, new ResetServletPostRequestHandler(GaeWrappers.INSTANCE.getResetServiceWrapper()));
     }
 
 }

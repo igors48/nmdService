@@ -9,12 +9,10 @@ import nmd.orb.http.servlets.cron.CronServletGetRequestHandler;
  */
 public class CronServlet extends BaseServlet {
 
-    public static final CronServletGetRequestHandler CRON_SERVLET_GET_REQUEST_HANDLER = new CronServletGetRequestHandler(GaeWrappers.INSTANCE.getCronServiceWrapper());
-
     public CronServlet() {
         super();
 
-        this.handlers.put(GET, CRON_SERVLET_GET_REQUEST_HANDLER);
+        this.handlers.put(GET, new CronServletGetRequestHandler(GaeWrappers.INSTANCE.getCronServiceWrapper()));
     }
 
 }
