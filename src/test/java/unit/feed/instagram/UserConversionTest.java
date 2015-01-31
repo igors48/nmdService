@@ -1,5 +1,6 @@
 package unit.feed.instagram;
 
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.sources.instagram.InstagramClientTools;
 import nmd.orb.sources.instagram.entities.User;
@@ -16,7 +17,7 @@ public class UserConversionTest {
     private static final String LINK = "http://domain.com";
 
     @Test
-    public void smoke() {
+    public void smoke() throws ServiceException {
         final User user = FindUserTest.create("user");
 
         final FeedHeader header = InstagramClientTools.convert(LINK, user);
@@ -29,7 +30,7 @@ public class UserConversionTest {
     }
 
     @Test
-    public void whenUserFullNameIsEmptyThenUsernameIsUsed() {
+    public void whenUserFullNameIsEmptyThenUsernameIsUsed() throws ServiceException {
         final User user = FindUserTest.create("user");
         user.full_name = "";
 
@@ -40,7 +41,7 @@ public class UserConversionTest {
     }
 
     @Test
-    public void whenUserFullNameIsNullThenUsernameIsUsed() {
+    public void whenUserFullNameIsNullThenUsernameIsUsed() throws ServiceException {
         final User user = FindUserTest.create("user");
         user.full_name = null;
 

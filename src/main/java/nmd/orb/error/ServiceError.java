@@ -67,6 +67,13 @@ public class ServiceError {
                 "Check feed title.");
     }
 
+    public static ServiceError invalidFeedDescription(final String feedDescription) {
+
+        return new ServiceError(ErrorCode.INVALID_FEED_DESCRIPTION,
+                format("Feed description [ %s ] is invalid", feedDescription),
+                "Check feed description.");
+    }
+
     public static ServiceError invalidFeedOrItemId() {
 
         return new ServiceError(ErrorCode.INVALID_FEED_OR_ITEM_ID,
@@ -117,6 +124,12 @@ public class ServiceError {
         return new ServiceError(ErrorCode.INVALID_FEED_URL,
                 format("Feed url [ %s ] invalid", feedUrl),
                 "Invalid feed url. Check the url.");
+    }
+
+    public static ServiceError invalidUrl(final String url) {
+        return new ServiceError(ErrorCode.INVALID_URL,
+                format("Url [ %s ] invalid", url),
+                "Invalid Url. Check the url.");
     }
 
     public static ServiceError invalidCategoryId(final String categoryId) {

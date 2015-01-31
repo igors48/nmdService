@@ -4,6 +4,7 @@ import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
 import com.sun.syndication.io.SyndFeedInput;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
@@ -62,7 +63,7 @@ public final class FeedParser {
 
     }
 
-    public static FeedHeader build(final String url, final String link, final String title, final String description, final UUID guid) {
+    public static FeedHeader build(final String url, final String link, final String title, final String description, final UUID guid) throws ServiceException {
         assertNotNull(guid);
 
         final String feedUrl = trim(url);
@@ -97,7 +98,7 @@ public final class FeedParser {
         return new FeedItem(itemTitle, itemDescription, itemLink, itemLink, feedDate, itemDateReal, guid);
     }
 
-    private static FeedHeader build(final String feedUrl, final SyndFeed feed) {
+    private static FeedHeader build(final String feedUrl, final SyndFeed feed) throws ServiceException {
         final String feedLink = feed.getLink();
         final String feedTitle = feed.getTitle();
         final String feedDescription = feed.getDescription();

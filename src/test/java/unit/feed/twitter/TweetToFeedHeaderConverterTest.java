@@ -1,5 +1,6 @@
 package unit.feed.twitter;
 
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.sources.twitter.entities.Urls;
 import org.junit.Test;
@@ -20,7 +21,7 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     private static final String LONG_STRING = "012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901234567890123456789";
 
     @Test
-    public void allFeedHeaderFieldsWereTrimmedAndAssignedProperly() {
+    public void allFeedHeaderFieldsWereTrimmedAndAssignedProperly() throws ServiceException {
         final FeedHeader feedHeader = convertToHeader(TWITTER_URL, this.tweet);
 
         assertEquals(TWITTER_URL, feedHeader.feedLink);
@@ -31,14 +32,14 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserIsNullThenNullReturns() {
+    public void whenUserIsNullThenNullReturns() throws ServiceException {
         this.tweet.setUser(null);
 
         assertNull(convertToHeader(TWITTER_URL, this.tweet));
     }
 
     @Test
-    public void whenUserNameNullDescriptionNullThenNullReturns() {
+    public void whenUserNameNullDescriptionNullThenNullReturns() throws ServiceException {
         this.tweet.getUser().setName(null);
         this.tweet.getUser().setDescription(null);
 
@@ -46,7 +47,7 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserNameEmptyDescriptionNullThenNullReturns() {
+    public void whenUserNameEmptyDescriptionNullThenNullReturns() throws ServiceException {
         this.tweet.getUser().setName("");
         this.tweet.getUser().setDescription(null);
 
@@ -54,7 +55,7 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserNameEmptyDescriptionEmptyThenNullReturns() {
+    public void whenUserNameEmptyDescriptionEmptyThenNullReturns() throws ServiceException {
         this.tweet.getUser().setName("");
         this.tweet.getUser().setDescription("");
 
@@ -62,7 +63,7 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserNameNullDescriptionEmptyThenNullReturns() {
+    public void whenUserNameNullDescriptionEmptyThenNullReturns() throws ServiceException {
         this.tweet.getUser().setName(null);
         this.tweet.getUser().setDescription("");
 
@@ -70,7 +71,7 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserNameExistDescriptionNullThenNameCopiesToDescription() {
+    public void whenUserNameExistDescriptionNullThenNameCopiesToDescription() throws ServiceException {
         this.tweet.getUser().setDescription(null);
 
         final FeedHeader feedHeader = convertToHeader(TWITTER_URL, this.tweet);
@@ -78,7 +79,7 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserNameExistDescriptionEmptyThenNameCopiesToDescription() {
+    public void whenUserNameExistDescriptionEmptyThenNameCopiesToDescription() throws ServiceException {
         this.tweet.getUser().setDescription("");
 
         final FeedHeader feedHeader = convertToHeader(TWITTER_URL, this.tweet);
@@ -86,7 +87,7 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserNameNullDescriptionExistsThenDescriptionCopiesToTitle() {
+    public void whenUserNameNullDescriptionExistsThenDescriptionCopiesToTitle() throws ServiceException {
         this.tweet.getUser().setName(null);
 
         final FeedHeader feedHeader = convertToHeader(TWITTER_URL, this.tweet);
@@ -94,7 +95,7 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserNameEmptyDescriptionExistsThenDescriptionCopiesToTitle() {
+    public void whenUserNameEmptyDescriptionExistsThenDescriptionCopiesToTitle() throws ServiceException {
         this.tweet.getUser().setName("");
 
         final FeedHeader feedHeader = convertToHeader(TWITTER_URL, this.tweet);
@@ -102,56 +103,56 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserEntitiesNullThenTwitterUrlReturns() {
+    public void whenUserEntitiesNullThenTwitterUrlReturns() throws ServiceException {
         this.tweet.getUser().setEntities(null);
 
         assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlInUserEntitiesNullThenTwitterUrlReturns() {
+    public void whenUrlInUserEntitiesNullThenTwitterUrlReturns() throws ServiceException {
         this.tweet.getUser().getEntities().setUrl(null);
 
         assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlListInUserEntitiesNullThenTwitterUrlReturns() {
+    public void whenUrlListInUserEntitiesNullThenTwitterUrlReturns() throws ServiceException {
         this.tweet.getUser().getEntities().getUrl().setUrls(null);
 
         assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenUrlListInUserEntitiesEmptyThenTwitterUrlReturns() {
+    public void whenUrlListInUserEntitiesEmptyThenTwitterUrlReturns() throws ServiceException {
         this.tweet.getUser().getEntities().getUrl().setUrls(new ArrayList<Urls>());
 
         assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstUrlsElementInUserEntitiesNullThenTwitterUrlReturns() {
+    public void whenFirstUrlsElementInUserEntitiesNullThenTwitterUrlReturns() throws ServiceException {
         this.tweet.getUser().getEntities().getUrl().getUrls().set(0, null);
 
         assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstExpandedUrlInUserEntitiesNullThenTwitterUrlReturns() {
+    public void whenFirstExpandedUrlInUserEntitiesNullThenTwitterUrlReturns() throws ServiceException {
         this.tweet.getUser().getEntities().getUrl().getUrls().get(0).setExpanded_url(null);
 
         assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void whenFirstExpandedUrlInUserEntitiesEmptyThenTwitterUrlReturns() {
+    public void whenFirstExpandedUrlInUserEntitiesEmptyThenTwitterUrlReturns() throws ServiceException {
         this.tweet.getUser().getEntities().getUrl().getUrls().get(0).setExpanded_url("");
 
         assertEquals(TWITTER_URL, convertToHeader(TWITTER_URL, this.tweet).feedLink);
     }
 
     @Test
-    public void longUserNameAndDescriptionAreCut() {
+    public void longUserNameAndDescriptionAreCut() throws ServiceException {
         this.tweet.getUser().setName(LONG_STRING);
         this.tweet.getUser().setDescription(LONG_STRING);
 

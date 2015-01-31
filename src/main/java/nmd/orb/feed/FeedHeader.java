@@ -1,8 +1,11 @@
 package nmd.orb.feed;
 
+import nmd.orb.error.ServiceException;
+
 import java.io.Serializable;
 import java.util.UUID;
 
+import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.*;
 
@@ -87,26 +90,26 @@ public class FeedHeader implements Serializable {
         return notNull(feedDescription) && feedDescription.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
     }
 
-    public static FeedHeader create(final UUID id, final String feedLink, final String title, final String description, final String link) {
+    public static FeedHeader create(final UUID id, final String feedLink, final String title, final String description, final String link) throws ServiceException {
 
         if (!isValidFeedHeaderId(id)) {
-            return null;
+            throw new ServiceException(invalidFeedId(null));
         }
 
         if (!isValidUrl(feedLink)) {
-            return null;
+            throw new ServiceException(invalidFeedUrl(feedLink));
         }
 
         if (!isValidFeedHeaderTitle(title)) {
-            return null;
+            throw new ServiceException(invalidFeedTitle(title));
         }
 
         if (!isValidFeedHeaderDescription(description)) {
-            return null;
+            throw new ServiceException(invalidFeedDescription(description));
         }
 
         if (!isValidUrl(link)) {
-            return null;
+            throw new ServiceException(invalidUrl(link));
         }
 
         return new FeedHeader(id, feedLink, title, description, link);

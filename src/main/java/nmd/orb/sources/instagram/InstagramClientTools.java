@@ -119,7 +119,7 @@ public class InstagramClientTools {
         return items;
     }
 
-    public static FeedHeader convert(final String link, final User user) {
+    public static FeedHeader convert(final String link, final User user) throws ServiceException {
         guard(isValidUrl(link));
         guard(notNull(user));
 
