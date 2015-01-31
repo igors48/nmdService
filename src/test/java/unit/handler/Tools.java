@@ -50,7 +50,9 @@ public final class Tools {
         final List<String> elements = ServletTools.parse(path);
         final Map<String, String> parametersMap = parseParameters(parameters);
 
-        return handler.handle(elements, parametersMap, body == null ? "" : GSON.toJson(body));
+        final String bodyAsString = (body instanceof String) ? body.toString() : GSON.toJson(body);
+
+        return handler.handle(elements, parametersMap, body == null ? "" : bodyAsString);
     }
 
     private static Map<String, String> parseParameters(final String parameters) {
