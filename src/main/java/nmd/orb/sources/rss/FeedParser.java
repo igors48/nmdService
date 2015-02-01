@@ -63,22 +63,6 @@ public final class FeedParser {
 
     }
 
-    public static FeedHeader build(final String url, final String link, final String title, final String description, final UUID guid) throws ServiceException {
-        assertNotNull(guid);
-
-        final String feedUrl = trim(url);
-
-        if (feedUrl.isEmpty()) {
-            return null;
-        }
-
-        final String feedLink = trimOrUse(link, feedUrl);
-        final String feedDescription = cutTo(trimOrUse(description, feedUrl), FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH);
-        final String feedTitle = cutTo(trimOrUse(title, feedUrl), FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH);
-
-        return create(guid, feedUrl, feedTitle, feedDescription, feedLink);
-    }
-
     public static FeedItem build(final String link, final String title, final String description, final String alternateDescription, final Date date, final Date currentDate, final String guid) {
         assertNotNull(currentDate);
         assertNotNull(alternateDescription);
@@ -96,6 +80,22 @@ public final class FeedParser {
         final Date feedDate = itemDateReal ? date : currentDate;
 
         return new FeedItem(itemTitle, itemDescription, itemLink, itemLink, feedDate, itemDateReal, guid);
+    }
+
+    public static FeedHeader build(final String url, final String link, final String title, final String description, final UUID guid) throws ServiceException {
+        assertNotNull(guid);
+
+        final String feedUrl = trim(url);
+
+        if (feedUrl.isEmpty()) {
+            return null;
+        }
+
+        final String feedLink = trimOrUse(link, feedUrl);
+        final String feedDescription = cutTo(trimOrUse(description, feedUrl), FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH);
+        final String feedTitle = cutTo(trimOrUse(title, feedUrl), FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH);
+
+        return create(guid, feedUrl, feedTitle, feedDescription, feedLink);
     }
 
     private static FeedHeader build(final String feedUrl, final SyndFeed feed) throws ServiceException {
