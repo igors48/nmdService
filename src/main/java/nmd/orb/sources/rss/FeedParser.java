@@ -15,6 +15,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import static nmd.orb.error.ServiceError.invalidFeedUrl;
 import static nmd.orb.feed.FeedHeader.create;
 import static nmd.orb.util.Assert.*;
 import static nmd.orb.util.StringTools.*;
@@ -88,7 +89,7 @@ public final class FeedParser {
         final String feedUrl = trim(url);
 
         if (feedUrl.isEmpty()) {
-            return null;
+            throw new ServiceException(invalidFeedUrl(""));
         }
 
         final String feedLink = trimOrUse(link, feedUrl);

@@ -1,5 +1,6 @@
 package unit.feed.parser;
 
+import nmd.orb.error.ErrorCode;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.sources.rss.FeedParser;
@@ -9,7 +10,7 @@ import java.util.UUID;
 
 import static nmd.orb.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -26,24 +27,39 @@ public class FeedHeaderBuilderTest {
     private static final UUID GUID = UUID.randomUUID();
 
     @Test
-    public void whenFeedUrlIsNullThenNullReturns() throws ServiceException {
-        final FeedHeader feedHeader = FeedParser.build(null, LINK, TITLE, DESCRIPTION, GUID);
+    public void whenFeedUrlIsNullThenExceptionThrown() {
 
-        assertNull(feedHeader);
+        try {
+            FeedParser.build(null, LINK, TITLE, DESCRIPTION, GUID);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(ErrorCode.INVALID_FEED_URL, exception.getError().code);
+        }
     }
 
     @Test
     public void whenFeedUrlIsEmptyThenNullReturns() throws ServiceException {
-        final FeedHeader feedHeader = FeedParser.build("", LINK, TITLE, DESCRIPTION, GUID);
 
-        assertNull(feedHeader);
+        try {
+            FeedParser.build("", LINK, TITLE, DESCRIPTION, GUID);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(ErrorCode.INVALID_FEED_URL, exception.getError().code);
+        }
     }
 
     @Test
     public void whenFeedUrlIsContainsSpacesOnlyThenNullReturns() throws ServiceException {
-        final FeedHeader feedHeader = FeedParser.build(" ", LINK, TITLE, DESCRIPTION, GUID);
 
-        assertNull(feedHeader);
+        try {
+            FeedParser.build(" ", LINK, TITLE, DESCRIPTION, GUID);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(ErrorCode.INVALID_FEED_URL, exception.getError().code);
+        }
     }
 
     @Test
