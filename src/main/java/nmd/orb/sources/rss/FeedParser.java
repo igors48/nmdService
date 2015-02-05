@@ -42,10 +42,6 @@ public final class FeedParser {
 
             final FeedHeader header = build(feedUrl, feed);
 
-            if (header == null) {
-                return null;
-            }
-
             final List<FeedItem> items = new ArrayList<>();
 
             for (int i = 0; i < feed.getEntries().size(); i++) {
