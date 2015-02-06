@@ -1,8 +1,11 @@
 package nmd.orb.util;
 
+import nmd.orb.feed.FeedItem;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
@@ -25,7 +28,7 @@ public class Page<T> {
         this.items = items;
     }
 
-    public Page(final List<T> list, final int offset, final int size) {
+    public static <T> Page<T> create(final List<T> list, final int offset, final int size) {
         guard(notNull(list));
         guard(isPositive(offset));
         guard(isPositive(size));
@@ -42,9 +45,19 @@ public class Page<T> {
             last = false;
         }
 
-        this.first = first;
-        this.last = last;
-        this.items = offset > list.size() ? new ArrayList<T>() : list.subList(offset, lastIndex);
+        final List<T> items = offset > list.size() ? new ArrayList<T>() : list.subList(offset, lastIndex);
+
+        return new Page<T>(items, first, last);
+    }
+
+    public static <T> Page<T> create(final List<FeedItem> list, final String id, final int size, final boolean forward) {
+        guard(notNull(list));
+        guard(isValidFeedItemGuid(id));
+        guard(isPositive(size));
+
+        //return new Page<T>(items, first, last);
+
+        return null;
     }
 
 }

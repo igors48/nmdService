@@ -150,7 +150,7 @@ public class ReadsService extends AbstractService {
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
 
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
-            final Page<FeedItem> page = new Page<>(feedItems, offset, size);
+            final Page<FeedItem> page = Page.create(feedItems, offset, size);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
