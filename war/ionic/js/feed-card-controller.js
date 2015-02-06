@@ -167,6 +167,16 @@ controllers.controller('feedCardController',
             $scope.card.notRead = !current.read;
         };
 
-        loadCards();
+        var initialize = function () {
+            var firstLoad = !$stateParams.itemId;
+
+            if (firstLoad) {
+                loadCards();
+            } else {
+                
+            }
+        };
+
+        initialize();
     }
 );
