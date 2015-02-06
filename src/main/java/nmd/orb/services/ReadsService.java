@@ -133,6 +133,41 @@ public class ReadsService extends AbstractService {
         }
     }
 
+    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final String itemId, final int size, final boolean forward) throws ServiceException {
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidFeedItemGuid(itemId));
+        guard(isPositive(size));
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final FeedHeader header = loadFeedHeader(feedId);
+
+            final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
+
+            final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
+
+            Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
+            final Page<FeedItem> page = Page.create(feedItems, itemId, size, forward);
+
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+
+            for (final FeedItem feedItem : page.items) {
+                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
+
+                feedItemReports.add(feedItemReport);
+            }
+
+            transaction.commit();
+
+            return new FeedItemsCardsReport(header.id, header.title, page.first, page.last, feedItemReports);
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
     public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
         guard(isPositive(offset));

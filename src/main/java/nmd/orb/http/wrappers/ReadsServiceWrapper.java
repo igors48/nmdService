@@ -22,4 +22,6 @@ public interface ReadsServiceWrapper {
 
     ResponseBody getFeedItemsCardsReport(UUID feedId, int offset, int size);
 
+    ResponseBody getFeedItemsCardsReport(UUID feedId, String itemId, int size, boolean forward);
+
 }

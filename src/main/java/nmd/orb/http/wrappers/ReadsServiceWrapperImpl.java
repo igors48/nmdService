@@ -137,4 +137,21 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
         }
     }
 
+    @Override
+    public ResponseBody getFeedItemsCardsReport(UUID feedId, String itemId, int size, boolean forward) {
+
+        try {
+            FeedItemsCardsReport report = this.readsService.getFeedItemsCardsReport(feedId, itemId, size, forward);
+            FeedItemsCardsReportResponse response = FeedItemsCardsReportResponse.convert(report);
+
+            LOGGER.info(format("Feed [ %s ] items cards report created", feedId));
+
+            return createJsonResponse(response);
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error getting feed [ %s ] items cards report ", feedId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
+    }
+
 }
