@@ -62,9 +62,21 @@ public class Page<T> {
         if (noKeyItemInList) {
             return new Page<>(new ArrayList<FeedItem>(), true, true);
         }
-        //return new Page<T>(items, first, last);
 
-        return null;
+        final int maxIndex = list.size() - 1;
+
+        final boolean first = keyItemIndex == 0;
+        final boolean last = keyItemIndex == maxIndex;
+
+        final int fromIndex = forward ? keyItemIndex : keyItemIndex - size;
+        final int fromIndexAdjusted = fromIndex < 0 ? 0 : fromIndex;
+
+        final int toIndex = forward ? keyItemIndex + size : keyItemIndex;
+        final int toIndexAdjusted = (toIndex > maxIndex ? maxIndex : toIndex) + 1;
+
+        final List<FeedItem> subList = list.subList(fromIndexAdjusted, toIndexAdjusted);
+
+        return new Page<>(subList, first, last);
     }
 
     private static int find(final List<FeedItem> list, final String guid) {
