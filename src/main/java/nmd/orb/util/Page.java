@@ -50,14 +50,34 @@ public class Page<T> {
         return new Page<T>(items, first, last);
     }
 
-    public static <T> Page<T> create(final List<FeedItem> list, final String id, final int size, final boolean forward) {
+    public static Page<FeedItem> create(final List<FeedItem> list, final String keyItemGuid, final int size, final boolean forward) {
         guard(notNull(list));
-        guard(isValidFeedItemGuid(id));
+        guard(isValidFeedItemGuid(keyItemGuid));
         guard(isPositive(size));
 
+        final int keyItemIndex = find(list, keyItemGuid);
+
+        final boolean noKeyItemInList = keyItemIndex == -1;
+
+        if (noKeyItemInList) {
+            return new Page<>(new ArrayList<FeedItem>(), true, true);
+        }
         //return new Page<T>(items, first, last);
 
         return null;
+    }
+
+    private static int find(final List<FeedItem> list, final String guid) {
+
+        for (int index = 0; index < list.size(); ++index) {
+            final FeedItem candidate = list.get(index);
+
+            if (candidate.guid.equals(guid)) {
+                return index;
+            }
+        }
+
+        return -1;
     }
 
 }

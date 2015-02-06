@@ -13,7 +13,7 @@ import static org.junit.Assert.*;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 12.08.2014
  */
-public class PageTest {
+public class PageOffsetSizeCreationTest {
 
     private List<Integer> list;
 

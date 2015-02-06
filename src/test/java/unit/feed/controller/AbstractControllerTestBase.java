@@ -197,6 +197,19 @@ public abstract class AbstractControllerTestBase {
         return FEED_HEADER;
     }
 
+    public static FeedItem create(final int index) {
+        final String indexAsString = String.valueOf(index);
+
+        final String title = "title" + indexAsString;
+        final String description = "description" + indexAsString;
+        final String link = "http://domain.com/link" + indexAsString;
+        final String gotoLink = "http://domain.com/gotoLink" + indexAsString;
+        final Date date = new Date(index);
+        final boolean dateReal = true;
+
+        return new FeedItem(title, description, link, gotoLink, date, dateReal, indexAsString);
+    }
+
     protected static void pauseOneMillisecond() {
 
         try {
@@ -230,17 +243,4 @@ public abstract class AbstractControllerTestBase {
         return null;
     }
 
-    protected static FeedItem create(final int index) {
-        final String indexAsString = String.valueOf(index);
-
-        final String title = "title" + indexAsString;
-        final String description = "description" + indexAsString;
-        final String link = "http://domain.com/link" + indexAsString;
-        final String gotoLink = "http://domain.com/gotoLink" + indexAsString;
-        final Date date = new Date(index);
-        final boolean dateReal = true;
-        final String guid = "guid" + indexAsString;
-
-        return new FeedItem(title, description, link, gotoLink, date, dateReal, guid);
-    }
 }
