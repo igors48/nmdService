@@ -1,4 +1,4 @@
-package nmd.orb.services.direction;
+package nmd.orb.util;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;

@@ -1,7 +1,6 @@
 package nmd.orb.util;
 
 import nmd.orb.feed.FeedItem;
-import nmd.orb.services.direction.Direction;
 
 import java.util.ArrayList;
 import java.util.List;

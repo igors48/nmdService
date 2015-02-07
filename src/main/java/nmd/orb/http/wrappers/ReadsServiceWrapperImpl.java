@@ -6,7 +6,7 @@ import nmd.orb.http.responses.FeedItemsReportResponse;
 import nmd.orb.http.responses.FeedReadReportsResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.ReadsService;
-import nmd.orb.services.direction.Direction;
+import nmd.orb.util.Direction;
 import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;

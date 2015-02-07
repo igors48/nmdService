@@ -11,7 +11,7 @@ import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 import nmd.orb.repositories.Transactions;
-import nmd.orb.services.direction.Direction;
+import nmd.orb.util.Direction;
 import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemReport;
 import nmd.orb.services.report.FeedItemsCardsReport;

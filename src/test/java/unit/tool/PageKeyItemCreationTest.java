@@ -1,7 +1,7 @@
 package unit.tool;
 
 import nmd.orb.feed.FeedItem;
-import nmd.orb.services.direction.Direction;
+import nmd.orb.util.Direction;
 import nmd.orb.util.Page;
 import org.junit.Before;
 import org.junit.Test;
