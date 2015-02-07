@@ -203,6 +203,12 @@ public class ServiceError {
                 "Please try later");
     }
 
+    public static ServiceError invalidParametersCount() {
+        return new ServiceError(ErrorCode.INVALID_PARAMETERS_COUNT,
+                "Invalid parameters count",
+                "Please check request parameters");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

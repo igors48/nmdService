@@ -11,6 +11,7 @@ import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 import nmd.orb.repositories.Transactions;
+import nmd.orb.services.direction.Direction;
 import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemReport;
 import nmd.orb.services.report.FeedItemsCardsReport;
@@ -133,10 +134,11 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final String itemId, final int size, final boolean forward) throws ServiceException {
+    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final String itemId, final int size, final Direction direction) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
         guard(isValidFeedItemGuid(itemId));
         guard(isPositive(size));
+        guard(notNull(direction));
 
         Transaction transaction = null;
 
@@ -150,7 +152,7 @@ public class ReadsService extends AbstractService {
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
 
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
-            final Page<FeedItem> page = Page.create(feedItems, itemId, size, forward);
+            final Page<FeedItem> page = Page.create(feedItems, itemId, size, direction);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 

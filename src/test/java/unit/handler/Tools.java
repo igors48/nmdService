@@ -44,7 +44,7 @@ public final class Tools {
             parameters = "";
         } else {
             path = trimmed.substring(0, questionIndex);
-            parameters = trimmed.substring(questionIndex);
+            parameters = trimmed.substring(questionIndex + 1);
         }
 
         final List<String> elements = ServletTools.parse(path);

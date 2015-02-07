@@ -1,6 +1,7 @@
 package nmd.orb.util;
 
 import nmd.orb.feed.FeedItem;
+import nmd.orb.services.direction.Direction;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,10 +51,11 @@ public class Page<T> {
         return new Page<T>(items, first, last);
     }
 
-    public static Page<FeedItem> create(final List<FeedItem> list, final String keyItemGuid, final int size, final boolean forward) {
+    public static Page<FeedItem> create(final List<FeedItem> list, final String keyItemGuid, final int size, final Direction direction) {
         guard(notNull(list));
         guard(isValidFeedItemGuid(keyItemGuid));
         guard(isPositive(size));
+        guard(notNull(direction));
 
         final int keyItemIndex = find(list, keyItemGuid);
 
@@ -68,10 +70,10 @@ public class Page<T> {
         final boolean first = keyItemIndex == 0;
         final boolean last = keyItemIndex == maxIndex;
 
-        final int fromIndex = forward ? keyItemIndex : keyItemIndex - size;
+        final int fromIndex = direction.equals(Direction.NEXT) ? keyItemIndex : keyItemIndex - size;
         final int fromIndexAdjusted = fromIndex < 0 ? 0 : fromIndex;
 
-        final int toIndex = forward ? keyItemIndex + size : keyItemIndex;
+        final int toIndex = direction.equals(Direction.NEXT) ? keyItemIndex + size : keyItemIndex;
         final int toIndexAdjusted = (toIndex > maxIndex ? maxIndex : toIndex) + 1;
 
         final List<FeedItem> subList = list.subList(fromIndexAdjusted, toIndexAdjusted);

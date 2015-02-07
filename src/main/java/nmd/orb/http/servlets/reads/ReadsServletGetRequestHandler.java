@@ -1,5 +1,6 @@
 package nmd.orb.http.servlets.reads;
 
+import nmd.orb.error.ServiceError;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.ReadsServiceWrapper;
@@ -11,8 +12,10 @@ import java.util.UUID;
 
 import static nmd.orb.error.ServiceError.invalidFeedId;
 import static nmd.orb.error.ServiceError.invalidOffsetOrSize;
+import static nmd.orb.error.ServiceError.invalidParametersCount;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
+import static nmd.orb.http.tools.ResponseBody.createJsonResponse;
 import static nmd.orb.http.tools.ServletTools.parseInteger;
 import static nmd.orb.http.tools.ServletTools.parseUuid;
 import static nmd.orb.util.Assert.guard;
@@ -34,6 +37,7 @@ public class ReadsServletGetRequestHandler implements Handler {
     //GET -- reads report
     //GET /{feedId}?filter={filterName} -- feed items report
     //GET /{feedId}?offset={offset}&size={size} -- feed items cards report
+    //GET /{feedId}/{itemId}/{next|prev}/{size} -- feed items cards report
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
         guard(notNull(elements));
@@ -47,16 +51,23 @@ public class ReadsServletGetRequestHandler implements Handler {
         final String element = elements.get(0);
         final UUID feedId = parseUuid(element);
 
-        if (parameters.isEmpty()) {
-            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL) : createErrorJsonResponse(invalidFeedId(element));
+        if (elements.size() == 1) {
+
+            if (parameters.isEmpty()) {
+                return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL) : createErrorJsonResponse(invalidFeedId(element));
+            }
+
+            final String filterName = parameters.get("filter");
+
+            if (filterName != null) {
+                final FeedItemReportFilter filter = FeedItemReportFilter.forName(filterName);
+
+                return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, filter) : createErrorJsonResponse(invalidFeedId(element));
+            }
         }
 
-        final String filterName = parameters.get("filter");
-
-        if (filterName != null) {
-            final FeedItemReportFilter filter = FeedItemReportFilter.forName(filterName);
-
-            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, filter) : createErrorJsonResponse(invalidFeedId(element));
+        if (elements.size() < 4) {
+            return createErrorJsonResponse(invalidParametersCount());
         }
 
         final String offsetAsString = parameters.get("offset");

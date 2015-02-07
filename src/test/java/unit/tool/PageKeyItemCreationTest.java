@@ -1,6 +1,7 @@
 package unit.tool;
 
 import nmd.orb.feed.FeedItem;
+import nmd.orb.services.direction.Direction;
 import nmd.orb.util.Page;
 import org.junit.Before;
 import org.junit.Test;
@@ -33,7 +34,7 @@ public class PageKeyItemCreationTest {
 
     @Test
     public void whenKeyItemNotFoundInListThenEmptyPageReturns() {
-        final Page<FeedItem> page = Page.create(this.items, "48", 3, true);
+        final Page<FeedItem> page = Page.create(this.items, "48", 3, Direction.NEXT);
 
         assertTrue(page.first);
         assertTrue(page.last);
@@ -42,7 +43,7 @@ public class PageKeyItemCreationTest {
 
     @Test
     public void whenKeyItemIsFirstItemInListThenItIsFirstPage() {
-        final Page<FeedItem> page = Page.create(this.items, "1", 3, true);
+        final Page<FeedItem> page = Page.create(this.items, "1", 3, Direction.NEXT);
 
         assertTrue(page.first);
         assertFalse(page.last);
@@ -50,7 +51,7 @@ public class PageKeyItemCreationTest {
 
     @Test
     public void whenKeyItemIsLastItemInListThenItIsFirstPage() {
-        final Page<FeedItem> page = Page.create(this.items, "5", 3, true);
+        final Page<FeedItem> page = Page.create(this.items, "5", 3, Direction.NEXT);
 
         assertFalse(page.first);
         assertTrue(page.last);
@@ -58,7 +59,7 @@ public class PageKeyItemCreationTest {
 
     @Test
     public void happyFlowForward() {
-        final Page<FeedItem> page = Page.create(this.items, "3", 2, true);
+        final Page<FeedItem> page = Page.create(this.items, "3", 2, Direction.NEXT);
 
         assertFalse(page.first);
         assertFalse(page.last);
@@ -74,7 +75,7 @@ public class PageKeyItemCreationTest {
 
     @Test
     public void happyFlowBackward() {
-        final Page<FeedItem> page = Page.create(this.items, "3", 2, false);
+        final Page<FeedItem> page = Page.create(this.items, "3", 2, Direction.PREVIOUS);
 
         assertFalse(page.first);
         assertFalse(page.last);
@@ -90,7 +91,7 @@ public class PageKeyItemCreationTest {
 
     @Test
     public void whenThereAreNoEnoughBackwardItemsThenListIsCut() {
-        final Page<FeedItem> page = Page.create(this.items, "3", 5, false);
+        final Page<FeedItem> page = Page.create(this.items, "3", 5, Direction.PREVIOUS);
 
         assertFalse(page.first);
         assertFalse(page.last);
@@ -106,7 +107,7 @@ public class PageKeyItemCreationTest {
 
     @Test
     public void whenThereAreNoEnoughForwardItemsThenListIsCut() {
-        final Page<FeedItem> page = Page.create(this.items, "3", 5, true);
+        final Page<FeedItem> page = Page.create(this.items, "3", 5, Direction.NEXT);
 
         assertFalse(page.first);
         assertFalse(page.last);
