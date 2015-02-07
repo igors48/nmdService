@@ -40,7 +40,7 @@ public class ReadFeedCardsTest extends AbstractHttpTest {
 
         final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "1", "");
 
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
+        assertErrorResponse(response, ErrorCode.INVALID_SIZE);
     }
 
     @Test
@@ -49,7 +49,7 @@ public class ReadFeedCardsTest extends AbstractHttpTest {
 
         final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "1", "a");
 
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
+        assertErrorResponse(response, ErrorCode.INVALID_SIZE);
     }
 
     @Test
@@ -58,7 +58,7 @@ public class ReadFeedCardsTest extends AbstractHttpTest {
 
         final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "1", "-1");
 
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
+        assertErrorResponse(response, ErrorCode.INVALID_SIZE);
     }
 
     @Test
@@ -67,7 +67,7 @@ public class ReadFeedCardsTest extends AbstractHttpTest {
 
         final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "", "1");
 
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
+        assertErrorResponse(response, ErrorCode.INVALID_SIZE);
     }
 
     @Test
@@ -76,7 +76,7 @@ public class ReadFeedCardsTest extends AbstractHttpTest {
 
         final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "a", "1");
 
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
+        assertErrorResponse(response, ErrorCode.INVALID_SIZE);
     }
 
     @Test
@@ -85,7 +85,7 @@ public class ReadFeedCardsTest extends AbstractHttpTest {
 
         final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "-1", "1");
 
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
+        assertErrorResponse(response, ErrorCode.INVALID_SIZE);
     }
 
     @Test

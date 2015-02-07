@@ -28,28 +28,6 @@ public class Page<T> {
         this.items = items;
     }
 
-    public static <T> Page<T> create(final List<T> list, final int offset, final int size) {
-        guard(notNull(list));
-        guard(isPositive(offset));
-        guard(isPositive(size));
-
-        final boolean first = offset == 0;
-        final boolean last;
-        final int lastIndex;
-
-        if (offset + size >= list.size()) {
-            lastIndex = list.size();
-            last = true;
-        } else {
-            lastIndex = offset + size;
-            last = false;
-        }
-
-        final List<T> items = offset > list.size() ? new ArrayList<T>() : list.subList(offset, lastIndex);
-
-        return new Page<T>(items, first, last);
-    }
-
     public static Page<FeedItem> create(final List<FeedItem> list, final String keyItemGuid, final int size, final Direction direction) {
         guard(notNull(list));
         guard(isValidFeedItemGuid(keyItemGuid));

@@ -6,11 +6,11 @@ import nmd.orb.http.responses.FeedItemsReportResponse;
 import nmd.orb.http.responses.FeedReadReportsResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.ReadsService;
-import nmd.orb.util.Direction;
 import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
+import nmd.orb.util.Direction;
 
 import java.util.List;
 import java.util.UUID;
@@ -116,23 +116,6 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
             return createJsonResponse(response);
         } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error getting feed [ %s ] items report ", feedId), exception);
-
-            return createErrorJsonResponse(exception);
-        }
-    }
-
-    @Override
-    public ResponseBody getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) {
-
-        try {
-            FeedItemsCardsReport report = this.readsService.getFeedItemsCardsReport(feedId, offset, size);
-            FeedItemsCardsReportResponse response = FeedItemsCardsReportResponse.convert(report);
-
-            LOGGER.info(format("Feed [ %s ] items cards report created", feedId));
-
-            return createJsonResponse(response);
-        } catch (ServiceException exception) {
-            LOGGER.log(Level.SEVERE, format("Error getting feed [ %s ] items cards report ", feedId), exception);
 
             return createErrorJsonResponse(exception);
         }

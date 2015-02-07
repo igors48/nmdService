@@ -11,13 +11,13 @@ import nmd.orb.repositories.FeedHeadersRepository;
 import nmd.orb.repositories.FeedItemsRepository;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 import nmd.orb.repositories.Transactions;
-import nmd.orb.util.Direction;
 import nmd.orb.services.filter.FeedItemReportFilter;
 import nmd.orb.services.report.FeedItemReport;
 import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
 import nmd.orb.sources.Source;
+import nmd.orb.util.Direction;
 import nmd.orb.util.Page;
 
 import java.util.*;
@@ -153,41 +153,6 @@ public class ReadsService extends AbstractService {
 
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
             final Page<FeedItem> page = Page.create(feedItems, itemId, size, direction);
-
-            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
-
-            for (final FeedItem feedItem : page.items) {
-                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
-
-                feedItemReports.add(feedItemReport);
-            }
-
-            transaction.commit();
-
-            return new FeedItemsCardsReport(header.id, header.title, page.first, page.last, feedItemReports);
-        } finally {
-            rollbackIfActive(transaction);
-        }
-    }
-
-    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) throws ServiceException {
-        guard(isValidFeedHeaderId(feedId));
-        guard(isPositive(offset));
-        guard(isPositive(size));
-
-        Transaction transaction = null;
-
-        try {
-            transaction = this.transactions.beginOne();
-
-            final FeedHeader header = loadFeedHeader(feedId);
-
-            final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
-
-            final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
-
-            Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
-            final Page<FeedItem> page = Page.create(feedItems, offset, size);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 

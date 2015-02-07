@@ -74,6 +74,20 @@ public class ServiceError {
                 "Identifiers cannot be parsed. Check identifiers.");
     }
 
+    public static ServiceError invalidItemId(final String itemId) {
+
+        return new ServiceError(ErrorCode.INVALID_ITEM_ID,
+                format("Item id [ %s ] invalid ", itemId),
+                "Check item id.");
+    }
+
+    public static ServiceError invalidDirection(final String direction) {
+
+        return new ServiceError(ErrorCode.INVALID_DIRECTION,
+                format("Direction [ %s ] invalid ", direction),
+                "Check direction name.");
+    }
+
     public static ServiceError invalidMarkMode(final String markMode) {
 
         return new ServiceError(ErrorCode.INVALID_MARK_MODE,
@@ -125,9 +139,9 @@ public class ServiceError {
                 "Invalid category identifier. Check the identifier.");
     }
 
-    public static ServiceError invalidOffsetOrSize(final String offset, final String size) {
-        return new ServiceError(ErrorCode.INVALID_OFFSET_OR_SIZE,
-                format("Invalid page offset [ %s ] or size [ %s ]", offset, size),
+    public static ServiceError invalidSize(final String size) {
+        return new ServiceError(ErrorCode.INVALID_SIZE,
+                format("Invalid page size [ %s ]", size),
                 "Invalid pagination parameters. Check them.");
     }
 
