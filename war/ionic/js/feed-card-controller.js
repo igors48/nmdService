@@ -3,7 +3,6 @@
 controllers.controller('feedCardController',
 
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
-        var pageOffset = 0;
         var pageSize = 5;
 
         $scope.showUi = false;
@@ -27,15 +26,23 @@ controllers.controller('feedCardController',
         };
         
         $scope.onNext = function () {
+            var currentItemIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
+            var lastItemOnPage = currentItemIndex === $rootScope.currentPage.reports.length - 1;
 
+            if (lastItemOnPage) {
+                $rootScope.shownItem = 'next';
+                loadCardsFor($stateParams.itemId, 'next');
+            } else {
+                var nextItemId = $rootScope.currentPage.reports[currentItemIndex + 1].itemId;
+
+                $state.go('feed-card', {
+                    categoryId: $stateParams.categoryId,
+                    feedId: $stateParams.feedId,
+                    itemId: nextItemId
+                });
+            }
         };
 
-        var loadPreviousCards = function () {
-        };
-        
-        var loadNextCards = function () {
-        };
-        
         var loadFirstCards = function () {
             $ionicLoading.show({
                 template: 'Loading...'
@@ -82,7 +89,7 @@ controllers.controller('feedCardController',
 
             if (notEmptyPage) {
                 // show this card
-                if (($rootScope.shownItem === '') || (response.reports.length === 1))}) {
+                if (($rootScope.shownItem === '') || (response.reports.length === 1)) {
                     showCurrentCard();
 
                     return;
@@ -91,7 +98,7 @@ controllers.controller('feedCardController',
                 // redirect to next/prev
                 var shownItemIndex = 1;
 
-                if ($rootScope.currentPage.shownItem === 'prev') {
+                if ($rootScope.shownItem === 'prev') {
                     shownItemIndex = response.reports.length - 2;
                 }
 
