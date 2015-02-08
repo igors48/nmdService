@@ -21,6 +21,8 @@ public class FeedItemCardReportPayload {
     public boolean read;
     public boolean readLater;
     public boolean addedSinceLastView;
+    public int index;
+    public int total;
 
     private FeedItemCardReportPayload() {
         // empty
@@ -41,6 +43,9 @@ public class FeedItemCardReportPayload {
         helper.addedSinceLastView = feedItemReport.addedSinceLastView;
 
         helper.date = feedItemReport.date.getTime();
+
+        helper.index = feedItemReport.index;
+        helper.total = feedItemReport.total;
 
         return helper;
     }
