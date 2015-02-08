@@ -6,9 +6,6 @@ controllers.controller('feedCardController',
         var pageOffset = 0;
         var pageSize = 5;
 
-        var currentItem = 0;
-        var currentPage = {};
-
         $scope.showUi = false;
 
         $scope.utilities = AppUtilities.utilities;
@@ -27,53 +24,19 @@ controllers.controller('feedCardController',
 
         $scope.onPrev = function () {
 
-            if (currentItem === 0) {
-                loadPreviousCards(); 
-
-                return;       
-            }
-
-            currentItem--;
-
-            showCurrentCard();
         };
         
         $scope.onNext = function () {
 
-            if (currentItem === currentPage.reports.length - 1) {
-                loadNextCards();        
-
-                return;
-            }
-
-            currentItem++;
-            
-            showCurrentCard();
         };
 
         var loadPreviousCards = function () {
-
-            if (currentPage.first) {
-                return;
-            }
-
-            pageOffset = pageOffset - pageSize;
-
-            loadCards();
         };
         
         var loadNextCards = function () {
-
-            if (currentPage.last) {
-                return;
-            }
-
-            pageOffset = pageOffset + pageSize;
-
-            loadCards();
         };
         
-        var loadCards = function () {
+        var loadFirstCards = function () {
             $ionicLoading.show({
                 template: 'Loading...'
             });
@@ -81,11 +44,65 @@ controllers.controller('feedCardController',
             reads.query(
                 { 
                     feedId: $stateParams.feedId,
-                    offset: pageOffset,
                     size: pageSize
                 },
                 onLoadCardsCompleted,
                 onServerFault);
+        };
+
+        var loadCardsFor = function (itemId, direction) {
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+
+            reads.query(
+                {
+                    feedId: $stateParams.feedId,
+                    itemId: itemId,
+                    direction: direction,
+                    size: pageSize
+                },
+                onLoadCardsForCompleted,
+                onServerFault);
+        };
+
+        var onLoadCardsForCompleted = function (response) {
+            $ionicLoading.hide();
+
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
+            }
+
+            $scope.utilities.addTimeDifference(response.reports);
+            $rootScope.currentPage = response;
+
+            var notEmptyPage = response.reports.length !== 0;
+
+            if (notEmptyPage) {
+                // show this card
+                if (($rootScope.shownItem === '') || (response.reports.length === 1))}) {
+                    showCurrentCard();
+
+                    return;
+                }
+
+                // redirect to next/prev
+                var shownItemIndex = 1;
+
+                if ($rootScope.currentPage.shownItem === 'prev') {
+                    shownItemIndex = response.reports.length - 2;
+                }
+
+                var shownItemId = response.reports[shownItemIndex].itemId;
+
+                $state.go('feed-card', {
+                    categoryId: $stateParams.categoryId,
+                    feedId: $stateParams.feedId,
+                    itemId: shownItemId
+                });
+            }
         };
 
         var onLoadCardsCompleted = function (response) {
@@ -97,14 +114,20 @@ controllers.controller('feedCardController',
                 return;
             }
 
-            $scope.showUi = true; 
-
             $scope.utilities.addTimeDifference(response.reports);
-            currentPage = response;
+            $rootScope.currentPage = response;
 
-            currentItem = currentPage.reports.length - 1;
+            var notEmptyPage = response.reports.length !== 0;
 
-            showCurrentCard();
+            if (notEmptyPage) {
+                var firstItemId = response.reports[0].itemId;
+
+                $state.go('feed-card', {
+                    categoryId: $stateParams.categoryId,
+                    feedId: $stateParams.feedId,
+                    itemId: firstItemId
+                });
+            }
         };
 
         var onServerFault = function () {
@@ -112,10 +135,11 @@ controllers.controller('feedCardController',
         };
 
         var showCurrentCard = function () {
-            $scope.feed = {};
-            $scope.feed.title = currentPage.title;
+            var currentIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
+            var current = $rootScope.currentPage.reports[currentIndex];
 
-            var current = currentPage.reports[currentItem];
+            $scope.feed = {};
+            $scope.feed.title = $rootScope.currentPage.title;
 
             $scope.card = {};
             $scope.card.date = current.date;
@@ -124,16 +148,46 @@ controllers.controller('feedCardController',
             $scope.card.description = current.description;
             $scope.card.link = current.link;
             $scope.card.notRead = !current.read;
+
+            $scope.showUi = true;
         };
 
         var initialize = function () {
             var firstLoad = !$stateParams.itemId;
 
             if (firstLoad) {
-                loadCards();
+                loadFirstCards();
+                $rootScope.shownItem = '';
             } else {
-                
+
+                if ($rootScope.currentPage) {
+                    var itemIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
+
+                    if (itemIndex === -1) {
+                        loadCardsFor($stateParams.itemId, 'next');
+                        $rootScope.shownItem = '';
+                    } else {
+                        showCurrentCard();
+                    }
+                } else {
+                    loadCardsFor($stateParams.itemId, 'next');
+                    $rootScope.shownItem = '';
+                }
             }
+        };
+
+        var findByItemId = function (array, itemId) {
+            var length = array.length;
+
+            for (var index = 0; index < length; index++) {
+                var current = array[index];
+
+                if (current.itemId === itemId) {
+                    return index;
+                }
+            }
+
+            return -1;
         };
 
         initialize();
