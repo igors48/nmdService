@@ -91,6 +91,7 @@ public class ReadsService extends AbstractService {
             final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
 
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
+            final int total = feedItems.size();
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
 
             final FeedItem topItem = feedItems.isEmpty() ? null : feedItems.get(0);
@@ -104,7 +105,8 @@ public class ReadsService extends AbstractService {
             int addedSinceLastView = 0;
 
             for (final FeedItem feedItem : feedItems) {
-                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem, 0, 0);
+                final int index = feedItems.indexOf(feedItem);
+                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem, index, total);
 
                 final boolean acceptable = filter.acceptable(feedItemReport);
 
