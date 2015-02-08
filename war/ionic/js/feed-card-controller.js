@@ -7,7 +7,6 @@ controllers.controller('feedCardController',
         var pageSize = 5;
 
         var currentItem = 0;
-        var firstIsCurrent = true;
         var currentPage = {};
 
         $scope.showUi = false;
@@ -51,29 +50,6 @@ controllers.controller('feedCardController',
             
             showCurrentCard();
         };
-        
-        $scope.onMarkAndNext = function() {
-            var current = currentPage.reports[currentItem];
-
-            var feedId = current.feedId;
-            var itemId = current.itemId;
-
-            $rootScope.lastItemId = itemId;
-
-            $ionicLoading.show({
-                template: 'Marking item...'
-            });
-
-            reads.mark(
-                {
-                    feedId: feedId,
-                    itemId: itemId,
-                    markAs: 'read'
-                },
-                onMarkItemCompleted,
-                onServerFault
-            );
-        };
 
         var loadPreviousCards = function () {
 
@@ -82,7 +58,6 @@ controllers.controller('feedCardController',
             }
 
             pageOffset = pageOffset - pageSize;
-            firstIsCurrent = false;
 
             loadCards();
         };
@@ -94,7 +69,6 @@ controllers.controller('feedCardController',
             }
 
             pageOffset = pageOffset + pageSize;
-            firstIsCurrent = true;
 
             loadCards();
         };
@@ -114,21 +88,6 @@ controllers.controller('feedCardController',
                 onServerFault);
         };
 
-        var onMarkItemCompleted = function (response) {
-            $ionicLoading.hide();
-
-            if (response.status !== 'SUCCESS') {
-                $scope.utilities.showError($ionicPopup, response);
-
-                return;
-            }
-
-            var current = currentPage.reports[currentItem];
-            current.read = true;
-
-            $scope.onNext();
-        };
-
         var onLoadCardsCompleted = function (response) {
             $ionicLoading.hide();
 
@@ -143,7 +102,7 @@ controllers.controller('feedCardController',
             $scope.utilities.addTimeDifference(response.reports);
             currentPage = response;
 
-            currentItem = firstIsCurrent ? 0 : currentPage.reports.length - 1;
+            currentItem = currentPage.reports.length - 1;
 
             showCurrentCard();
         };
