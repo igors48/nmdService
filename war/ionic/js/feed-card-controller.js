@@ -3,7 +3,7 @@
 controllers.controller('feedCardController',
 
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
-        var pageSize = 5;
+        var pageSize = 2;
 
         $scope.showUi = false;
 
@@ -34,12 +34,7 @@ controllers.controller('feedCardController',
                 loadCardsFor($stateParams.itemId, 'next');
             } else {
                 var nextItemId = $rootScope.currentPage.reports[currentItemIndex + 1].itemId;
-
-                $state.go('feed-card', {
-                    categoryId: $stateParams.categoryId,
-                    feedId: $stateParams.feedId,
-                    itemId: nextItemId
-                });
+                goToItem(nextItemId);
             }
         };
 
@@ -54,7 +49,8 @@ controllers.controller('feedCardController',
                     size: pageSize
                 },
                 onLoadCardsCompleted,
-                onServerFault);
+                onServerFault
+            );
         };
 
         var loadCardsFor = function (itemId, direction) {
@@ -69,47 +65,9 @@ controllers.controller('feedCardController',
                     direction: direction,
                     size: pageSize
                 },
-                onLoadCardsForCompleted,
-                onServerFault);
-        };
-
-        var onLoadCardsForCompleted = function (response) {
-            $ionicLoading.hide();
-
-            if (response.status !== 'SUCCESS') {
-                $scope.utilities.showError($ionicPopup, response);
-
-                return;
-            }
-
-            $scope.utilities.addTimeDifference(response.reports);
-            $rootScope.currentPage = response;
-
-            var notEmptyPage = response.reports.length !== 0;
-
-            if (notEmptyPage) {
-                // show this card
-                if (($rootScope.shownItem === '') || (response.reports.length === 1)) {
-                    showCurrentCard();
-
-                    return;
-                }
-
-                // redirect to next/prev
-                var shownItemIndex = 1;
-
-                if ($rootScope.shownItem === 'prev') {
-                    shownItemIndex = response.reports.length - 2;
-                }
-
-                var shownItemId = response.reports[shownItemIndex].itemId;
-
-                $state.go('feed-card', {
-                    categoryId: $stateParams.categoryId,
-                    feedId: $stateParams.feedId,
-                    itemId: shownItemId
-                });
-            }
+                onLoadCardsCompleted,
+                onServerFault
+            );
         };
 
         var onLoadCardsCompleted = function (response) {
@@ -127,18 +85,30 @@ controllers.controller('feedCardController',
             var notEmptyPage = response.reports.length !== 0;
 
             if (notEmptyPage) {
-                var firstItemId = response.reports[0].itemId;
 
-                $state.go('feed-card', {
-                    categoryId: $stateParams.categoryId,
-                    feedId: $stateParams.feedId,
-                    itemId: firstItemId
-                });
+                // show this card
+                if (($rootScope.shownItem === 'this') || (response.reports.length === 1)) {
+                    showCurrentCard();
+
+                    return;
+                }
+
+                // show first card
+                var shownItemIndex = 0;
+
+                // show next card
+                if (($rootScope.shownItem === 'next')) {
+                    shownItemIndex = 1;
+                }
+
+                // show prev card
+                if ($rootScope.shownItem === 'prev') {
+                    shownItemIndex = response.reports.length - 2;
+                }
+
+                var shownItemId = response.reports[shownItemIndex].itemId;
+                goToItem(shownItemId);
             }
-        };
-
-        var onServerFault = function () {
-            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);       
         };
 
         var showCurrentCard = function () {
@@ -159,26 +129,28 @@ controllers.controller('feedCardController',
             $scope.showUi = true;
         };
 
+        var goToItem = function (itemId) {
+            $state.go('feed-card', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                itemId: itemId
+            });
+        };
+
         var initialize = function () {
             var firstLoad = !$stateParams.itemId;
 
             if (firstLoad) {
                 loadFirstCards();
-                $rootScope.shownItem = '';
+                $rootScope.shownItem = 'first';
             } else {
+                var itemLoaded = ($rootScope.currentPage) && (findByItemId($rootScope.currentPage.reports, $stateParams.itemId) !== -1);
 
-                if ($rootScope.currentPage) {
-                    var itemIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
-
-                    if (itemIndex === -1) {
-                        loadCardsFor($stateParams.itemId, 'next');
-                        $rootScope.shownItem = '';
-                    } else {
-                        showCurrentCard();
-                    }
+                if (itemLoaded) {
+                    showCurrentCard();
                 } else {
+                    $rootScope.shownItem = 'this';
                     loadCardsFor($stateParams.itemId, 'next');
-                    $rootScope.shownItem = '';
                 }
             }
         };
@@ -195,6 +167,10 @@ controllers.controller('feedCardController',
             }
 
             return -1;
+        };
+
+        var onServerFault = function () {
+            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);
         };
 
         initialize();
