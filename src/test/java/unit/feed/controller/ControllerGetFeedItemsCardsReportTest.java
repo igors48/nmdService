@@ -4,6 +4,7 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.services.report.FeedItemsCardsReport;
+import nmd.orb.util.Direction;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -19,7 +20,7 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
 
     @Test(expected = ServiceException.class)
     public void whenFeedNotFoundThenExceptionThrows() throws ServiceException {
-        this.readsService.getFeedItemsCardsReport(UUID.randomUUID(), 0, 5);
+        this.readsService.getFeedItemsCardsReport(UUID.randomUUID(), UUID.randomUUID().toString(), 5, Direction.NEXT);
     }
 
     @Test
@@ -29,7 +30,7 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
         final FeedItem third = create(3);
         final FeedHeader feedHeader = createSampleFeed(first, second, third);
 
-        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
+        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, second.guid, 2, Direction.NEXT);
 
         assertTrue(feedItemsCardsReport.reports.get(0).date.getTime() > feedItemsCardsReport.reports.get(1).date.getTime());
     }
@@ -41,7 +42,7 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
         final FeedItem third = create(3);
         final FeedHeader feedHeader = createSampleFeed(first, second, third);
 
-        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
+        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, second.guid, 2, Direction.NEXT);
 
         assertEquals(feedHeader.title, feedItemsCardsReport.title);
     }
@@ -53,7 +54,7 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
         final FeedItem third = create(3);
         final FeedHeader feedHeader = createSampleFeed(first, second, third);
 
-        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, 0, 5);
+        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, second.guid, 2, Direction.NEXT);
 
         assertEquals(feedHeader.id, feedItemsCardsReport.feedId);
     }

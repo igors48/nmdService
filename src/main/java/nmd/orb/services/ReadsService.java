@@ -17,6 +17,7 @@ import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
 import nmd.orb.sources.Source;
+import nmd.orb.util.Direction;
 import nmd.orb.util.Page;
 
 import java.util.*;
@@ -27,6 +28,7 @@ import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.orb.reader.FeedItemsComparator.compare;
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Page.isValidKeyItemGuid;
 import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 import static nmd.orb.util.TransactionTools.rollbackIfActive;
@@ -133,10 +135,11 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) throws ServiceException {
+    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final String itemId, final int size, final Direction direction) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
-        guard(isPositive(offset));
+        guard(isValidKeyItemGuid(itemId));
         guard(isPositive(size));
+        guard(notNull(direction));
 
         Transaction transaction = null;
 
@@ -150,7 +153,7 @@ public class ReadsService extends AbstractService {
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
 
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
-            final Page<FeedItem> page = new Page<>(feedItems, offset, size);
+            final Page<FeedItem> page = Page.create(feedItems, itemId, size, direction);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 

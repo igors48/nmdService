@@ -2,6 +2,7 @@ package nmd.orb.http.wrappers;
 
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.filter.FeedItemReportFilter;
+import nmd.orb.util.Direction;
 
 import java.util.UUID;
 
@@ -20,6 +21,6 @@ public interface ReadsServiceWrapper {
 
     ResponseBody getFeedItemsReport(UUID feedId, FeedItemReportFilter filter);
 
-    ResponseBody getFeedItemsCardsReport(UUID feedId, int offset, int size);
+    ResponseBody getFeedItemsCardsReport(UUID feedId, String itemId, int size, final Direction direction);
 
 }

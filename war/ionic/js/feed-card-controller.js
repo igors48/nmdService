@@ -3,12 +3,7 @@
 controllers.controller('feedCardController',
 
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
-        var pageOffset = 0;
         var pageSize = 5;
-
-        var currentItem = 0;
-        var firstIsCurrent = true;
-        var currentPage = {};
 
         $scope.showUi = false;
 
@@ -27,79 +22,32 @@ controllers.controller('feedCardController',
         };
 
         $scope.onPrev = function () {
+            var currentItemIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
+            var firstItemOnPage = currentItemIndex === 0;
 
-            if (currentItem === 0) {
-                loadPreviousCards(); 
-
-                return;       
+            if (firstItemOnPage) {
+                $rootScope.shownItem = 'prev';
+                loadCardsFor($stateParams.itemId, 'prev');
+            } else {
+                var prevItemId = $rootScope.currentPage.reports[currentItemIndex - 1].itemId;
+                goToItem(prevItemId);
             }
-
-            currentItem--;
-
-            showCurrentCard();
         };
         
         $scope.onNext = function () {
+            var currentItemIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
+            var lastItemOnPage = currentItemIndex === $rootScope.currentPage.reports.length - 1;
 
-            if (currentItem === currentPage.reports.length - 1) {
-                loadNextCards();        
-
-                return;
+            if (lastItemOnPage) {
+                $rootScope.shownItem = 'next';
+                loadCardsFor($stateParams.itemId, 'next');
+            } else {
+                var nextItemId = $rootScope.currentPage.reports[currentItemIndex + 1].itemId;
+                goToItem(nextItemId);
             }
-
-            currentItem++;
-            
-            showCurrentCard();
-        };
-        
-        $scope.onMarkAndNext = function() {
-            var current = currentPage.reports[currentItem];
-
-            var feedId = current.feedId;
-            var itemId = current.itemId;
-
-            $rootScope.lastItemId = itemId;
-
-            $ionicLoading.show({
-                template: 'Marking item...'
-            });
-
-            reads.mark(
-                {
-                    feedId: feedId,
-                    itemId: itemId,
-                    markAs: 'read'
-                },
-                onMarkItemCompleted,
-                onServerFault
-            );
         };
 
-        var loadPreviousCards = function () {
-
-            if (currentPage.first) {
-                return;
-            }
-
-            pageOffset = pageOffset - pageSize;
-            firstIsCurrent = false;
-
-            loadCards();
-        };
-        
-        var loadNextCards = function () {
-
-            if (currentPage.last) {
-                return;
-            }
-
-            pageOffset = pageOffset + pageSize;
-            firstIsCurrent = true;
-
-            loadCards();
-        };
-        
-        var loadCards = function () {
+        var loadFirstCards = function () {
             $ionicLoading.show({
                 template: 'Loading...'
             });
@@ -107,26 +55,28 @@ controllers.controller('feedCardController',
             reads.query(
                 { 
                     feedId: $stateParams.feedId,
-                    offset: pageOffset,
                     size: pageSize
                 },
                 onLoadCardsCompleted,
-                onServerFault);
+                onServerFault
+            );
         };
 
-        var onMarkItemCompleted = function (response) {
-            $ionicLoading.hide();
+        var loadCardsFor = function (itemId, direction) {
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
 
-            if (response.status !== 'SUCCESS') {
-                $scope.utilities.showError($ionicPopup, response);
-
-                return;
-            }
-
-            var current = currentPage.reports[currentItem];
-            current.read = true;
-
-            $scope.onNext();
+            reads.query(
+                {
+                    feedId: $stateParams.feedId,
+                    itemId: itemId,
+                    direction: direction,
+                    size: pageSize
+                },
+                onLoadCardsCompleted,
+                onServerFault
+            );
         };
 
         var onLoadCardsCompleted = function (response) {
@@ -138,25 +88,44 @@ controllers.controller('feedCardController',
                 return;
             }
 
-            $scope.showUi = true; 
-
             $scope.utilities.addTimeDifference(response.reports);
-            currentPage = response;
+            $rootScope.currentPage = response;
 
-            currentItem = firstIsCurrent ? 0 : currentPage.reports.length - 1;
+            var notEmptyPage = response.reports.length !== 0;
 
-            showCurrentCard();
-        };
+            if (notEmptyPage) {
 
-        var onServerFault = function () {
-            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);       
+                // show this card
+                if (($rootScope.shownItem === 'this') || (response.reports.length === 1)) {
+                    showCurrentCard();
+
+                    return;
+                }
+
+                // show first card
+                var shownItemIndex = 0;
+
+                // show next card
+                if (($rootScope.shownItem === 'next')) {
+                    shownItemIndex = 1;
+                }
+
+                // show prev card
+                if ($rootScope.shownItem === 'prev') {
+                    shownItemIndex = response.reports.length - 2;
+                }
+
+                var shownItemId = response.reports[shownItemIndex].itemId;
+                goToItem(shownItemId);
+            }
         };
 
         var showCurrentCard = function () {
-            $scope.feed = {};
-            $scope.feed.title = currentPage.title;
+            var currentIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
+            var current = $rootScope.currentPage.reports[currentIndex];
 
-            var current = currentPage.reports[currentItem];
+            $scope.feed = {};
+            $scope.feed.title = $rootScope.currentPage.title;
 
             $scope.card = {};
             $scope.card.date = current.date;
@@ -165,8 +134,54 @@ controllers.controller('feedCardController',
             $scope.card.description = current.description;
             $scope.card.link = current.link;
             $scope.card.notRead = !current.read;
+
+            $scope.showUi = true;
         };
 
-        loadCards();
+        var goToItem = function (itemId) {
+            $state.go('feed-card', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                itemId: itemId
+            });
+        };
+
+        var initialize = function () {
+            var firstLoad = !$stateParams.itemId;
+
+            if (firstLoad) {
+                loadFirstCards();
+                $rootScope.shownItem = 'first';
+            } else {
+                var itemLoaded = ($rootScope.currentPage) && (findByItemId($rootScope.currentPage.reports, $stateParams.itemId) !== -1);
+
+                if (itemLoaded) {
+                    showCurrentCard();
+                } else {
+                    $rootScope.shownItem = 'this';
+                    loadCardsFor($stateParams.itemId, 'next');
+                }
+            }
+        };
+
+        var findByItemId = function (array, itemId) {
+            var length = array.length;
+
+            for (var index = 0; index < length; index++) {
+                var current = array[index];
+
+                if (current.itemId === itemId) {
+                    return index;
+                }
+            }
+
+            return -1;
+        };
+
+        var onServerFault = function () {
+            $scope.utilities.showFatalError($ionicPopup, $ionicLoading);
+        };
+
+        initialize();
     }
 );
