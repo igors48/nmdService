@@ -134,6 +134,8 @@ controllers.controller('feedCardController',
             $scope.card.description = current.description;
             $scope.card.link = current.link;
             $scope.card.notRead = !current.read;
+            $scope.card.index = current.index + 1;
+            $scope.card.total = current.total;
 
             $scope.showUi = true;
         };
