@@ -3,7 +3,7 @@
 controllers.controller('feedCardController',
 
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
-        var pageSize = 2;
+        var pageSize = 5;
 
         $scope.showUi = false;
 
@@ -22,7 +22,16 @@ controllers.controller('feedCardController',
         };
 
         $scope.onPrev = function () {
+            var currentItemIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
+            var firstItemOnPage = currentItemIndex === 0;
 
+            if (firstItemOnPage) {
+                $rootScope.shownItem = 'prev';
+                loadCardsFor($stateParams.itemId, 'prev');
+            } else {
+                var prevItemId = $rootScope.currentPage.reports[currentItemIndex - 1].itemId;
+                goToItem(prevItemId);
+            }
         };
         
         $scope.onNext = function () {
