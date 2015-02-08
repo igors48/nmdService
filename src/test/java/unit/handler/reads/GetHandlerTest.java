@@ -18,9 +18,6 @@ import static unit.handler.Tools.call;
  */
 public class GetHandlerTest {
 
-    private static final UUID FEED_ID = UUID.randomUUID();
-    private static final String ITEM_ID = UUID.randomUUID().toString();
-
     private ReadsServiceWrapper readsServiceWrapper;
     private ReadsServletGetRequestHandler handler;
 
@@ -40,7 +37,7 @@ public class GetHandlerTest {
         assertError(call(this.handler, "/*"), ErrorCode.INVALID_FEED_ID);
 
         setUp();
-        assertError(call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225"), ErrorCode.INVALID_PARAMETERS_COUNT);
+        assertError(call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225"), ErrorCode.INVALID_SIZE);
 
         setUp();
         assertError(call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225/next"), ErrorCode.INVALID_PARAMETERS_COUNT);
@@ -82,6 +79,10 @@ public class GetHandlerTest {
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225/next/5");
         Mockito.verify(this.readsServiceWrapper).getFeedItemsCardsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), "8efc756a-8dae-4ea7-8851-85706d1ef225", 5, Direction.NEXT);
+
+        setUp();
+        call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/5");
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsCardsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), "", 5, Direction.NEXT);
     }
 
 }

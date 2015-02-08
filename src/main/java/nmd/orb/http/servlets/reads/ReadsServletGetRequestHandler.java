@@ -34,6 +34,7 @@ public class ReadsServletGetRequestHandler implements Handler {
     //GET -- reads report
     //GET /{feedId}?filter={filterName} -- feed items report
     //GET /{feedId}/{itemId}/{next|prev}/{size} -- feed items cards report
+    //GET /{feedId}/{size} -- initial feed items cards report
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
         guard(notNull(elements));
@@ -58,24 +59,36 @@ public class ReadsServletGetRequestHandler implements Handler {
             return this.readsService.getFeedItemsReport(feedId, filter);
         }
 
-        if (elements.size() < 4) {
+        final boolean elementsCountIsNotValid = !(elements.size() == 2 || elements.size() == 4);
+
+        if (elementsCountIsNotValid) {
             return createErrorJsonResponse(invalidParametersCount());
         }
 
-        final String itemIdAsString = elements.get(1);
+        final String itemIdAsString;
+        final Direction direction;
 
-        if (!isValidFeedItemGuid(itemIdAsString)) {
-            return createErrorJsonResponse(invalidItemId(itemIdAsString));
+        boolean initialReport = elements.size() == 2;
+
+        if (initialReport) {
+            itemIdAsString = "";
+            direction = Direction.NEXT;
+        } else {
+            itemIdAsString = elements.get(1);
+
+            if (!isValidFeedItemGuid(itemIdAsString)) {
+                return createErrorJsonResponse(invalidItemId(itemIdAsString));
+            }
+
+            final String directionAsString = elements.get(2);
+            direction = Direction.forName(directionAsString);
+
+            if (direction == null) {
+                return createErrorJsonResponse(invalidDirection(directionAsString));
+            }
         }
 
-        final String directionAsString = elements.get(2);
-        final Direction direction = Direction.forName(directionAsString);
-
-        if (direction == null) {
-            return createErrorJsonResponse(invalidDirection(directionAsString));
-        }
-
-        final String sizeAsString = elements.get(3);
+        final String sizeAsString = elements.get(elements.size() - 1);
         final Integer size = parseInteger(sizeAsString);
 
         if (size == null) {

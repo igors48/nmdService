@@ -6,6 +6,7 @@ import nmd.orb.util.Page;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -30,6 +31,31 @@ public class PageKeyItemCreationTest {
     @Before
     public void setUp() {
         this.items = Arrays.asList(FEED_ITEMS);
+    }
+
+    @Test
+    public void whenItemsListIsEmptyThenEmptyPageReturns() {
+        final Page<FeedItem> page = Page.create(new ArrayList<FeedItem>(), "48", 3, Direction.NEXT);
+
+        assertTrue(page.first);
+        assertTrue(page.last);
+        assertTrue(page.items.isEmpty());
+    }
+
+    @Test
+    public void whenItemsListIsEmptyAndKeyItemNotDefinedThenEmptyPageReturns() {
+        final Page<FeedItem> page = Page.create(new ArrayList<FeedItem>(), "", 3, Direction.NEXT);
+
+        assertTrue(page.first);
+        assertTrue(page.last);
+        assertTrue(page.items.isEmpty());
+    }
+
+    @Test
+    public void whenKeyItemNotSetThenFirstItemIsUsed() {
+        final Page<FeedItem> page = Page.create(this.items, "", 3, Direction.NEXT);
+
+        assertEquals(create(1), page.items.get(0));
     }
 
     @Test

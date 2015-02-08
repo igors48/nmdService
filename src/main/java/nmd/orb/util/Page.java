@@ -16,6 +16,8 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class Page<T> {
 
+    private static final Page<FeedItem> EMPTY_FEED_ITEM_PAGE = new Page<>(new ArrayList<FeedItem>(), true, true);
+
     public final boolean first;
     public final boolean last;
     public final List<T> items;
@@ -30,16 +32,20 @@ public class Page<T> {
 
     public static Page<FeedItem> create(final List<FeedItem> list, final String keyItemGuid, final int size, final Direction direction) {
         guard(notNull(list));
-        guard(isValidFeedItemGuid(keyItemGuid));
+        guard(notNull(keyItemGuid) && (keyItemGuid.isEmpty() || isValidFeedItemGuid(keyItemGuid)));
         guard(isPositive(size));
         guard(notNull(direction));
 
-        final int keyItemIndex = find(list, keyItemGuid);
+        if (list.isEmpty()) {
+            return EMPTY_FEED_ITEM_PAGE;
+        }
+
+        final int keyItemIndex = keyItemGuid.isEmpty() ? 0 : find(list, keyItemGuid);
 
         final boolean noKeyItemInList = keyItemIndex == -1;
 
         if (noKeyItemInList) {
-            return new Page<>(new ArrayList<FeedItem>(), true, true);
+            return EMPTY_FEED_ITEM_PAGE;
         }
 
         final int maxIndex = list.size() - 1;
