@@ -32,7 +32,7 @@ public class Page<T> {
 
     public static Page<FeedItem> create(final List<FeedItem> list, final String keyItemGuid, final int size, final Direction direction) {
         guard(notNull(list));
-        guard(notNull(keyItemGuid) && (keyItemGuid.isEmpty() || isValidFeedItemGuid(keyItemGuid)));
+        guard(isValidKeyItemGuid(keyItemGuid));
         guard(isPositive(size));
         guard(notNull(direction));
 
@@ -62,6 +62,10 @@ public class Page<T> {
         final List<FeedItem> subList = list.subList(fromIndexAdjusted, toIndexAdjusted);
 
         return new Page<>(subList, first, last);
+    }
+
+    public static boolean isValidKeyItemGuid(final String keyItemGuid) {
+        return notNull(keyItemGuid) && (keyItemGuid.isEmpty() || isValidFeedItemGuid(keyItemGuid));
     }
 
     private static int find(final List<FeedItem> list, final String guid) {

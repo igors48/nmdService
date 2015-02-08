@@ -150,8 +150,12 @@ public abstract class AbstractHttpTest {
         return GSON.fromJson(assertSuccessResponse(getReadsCardsReportAsString(feedId, itemId, direction, size)), FeedItemsCardsReportResponse.class);
     }
 
+    protected FeedItemsCardsReportResponse getReadsCardsInitialReport(final String feedId, final String size) {
+        return GSON.fromJson(assertSuccessResponse(getReadsCardsReportAsString(feedId, "", "", size)), FeedItemsCardsReportResponse.class);
+    }
+
     protected String getReadsCardsReportAsString(final String feedId, final String itemId, final String direction, final String size) {
-        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + "/" + itemId + "/" + direction + "/" + size)).asString();
+        return assertServerProcessingTimeHeaderValid(given().get(READS_SERVLET_URL + feedId + (itemId.isEmpty() ? "" : "/" + itemId) + (direction.isEmpty() ? "" : "/" + direction) + "/" + size)).asString();
     }
 
     protected String getFeedItemsReportAsString(final String feedId) {

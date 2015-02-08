@@ -28,6 +28,7 @@ import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.orb.reader.FeedItemsComparator.compare;
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Page.isValidKeyItemGuid;
 import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 import static nmd.orb.util.TransactionTools.rollbackIfActive;
@@ -136,7 +137,7 @@ public class ReadsService extends AbstractService {
 
     public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final String itemId, final int size, final Direction direction) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
-        guard(isValidFeedItemGuid(itemId));
+        guard(isValidKeyItemGuid(itemId));
         guard(isPositive(size));
         guard(notNull(direction));
 
