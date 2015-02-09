@@ -17,7 +17,8 @@ import java.util.UUID;
 
 import static nmd.orb.error.ServiceError.invalidFeedUrl;
 import static nmd.orb.feed.FeedHeader.create;
-import static nmd.orb.util.Assert.*;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.*;
 import static nmd.orb.util.StringTools.*;
 
 /**
@@ -31,8 +32,8 @@ public final class FeedParser {
     }
 
     public static Feed parse(final String feedUrl, final String feedData) throws FeedParserException {
-        assertValidUrl(feedUrl);
-        assertStringIsValid(feedData);
+        guard(isValidUrl(feedUrl));
+        guard(isValidString(feedData));
 
         try {
             final String correctedData = stripNonValidXMLCharacters(feedData);
@@ -61,9 +62,9 @@ public final class FeedParser {
     }
 
     public static FeedItem build(final String link, final String title, final String description, final String alternateDescription, final Date date, final Date currentDate, final String guid) {
-        assertNotNull(currentDate);
-        assertNotNull(alternateDescription);
-        assertStringIsValid(guid);
+        guard(notNull(currentDate));
+        guard(notNull(alternateDescription));
+        guard(isValidString(guid));
 
         final String itemLink = trim(link);
 
@@ -80,7 +81,7 @@ public final class FeedParser {
     }
 
     public static FeedHeader build(final String url, final String link, final String title, final String description, final UUID guid) throws ServiceException {
-        assertNotNull(guid);
+        guard(notNull(guid));
 
         final String feedUrl = trim(url);
 
@@ -116,7 +117,7 @@ public final class FeedParser {
         return build(itemLink, itemTitle, itemDescription, itemAlternateDescription, itemDate, itemCurrentDate, itemGuid);
     }
 
-    private static String createAlternateDescription(SyndEntry entry) {
+    private static String createAlternateDescription(final SyndEntry entry) {
         final List contentsList = entry.getContents();
         final StringBuilder contents = new StringBuilder();
 
@@ -126,6 +127,7 @@ public final class FeedParser {
                 contents.append(((SyndContent) current).getValue());
             }
         }
+
         return contents.toString().trim();
     }
 
