@@ -1,6 +1,7 @@
 package nmd.orb.feed;
 
 import nmd.orb.error.ServiceException;
+import nmd.orb.util.IllegalParameterException;
 
 import java.io.Serializable;
 import java.util.UUID;
@@ -24,19 +25,19 @@ public class FeedHeader implements Serializable {
     public final String link;
 
     public FeedHeader(final UUID id, final String feedLink, final String title, final String description, final String link) {
-        guard(isValidFeedHeaderId(id));
+        guard(isValidFeedHeaderId(id), invalidFeedId(null));
         this.id = id;
 
-        guard(isValidUrl(feedLink));
+        guard(isValidUrl(feedLink), invalidFeedUrl(feedLink));
         this.feedLink = feedLink;
 
-        guard(isValidFeedHeaderTitle(title));
+        guard(isValidFeedHeaderTitle(title), invalidFeedTitle(title));
         this.title = title;
 
-        guard(isValidFeedHeaderDescription(description));
+        guard(isValidFeedHeaderDescription(description), invalidFeedDescription(description));
         this.description = description;
 
-        guard(isValidUrl(link));
+        guard(isValidUrl(link), invalidUrl(link));
         this.link = link;
     }
 
@@ -92,27 +93,11 @@ public class FeedHeader implements Serializable {
 
     public static FeedHeader create(final UUID id, final String feedLink, final String title, final String description, final String link) throws ServiceException {
 
-        if (!isValidFeedHeaderId(id)) {
-            throw new ServiceException(invalidFeedId(null));
+        try {
+            return new FeedHeader(id, feedLink, title, description, link);
+        } catch (IllegalParameterException exception) {
+            throw new ServiceException(exception.serviceError);
         }
-
-        if (!isValidUrl(feedLink)) {
-            throw new ServiceException(invalidFeedUrl(feedLink));
-        }
-
-        if (!isValidFeedHeaderTitle(title)) {
-            throw new ServiceException(invalidFeedTitle(title));
-        }
-
-        if (!isValidFeedHeaderDescription(description)) {
-            throw new ServiceException(invalidFeedDescription(description));
-        }
-
-        if (!isValidUrl(link)) {
-            throw new ServiceException(invalidUrl(link));
-        }
-
-        return new FeedHeader(id, feedLink, title, description, link);
     }
 
 }

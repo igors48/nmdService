@@ -1,5 +1,7 @@
 package nmd.orb.util;
 
+import nmd.orb.error.ServiceError;
+
 import static nmd.orb.util.Parameter.*;
 
 /**
@@ -28,6 +30,14 @@ public final class Assert {
 
         if (!value) {
             throw new IllegalArgumentException();
+        }
+    }
+
+    public static void guard(final boolean value, final ServiceError serviceError) throws IllegalParameterException {
+        guard(notNull(serviceError));
+
+        if (!value) {
+            throw new IllegalParameterException(serviceError);
         }
     }
 
