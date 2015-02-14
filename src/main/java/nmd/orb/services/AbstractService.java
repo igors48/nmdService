@@ -1,5 +1,6 @@
 package nmd.orb.services;
 
+import com.sun.syndication.io.FeedException;
 import nmd.orb.collector.fetcher.UrlFetcher;
 import nmd.orb.collector.fetcher.UrlFetcherException;
 import nmd.orb.error.ServiceException;
@@ -14,11 +15,11 @@ import nmd.orb.sources.instagram.InstagramClientTools;
 import nmd.orb.sources.instagram.entities.ContentEnvelope;
 import nmd.orb.sources.instagram.entities.User;
 import nmd.orb.sources.instagram.entities.UserEnvelope;
-import nmd.orb.sources.rss.FeedParserException;
 import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -83,10 +84,8 @@ public class AbstractService {
                 default:
                     return fetchAsRssUrl(feedUrl);
             }
-        } catch (final UrlFetcherException exception) {
+        } catch (UrlFetcherException | FeedException | UnsupportedEncodingException exception) {
             throw new ServiceException(urlFetcherError(feedUrl), exception);
-        } catch (FeedParserException exception) {
-            throw new ServiceException(feedParseError(feedUrl), exception);
         }
     }
 
@@ -131,18 +130,14 @@ public class AbstractService {
         }
     }
 
-    private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
+    private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedException, ServiceException, UnsupportedEncodingException {
 
-        try {
-            byte[] bytes = this.fetcher.fetch(feedUrl);
+        byte[] bytes = this.fetcher.fetch(feedUrl);
 
-            String originCharset = detectCharset(bytes);
-            String string = new String(bytes, originCharset);
+        String originCharset = detectCharset(bytes);
+        String string = new String(bytes, originCharset);
 
-            return parse(feedUrl, string);
-        } catch (IOException exception) {
-            throw new FeedParserException(exception);
-        }
+        return parse(feedUrl, string);
     }
 
 }

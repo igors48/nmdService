@@ -3,6 +3,7 @@ package nmd.orb.sources.rss;
 import com.sun.syndication.feed.synd.SyndContent;
 import com.sun.syndication.feed.synd.SyndEntry;
 import com.sun.syndication.feed.synd.SyndFeed;
+import com.sun.syndication.io.FeedException;
 import com.sun.syndication.io.SyndFeedInput;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
@@ -31,34 +32,29 @@ public final class FeedParser {
         // empty
     }
 
-    public static Feed parse(final String feedUrl, final String feedData) throws FeedParserException {
+    public static Feed parse(final String feedUrl, final String feedData) throws FeedException, ServiceException {
         guard(isValidUrl(feedUrl));
         guard(isValidString(feedData));
 
-        try {
-            final String correctedData = stripNonValidXMLCharacters(feedData);
-            final StringReader reader = new StringReader(correctedData);
-            final SyndFeedInput input = new SyndFeedInput();
-            final SyndFeed feed = input.build(reader);
+        final String correctedData = stripNonValidXMLCharacters(feedData);
+        final StringReader reader = new StringReader(correctedData);
+        final SyndFeedInput input = new SyndFeedInput();
+        final SyndFeed feed = input.build(reader);
 
-            final FeedHeader header = build(feedUrl, feed);
+        final FeedHeader header = build(feedUrl, feed);
 
-            final List<FeedItem> items = new ArrayList<>();
+        final List<FeedItem> items = new ArrayList<>();
 
-            for (int i = 0; i < feed.getEntries().size(); i++) {
-                final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
-                final FeedItem item = build(entry);
+        for (int i = 0; i < feed.getEntries().size(); i++) {
+            final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
+            final FeedItem item = build(entry);
 
-                if (item != null) {
-                    items.add(item);
-                }
+            if (item != null) {
+                items.add(item);
             }
-
-            return new Feed(header, items);
-        } catch (Exception exception) {
-            throw new FeedParserException(exception);
         }
 
+        return new Feed(header, items);
     }
 
     public static FeedItem build(final String link, final String title, final String description, final String alternateDescription, final Date date, final Date currentDate, final String guid) throws ServiceException {

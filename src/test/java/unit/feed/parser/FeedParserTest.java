@@ -1,8 +1,9 @@
 package unit.feed.parser;
 
+import com.sun.syndication.io.FeedException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.sources.rss.FeedParser;
-import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;
 
 import static org.junit.Assert.assertEquals;
@@ -38,7 +39,7 @@ public class FeedParserTest {
     private static final String RSS_FEED_URL = "http://www.3dnews.ru/news/rss";
 
     @Test
-    public void smoke() throws FeedParserException {
+    public void smoke() throws FeedException, ServiceException {
 
         Feed feed = FeedParser.parse(RSS_FEED_URL, RSS_FEED);
 
