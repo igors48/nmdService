@@ -24,63 +24,63 @@ public class FeedItemBuilderTest {
     private static final Date CURRENT_DATE = new Date(2);
 
     @Test
-    public void whenLinkIsNullThenNullReturns() {
+    public void whenLinkIsNullThenNullReturns() throws ServiceException {
         final FeedItem feedItem = build(null, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertNull(feedItem);
     }
 
     @Test
-    public void whenLinkIsEmptyThenNullReturns() {
+    public void whenLinkIsEmptyThenNullReturns() throws ServiceException {
         final FeedItem feedItem = build("", TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertNull(feedItem);
     }
 
     @Test
-    public void whenLinkContainsSpacesOnlyThenNullReturns() {
+    public void whenLinkContainsSpacesOnlyThenNullReturns() throws ServiceException {
         final FeedItem feedItem = build(" ", TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertNull(feedItem);
     }
 
     @Test
-    public void whenLinkIsValidThenItIsAssigned() {
+    public void whenLinkIsValidThenItIsAssigned() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(LINK, feedItem.link);
     }
 
     @Test
-    public void whenDescriptionIsNullThenAlternateDescriptionUses() {
+    public void whenDescriptionIsNullThenAlternateDescriptionUses() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, null, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(ALTERNATE_DESCRIPTION, feedItem.description);
     }
 
     @Test
-    public void whenDescriptionIsEmptyThenAlternateDescriptionUses() {
+    public void whenDescriptionIsEmptyThenAlternateDescriptionUses() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, "", ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(ALTERNATE_DESCRIPTION, feedItem.description);
     }
 
     @Test
-    public void whenDescriptionContainsSpacesOnlyThenAlternateDescriptionUses() {
+    public void whenDescriptionContainsSpacesOnlyThenAlternateDescriptionUses() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, " ", ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(ALTERNATE_DESCRIPTION, feedItem.description);
     }
 
     @Test
-    public void whenDescriptionIsValidThenItIsAssigned() {
+    public void whenDescriptionIsValidThenItIsAssigned() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(DESCRIPTION, feedItem.description);
     }
 
     @Test
-    public void whenDateIsNullThenSubstituteDateUsesAndFlagResets() {
+    public void whenDateIsNullThenSubstituteDateUsesAndFlagResets() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, null, CURRENT_DATE, GUID);
 
         assertEquals(CURRENT_DATE, feedItem.date);
@@ -88,7 +88,7 @@ public class FeedItemBuilderTest {
     }
 
     @Test
-    public void whenDateIsNotNullThenItUsesAndFlagSets() {
+    public void whenDateIsNotNullThenItUsesAndFlagSets() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(DATE, feedItem.date);
@@ -116,35 +116,35 @@ public class FeedItemBuilderTest {
     }
 
     @Test
-    public void whenTitleIsNullThenLinkUses() {
+    public void whenTitleIsNullThenLinkUses() throws ServiceException {
         final FeedItem feedItem = build(LINK, null, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(LINK, feedItem.title);
     }
 
     @Test
-    public void whenTitleIsEmptyThenLinkUses() {
+    public void whenTitleIsEmptyThenLinkUses() throws ServiceException {
         final FeedItem feedItem = build(LINK, "", DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(LINK, feedItem.title);
     }
 
     @Test
-    public void whenTitleContainsSpacesOnlyThenLinkUses() {
+    public void whenTitleContainsSpacesOnlyThenLinkUses() throws ServiceException {
         final FeedItem feedItem = build(LINK, " ", DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(LINK, feedItem.title);
     }
 
     @Test
-    public void whenTitleIsValidThenItAssigns() {
+    public void whenTitleIsValidThenItAssigns() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(TITLE, feedItem.title);
     }
 
     @Test
-    public void guidAssigns() {
+    public void guidAssigns() throws ServiceException {
         final FeedItem feedItem = build(LINK, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
         assertEquals(GUID, feedItem.guid);

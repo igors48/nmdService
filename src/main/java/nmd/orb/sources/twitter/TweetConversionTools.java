@@ -69,7 +69,7 @@ public final class TweetConversionTools {
         return create(id, twitterLink.trim(), cutTo(title, MAX_DESCRIPTION_AND_TITLE_LENGTH), cutTo(description, MAX_DESCRIPTION_AND_TITLE_LENGTH), feedLink);
     }
 
-    public static FeedItem convertToItem(final Tweet tweet, final Date current) {
+    public static FeedItem convertToItem(final Tweet tweet, final Date current) throws ServiceException {
         guard(notNull(tweet));
         guard(notNull(current));
 
@@ -95,7 +95,7 @@ public final class TweetConversionTools {
 
         final String id = UUID.randomUUID().toString();
 
-        return new FeedItem(title, title, link, gotoLink, itemDate, dateReal, id);
+        return FeedItem.create(title, title, link, gotoLink, itemDate, dateReal, id);
     }
 
     public static String createTweetUrl(final String userName, final String tweetIdAsString) {

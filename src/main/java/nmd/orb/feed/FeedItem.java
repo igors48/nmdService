@@ -1,6 +1,8 @@
 package nmd.orb.feed;
 
 import nmd.orb.error.ServiceError;
+import nmd.orb.error.ServiceException;
+import nmd.orb.util.IllegalParameterException;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -126,6 +128,15 @@ public class FeedItem implements Serializable {
         final boolean dateFromFarFuture = (date.getTime() - current.getTime()) > TWENTY_FOUR_HOURS;
 
         return !(dateFromFarPast || dateFromFarFuture);
+    }
+
+    public static FeedItem create(final String title, final String description, final String link, final String gotoLink, final Date date, final boolean dateReal, final String guid) throws ServiceException {
+
+        try {
+            return new FeedItem(title, description, link, gotoLink, date, dateReal, guid);
+        } catch (IllegalParameterException exception) {
+            throw new ServiceException(exception.serviceError);
+        }
     }
 
 }

@@ -61,7 +61,7 @@ public final class FeedParser {
 
     }
 
-    public static FeedItem build(final String link, final String title, final String description, final String alternateDescription, final Date date, final Date currentDate, final String guid) {
+    public static FeedItem build(final String link, final String title, final String description, final String alternateDescription, final Date date, final Date currentDate, final String guid) throws ServiceException {
         guard(notNull(currentDate));
         guard(notNull(alternateDescription));
         guard(isValidString(guid));
@@ -77,7 +77,7 @@ public final class FeedParser {
         final boolean itemDateReal = FeedItem.isDateReal(date, currentDate);
         final Date feedDate = itemDateReal ? date : currentDate;
 
-        return new FeedItem(itemTitle, itemDescription, itemLink, itemLink, feedDate, itemDateReal, guid);
+        return FeedItem.create(itemTitle, itemDescription, itemLink, itemLink, feedDate, itemDateReal, guid);
     }
 
     public static FeedHeader build(final String url, final String link, final String title, final String description, final UUID guid) throws ServiceException {
@@ -105,7 +105,7 @@ public final class FeedParser {
         return build(feedUrl, feedLink, feedTitle, feedDescription, feedGuid);
     }
 
-    private static FeedItem build(final SyndEntry entry) {
+    private static FeedItem build(final SyndEntry entry) throws ServiceException {
         final String itemLink = entry.getLink();
         final String itemTitle = entry.getTitle();
         final String itemDescription = entry.getDescription() == null ? "" : entry.getDescription().getValue();

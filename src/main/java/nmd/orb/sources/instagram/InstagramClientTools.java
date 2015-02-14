@@ -199,7 +199,7 @@ public class InstagramClientTools {
 
         final String itemGuid = UUID.randomUUID().toString();
 
-        return new FeedItem(title, imageWithDescription, link, link, date, dateReal, itemGuid);
+        return FeedItem.create(title, imageWithDescription, link, link, date, dateReal, itemGuid);
     }
 
     public static String formatDescription(final String imageUrl, final String description) {
