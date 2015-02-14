@@ -25,25 +25,14 @@ public class FeedHeader implements Serializable {
     public final String link;
 
     public FeedHeader(final UUID id, final String feedLink, final String title, final String description, final String link) {
-        guard(isValidFeedHeaderId(id), invalidFeedId(null));
-        this.id = id;
-
-        guard(isValidUrl(feedLink), invalidFeedUrl(feedLink));
-        this.feedLink = feedLink;
-
-        guard(isValidFeedHeaderTitle(title), invalidFeedTitle(title));
-        this.title = title;
-
-        guard(isValidFeedHeaderDescription(description), invalidFeedDescription(description));
-        this.description = description;
-
-        guard(isValidUrl(link), invalidUrl(link));
-        this.link = link;
+        guard(isValidFeedHeaderId(this.id = id), invalidFeedId(null));
+        guard(isValidUrl(this.feedLink = feedLink), invalidFeedUrl(feedLink));
+        guard(isValidFeedHeaderTitle(this.title = title), invalidFeedTitle(title));
+        guard(isValidFeedHeaderDescription(this.description = description), invalidFeedDescription(description));
+        guard(isValidUrl(this.link = link), invalidUrl(link));
     }
 
     public FeedHeader changeTitle(final String newTitle) {
-        guard(isValidFeedHeaderTitle(newTitle));
-
         return new FeedHeader(this.id, this.feedLink, newTitle, this.description, this.link);
     }
 

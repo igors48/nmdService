@@ -1,10 +1,9 @@
 package nmd.orb.error;
 
+import java.util.Date;
 import java.util.UUID;
 
 import static java.lang.String.format;
-import static nmd.orb.util.Assert.assertNotNull;
-import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -23,88 +22,102 @@ public class ServiceError {
     }
 
     public static ServiceError urlFetcherError(final String link) {
-
         return new ServiceError(ErrorCode.URL_FETCH_ERROR,
                 format("Error fetching url [ %s ]", link),
                 "Invalid url or host unreachable. Check the url and try again.");
     }
 
     public static ServiceError feedExportError(final UUID feedId) {
-        assertNotNull(feedId);
-
         return new ServiceError(ErrorCode.FEED_EXPORT_ERROR,
                 format("Unable to export feed with id [ %s ]", feedId),
                 "Looks like feed data corrupted. Try to recreate this feed.");
     }
 
     public static ServiceError feedParseError(final String link) {
-        assertStringIsValid(link);
-
         return new ServiceError(ErrorCode.FEED_PARSE_ERROR,
                 format("Unable parse feed from [ %s ]", link),
                 "Possibly feed data corrupted. Check feed data.");
     }
 
     public static ServiceError wrongFeedId(final UUID feedId) {
-        assertNotNull(feedId);
-
         return new ServiceError(ErrorCode.WRONG_FEED_ID,
                 format("Unable to find feed with id [ %s ]", feedId),
                 "Possibly feed id incorrect. Check feed identifier.");
     }
 
     public static ServiceError invalidFeedId(final String feedId) {
-
         return new ServiceError(ErrorCode.INVALID_FEED_ID,
                 format("Feed id [ %s ] is invalid", feedId),
                 "Feed id cannot be parsed. Check feed identifier.");
     }
 
     public static ServiceError invalidFeedTitle(final String feedTitle) {
-
         return new ServiceError(ErrorCode.INVALID_FEED_TITLE,
                 format("Feed title [ %s ] is invalid", feedTitle),
                 "Check feed title.");
     }
 
     public static ServiceError invalidFeedDescription(final String feedDescription) {
-
         return new ServiceError(ErrorCode.INVALID_FEED_DESCRIPTION,
                 format("Feed description [ %s ] is invalid", feedDescription),
                 "Check feed description.");
     }
 
     public static ServiceError invalidFeedOrItemId() {
-
         return new ServiceError(ErrorCode.INVALID_FEED_OR_ITEM_ID,
                 "Feed id or item id cannot be parsed from url ",
                 "Identifiers cannot be parsed. Check identifiers.");
     }
 
     public static ServiceError invalidItemId(final String itemId) {
-
         return new ServiceError(ErrorCode.INVALID_ITEM_ID,
                 format("Item id [ %s ] invalid ", itemId),
                 "Check item id.");
     }
 
-    public static ServiceError invalidDirection(final String direction) {
+    public static ServiceError invalidItemTitle(final String title) {
+        return new ServiceError(ErrorCode.INVALID_ITEM_TITLE,
+                format("Item title [ %s ] invalid ", title),
+                "Check item title.");
+    }
 
+    public static ServiceError invalidItemDescription(final String description) {
+        return new ServiceError(ErrorCode.INVALID_ITEM_DESCRIPTION,
+                format("Item description [ %s ] invalid ", description),
+                "Check item description.");
+    }
+
+    public static ServiceError invalidItemLink(final String link) {
+        return new ServiceError(ErrorCode.INVALID_ITEM_LINK,
+                format("Item link [ %s ] invalid ", link),
+                "Check item link.");
+    }
+
+    public static ServiceError invalidItemGotoLink(final String gotoLink) {
+        return new ServiceError(ErrorCode.INVALID_ITEM_GOTO_LINK,
+                format("Item goto link [ %s ] invalid ", gotoLink),
+                "Check item goto link.");
+    }
+
+    public static ServiceError invalidItemDate(final Date date) {
+        return new ServiceError(ErrorCode.INVALID_ITEM_DATE,
+                format("Item date [ %s ] invalid ", date),
+                "Check item date.");
+    }
+
+    public static ServiceError invalidDirection(final String direction) {
         return new ServiceError(ErrorCode.INVALID_DIRECTION,
                 format("Direction [ %s ] invalid ", direction),
                 "Check direction name.");
     }
 
     public static ServiceError invalidMarkMode(final String markMode) {
-
         return new ServiceError(ErrorCode.INVALID_MARK_MODE,
                 format("Invalid mark mode [ %s ] ", markMode),
                 "Mark mode is invalid. Check mark mode.");
     }
 
     public static ServiceError wrongFeedTaskId(final UUID feedId) {
-        assertNotNull(feedId);
-
         return new ServiceError(ErrorCode.WRONG_FEED_TASK_ID,
                 format("Unable to find task for feed with id [ %s ]", feedId),
                 "Possibly feed id incorrect. Check feed identifier.");

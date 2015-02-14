@@ -1,8 +1,11 @@
 package nmd.orb.feed;
 
+import nmd.orb.error.ServiceError;
+
 import java.io.Serializable;
 import java.util.Date;
 
+import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.*;
 
@@ -28,25 +31,13 @@ public class FeedItem implements Serializable {
     public final String guid;
 
     public FeedItem(final String title, final String description, final String link, final String gotoLink, final Date date, final boolean dateReal, final String guid) {
-        guard(isValidFeedItemTitle(title));
-        this.title = title;
-
-        guard(isValidFeedItemDescription(description));
-        this.description = description;
-
-        guard(isValidFeedItemLink(link));
-        this.link = link;
-
-        guard(isValidFeedItemLink(gotoLink));
-        this.gotoLink = gotoLink;
-
-        guard(isValidFeedItemDate(date));
-        this.date = date;
-
+        guard(isValidFeedItemTitle(this.title = title), invalidItemTitle(title));
+        guard(isValidFeedItemDescription(this.description = description), invalidItemDescription(description));
+        guard(isValidFeedItemLink(this.link = link), invalidItemLink(link));
+        guard(isValidFeedItemLink(this.gotoLink = gotoLink), invalidItemGotoLink(gotoLink));
+        guard(isValidFeedItemDate(this.date = date), invalidItemDate(date));
         this.dateReal = dateReal;
-
-        guard(isValidFeedItemGuid(guid));
-        this.guid = guid;
+        guard(isValidFeedItemGuid(this.guid = guid), ServiceError.invalidItemId(guid));
     }
 
     @Override
