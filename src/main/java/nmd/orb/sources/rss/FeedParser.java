@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static nmd.orb.error.ServiceError.invalidFeedUrl;
 import static nmd.orb.feed.FeedHeader.create;
@@ -27,6 +29,8 @@ import static nmd.orb.util.StringTools.*;
  * Date : 28.04.13
  */
 public final class FeedParser {
+
+    private static final Logger LOGGER = Logger.getLogger(FeedParser.class.getName());
 
     private FeedParser() {
         // empty
@@ -47,14 +51,20 @@ public final class FeedParser {
 
         for (int i = 0; i < feed.getEntries().size(); i++) {
             final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
-            final FeedItem item = build(entry);
-
-            if (item != null) {
-                items.add(item);
-            }
+            addItem(items, entry);
         }
 
         return new Feed(header, items);
+    }
+
+    private static void addItem(final List<FeedItem> items, final SyndEntry entry) {
+
+        try {
+            final FeedItem item = build(entry);
+            items.add(item);
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, String.format("RSS feed item was skipped [ %s ]", exception.getError()));
+        }
     }
 
     public static FeedItem build(final String link, final String title, final String description, final String alternateDescription, final Date date, final Date currentDate, final String guid) throws ServiceException {
@@ -63,11 +73,6 @@ public final class FeedParser {
         guard(isValidString(guid));
 
         final String itemLink = trim(link);
-
-        if (itemLink.isEmpty()) {
-            return null;
-        }
-
         final String itemTitle = cutTo(trimOrUse(title, itemLink), FeedItem.MAX_TITLE_LENGTH);
         final String itemDescription = cutTo(trimOrUse(description, alternateDescription), FeedItem.MAX_DESCRIPTION_LENGTH);
         final boolean itemDateReal = FeedItem.isDateReal(date, currentDate);

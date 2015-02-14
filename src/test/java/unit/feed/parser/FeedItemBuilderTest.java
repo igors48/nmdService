@@ -1,5 +1,6 @@
 package unit.feed.parser;
 
+import nmd.orb.error.ErrorCode;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedItem;
 import org.junit.Test;
@@ -24,24 +25,39 @@ public class FeedItemBuilderTest {
     private static final Date CURRENT_DATE = new Date(2);
 
     @Test
-    public void whenLinkIsNullThenNullReturns() throws ServiceException {
-        final FeedItem feedItem = build(null, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
+    public void whenLinkIsNullThenNullReturns() {
 
-        assertNull(feedItem);
+        try {
+            build(null, TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(ErrorCode.INVALID_ITEM_LINK, exception.getError().code);
+        }
     }
 
     @Test
     public void whenLinkIsEmptyThenNullReturns() throws ServiceException {
-        final FeedItem feedItem = build("", TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
-        assertNull(feedItem);
+        try {
+            build("", TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(ErrorCode.INVALID_ITEM_LINK, exception.getError().code);
+        }
     }
 
     @Test
     public void whenLinkContainsSpacesOnlyThenNullReturns() throws ServiceException {
-        final FeedItem feedItem = build(" ", TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
 
-        assertNull(feedItem);
+        try {
+            build(" ", TITLE, DESCRIPTION, ALTERNATE_DESCRIPTION, DATE, CURRENT_DATE, GUID);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(ErrorCode.INVALID_ITEM_LINK, exception.getError().code);
+        }
     }
 
     @Test
