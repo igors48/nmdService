@@ -3,6 +3,7 @@ package nmd.orb.services;
 import com.sun.syndication.io.FeedException;
 import nmd.orb.collector.fetcher.UrlFetcher;
 import nmd.orb.collector.fetcher.UrlFetcherException;
+import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
@@ -131,13 +132,16 @@ public class AbstractService {
     }
 
     private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedException, ServiceException, UnsupportedEncodingException {
+        try {
+            byte[] bytes = this.fetcher.fetch(feedUrl);
 
-        byte[] bytes = this.fetcher.fetch(feedUrl);
+            String originCharset = detectCharset(bytes);
+            String string = new String(bytes, originCharset);
 
-        String originCharset = detectCharset(bytes);
-        String string = new String(bytes, originCharset);
-
-        return parse(feedUrl, string);
+            return parse(feedUrl, string);
+        } catch (RuntimeException exception) {
+            throw new ServiceException(ServiceError.feedParseError(feedUrl));
+        }
     }
 
 }
