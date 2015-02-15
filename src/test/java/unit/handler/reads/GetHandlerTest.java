@@ -36,18 +36,23 @@ public class GetHandlerTest {
 
         setUp();
         assertError(call(this.handler, "/*"), ErrorCode.INVALID_FEED_ID);
+        Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         assertError(call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225"), ErrorCode.INVALID_SIZE);
+        Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         assertError(call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225/next"), ErrorCode.INVALID_PARAMETERS_COUNT);
+        Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         assertError(call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225/wrong/5"), ErrorCode.INVALID_DIRECTION);
+        Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         assertError(call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225/next/wrong"), ErrorCode.INVALID_SIZE);
+        Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4");
