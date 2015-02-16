@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.List;
+import java.util.Map;
 
 import static nmd.orb.util.Assert.assertValidUrl;
 import static nmd.orb.util.CloseableTools.close;
@@ -30,9 +32,16 @@ public class GaeUrlFetcher implements UrlFetcher {
             final URL url = new URL(link);
 
             final HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+
+            connection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+            connection.setRequestProperty("User-Agent","Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36");
+            connection.setRequestProperty("Accept-Encoding", "gzip");
+            connection.setRequestProperty("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4");
+
             connection.connect();
 
             inputStream = connection.getInputStream();
+            final Map<String, List<String>> map = connection.getHeaderFields();
 
             return readFully(inputStream);
         } catch (Exception exception) {
@@ -54,7 +63,21 @@ public class GaeUrlFetcher implements UrlFetcher {
 
         buffer.flush();
 
-        return buffer.toByteArray();
+        java.io.ByteArrayInputStream bytein = new java.io.ByteArrayInputStream(buffer.toByteArray());
+        java.util.zip.GZIPInputStream gzin = new java.util.zip.GZIPInputStream(bytein);
+        java.io.ByteArrayOutputStream byteout = new java.io.ByteArrayOutputStream();
+
+        int res = 0;
+        byte buf[] = new byte[1024];
+        while (res >= 0) {
+            res = gzin.read(buf, 0, buf.length);
+            if (res > 0) {
+                byteout.write(buf, 0, res);
+            }
+        }
+        byte uncompressed[] = byteout.toByteArray();
+        return byteout.toByteArray();
+        //return buffer.toByteArray();
     }
 
     private GaeUrlFetcher() {
