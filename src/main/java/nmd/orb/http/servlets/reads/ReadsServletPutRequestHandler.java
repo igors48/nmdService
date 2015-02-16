@@ -32,7 +32,7 @@ public class ReadsServletPutRequestHandler implements Handler {
         this.readsService = readsService;
     }
 
-    //PUT /{feedId}/{itemId}&mark-as=read|read-later -- mark item as read or read later
+    //PUT /{feedId}/{itemId}&markAs=read|read-later -- mark item as read or read later
     //PUT /{feedId}?topItemTimestamp=timestamp -- mark all items as read before given timestamp
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
