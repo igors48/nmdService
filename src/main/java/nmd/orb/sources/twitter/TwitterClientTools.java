@@ -2,9 +2,9 @@ package nmd.orb.sources.twitter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nmd.orb.sources.ConnectionTools;
 import nmd.orb.sources.twitter.entities.AccessToken;
 import nmd.orb.sources.twitter.entities.Tweet;
+import nmd.orb.util.ConnectionTools;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
@@ -20,9 +20,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static nmd.orb.sources.ConnectionTools.readAllFromConnection;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CloseableTools.close;
+import static nmd.orb.util.ConnectionTools.readAllFromConnection;
 import static nmd.orb.util.Parameter.*;
 
 /**

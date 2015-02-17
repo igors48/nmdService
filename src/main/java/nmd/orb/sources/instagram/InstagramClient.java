@@ -1,17 +1,17 @@
 package nmd.orb.sources.instagram;
 
 import com.google.gson.Gson;
-import nmd.orb.sources.ConnectionTools;
 import nmd.orb.sources.instagram.entities.ContentEnvelope;
 import nmd.orb.sources.instagram.entities.UserEnvelope;
+import nmd.orb.util.ConnectionTools;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
 
 import static java.lang.String.format;
-import static nmd.orb.sources.ConnectionTools.readAllFromConnection;
-import static nmd.orb.sources.ConnectionTools.setupConnection;
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.ConnectionTools.readAllFromConnection;
+import static nmd.orb.util.ConnectionTools.setupConnection;
 import static nmd.orb.util.Parameter.isValidString;
 
 /**
