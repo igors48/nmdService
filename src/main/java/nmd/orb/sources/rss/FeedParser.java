@@ -41,20 +41,27 @@ public final class FeedParser {
         guard(isValidString(feedData));
 
         final String correctedData = stripNonValidXMLCharacters(feedData);
-        final StringReader reader = new StringReader(correctedData);
-        final SyndFeedInput input = new SyndFeedInput();
-        final SyndFeed feed = input.build(reader);
 
-        final FeedHeader header = build(feedUrl, feed);
+        try {
+            final StringReader reader = new StringReader(correctedData);
+            final SyndFeedInput input = new SyndFeedInput();
+            final SyndFeed feed = input.build(reader);
 
-        final List<FeedItem> items = new ArrayList<>();
+            final FeedHeader header = build(feedUrl, feed);
 
-        for (int i = 0; i < feed.getEntries().size(); i++) {
-            final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
-            addItem(items, entry);
+            final List<FeedItem> items = new ArrayList<>();
+
+            for (int i = 0; i < feed.getEntries().size(); i++) {
+                final SyndEntry entry = (SyndEntry) feed.getEntries().get(i);
+                addItem(items, entry);
+            }
+
+            return new Feed(header, items);
+        } catch (FeedException feedException) {
+            LOGGER.log(Level.SEVERE, String.format("Broken data is [ %s ]", correctedData));
+
+            throw feedException;
         }
-
-        return new Feed(header, items);
     }
 
     private static void addItem(final List<FeedItem> items, final SyndEntry entry) {
