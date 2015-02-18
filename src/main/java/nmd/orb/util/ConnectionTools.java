@@ -46,6 +46,11 @@ public class ConnectionTools {
         connection.setDoInput(true);
         connection.setRequestMethod(method.method);
 
+        connection.setRequestProperty("Accept", "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8");
+        connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.111 Safari/537.36");
+        connection.setRequestProperty("Accept-Encoding", "gzip");
+        connection.setRequestProperty("Accept-Language", "ru-RU,ru;q=0.8,en-US;q=0.6,en;q=0.4");
+
         return connection;
     }
 
