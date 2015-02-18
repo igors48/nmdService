@@ -58,7 +58,7 @@ public final class FeedParser {
 
             return new Feed(header, items);
         } catch (FeedException feedException) {
-            LOGGER.log(Level.SEVERE, String.format("Broken data is [ %s ]", correctedData));
+            LOGGER.log(Level.SEVERE, String.format("Broken data is [ %s ]", cutTo(correctedData, 255)));
 
             throw feedException;
         }
