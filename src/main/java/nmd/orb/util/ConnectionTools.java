@@ -1,12 +1,17 @@
 package nmd.orb.util;
 
-import java.io.*;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
+import static java.lang.String.format;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CloseableTools.close;
 import static nmd.orb.util.Parameter.isValidUrl;
@@ -16,6 +21,8 @@ import static nmd.orb.util.Parameter.notNull;
  * @author : igu
  */
 public class ConnectionTools {
+
+    private static final Logger LOGGER = Logger.getLogger(ConnectionTools.class.getName());
 
     public static final String CONTENT_ENCODING = "content-encoding";
     public static final String GZIP = "gzip";
@@ -57,27 +64,28 @@ public class ConnectionTools {
     public static String readAllFromConnection(final HttpURLConnection connection) throws IOException {
         guard(notNull(connection));
 
-        final InputStream inputStream = connection.getInputStream();
+        final byte[] bytes = readAllBytesFromConnection(connection);
 
-        InputStreamReader inputStreamReader = null;
-        BufferedReader bufferedReader = null;
+        return new String(bytes, UTF_8);
+    }
+
+    public static byte[] readAllBytesFromConnection(final HttpURLConnection connection) throws IOException {
+        InputStream inputStream = null;
 
         try {
-            inputStreamReader = new InputStreamReader(inputStream, UTF_8);
-            bufferedReader = new BufferedReader(inputStreamReader);
+            connection.connect();
 
-            final StringBuilder result = new StringBuilder();
+            inputStream = connection.getInputStream();
 
-            String line;
+            final Map<String, List<String>> headers = connection.getHeaderFields();
+            final boolean gZipped = ifGZipped(headers);
 
-            while ((line = bufferedReader.readLine()) != null) {
-                result.append(line);
+            if (gZipped) {
+                LOGGER.info(format("GZipped content received from [ %s ]", connection.getURL().toString()));
             }
 
-            return result.toString();
+            return gZipped ? readFullyAsGZipped(inputStream) : readFullyAsUncompressed(inputStream);
         } finally {
-            close(bufferedReader);
-            close(inputStreamReader);
             close(inputStream);
         }
     }
@@ -143,7 +151,12 @@ public class ConnectionTools {
 
             buffer.flush();
 
-            return buffer.toByteArray();
+            final byte[] uncompressed = buffer.toByteArray();
+
+            final double ratio = 100d * compressed.length / uncompressed.length;
+            LOGGER.info(format("Sizes compressed [ %d ] uncompressed [ %d ] compression [ %.2f%% ]", compressed.length, uncompressed.length, ratio));
+
+            return uncompressed;
         } finally {
             close(gZipInputStream);
         }
