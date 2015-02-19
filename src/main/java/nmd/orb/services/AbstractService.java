@@ -85,8 +85,10 @@ public class AbstractService {
                 default:
                     return fetchAsRssUrl(feedUrl);
             }
-        } catch (UrlFetcherException | FeedException | UnsupportedEncodingException exception) {
+        } catch (UrlFetcherException exception) {
             throw new ServiceException(urlFetcherError(feedUrl), exception);
+        } catch (FeedException | UnsupportedEncodingException exception) {
+            throw new ServiceException(feedParseError(feedUrl), exception);
         }
     }
 
@@ -140,7 +142,7 @@ public class AbstractService {
 
             return parse(feedUrl, string);
         } catch (RuntimeException exception) {
-            throw new ServiceException(ServiceError.feedParseError(feedUrl));
+            throw new ServiceException(feedParseError(feedUrl));
         }
     }
 
