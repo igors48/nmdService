@@ -22,8 +22,6 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ConnectionTools {
 
-    private static final Logger LOGGER = Logger.getLogger(ConnectionTools.class.getName());
-
     public static final String CONTENT_ENCODING = "content-encoding";
     public static final String GZIP = "gzip";
 
@@ -79,10 +77,6 @@ public class ConnectionTools {
 
             final Map<String, List<String>> headers = connection.getHeaderFields();
             final boolean gZipped = ifGZipped(headers);
-
-            if (gZipped) {
-                LOGGER.info(format("GZipped content received from [ %s ]", connection.getURL().toString()));
-            }
 
             return gZipped ? readFullyAsGZipped(inputStream) : readFullyAsUncompressed(inputStream);
         } finally {
@@ -151,12 +145,7 @@ public class ConnectionTools {
 
             buffer.flush();
 
-            final byte[] uncompressed = buffer.toByteArray();
-
-            final double ratio = 100d * compressed.length / uncompressed.length;
-            LOGGER.info(format("Sizes compressed [ %d ] uncompressed [ %d ] compression [ %.2f%% ]", compressed.length, uncompressed.length, ratio));
-
-            return uncompressed;
+            return buffer.toByteArray();
         } finally {
             close(gZipInputStream);
         }
