@@ -16,7 +16,6 @@ import nmd.orb.sources.instagram.InstagramClientTools;
 import nmd.orb.sources.instagram.entities.ContentEnvelope;
 import nmd.orb.sources.instagram.entities.User;
 import nmd.orb.sources.instagram.entities.UserEnvelope;
-import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
 
 import java.io.IOException;
@@ -30,6 +29,7 @@ import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.sources.rss.FeedParser.parse;
 import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;
+import static nmd.orb.sources.twitter.TwitterClient.fetchTweets;
 import static nmd.orb.sources.twitter.TwitterClientTools.getTwitterUserName;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CharsetTools.detectCharset;
@@ -102,9 +102,8 @@ public class AbstractService {
             final String apiKey = System.getProperty(TWITTER_API_KEY);
             final String apiSecret = System.getProperty(TWITTER_API_SECRET);
 
-            final TwitterClient twitterClient = new TwitterClient(apiKey, apiSecret);
             final String userName = getTwitterUserName(twitterUrl);
-            final List<Tweet> tweets = twitterClient.fetchTweets(userName, TWEETS_PER_FETCH);
+            final List<Tweet> tweets = fetchTweets(apiKey, apiSecret, userName, TWEETS_PER_FETCH);
             final Feed feed = convertToFeed(twitterUrl, tweets, new Date());
 
             if (feed == null) {
@@ -132,6 +131,7 @@ public class AbstractService {
     }
 
     private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedException, ServiceException, UnsupportedEncodingException {
+
         try {
             byte[] bytes = this.fetcher.fetch(feedUrl);
 
