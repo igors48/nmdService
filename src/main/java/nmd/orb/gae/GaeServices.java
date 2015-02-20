@@ -91,6 +91,11 @@ public enum GaeServices {
                     autoExportService
             );
 
+    private final ContentFilterService contentFilterService =
+            new ContentFilterService(
+                    GAE_URL_FETCHER
+            );
+
     public CategoriesService getCategoriesService() {
         return this.categoriesService;
     }
@@ -117,6 +122,10 @@ public enum GaeServices {
 
     public CronService getCronService() {
         return this.cronService;
+    }
+
+    public ContentFilterService getContentFilterService() {
+        return this.contentFilterService;
     }
 
 }
