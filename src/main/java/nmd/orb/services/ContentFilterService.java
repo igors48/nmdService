@@ -9,7 +9,6 @@ import org.htmlcleaner.TagNode;
 
 import static nmd.orb.error.ServiceError.contentFilterError;
 import static nmd.orb.util.Assert.guard;
-import static nmd.orb.util.CharsetTools.detectCharset;
 import static nmd.orb.util.Parameter.isValidUrl;
 import static nmd.orb.util.Parameter.notNull;
 
@@ -29,9 +28,7 @@ public class ContentFilterService {
         guard(isValidUrl(link));
 
         try {
-            final byte[] bytes = this.urlFetcher.fetch(link);
-            final String originCharset = detectCharset(bytes);
-            final String source = new String(bytes, originCharset);
+            final String source = this.urlFetcher.fetchString(link);
 
             return filterContent(source);
         } catch (Exception exception) {

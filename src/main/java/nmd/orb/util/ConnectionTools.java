@@ -8,10 +8,8 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.logging.Logger;
 import java.util.zip.GZIPInputStream;
 
-import static java.lang.String.format;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CloseableTools.close;
 import static nmd.orb.util.Parameter.isValidUrl;
@@ -23,6 +21,8 @@ import static nmd.orb.util.Parameter.notNull;
 public class ConnectionTools {
 
     public static final String CONTENT_ENCODING = "content-encoding";
+    public static final String CONTENT_TYPE = "content-type";
+
     public static final String GZIP = "gzip";
 
     public static enum Method {
@@ -67,6 +67,28 @@ public class ConnectionTools {
         return new String(bytes, UTF_8);
     }
 
+    public static String readStringFromConnection(final HttpURLConnection connection) throws IOException {
+        guard(notNull(connection));
+
+        InputStream inputStream = null;
+
+        try {
+            connection.connect();
+
+            inputStream = connection.getInputStream();
+
+            final Map<String, List<String>> headers = connection.getHeaderFields();
+            final String charset = getCharset(headers);
+
+            final boolean gZipped = ifGZipped(headers);
+            final byte[] bytes = gZipped ? readFullyAsGZipped(inputStream) : readFullyAsUncompressed(inputStream);
+
+            return new String(bytes, charset);
+        } finally {
+            close(inputStream);
+        }
+    }
+
     public static byte[] readAllBytesFromConnection(final HttpURLConnection connection) throws IOException {
         InputStream inputStream = null;
 
@@ -82,6 +104,27 @@ public class ConnectionTools {
         } finally {
             close(inputStream);
         }
+    }
+
+    public static String getCharset(final Map<String, List<String>> headers) {
+        guard(notNull(headers));
+
+        for (final String header : headers.keySet()) {
+
+            if (header.equalsIgnoreCase(CONTENT_TYPE)) {
+                final List<String> values = headers.get(header);
+
+                for (final String value : values) {
+                    final String charset = CharsetTools.findCharSet(value);
+
+                    if (charset != null) {
+                        return charset.endsWith(";") ? charset.substring(0, charset.length()) : charset;
+                    }
+                }
+            }
+        }
+
+        return UTF_8;
     }
 
     public static boolean ifGZipped(final Map<String, List<String>> headers) {

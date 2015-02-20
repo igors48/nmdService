@@ -7,8 +7,7 @@ import java.net.HttpURLConnection;
 
 import static nmd.orb.util.Assert.assertValidUrl;
 import static nmd.orb.util.ConnectionTools.Method.GET;
-import static nmd.orb.util.ConnectionTools.readAllBytesFromConnection;
-import static nmd.orb.util.ConnectionTools.setupConnection;
+import static nmd.orb.util.ConnectionTools.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -25,6 +24,18 @@ public class GaeUrlFetcher implements UrlFetcher {
         try {
             final HttpURLConnection connection = setupConnection(link, GET);
             return readAllBytesFromConnection(connection);
+        } catch (Exception exception) {
+            throw new UrlFetcherException(exception);
+        }
+    }
+
+    @Override
+    public String fetchString(String link) throws UrlFetcherException {
+        assertValidUrl(link);
+
+        try {
+            final HttpURLConnection connection = setupConnection(link, GET);
+            return readStringFromConnection(connection);
         } catch (Exception exception) {
             throw new UrlFetcherException(exception);
         }
