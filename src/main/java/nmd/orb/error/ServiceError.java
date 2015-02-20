@@ -249,6 +249,12 @@ public class ServiceError {
                 "Please check request parameters");
     }
 
+    public static ServiceError contentFilterError(final String link) {
+        return new ServiceError(ErrorCode.CONTENT_FILTER_ERROR,
+                format("Error filtering content from url [ %s ]", link),
+                "Something unexpected was happened");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
