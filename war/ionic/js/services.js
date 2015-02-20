@@ -72,3 +72,14 @@ angular.module('orb.services', ['ngResource'])
         );
     })
 
+    .factory('content', function ($resource) {
+        return $resource('/@security.key@/v01/content',
+            {
+                link: '@link',
+            },
+            {
+                'filter': {method: 'GET'}
+            }
+        );
+    })
+

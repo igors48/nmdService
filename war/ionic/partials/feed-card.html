@@ -11,6 +11,7 @@
 </ion-header-bar>
 
 <ion-content ng-cloak>
+    
     <div class="card" ng-show="showUi">
         <a class="block-link" href="{{card.link}}" target="_blank" ng-click="onMarkAndNext()">
             <div class="item item-text-wrap">
@@ -30,6 +31,10 @@
     <div class="list list-inset">
         <button class="button button-block button-positive" ng-click="onViewFiltered()">View</button>
     </div>
+
+    <div class="card" ng-bind-html="card.content">
+    </div>
+
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">

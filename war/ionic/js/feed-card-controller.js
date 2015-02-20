@@ -2,7 +2,7 @@
 
 controllers.controller('feedCardController',
 
-    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
+    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads, content) {
         var pageSize = 5;
 
         $scope.showUi = false;
@@ -48,7 +48,19 @@ controllers.controller('feedCardController',
         };
 
         $scope.onViewFiltered = function () {
-            alert('filtered');        
+            $ionicLoading.show({
+                template: 'Loading...'
+            });
+
+            content.filter(
+                {
+                    link: $scope.card.link
+                },
+                onContentFilterCompleted,
+                onServerFault
+            );
+
+            //alert('filtered');        
         };
 
         var loadFirstCards = function () {
@@ -81,6 +93,18 @@ controllers.controller('feedCardController',
                 onLoadCardsCompleted,
                 onServerFault
             );
+        };
+
+        var onContentFilterCompleted = function (response) {
+            $ionicLoading.hide();
+
+            if (response.status !== 'SUCCESS') {
+                $scope.utilities.showError($ionicPopup, response);
+
+                return;
+            }
+
+            $scope.card.content = response.content;
         };
 
         var onLoadCardsCompleted = function (response) {
