@@ -37,6 +37,8 @@ public class ContentFilterServiceWrapperImpl implements ContentFilterServiceWrap
             final String filteredContent = this.contentFilterService.filter(link);
             final FilteredContentResponse filteredContentResponse = FilteredContentResponse.convert(filteredContent);
 
+            LOGGER.info(format("Content from [ %s ] was filtered", link));
+
             return createJsonResponse(filteredContentResponse);
         } catch (ServiceException exception) {
             LOGGER.log(Level.SEVERE, format("Error filtering content from [ %s ]", link), exception);
