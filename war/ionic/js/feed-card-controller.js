@@ -47,6 +47,10 @@ controllers.controller('feedCardController',
             }
         };
 
+        $scope.onViewFiltered = function () {
+            alert('filtered');        
+        };
+
         var loadFirstCards = function () {
             $ionicLoading.show({
                 template: 'Loading...'
