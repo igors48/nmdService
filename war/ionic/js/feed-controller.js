@@ -29,6 +29,14 @@ controllers.controller('feedController',
                 onServerFault);
         };
 
+        $scope.goToCard = function (itemId) {
+            $state.go('feed-card', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                itemId: itemId
+            });
+        };
+
         $scope.markAsRead = function (feedId, itemId) {
             $rootScope.lastItemId = itemId;
 
