@@ -25,6 +25,8 @@ public class ConnectionTools {
 
     public static final String GZIP = "gzip";
 
+    public static final String UTF_8 = "UTF-8";
+
     public static enum Method {
 
         GET("GET"),
@@ -37,7 +39,6 @@ public class ConnectionTools {
         }
     }
 
-    private static final String UTF_8 = "UTF-8";
     private static final int BUFFER_LENGTH = 16384;
 
     public static HttpURLConnection setupConnection(final String link, final Method method) throws IOException {
@@ -118,7 +119,7 @@ public class ConnectionTools {
                     final String charset = CharsetTools.findCharSet(value);
 
                     if (charset != null) {
-                        return charset.endsWith(";") ? charset.substring(0, charset.length()) : charset;
+                        return charset.endsWith(";") ? charset.substring(0, charset.length() - 1) : charset;
                     }
                 }
             }
