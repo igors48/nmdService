@@ -59,8 +59,14 @@ controllers.controller('feedCardController',
                 onContentFilterCompleted,
                 onServerFault
             );
+        };
 
-            //alert('filtered');        
+        $scope.onBackToList = function () {
+            $state.go('feed', {
+                categoryId: $stateParams.categoryId,
+                feedId: $stateParams.feedId,
+                filter: $stateParams.filter
+            });
         };
 
         var loadFirstCards = function () {

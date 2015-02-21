@@ -59,7 +59,7 @@ orb.config(function($stateProvider, $urlRouterProvider) {
       })
 
       .state('feed-card', {
-        url: '/feed-card/{categoryId}/{feedId}/{itemId}',
+        url: '/feed-card/{categoryId}/{feedId}/{itemId}/{filter}',
         templateUrl: 'partials/feed-card.html',
         controller: 'feedCardController'
       })

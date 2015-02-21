@@ -33,7 +33,8 @@ controllers.controller('feedController',
             $state.go('feed-card', {
                 categoryId: $stateParams.categoryId,
                 feedId: $stateParams.feedId,
-                itemId: itemId
+                itemId: itemId,
+                filter: $stateParams.filter
             });
         };
 
