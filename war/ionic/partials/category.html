@@ -30,7 +30,7 @@
                         <span class="ion-eye blue-front" ng-hide="feed.lastUpdate === 0">&nbsp;{{feed.lastUpdate | date:'d MMM'}}&nbsp;&nbsp;</span>
                         <span class="ion-eye-disabled blue-front" ng-click="openFeed(feed.feedId, 'show-not-read')">&nbsp;{{feed.notRead}}&nbsp;&nbsp;</span>
                         <span class="ion-flash blue-front" ng-click="openFeed(feed.feedId, 'show-added')">&nbsp;{{feed.addedFromLastVisit}}&nbsp;&nbsp;</span>
-                        <span class="ion-android-clock blue-front" ng-click="openFeed(feed.feedId, 'show-read-later')">&nbsp;{{feed.readLater}}&nbsp;&nbsp;</span>
+                        <span class="ion-android-time blue-front" ng-click="openFeed(feed.feedId, 'show-read-later')">&nbsp;{{feed.readLater}}&nbsp;&nbsp;</span>
                     </h3>
                 </div>
             </div>
