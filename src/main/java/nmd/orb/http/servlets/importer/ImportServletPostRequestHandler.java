@@ -19,7 +19,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ImportServletPostRequestHandler implements Handler {
 
-    private static final int DEFAULT_TRIES_COUNT = 5;
+    public static final int DEFAULT_TRIES_COUNT = 5;
 
     private final ImportServiceWrapper importServiceWrapper;
 
