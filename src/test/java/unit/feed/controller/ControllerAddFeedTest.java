@@ -12,9 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
-import static nmd.orb.util.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )

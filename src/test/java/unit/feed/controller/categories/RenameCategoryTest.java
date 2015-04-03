@@ -13,9 +13,7 @@ import java.util.UUID;
 import static java.util.UUID.randomUUID;
 import static nmd.orb.reader.Category.MAIN;
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
-import static nmd.orb.util.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
