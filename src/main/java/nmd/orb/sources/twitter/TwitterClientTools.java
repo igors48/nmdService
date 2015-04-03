@@ -22,7 +22,7 @@ import java.util.regex.Pattern;
 import static java.lang.String.format;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CloseableTools.close;
-import static nmd.orb.util.ConnectionTools.readAllFromConnection;
+import static nmd.orb.util.ConnectionTools.readStringFromConnection;
 import static nmd.orb.util.Parameter.*;
 
 /**
@@ -58,7 +58,7 @@ public class TwitterClientTools {
         final HttpURLConnection connection = ConnectionTools.setupConnection(format(TIMELINE_API_URL_TEMPLATE, screenName, count), ConnectionTools.Method.GET);
         connection.setRequestProperty(AUTHORIZATION, BEARER + accessToken.getAccess_token());
 
-        final String content = readAllFromConnection(connection);
+        final String content = readStringFromConnection(connection);
 
         return GSON.fromJson(content, TWEET_LIST_TYPE);
     }
@@ -83,7 +83,7 @@ public class TwitterClientTools {
             outputStream = connection.getOutputStream();
             outputStream.write(CREDENTIALS_REQUEST_BODY.getBytes(UTF_8));
 
-            final String content = readAllFromConnection(connection);
+            final String content = readStringFromConnection(connection);
 
             return GSON.fromJson(content, AccessToken.class);
         } finally {

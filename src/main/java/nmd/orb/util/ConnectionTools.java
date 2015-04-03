@@ -60,14 +60,6 @@ public class ConnectionTools {
         return connection;
     }
 
-    public static String readAllFromConnection(final HttpURLConnection connection) throws IOException {
-        guard(notNull(connection));
-
-        final byte[] bytes = readAllBytesFromConnection(connection);
-
-        return new String(bytes, UTF_8);
-    }
-
     public static String readStringFromConnection(final HttpURLConnection connection) throws IOException {
         guard(notNull(connection));
 

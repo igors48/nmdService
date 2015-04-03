@@ -10,7 +10,7 @@ import java.net.HttpURLConnection;
 
 import static java.lang.String.format;
 import static nmd.orb.util.Assert.guard;
-import static nmd.orb.util.ConnectionTools.readAllFromConnection;
+import static nmd.orb.util.ConnectionTools.readStringFromConnection;
 import static nmd.orb.util.ConnectionTools.setupConnection;
 import static nmd.orb.util.Parameter.isValidString;
 
@@ -49,7 +49,7 @@ public class InstagramClient {
     private static String getContent(final String link) throws IOException {
         final HttpURLConnection connection = setupConnection(link, ConnectionTools.Method.GET);
 
-        return readAllFromConnection(connection);
+        return readStringFromConnection(connection);
     }
 
 }
