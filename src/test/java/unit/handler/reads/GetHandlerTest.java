@@ -21,7 +21,7 @@ public class GetHandlerTest {
     private ReadsServiceWrapper readsServiceWrapper;
     private ReadsServletGetRequestHandler handler;
 
-    public void setUp() {
+    private void setUp() {
         this.readsServiceWrapper = Mockito.mock(ReadsServiceWrapper.class);
         this.handler = new ReadsServletGetRequestHandler(this.readsServiceWrapper);
     }
