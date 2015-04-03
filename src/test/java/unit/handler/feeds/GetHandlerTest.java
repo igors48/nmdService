@@ -31,6 +31,7 @@ public class GetHandlerTest {
         call(this.handler, "");
 
         Mockito.verify(this.feedsServiceWrapper).getFeedHeaders();
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -40,6 +41,7 @@ public class GetHandlerTest {
         call(this.handler, feedId.toString());
 
         Mockito.verify(this.feedsServiceWrapper).getFeedHeader(feedId);
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -48,6 +50,7 @@ public class GetHandlerTest {
                 call(this.handler, "invalid"),
                 ErrorCode.INVALID_FEED_ID
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
 }

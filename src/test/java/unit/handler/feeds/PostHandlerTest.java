@@ -34,6 +34,7 @@ public class PostHandlerTest {
 
         call(this.handler, "", addFeedRequest);
         Mockito.verify(this.feedsServiceWrapper).addFeed(HTTP_DOMAIN_COM, Category.MAIN_CATEGORY_ID);
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -42,6 +43,7 @@ public class PostHandlerTest {
                 call(this.handler, "", new PostHandlerTest()),
                 ErrorCode.INVALID_FEED_URL
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -52,6 +54,7 @@ public class PostHandlerTest {
                 call(this.handler, "", addFeedRequest),
                 ErrorCode.INVALID_FEED_URL
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -62,6 +65,7 @@ public class PostHandlerTest {
                 call(this.handler, "", addFeedRequest),
                 ErrorCode.INVALID_CATEGORY_ID
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
 }

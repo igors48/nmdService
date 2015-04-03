@@ -33,6 +33,7 @@ public class DeleteHandlerTest {
         call(this.handler, uuid.toString());
 
         Mockito.verify(this.feedsServiceWrapper).removeFeed(uuid);
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -41,6 +42,7 @@ public class DeleteHandlerTest {
                 call(this.handler, ""),
                 ErrorCode.INVALID_FEED_ID
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -49,6 +51,7 @@ public class DeleteHandlerTest {
                 call(this.handler, "invalid"),
                 ErrorCode.INVALID_FEED_ID
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
 }

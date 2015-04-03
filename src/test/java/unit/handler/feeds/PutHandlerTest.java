@@ -35,6 +35,7 @@ public class PutHandlerTest {
         call(this.handler, feedId.toString(), title);
 
         Mockito.verify(this.feedsServiceWrapper).updateFeedTitle(feedId, title);
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -43,6 +44,7 @@ public class PutHandlerTest {
                 call(this.handler, ""),
                 ErrorCode.INVALID_FEED_ID
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -51,6 +53,7 @@ public class PutHandlerTest {
                 call(this.handler, "invalid"),
                 ErrorCode.INVALID_FEED_ID
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
     @Test
@@ -59,6 +62,7 @@ public class PutHandlerTest {
                 call(this.handler, UUID.randomUUID().toString(), FeedHeaderBuilderTest.LONG_STRING),
                 ErrorCode.INVALID_FEED_TITLE
         );
+        Mockito.verifyNoMoreInteractions(this.feedsServiceWrapper);
     }
 
 }
