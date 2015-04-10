@@ -61,14 +61,6 @@ controllers.controller('feedCardController',
             );
         };
 
-        $scope.onBackToList = function () {
-            $state.go('feed', {
-                categoryId: $stateParams.categoryId,
-                feedId: $stateParams.feedId,
-                filter: $stateParams.filter
-            });
-        };
-
         var loadFirstCards = function () {
             $ionicLoading.show({
                 template: 'Loading...'
