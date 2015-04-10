@@ -22,11 +22,11 @@ public class CreateFeedReportTest {
 
     private static final UUID FEED_HEADER_ID = UUID.randomUUID();
 
-    private static final FeedItem ITEM_01 = AbstractControllerTestBase.create(1);
-    private static final FeedItem ITEM_02 = AbstractControllerTestBase.create(1);
-    private static final FeedItem ITEM_03 = AbstractControllerTestBase.create(1);
-    private static final FeedItem ITEM_04 = AbstractControllerTestBase.create(1);
-    private static final FeedItem ITEM_05 = AbstractControllerTestBase.create(1);
+    private static final FeedItem ITEM_01 = AbstractControllerTestBase.create(10);
+    private static final FeedItem ITEM_02 = AbstractControllerTestBase.create(20);
+    private static final FeedItem ITEM_03 = AbstractControllerTestBase.create(30);
+    private static final FeedItem ITEM_04 = AbstractControllerTestBase.create(40);
+    private static final FeedItem ITEM_05 = AbstractControllerTestBase.create(50);
     private static final String RSS_FEED_LINK = "http://domain.com/feedLink";
     private static final String TWITTER_FEED_LINK = "https://twitter.com/adme_ru";
     private static final String INSTAGRAM_FEED_LINK = "http://instagram.com/skif48";
@@ -48,30 +48,33 @@ public class CreateFeedReportTest {
         this.items.add(ITEM_04);
         this.items.add(ITEM_05);
 
-        final Set<String> readItemIds = new HashSet<>();
+        final Set<String> readItemsIds = new HashSet<>();
 
-        this.readFeedItems = new ReadFeedItems(FEED_HEADER_ID, ITEM_05.date, readItemIds, new HashSet<String>(), Category.MAIN_CATEGORY_ID);
+        readItemsIds.add("48"); // not exist id
+        readItemsIds.add(ITEM_01.guid);
+        readItemsIds.add(ITEM_02.guid);
+
+        final Set<String> readLaterItemsIds = new HashSet<>();
+
+        readLaterItemsIds.add(ITEM_03.guid);
+        readLaterItemsIds.add("58"); // not exist id
+
+        this.readFeedItems = new ReadFeedItems(FEED_HEADER_ID, ITEM_03.date, readItemsIds, readLaterItemsIds, Category.MAIN_CATEGORY_ID);
     }
 
-    /*
-    public final UUID feedId;
-    public final Source feedType;
-    public final String feedTitle;
-    public final int read;
-    public final int notRead;
-    public final int readLater;
-    public final int addedFromLastVisit;
-    public final String topItemId;
-    public final String topItemLink;
-    public final Date lastUpdate;
-
-     */
     @Test
     public void feedIdAndTitleAreCopiedFromHeader() {
         final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
 
         assertEquals(this.header.id, feedReadReport.feedId);
         assertEquals(this.header.title, feedReadReport.feedTitle);
+    }
+
+    @Test
+    public void lastUpdateTimeIsSetCorrectly() {
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+
+        assertEquals(ITEM_03.date, feedReadReport.lastUpdate);
     }
 
     @Test
@@ -87,6 +90,36 @@ public class CreateFeedReportTest {
         final FeedHeader instagramFeedHeader = new FeedHeader(FEED_HEADER_ID, INSTAGRAM_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, INSTAGRAM_FEED_LINK);
         final FeedReadReport instagramFeedReadReport = ReadsService.createFeedReadReport(instagramFeedHeader, this.items, this.readFeedItems);
         assertEquals(Source.INSTAGRAM, instagramFeedReadReport.feedType);
+    }
+
+    @Test
+    public void readAndNotReadItemsCountedCorrectly() {
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+
+        assertEquals(2, feedReadReport.read);
+        assertEquals(3, feedReadReport.notRead);
+    }
+
+    @Test
+    public void readLaterItemsCountedCorrectly() {
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+
+        assertEquals(1, feedReadReport.readLater);
+    }
+
+    @Test
+    public void addedFromLastVisitItemsCountedCorrectly() {
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+
+        assertEquals(2, feedReadReport.addedFromLastVisit);
+    }
+
+    @Test
+    public void topItemIdAndLinkAreSetCorrectly() {
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+
+        assertEquals(ITEM_04.guid, feedReadReport.topItemId);
+        assertEquals(ITEM_04.gotoLink, feedReadReport.topItemLink);
     }
 
 }
