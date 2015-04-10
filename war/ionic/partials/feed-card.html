@@ -35,11 +35,10 @@
     <div class="list list-inset">
         <div class="button-bar">
             <button class="button button-block button-positive" ng-click="onViewFiltered()">View</button>
-            <button class="button button-block button-positive" ng-click="onBackToList()">Back</button>
         </div>
     </div>
 
-    <div class="card">
+    <div class="card" ng-show="showContent">
         <div class="item item-text-wrap" ng-bind-html="card.content"></div>
     </div>
 

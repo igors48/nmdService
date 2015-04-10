@@ -6,6 +6,7 @@ controllers.controller('feedCardController',
         var pageSize = 5;
 
         $scope.showUi = false;
+        $scope.showContent = false;
 
         $scope.utilities = AppUtilities.utilities;
 
@@ -61,14 +62,6 @@ controllers.controller('feedCardController',
             );
         };
 
-        $scope.onBackToList = function () {
-            $state.go('feed', {
-                categoryId: $stateParams.categoryId,
-                feedId: $stateParams.feedId,
-                filter: $stateParams.filter
-            });
-        };
-
         var loadFirstCards = function () {
             $ionicLoading.show({
                 template: 'Loading...'
@@ -109,7 +102,8 @@ controllers.controller('feedCardController',
 
                 return;
             }
-
+            
+            $scope.showContent = true;
             $scope.card.content = response.content;
         };
 
