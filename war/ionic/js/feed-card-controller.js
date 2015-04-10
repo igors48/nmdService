@@ -6,6 +6,7 @@ controllers.controller('feedCardController',
         var pageSize = 5;
 
         $scope.showUi = false;
+        $scope.showContent = false;
 
         $scope.utilities = AppUtilities.utilities;
 
@@ -101,7 +102,8 @@ controllers.controller('feedCardController',
 
                 return;
             }
-
+            
+            $scope.showContent = true;
             $scope.card.content = response.content;
         };
 
