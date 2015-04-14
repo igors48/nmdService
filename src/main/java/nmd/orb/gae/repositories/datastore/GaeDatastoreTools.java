@@ -14,8 +14,6 @@ import static nmd.orb.util.Assert.assertNotNull;
  */
 public class GaeDatastoreTools {
 
-    public static final DatastoreService DATASTORE_SERVICE = DatastoreServiceFactory.getDatastoreService();
-
     private static final String FEEDS_ENTITY_KIND = "Feeds";
 
     private static final Key ROOT_KEY = KeyFactory.createKey(FEEDS_ENTITY_KIND, FEEDS_ENTITY_KIND);
@@ -40,7 +38,7 @@ public class GaeDatastoreTools {
         assertNotNull(kind);
 
         final Query query = new Query(kind.value);
-        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
+        final PreparedQuery preparedQuery = Datastore.INSTANCE.getDatastoreService().prepare(query);
 
         return preparedQuery.asList(withLimit(MAX_VALUE));
     }
@@ -52,7 +50,7 @@ public class GaeDatastoreTools {
         final Entity victim = loadEntity(uuid, rootKind, kind, true);
 
         if (victim != null) {
-            DATASTORE_SERVICE.delete(victim.getKey());
+            Datastore.INSTANCE.getDatastoreService().delete(victim.getKey());
         }
     }
 
@@ -64,7 +62,7 @@ public class GaeDatastoreTools {
             query.setKeysOnly();
         }
 
-        return DATASTORE_SERVICE.prepare(query);
+        return Datastore.INSTANCE.getDatastoreService().prepare(query);
     }
 
     private GaeDatastoreTools() {

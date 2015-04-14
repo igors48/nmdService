@@ -4,6 +4,7 @@ import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
 import nmd.orb.feed.FeedHeader;
+import nmd.orb.gae.repositories.datastore.Datastore;
 import nmd.orb.gae.repositories.datastore.RootKind;
 import nmd.orb.repositories.FeedHeadersRepository;
 
@@ -23,9 +24,9 @@ import static nmd.orb.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 15.10.13
  */
-public class GaeFeedHeadersRepository implements FeedHeadersRepository {
+public enum GaeFeedHeadersRepository implements FeedHeadersRepository {
 
-    public static final FeedHeadersRepository GAE_FEED_HEADERS_REPOSITORY = new GaeFeedHeadersRepository();
+    INSTANCE;
 
     @Override
     public FeedHeader loadHeader(final UUID feedId) {
@@ -62,7 +63,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
     public FeedHeader loadHeader(final String feedLink) {
         final Query query = new Query(FEED_HEADER.value)
                 .setFilter(new Query.FilterPredicate(FEED_LINK, EQUAL, feedLink));
-        final PreparedQuery preparedQuery = DATASTORE_SERVICE.prepare(query);
+        final PreparedQuery preparedQuery = Datastore.INSTANCE.getDatastoreService().prepare(query);
 
         final Entity entity = preparedQuery.asSingleEntity();
 
@@ -75,11 +76,7 @@ public class GaeFeedHeadersRepository implements FeedHeadersRepository {
 
         final Entity entity = convert(feedHeader, getEntityRootKey(feedHeader.id.toString(), RootKind.FEED));
 
-        DATASTORE_SERVICE.put(entity);
-    }
-
-    private GaeFeedHeadersRepository() {
-        // empty
+        Datastore.INSTANCE.getDatastoreService().put(entity);
     }
 
 }

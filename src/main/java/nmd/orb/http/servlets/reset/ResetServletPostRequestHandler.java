@@ -1,4 +1,4 @@
-package nmd.orb.http.servlets.clear;
+package nmd.orb.http.servlets.reset;
 
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
@@ -7,7 +7,6 @@ import nmd.orb.http.wrappers.ResetServiceWrapper;
 import java.util.List;
 import java.util.Map;
 
-import static nmd.orb.http.wrappers.ResetServiceWrapperImpl.RESET_SERVICE_WRAPPER;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
 
@@ -16,8 +15,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Date : 14.08.2014
  */
 public class ResetServletPostRequestHandler implements Handler {
-
-    public static final ResetServletPostRequestHandler RESET_SERVLET_POST_REQUEST_HANDLER = new ResetServletPostRequestHandler(RESET_SERVICE_WRAPPER);
 
     private final ResetServiceWrapper clearService;
 

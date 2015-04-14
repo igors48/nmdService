@@ -6,14 +6,13 @@ import nmd.orb.reader.Category;
 import nmd.orb.services.report.CategoryReport;
 import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.UUID;
 
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
-import static nmd.orb.util.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -70,6 +69,13 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
         final UUID id = addValidFirstRssFeedToMainCategory();
 
         assertNotNull(this.feedUpdateTaskRepositoryStub.loadTaskForFeedId(id));
+    }
+
+    @Test
+    public void whenFeedAddedThenItIsRegistered() throws ServiceException {
+        addValidFirstRssFeedToMainCategory();
+
+        Mockito.verify(this.changeRegistrationServiceSpy).registerChange();
     }
 
     @Test

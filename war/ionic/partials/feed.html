@@ -6,7 +6,7 @@
     <h1 class="title" ng-cloak ng-show="showUi">{{feed.title}}</h1>
 
     <div class="buttons">
-        <button class="button button-clear ion-android-note" ng-cloak ng-show="showUi" ng-click="switchToCardView()"></button>
+        <button class="button button-clear ion-document" ng-cloak ng-show="showUi" ng-click="switchToCardView()"></button>
     </div>
 
 </ion-header-bar>
@@ -19,14 +19,14 @@
             &nbsp;{{feed.addedSinceLastView}}</a>
         <a ng-class="(filter=='show-not-read') ? 'button-energized' : ''" class="button icon ion-eye-disabled"
            ng-click="showNotRead()">&nbsp;{{feed.notRead}}</a>
-        <a ng-class="(filter=='show-read-later') ? 'button-energized' : ''" class="button icon ion-android-clock"
+        <a ng-class="(filter=='show-read-later') ? 'button-energized' : ''" class="button icon ion-android-time"
            ng-click="showReadLater()">&nbsp;{{feed.readLater}}</a>
     </div>
 
 </ion-header-bar>
 
-<ion-content ng-cloak ng-show="showUi">
-    <div class="list">
+<ion-content ng-cloak>
+    <div class="list" ng-show="showUi">
         <div ng-repeat="item in items">
             <div ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                 <div class="item item-divider">
@@ -42,11 +42,12 @@
                 <div class="item item-text-wrap item-button-right" ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''">
                     <a class="block-link" href="{{item.link}}" target="_blank"
                        ng-click="markAsRead(item.feedId, item.itemId)">
-                        <h3 ng-class="item.read ? '' : 'orange-front'">{{item.title}}</h3>
+                        <h3 ng-class="item.read ? '' : 'orange-front'" ng-bind-html="item.title"></h3>
                     </a>
 
                     <div class="buttons">
-                        <button ng-class="item.readLater ? 'orange-front' : 'blue-front'" class="button button-clear" ng-click="markAsReadLater(item.feedId, item.itemId)"><span ng-class="item.readLater ? 'orange-front' : 'blue-front'" class="ion-android-clock"></span></button>
+                        <button ng-class="item.readLater ? 'orange-front' : 'blue-front'" class="button button-clear" ng-click="markAsReadLater(item.feedId, item.itemId)"><span ng-class="item.readLater ? 'orange-front' : 'blue-front'" class="ion-android-time"></span></button>
+                        <button class="button button-clear" ng-click="goToCard(item.itemId)"><span class="ion-document"></span></button>
                     </div>
                 </div>
             </div>

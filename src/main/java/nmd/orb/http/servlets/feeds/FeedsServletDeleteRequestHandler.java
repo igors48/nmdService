@@ -2,7 +2,7 @@ package nmd.orb.http.servlets.feeds;
 
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
-import nmd.orb.http.wrappers.FeedsServiceWrapperImpl;
+import nmd.orb.http.wrappers.FeedsServiceWrapper;
 
 import java.util.List;
 import java.util.Map;
@@ -21,11 +21,9 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class FeedsServletDeleteRequestHandler implements Handler {
 
-    public static final FeedsServletDeleteRequestHandler FEEDS_SERVLET_DELETE_REQUEST_HANDLER = new FeedsServletDeleteRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
+    private final FeedsServiceWrapper feedsService;
 
-    private final FeedsServiceWrapperImpl feedsService;
-
-    public FeedsServletDeleteRequestHandler(final FeedsServiceWrapperImpl feedsService) {
+    public FeedsServletDeleteRequestHandler(final FeedsServiceWrapper feedsService) {
         guard(notNull(feedsService));
         this.feedsService = feedsService;
     }
@@ -46,4 +44,5 @@ public class FeedsServletDeleteRequestHandler implements Handler {
 
         return isValidFeedHeaderId(feedId) ? this.feedsService.removeFeed(feedId) : createErrorJsonResponse(invalidFeedId(element));
     }
+
 }

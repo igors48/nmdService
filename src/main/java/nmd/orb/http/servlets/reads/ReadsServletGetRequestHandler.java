@@ -3,29 +3,26 @@ package nmd.orb.http.servlets.reads;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.ReadsServiceWrapper;
-import nmd.orb.http.wrappers.ReadsServiceWrapperImpl;
 import nmd.orb.services.filter.FeedItemReportFilter;
+import nmd.orb.util.Direction;
 
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import static nmd.orb.error.ServiceError.invalidFeedId;
-import static nmd.orb.error.ServiceError.invalidOffsetOrSize;
+import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
+import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.orb.http.tools.ResponseBody.createErrorJsonResponse;
 import static nmd.orb.http.tools.ServletTools.parseInteger;
 import static nmd.orb.http.tools.ServletTools.parseUuid;
 import static nmd.orb.util.Assert.guard;
-import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 
 /**
  * @author : igu
  */
 public class ReadsServletGetRequestHandler implements Handler {
-
-    public static final ReadsServletGetRequestHandler READS_SERVLET_GET_REQUEST_HANDLER = new ReadsServletGetRequestHandler(ReadsServiceWrapperImpl.READS_SERVICE_WRAPPER);
 
     private final ReadsServiceWrapper readsService;
 
@@ -36,7 +33,8 @@ public class ReadsServletGetRequestHandler implements Handler {
 
     //GET -- reads report
     //GET /{feedId}?filter={filterName} -- feed items report
-    //GET /{feedId}?offset={offset}&size={size} -- feed items cards report
+    //GET /{feedId}/{itemId}/{next|prev}/{size} -- feed items cards report
+    //GET /{feedId}/{size} -- initial feed items cards report
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
         guard(notNull(elements));
@@ -47,35 +45,57 @@ public class ReadsServletGetRequestHandler implements Handler {
             return this.readsService.getFeedsReadReport();
         }
 
-        final String element = elements.get(0);
-        final UUID feedId = parseUuid(element);
+        final String feedIdAsString = elements.get(0);
+        final UUID feedId = parseUuid(feedIdAsString);
 
-        if (parameters.isEmpty()) {
-            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL) : createErrorJsonResponse(invalidFeedId(element));
+        if (!isValidFeedHeaderId(feedId)) {
+            return createErrorJsonResponse(invalidFeedId(feedIdAsString));
         }
 
-        final String filterName = parameters.get("filter");
+        if (elements.size() == 1) {
+            final String filterName = parameters.get("filter");
+            final FeedItemReportFilter filter = filterName == null ? FeedItemReportFilter.SHOW_ALL : FeedItemReportFilter.forName(filterName);
 
-        if (filterName != null) {
-            final FeedItemReportFilter filter = FeedItemReportFilter.forName(filterName);
-
-            return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsReport(feedId, filter) : createErrorJsonResponse(invalidFeedId(element));
+            return this.readsService.getFeedItemsReport(feedId, filter);
         }
 
-        final String offsetAsString = parameters.get("offset");
-        final Integer offset = parseInteger(offsetAsString);
+        final boolean elementsCountIsNotValid = !(elements.size() == 2 || elements.size() == 4);
 
-        final String sizeAsString = parameters.get("size");
+        if (elementsCountIsNotValid) {
+            return createErrorJsonResponse(invalidParametersCount());
+        }
+
+        final String itemIdAsString;
+        final Direction direction;
+
+        boolean initialReport = elements.size() == 2;
+
+        if (initialReport) {
+            itemIdAsString = "";
+            direction = Direction.NEXT;
+        } else {
+            itemIdAsString = elements.get(1);
+
+            if (!isValidFeedItemGuid(itemIdAsString)) {
+                return createErrorJsonResponse(invalidItemId(itemIdAsString));
+            }
+
+            final String directionAsString = elements.get(2);
+            direction = Direction.forName(directionAsString);
+
+            if (direction == null) {
+                return createErrorJsonResponse(invalidDirection(directionAsString));
+            }
+        }
+
+        final String sizeAsString = elements.get(elements.size() - 1);
         final Integer size = parseInteger(sizeAsString);
 
-        if (offset == null || size == null) {
-            return createErrorJsonResponse(invalidOffsetOrSize(offsetAsString, sizeAsString));
+        if (size == null) {
+            return createErrorJsonResponse(invalidSize(sizeAsString));
         }
 
-        if (!(isPositive(offset) && isPositive(size))) {
-            return createErrorJsonResponse(invalidOffsetOrSize(offsetAsString, sizeAsString));
-        }
-
-        return isValidFeedHeaderId(feedId) ? this.readsService.getFeedItemsCardsReport(feedId, offset, size) : createErrorJsonResponse(invalidFeedId(element));
+        return this.readsService.getFeedItemsCardsReport(feedId, itemIdAsString, size, direction);
     }
+
 }

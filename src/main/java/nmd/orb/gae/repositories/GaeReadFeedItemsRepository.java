@@ -2,6 +2,7 @@ package nmd.orb.gae.repositories;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import nmd.orb.gae.repositories.datastore.Datastore;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.ReadFeedItemsRepository;
 
@@ -20,9 +21,9 @@ import static nmd.orb.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 26.11.13
  */
-public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
+public enum GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
 
-    public static final ReadFeedItemsRepository GAE_READ_FEED_ITEMS_REPOSITORY = new GaeReadFeedItemsRepository();
+    INSTANCE;
 
     @Override
     public List<ReadFeedItems> loadAll() {
@@ -57,7 +58,7 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
         final Key feedRootKey = getEntityRootKey(readFeedItems.feedId.toString(), FEED);
         final Entity entity = convert(feedRootKey, readFeedItems);
 
-        DATASTORE_SERVICE.put(entity);
+        Datastore.INSTANCE.getDatastoreService().put(entity);
     }
 
     @Override
@@ -65,10 +66,6 @@ public class GaeReadFeedItemsRepository implements ReadFeedItemsRepository {
         assertNotNull(feedId);
 
         deleteEntity(feedId.toString(), FEED, READ_FEED_ITEM);
-    }
-
-    private GaeReadFeedItemsRepository() {
-        // empty
     }
 
 }

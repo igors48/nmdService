@@ -35,9 +35,11 @@ public class CategoriesService implements CategoriesServiceAdapter {
     private final FeedHeadersRepository feedHeadersRepository;
     private final FeedItemsRepository feedItemsRepository;
 
+    private final ChangeRegistrationService changeRegistrationService;
+
     private final Transactions transactions;
 
-    public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final Transactions transactions) {
+    public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ChangeRegistrationService changeRegistrationService, final Transactions transactions) {
         guard(notNull(categoriesRepository));
         this.categoriesRepository = categoriesRepository;
 
@@ -49,6 +51,9 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
         guard(notNull(feedItemsRepository));
         this.feedItemsRepository = feedItemsRepository;
+
+        guard(notNull(changeRegistrationService));
+        this.changeRegistrationService = changeRegistrationService;
 
         guard(notNull(transactions));
         this.transactions = transactions;
@@ -143,6 +148,8 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
+            this.changeRegistrationService.registerChange();
+
             transaction.commit();
         } finally {
             rollbackIfActive(transaction);
@@ -174,6 +181,8 @@ public class CategoriesService implements CategoriesServiceAdapter {
                 }
 
                 this.categoriesRepository.delete(categoryId);
+
+                this.changeRegistrationService.registerChange();
             }
 
             transaction.commit();
@@ -205,6 +214,8 @@ public class CategoriesService implements CategoriesServiceAdapter {
             this.categoriesRepository.delete(categoryId);
             this.categoriesRepository.store(renamed);
 
+            this.changeRegistrationService.registerChange();
+
             transaction.commit();
         } finally {
             rollbackIfActive(transaction);
@@ -217,16 +228,22 @@ public class CategoriesService implements CategoriesServiceAdapter {
         try {
             transaction = this.transactions.beginOne();
 
-            final Set<Category> categories = getAllCategoriesWithMain();
-            final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
-            final List<ReadFeedItems> readFeedItems = this.readFeedItemsRepository.loadAll();
+            final ExportReport exportReport = buildExportReport();
 
             transaction.commit();
 
-            return createExportReport(categories, headers, readFeedItems);
+            return exportReport;
         } finally {
             rollbackIfActive(transaction);
         }
+    }
+
+    public ExportReport buildExportReport() {
+        final Set<Category> categories = getAllCategoriesWithMain();
+        final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+        final List<ReadFeedItems> readFeedItems = this.readFeedItemsRepository.loadAll();
+
+        return createExportReport(categories, headers, readFeedItems);
     }
 
     private Category addCategoryOrFindExistent(final String name) {
@@ -241,6 +258,8 @@ public class CategoriesService implements CategoriesServiceAdapter {
             this.categoriesRepository.store(created);
 
             result = created;
+
+            this.changeRegistrationService.registerChange();
         } else {
             result = exists;
         }

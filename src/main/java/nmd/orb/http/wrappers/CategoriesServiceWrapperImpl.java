@@ -2,7 +2,6 @@ package nmd.orb.http.wrappers;
 
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
-import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.CategoriesReportResponse;
 import nmd.orb.http.responses.CategoryReportResponse;
 import nmd.orb.http.responses.CategoryResponse;
@@ -31,8 +30,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Date : 22.03.2014
  */
 public class CategoriesServiceWrapperImpl implements CategoriesServiceWrapper {
-
-    public static final CategoriesServiceWrapperImpl CATEGORIES_SERVICE_WRAPPER = new CategoriesServiceWrapperImpl(GaeServices.CATEGORIES_SERVICE);
 
     private static final Logger LOGGER = Logger.getLogger(CategoriesServiceWrapperImpl.class.getName());
 

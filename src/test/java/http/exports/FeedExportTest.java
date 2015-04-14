@@ -1,9 +1,10 @@
 package http.exports;
 
+import com.sun.syndication.io.FeedException;
 import http.AbstractHttpTest;
+import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.http.responses.FeedIdResponse;
-import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;
 
 import static java.util.UUID.randomUUID;
@@ -19,7 +20,7 @@ import static org.junit.Assert.assertFalse;
 public class FeedExportTest extends AbstractHttpTest {
 
     @Test
-    public void whenFeedIdExistsThenFeedDataReturnsInXmlFormat() throws FeedParserException {
+    public void whenFeedIdExistsThenFeedDataReturnsInXmlFormat() throws FeedException, ServiceException {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
         final String response = exportFeed(feedIdResponse.feedId.toString());

@@ -30,7 +30,7 @@ public class InstagramClientTools {
     public static final String NO_DESCRIPTION = "No description";
 
     private static final String INSTAGRAM_COM = "instagram.com";
-    private static final Pattern INSTAGRAM_USER_NAME_PATTERN = Pattern.compile("https?://instagram.com/(.+)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern INSTAGRAM_USER_NAME_PATTERN = Pattern.compile("https?://instagram.com/([^/\\?]+)", Pattern.CASE_INSENSITIVE);
     private static final String DESCRIPTION_TEMPLATE = "<img src=\"%s\"></img><p>%s</p>";
 
     public static boolean isItInstagramUrl(final String url) {
@@ -41,7 +41,7 @@ public class InstagramClientTools {
                 return false;
             }
 
-            final URI uri = new URI(url);
+            final URI uri = new URI(url.trim());
             final String host = uri.getHost();
 
             return INSTAGRAM_COM.equalsIgnoreCase(host);
@@ -57,7 +57,7 @@ public class InstagramClientTools {
             return null;
         }
 
-        final Matcher matcher = INSTAGRAM_USER_NAME_PATTERN.matcher(url);
+        final Matcher matcher = INSTAGRAM_USER_NAME_PATTERN.matcher(url.trim());
 
         return matcher.find() ? matcher.group(1) : null;
     }
@@ -66,7 +66,7 @@ public class InstagramClientTools {
         guard(isValidString(userName));
         guard(notNull(userEnvelope));
 
-        assertMetaIsValid(userEnvelope);
+        assertMetaIsValid(userEnvelope, userName);
 
         final List<User> users = userEnvelope.data;
 
@@ -91,16 +91,16 @@ public class InstagramClientTools {
         guard(notNull(current));
 
         final FeedHeader header = convert(link, user);
-        final List<FeedItem> items = convert(contentEnvelope, current);
+        final List<FeedItem> items = convert(contentEnvelope, current, user.username);
 
         return new Feed(header, items);
     }
 
-    public static List<FeedItem> convert(final ContentEnvelope contentEnvelope, final Date current) throws ServiceException {
+    public static List<FeedItem> convert(final ContentEnvelope contentEnvelope, final Date current, final String userName) throws ServiceException {
         guard(notNull(contentEnvelope));
         guard(notNull(current));
 
-        assertMetaIsValid(contentEnvelope);
+        assertMetaIsValid(contentEnvelope, userName);
 
         final List<FeedItem> items = new ArrayList<>();
 
@@ -119,7 +119,7 @@ public class InstagramClientTools {
         return items;
     }
 
-    public static FeedHeader convert(final String link, final User user) {
+    public static FeedHeader convert(final String link, final User user) throws ServiceException {
         guard(isValidUrl(link));
         guard(notNull(user));
 
@@ -199,7 +199,7 @@ public class InstagramClientTools {
 
         final String itemGuid = UUID.randomUUID().toString();
 
-        return new FeedItem(title, imageWithDescription, link, link, date, dateReal, itemGuid);
+        return FeedItem.create(title, imageWithDescription, link, link, date, dateReal, itemGuid);
     }
 
     public static String formatDescription(final String imageUrl, final String description) {
@@ -211,14 +211,16 @@ public class InstagramClientTools {
         return format(DESCRIPTION_TEMPLATE, imageUrl, cutDescription);
     }
 
-    private static void assertMetaIsValid(final Envelope envelope) throws ServiceException {
+    private static void assertMetaIsValid(final Envelope envelope, final String userName) throws ServiceException {
 
         if (envelope.meta == null) {
             throw new ServiceException(instagramNoMeta());
         }
 
-        if (!"200".equals(envelope.meta.code)) {
-            throw new ServiceException(instagramWrongStatusCode());
+        final String statusCode = envelope.meta.code;
+
+        if (!"200".equals(statusCode)) {
+            throw new ServiceException(instagramWrongStatusCode(statusCode, userName));
         }
 
     }

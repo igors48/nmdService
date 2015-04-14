@@ -3,6 +3,7 @@ package nmd.orb.gae.repositories;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import nmd.orb.collector.scheduler.FeedUpdateTask;
+import nmd.orb.gae.repositories.datastore.Datastore;
 import nmd.orb.repositories.FeedUpdateTaskRepository;
 
 import java.util.ArrayList;
@@ -19,9 +20,9 @@ import static nmd.orb.util.Assert.assertNotNull;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 16.10.13
  */
-public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
+public enum GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
 
-    public static final FeedUpdateTaskRepository GAE_FEED_UPDATE_TASK_REPOSITORY = new GaeFeedUpdateTaskRepository();
+    INSTANCE;
 
     @Override
     public List<FeedUpdateTask> loadAllTasks() {
@@ -47,7 +48,7 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
         final Key feedRootKey = getEntityRootKey(feedUpdateTask.feedId.toString(), FEED);
         final Entity entity = convert(feedUpdateTask, feedRootKey);
 
-        DATASTORE_SERVICE.put(entity);
+        Datastore.INSTANCE.getDatastoreService().put(entity);
     }
 
     @Override
@@ -64,10 +65,6 @@ public class GaeFeedUpdateTaskRepository implements FeedUpdateTaskRepository {
         assertNotNull(feedId);
 
         deleteEntity(feedId.toString(), FEED, FEED_UPDATE_TASK);
-    }
-
-    private GaeFeedUpdateTaskRepository() {
-        // empty
     }
 
 }

@@ -16,24 +16,19 @@ import static nmd.orb.util.Parameter.isValidString;
  */
 public class TwitterClient {
 
-    private final String apiKey;
-    private final String apiSecret;
-
-    public TwitterClient(final String apiKey, final String apiSecret) {
+    public static List<Tweet> fetchTweets(final String apiKey, final String apiSecret, final String screenName, final int count) throws IOException {
         guard(isValidString(apiKey));
-        this.apiKey = apiKey;
-
         guard(isValidString(apiSecret));
-        this.apiSecret = apiSecret;
-    }
-
-    public List<Tweet> fetchTweets(final String screenName, final int count) throws IOException {
         guard(isValidString(screenName));
         guard(isPositive(count));
 
-        final AccessToken accessToken = TwitterClientTools.getAccessToken(this.apiKey, this.apiSecret);
+        final AccessToken accessToken = TwitterClientTools.getAccessToken(apiKey, apiSecret);
 
         return TwitterClientTools.fetchTweets(accessToken, screenName, count);
+    }
+
+    private TwitterClient() {
+        // empty
     }
 
 }

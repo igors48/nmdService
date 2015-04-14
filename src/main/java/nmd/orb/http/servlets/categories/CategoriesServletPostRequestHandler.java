@@ -3,7 +3,6 @@ package nmd.orb.http.servlets.categories;
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.CategoriesServiceWrapper;
-import nmd.orb.http.wrappers.CategoriesServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -18,8 +17,6 @@ import static nmd.orb.util.Parameter.notNull;
  * @author : igu
  */
 public class CategoriesServletPostRequestHandler implements Handler {
-
-    public static final CategoriesServletPostRequestHandler CATEGORIES_SERVLET_POST_REQUEST_HANDLER = new CategoriesServletPostRequestHandler(CategoriesServiceWrapperImpl.CATEGORIES_SERVICE_WRAPPER);
 
     private final CategoriesServiceWrapper categoriesService;
 

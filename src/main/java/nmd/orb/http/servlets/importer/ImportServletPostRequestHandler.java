@@ -4,7 +4,6 @@ import nmd.orb.http.Handler;
 import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.ImportServiceWrapper;
-import nmd.orb.http.wrappers.ImportServiceWrapperImpl;
 import nmd.orb.services.importer.ImportJobContext;
 
 import java.util.List;
@@ -20,9 +19,7 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ImportServletPostRequestHandler implements Handler {
 
-    public static final ImportServletPostRequestHandler IMPORT_SERVLET_POST_REQUEST_HANDLER = new ImportServletPostRequestHandler(ImportServiceWrapperImpl.IMPORT_SERVICE_WRAPPER);
-
-    private static final int DEFAULT_TRIES_COUNT = 5;
+    public static final int DEFAULT_TRIES_COUNT = 5;
 
     private final ImportServiceWrapper importServiceWrapper;
 

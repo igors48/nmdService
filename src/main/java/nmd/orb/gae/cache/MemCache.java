@@ -4,41 +4,39 @@ import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import nmd.orb.repositories.Cache;
 
-import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 05.03.14
  */
-public class MemCache implements Cache {
+public enum MemCache implements Cache {
 
-    public static final MemCache MEM_CACHE = new MemCache();
+    INSTANCE;
 
-    private static final MemcacheService CACHE = MemcacheServiceFactory.getMemcacheService();
+    private final MemcacheService cache = MemcacheServiceFactory.getMemcacheService();
 
     @Override
     public synchronized void put(final Object key, final Object object) {
-        assertNotNull(key);
-        assertNotNull(object);
+        guard(notNull(key));
+        guard(notNull(object));
 
-        CACHE.put(key, object);
+        cache.put(key, object);
     }
 
     @Override
     public synchronized Object get(final Object key) {
-        assertNotNull(key);
+        guard(notNull(key));
 
-        return CACHE.get(key);
+        return cache.get(key);
     }
 
     @Override
     public synchronized boolean delete(final Object key) {
-        assertNotNull(key);
+        guard(notNull(key));
 
-        return CACHE.delete(key);
+        return cache.delete(key);
     }
 
-    private MemCache() {
-        // empty
-    }
 }

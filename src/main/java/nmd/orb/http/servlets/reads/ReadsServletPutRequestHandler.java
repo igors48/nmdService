@@ -4,7 +4,6 @@ import nmd.orb.http.Handler;
 import nmd.orb.http.tools.FeedAndItemIds;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.http.wrappers.ReadsServiceWrapper;
-import nmd.orb.http.wrappers.ReadsServiceWrapperImpl;
 
 import java.util.List;
 import java.util.Map;
@@ -22,8 +21,6 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ReadsServletPutRequestHandler implements Handler {
 
-    public static final ReadsServletPutRequestHandler READS_SERVLET_PUT_REQUEST_HANDLER = new ReadsServletPutRequestHandler(ReadsServiceWrapperImpl.READS_SERVICE_WRAPPER);
-
     private static final String MARK_AS_PARAMETER_NAME = "markAs";
     private static final String MARK_AS_READ = "read";
     private static final String MARK_AS_READ_LATER = "readLater";
@@ -35,7 +32,7 @@ public class ReadsServletPutRequestHandler implements Handler {
         this.readsService = readsService;
     }
 
-    //PUT /{feedId}/{itemId}&mark-as=read|read-later -- mark item as read or read later
+    //PUT /{feedId}/{itemId}&markAs=read|read-later -- mark item as read or read later
     //PUT /{feedId}?topItemTimestamp=timestamp -- mark all items as read before given timestamp
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {

@@ -8,4 +8,6 @@ public interface UrlFetcher {
 
     byte[] fetch(String link) throws UrlFetcherException;
 
+    String fetchString(String link) throws UrlFetcherException;
+
 }

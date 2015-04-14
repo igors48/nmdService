@@ -25,7 +25,7 @@ public class ControllerGetFeedItemReportTest {
 
     @Test
     public void whenFeedItemReportCreatedThenBasicParametersSetCorrectly() {
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, ReadFeedItems.empty(UUID.randomUUID()), FEED_ITEM);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, ReadFeedItems.empty(UUID.randomUUID()), FEED_ITEM, 0, 0);
 
         assertEquals(FEED_ID, report.feedId);
 
@@ -45,7 +45,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
 
         assertTrue(report.read);
     }
@@ -58,7 +58,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
 
         assertFalse(report.read);
     }
@@ -72,7 +72,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
 
         assertTrue(report.readLater);
     }
@@ -85,7 +85,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
 
         assertFalse(report.readLater);
     }
@@ -97,7 +97,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(6), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
 
         assertFalse(report.addedSinceLastView);
     }
@@ -109,7 +109,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, FEED_ITEM.date, readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
 
         assertFalse(report.addedSinceLastView);
     }
@@ -121,9 +121,25 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(3), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
 
         assertTrue(report.addedSinceLastView);
+    }
+
+    @Test
+    public void whenReportCreatedThanIndexAndTotalValuesAreSetCorrectly() {
+        final Set<String> readFeedItemsIds = new HashSet<>();
+        final Set<String> readLaterFeedItemsIds = new HashSet<>();
+
+        final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(3), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
+
+        final int index = 48;
+        final int total = 49;
+
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, index, total);
+
+        assertEquals(index, report.index);
+        assertEquals(total, report.total);
     }
 
 }

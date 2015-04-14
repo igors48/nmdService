@@ -8,7 +8,8 @@ public enum RootKind {
 
     FEED("Feed"),
     CATEGORY("Category"),
-    IMPORT("Import");
+    IMPORT("Import"),
+    CHANGE("Change");
 
     public final String value;
 

@@ -2,9 +2,9 @@ package nmd.orb.sources.twitter;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import nmd.orb.sources.ConnectionTools;
 import nmd.orb.sources.twitter.entities.AccessToken;
 import nmd.orb.sources.twitter.entities.Tweet;
+import nmd.orb.util.ConnectionTools;
 import org.apache.commons.codec.binary.Base64;
 
 import java.io.IOException;
@@ -20,9 +20,9 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static java.lang.String.format;
-import static nmd.orb.sources.ConnectionTools.readAllFromConnection;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CloseableTools.close;
+import static nmd.orb.util.ConnectionTools.readStringFromConnection;
 import static nmd.orb.util.Parameter.*;
 
 /**
@@ -43,7 +43,7 @@ public class TwitterClientTools {
     private static final String CREDENTIALS_REQUEST_BODY = "grant_type=client_credentials";
     private static final String TWITTER_COM = "twitter.com";
     private static final String MOBILE_TWITTER_COM = "mobile.twitter.com";
-    private static final Pattern TWITTER_USER_NAME_PATTERN = Pattern.compile("https?://(mobile\\.)?twitter.com/(#!/)?([^/]*)", Pattern.CASE_INSENSITIVE);
+    private static final Pattern TWITTER_USER_NAME_PATTERN = Pattern.compile("https?://(mobile\\.)?twitter.com/(#!/)?([^#!/\\?]+)", Pattern.CASE_INSENSITIVE);
 
     private static final Gson GSON = new Gson();
 
@@ -58,7 +58,7 @@ public class TwitterClientTools {
         final HttpURLConnection connection = ConnectionTools.setupConnection(format(TIMELINE_API_URL_TEMPLATE, screenName, count), ConnectionTools.Method.GET);
         connection.setRequestProperty(AUTHORIZATION, BEARER + accessToken.getAccess_token());
 
-        final String content = readAllFromConnection(connection);
+        final String content = readStringFromConnection(connection);
 
         return GSON.fromJson(content, TWEET_LIST_TYPE);
     }
@@ -83,7 +83,7 @@ public class TwitterClientTools {
             outputStream = connection.getOutputStream();
             outputStream.write(CREDENTIALS_REQUEST_BODY.getBytes(UTF_8));
 
-            final String content = readAllFromConnection(connection);
+            final String content = readStringFromConnection(connection);
 
             return GSON.fromJson(content, AccessToken.class);
         } finally {
@@ -99,7 +99,7 @@ public class TwitterClientTools {
                 return false;
             }
 
-            final URI uri = new URI(url);
+            final URI uri = new URI(url.trim());
             final String host = uri.getHost();
 
             return TWITTER_COM.equalsIgnoreCase(host) || MOBILE_TWITTER_COM.equalsIgnoreCase(host);

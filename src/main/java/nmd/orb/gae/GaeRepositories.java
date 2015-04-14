@@ -1,29 +1,46 @@
 package nmd.orb.gae;
 
+import nmd.orb.gae.cache.MemCache;
+import nmd.orb.gae.repositories.*;
 import nmd.orb.repositories.*;
 import nmd.orb.repositories.cached.*;
-
-import static nmd.orb.gae.cache.MemCache.MEM_CACHE;
-import static nmd.orb.gae.repositories.GaeCategoriesRepository.GAE_CATEGORIES_REPOSITORY;
-import static nmd.orb.gae.repositories.GaeFeedHeadersRepository.GAE_FEED_HEADERS_REPOSITORY;
-import static nmd.orb.gae.repositories.GaeFeedItemsRepository.GAE_FEED_ITEMS_REPOSITORY;
-import static nmd.orb.gae.repositories.GaeFeedUpdateTaskRepository.GAE_FEED_UPDATE_TASK_REPOSITORY;
-import static nmd.orb.gae.repositories.GaeReadFeedItemsRepository.GAE_READ_FEED_ITEMS_REPOSITORY;
 
 /**
  * @author : igu
  */
-public final class GaeRepositories {
+public enum GaeRepositories {
 
-    public static final FeedUpdateTaskSchedulerContextRepository GAE_FEED_UPDATE_TASK_SCHEDULER_CONTEXT_REPOSITORY = new CachedFeedUpdateTaskSchedulerContextRepository(MEM_CACHE);
-    public static final FeedItemsRepository GAE_CACHED_FEED_ITEMS_REPOSITORY = new CachedFeedItemsRepository(GAE_FEED_ITEMS_REPOSITORY, MEM_CACHE);
-    public static final FeedUpdateTaskRepository GAE_CACHED_FEED_UPDATE_TASK_REPOSITORY = new CachedFeedUpdateTaskRepository(GAE_FEED_UPDATE_TASK_REPOSITORY, MEM_CACHE);
-    public static final FeedHeadersRepository GAE_CACHED_FEED_HEADERS_REPOSITORY = new CachedFeedHeadersRepository(GAE_FEED_HEADERS_REPOSITORY, MEM_CACHE);
-    public static final ReadFeedItemsRepository GAE_CACHED_READ_FEED_ITEMS_REPOSITORY = new CachedReadFeedItemsRepository(GAE_READ_FEED_ITEMS_REPOSITORY, MEM_CACHE);
-    public static final CategoriesRepository GAE_CACHED_CATEGORIES_REPOSITORY = new CachedCategoriesRepository(GAE_CATEGORIES_REPOSITORY, MEM_CACHE);
+    INSTANCE;
 
-    private GaeRepositories() {
-        // empty
+    private final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository = new CachedFeedUpdateTaskSchedulerContextRepository(MemCache.INSTANCE);
+    private final FeedItemsRepository feedItemsRepository = new CachedFeedItemsRepository(GaeFeedItemsRepository.INSTANCE, MemCache.INSTANCE);
+    private final FeedUpdateTaskRepository feedUpdateTaskRepository = new CachedFeedUpdateTaskRepository(GaeFeedUpdateTaskRepository.INSTANCE, MemCache.INSTANCE);
+    private final FeedHeadersRepository feedHeadersRepository = new CachedFeedHeadersRepository(GaeFeedHeadersRepository.INSTANCE, MemCache.INSTANCE);
+    private final ReadFeedItemsRepository readFeedItemsRepository = new CachedReadFeedItemsRepository(GaeReadFeedItemsRepository.INSTANCE, MemCache.INSTANCE);
+    private final CategoriesRepository categoriesRepository = new CachedCategoriesRepository(GaeCategoriesRepository.INSTANCE, MemCache.INSTANCE);
+
+    public FeedUpdateTaskSchedulerContextRepository getFeedUpdateTaskSchedulerContextRepository() {
+        return this.feedUpdateTaskSchedulerContextRepository;
+    }
+
+    public FeedItemsRepository getFeedItemsRepository() {
+        return this.feedItemsRepository;
+    }
+
+    public FeedUpdateTaskRepository getFeedUpdateTaskRepository() {
+        return this.feedUpdateTaskRepository;
+    }
+
+    public FeedHeadersRepository getFeedHeadersRepository() {
+        return this.feedHeadersRepository;
+    }
+
+    public ReadFeedItemsRepository getReadFeedItemsRepository() {
+        return this.readFeedItemsRepository;
+    }
+
+    public CategoriesRepository getCategoriesRepository() {
+        return this.categoriesRepository;
     }
 
 }

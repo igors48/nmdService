@@ -6,14 +6,16 @@
     <h1 class="title" ng-cloak ng-show="showUi">{{feed.title}}</h1>
 
     <div class="buttons">
-        <button class="button button-clear ion-android-storage" ng-cloak ng-show="showUi" ng-click="switchToListView()"></button>
+        <button class="button button-clear ion-android-list" ng-cloak ng-show="showUi" ng-click="switchToListView()"></button>
     </div>
 </ion-header-bar>
 
-<ion-content ng-cloak ng-show="showUi">
-    <div class="card">
+<ion-content ng-cloak>
+    
+    <div class="card" ng-show="showUi">
         <a class="block-link" href="{{card.link}}" target="_blank" ng-click="onMarkAndNext()">
             <div class="item item-text-wrap">
+                <h2>{{card.index}}/{{card.total}}</h2>
                 <h2>{{card.title}}</h2> 
 
                 <h4 class="blue-front">
@@ -21,16 +23,30 @@
                     <span class="icon ion-eye-disabled" ng-show="card.notRead"></span>
                 </h4>
 
+                <h4 class="orange-front">
+                    <span class="icon ion-link"></span>&nbsp;{{card.link}}
+                </h4>
+
                 <h3 ng-bind-html="card.description"></h3> 
             </div>
         </a> 
     </div>   
+
+    <div class="list list-inset">
+        <div class="button-bar">
+            <button class="button button-block button-positive" ng-click="onViewFiltered()">View</button>
+        </div>
+    </div>
+
+    <div class="card" ng-show="showContent">
+        <div class="item item-text-wrap" ng-bind-html="card.content"></div>
+    </div>
+
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
     <div class="button-bar" ng-cloak ng-show="showUi">
         <a class="button" ng-click="onPrev()">Prev</a>
-        <a class="button" ng-click="onMarkAndNext()">Mark&amp;Next</a>
         <a class="button" ng-click="onNext()">Next</a>
     </div>
 </ion-footer-bar>

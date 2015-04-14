@@ -1,8 +1,8 @@
 package nmd.orb.http.servlets;
 
+import nmd.orb.gae.GaeWrappers;
 import nmd.orb.http.BaseServlet;
-
-import static nmd.orb.http.servlets.cron.CronServletGetRequestHandler.CRON_SERVLET_GET_REQUEST_HANDLER;
+import nmd.orb.http.servlets.cron.CronServletGetRequestHandler;
 
 /**
  * Created by igor on 09.12.2014.
@@ -12,7 +12,7 @@ public class CronServlet extends BaseServlet {
     public CronServlet() {
         super();
 
-        this.handlers.put(GET, CRON_SERVLET_GET_REQUEST_HANDLER);
+        this.handlers.put(GET, new CronServletGetRequestHandler(GaeWrappers.INSTANCE.getCronServiceWrapper()));
     }
 
 }

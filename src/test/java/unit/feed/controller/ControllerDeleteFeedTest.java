@@ -2,6 +2,7 @@ package unit.feed.controller;
 
 import nmd.orb.error.ServiceException;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.UUID;
 
@@ -13,6 +14,13 @@ import static org.junit.Assert.assertTrue;
  * Date : 18.06.13
  */
 public class ControllerDeleteFeedTest extends AbstractControllerTestBase {
+
+    @Test
+    public void whenFeedRemovedThenItIsRegistered() throws ServiceException {
+        createAndDeleteFeed();
+
+        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
+    }
 
     @Test
     public void whenFeedRemovedThenItHeaderRemoved() throws ServiceException {

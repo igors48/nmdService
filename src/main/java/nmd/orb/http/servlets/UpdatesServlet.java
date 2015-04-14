@@ -1,8 +1,8 @@
 package nmd.orb.http.servlets;
 
+import nmd.orb.gae.GaeWrappers;
 import nmd.orb.http.BaseServlet;
-
-import static nmd.orb.http.servlets.updates.UpdatesServletGetRequestHandler.UPDATES_SERVLET_GET_REQUEST_HANDLER;
+import nmd.orb.http.servlets.updates.UpdatesServletGetRequestHandler;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -13,7 +13,7 @@ public class UpdatesServlet extends BaseServlet {
     public UpdatesServlet() {
         super();
 
-        this.handlers.put(GET, UPDATES_SERVLET_GET_REQUEST_HANDLER);
+        this.handlers.put(GET, new UpdatesServletGetRequestHandler(GaeWrappers.INSTANCE.getUpdatesServiceWrapper()));
     }
 
 }

@@ -2,7 +2,7 @@ package nmd.orb.http.servlets.feeds;
 
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
-import nmd.orb.http.wrappers.FeedsServiceWrapperImpl;
+import nmd.orb.http.wrappers.FeedsServiceWrapper;
 
 import java.util.List;
 import java.util.Map;
@@ -21,11 +21,9 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class FeedsServletGetRequestHandler implements Handler {
 
-    public static final FeedsServletGetRequestHandler FEEDS_SERVLET_GET_REQUEST_HANDLER = new FeedsServletGetRequestHandler(FeedsServiceWrapperImpl.FEEDS_SERVICE_WRAPPER);
+    private final FeedsServiceWrapper feedsService;
 
-    private final FeedsServiceWrapperImpl feedsService;
-
-    public FeedsServletGetRequestHandler(final FeedsServiceWrapperImpl feedsService) {
+    public FeedsServletGetRequestHandler(final FeedsServiceWrapper feedsService) {
         guard(notNull(feedsService));
         this.feedsService = feedsService;
     }

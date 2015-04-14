@@ -18,14 +18,22 @@ public class InstagramUrlToolsTest {
         assertFalse(isItInstagramUrl(""));
         assertFalse(isItInstagramUrl(null));
         assertTrue(isItInstagramUrl(VALID_INSTAGRAM_URL));
+        assertTrue(isItInstagramUrl("   " + VALID_INSTAGRAM_URL + "  "));
     }
 
     @Test
     public void instagramUserNameExtraction() {
         assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL));
+        assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL + "?modal=true"));
+        assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL + "/anymess/?modal=true"));
+        assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL + "/"));
+        assertEquals("skif48", getInstagramUserName(VALID_INSTAGRAM_URL + "?"));
+        assertEquals("skif48", getInstagramUserName("    " + VALID_INSTAGRAM_URL + "     "));
 
         assertNull(getInstagramUserName("http://instagram.com/"));
         assertNull(getInstagramUserName("http://domain.com/"));
+        assertNull(getInstagramUserName("http://instagram.com"));
+        assertNull(getInstagramUserName("http://domain.com"));
         assertNull(getInstagramUserName(""));
         assertNull(getInstagramUserName(null));
     }

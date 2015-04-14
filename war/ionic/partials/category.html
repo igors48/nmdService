@@ -10,8 +10,8 @@
     </div>
 </ion-header-bar>
 
-<ion-content ng-cloak ng-show="showUi">
-    <div class="list">
+<ion-content ng-cloak>
+    <div class="list" ng-show="showUi">
         <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds"
              ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''">
 
@@ -30,13 +30,13 @@
                         <span class="ion-eye blue-front" ng-hide="feed.lastUpdate === 0">&nbsp;{{feed.lastUpdate | date:'d MMM'}}&nbsp;&nbsp;</span>
                         <span class="ion-eye-disabled blue-front" ng-click="openFeed(feed.feedId, 'show-not-read')">&nbsp;{{feed.notRead}}&nbsp;&nbsp;</span>
                         <span class="ion-flash blue-front" ng-click="openFeed(feed.feedId, 'show-added')">&nbsp;{{feed.addedFromLastVisit}}&nbsp;&nbsp;</span>
-                        <span class="ion-android-clock blue-front" ng-click="openFeed(feed.feedId, 'show-read-later')">&nbsp;{{feed.readLater}}&nbsp;&nbsp;</span>
+                        <span class="ion-android-time blue-front" ng-click="openFeed(feed.feedId, 'show-read-later')">&nbsp;{{feed.readLater}}&nbsp;&nbsp;</span>
                     </h3>
                 </div>
             </div>
 
             <div class="buttons">
-                <button class="button button-clear ion-android-mixer" ng-click="editFeed(feed.feedId)"></button>
+                <button class="button button-clear ion-android-options" ng-click="editFeed(feed.feedId)"></button>
                 <a href="{{feed.topItemLink}}" target="_blank" class="block-link button button-clear ion-flash"
                    ng-click="openTopItem(feed.feedId, feed.topItemId)" ng-show="feed.topItemLink!=''"></a>
             </div>

@@ -1,12 +1,9 @@
 package http.reads;
 
 import http.AbstractHttpTest;
-import nmd.orb.error.ErrorCode;
 import nmd.orb.http.responses.FeedIdResponse;
 import nmd.orb.http.responses.FeedItemsCardsReportResponse;
 import org.junit.Test;
-
-import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 
@@ -17,85 +14,23 @@ import static org.junit.Assert.assertEquals;
 public class ReadFeedCardsTest extends AbstractHttpTest {
 
     @Test
-    public void whenFeedIdIsNotValidThenErrorReturns() {
-        addFirstFeed();
-
-        final String response = getReadsCardsReportAsString("trash", "1", "2");
-
-        assertErrorResponse(response, ErrorCode.INVALID_FEED_ID);
-    }
-
-    @Test
-    public void whenFeedIdIsNotFoundThenErrorReturns() {
-        addFirstFeed();
-
-        final String response = getReadsCardsReportAsString(UUID.randomUUID().toString(), "1", "2");
-
-        assertErrorResponse(response, ErrorCode.WRONG_FEED_ID);
-    }
-
-    @Test
-    public void whenOffsetIsNotSpecifiedThenErrorReturns() {
+    public void initialFeedCardsReportReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
 
-        final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "1", "");
+        final FeedItemsCardsReportResponse response = getReadsCardsInitialReport(feedIdResponse.feedId.toString(), "4");
 
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
+        assertEquals(5, response.reports.size());
     }
 
     @Test
-    public void whenOffsetIsNotIntegerThenErrorReturns() {
+    public void feedCardsReportReturns() {
         final FeedIdResponse feedIdResponse = addFirstFeed();
+        final FeedItemsCardsReportResponse initialReport = getReadsCardsInitialReport(feedIdResponse.feedId.toString(), "4");
 
-        final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "1", "a");
+        final String secondItemId = initialReport.reports.get(1).itemId;
 
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
+        final FeedItemsCardsReportResponse report = getReadsCardsReport(feedIdResponse.feedId.toString(), secondItemId, "next", "4");
+        assertEquals(5, report.reports.size());
     }
-
-    @Test
-    public void whenOffsetIsNegativeIntegerThenErrorReturns() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "1", "-1");
-
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
-    }
-
-    @Test
-    public void whenSizeIsNotSpecifiedThenErrorReturns() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "", "1");
-
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
-    }
-
-    @Test
-    public void whenSizeIsNotIntegerThenErrorReturns() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "a", "1");
-
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
-    }
-
-    @Test
-    public void whenSizeIsNegativeIntegerThenErrorReturns() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        final String response = getReadsCardsReportAsString(feedIdResponse.feedId.toString(), "-1", "1");
-
-        assertErrorResponse(response, ErrorCode.INVALID_OFFSET_OR_SIZE);
-    }
-
-    @Test
-    public void whenAllParametersValidThenReportReturns() {
-        final FeedIdResponse feedIdResponse = addFirstFeed();
-
-        final FeedItemsCardsReportResponse response = getReadsCardsReport(feedIdResponse.feedId.toString(), "0", "4");
-
-        assertEquals(4, response.reports.size());
-    }
-
 
 }

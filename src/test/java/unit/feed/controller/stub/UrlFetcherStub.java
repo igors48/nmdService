@@ -2,6 +2,7 @@ package unit.feed.controller.stub;
 
 import nmd.orb.collector.fetcher.UrlFetcher;
 import nmd.orb.collector.fetcher.UrlFetcherException;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.io.UnsupportedEncodingException;
 
@@ -32,6 +33,11 @@ public class UrlFetcherStub implements UrlFetcher {
         } catch (UnsupportedEncodingException e) {
             throw new UrlFetcherException(new NullPointerException());
         }
+    }
+
+    @Override
+    public String fetchString(String link) throws UrlFetcherException {
+        throw new NotImplementedException();
     }
 
     public void setData(final String data) {

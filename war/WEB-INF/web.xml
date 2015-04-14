@@ -95,6 +95,16 @@
         <url-pattern>/@security.key@/v01/cron</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>content</servlet-name>
+        <servlet-class>nmd.orb.http.servlets.ContentServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>content</servlet-name>
+        <url-pattern>/@security.key@/v01/content</url-pattern>
+    </servlet-mapping>
+
     <welcome-file-list>
         <welcome-file>index.html</welcome-file>
     </welcome-file-list>

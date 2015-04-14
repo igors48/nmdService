@@ -15,13 +15,17 @@ public class CronService {
 
     private final UpdatesService updatesService;
     private final ImportService importService;
+    private final AutoExportService autoExportService;
 
-    public CronService(final UpdatesService updatesService, final ImportService importService) {
+    public CronService(final UpdatesService updatesService, final ImportService importService, final AutoExportService autoExportService) {
         guard(notNull(updatesService));
         this.updatesService = updatesService;
 
         guard(notNull(importService));
         this.importService = importService;
+
+        guard(notNull(autoExportService));
+        this.autoExportService = autoExportService;
     }
 
     public CronJobsReport executeCronJobs(final Quota updateQuota, final Quota importQuota) {
@@ -34,7 +38,10 @@ public class CronService {
         importQuota.start();
         final FeedImportStatusReport feedImportStatusReport = this.importService.executeSeries(importQuota);
 
-        return new CronJobsReport(feedSeriesUpdateReport, feedImportStatusReport);
+        final long currentTime = System.currentTimeMillis();
+        final boolean autoExportMailWasSent = this.autoExportService.export(currentTime);
+
+        return new CronJobsReport(feedSeriesUpdateReport, feedImportStatusReport, autoExportMailWasSent);
     }
 
 }

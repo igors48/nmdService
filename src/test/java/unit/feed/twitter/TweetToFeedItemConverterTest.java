@@ -27,7 +27,7 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void smoke() {
+    public void smoke() throws ServiceException {
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);
 
         assertFalse(feedItem.guid.isEmpty());
@@ -40,21 +40,21 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenTweetTextIsNullThenNullReturns() {
+    public void whenTweetTextIsNullThenNullReturns() throws ServiceException {
         this.tweet.setText(null);
 
         assertNull(convertToItem(this.tweet, this.someDate));
     }
 
     @Test
-    public void whenTweetTextIsEmptyThenNullReturns() {
+    public void whenTweetTextIsEmptyThenNullReturns() throws ServiceException {
         this.tweet.setText("");
 
         assertNull(convertToItem(this.tweet, this.someDate));
     }
 
     @Test
-    public void whenTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() {
+    public void whenTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() throws ServiceException {
         this.tweet.setEntities(null);
 
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);
@@ -64,7 +64,7 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenUrlsInTweetEntitiesIsNullThenThenTweetUrlIsUsedAsGotoLink() {
+    public void whenUrlsInTweetEntitiesIsNullThenThenTweetUrlIsUsedAsGotoLink() throws ServiceException {
         this.tweet.getEntities().setUrls(null);
 
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);
@@ -74,7 +74,7 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenUrlsInTweetEntitiesIsEmptyThenTweetUrlIsUsedAsGotoLink() {
+    public void whenUrlsInTweetEntitiesIsEmptyThenTweetUrlIsUsedAsGotoLink() throws ServiceException {
         this.tweet.getEntities().setUrls(new ArrayList<Urls>());
 
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);
@@ -84,7 +84,7 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenFirstElementInUrlsInTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() {
+    public void whenFirstElementInUrlsInTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() throws ServiceException {
         this.tweet.getEntities().getUrls().set(0, null);
 
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);
@@ -94,7 +94,7 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() {
+    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsNullThenTweetUrlIsUsedAsGotoLink() throws ServiceException {
         this.tweet.getEntities().getUrls().get(0).setExpanded_url(null);
 
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);
@@ -104,7 +104,7 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsEmptyThenTweetUrlIsUsedAsGotoLink() {
+    public void whenExpandedUrlOfFirstElementInUrlsInTweetEntitiesIsEmptyThenTweetUrlIsUsedAsGotoLink() throws ServiceException {
         this.tweet.getEntities().getUrls().get(0).setExpanded_url("");
 
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);
@@ -114,7 +114,7 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenTweetDateIsNullThenAlternativeDateUsed() {
+    public void whenTweetDateIsNullThenAlternativeDateUsed() throws ServiceException {
         this.tweet.setCreated_at(null);
 
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);
@@ -124,7 +124,7 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     }
 
     @Test
-    public void whenTweetDateIsNotParseableThenAlternativeDateUsed() {
+    public void whenTweetDateIsNotParseableThenAlternativeDateUsed() throws ServiceException {
         this.tweet.setCreated_at("Russia wants war");
 
         final FeedItem feedItem = convertToItem(this.tweet, this.someDate);

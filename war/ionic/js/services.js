@@ -32,11 +32,11 @@ angular.module('orb.services', ['ngResource'])
     })
 
     .factory('reads', function ($resource) {
-        return $resource('/@security.key@/v01/reads/:feedId/:itemId',
+        return $resource('/@security.key@/v01/reads/:feedId/:itemId/:direction/:size',
             {
                 feedId: '@feedId',
                 itemId: '@itemId',
-                offset: '@offset',
+                direction: '@direction',
                 size: '@size',
                 filter: '@filter',
                 markAs: '@markAs',
@@ -72,27 +72,14 @@ angular.module('orb.services', ['ngResource'])
         );
     })
 
-    .factory('lastUsedIds', function () {
-        var lastUsedFeedId = '';
-        var lastUsedItemId = '';
-
-        return {
-
-            store: function (feedId, itemId) {
-                lastUsedFeedId = feedId;
-                lastUsedItemId = itemId;
+    .factory('content', function ($resource) {
+        return $resource('/@security.key@/v01/content',
+            {
+                link: '@link',
             },
-
-            storeFeedId: function (feedId) {
-                lastUsedFeedId = feedId;
-            },
-
-            getLastUsedFeedId: function () {
-                return lastUsedFeedId;
-            },
-
-            getLastUsedItemId: function () {
-                return lastUsedItemId;
+            {
+                'filter': {method: 'GET'}
             }
-        }
-    });
+        );
+    })
+

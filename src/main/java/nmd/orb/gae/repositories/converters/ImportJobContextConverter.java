@@ -18,8 +18,8 @@ import static nmd.orb.util.Assert.assertNotNull;
  */
 public class ImportJobContextConverter {
 
-    public static final String STATUS = "status";
-    public static final String CONTEXTS = "contexts";
+    private static final String STATUS = "status";
+    private static final String CONTEXTS = "contexts";
 
     public static Entity convert(final ImportJobContext context, final Key key) {
         assertNotNull(context);

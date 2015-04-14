@@ -1,7 +1,6 @@
 package nmd.orb.http.wrappers;
 
 import nmd.orb.error.ServiceException;
-import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedImportReportResponse;
 import nmd.orb.http.tools.ResponseBody;
 import nmd.orb.services.ImportService;
@@ -20,8 +19,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Created by igor on 06.12.2014.
  */
 public class ImportServiceWrapperImpl implements ImportServiceWrapper {
-
-    public static final ImportServiceWrapperImpl IMPORT_SERVICE_WRAPPER = new ImportServiceWrapperImpl(GaeServices.IMPORT_SERVICE);
 
     private static final Logger LOGGER = Logger.getLogger(ImportServiceWrapperImpl.class.getName());
 

@@ -5,7 +5,6 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.exporter.FeedExporterException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
-import nmd.orb.gae.GaeServices;
 import nmd.orb.http.responses.FeedHeadersResponse;
 import nmd.orb.http.responses.FeedIdResponse;
 import nmd.orb.http.tools.ContentType;
@@ -32,8 +31,6 @@ import static nmd.orb.util.Parameter.notNull;
  * Date : 22.06.13
  */
 public class FeedsServiceWrapperImpl implements FeedsServiceWrapper {
-
-    public static final FeedsServiceWrapperImpl FEEDS_SERVICE_WRAPPER = new FeedsServiceWrapperImpl(GaeServices.FEEDS_SERVICE);
 
     private static final Logger LOGGER = Logger.getLogger(FeedsServiceWrapperImpl.class.getName());
 

@@ -1,24 +1,19 @@
 package nmd.orb.gae;
 
 import com.google.appengine.api.datastore.Transaction;
+import nmd.orb.gae.repositories.datastore.Datastore;
 import nmd.orb.repositories.Transactions;
-
-import static nmd.orb.gae.repositories.datastore.GaeDatastoreTools.DATASTORE_SERVICE;
 
 /**
  * @author : igu
  */
-public final class GaeTransactions implements Transactions {
+public enum GaeTransactions implements Transactions {
 
-    public static final GaeTransactions GAE_TRANSACTIONS = new GaeTransactions();
+    INSTANCE;
 
     @Override
     public Transaction beginOne() {
-        return DATASTORE_SERVICE.beginTransaction();
-    }
-
-    private GaeTransactions() {
-        // empty
+        return Datastore.INSTANCE.getDatastoreService().beginTransaction();
     }
 
 }

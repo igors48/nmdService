@@ -1,8 +1,12 @@
 package nmd.orb.feed;
 
+import nmd.orb.error.ServiceException;
+import nmd.orb.util.IllegalParameterException;
+
 import java.io.Serializable;
 import java.util.UUID;
 
+import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.*;
 
@@ -21,25 +25,14 @@ public class FeedHeader implements Serializable {
     public final String link;
 
     public FeedHeader(final UUID id, final String feedLink, final String title, final String description, final String link) {
-        guard(isValidFeedHeaderId(id));
-        this.id = id;
-
-        guard(isValidUrl(feedLink));
-        this.feedLink = feedLink;
-
-        guard(isValidFeedHeaderTitle(title));
-        this.title = title;
-
-        guard(isValidFeedHeaderDescription(description));
-        this.description = description;
-
-        guard(isValidUrl(link));
-        this.link = link;
+        guard(isValidFeedHeaderId(this.id = id), invalidFeedId(null));
+        guard(isValidUrl(this.feedLink = feedLink), invalidFeedUrl(feedLink));
+        guard(isValidFeedHeaderTitle(this.title = title), invalidFeedTitle(title));
+        guard(isValidFeedHeaderDescription(this.description = description), invalidFeedDescription(description));
+        guard(isValidUrl(this.link = link), invalidUrl(link));
     }
 
     public FeedHeader changeTitle(final String newTitle) {
-        guard(isValidFeedHeaderTitle(newTitle));
-
         return new FeedHeader(this.id, this.feedLink, newTitle, this.description, this.link);
     }
 
@@ -87,29 +80,13 @@ public class FeedHeader implements Serializable {
         return notNull(feedDescription) && feedDescription.length() <= MAX_DESCRIPTION_AND_TITLE_LENGTH;
     }
 
-    public static FeedHeader create(final UUID id, final String feedLink, final String title, final String description, final String link) {
+    public static FeedHeader create(final UUID id, final String feedLink, final String title, final String description, final String link) throws ServiceException {
 
-        if (!isValidFeedHeaderId(id)) {
-            return null;
+        try {
+            return new FeedHeader(id, feedLink, title, description, link);
+        } catch (IllegalParameterException exception) {
+            throw new ServiceException(exception.serviceError);
         }
-
-        if (!isValidUrl(feedLink)) {
-            return null;
-        }
-
-        if (!isValidFeedHeaderTitle(title)) {
-            return null;
-        }
-
-        if (!isValidFeedHeaderDescription(description)) {
-            return null;
-        }
-
-        if (!isValidUrl(link)) {
-            return null;
-        }
-
-        return new FeedHeader(id, feedLink, title, description, link);
     }
 
 }

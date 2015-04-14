@@ -1,7 +1,9 @@
 package nmd.orb.services;
 
+import com.sun.syndication.io.FeedException;
 import nmd.orb.collector.fetcher.UrlFetcher;
 import nmd.orb.collector.fetcher.UrlFetcherException;
+import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
@@ -14,11 +16,10 @@ import nmd.orb.sources.instagram.InstagramClientTools;
 import nmd.orb.sources.instagram.entities.ContentEnvelope;
 import nmd.orb.sources.instagram.entities.User;
 import nmd.orb.sources.instagram.entities.UserEnvelope;
-import nmd.orb.sources.rss.FeedParserException;
-import nmd.orb.sources.twitter.TwitterClient;
 import nmd.orb.sources.twitter.entities.Tweet;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.sources.rss.FeedParser.parse;
 import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;
+import static nmd.orb.sources.twitter.TwitterClient.fetchTweets;
 import static nmd.orb.sources.twitter.TwitterClientTools.getTwitterUserName;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.CharsetTools.detectCharset;
@@ -83,9 +85,9 @@ public class AbstractService {
                 default:
                     return fetchAsRssUrl(feedUrl);
             }
-        } catch (final UrlFetcherException exception) {
+        } catch (UrlFetcherException exception) {
             throw new ServiceException(urlFetcherError(feedUrl), exception);
-        } catch (FeedParserException exception) {
+        } catch (FeedException | UnsupportedEncodingException exception) {
             throw new ServiceException(feedParseError(feedUrl), exception);
         }
     }
@@ -102,9 +104,8 @@ public class AbstractService {
             final String apiKey = System.getProperty(TWITTER_API_KEY);
             final String apiSecret = System.getProperty(TWITTER_API_SECRET);
 
-            final TwitterClient twitterClient = new TwitterClient(apiKey, apiSecret);
             final String userName = getTwitterUserName(twitterUrl);
-            final List<Tweet> tweets = twitterClient.fetchTweets(userName, TWEETS_PER_FETCH);
+            final List<Tweet> tweets = fetchTweets(apiKey, apiSecret, userName, TWEETS_PER_FETCH);
             final Feed feed = convertToFeed(twitterUrl, tweets, new Date());
 
             if (feed == null) {
@@ -131,7 +132,7 @@ public class AbstractService {
         }
     }
 
-    private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedParserException {
+    private Feed fetchAsRssUrl(final String feedUrl) throws UrlFetcherException, FeedException, ServiceException, UnsupportedEncodingException {
 
         try {
             byte[] bytes = this.fetcher.fetch(feedUrl);
@@ -140,8 +141,8 @@ public class AbstractService {
             String string = new String(bytes, originCharset);
 
             return parse(feedUrl, string);
-        } catch (IOException exception) {
-            throw new FeedParserException(exception);
+        } catch (RuntimeException exception) {
+            throw new ServiceException(feedParseError(feedUrl));
         }
     }
 

@@ -1,12 +1,13 @@
 package unit.feed.exporter;
 
+import com.sun.syndication.io.FeedException;
+import nmd.orb.error.ServiceException;
 import nmd.orb.exporter.FeedExporter;
 import nmd.orb.exporter.FeedExporterException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.sources.rss.FeedParser;
-import nmd.orb.sources.rss.FeedParserException;
 import org.junit.Test;
 
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ public class FeedExporterTest {
     private static final String HEADER_LINK = "http://domain.com/headerLink";
 
     @Test
-    public void roundtrip() throws FeedExporterException, FeedParserException {
+    public void roundtrip() throws FeedExporterException, FeedException, ServiceException {
         final FeedHeader header = new FeedHeader(UUID.randomUUID(), RSS_FEED_URL, HEADER_TITLE, HEADER_DESCRIPTION, HEADER_LINK);
 
         final FeedItem first = new FeedItem("firstTitle", "firstDescription", "http://domain.com/firstLink", "http://domain.com/firstGotoLink", new Date(48), true, "http://domain.com/firstLink");

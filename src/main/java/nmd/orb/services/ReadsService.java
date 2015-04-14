@@ -17,6 +17,7 @@ import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
 import nmd.orb.sources.Source;
+import nmd.orb.util.Direction;
 import nmd.orb.util.Page;
 
 import java.util.*;
@@ -27,6 +28,7 @@ import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.orb.reader.FeedItemsComparator.compare;
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Page.isValidKeyItemGuid;
 import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.notNull;
 import static nmd.orb.util.TransactionTools.rollbackIfActive;
@@ -89,6 +91,7 @@ public class ReadsService extends AbstractService {
             final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
 
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
+            final int total = feedItems.size();
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
 
             final FeedItem topItem = feedItems.isEmpty() ? null : feedItems.get(0);
@@ -102,7 +105,8 @@ public class ReadsService extends AbstractService {
             int addedSinceLastView = 0;
 
             for (final FeedItem feedItem : feedItems) {
-                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
+                final int index = feedItems.indexOf(feedItem);
+                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem, index, total);
 
                 final boolean acceptable = filter.acceptable(feedItemReport);
 
@@ -133,10 +137,11 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final int offset, final int size) throws ServiceException {
+    public FeedItemsCardsReport getFeedItemsCardsReport(final UUID feedId, final String itemId, final int size, final Direction direction) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
-        guard(isPositive(offset));
+        guard(isValidKeyItemGuid(itemId));
         guard(isPositive(size));
+        guard(notNull(direction));
 
         Transaction transaction = null;
 
@@ -148,14 +153,16 @@ public class ReadsService extends AbstractService {
             final ArrayList<FeedItemReport> feedItemReports = new ArrayList<>();
 
             final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(feedId);
+            final int total = feedItems.size();
 
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
-            final Page<FeedItem> page = new Page<>(feedItems, offset, size);
+            final Page<FeedItem> page = Page.create(feedItems, itemId, size, direction);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
             for (final FeedItem feedItem : page.items) {
-                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem);
+                final int index = feedItems.indexOf(feedItem);
+                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem, index, total);
 
                 feedItemReports.add(feedItemReport);
             }
@@ -333,12 +340,12 @@ public class ReadsService extends AbstractService {
         return notReads.isEmpty() ? null : notReads.get(notReads.size() - 1);
     }
 
-    public static FeedItemReport getFeedItemReport(final UUID feedId, final ReadFeedItems readFeedItems, final FeedItem feedItem) {
+    public static FeedItemReport getFeedItemReport(final UUID feedId, final ReadFeedItems readFeedItems, final FeedItem feedItem, final int index, final int total) {
         final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
         final boolean readLaterItem = readFeedItems.readLaterItemIds.contains(feedItem.guid);
         final boolean addedSinceLastView = readFeedItems.lastUpdate.compareTo(feedItem.date) < 0;
 
-        return new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.gotoLink, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView);
+        return new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.gotoLink, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView, index, total);
     }
 
     private static List<FeedItem> findNotReadItems(List<FeedItem> items, Set<String> readGuids) {

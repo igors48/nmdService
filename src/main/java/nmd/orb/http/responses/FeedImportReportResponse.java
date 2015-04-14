@@ -13,6 +13,10 @@ public class FeedImportReportResponse extends SuccessResponse {
 
     public FeedImportReportPayload imports;
 
+    private FeedImportReportResponse() {
+        // empty
+    }
+
     public static FeedImportReportResponse convert(final FeedImportStatusReport report) {
         guard(notNull(report));
 

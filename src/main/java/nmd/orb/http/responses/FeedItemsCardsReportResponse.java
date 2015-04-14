@@ -21,6 +21,10 @@ public class FeedItemsCardsReportResponse extends SuccessResponse {
     public boolean last;
     public List<FeedItemCardReportPayload> reports;
 
+    private FeedItemsCardsReportResponse() {
+        // empty
+    }
+
     public static FeedItemsCardsReportResponse convert(final FeedItemsCardsReport report) {
         guard(notNull(report));
 
