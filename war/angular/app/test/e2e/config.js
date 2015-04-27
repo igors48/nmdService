@@ -9,7 +9,7 @@ exports.config = {
   },
   
   //Specify the name of the specs files.
-  specs: ['scenarios.js'],
+  specs: ['scenarios.js', 'controllers.js'],
   
   //Options to be passed to Jasmine-node.
   jasmineNodeOpts: {
