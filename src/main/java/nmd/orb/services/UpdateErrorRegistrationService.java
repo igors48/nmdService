@@ -15,6 +15,10 @@ public class UpdateErrorRegistrationService {
 
     }
 
+    public void delete(final UUID feedId) {
+
+    }
+
     public int getErrorCount(final UUID feedId) {
         return 0;
     }

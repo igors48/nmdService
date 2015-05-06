@@ -24,10 +24,11 @@ public class ResetService {
     private final CategoriesRepository categoriesRepository;
     private final ImportJobContextRepository importJobContextRepository;
     private final ChangeRegistrationService changeRegistrationService;
+    private final UpdateErrorRegistrationService updateErrorRegistrationService;
     private final ChangeRepository changeRepository;
     private final Transactions transactions;
 
-    public ResetService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final ImportJobContextRepository importJobContextRepository, final ChangeRepository changeRepository, final ChangeRegistrationService changeRegistrationService, final Transactions transactions) {
+    public ResetService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final ImportJobContextRepository importJobContextRepository, final ChangeRepository changeRepository, final ChangeRegistrationService changeRegistrationService, final UpdateErrorRegistrationService updateErrorRegistrationService, final Transactions transactions) {
         guard(notNull(feedHeadersRepository));
         this.feedHeadersRepository = feedHeadersRepository;
 
@@ -52,6 +53,9 @@ public class ResetService {
         guard(notNull(changeRegistrationService));
         this.changeRegistrationService = changeRegistrationService;
 
+        guard(notNull(updateErrorRegistrationService));
+        this.updateErrorRegistrationService = updateErrorRegistrationService;
+
         guard(notNull(changeRepository));
         this.changeRepository = changeRepository;
 
@@ -70,7 +74,7 @@ public class ResetService {
             final List<FeedHeader> backedHeaders = new ArrayList<>(headers);
 
             for (final FeedHeader header : backedHeaders) {
-                FeedsService.removeFeedComponents(header.id, this.feedUpdateTaskRepository, this.feedHeadersRepository, this.feedItemsRepository, this.readFeedItemsRepository, this.changeRegistrationService);
+                FeedsService.removeFeedComponents(header.id, this.feedUpdateTaskRepository, this.feedHeadersRepository, this.feedItemsRepository, this.readFeedItemsRepository, this.changeRegistrationService, this.updateErrorRegistrationService);
             }
 
             this.feedUpdateTaskSchedulerContextRepository.clear();

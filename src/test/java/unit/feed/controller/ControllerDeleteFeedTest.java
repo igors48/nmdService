@@ -23,6 +23,13 @@ public class ControllerDeleteFeedTest extends AbstractControllerTestBase {
     }
 
     @Test
+    public void whenFeedRemovedThenItsUpdateErrorsRemoved() throws ServiceException {
+        final UUID feedId = createAndDeleteFeed();
+
+        Mockito.verify(this.updateErrorRegistrationServiceSpy).delete(feedId);
+    }
+
+    @Test
     public void whenFeedRemovedThenItHeaderRemoved() throws ServiceException {
         final UUID feedId = createAndDeleteFeed();
 

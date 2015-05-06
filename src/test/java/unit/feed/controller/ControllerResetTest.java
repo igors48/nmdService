@@ -3,6 +3,7 @@ package unit.feed.controller;
 import nmd.orb.error.ServiceException;
 import nmd.orb.services.importer.ImportJobContext;
 import nmd.orb.services.importer.ImportJobStatus;
+import nmd.orb.services.update.UpdateErrors;
 import org.junit.Before;
 import org.junit.Test;
 import unit.feed.controller.importer.ImportJobContextTest;
@@ -31,6 +32,9 @@ public class ControllerResetTest extends AbstractControllerTestBase {
 
         final ImportJobContext context = ImportJobContextTest.create(ImportJobStatus.COMPLETED);
         this.importService.schedule(context);
+
+        this.updateErrorsRepositoryStub.store(new UpdateErrors(firstFeedId, 48));
+        this.updateErrorsRepositoryStub.store(new UpdateErrors(secondFeedId, 49));
 
         this.resetService.reset();
     }
@@ -73,6 +77,11 @@ public class ControllerResetTest extends AbstractControllerTestBase {
     @Test
     public void whenResetThenNoRegisteredChangeRemain() {
         assertTrue(this.changeRepositoryStub.isEmpty());
+    }
+
+    @Test
+    public void whenResetThenNoUpdateErrorsRemain() {
+        assertTrue(this.updateErrorsRepositoryStub.isEmpty());
     }
 
 }

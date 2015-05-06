@@ -47,6 +47,8 @@ public enum GaeServices {
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
+    private final UpdateErrorRegistrationService updateErrorRegistrationService = new UpdateErrorRegistrationService();
+
     private final FeedsService feedsService =
             new FeedsService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
                     GaeRepositories.INSTANCE.getFeedItemsRepository(),
@@ -54,10 +56,10 @@ public enum GaeServices {
                     GaeRepositories.INSTANCE.getReadFeedItemsRepository(),
                     GaeRepositories.INSTANCE.getCategoriesRepository(),
                     changeRegistrationService,
+                    updateErrorRegistrationService,
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
-    private final UpdateErrorRegistrationService updateErrorRegistrationService = new UpdateErrorRegistrationService();
 
     private final UpdatesService updatesService =
             new UpdatesService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
@@ -84,6 +86,7 @@ public enum GaeServices {
                     GaeImportJobContextRepository.INSTANCE,
                     GaeChangeRepository.INSTANCE,
                     changeRegistrationService,
+                    updateErrorRegistrationService,
                     GaeTransactions.INSTANCE
             );
 
