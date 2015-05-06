@@ -42,8 +42,9 @@ public class UpdatesService extends AbstractService {
     private final Transactions transactions;
     private final FeedUpdateTaskRepository feedUpdateTaskRepository;
     private final FeedUpdateTaskScheduler scheduler;
+    private final UpdateErrorRegistrationService updateErrorRegistrationService;
 
-    public UpdatesService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
+    public UpdatesService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedUpdateTaskScheduler scheduler, final UpdateErrorRegistrationService updateErrorRegistrationService, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
         guard(notNull(transactions));
@@ -54,16 +55,29 @@ public class UpdatesService extends AbstractService {
 
         guard(notNull(scheduler));
         this.scheduler = scheduler;
+
+        guard(notNull(updateErrorRegistrationService));
+        this.updateErrorRegistrationService = updateErrorRegistrationService;
     }
 
     public FeedUpdateReport updateFeed(final UUID feedId) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
 
-        final FeedLinkAndMaxFeedItemsCount feedLinkAndMaxFeedItemsCount = getFeedLinkAndMaxFeedItemsCount(feedId);
+        try {
+            final FeedLinkAndMaxFeedItemsCount feedLinkAndMaxFeedItemsCount = getFeedLinkAndMaxFeedItemsCount(feedId);
 
-        final Feed feed = fetchFeed(feedLinkAndMaxFeedItemsCount.feedLink);
+            final Feed feed = fetchFeed(feedLinkAndMaxFeedItemsCount.feedLink);
 
-        return mergeFeed(feedId, feedLinkAndMaxFeedItemsCount.maxFeedItemsCount, feed);
+            final FeedUpdateReport feedUpdateReport = mergeFeed(feedId, feedLinkAndMaxFeedItemsCount.maxFeedItemsCount, feed);
+
+            this.updateErrorRegistrationService.updateSuccess(feedId);
+
+            return feedUpdateReport;
+        } catch (ServiceException exception) {
+            this.updateErrorRegistrationService.updateError(feedId);
+
+            throw exception;
+        }
     }
 
     public FeedSeriesUpdateReport updateCurrentFeeds(final Quota quota) {

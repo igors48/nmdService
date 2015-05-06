@@ -103,6 +103,7 @@ public abstract class AbstractControllerTestBase {
     protected ChangeRepositoryStub changeRepositoryStub;
 
     protected FeedsService feedsService;
+    protected UpdateErrorRegistrationService updateErrorRegistrationService;
     protected UpdatesService updatesService;
     protected ReadsService readsService;
     protected CategoriesService categoriesService;
@@ -113,6 +114,7 @@ public abstract class AbstractControllerTestBase {
     protected AutoExportService autoExportService;
 
     protected ChangeRegistrationService changeRegistrationServiceSpy;
+    protected UpdateErrorRegistrationService updateErrorRegistrationServiceSpy;
     protected UpdatesService updatesServiceSpy;
     protected ImportService importServiceSpy;
     protected AutoExportService autoExportServiceSpy;
@@ -143,7 +145,9 @@ public abstract class AbstractControllerTestBase {
         this.mailServiceMock = Mockito.mock(MailService.class);
 
         this.feedsService = new FeedsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.readFeedItemsRepositoryStub, this.categoriesRepositoryStub, this.changeRegistrationServiceSpy, this.fetcherStub, this.transactionsStub);
-        this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.fetcherStub, this.transactionsStub);
+        this.updateErrorRegistrationService = new UpdateErrorRegistrationService();
+        this.updateErrorRegistrationServiceSpy = Mockito.spy(this.updateErrorRegistrationService);
+        this.updatesService = new UpdatesService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.feedUpdateTaskRepositoryStub, this.feedUpdateTaskSchedulerStub, this.updateErrorRegistrationServiceSpy, this.fetcherStub, this.transactionsStub);
         this.updatesServiceSpy = Mockito.spy(this.updatesService);
         this.readsService = new ReadsService(this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.readFeedItemsRepositoryStub, this.fetcherStub, this.transactionsStub);
         this.categoriesService = new CategoriesService(this.categoriesRepositoryStub, this.readFeedItemsRepositoryStub, this.feedHeadersRepositoryStub, this.feedItemsRepositoryStub, this.changeRegistrationServiceSpy, this.transactionsStub);

@@ -57,11 +57,14 @@ public enum GaeServices {
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
+    private final UpdateErrorRegistrationService updateErrorRegistrationService = new UpdateErrorRegistrationService();
+
     private final UpdatesService updatesService =
             new UpdatesService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
                     GaeRepositories.INSTANCE.getFeedItemsRepository(),
                     GaeRepositories.INSTANCE.getFeedUpdateTaskRepository(),
                     feedUpdateTaskScheduler,
+                    updateErrorRegistrationService,
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
