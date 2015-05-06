@@ -4,6 +4,7 @@ import nmd.orb.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.orb.collector.scheduler.FeedUpdateTaskScheduler;
 import nmd.orb.gae.repositories.GaeChangeRepository;
 import nmd.orb.gae.repositories.GaeImportJobContextRepository;
+import nmd.orb.gae.repositories.GaeUpdateErrorsRepository;
 import nmd.orb.services.*;
 
 import static nmd.orb.gae.fetcher.GaeUrlFetcher.GAE_URL_FETCHER;
@@ -47,7 +48,7 @@ public enum GaeServices {
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
-    private final UpdateErrorRegistrationService updateErrorRegistrationService = new UpdateErrorRegistrationService();
+    private final UpdateErrorRegistrationService updateErrorRegistrationService = new UpdateErrorRegistrationService(GaeUpdateErrorsRepository.INSTANCE);
 
     private final FeedsService feedsService =
             new FeedsService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
