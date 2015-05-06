@@ -32,7 +32,7 @@ public class UpdateErrorRegistrationService {
     public void updateSuccess(final UUID feedId) {
         guard(isValidFeedHeaderId(feedId));
 
-        this.delete(feedId);
+        this.updateErrorsRepository.delete(feedId);
     }
 
     public void delete(final UUID feedId) {
@@ -49,7 +49,7 @@ public class UpdateErrorRegistrationService {
         return updateErrors.errorsCount;
     }
 
-    public UpdateErrors load(final UUID feedId) {
+    private UpdateErrors load(final UUID feedId) {
         final UpdateErrors updateErrors = this.updateErrorsRepository.load(feedId);
 
         return updateErrors == null ? new UpdateErrors(feedId) : updateErrors;
