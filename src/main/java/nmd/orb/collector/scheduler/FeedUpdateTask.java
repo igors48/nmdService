@@ -1,11 +1,12 @@
 package nmd.orb.collector.scheduler;
 
+import nmd.orb.util.Parameter;
+
 import java.io.Serializable;
 import java.util.UUID;
 
+import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.util.Assert.guard;
-import static nmd.orb.util.Parameter.isPositive;
-import static nmd.orb.util.Parameter.notNull;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -17,10 +18,10 @@ public class FeedUpdateTask implements Serializable {
     public final int maxFeedItemsCount;
 
     public FeedUpdateTask(final UUID feedId, final int maxFeedItemsCount) {
-        guard(notNull(feedId));
+        guard(isValidFeedHeaderId(feedId));
         this.feedId = feedId;
 
-        guard(isPositive(maxFeedItemsCount));
+        guard(isValidMaxFeedItemsCount(maxFeedItemsCount));
         this.maxFeedItemsCount = maxFeedItemsCount;
     }
 
@@ -42,6 +43,10 @@ public class FeedUpdateTask implements Serializable {
         int result = feedId.hashCode();
         result = 31 * result + maxFeedItemsCount;
         return result;
+    }
+
+    public static boolean isValidMaxFeedItemsCount(final int count) {
+        return Parameter.isPositive(count);
     }
 
 }
