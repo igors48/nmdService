@@ -15,5 +15,9 @@ public class UpdateErrorRegistrationService {
 
     }
 
+    public int getErrorCount(final UUID feedId) {
+        return 0;
+    }
+
 }
 
