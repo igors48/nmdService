@@ -18,7 +18,7 @@ public class UpdateErrorRegistrationServiceTest extends AbstractControllerTestBa
     public void whenErrorOccursThenCounterStarted() {
         this.updateErrorRegistrationService.updateError(FEED_ID);
 
-        assertEquals(this.updateErrorRegistrationService.getErrorCount(FEED_ID), 1);
+        assertEquals(1, this.updateErrorRegistrationService.getErrorCount(FEED_ID));
     }
 
     @Test
@@ -26,7 +26,7 @@ public class UpdateErrorRegistrationServiceTest extends AbstractControllerTestBa
         this.updateErrorRegistrationService.updateError(FEED_ID);
         this.updateErrorRegistrationService.updateError(FEED_ID);
 
-        assertEquals(this.updateErrorRegistrationService.getErrorCount(FEED_ID), 2);
+        assertEquals(2, this.updateErrorRegistrationService.getErrorCount(FEED_ID));
     }
 
     @Test
@@ -36,7 +36,17 @@ public class UpdateErrorRegistrationServiceTest extends AbstractControllerTestBa
         this.updateErrorRegistrationService.updateSuccess(FEED_ID);
         this.updateErrorRegistrationService.updateError(FEED_ID);
 
-        assertEquals(this.updateErrorRegistrationService.getErrorCount(FEED_ID), 1);
+        assertEquals(1, this.updateErrorRegistrationService.getErrorCount(FEED_ID));
+    }
+
+    @Test
+    public void whenErrorDeletedThenErrorCountIsZero() {
+        this.updateErrorRegistrationService.updateError(FEED_ID);
+        this.updateErrorRegistrationService.updateError(FEED_ID);
+
+        this.updateErrorRegistrationService.delete(FEED_ID);
+
+        assertEquals(0, this.updateErrorRegistrationService.getErrorCount(FEED_ID));
     }
 
 }
