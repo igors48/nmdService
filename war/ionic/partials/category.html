@@ -23,7 +23,7 @@
 
             <div ng-click="openFeed(feed.feedId, 'show-all')">
 
-                <h2>{{feed.feedTitle}}</h2>
+                <h2><span class="ion-alert-circled orange-front" ng-show="feed.hasErrors">&nbsp;</span>{{feed.feedTitle}}</h2>
 
                 <div>
                     <h3>
