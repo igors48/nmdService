@@ -142,4 +142,5 @@ public class CreateFeedReportTest {
 
         assertFalse(feedReadReport.hasErrors);
     }
+
 }

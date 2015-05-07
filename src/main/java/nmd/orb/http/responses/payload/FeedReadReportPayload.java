@@ -21,6 +21,7 @@ public class FeedReadReportPayload {
     public String topItemId;
     public String topItemLink;
     public long lastUpdate;
+    public boolean hasErrors;
 
     private FeedReadReportPayload() {
         // empty
@@ -41,6 +42,7 @@ public class FeedReadReportPayload {
         feedReadReportPayload.topItemId = feedReadReport.topItemId == null ? "" : feedReadReport.topItemId;
         feedReadReportPayload.topItemLink = feedReadReport.topItemLink == null ? "" : feedReadReport.topItemLink;
         feedReadReportPayload.lastUpdate = feedReadReport.lastUpdate.getTime();
+        feedReadReportPayload.hasErrors = feedReadReport.hasErrors;
 
         return feedReadReportPayload;
     }
