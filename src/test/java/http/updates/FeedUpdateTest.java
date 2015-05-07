@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import static java.util.UUID.randomUUID;
 import static nmd.orb.error.ErrorCode.INVALID_FEED_ID;
-import static nmd.orb.error.ErrorCode.WRONG_FEED_ID;
+import static nmd.orb.error.ErrorCode.WRONG_FEED_TASK_ID;
 import static org.junit.Assert.assertEquals;
 
 /**
@@ -31,7 +31,7 @@ public class FeedUpdateTest extends AbstractHttpTest {
     public void whenFeedIdDoesNotExistThenErrorReturns() {
         final String response = updateFeed(randomUUID().toString());
 
-        assertErrorResponse(response, WRONG_FEED_ID);
+        assertErrorResponse(response, WRONG_FEED_TASK_ID);
     }
 
     @Test

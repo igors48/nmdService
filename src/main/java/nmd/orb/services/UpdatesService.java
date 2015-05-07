@@ -103,17 +103,7 @@ public class UpdatesService extends AbstractService {
                 break;
             }
 
-            try {
-                final FeedUpdateReport report = updateFeed(currentTask.feedId);
-                updateReports.add(report);
-
-                LOGGER.info(format("A: [ %d ] R: [ %d ] D: [ %d ] Feed link [ %s ] id [ %s ] updated.", report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size(), report.feedLink, report.feedId));
-            } catch (ServiceException exception) {
-                final ServiceError serviceError = exception.getError();
-                errors.add(serviceError);
-
-                LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
-            }
+            updateCurrentFeed(currentTask, updateReports, errors);
 
             updated.add(currentTask.feedId);
         }
@@ -123,13 +113,26 @@ public class UpdatesService extends AbstractService {
         return new FeedSeriesUpdateReport(updateReports, errors);
     }
 
-    private FeedLinkAndMaxFeedItemsCount getFeedLinkAndMaxFeedItemsCount(final UUID feedId) throws ServiceException {
-        Transaction getFeedHeaderAndTaskTransaction = null;
-
-        final FeedLinkAndMaxFeedItemsCount feedLinkAndMaxFeedItemsCount;
+    private void updateCurrentFeed(FeedUpdateTask currentTask, List<FeedUpdateReport> updateReports, List<ServiceError> errors) {
 
         try {
-            getFeedHeaderAndTaskTransaction = this.transactions.beginOne();
+            final FeedUpdateReport report = updateFeed(currentTask.feedId);
+            updateReports.add(report);
+
+            LOGGER.info(format("A: [ %d ] R: [ %d ] D: [ %d ] Feed link [ %s ] id [ %s ] updated.", report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size(), report.feedLink, report.feedId));
+        } catch (ServiceException exception) {
+            final ServiceError serviceError = exception.getError();
+            errors.add(serviceError);
+
+            LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
+        }
+    }
+
+    private FeedLinkAndMaxFeedItemsCount getFeedLinkAndMaxFeedItemsCount(final UUID feedId) throws ServiceException {
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
 
             final FeedUpdateTask updateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedId);
 
@@ -137,20 +140,19 @@ public class UpdatesService extends AbstractService {
                 throw new ServiceException(wrongFeedTaskId(feedId));
             }
 
-            getFeedHeaderAndTaskTransaction.commit();
+            transaction.commit();
 
-            feedLinkAndMaxFeedItemsCount = new FeedLinkAndMaxFeedItemsCount(loadFeedHeader(feedId).feedLink, updateTask.maxFeedItemsCount);
+            return new FeedLinkAndMaxFeedItemsCount(loadFeedHeader(feedId).feedLink, updateTask.maxFeedItemsCount);
         } finally {
-            rollbackIfActive(getFeedHeaderAndTaskTransaction);
+            rollbackIfActive(transaction);
         }
-        return feedLinkAndMaxFeedItemsCount;
     }
 
     private FeedUpdateReport mergeFeed(final UUID feedId, final int maxFeedItemsCount, final Feed fetchedFeed) throws ServiceException {
-        Transaction updateFeedTransaction = null;
+        Transaction transaction = null;
 
         try {
-            updateFeedTransaction = this.transactions.beginOne();
+            transaction = this.transactions.beginOne();
 
             final FeedHeader header = loadFeedHeader(feedId);
 
@@ -165,11 +167,11 @@ public class UpdatesService extends AbstractService {
                 this.feedItemsRepository.storeItems(header.id, addedAndRetained);
             }
 
-            updateFeedTransaction.commit();
+            transaction.commit();
 
             return new FeedUpdateReport(header.feedLink, feedId, mergeReport);
         } finally {
-            rollbackIfActive(updateFeedTransaction);
+            rollbackIfActive(transaction);
         }
     }
 
