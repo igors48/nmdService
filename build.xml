@@ -105,7 +105,7 @@
         </fileset>
 
         <fileset dir="${app.engine.sdk.directory}/lib/user/">
-            <include name="**/appengine-api-1.0-sdk-1.9.19.jar"/>
+            <include name="**/appengine-api-1.0-sdk-1.*.jar"/>
         </fileset>
 
     </path>
@@ -391,7 +391,7 @@
         <copy todir="${lib.directory}" flatten="true">
 
             <fileset dir="${app.engine.sdk.directory}/lib/user">
-                <include name="**/appengine-api-1.0-sdk-1.9.19.jar"/>
+                <include name="**/appengine-api-1.0-sdk-1.*.jar"/>
             </fileset>
 
             <fileset dir="${app.engine.sdk.directory}/lib/opt/user">
