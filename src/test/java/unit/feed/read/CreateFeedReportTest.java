@@ -64,7 +64,7 @@ public class CreateFeedReportTest {
 
     @Test
     public void feedIdAndTitleAreCopiedFromHeader() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, 0);
 
         assertEquals(this.header.id, feedReadReport.feedId);
         assertEquals(this.header.title, feedReadReport.feedTitle);
@@ -72,7 +72,7 @@ public class CreateFeedReportTest {
 
     @Test
     public void lastUpdateTimeIsSetCorrectly() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, 0);
 
         assertEquals(ITEM_03.date, feedReadReport.lastUpdate);
     }
@@ -80,21 +80,21 @@ public class CreateFeedReportTest {
     @Test
     public void feedTypeIsSetCorrectly() {
         final FeedHeader rssFeedHeader = new FeedHeader(FEED_HEADER_ID, RSS_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, RSS_FEED_LINK);
-        final FeedReadReport rssFeedReadReport = ReadsService.createFeedReadReport(rssFeedHeader, this.items, this.readFeedItems);
+        final FeedReadReport rssFeedReadReport = ReadsService.createFeedReadReport(rssFeedHeader, this.items, this.readFeedItems, 0);
         assertEquals(Source.RSS, rssFeedReadReport.feedType);
 
         final FeedHeader twitterFeedHeader = new FeedHeader(FEED_HEADER_ID, TWITTER_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, TWITTER_FEED_LINK);
-        final FeedReadReport twitterFeedReadReport = ReadsService.createFeedReadReport(twitterFeedHeader, this.items, this.readFeedItems);
+        final FeedReadReport twitterFeedReadReport = ReadsService.createFeedReadReport(twitterFeedHeader, this.items, this.readFeedItems, 0);
         assertEquals(Source.TWITTER, twitterFeedReadReport.feedType);
 
         final FeedHeader instagramFeedHeader = new FeedHeader(FEED_HEADER_ID, INSTAGRAM_FEED_LINK, FEED_TITLE, FEED_DESCRIPTION, INSTAGRAM_FEED_LINK);
-        final FeedReadReport instagramFeedReadReport = ReadsService.createFeedReadReport(instagramFeedHeader, this.items, this.readFeedItems);
+        final FeedReadReport instagramFeedReadReport = ReadsService.createFeedReadReport(instagramFeedHeader, this.items, this.readFeedItems, 0);
         assertEquals(Source.INSTAGRAM, instagramFeedReadReport.feedType);
     }
 
     @Test
     public void readAndNotReadItemsCountedCorrectly() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, 0);
 
         assertEquals(2, feedReadReport.read);
         assertEquals(3, feedReadReport.notRead);
@@ -102,21 +102,21 @@ public class CreateFeedReportTest {
 
     @Test
     public void readLaterItemsCountedCorrectly() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, 0);
 
         assertEquals(1, feedReadReport.readLater);
     }
 
     @Test
     public void addedFromLastVisitItemsCountedCorrectly() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, 0);
 
         assertEquals(2, feedReadReport.addedFromLastVisit);
     }
 
     @Test
     public void topItemIdAndLinkAreSetCorrectly() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, 0);
 
         assertEquals(ITEM_04.guid, feedReadReport.topItemId);
         assertEquals(ITEM_04.gotoLink, feedReadReport.topItemLink);
