@@ -23,35 +23,20 @@ public class FeedReadReport {
     public final String topItemId;
     public final String topItemLink;
     public final Date lastUpdate;
+    public final boolean hasErrors;
 
-    public FeedReadReport(final UUID feedId, final Source feedType, final String feedTitle, final int read, final int notRead, final int readLater, final int addedFromLastVisit, final String topItemId, final String topItemLink, final Date lastUpdate) {
-        assertNotNull(feedId);
-        this.feedId = feedId;
-
-        assertNotNull(feedType);
-        this.feedType = feedType;
-
-        assertStringIsValid(feedTitle);
-        this.feedTitle = feedTitle;
-
-        assertPositive(read);
-        this.read = read;
-
-        assertPositive(notRead);
-        this.notRead = notRead;
-
-        assertPositive(readLater);
-        this.readLater = readLater;
-
-        assertPositive(addedFromLastVisit);
-        this.addedFromLastVisit = addedFromLastVisit;
-
+    public FeedReadReport(final UUID feedId, final Source feedType, final String feedTitle, final int read, final int notRead, final int readLater, final int addedFromLastVisit, final String topItemId, final String topItemLink, final Date lastUpdate, final boolean hasErrors) {
+        assertNotNull(this.feedId = feedId);
+        assertNotNull(this.feedType = feedType);
+        assertStringIsValid(this.feedTitle = feedTitle);
+        assertPositive(this.read = read);
+        assertPositive(this.notRead = notRead);
+        assertPositive(this.readLater = readLater);
+        assertPositive(this.addedFromLastVisit = addedFromLastVisit);
         this.topItemId = topItemId;
-
         this.topItemLink = topItemLink;
-
-        assertNotNull(lastUpdate);
-        this.lastUpdate = lastUpdate;
+        assertNotNull(this.lastUpdate = lastUpdate);
+        this.hasErrors = hasErrors;
     }
 
 }

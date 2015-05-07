@@ -13,7 +13,7 @@ import unit.feed.controller.AbstractControllerTestBase;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 /**
  * @author : igu
@@ -122,4 +122,24 @@ public class CreateFeedReportTest {
         assertEquals(ITEM_04.gotoLink, feedReadReport.topItemLink);
     }
 
+    @Test
+    public void whenErrorsCountGreaterThenMaximumThenHasErrorsRaised() {
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, ReadsService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT + 5);
+
+        assertTrue(feedReadReport.hasErrors);
+    }
+
+    @Test
+    public void whenErrorsCountEqualToMaximumThenHasErrorsRaised() {
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, ReadsService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT);
+
+        assertTrue(feedReadReport.hasErrors);
+    }
+
+    @Test
+    public void whenErrorsCountLesserThanMaximumThenHasErrorsRaised() {
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, ReadsService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT - 1);
+
+        assertFalse(feedReadReport.hasErrors);
+    }
 }
