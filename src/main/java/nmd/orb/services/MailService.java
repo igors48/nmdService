@@ -1,5 +1,6 @@
 package nmd.orb.services;
 
+import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
 import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ExportReportResponse;
@@ -40,7 +41,9 @@ public class MailService {
             final Message message = new MimeMessage(session);
             message.setFrom(new InternetAddress(exportEmail));
             message.addRecipient(Message.RecipientType.TO, new InternetAddress(exportEmail));
-            message.setSubject("Exported feeds and categories");
+
+            final String applicationId = SystemProperty.applicationId.get();
+            message.setSubject(String.format("%s : Exported feeds and categories", applicationId));
 
             final Multipart multipart = new MimeMultipart();
 
