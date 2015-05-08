@@ -25,4 +25,13 @@ public class ChangeRegistrationService {
         this.changeRepository.store(change);
     }
 
+    /*
+    public void registerAddCategory
+    public void registerAssignFeedToCategory
+    public void registerDeleteCategory
+    public void registerRenameCategory
+    public void registerAddFeed
+    public void registerRemoveFeed
+    public void registerRenameFeed
+    */
 }
