@@ -1,9 +1,9 @@
 package nmd.orb.services;
 
+import nmd.orb.feed.FeedHeader;
 import nmd.orb.reader.Category;
 import nmd.orb.repositories.ChangeRepository;
-import nmd.orb.services.change.AddCategoryEvent;
-import nmd.orb.services.change.Event;
+import nmd.orb.services.change.*;
 import nmd.orb.services.export.Change;
 
 import static nmd.orb.util.Assert.guard;
@@ -39,12 +39,51 @@ public class ChangeRegistrationService {
 
         registerEvent(event);
     }
-    /*
-    public void registerAssignFeedToCategory(final String feedTitle, final String categoryName)  {}
-    public void registerDeleteCategory(final String name)
-    public void registerRenameCategory(final String oldName, final String newName)
-    public void registerAddFeed(final String feedTitle, final String categoryName)
-    public void registerRemoveFeed(final String feedTitle)
-    public void registerRenameFeed(final String oldName, final String newName)
-    */
+
+    public void registerAssignFeedToCategory(final String feedTitle, final String categoryName)  {
+        guard(FeedHeader.isValidFeedHeaderTitle(feedTitle));
+        guard(Category.isValidCategoryName(categoryName));
+
+        final AssignFeedToCategoryEvent event = new AssignFeedToCategoryEvent(feedTitle, categoryName);
+
+        registerEvent(event);
+    }
+
+    public void registerDeleteCategory(final String name) {
+        guard(Category.isValidCategoryName(name));
+
+        final DeleteCategoryEvent event = new DeleteCategoryEvent(name);
+
+        registerEvent(event);
+    }
+
+    public void registerRenameCategory(final String oldName, final String newName) {
+        guard(Category.isValidCategoryName(oldName));
+        guard(Category.isValidCategoryName(newName));
+
+        final RenameCategoryEvent event = new RenameCategoryEvent(oldName, newName);
+
+        registerEvent(event);
+    }
+
+    public void registerAddFeed(final String feedTitle, final String categoryName) {
+        guard(FeedHeader.isValidFeedHeaderTitle(feedTitle));
+        guard(Category.isValidCategoryName(categoryName));
+
+        final AddFeedEvent event = new AddFeedEvent(feedTitle, categoryName);
+
+        registerEvent(event);
+    }
+
+    public void registerRemoveFeed(final String feedTitle) {
+        guard(FeedHeader.isValidFeedHeaderTitle(feedTitle));
+
+        final RemoveFeedEvent event = new RemoveFeedEvent(feedTitle);
+
+        registerEvent(event);
+    }
+
+    public void registerRenameFeed(final String oldName, final String newName) {
+
+    }
 }
