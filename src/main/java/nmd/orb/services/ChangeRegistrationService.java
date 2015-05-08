@@ -1,6 +1,9 @@
 package nmd.orb.services;
 
+import nmd.orb.reader.Category;
 import nmd.orb.repositories.ChangeRepository;
+import nmd.orb.services.change.AddCategoryEvent;
+import nmd.orb.services.change.Event;
 import nmd.orb.services.export.Change;
 
 import static nmd.orb.util.Assert.guard;
@@ -25,13 +28,23 @@ public class ChangeRegistrationService {
         this.changeRepository.store(change);
     }
 
+    private void registerEvent(final Event event) {
+        guard(notNull(event));
+    }
+
+    public void registerAddCategory(final String name) {
+        guard(Category.isValidCategoryName(name));
+
+        final AddCategoryEvent event = new AddCategoryEvent(name);
+
+        registerEvent(event);
+    }
     /*
-    public void registerAddCategory
-    public void registerAssignFeedToCategory
-    public void registerDeleteCategory
-    public void registerRenameCategory
-    public void registerAddFeed
-    public void registerRemoveFeed
-    public void registerRenameFeed
+    public void registerAssignFeedToCategory(final String feedTitle, final String categoryName)
+    public void registerDeleteCategory(final String name)
+    public void registerRenameCategory(final String oldName, final String newName)
+    public void registerAddFeed(final String feedTitle, final String categoryName)
+    public void registerRemoveFeed(final String feedTitle)
+    public void registerRenameFeed(final String oldName, final String newName)
     */
 }
