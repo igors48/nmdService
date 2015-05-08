@@ -40,7 +40,7 @@ public class ChangeRegistrationService {
         registerEvent(event);
     }
     /*
-    public void registerAssignFeedToCategory(final String feedTitle, final String categoryName)
+    public void registerAssignFeedToCategory(final String feedTitle, final String categoryName)  {}
     public void registerDeleteCategory(final String name)
     public void registerRenameCategory(final String oldName, final String newName)
     public void registerAddFeed(final String feedTitle, final String categoryName)
