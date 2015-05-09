@@ -10,6 +10,7 @@ import nmd.orb.gae.repositories.converters.*;
 import nmd.orb.gae.repositories.converters.helpers.FeedItemHelper;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
+import nmd.orb.services.change.Event;
 import nmd.orb.services.export.Change;
 import nmd.orb.services.importer.*;
 import org.junit.Test;
@@ -152,7 +153,7 @@ public class ConvertersTest {
 
     @Test
     public void changeRoundtrip() {
-        final Change original = new Change(48, true);
+        final Change original = new Change(48, new ArrayList<Event>(), true);
         final Entity entity = ChangeConverter.convert(original, SAMPLE_KEY);
         final Change restored = ChangeConverter.convert(entity);
 
