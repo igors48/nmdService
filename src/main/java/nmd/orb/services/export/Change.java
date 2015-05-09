@@ -15,9 +15,10 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class Change {
 
-    private final long timestamp;
     private final List<Event> events;
-    private final boolean notificationIsSent;
+
+    private long timestamp;
+    private boolean notificationIsSent;
 
     public Change(final long timestamp, final List<Event> events, final boolean notificationIsSent) {
         guard(isPositive(this.timestamp = timestamp));
@@ -38,7 +39,21 @@ public class Change {
     }
 
     public Change markAsSent() {
-        return new Change(this.timestamp, this.events, true);
+        this.notificationIsSent = true;
+
+        return this;
+    }
+
+    public void addEvent(final long timestamp, final Event event) {
+        guard(isPositive(timestamp));
+        guard(notNull(event));
+
+        this.timestamp = timestamp;
+        this.events.add(event);
+    }
+
+    public List<Event> getEvents() {
+        return this.events;
     }
 
     @Override

@@ -30,6 +30,23 @@ public class ChangeRegistrationService {
 
     private void registerEvent(final Event event) {
         guard(notNull(event));
+
+        final long timestamp = System.currentTimeMillis();
+        final Change change = loadChange();
+        change.addEvent(timestamp, event);
+
+        this.changeRepository.store(change);
+    }
+
+    private Change loadChange() {
+        Change change = this.changeRepository.load();
+
+        if (change == null || change.isNotificationIsSent()) {
+            final long timestamp = System.currentTimeMillis();
+            change = new Change(timestamp);
+        }
+
+        return change;
     }
 
     public void registerAddCategory(final String name) {
@@ -40,7 +57,7 @@ public class ChangeRegistrationService {
         registerEvent(event);
     }
 
-    public void registerAssignFeedToCategory(final String feedTitle, final String categoryName)  {
+    public void registerAssignFeedToCategory(final String feedTitle, final String categoryName) {
         guard(FeedHeader.isValidFeedHeaderTitle(feedTitle));
         guard(Category.isValidCategoryName(categoryName));
 
@@ -84,6 +101,12 @@ public class ChangeRegistrationService {
     }
 
     public void registerRenameFeed(final String oldName, final String newName) {
+        guard(FeedHeader.isValidFeedHeaderTitle(oldName));
+        guard(FeedHeader.isValidFeedHeaderTitle(newName));
 
+        final RenameFeedEvent event = new RenameFeedEvent(oldName, newName);
+
+        registerEvent(event);
     }
+
 }
