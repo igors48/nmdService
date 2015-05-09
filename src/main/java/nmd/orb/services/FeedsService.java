@@ -169,16 +169,17 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
     }
 
     private void renameFeed(final String title, final FeedHeader header) {
+        final String oldTitle = header.title;
         final FeedHeader newHeader = header.changeTitle(title);
 
         this.feedHeadersRepository.deleteHeader(header.id);
         this.feedHeadersRepository.storeHeader(newHeader);
 
-        this.changeRegistrationService.registerChange();
+        this.changeRegistrationService.registerRenameFeed(oldTitle, title);
     }
 
     private FeedHeader createFeed(final Feed feed, final String feedTitle, final String categoryId) throws ServiceException {
-        assertCategoryExists(categoryId);
+        final Category category = loadCategory(categoryId);
 
         final String feedLink = feed.header.feedLink;
         FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(feedLink);
@@ -201,15 +202,15 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         final ReadFeedItems updatedReadItems = existsReadItems.changeCategory(categoryId);
         this.readFeedItemsRepository.store(updatedReadItems);
 
-        this.changeRegistrationService.registerChange();
+        this.changeRegistrationService.registerAddFeed(feedHeader.title, category.name);
 
         return feedHeader;
     }
 
-    private void assertCategoryExists(final String categoryId) throws ServiceException {
+    private Category loadCategory(final String categoryId) throws ServiceException {
 
         if (Category.MAIN_CATEGORY_ID.equals(categoryId)) {
-            return;
+            return Category.MAIN;
         }
 
         final Category category = this.categoriesRepository.load(categoryId);
@@ -217,6 +218,8 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         if (category == null) {
             throw new ServiceException(wrongCategoryId(categoryId));
         }
+
+        return category;
     }
 
     private void createFeedUpdateTask(final FeedHeader feedHeader) {
@@ -237,13 +240,15 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         guard(notNull(changeRegistrationService));
         guard(notNull(updateErrorRegistrationService));
 
+        final FeedHeader feedHeader = feedHeadersRepository.loadHeader(feedId);
+
         feedUpdateTaskRepository.deleteTaskForFeedId(feedId);
         feedHeadersRepository.deleteHeader(feedId);
         feedItemsRepository.deleteItems(feedId);
         readFeedItemsRepository.delete(feedId);
         updateErrorRegistrationService.delete(feedId);
 
-        changeRegistrationService.registerChange();
+        changeRegistrationService.registerRemoveFeed(feedHeader.title);
     }
 
 }

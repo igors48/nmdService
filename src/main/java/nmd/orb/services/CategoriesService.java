@@ -130,16 +130,16 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
         try {
             transaction = this.transactions.beginOne();
-            loadFeedHeader(feedId);
+            final FeedHeader feedHeader = loadFeedHeader(feedId);
 
-            loadCategory(categoryId);
+            final Category category = loadCategory(categoryId);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
             final ReadFeedItems updatedReadFeedItems = readFeedItems.changeCategory(categoryId);
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
-            this.changeRegistrationService.registerChange();
+            this.changeRegistrationService.registerAssignFeedToCategory(feedHeader.title, category.name);
 
             transaction.commit();
         } finally {
@@ -173,7 +173,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
                 this.categoriesRepository.delete(categoryId);
 
-                this.changeRegistrationService.registerChange();
+                this.changeRegistrationService.registerDeleteCategory(category.name);
             }
 
             transaction.commit();
@@ -205,7 +205,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
             this.categoriesRepository.delete(categoryId);
             this.categoriesRepository.store(renamed);
 
-            this.changeRegistrationService.registerChange();
+            this.changeRegistrationService.registerRenameCategory(category.name, newName);
 
             transaction.commit();
         } finally {
@@ -250,7 +250,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             result = created;
 
-            this.changeRegistrationService.registerChange();
+            this.changeRegistrationService.registerAddCategory(created.name);
         } else {
             result = exists;
         }

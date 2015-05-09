@@ -17,10 +17,12 @@ import static org.mockito.Mockito.*;
  */
 public class AutoExportServiceTest extends AbstractControllerTestBase {
 
+    private static final String CATEGORY = "category";
+
     @Test
     public void whenPeriodGreaterThanDefinedAndNotificationIsNotSentThenItIsSent() throws ServiceException {
         final long start = System.currentTimeMillis();
-        this.changeRegistrationService.registerChange();
+        this.changeRegistrationService.registerAddCategory(CATEGORY);
 
         final boolean sent = this.autoExportService.export(start + AutoExportService.TWO_MINUTES * 2);
 
@@ -31,7 +33,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
     @Test
     public void whenPeriodGreaterThanDefinedAndNotificationIsSentThenItIsNotSent() throws ServiceException {
         final long start = System.currentTimeMillis();
-        this.changeRegistrationService.registerChange();
+        this.changeRegistrationService.registerAddCategory(CATEGORY);
 
         final Change change = this.changeRepositoryStub.load();
         this.changeRepositoryStub.store(change.markAsSent());
@@ -45,7 +47,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
     @Test
     public void whenPeriodLesserThanDefinedAndNotificationIsNotSentThenItIsNotSent() throws ServiceException {
         final long start = System.currentTimeMillis();
-        this.changeRegistrationService.registerChange();
+        this.changeRegistrationService.registerAddCategory(CATEGORY);
 
         final boolean sent = this.autoExportService.export(start);
 
@@ -56,7 +58,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
     @Test
     public void whenPeriodLesserThanDefinedAndNotificationIsSentThenItIsNotSent() throws ServiceException {
         final long start = System.currentTimeMillis();
-        this.changeRegistrationService.registerChange();
+        this.changeRegistrationService.registerAddCategory(CATEGORY);
 
         final Change change = this.changeRepositoryStub.load();
         this.changeRepositoryStub.store(change.markAsSent());

@@ -21,34 +21,6 @@ public class ChangeRegistrationService {
         this.changeRepository = changeRepository;
     }
 
-    public void registerChange() {
-        final long timestamp = System.currentTimeMillis();
-        final Change change = new Change(timestamp);
-
-        this.changeRepository.store(change);
-    }
-
-    private void registerEvent(final Event event) {
-        guard(notNull(event));
-
-        final long timestamp = System.currentTimeMillis();
-        final Change change = loadChange();
-        change.addEvent(timestamp, event);
-
-        this.changeRepository.store(change);
-    }
-
-    private Change loadChange() {
-        Change change = this.changeRepository.load();
-
-        if (change == null || change.isNotificationIsSent()) {
-            final long timestamp = System.currentTimeMillis();
-            change = new Change(timestamp);
-        }
-
-        return change;
-    }
-
     public void registerAddCategory(final String name) {
         guard(Category.isValidCategoryName(name));
 
@@ -107,6 +79,27 @@ public class ChangeRegistrationService {
         final RenameFeedEvent event = new RenameFeedEvent(oldName, newName);
 
         registerEvent(event);
+    }
+
+    private void registerEvent(final Event event) {
+        guard(notNull(event));
+
+        final long timestamp = System.currentTimeMillis();
+        final Change change = loadChange();
+        change.addEvent(timestamp, event);
+
+        this.changeRepository.store(change);
+    }
+
+    private Change loadChange() {
+        Change change = this.changeRepository.load();
+
+        if (change == null || change.isNotificationIsSent()) {
+            final long timestamp = System.currentTimeMillis();
+            change = new Change(timestamp);
+        }
+
+        return change;
     }
 
 }

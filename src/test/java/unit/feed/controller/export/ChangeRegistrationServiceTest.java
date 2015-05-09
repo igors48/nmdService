@@ -19,7 +19,7 @@ public class ChangeRegistrationServiceTest extends AbstractControllerTestBase {
     public void whenChangeIsRegisteredThenItStoresInRepository() {
         final long startTimestamp = System.currentTimeMillis();
 
-        this.changeRegistrationService.registerChange();
+        this.changeRegistrationService.registerAddCategory("category");
 
         final Change change = this.changeRepositoryStub.load();
 
