@@ -7,6 +7,8 @@ import nmd.orb.services.export.Change;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
 
+import java.util.List;
+
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Matchers.any;
@@ -27,7 +29,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
         final boolean sent = this.autoExportService.export(start + AutoExportService.TWO_MINUTES * 2);
 
         assertTrue(sent);
-        verify(this.mailServiceMock, times(1)).sendChangeNotification(any(ExportReportResponse.class));
+        verify(this.mailServiceMock, times(1)).sendChangeNotification(any(List.class), any(ExportReportResponse.class));
     }
 
     @Test
@@ -41,7 +43,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
         final boolean sent = this.autoExportService.export(start + AutoExportService.TWO_MINUTES * 2);
 
         assertFalse(sent);
-        verify(this.mailServiceMock, never()).sendChangeNotification(any(ExportReportResponse.class));
+        verify(this.mailServiceMock, never()).sendChangeNotification(any(List.class), any(ExportReportResponse.class));
     }
 
     @Test
@@ -52,7 +54,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
         final boolean sent = this.autoExportService.export(start);
 
         assertFalse(sent);
-        verify(this.mailServiceMock, never()).sendChangeNotification(any(ExportReportResponse.class));
+        verify(this.mailServiceMock, never()).sendChangeNotification(any(List.class), any(ExportReportResponse.class));
     }
 
     @Test
@@ -66,7 +68,7 @@ public class AutoExportServiceTest extends AbstractControllerTestBase {
         final boolean sent = this.autoExportService.export(start);
 
         assertFalse(sent);
-        verify(this.mailServiceMock, never()).sendChangeNotification(any(ExportReportResponse.class));
+        verify(this.mailServiceMock, never()).sendChangeNotification(any(List.class), any(ExportReportResponse.class));
     }
 
 }

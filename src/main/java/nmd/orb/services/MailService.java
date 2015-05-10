@@ -4,6 +4,7 @@ import com.google.appengine.api.utils.SystemProperty;
 import com.google.gson.Gson;
 import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ExportReportResponse;
+import nmd.orb.services.change.Event;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -16,6 +17,7 @@ import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
 import javax.mail.util.ByteArrayDataSource;
+import java.util.List;
 import java.util.Properties;
 
 import static nmd.orb.error.ServiceError.mailServiceError;
@@ -29,7 +31,8 @@ public class MailService {
 
     private static final Gson GSON = new Gson();
 
-    public void sendChangeNotification(final ExportReportResponse report) throws ServiceException {
+    public void sendChangeNotification(final List<Event> events, final ExportReportResponse report) throws ServiceException {
+        guard(notNull(events));
         guard(notNull(report));
 
         try {
