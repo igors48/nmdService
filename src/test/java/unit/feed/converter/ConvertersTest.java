@@ -10,7 +10,7 @@ import nmd.orb.gae.repositories.converters.*;
 import nmd.orb.gae.repositories.converters.helpers.FeedItemHelper;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
-import nmd.orb.services.change.Event;
+import nmd.orb.services.change.*;
 import nmd.orb.services.export.Change;
 import nmd.orb.services.importer.*;
 import org.junit.Test;
@@ -50,6 +50,11 @@ public class ConvertersTest {
         add(FIRST_READ_LATER_ITEM_ID);
         add(SECOND_READ_LATER_ITEM_ID);
     }};
+
+    private static final String CATEGORY_NAME = "category";
+    private static final String FEED_TITLE = "feed";
+    private static final String CATEGORY_NEW = "category-new";
+    private static final String FEED_NEW = "feed-new";
 
     @Test
     public void feedHeaderEntityRoundtrip() {
@@ -153,7 +158,17 @@ public class ConvertersTest {
 
     @Test
     public void changeRoundtrip() {
-        final Change original = new Change(48, new ArrayList<Event>(), true);
+        final List<Event> events = new ArrayList<>();
+
+        events.add(new AddCategoryEvent(CATEGORY_NAME));
+        events.add(new AddFeedEvent(FEED_TITLE, CATEGORY_NAME));
+        events.add(new AssignFeedToCategoryEvent(FEED_TITLE, CATEGORY_NAME));
+        events.add(new DeleteCategoryEvent(CATEGORY_NAME));
+        events.add(new RemoveFeedEvent(FEED_TITLE));
+        events.add(new RenameCategoryEvent(CATEGORY_NAME, CATEGORY_NEW));
+        events.add(new RenameFeedEvent(FEED_TITLE, FEED_NEW));
+
+        final Change original = new Change(48, events, true);
         final Entity entity = ChangeConverter.convert(original, SAMPLE_KEY);
         final Change restored = ChangeConverter.convert(entity);
 
