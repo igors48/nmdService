@@ -11,10 +11,10 @@ import static nmd.orb.util.Assert.guard;
  */
 public class DeleteCategoryEvent implements Event {
 
-    public final String name;
+    public final String categoryName;
 
-    public DeleteCategoryEvent(final String name) {
-        guard(Category.isValidCategoryName(this.name = name));
+    public DeleteCategoryEvent(final String categoryName) {
+        guard(Category.isValidCategoryName(this.categoryName = categoryName));
     }
 
     @Override
@@ -22,12 +22,12 @@ public class DeleteCategoryEvent implements Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DeleteCategoryEvent that = (DeleteCategoryEvent) o;
-        return Objects.equals(name, that.name);
+        return Objects.equals(categoryName, that.categoryName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(name);
+        return Objects.hash(categoryName);
     }
 
 }

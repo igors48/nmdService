@@ -11,12 +11,12 @@ import static nmd.orb.util.Assert.guard;
  */
 public class RenameFeedEvent implements Event {
 
-    public final String oldName;
-    public final String newName;
+    public final String oldFeedTitle;
+    public final String newFeedTitle;
 
-    public RenameFeedEvent(final String oldName, final String newName) {
-        guard(FeedHeader.isValidFeedHeaderTitle(this.oldName = oldName));
-        guard(FeedHeader.isValidFeedHeaderTitle(this.newName = newName));
+    public RenameFeedEvent(final String oldFeedTitle, final String newFeedTitle) {
+        guard(FeedHeader.isValidFeedHeaderTitle(this.oldFeedTitle = oldFeedTitle));
+        guard(FeedHeader.isValidFeedHeaderTitle(this.newFeedTitle = newFeedTitle));
     }
 
     @Override
@@ -24,13 +24,13 @@ public class RenameFeedEvent implements Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RenameFeedEvent that = (RenameFeedEvent) o;
-        return Objects.equals(oldName, that.oldName) &&
-                Objects.equals(newName, that.newName);
+        return Objects.equals(oldFeedTitle, that.oldFeedTitle) &&
+                Objects.equals(newFeedTitle, that.newFeedTitle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(oldName, newName);
+        return Objects.hash(oldFeedTitle, newFeedTitle);
     }
 
 }

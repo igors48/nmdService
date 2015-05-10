@@ -11,12 +11,12 @@ import static nmd.orb.util.Assert.guard;
  */
 public class RenameCategoryEvent implements Event {
 
-    public final String oldName;
-    public final String newName;
+    public final String oldCategoryName;
+    public final String newCategoryName;
 
-    public RenameCategoryEvent(final String oldName, final String newName) {
-        guard(Category.isValidCategoryName(this.oldName = oldName));
-        guard(Category.isValidCategoryName(this.newName = newName));
+    public RenameCategoryEvent(final String oldCategoryName, final String newCategoryName) {
+        guard(Category.isValidCategoryName(this.oldCategoryName = oldCategoryName));
+        guard(Category.isValidCategoryName(this.newCategoryName = newCategoryName));
     }
 
     @Override
@@ -24,13 +24,13 @@ public class RenameCategoryEvent implements Event {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RenameCategoryEvent that = (RenameCategoryEvent) o;
-        return Objects.equals(oldName, that.oldName) &&
-                Objects.equals(newName, that.newName);
+        return Objects.equals(oldCategoryName, that.oldCategoryName) &&
+                Objects.equals(newCategoryName, that.newCategoryName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(oldName, newName);
+        return Objects.hash(oldCategoryName, newCategoryName);
     }
 
 }
