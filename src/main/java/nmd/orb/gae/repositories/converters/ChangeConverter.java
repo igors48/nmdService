@@ -58,7 +58,7 @@ public class ChangeConverter {
 
         final long timestamp = (long) entity.getProperty(TIMESTAMP);
         final boolean notificationIsSent = (boolean) entity.getProperty(NOTIFICATION_IS_SENT);
-        final List<Event> events = GSON.fromJson((String) entity.getProperty(EVENTS), EVENT_LIST_TYPE);
+        final List<Event> events = entity.hasProperty(EVENTS) ? ((List<Event>) GSON.fromJson((String) entity.getProperty(EVENTS), EVENT_LIST_TYPE)) : new ArrayList<Event>();
 
         return new Change(timestamp, events, notificationIsSent);
     }
