@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.services.change.Event;
+import nmd.orb.services.mail.EventToHtmlConverter;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -52,7 +53,8 @@ public class MailService {
 
             final MimeBodyPart htmlPart = new MimeBodyPart();
 
-            htmlPart.setContent("Please find exported feeds and categories in the attachment", "text/html");
+            final String eventsAsHtml = EventToHtmlConverter.convert(events);
+            htmlPart.setContent(String.format("<p>Please find exported feeds and categories in the attachment</p>%s", eventsAsHtml), "text/html");
             multipart.addBodyPart(htmlPart);
 
             final MimeBodyPart attachment = new MimeBodyPart();

@@ -11,11 +11,30 @@ import static nmd.orb.util.Assert.guard;
  */
 public class RenameFeedEvent implements Event {
 
-    public final String oldFeedTitle;
-    public final String newFeedTitle;
+    private String oldFeedTitle;
+    private String newFeedTitle;
+
+    private RenameFeedEvent() {
+    }
 
     public RenameFeedEvent(final String oldFeedTitle, final String newFeedTitle) {
+        setOldFeedTitle(oldFeedTitle);
+        setNewFeedTitle(newFeedTitle);
+    }
+
+    public String getOldFeedTitle() {
+        return this.oldFeedTitle;
+    }
+
+    public void setOldFeedTitle(final String oldFeedTitle) {
         guard(FeedHeader.isValidFeedHeaderTitle(this.oldFeedTitle = oldFeedTitle));
+    }
+
+    public String getNewFeedTitle() {
+        return this.newFeedTitle;
+    }
+
+    public void setNewFeedTitle(final String newFeedTitle) {
         guard(FeedHeader.isValidFeedHeaderTitle(this.newFeedTitle = newFeedTitle));
     }
 

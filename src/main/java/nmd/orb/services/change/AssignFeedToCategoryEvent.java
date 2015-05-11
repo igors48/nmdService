@@ -12,11 +12,30 @@ import static nmd.orb.util.Assert.guard;
  */
 public class AssignFeedToCategoryEvent implements Event {
 
-    public final String feedTitle;
-    public final String categoryName;
+    private String feedTitle;
+    private String categoryName;
+
+    private AssignFeedToCategoryEvent() {
+    }
 
     public AssignFeedToCategoryEvent(final String feedTitle, final String categoryName) {
+        setFeedTitle(feedTitle);
+        setCategoryName(categoryName);
+    }
+
+    public String getFeedTitle() {
+        return this.feedTitle;
+    }
+
+    public void setFeedTitle(final String feedTitle) {
         guard(FeedHeader.isValidFeedHeaderTitle(this.feedTitle = feedTitle));
+    }
+
+    public String getCategoryName() {
+        return this.categoryName;
+    }
+
+    public void setCategoryName(final String categoryName) {
         guard(Category.isValidCategoryName(this.categoryName = categoryName));
     }
 

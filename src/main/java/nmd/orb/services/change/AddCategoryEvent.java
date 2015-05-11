@@ -11,9 +11,20 @@ import static nmd.orb.util.Assert.guard;
  */
 public class AddCategoryEvent implements Event {
 
-    public final String categoryName;
+    private String categoryName;
+
+    private AddCategoryEvent() {
+    }
 
     public AddCategoryEvent(final String categoryName) {
+        setCategoryName(categoryName);
+    }
+
+    public String getCategoryName() {
+        return this.categoryName;
+    }
+
+    private void setCategoryName(final String categoryName) {
         guard(Category.isValidCategoryName(this.categoryName = categoryName));
     }
 

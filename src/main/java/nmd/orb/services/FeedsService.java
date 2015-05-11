@@ -248,7 +248,9 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         readFeedItemsRepository.delete(feedId);
         updateErrorRegistrationService.delete(feedId);
 
-        changeRegistrationService.registerRemoveFeed(feedHeader.title);
+        if (feedHeader != null) {
+            changeRegistrationService.registerRemoveFeed(feedHeader.title);
+        }
     }
 
 }

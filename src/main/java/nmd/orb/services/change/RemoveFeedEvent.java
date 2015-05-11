@@ -11,9 +11,20 @@ import static nmd.orb.util.Assert.guard;
  */
 public class RemoveFeedEvent implements Event {
 
-    public final String feedTitle;
+    private String feedTitle;
+
+    private RemoveFeedEvent() {
+    }
 
     public RemoveFeedEvent(final String feedTitle) {
+        setFeedTitle(feedTitle);
+    }
+
+    public String getFeedTitle() {
+        return this.feedTitle;
+    }
+
+    private void setFeedTitle(final String feedTitle) {
         guard(FeedHeader.isValidFeedHeaderTitle(this.feedTitle = feedTitle));
     }
 

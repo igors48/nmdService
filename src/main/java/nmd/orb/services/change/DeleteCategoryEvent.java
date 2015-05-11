@@ -11,9 +11,20 @@ import static nmd.orb.util.Assert.guard;
  */
 public class DeleteCategoryEvent implements Event {
 
-    public final String categoryName;
+    private String categoryName;
+
+    private DeleteCategoryEvent() {
+    }
 
     public DeleteCategoryEvent(final String categoryName) {
+        setCategoryName(categoryName);
+    }
+
+    public String getCategoryName() {
+        return this.categoryName;
+    }
+
+    public void setCategoryName(final String categoryName) {
         guard(Category.isValidCategoryName(this.categoryName = categoryName));
     }
 

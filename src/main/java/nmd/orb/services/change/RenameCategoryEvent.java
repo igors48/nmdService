@@ -11,11 +11,30 @@ import static nmd.orb.util.Assert.guard;
  */
 public class RenameCategoryEvent implements Event {
 
-    public final String oldCategoryName;
-    public final String newCategoryName;
+    private String oldCategoryName;
+    private String newCategoryName;
+
+    private RenameCategoryEvent() {
+    }
 
     public RenameCategoryEvent(final String oldCategoryName, final String newCategoryName) {
+        setOldCategoryName(oldCategoryName);
+        setNewCategoryName(newCategoryName);
+    }
+
+    public String getOldCategoryName() {
+        return this.oldCategoryName;
+    }
+
+    public void setOldCategoryName(final String oldCategoryName) {
         guard(Category.isValidCategoryName(this.oldCategoryName = oldCategoryName));
+    }
+
+    public String getNewCategoryName() {
+        return this.newCategoryName;
+    }
+
+    public void setNewCategoryName(final String newCategoryName) {
         guard(Category.isValidCategoryName(this.newCategoryName = newCategoryName));
     }
 
