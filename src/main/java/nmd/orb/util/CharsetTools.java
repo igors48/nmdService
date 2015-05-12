@@ -40,19 +40,6 @@ public final class CharsetTools {
         return UTF_8;
     }
 
-    public static String tryCharset(final byte[] bytes, String charsetName) {
-
-        try {
-            String string = new String(bytes, charsetName);
-            String foundCharsetName = CharsetTools.findCharSet(string);
-            Charset.forName(foundCharsetName);
-
-            return foundCharsetName;
-        } catch (Exception exception) {
-            return null;
-        }
-    }
-
     public static String findCharSet(final String data) {
         assertNotNull(data);
 
@@ -71,6 +58,19 @@ public final class CharsetTools {
         }
 
         return result;
+    }
+
+    private static String tryCharset(final byte[] bytes, String charsetName) {
+
+        try {
+            String string = new String(bytes, charsetName);
+            String foundCharsetName = CharsetTools.findCharSet(string);
+            Charset.forName(foundCharsetName);
+
+            return foundCharsetName;
+        } catch (Exception exception) {
+            return null;
+        }
     }
 
     private CharsetTools() {
