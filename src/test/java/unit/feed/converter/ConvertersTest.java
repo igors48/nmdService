@@ -10,8 +10,10 @@ import nmd.orb.gae.repositories.converters.*;
 import nmd.orb.gae.repositories.converters.helpers.FeedItemHelper;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
+import nmd.orb.services.change.*;
 import nmd.orb.services.export.Change;
 import nmd.orb.services.importer.*;
+import nmd.orb.services.mail.EventToHtmlConverter;
 import org.junit.Test;
 import unit.feed.controller.importer.CategoryImportContextTest;
 import unit.feed.controller.importer.FeedImportContextTest;
@@ -20,8 +22,7 @@ import unit.feed.controller.importer.ImportJobContextTest;
 import java.util.*;
 
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -49,6 +50,11 @@ public class ConvertersTest {
         add(FIRST_READ_LATER_ITEM_ID);
         add(SECOND_READ_LATER_ITEM_ID);
     }};
+
+    private static final String CATEGORY_NAME = "category";
+    private static final String FEED_TITLE = "feed";
+    private static final String CATEGORY_NEW = "category-new";
+    private static final String FEED_NEW = "feed-new";
 
     @Test
     public void feedHeaderEntityRoundtrip() {
@@ -152,10 +158,40 @@ public class ConvertersTest {
 
     @Test
     public void changeRoundtrip() {
-        final Change original = new Change(48, true);
+        final List<Event> events = new ArrayList<>();
+
+        events.add(new AddCategoryEvent(CATEGORY_NAME));
+        events.add(new AddFeedEvent(FEED_TITLE, CATEGORY_NAME));
+        events.add(new AssignFeedToCategoryEvent(FEED_TITLE, CATEGORY_NAME));
+        events.add(new DeleteCategoryEvent(CATEGORY_NAME));
+        events.add(new RemoveFeedEvent(FEED_TITLE));
+        events.add(new RenameCategoryEvent(CATEGORY_NAME, CATEGORY_NEW));
+        events.add(new RenameFeedEvent(FEED_TITLE, FEED_NEW));
+
+        final Change original = new Change(48, events, true);
         final Entity entity = ChangeConverter.convert(original, SAMPLE_KEY);
         final Change restored = ChangeConverter.convert(entity);
 
         assertEquals(original, restored);
     }
+
+    @Test
+    public void eventToHtmlConvertersTest() {
+        final String addCategoryEvent = EventToHtmlConverter.convert(new AddCategoryEvent(CATEGORY_NAME));
+        final String addFeedEvent = EventToHtmlConverter.convert(new AddFeedEvent(FEED_TITLE, CATEGORY_NAME));
+        final String assignFeedToCategoryEvent = EventToHtmlConverter.convert(new AssignFeedToCategoryEvent(FEED_TITLE, CATEGORY_NAME));
+        final String deleteCategoryEvent = EventToHtmlConverter.convert(new DeleteCategoryEvent(CATEGORY_NAME));
+        final String removeFeedEvent = EventToHtmlConverter.convert(new RemoveFeedEvent(FEED_TITLE));
+        final String renameCategoryEvent = EventToHtmlConverter.convert(new RenameCategoryEvent(CATEGORY_NAME, CATEGORY_NEW));
+        final String renameFeedEvent = EventToHtmlConverter.convert(new RenameFeedEvent(FEED_TITLE, FEED_NEW));
+
+        assertFalse(addCategoryEvent.isEmpty());
+        assertFalse(addFeedEvent.isEmpty());
+        assertFalse(assignFeedToCategoryEvent.isEmpty());
+        assertFalse(deleteCategoryEvent.isEmpty());
+        assertFalse(removeFeedEvent.isEmpty());
+        assertFalse(renameCategoryEvent.isEmpty());
+        assertFalse(renameFeedEvent.isEmpty());
+    }
+
 }

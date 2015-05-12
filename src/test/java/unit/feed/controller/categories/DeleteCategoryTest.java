@@ -85,7 +85,7 @@ public class DeleteCategoryTest extends AbstractControllerTestBase {
         final Category category = this.categoriesService.addCategory(FIRST_NAME);
         this.categoriesService.deleteCategory(category.uuid);
 
-        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy).registerDeleteCategory(FIRST_NAME);
     }
 
 }

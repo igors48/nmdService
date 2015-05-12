@@ -3,11 +3,11 @@ package unit.feed.controller;
 import nmd.orb.error.ServiceException;
 import nmd.orb.services.report.FeedUpdateReport;
 import org.junit.Test;
+import org.mockito.Mockito;
 
 import java.util.UUID;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -42,6 +42,31 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
         this.updatesService.updateFeed(feedId);
 
         assertEquals(1, this.feedItemsRepositoryStub.getStoreCount());
+    }
+
+    @Test
+    public void whenFeedIsUpdatedSuccessfullyThenRegistrationServiceIsNotified() throws ServiceException {
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
+
+        this.updatesService.updateFeed(feedId);
+
+        Mockito.verify(this.updateErrorRegistrationServiceSpy).updateSuccess(feedId);
+        Mockito.verifyNoMoreInteractions(this.updateErrorRegistrationServiceSpy);
+    }
+
+    @Test
+    public void whenFeedIsUpdatedNotSuccessfullyThenRegistrationServiceIsNotified() {
+        final UUID randomFeedId = UUID.randomUUID();
+
+        try {
+            this.updatesService.updateFeed(randomFeedId);
+
+            fail();
+        } catch (ServiceException ignored) {
+        }
+
+        Mockito.verify(this.updateErrorRegistrationServiceSpy).updateError(randomFeedId);
+        Mockito.verifyNoMoreInteractions(this.updateErrorRegistrationServiceSpy);
     }
 
 }

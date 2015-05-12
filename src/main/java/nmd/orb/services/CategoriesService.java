@@ -36,27 +36,18 @@ public class CategoriesService implements CategoriesServiceAdapter {
     private final FeedItemsRepository feedItemsRepository;
 
     private final ChangeRegistrationService changeRegistrationService;
+    private final UpdateErrorRegistrationService updateErrorRegistrationService;
 
     private final Transactions transactions;
 
-    public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ChangeRegistrationService changeRegistrationService, final Transactions transactions) {
-        guard(notNull(categoriesRepository));
-        this.categoriesRepository = categoriesRepository;
-
-        guard(notNull(readFeedItemsRepository));
-        this.readFeedItemsRepository = readFeedItemsRepository;
-
-        guard(notNull(feedHeadersRepository));
-        this.feedHeadersRepository = feedHeadersRepository;
-
-        guard(notNull(feedItemsRepository));
-        this.feedItemsRepository = feedItemsRepository;
-
-        guard(notNull(changeRegistrationService));
-        this.changeRegistrationService = changeRegistrationService;
-
-        guard(notNull(transactions));
-        this.transactions = transactions;
+    public CategoriesService(final CategoriesRepository categoriesRepository, final ReadFeedItemsRepository readFeedItemsRepository, final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ChangeRegistrationService changeRegistrationService, final UpdateErrorRegistrationService updateErrorRegistrationService, final Transactions transactions) {
+        guard(notNull(this.categoriesRepository = categoriesRepository));
+        guard(notNull(this.readFeedItemsRepository = readFeedItemsRepository));
+        guard(notNull(this.feedHeadersRepository = feedHeadersRepository));
+        guard(notNull(this.feedItemsRepository = feedItemsRepository));
+        guard(notNull(this.changeRegistrationService = changeRegistrationService));
+        guard(notNull(this.updateErrorRegistrationService = updateErrorRegistrationService));
+        guard(notNull(this.transactions = transactions));
     }
 
     @Override
@@ -139,16 +130,16 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
         try {
             transaction = this.transactions.beginOne();
-            loadFeedHeader(feedId);
+            final FeedHeader feedHeader = loadFeedHeader(feedId);
 
-            loadCategory(categoryId);
+            final Category category = loadCategory(categoryId);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
             final ReadFeedItems updatedReadFeedItems = readFeedItems.changeCategory(categoryId);
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
 
-            this.changeRegistrationService.registerChange();
+            this.changeRegistrationService.registerAssignFeedToCategory(feedHeader.title, category.name);
 
             transaction.commit();
         } finally {
@@ -182,7 +173,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
                 this.categoriesRepository.delete(categoryId);
 
-                this.changeRegistrationService.registerChange();
+                this.changeRegistrationService.registerDeleteCategory(category.name);
             }
 
             transaction.commit();
@@ -214,7 +205,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
             this.categoriesRepository.delete(categoryId);
             this.categoriesRepository.store(renamed);
 
-            this.changeRegistrationService.registerChange();
+            this.changeRegistrationService.registerRenameCategory(category.name, newName);
 
             transaction.commit();
         } finally {
@@ -259,7 +250,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             result = created;
 
-            this.changeRegistrationService.registerChange();
+            this.changeRegistrationService.registerAddCategory(created.name);
         } else {
             result = exists;
         }
@@ -279,8 +270,9 @@ public class CategoriesService implements CategoriesServiceAdapter {
             if (readFeedItems.categoryId.equals(category.uuid)) {
                 final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
                 final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(readFeedItems.feedId);
+                final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
 
-                final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems);
+                final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems, sequentialErrorsCount);
 
                 read += feedReadReport.read;
                 notRead += feedReadReport.notRead;

@@ -100,16 +100,12 @@
             <include name="shared/**/*.jar"/>
         </fileset>
 
-        <fileset dir="${app.engine.sdk.directory}/lib/opt/user/jsr107/v1/">
-            <include name="**/*.jar"/>
-        </fileset>
-
         <fileset dir="${app.engine.sdk.directory}/lib/opt/user/appengine-api-labs/v1/">
             <include name="**/*.jar"/>
         </fileset>
 
         <fileset dir="${app.engine.sdk.directory}/lib/user/">
-            <include name="**/appengine-api-1.0-sdk-*.jar"/>
+            <include name="**/appengine-api-1.0-sdk-1.*.jar"/>
         </fileset>
 
     </path>
@@ -395,12 +391,11 @@
         <copy todir="${lib.directory}" flatten="true">
 
             <fileset dir="${app.engine.sdk.directory}/lib/user">
-                <include name="**/appengine-api-1.0-sdk*.jar"/>
+                <include name="**/appengine-api-1.0-sdk-1.*.jar"/>
             </fileset>
 
             <fileset dir="${app.engine.sdk.directory}/lib/opt/user">
                 <include name="appengine-api-labs/v1/*.jar"/>
-                <include name="jsr107/v1/*.jar"/>
             </fileset>
 
         </copy>

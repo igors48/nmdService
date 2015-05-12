@@ -18,6 +18,7 @@ import nmd.orb.repositories.Transactions;
 import nmd.orb.services.quota.Quota;
 import nmd.orb.services.report.FeedSeriesUpdateReport;
 import nmd.orb.services.report.FeedUpdateReport;
+import nmd.orb.services.update.FeedLinkAndMaxFeedItemsCount;
 
 import java.util.*;
 import java.util.logging.Level;
@@ -41,8 +42,9 @@ public class UpdatesService extends AbstractService {
     private final Transactions transactions;
     private final FeedUpdateTaskRepository feedUpdateTaskRepository;
     private final FeedUpdateTaskScheduler scheduler;
+    private final UpdateErrorRegistrationService updateErrorRegistrationService;
 
-    public UpdatesService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedUpdateTaskScheduler scheduler, final UrlFetcher fetcher, final Transactions transactions) {
+    public UpdatesService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final FeedUpdateTaskScheduler scheduler, final UpdateErrorRegistrationService updateErrorRegistrationService, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
         guard(notNull(transactions));
@@ -53,59 +55,28 @@ public class UpdatesService extends AbstractService {
 
         guard(notNull(scheduler));
         this.scheduler = scheduler;
+
+        guard(notNull(updateErrorRegistrationService));
+        this.updateErrorRegistrationService = updateErrorRegistrationService;
     }
 
     public FeedUpdateReport updateFeed(final UUID feedId) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
 
-        Transaction getFeedHeaderAndTaskTransaction = null;
-
-        final String feedLink;
-        final int maxFeedItemsCount;
-
         try {
-            getFeedHeaderAndTaskTransaction = this.transactions.beginOne();
+            final FeedLinkAndMaxFeedItemsCount feedLinkAndMaxFeedItemsCount = getFeedLinkAndMaxFeedItemsCount(feedId);
 
-            feedLink = loadFeedHeader(feedId).feedLink;
+            final Feed feed = fetchFeed(feedLinkAndMaxFeedItemsCount.feedLink);
 
-            final FeedUpdateTask updateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedId);
+            final FeedUpdateReport feedUpdateReport = mergeFeed(feedId, feedLinkAndMaxFeedItemsCount.maxFeedItemsCount, feed);
 
-            if (updateTask == null) {
-                throw new ServiceException(wrongFeedTaskId(feedId));
-            }
+            this.updateErrorRegistrationService.updateSuccess(feedId);
 
-            maxFeedItemsCount = updateTask.maxFeedItemsCount;
+            return feedUpdateReport;
+        } catch (ServiceException exception) {
+            this.updateErrorRegistrationService.updateError(feedId);
 
-            getFeedHeaderAndTaskTransaction.commit();
-        } finally {
-            rollbackIfActive(getFeedHeaderAndTaskTransaction);
-        }
-
-        final Feed feed = fetchFeed(feedLink);
-
-        Transaction updateFeedTransaction = null;
-
-        try {
-            updateFeedTransaction = this.transactions.beginOne();
-
-            final FeedHeader header = loadFeedHeader(feedId);
-
-            List<FeedItem> olds = getFeedOldItems(header);
-
-            final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, feed.items, maxFeedItemsCount);
-            final List<FeedItem> addedAndRetained = mergeReport.getAddedAndRetained();
-
-            final boolean needsToStore = !(mergeReport.added.isEmpty() && mergeReport.removed.isEmpty());
-
-            if (needsToStore) {
-                this.feedItemsRepository.storeItems(header.id, addedAndRetained);
-            }
-
-            updateFeedTransaction.commit();
-
-            return new FeedUpdateReport(header.feedLink, feedId, mergeReport);
-        } finally {
-            rollbackIfActive(updateFeedTransaction);
+            throw exception;
         }
     }
 
@@ -132,17 +103,7 @@ public class UpdatesService extends AbstractService {
                 break;
             }
 
-            try {
-                final FeedUpdateReport report = updateFeed(currentTask.feedId);
-                updateReports.add(report);
-
-                LOGGER.info(format("A: [ %d ] R: [ %d ] D: [ %d ] Feed link [ %s ] id [ %s ] updated.", report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size(), report.feedLink, report.feedId));
-            } catch (ServiceException exception) {
-                final ServiceError serviceError = exception.getError();
-                errors.add(serviceError);
-
-                LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
-            }
+            updateCurrentFeed(currentTask, updateReports, errors);
 
             updated.add(currentTask.feedId);
         }
@@ -150,6 +111,68 @@ public class UpdatesService extends AbstractService {
         LOGGER.info(format("[ %d ] feeds were updated", updated.size()));
 
         return new FeedSeriesUpdateReport(updateReports, errors);
+    }
+
+    private void updateCurrentFeed(FeedUpdateTask currentTask, List<FeedUpdateReport> updateReports, List<ServiceError> errors) {
+
+        try {
+            final FeedUpdateReport report = updateFeed(currentTask.feedId);
+            updateReports.add(report);
+
+            LOGGER.info(format("A: [ %d ] R: [ %d ] D: [ %d ] Feed link [ %s ] id [ %s ] updated.", report.mergeReport.added.size(), report.mergeReport.retained.size(), report.mergeReport.removed.size(), report.feedLink, report.feedId));
+        } catch (ServiceException exception) {
+            final ServiceError serviceError = exception.getError();
+            errors.add(serviceError);
+
+            LOGGER.log(Level.SEVERE, format("Error update current feed [ %s ]", serviceError), exception);
+        }
+    }
+
+    private FeedLinkAndMaxFeedItemsCount getFeedLinkAndMaxFeedItemsCount(final UUID feedId) throws ServiceException {
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final FeedUpdateTask updateTask = this.feedUpdateTaskRepository.loadTaskForFeedId(feedId);
+
+            if (updateTask == null) {
+                throw new ServiceException(wrongFeedTaskId(feedId));
+            }
+
+            transaction.commit();
+
+            return new FeedLinkAndMaxFeedItemsCount(loadFeedHeader(feedId).feedLink, updateTask.maxFeedItemsCount);
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
+    private FeedUpdateReport mergeFeed(final UUID feedId, final int maxFeedItemsCount, final Feed fetchedFeed) throws ServiceException {
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            final FeedHeader header = loadFeedHeader(feedId);
+
+            List<FeedItem> olds = getFeedOldItems(header);
+
+            final FeedItemsMergeReport mergeReport = FeedItemsMerger.merge(olds, fetchedFeed.items, maxFeedItemsCount);
+            final List<FeedItem> addedAndRetained = mergeReport.getAddedAndRetained();
+
+            final boolean needsToStore = !(mergeReport.added.isEmpty() && mergeReport.removed.isEmpty());
+
+            if (needsToStore) {
+                this.feedItemsRepository.storeItems(header.id, addedAndRetained);
+            }
+
+            transaction.commit();
+
+            return new FeedUpdateReport(header.feedLink, feedId, mergeReport);
+        } finally {
+            rollbackIfActive(transaction);
+        }
     }
 
 }

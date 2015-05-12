@@ -17,9 +17,18 @@ public class ControllerDeleteFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedRemovedThenItIsRegistered() throws ServiceException {
-        createAndDeleteFeed();
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
+        final String feedTitle = this.feedHeadersRepositoryStub.loadHeader(feedId).title;
+        this.feedsService.removeFeed(feedId);
 
-        Mockito.verify(this.changeRegistrationServiceSpy, Mockito.times(2)).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy).registerRemoveFeed(feedTitle);
+    }
+
+    @Test
+    public void whenFeedRemovedThenItsUpdateErrorsRemoved() throws ServiceException {
+        final UUID feedId = createAndDeleteFeed();
+
+        Mockito.verify(this.updateErrorRegistrationServiceSpy).delete(feedId);
     }
 
     @Test

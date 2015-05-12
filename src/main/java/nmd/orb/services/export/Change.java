@@ -1,26 +1,33 @@
 package nmd.orb.services.export;
 
+import nmd.orb.services.change.Event;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
+
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isPositive;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * Created by igor on 18.01.2015.
  */
 public class Change {
 
-    private final long timestamp;
+    private final List<Event> events;
 
+    private long timestamp;
     private boolean notificationIsSent;
 
-    public Change(final long timestamp, final boolean notificationIsSent) {
-        guard(isPositive(timestamp));
-        this.timestamp = timestamp;
-
+    public Change(final long timestamp, final List<Event> events, final boolean notificationIsSent) {
+        guard(isPositive(this.timestamp = timestamp));
+        guard(notNull(this.events = events));
         this.notificationIsSent = notificationIsSent;
     }
 
     public Change(final long timestamp) {
-        this(timestamp, false);
+        this(timestamp, new ArrayList<Event>(), false);
     }
 
     public long getTimestamp() {
@@ -32,27 +39,36 @@ public class Change {
     }
 
     public Change markAsSent() {
-        return new Change(this.timestamp, true);
+        this.notificationIsSent = true;
+
+        return this;
+    }
+
+    public void addEvent(final long timestamp, final Event event) {
+        guard(isPositive(timestamp));
+        guard(notNull(event));
+
+        this.timestamp = timestamp;
+        this.events.add(event);
+    }
+
+    public List<Event> getEvents() {
+        return this.events;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-
         Change change = (Change) o;
-
-        if (notificationIsSent != change.notificationIsSent) return false;
-        if (timestamp != change.timestamp) return false;
-
-        return true;
+        return Objects.equals(timestamp, change.timestamp) &&
+                Objects.equals(notificationIsSent, change.notificationIsSent) &&
+                Objects.equals(events, change.events);
     }
 
     @Override
     public int hashCode() {
-        int result = (int) (timestamp ^ (timestamp >>> 32));
-        result = 31 * result + (notificationIsSent ? 1 : 0);
-        return result;
+        return Objects.hash(timestamp, events, notificationIsSent);
     }
 
 }

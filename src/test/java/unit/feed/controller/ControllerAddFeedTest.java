@@ -73,9 +73,10 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
     @Test
     public void whenFeedAddedThenItIsRegistered() throws ServiceException {
-        addValidFirstRssFeedToMainCategory();
+        final UUID feedId = addValidFirstRssFeedToMainCategory();
+        final FeedHeader feedHeader = this.feedHeadersRepositoryStub.loadHeader(feedId);
 
-        Mockito.verify(this.changeRegistrationServiceSpy).registerChange();
+        Mockito.verify(this.changeRegistrationServiceSpy).registerAddFeed(feedHeader.title, Category.MAIN.name);
     }
 
     @Test

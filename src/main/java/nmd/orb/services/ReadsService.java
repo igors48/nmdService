@@ -39,17 +39,19 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
  */
 public class ReadsService extends AbstractService {
 
+    public static int MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT = 2;
+
     private final Transactions transactions;
     private final ReadFeedItemsRepository readFeedItemsRepository;
 
-    public ReadsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository, final UrlFetcher fetcher, final Transactions transactions) {
+    private final UpdateErrorRegistrationService updateErrorRegistrationService;
+
+    public ReadsService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final ReadFeedItemsRepository readFeedItemsRepository, final UpdateErrorRegistrationService updateErrorRegistrationService, final UrlFetcher fetcher, final Transactions transactions) {
         super(feedHeadersRepository, feedItemsRepository, fetcher);
 
-        guard(notNull(transactions));
-        this.transactions = transactions;
-
-        guard(notNull(readFeedItemsRepository));
-        this.readFeedItemsRepository = readFeedItemsRepository;
+        guard(notNull(this.transactions = transactions));
+        guard(notNull(this.readFeedItemsRepository = readFeedItemsRepository));
+        guard(notNull(this.updateErrorRegistrationService = updateErrorRegistrationService));
     }
 
     public List<FeedReadReport> getFeedsReadReport() {
@@ -64,8 +66,9 @@ public class ReadsService extends AbstractService {
             for (final FeedHeader header : headers) {
                 final List<FeedItem> items = this.feedItemsRepository.loadItems(header.id);
                 final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(header.id);
+                final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(header.id);
 
-                final FeedReadReport feedReadReport = createFeedReadReport(header, items, readFeedItems);
+                final FeedReadReport feedReadReport = createFeedReadReport(header, items, readFeedItems, sequentialErrorsCount);
 
                 report.add(feedReadReport);
             }
@@ -295,7 +298,7 @@ public class ReadsService extends AbstractService {
         return getStoredGuids(items);
     }
 
-    public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItem> items, final ReadFeedItems readFeedItems) {
+    public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItem> items, final ReadFeedItems readFeedItems, final int sequentialErrorsCount) {
         guard(notNull(header));
         guard(notNull(items));
         guard(notNull(readFeedItems));
@@ -314,7 +317,9 @@ public class ReadsService extends AbstractService {
 
         final Source feedType = Source.detect(header.feedLink);
 
-        return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate);
+        final boolean hasErrors = sequentialErrorsCount >= MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT;
+
+        return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate, hasErrors);
     }
 
     public static FeedItem findFirstNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids, final Date lastViewedItemTime) {

@@ -6,9 +6,11 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ExportReportResponse;
 import nmd.orb.repositories.ChangeRepository;
 import nmd.orb.repositories.Transactions;
+import nmd.orb.services.change.Event;
 import nmd.orb.services.export.Change;
 import nmd.orb.services.report.ExportReport;
 
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -64,8 +66,9 @@ public class AutoExportService {
                 if (sendIsNeeded) {
                     final ExportReport exportReport = this.categoriesService.buildExportReport();
                     final ExportReportResponse attachment = ExportReportResponse.create(exportReport);
+                    final List<Event> events = change.getEvents();
 
-                    this.mailService.sendChangeNotification(attachment);
+                    this.mailService.sendChangeNotification(events, attachment);
 
                     final Change marked = change.markAsSent();
                     this.changeRepository.store(marked);

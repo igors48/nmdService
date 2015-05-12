@@ -18,6 +18,8 @@ public enum GaeServices {
     private final ChangeRegistrationService changeRegistrationService =
             new ChangeRegistrationService(GaeChangeRepository.INSTANCE);
 
+    private final UpdateErrorRegistrationService updateErrorRegistrationService = new UpdateErrorRegistrationService(GaeRepositories.INSTANCE.getUpdateErrorsRepository());
+
     private final FeedUpdateTaskScheduler feedUpdateTaskScheduler =
             new CycleFeedUpdateTaskScheduler(GaeRepositories.INSTANCE.getFeedUpdateTaskSchedulerContextRepository(),
                     GaeRepositories.INSTANCE.getFeedUpdateTaskRepository(),
@@ -29,6 +31,7 @@ public enum GaeServices {
                     GaeRepositories.INSTANCE.getFeedHeadersRepository(),
                     GaeRepositories.INSTANCE.getFeedItemsRepository(),
                     changeRegistrationService,
+                    updateErrorRegistrationService,
                     GaeTransactions.INSTANCE);
 
     private final MailService mailService = new MailService();
@@ -44,6 +47,7 @@ public enum GaeServices {
             new ReadsService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
                     GaeRepositories.INSTANCE.getFeedItemsRepository(),
                     GaeRepositories.INSTANCE.getReadFeedItemsRepository(),
+                    updateErrorRegistrationService,
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
@@ -54,14 +58,17 @@ public enum GaeServices {
                     GaeRepositories.INSTANCE.getReadFeedItemsRepository(),
                     GaeRepositories.INSTANCE.getCategoriesRepository(),
                     changeRegistrationService,
+                    updateErrorRegistrationService,
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
+
 
     private final UpdatesService updatesService =
             new UpdatesService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
                     GaeRepositories.INSTANCE.getFeedItemsRepository(),
                     GaeRepositories.INSTANCE.getFeedUpdateTaskRepository(),
                     feedUpdateTaskScheduler,
+                    updateErrorRegistrationService,
                     GAE_URL_FETCHER,
                     GaeTransactions.INSTANCE);
 
@@ -81,6 +88,7 @@ public enum GaeServices {
                     GaeImportJobContextRepository.INSTANCE,
                     GaeChangeRepository.INSTANCE,
                     changeRegistrationService,
+                    updateErrorRegistrationService,
                     GaeTransactions.INSTANCE
             );
 
