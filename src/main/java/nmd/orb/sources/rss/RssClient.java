@@ -1,12 +1,9 @@
 package nmd.orb.sources.rss;
 
-import com.sun.syndication.io.FeedException;
 import nmd.orb.collector.fetcher.UrlFetcher;
 import nmd.orb.collector.fetcher.UrlFetcherException;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
-
-import java.io.UnsupportedEncodingException;
 
 import static nmd.orb.error.ServiceError.feedParseError;
 import static nmd.orb.error.ServiceError.urlFetcherError;
@@ -34,7 +31,7 @@ public class RssClient {
             return parse(feedUrl, string);
         } catch (UrlFetcherException exception) {
             throw new ServiceException(urlFetcherError(feedUrl), exception);
-        } catch (FeedException | UnsupportedEncodingException exception) {
+        } catch (Exception exception) {
             throw new ServiceException(feedParseError(feedUrl), exception);
         }
     }
