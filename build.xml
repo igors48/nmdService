@@ -454,7 +454,7 @@
         <echo message=" "/>
         <echo message=" "/>
         <echo message="Application deployed successfully."/>
-        <echo message="Please switch application version to [ ${git.sha} ]."/>
+        <echo message="Please switch application [ ${application.identifier} ] version to [ ${git.sha} ]."/>
 
     </target>
 
