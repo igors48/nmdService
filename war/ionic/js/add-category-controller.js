@@ -15,7 +15,7 @@ controllers.controller('addCategoryController',
 
         $scope.addNewCategory = function (category) {
             $ionicLoading.show({
-                template: 'Creating new category...'
+                template: $scope.utilities.loadingMessage('Creating new category...')
             });
 
         	categories.save(category.name, onAddCategorySuccess, onServerFault);

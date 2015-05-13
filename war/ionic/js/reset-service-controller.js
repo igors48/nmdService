@@ -12,7 +12,7 @@ controllers.controller('resetServiceController',
 
         $scope.onResetConfirmed = function () {
             $ionicLoading.show({
-                template: 'Resetting server...'
+                template: $scope.utilities.loadingMessage('Resetting server...')
             });
 
             reset.reset(

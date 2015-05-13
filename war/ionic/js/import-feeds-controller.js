@@ -13,7 +13,7 @@ controllers.controller('importFeedsController',
 
         $scope.onStart = function () {
             $ionicLoading.show({
-                template: 'Starting...'
+                template: $scope.utilities.loadingMessage('Starting...')
             });
 
             imports.action(
@@ -26,7 +26,7 @@ controllers.controller('importFeedsController',
 
         $scope.onStop = function () {
             $ionicLoading.show({
-                template: 'Stopping...'
+                template: $scope.utilities.loadingMessage('Stopping...')
             });
 
             imports.action(
@@ -39,7 +39,7 @@ controllers.controller('importFeedsController',
 
         $scope.onReject = function () {
             $ionicLoading.show({
-                template: 'Rejecting...'
+                template: $scope.utilities.loadingMessage('Rejecting...')
             });
 
             imports.reject(onActionCompleted, onServerFault);
@@ -59,7 +59,7 @@ controllers.controller('importFeedsController',
 
         var upload = function (data) {
             $ionicLoading.show({
-                template: 'Scheduling import...'
+                template: $scope.utilities.loadingMessage('Scheduling import...')
             });
 
             imports.schedule(
@@ -86,7 +86,7 @@ controllers.controller('importFeedsController',
 
         var loadImportStatus = function () {
             $ionicLoading.show({
-                template: 'Loading...'
+                template: $scope.utilities.loadingMessage('Loading...')
             });
 
             imports.status(onloadImportStatusCompleted, onServerFault);

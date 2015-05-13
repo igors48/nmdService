@@ -52,6 +52,10 @@ AppUtilities.utilities = {
     angular.forEach(items, function (value, key) {
       value.timeDifference = '( {0} ) '.format(me.daysDifference(value.date));
     })  
+  },
+
+  loadingMessage: function (text) {
+    return '<ion-spinner icon="bubbles" class="spinner-energized"></ion-spinner><p>{0}</p>'.format(text);
   }
 
 };

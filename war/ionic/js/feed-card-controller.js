@@ -50,7 +50,7 @@ controllers.controller('feedCardController',
 
         $scope.onViewFiltered = function () {
             $ionicLoading.show({
-                template: 'Loading...'
+                template: $scope.utilities.loadingMessage('Loading...')
             });
 
             content.filter(
@@ -64,7 +64,7 @@ controllers.controller('feedCardController',
 
         var loadFirstCards = function () {
             $ionicLoading.show({
-                template: 'Loading...'
+                template: $scope.utilities.loadingMessage('Loading...')
             });
 
             reads.query(
@@ -79,7 +79,7 @@ controllers.controller('feedCardController',
 
         var loadCardsFor = function (itemId, direction) {
             $ionicLoading.show({
-                template: 'Loading...'
+                template: $scope.utilities.loadingMessage('Loading...')
             });
 
             reads.query(

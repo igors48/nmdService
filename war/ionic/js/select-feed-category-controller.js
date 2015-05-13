@@ -16,7 +16,7 @@ controllers.controller('selectFeedCategoryController',
 
         $scope.onSelectCategory = function (categoryId) {
             $ionicLoading.show({
-                template: 'Assigning feed...'
+                template: $scope.utilities.loadingMessage('Assigning feed...')
             });
 
             categories.update(
@@ -31,7 +31,7 @@ controllers.controller('selectFeedCategoryController',
 
         var loadCategoriesReport = function () {
             $ionicLoading.show({
-                template: 'Loading categories...'
+                template: $scope.utilities.loadingMessage('Loading categories...')
             });
 
             categories.query(onLoadCategoriesReportCompleted, onServerFault);

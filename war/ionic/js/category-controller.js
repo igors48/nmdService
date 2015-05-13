@@ -44,7 +44,7 @@ controllers.controller('categoryController',
             $rootScope.lastItemId = topItemId;
 
             $ionicLoading.show({
-                template: 'Marking item...'
+                template: $scope.utilities.loadingMessage('Marking item...')
             });
 
             reads.mark(
@@ -66,7 +66,7 @@ controllers.controller('categoryController',
 
         var loadCategoryReport = function () {
             $ionicLoading.show({
-                template: 'Loading category...'
+                template: $scope.utilities.loadingMessage('Loading category...')
             });
 
             categories.query(

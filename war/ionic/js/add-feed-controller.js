@@ -15,7 +15,7 @@ controllers.controller('addFeedController',
 
         $scope.addNewFeed = function (feed) {
             $ionicLoading.show({
-                template: 'Adding new feed...'
+                template: $scope.utilities.loadingMessage('Adding new feed...')
             });
 
         	feeds.save(

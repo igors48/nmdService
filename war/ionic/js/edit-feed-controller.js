@@ -35,7 +35,7 @@ controllers.controller('editFeedController',
 
         $scope.onRenameFeed = function () {
             $ionicLoading.show({
-                template: 'Renaming feed...'
+                template: $scope.utilities.loadingMessage('Renaming feed...')
             });
 
             feeds.update(
@@ -50,7 +50,7 @@ controllers.controller('editFeedController',
 
         $scope.onDeleteFeed = function () {
             $ionicLoading.show({
-                template: 'Deleting feed...'
+                template: $scope.utilities.loadingMessage('Deleting feed...')
             });
 
             feeds.delete(
@@ -64,7 +64,7 @@ controllers.controller('editFeedController',
 
         var loadFeedReadReport = function () {
             $ionicLoading.show({
-                template: 'Loading feed...'
+                template: $scope.utilities.loadingMessage('Loading feed...')
             });
 
             reads.query(

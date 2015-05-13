@@ -17,7 +17,7 @@ controllers.controller('feedController',
 
         var loadFeedReport = function () {
             $ionicLoading.show({
-                template: 'Loading feed...'
+                template: $scope.utilities.loadingMessage('Loading feed...')
             });
 
             reads.query(
@@ -42,7 +42,7 @@ controllers.controller('feedController',
             $rootScope.lastItemId = itemId;
 
             $ionicLoading.show({
-                template: 'Marking item...'
+                template: $scope.utilities.loadingMessage('Marking item...')
             });
 
             reads.mark(
@@ -60,7 +60,7 @@ controllers.controller('feedController',
             $rootScope.lastItemId = itemId;
 
             $ionicLoading.show({
-                template: 'Marking item...'
+                template: $scope.utilities.loadingMessage('Marking item...')
             });
 
             reads.mark(
@@ -76,7 +76,7 @@ controllers.controller('feedController',
 
         $scope.markAllItemsRead = function () {
             $ionicLoading.show({
-                template: 'Marking items...'
+                template: $scope.utilities.loadingMessage('Marking items...')
             });
 
             var feedId = $stateParams.feedId;

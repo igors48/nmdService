@@ -29,7 +29,7 @@ controllers.controller('categoriesController',
 
         var loadCategoriesReport = function () {
             $ionicLoading.show({
-                template: 'Loading categories...'
+                template: $scope.utilities.loadingMessage('Loading categories...')
             });
 
             categories.query(onLoadCategoriesReportCompleted, onServerFault);

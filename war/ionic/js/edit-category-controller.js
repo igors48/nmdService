@@ -26,7 +26,7 @@ controllers.controller('editCategoryController',
 
         $scope.renameCategory = function () {
             $ionicLoading.show({
-                template: 'Renaming category...'
+                template: $scope.utilities.loadingMessage('Renaming category...')
             });
 
             categories.update(
@@ -40,7 +40,7 @@ controllers.controller('editCategoryController',
 
         $scope.deleteCategory = function () {
             $ionicLoading.show({
-                template: 'Deleting category...'
+                template: $scope.utilities.loadingMessage('Deleting category...')
             });
 
             categories.delete(
@@ -53,7 +53,7 @@ controllers.controller('editCategoryController',
 
         var loadCategoryReport = function () {
             $ionicLoading.show({
-                template: 'Loading category...'
+                template: $scope.utilities.loadingMessage('Loading category...')
             });
 
             categories.query(
