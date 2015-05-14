@@ -55,7 +55,7 @@ AppUtilities.utilities = {
   },
 
   loadingMessage: function (text) {
-    return '<ion-spinner icon="bubbles" class="spinner-energized"></ion-spinner><p>{0}</p>'.format(text);
+    return '<ion-spinner icon="ripple" class="spinner-energized"></ion-spinner><p>{0}</p>'.format(text);
   }
 
 };
