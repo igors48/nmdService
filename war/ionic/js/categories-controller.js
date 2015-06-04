@@ -2,7 +2,7 @@
 
 controllers.controller('categoriesController',
 
-    function ($scope, $rootScope, $state, $ionicLoading, $ionicPopup, categories) {
+    function ($scope, $rootScope, $state, $ionicLoading, $ionicPopup, $ionicScrollDelegate, categories) {
         $scope.showUi = false;
 
         $scope.utilities = AppUtilities.utilities;
@@ -10,20 +10,29 @@ controllers.controller('categoriesController',
         $scope.openCategory = function (categoryId) {
             $rootScope.lastCategoryId = categoryId;
 
+            $scope.utilities.storeScrollPosition('categories', $rootScope, $ionicScrollDelegate);
+            $scope.utilities.resetScrollPosition(categoryId, $rootScope);
+
             $state.go('category', { id : categoryId });
         };
 
         $scope.addCategory = function () {
+            $scope.utilities.resetScrollPosition('categories', $rootScope);
+
             $state.go('add-category');
         };
 
         $scope.editCategory = function (categoryId) {
             $rootScope.lastCategoryId = categoryId;
 
+            $scope.utilities.storeScrollPosition('categories', $rootScope, $ionicScrollDelegate);
+
             $state.go('edit-category', { id : categoryId });
         };
 
         $scope.openAdminConsole = function () {
+            $scope.utilities.storeScrollPosition('categories', $rootScope, $ionicScrollDelegate);
+
             $state.go('admin-console');
         };
 
@@ -47,6 +56,8 @@ controllers.controller('categoriesController',
             $scope.showUi = true;
             $scope.categories = response.reports;
             $scope.version = response.version;
+
+            $scope.utilities.restoreScrollPosition('categories', $rootScope, $ionicScrollDelegate);
         };
 
         var onServerFault = function () {

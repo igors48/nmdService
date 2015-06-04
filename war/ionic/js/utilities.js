@@ -56,6 +56,23 @@ AppUtilities.utilities = {
 
   loadingMessage: function (text) {
     return '<ion-spinner icon="ripple" class="spinner-energized"></ion-spinner><p>{0}</p>'.format(text);
-  }
+  },
+
+  storeScrollPosition: function(id, $rootScope, $ionicScrollDelegate) {
+    var scrollPosition = $ionicScrollDelegate.getScrollPosition();
+    var top = scrollPosition.top;
+
+    $rootScope.scrollPositions[id] = top;
+  },
+
+  resetScrollPosition: function(id, $rootScope) {
+    $rootScope.scrollPositions[id] = 0;
+  },
+
+  restoreScrollPosition: function(id, $rootScope, $ionicScrollDelegate) {
+    var top = $rootScope.scrollPositions[id] || 0;
+
+    $ionicScrollDelegate.scrollTo(0, top, true);
+  },
 
 };

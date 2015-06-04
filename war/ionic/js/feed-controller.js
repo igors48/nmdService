@@ -2,7 +2,7 @@
 
 controllers.controller('feedController',
 
-    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads) {
+    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicScrollDelegate, reads) {
         var topItemTimestamp = 0;
 
         $scope.showUi = false;
@@ -30,6 +30,8 @@ controllers.controller('feedController',
         };
 
         $scope.goToCard = function (itemId) {
+            $scope.utilities.storeScrollPosition($stateParams.feedId, $rootScope, $ionicScrollDelegate);
+
             $state.go('feed-card', {
                 categoryId: $stateParams.categoryId,
                 feedId: $stateParams.feedId,
@@ -40,6 +42,8 @@ controllers.controller('feedController',
 
         $scope.markAsRead = function (feedId, itemId) {
             $rootScope.lastItemId = itemId;
+
+            $scope.utilities.storeScrollPosition($stateParams.feedId, $rootScope, $ionicScrollDelegate);
 
             $ionicLoading.show({
                 template: $scope.utilities.loadingMessage('Marking item...')
@@ -58,6 +62,8 @@ controllers.controller('feedController',
 
         $scope.markAsReadLater = function (feedId, itemId) {
             $rootScope.lastItemId = itemId;
+            
+            $scope.utilities.storeScrollPosition($stateParams.feedId, $rootScope, $ionicScrollDelegate);
 
             $ionicLoading.show({
                 template: $scope.utilities.loadingMessage('Marking item...')
@@ -92,6 +98,8 @@ controllers.controller('feedController',
         };
 
         $scope.switchToCardView = function () {
+            $scope.utilities.storeScrollPosition($stateParams.feedId, $rootScope, $ionicScrollDelegate);
+
             $state.go('feed-card', { 
                 categoryId: $stateParams.categoryId, 
                 feedId: $stateParams.feedId 
@@ -99,6 +107,8 @@ controllers.controller('feedController',
         };
 
         $scope.showAll = function () {
+            $scope.utilities.resetScrollPosition($stateParams.feedId, $rootScope);
+
             $state.go('feed', {
                 categoryId: $stateParams.categoryId,
                 feedId: $stateParams.feedId,
@@ -107,6 +117,8 @@ controllers.controller('feedController',
         };
 
         $scope.showNew = function () {
+            $scope.utilities.resetScrollPosition($stateParams.feedId, $rootScope);
+
             $state.go('feed', {
                 categoryId: $stateParams.categoryId,
                 feedId: $stateParams.feedId,
@@ -115,6 +127,8 @@ controllers.controller('feedController',
         };
 
         $scope.showNotRead = function () {
+            $scope.utilities.resetScrollPosition($stateParams.feedId, $rootScope);
+
             $state.go('feed', {
                 categoryId: $stateParams.categoryId,
                 feedId: $stateParams.feedId,
@@ -123,6 +137,8 @@ controllers.controller('feedController',
         };
 
         $scope.showReadLater = function () {
+            $scope.utilities.resetScrollPosition($stateParams.feedId, $rootScope);
+
             $state.go('feed', {
                 categoryId: $stateParams.categoryId,
                 feedId: $stateParams.feedId,
@@ -176,6 +192,8 @@ controllers.controller('feedController',
             $scope.utilities.addTimeDifference(response.reports);
 
             $scope.items = response.reports;
+
+            $scope.utilities.restoreScrollPosition($stateParams.feedId, $rootScope, $ionicScrollDelegate);
         };
 
         var onServerFault = function () {

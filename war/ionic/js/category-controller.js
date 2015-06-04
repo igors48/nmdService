@@ -2,7 +2,7 @@
 
 controllers.controller('categoryController',
 
-    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, categories, reads) {
+    function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicScrollDelegate, categories, reads) {
         $scope.showUi = false;
 
         $scope.utilities = AppUtilities.utilities;
@@ -12,11 +12,16 @@ controllers.controller('categoryController',
         };
 
         $scope.addFeed = function () {
+            $scope.utilities.resetScrollPosition($stateParams.id, $rootScope);
+
             $state.go('add-feed', { id: $stateParams.id });
         };
 
         $scope.openFeed = function (feedId, filter) {
             $rootScope.lastFeedId = feedId;
+
+            $scope.utilities.resetScrollPosition(feedId, $rootScope);
+            $scope.utilities.storeScrollPosition($stateParams.id, $rootScope, $ionicScrollDelegate);
 
             $state.go('feed', { 
                 categoryId: $stateParams.id, 
@@ -27,6 +32,8 @@ controllers.controller('categoryController',
 
         $scope.editFeed = function (feedId) {
             $rootScope.lastFeedId = feedId;
+
+            $scope.utilities.storeScrollPosition($stateParams.id, $rootScope, $ionicScrollDelegate);
 
             $state.go('edit-feed', {                 
                 categoryId: $stateParams.id, 
@@ -42,6 +49,8 @@ controllers.controller('categoryController',
         
             $rootScope.lastFeedId = feedId;
             $rootScope.lastItemId = topItemId;
+
+            $scope.utilities.storeScrollPosition($stateParams.id, $rootScope, $ionicScrollDelegate);
 
             $ionicLoading.show({
                 template: $scope.utilities.loadingMessage('Marking item...')
@@ -90,6 +99,8 @@ controllers.controller('categoryController',
 
             $scope.category = { title: response.report.name };
             $scope.feeds = response.report.feedReports;
+
+            $scope.utilities.restoreScrollPosition($stateParams.id, $rootScope, $ionicScrollDelegate);
         };
 
         var onServerFault = function () {

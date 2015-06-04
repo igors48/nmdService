@@ -4,6 +4,12 @@ var orb = angular.module('orb', ['ionic', 'orb.services', 'orb.controllers']);
 
 var controllers = angular.module('orb.controllers', []);
 
+orb.run(
+  function ($rootScope) {
+    $rootScope.scrollPositions = [];
+  }
+);
+
 orb.config(function($stateProvider, $urlRouterProvider) {
 
   $urlRouterProvider.otherwise("/categories");
