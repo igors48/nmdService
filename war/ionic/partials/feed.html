@@ -43,8 +43,8 @@
                     </div>
                 </a>
 
-                <ion-option-button ng-class="item.readLater ? 'orange-front' : 'blue-front'" class="button button-small button-icon icon ion-android-time" ng-click="markAsReadLater(item.feedId, item.itemId)"></ion-option-button>
-                <ion-option-button class="button button-small button-icon icon ion-document" ng-click="goToCard(item.itemId)"></ion-option-button>
+                <ion-option-button class="button icon ion-android-time" ng-class="item.readLater ? 'orange-front' : 'blue-front'" ng-click="markAsReadLater(item.feedId, item.itemId)"></ion-option-button>
+                <ion-option-button class="button icon ion-document" ng-click="goToCard(item.itemId)"></ion-option-button>
         </ion-item >
     </ion-list>
 </ion-content>
