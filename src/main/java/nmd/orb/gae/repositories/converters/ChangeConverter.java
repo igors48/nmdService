@@ -2,6 +2,7 @@ package nmd.orb.gae.repositories.converters;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Text;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
@@ -48,7 +49,7 @@ public class ChangeConverter {
         entity.setProperty(NOTIFICATION_IS_SENT, change.isNotificationIsSent());
 
         final String data = GSON.toJson(change.getEvents(), EVENT_LIST_TYPE);
-        entity.setProperty(EVENTS, data);
+        entity.setProperty(EVENTS, new Text(data));
 
         return entity;
     }
@@ -58,7 +59,8 @@ public class ChangeConverter {
 
         final long timestamp = (long) entity.getProperty(TIMESTAMP);
         final boolean notificationIsSent = (boolean) entity.getProperty(NOTIFICATION_IS_SENT);
-        final List<Event> events = entity.hasProperty(EVENTS) ? ((List<Event>) GSON.fromJson((String) entity.getProperty(EVENTS), EVENT_LIST_TYPE)) : new ArrayList<Event>();
+        final String data = entity.hasProperty(EVENTS) ? ((Text) entity.getProperty(EVENTS)).getValue() : "";
+        final List<Event> events =  data.isEmpty() ? new ArrayList<Event>() : (List<Event>) GSON.fromJson(data, EVENT_LIST_TYPE);
 
         return new Change(timestamp, events, notificationIsSent);
     }
