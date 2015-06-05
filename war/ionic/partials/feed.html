@@ -58,6 +58,8 @@
 
 <ion-footer-bar align-title="left" class="bar-dark">
     <div class="button-bar" ng-cloak ng-show="showUi">
+        <a class="button" ng-click="scrollToTop()">Top</a>
         <a class="button" ng-show="(filter == 'show-all') || (filter == 'show-not-read')" ng-click="markAllItemsRead()">Mark all items read</a>
+        <a class="button" ng-click="scrollToBottom()">Bottom</a>
     </div>
 </ion-footer-bar>

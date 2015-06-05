@@ -146,6 +146,14 @@ controllers.controller('feedController',
             });
         };
 
+        $scope.scrollToTop = function () {
+            $ionicScrollDelegate.scrollTo(0, 0, true);
+        };
+        
+        $scope.scrollToBottom = function () {
+            $ionicScrollDelegate.scrollTo(0, 48000000, true);
+        };
+        
         var onMarkAllItemsReadCompleted = function (response) {
             var me = this;
 
