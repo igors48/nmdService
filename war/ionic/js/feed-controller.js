@@ -60,6 +60,26 @@ controllers.controller('feedController',
             );
         };
 
+        $scope.markAsNotRead = function (feedId, itemId) {
+            $rootScope.lastItemId = itemId;
+
+            $scope.utilities.storeScrollPosition($stateParams.feedId, $rootScope, $ionicScrollDelegate);
+
+            $ionicLoading.show({
+                template: $scope.utilities.loadingMessage('Marking item...')
+            });
+
+            reads.mark(
+                {
+                    feedId: feedId,
+                    itemId: itemId,
+                    markAs: 'notRead'
+                },
+                onMarkAsNotReadCompleted,
+                onServerFault
+            );
+        };
+
         $scope.markAsReadLater = function (feedId, itemId) {
             $rootScope.lastItemId = itemId;
             
@@ -165,6 +185,12 @@ controllers.controller('feedController',
         };
 
         var onMarkAsReadCompleted = function (response) {
+            $ionicLoading.hide();
+
+            loadFeedReport();
+        };
+
+        var onMarkAsNotReadCompleted = function (response) {
             $ionicLoading.hide();
 
             loadFeedReport();
