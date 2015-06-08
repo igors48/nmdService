@@ -198,6 +198,10 @@ public abstract class AbstractHttpTest {
         return markItem(feedId, itemId, "read");
     }
 
+    protected String markItemAsNotRead(final String feedId, String itemId) {
+        return markItem(feedId, itemId, "notRead");
+    }
+
     protected String markAllItemsAsRead(final String feedId) {
         return markItem(feedId, "", "");
     }

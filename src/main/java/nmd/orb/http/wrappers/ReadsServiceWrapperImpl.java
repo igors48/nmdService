@@ -69,6 +69,24 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
     }
 
     @Override
+    public ResponseBody markItemAsNotRead(final UUID feedId, final String itemId) {
+
+        try {
+            this.readsService.markItemAsNotRead(feedId, itemId);
+
+            final String message = format("Item [ %s ] from feed [ %s ] marked as not read", itemId, feedId);
+
+            LOGGER.info(message);
+
+            return createJsonResponse(create(message));
+        } catch (ServiceException exception) {
+            LOGGER.log(Level.SEVERE, format("Error mark feed [ %s ] item [ %s ] as not read", feedId, itemId), exception);
+
+            return createErrorJsonResponse(exception);
+        }
+    }
+
+    @Override
     public ResponseBody markAllItemsAsRead(final UUID feedId, long topItemTimestamp) {
 
         try {

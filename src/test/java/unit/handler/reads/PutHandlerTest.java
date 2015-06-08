@@ -60,6 +60,11 @@ public class PutHandlerTest {
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
+        call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225?markAs=notRead");
+        Mockito.verify(this.readsServiceWrapper).markItemAsNotRead(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), "8efc756a-8dae-4ea7-8851-85706d1ef225");
+        Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
+
+        setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225?markAs=readLater");
         Mockito.verify(this.readsServiceWrapper).toggleItemAsReadLater(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), "8efc756a-8dae-4ea7-8851-85706d1ef225");
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);

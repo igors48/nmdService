@@ -23,6 +23,7 @@ public class ReadsServletPutRequestHandler implements Handler {
 
     private static final String MARK_AS_PARAMETER_NAME = "markAs";
     private static final String MARK_AS_READ = "read";
+    private static final String MARK_AS_NOT_READ = "notRead";
     private static final String MARK_AS_READ_LATER = "readLater";
 
     private final ReadsServiceWrapper readsService;
@@ -32,7 +33,7 @@ public class ReadsServletPutRequestHandler implements Handler {
         this.readsService = readsService;
     }
 
-    //PUT /{feedId}/{itemId}&markAs=read|read-later -- mark item as read or read later
+    //PUT /{feedId}/{itemId}&markAs=read|readLater|notRead -- mark item as read or read later
     //PUT /{feedId}?topItemTimestamp=timestamp -- mark all items as read before given timestamp
     @Override
     public ResponseBody handle(final List<String> elements, final Map<String, String> parameters, final String body) {
@@ -54,10 +55,23 @@ public class ReadsServletPutRequestHandler implements Handler {
 
         final String markMode = parameters.get(MARK_AS_PARAMETER_NAME);
 
-        if (!(MARK_AS_READ.equals(markMode) || MARK_AS_READ_LATER.equals(markMode))) {
-            return createErrorJsonResponse(invalidMarkMode(markMode));
+        if (markMode == null) {
+            return createErrorJsonResponse(invalidMarkMode(null));
         }
 
-        return markMode.equals(MARK_AS_READ) ? this.readsService.markItemAsRead(feedAndItemIds.feedId, feedAndItemIds.itemId) : this.readsService.toggleItemAsReadLater(feedAndItemIds.feedId, feedAndItemIds.itemId);
+            case MARK_AS_READ: {
+                return this.readsService.markItemAsRead(feedAndItemIds.feedId, feedAndItemIds.itemId);
+            }
+            case MARK_AS_NOT_READ: {
+                return this.readsService.markItemAsNotRead(feedAndItemIds.feedId, feedAndItemIds.itemId);
+            }
+            case MARK_AS_READ_LATER: {
+                return this.readsService.toggleItemAsReadLater(feedAndItemIds.feedId, feedAndItemIds.itemId);
+            }
+            default: {
+                return createErrorJsonResponse(invalidMarkMode(markMode));
+            }
+        }
     }
+
 }
