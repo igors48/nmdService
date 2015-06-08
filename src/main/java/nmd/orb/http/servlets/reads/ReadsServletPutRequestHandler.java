@@ -59,6 +59,7 @@ public class ReadsServletPutRequestHandler implements Handler {
             return createErrorJsonResponse(invalidMarkMode(null));
         }
 
+        switch (markMode) {
             case MARK_AS_READ: {
                 return this.readsService.markItemAsRead(feedAndItemIds.feedId, feedAndItemIds.itemId);
             }
