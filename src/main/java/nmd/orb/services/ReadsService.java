@@ -26,6 +26,7 @@ import static nmd.orb.collector.merger.TimestampAscendingComparator.TIMESTAMP_AS
 import static nmd.orb.collector.merger.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
+import static nmd.orb.feed.FeedItem.isValidLastUsedFeedItemGuid;
 import static nmd.orb.reader.FeedItemsComparator.compare;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Page.isValidKeyItemGuid;
@@ -84,7 +85,7 @@ public class ReadsService extends AbstractService {
     public FeedItemsReport getFeedItemsReport(final UUID feedId, final FeedItemReportFilter filter, final String lastUsedFeedItemId) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
         guard(notNull(filter));
-        guard(isValidFeedItemGuid(lastUsedFeedItemId) || lastUsedFeedItemId.isEmpty());
+        guard(isValidLastUsedFeedItemGuid(lastUsedFeedItemId));
 
         Transaction transaction = null;
 

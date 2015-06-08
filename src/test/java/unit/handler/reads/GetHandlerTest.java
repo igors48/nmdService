@@ -56,37 +56,37 @@ public class GetHandlerTest {
 
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4");
-        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_ALL);
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_ALL, "");
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4?filter=unknown");
-        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_ALL);
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_ALL, "");
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4?filter=show-all");
-        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_ALL);
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_ALL, "");
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4?filter=show-added");
-        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_ADDED);
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_ADDED, "");
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4?filter=show-not-read");
-        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_NOT_READ);
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_NOT_READ, "");
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4?filter=show-read-later");
-        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_READ_LATER);
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_READ_LATER, "");
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4?filter=show-read-later");
-        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_READ_LATER);
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_READ_LATER, "");
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();

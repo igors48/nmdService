@@ -56,7 +56,7 @@ public class ReadsServletGetRequestHandler implements Handler {
             final String filterName = parameters.get("filter");
             final FeedItemReportFilter filter = filterName == null ? FeedItemReportFilter.SHOW_ALL : FeedItemReportFilter.forName(filterName);
 
-            return this.readsService.getFeedItemsReport(feedId, filter);
+            return this.readsService.getFeedItemsReport(feedId, filter, "");
         }
 
         final boolean elementsCountIsNotValid = !(elements.size() == 2 || elements.size() == 4);

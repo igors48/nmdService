@@ -117,6 +117,10 @@ public class FeedItem implements Serializable {
         return isValidString(value);
     }
 
+    public static boolean isValidLastUsedFeedItemGuid(final String value) {
+        return value != null && (value.isEmpty() || isValidFeedItemGuid(value));
+    }
+
     public static boolean isDateReal(final Date date, final Date current) {
         guard(notNull(current));
 

@@ -123,10 +123,10 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
     }
 
     @Override
-    public ResponseBody getFeedItemsReport(final UUID feedId, FeedItemReportFilter filter) {
+    public ResponseBody getFeedItemsReport(final UUID feedId, FeedItemReportFilter filter, String itemId) {
 
         try {
-            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, filter, "");
+            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, filter, itemId);
             FeedItemsReportResponse response = convert(report);
 
             LOGGER.info(format("Feed [ %s ] items report created", feedId));
