@@ -90,6 +90,16 @@ public class GetHandlerTest {
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
 
         setUp();
+        call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4?filter=show-read-later&lastUsedFeedItemId=48");
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_READ_LATER, "48");
+        Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
+
+        setUp();
+        call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4?filter=show-read-later&lastUsedFeedItemId=");
+        Mockito.verify(this.readsServiceWrapper).getFeedItemsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), FeedItemReportFilter.SHOW_READ_LATER, "");
+        Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
+
+        setUp();
         call(this.handler, "/fb5ea2da-2f60-4c11-9232-80bf50d49cf4/8efc756a-8dae-4ea7-8851-85706d1ef225/next/5");
         Mockito.verify(this.readsServiceWrapper).getFeedItemsCardsReport(UUID.fromString("fb5ea2da-2f60-4c11-9232-80bf50d49cf4"), "8efc756a-8dae-4ea7-8851-85706d1ef225", 5, Direction.NEXT);
         Mockito.verifyNoMoreInteractions(this.readsServiceWrapper);
