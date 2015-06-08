@@ -23,7 +23,8 @@ controllers.controller('feedController',
             reads.query(
                 { 
                     feedId: $stateParams.feedId,
-                    filter: $stateParams.filter
+                    filter: $stateParams.filter,
+                    lastUsedFeedItemId: $rootScope.lastItemId 
                 },
                 onLoadFeedReportCompleted,
                 onServerFault);
