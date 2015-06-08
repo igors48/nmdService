@@ -257,6 +257,50 @@ public class ReadsService extends AbstractService {
         }
     }
 
+    public void markItemAsNotRead(final UUID feedId, final String itemId) throws ServiceException {
+        guard(isValidFeedHeaderId(feedId));
+        guard(isValidFeedItemGuid(itemId));
+
+        Transaction transaction = null;
+
+        try {
+            transaction = this.transactions.beginOne();
+
+            loadFeedHeader(feedId);
+
+            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+
+            final FeedItem feedItem = find(itemId, items);
+
+            if (feedItem == null) {
+                return;
+            }
+            /*
+            final Set<String> storedGuids = getStoredGuids(items);
+            final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
+
+            final Set<String> readGuids = new HashSet<>();
+            readGuids.addAll(readFeedItems.readItemIds);
+            readGuids.add(itemId);
+
+            final Set<String> readLaterGuids = new HashSet<>();
+            readLaterGuids.addAll(readFeedItems.readLaterItemIds);
+            readLaterGuids.remove(itemId);
+
+            final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
+
+            final Date lastUpdate = readFeedItems.lastUpdate.compareTo(feedItem.date) > 0 ? readFeedItems.lastUpdate : feedItem.date;
+            final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
+
+            this.readFeedItemsRepository.store(updatedReadFeedItems);
+            */
+
+            transaction.commit();
+        } finally {
+            rollbackIfActive(transaction);
+        }
+    }
+
     public void markAllItemsAsRead(final UUID feedId, long topItemTimestamp) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
         guard(isPositive(topItemTimestamp));
