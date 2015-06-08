@@ -24,7 +24,7 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
 
         this.readsService.markAllItemsAsRead(feedId, 0);
 
-        final FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(0, report.notRead);
         assertEquals(report.reports.size(), report.read);
@@ -34,12 +34,12 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
     public void whenAllItemsMarkedAsReadAndTopItemTimeStampSetThenOnlyEarlierItemsMarked() throws ServiceException {
         final UUID feedId = addValidFirstRssFeedToMainCategory();
 
-        final FeedItemsReport firstReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport firstReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL, "");
         final long olderItemTimestamp = firstReport.reports.get(1).date.getTime();
 
         this.readsService.markAllItemsAsRead(feedId, olderItemTimestamp);
 
-        final FeedItemsReport secondReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport secondReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(1, secondReport.notRead);
         assertEquals(1, secondReport.read);
@@ -52,14 +52,14 @@ public class ControllerMarkAllItemsAsReadTest extends AbstractControllerTestBase
     public void whenAllItemsMarkedAsReadThenReadLaterMarkDoesNotReset() throws ServiceException {
         final UUID feedId = addValidFirstRssFeedToMainCategory();
 
-        final FeedItemsReport firstReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport firstReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL, "");
         final String firstItemId = firstReport.reports.get(0).itemId;
 
         this.readsService.toggleReadLaterItemMark(feedId, firstItemId);
 
         this.readsService.markAllItemsAsRead(feedId, 0);
 
-        final FeedItemsReport secondReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport secondReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL, "");
 
         assertTrue(secondReport.reports.get(0).readLater);
     }

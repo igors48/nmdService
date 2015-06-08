@@ -39,7 +39,7 @@ public class CategoryReportTest extends AbstractControllerTestBase {
     public void whenFeedStateWasChangedThenItWillBeReflectedInReport() throws ServiceException {
         final UUID feedId = addValidFirstRssFeedToMainCategory();
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedId, FeedItemReportFilter.SHOW_ALL, "");
         final String feedItemId = feedItemsReport.reports.get(0).itemId;
 
         this.readsService.markItemAsRead(feedId, feedItemId);

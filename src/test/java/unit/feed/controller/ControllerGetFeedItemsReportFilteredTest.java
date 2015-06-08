@@ -35,7 +35,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
     public void whenShowNotReadFilterAppliedThenOnlyNotReadItemsReturns() throws ServiceException {
         this.readsService.markItemAsRead(this.feedHeader.id, this.first.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ, "");
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertEquals(1, items.size());
@@ -52,7 +52,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
         this.readsService.markItemAsRead(this.feedHeader.id, this.first.guid);
         this.readsService.markItemAsRead(this.feedHeader.id, this.second.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ, "");
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertTrue(items.isEmpty());
@@ -67,7 +67,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
     public void whenShowReadLaterFilterAppliedThenOnlyNotReadItemsReturns() throws ServiceException {
         this.readsService.toggleReadLaterItemMark(this.feedHeader.id, this.first.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER, "");
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertEquals(1, items.size());
@@ -81,7 +81,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
     @Test
     public void whenShowReadLaterFilterAppliedAndThereAreNoReadLaterItemsThenEmptyReportReturns() throws ServiceException {
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_READ_LATER, "");
 
         assertTrue(feedItemsReport.reports.isEmpty());
 
@@ -93,7 +93,7 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
 
     @Test
     public void whenShowAddedFilterAppliedThenOnlyAddedItemsReturns() throws ServiceException {
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_ADDED);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_ADDED, "");
 
         final List<FeedItemReport> items = feedItemsReport.reports;
         assertEquals(2, items.size());

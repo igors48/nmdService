@@ -126,7 +126,7 @@ public class ReadsServiceWrapperImpl implements ReadsServiceWrapper {
     public ResponseBody getFeedItemsReport(final UUID feedId, FeedItemReportFilter filter) {
 
         try {
-            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, filter);
+            FeedItemsReport report = this.readsService.getFeedItemsReport(feedId, filter, "");
             FeedItemsReportResponse response = convert(report);
 
             LOGGER.info(format("Feed [ %s ] items report created", feedId));

@@ -31,7 +31,7 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
 
         this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertTrue(feedItemsReport.reports.get(0).readLater);
     }
@@ -44,7 +44,7 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
         this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
         this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertFalse(feedItemsReport.reports.get(0).readLater);
     }
@@ -56,7 +56,7 @@ public class ControllerToggleReadItemLaterTest extends AbstractControllerTestBas
 
         this.readsService.toggleReadLaterItemMark(feedHeader.id, "not-exists");
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(1, feedItemsReport.reports.size());
         assertEquals(feedItem.guid, feedItemsReport.reports.get(0).itemId);

@@ -81,8 +81,10 @@ public class ReadsService extends AbstractService {
         }
     }
 
-    public FeedItemsReport getFeedItemsReport(final UUID feedId, final FeedItemReportFilter filter) throws ServiceException {
+    public FeedItemsReport getFeedItemsReport(final UUID feedId, final FeedItemReportFilter filter, final String lastUsedFeedItemId) throws ServiceException {
         guard(isValidFeedHeaderId(feedId));
+        guard(notNull(filter));
+        guard(isValidFeedItemGuid(lastUsedFeedItemId) || lastUsedFeedItemId.isEmpty());
 
         Transaction transaction = null;
 

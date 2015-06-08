@@ -81,7 +81,7 @@ public class ControllerMarkItemAsReadTest extends AbstractControllerTestBase {
         this.readsService.toggleReadLaterItemMark(feedHeader.id, feedItem.guid);
         this.readsService.markItemAsRead(feedHeader.id, feedItem.guid);
 
-        final FeedItemsReport readReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport readReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(1, readReport.reports.size());
         assertTrue(readReport.reports.get(0).read);

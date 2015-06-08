@@ -21,7 +21,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
 
     @Test(expected = ServiceException.class)
     public void whenFeedNotFoundThenExceptionThrows() throws ServiceException {
-        this.readsService.getFeedItemsReport(UUID.randomUUID(), FeedItemReportFilter.SHOW_ALL);
+        this.readsService.getFeedItemsReport(UUID.randomUUID(), FeedItemReportFilter.SHOW_ALL, "");
     }
 
     @Test
@@ -30,7 +30,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(2, feedItemsReport.reports.size());
         assertTrue(feedItemsReport.reports.get(0).date.getTime() > feedItemsReport.reports.get(1).date.getTime());
@@ -42,7 +42,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(feedHeader.title, feedItemsReport.title);
     }
@@ -53,7 +53,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(feedHeader.feedLink, feedItemsReport.link);
     }
@@ -64,7 +64,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(feedHeader.id, feedItemsReport.id);
     }
@@ -75,7 +75,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
         final Date storedLastUpdate = this.readFeedItemsRepositoryStub.load(feedHeader.id).lastUpdate;
 
         assertEquals(storedLastUpdate, feedItemsReport.lastUpdate);
@@ -87,7 +87,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         final FeedItem second = create(2);
         final FeedHeader feedHeader = createSampleFeed(first, second);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(second.date, feedItemsReport.topItemDate);
     }
@@ -101,7 +101,7 @@ public class ControllerGetFeedItemsReportTest extends AbstractControllerTestBase
         this.readsService.markItemAsRead(feedHeader.id, first.guid);
         this.readsService.toggleReadLaterItemMark(feedHeader.id, second.guid);
 
-        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL);
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(feedHeader.id, FeedItemReportFilter.SHOW_ALL, "");
 
         assertEquals(1, feedItemsReport.read);
         assertEquals(1, feedItemsReport.notRead);
