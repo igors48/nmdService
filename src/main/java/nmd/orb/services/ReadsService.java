@@ -275,25 +275,26 @@ public class ReadsService extends AbstractService {
             if (feedItem == null) {
                 return;
             }
-            /*
+
             final Set<String> storedGuids = getStoredGuids(items);
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
             final Set<String> readGuids = new HashSet<>();
             readGuids.addAll(readFeedItems.readItemIds);
-            readGuids.add(itemId);
+            readGuids.remove(itemId);
 
             final Set<String> readLaterGuids = new HashSet<>();
             readLaterGuids.addAll(readFeedItems.readLaterItemIds);
-            readLaterGuids.remove(itemId);
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final Date lastUpdate = readFeedItems.lastUpdate.compareTo(feedItem.date) > 0 ? readFeedItems.lastUpdate : feedItem.date;
+            final List<FeedItem> readItems = find(readGuids, items);
+            final FeedItem youngest = findYoungest(readItems);
+            final Date lastUpdate = youngest == null ? new Date(0) : youngest.date;
+
             final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
-            */
 
             transaction.commit();
         } finally {
@@ -475,16 +476,25 @@ public class ReadsService extends AbstractService {
         return youngest;
     }
 
-    private static FeedItem find(String itemId, List<FeedItem> items) {
+    private static FeedItem find(final String itemId, final List<FeedItem> items) {
+        final List<FeedItem> found = find(new HashSet<String>() {{
+            add(itemId);
+        }}, items);
+
+        return found.isEmpty() ? null : found.get(0);
+    }
+
+    private static List<FeedItem> find(final Set<String> itemIds, final List<FeedItem> items) {
+        final List<FeedItem> result = new ArrayList<>();
 
         for (final FeedItem candidate : items) {
 
-            if (candidate.guid.equals(itemId)) {
-                return candidate;
+            if (itemIds.contains(candidate.guid)) {
+                result.add(candidate);
             }
         }
 
-        return null;
+        return result;
     }
 
 }
