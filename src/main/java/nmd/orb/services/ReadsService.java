@@ -113,7 +113,9 @@ public class ReadsService extends AbstractService {
                 final int index = feedItems.indexOf(feedItem);
                 final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem, index, total);
 
-                final boolean acceptable = filter.acceptable(feedItemReport);
+                final boolean acceptableById = feedItemReport.itemId.equals(lastUsedFeedItemId);
+                final boolean acceptableByFilter = filter.acceptable(feedItemReport);
+                final boolean acceptable = acceptableById || acceptableByFilter;
 
                 if (acceptable) {
                     feedItemReports.add(feedItemReport);

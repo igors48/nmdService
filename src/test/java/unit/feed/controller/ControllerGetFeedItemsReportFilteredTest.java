@@ -64,6 +64,23 @@ public class ControllerGetFeedItemsReportFilteredTest extends AbstractController
     }
 
     @Test
+    public void whenLastUsedFeedItemIdIsSetThenItemWithThatIdIsAddedToReport() throws ServiceException {
+        this.readsService.markItemAsRead(this.feedHeader.id, this.first.guid);
+        this.readsService.markItemAsRead(this.feedHeader.id, this.second.guid);
+
+        final FeedItemsReport feedItemsReport = this.readsService.getFeedItemsReport(this.feedHeader.id, FeedItemReportFilter.SHOW_NOT_READ, this.second.guid);
+
+        final List<FeedItemReport> items = feedItemsReport.reports;
+        assertEquals(1, items.size());
+        assertEquals(this.second.guid, items.get(0).itemId);
+
+        assertEquals(0, feedItemsReport.notRead);
+        assertEquals(2, feedItemsReport.read);
+        assertEquals(0, feedItemsReport.readLater);
+        assertEquals(0, feedItemsReport.addedSinceLastView);
+    }
+
+    @Test
     public void whenShowReadLaterFilterAppliedThenOnlyNotReadItemsReturns() throws ServiceException {
         this.readsService.toggleReadLaterItemMark(this.feedHeader.id, this.first.guid);
 
