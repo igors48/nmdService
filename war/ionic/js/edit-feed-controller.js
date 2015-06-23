@@ -105,7 +105,8 @@ controllers.controller('editFeedController',
             $scope.feed = {
                 name: response.title,
                 items: response.reports.length,
-                link: response.link
+                link: response.link,
+                errors: response.errors
             };
         };
 

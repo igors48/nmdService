@@ -15,6 +15,10 @@
             <h3>Items count: {{feed.items}}</h3>
             <h4>Link: {{feed.link}}</h4>
         </div>
+        <div class="item item-text-wrap" ng-show="feed.errors.length > 0">
+            <h3>Errors</h3>
+            <h4 ng-repeat="error in feed.errors"><span class="ion-alert-circled orange-front">&nbsp;</span>{{error.message}}</h4>
+        </div>
     </div>
     </a>
     <div class="list list-inset" ng-switch="mode">
