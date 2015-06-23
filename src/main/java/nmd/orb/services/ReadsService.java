@@ -2,7 +2,6 @@ package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.collector.fetcher.UrlFetcher;
-import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
@@ -17,6 +16,7 @@ import nmd.orb.services.report.FeedItemReport;
 import nmd.orb.services.report.FeedItemsCardsReport;
 import nmd.orb.services.report.FeedItemsReport;
 import nmd.orb.services.report.FeedReadReport;
+import nmd.orb.services.update.UpdateErrors;
 import nmd.orb.sources.Source;
 import nmd.orb.util.Direction;
 import nmd.orb.util.Page;
@@ -138,9 +138,11 @@ public class ReadsService extends AbstractService {
                 }
             }
 
+            final UpdateErrors updateErrors = this.updateErrorRegistrationService.load(feedId);
+
             transaction.commit();
 
-            return new FeedItemsReport(header.id, header.title, header.feedLink, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate, topItemDate, new ArrayList<ServiceError>());
+            return new FeedItemsReport(header.id, header.title, header.feedLink, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate, topItemDate, updateErrors.errors);
         } finally {
             rollbackIfActive(transaction);
         }

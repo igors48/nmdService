@@ -1,5 +1,7 @@
 package nmd.orb.http.responses;
 
+import nmd.orb.error.ServiceError;
+import nmd.orb.http.responses.payload.ErrorPayload;
 import nmd.orb.http.responses.payload.FeedItemReportPayload;
 import nmd.orb.services.report.FeedItemReport;
 import nmd.orb.services.report.FeedItemsReport;
@@ -26,6 +28,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
     public List<FeedItemReportPayload> reports;
     public long lastUpdate;
     public long topItemTimestamp;
+    public List<ErrorPayload> errors;
 
     private FeedItemsReportResponse() {
         // empty
@@ -42,6 +45,13 @@ public class FeedItemsReportResponse extends SuccessResponse {
             helpers.add(helper);
         }
 
+        final List<ErrorPayload> errors = new ArrayList<>();
+
+        for (final ServiceError error : feedItemsReport.errors) {
+            final ErrorPayload errorPayload = ErrorPayload.create(error);
+            errors.add(errorPayload);
+        }
+
         final FeedItemsReportResponse response = new FeedItemsReportResponse();
 
         response.id = feedItemsReport.id.toString();
@@ -54,6 +64,7 @@ public class FeedItemsReportResponse extends SuccessResponse {
         response.reports = helpers;
         response.lastUpdate = feedItemsReport.lastUpdate.getTime();
         response.topItemTimestamp = feedItemsReport.topItemDate.getTime();
+        response.errors = errors;
 
         return response;
     }
