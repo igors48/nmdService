@@ -37,4 +37,23 @@ public class UpdateErrors implements Serializable {
         return new UpdateErrors(this.feedId, updatedErrors);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        UpdateErrors that = (UpdateErrors) o;
+
+        if (!feedId.equals(that.feedId)) return false;
+        return errors.equals(that.errors);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = feedId.hashCode();
+        result = 31 * result + errors.hashCode();
+        return result;
+    }
+
 }

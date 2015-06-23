@@ -51,7 +51,9 @@ public class UpdateErrorRegistrationService {
         return updateErrors.errors.size();
     }
 
-    private UpdateErrors load(final UUID feedId) {
+    public UpdateErrors load(final UUID feedId) {
+        guard(isValidFeedHeaderId(feedId));
+
         final UpdateErrors updateErrors = this.updateErrorsRepository.load(feedId);
 
         return updateErrors == null ? new UpdateErrors(feedId) : updateErrors;

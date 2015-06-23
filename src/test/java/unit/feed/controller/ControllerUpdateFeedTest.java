@@ -68,6 +68,7 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
         }
 
         Mockito.verify(this.updateErrorRegistrationServiceSpy).updateError(randomFeedId, error);
+        Mockito.verify(this.updateErrorRegistrationServiceSpy).load(randomFeedId);
         Mockito.verifyNoMoreInteractions(this.updateErrorRegistrationServiceSpy);
     }
 
