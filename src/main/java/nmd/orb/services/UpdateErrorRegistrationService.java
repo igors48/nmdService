@@ -15,6 +15,9 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class UpdateErrorRegistrationService {
 
+    public static final int MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT = 2;
+    public static final int MAX_STORED_ERRORS_COUNT = MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT * 2;
+
     private final UpdateErrorsRepository updateErrorsRepository;
 
     public UpdateErrorRegistrationService(final UpdateErrorsRepository updateErrorsRepository) {
@@ -56,7 +59,7 @@ public class UpdateErrorRegistrationService {
 
         final UpdateErrors updateErrors = this.updateErrorsRepository.load(feedId);
 
-        return updateErrors == null ? new UpdateErrors(feedId) : updateErrors;
+        return updateErrors == null ? new UpdateErrors(feedId, MAX_STORED_ERRORS_COUNT) : updateErrors;
     }
 
 }

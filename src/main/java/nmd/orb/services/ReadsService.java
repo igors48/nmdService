@@ -41,8 +41,6 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
  */
 public class ReadsService extends AbstractService {
 
-    public static int MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT = 2;
-
     private final Transactions transactions;
     private final ReadFeedItemsRepository readFeedItemsRepository;
 
@@ -370,7 +368,7 @@ public class ReadsService extends AbstractService {
 
         final Source feedType = Source.detect(header.feedLink);
 
-        final boolean hasErrors = sequentialErrorsCount >= MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT;
+        final boolean hasErrors = sequentialErrorsCount >= UpdateErrorRegistrationService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT;
 
         return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate, hasErrors);
     }

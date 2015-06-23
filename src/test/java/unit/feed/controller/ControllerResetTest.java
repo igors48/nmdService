@@ -2,6 +2,7 @@ package unit.feed.controller;
 
 import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
+import nmd.orb.services.UpdateErrorRegistrationService;
 import nmd.orb.services.importer.ImportJobContext;
 import nmd.orb.services.importer.ImportJobStatus;
 import nmd.orb.services.update.UpdateErrors;
@@ -34,8 +35,8 @@ public class ControllerResetTest extends AbstractControllerTestBase {
         final ImportJobContext context = ImportJobContextTest.create(ImportJobStatus.COMPLETED);
         this.importService.schedule(context);
 
-        this.updateErrorsRepositoryStub.store(new UpdateErrors(firstFeedId).appendError(ServiceError.feedParseError("http:\\domain.com")));
-        this.updateErrorsRepositoryStub.store(new UpdateErrors(secondFeedId).appendError(ServiceError.feedParseError("http:\\domain.com")));
+        this.updateErrorsRepositoryStub.store(new UpdateErrors(firstFeedId, UpdateErrorRegistrationService.MAX_STORED_ERRORS_COUNT).appendError(ServiceError.feedParseError("http:\\domain.com")));
+        this.updateErrorsRepositoryStub.store(new UpdateErrors(secondFeedId, UpdateErrorRegistrationService.MAX_STORED_ERRORS_COUNT).appendError(ServiceError.feedParseError("http:\\domain.com")));
 
         this.resetService.reset();
     }

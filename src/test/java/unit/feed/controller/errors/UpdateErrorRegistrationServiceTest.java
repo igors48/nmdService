@@ -1,6 +1,7 @@
 package unit.feed.controller.errors;
 
 import nmd.orb.error.ServiceError;
+import nmd.orb.services.UpdateErrorRegistrationService;
 import nmd.orb.services.update.UpdateErrors;
 import org.junit.Test;
 import unit.feed.controller.AbstractControllerTestBase;
@@ -57,7 +58,7 @@ public class UpdateErrorRegistrationServiceTest extends AbstractControllerTestBa
         final UUID feedId = UUID.randomUUID();
         UpdateErrors errors = this.updateErrorRegistrationService.load(feedId);
 
-        assertEquals(new UpdateErrors(feedId), errors);
+        assertEquals(new UpdateErrors(feedId, UpdateErrorRegistrationService.MAX_STORED_ERRORS_COUNT), errors);
     }
 
     @Test
@@ -65,7 +66,7 @@ public class UpdateErrorRegistrationServiceTest extends AbstractControllerTestBa
         this.updateErrorRegistrationService.updateError(FEED_ID, ERROR);
         UpdateErrors errors = this.updateErrorRegistrationService.load(FEED_ID);
 
-        assertEquals(new UpdateErrors(FEED_ID).appendError(ERROR), errors);
+        assertEquals(new UpdateErrors(FEED_ID, UpdateErrorRegistrationService.MAX_STORED_ERRORS_COUNT).appendError(ERROR), errors);
     }
 
 }

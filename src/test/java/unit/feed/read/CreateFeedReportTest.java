@@ -5,6 +5,7 @@ import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.services.ReadsService;
+import nmd.orb.services.UpdateErrorRegistrationService;
 import nmd.orb.services.report.FeedReadReport;
 import nmd.orb.sources.Source;
 import org.junit.Before;
@@ -124,21 +125,21 @@ public class CreateFeedReportTest {
 
     @Test
     public void whenErrorsCountGreaterThenMaximumThenHasErrorsRaised() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, ReadsService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT + 5);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, UpdateErrorRegistrationService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT + 5);
 
         assertTrue(feedReadReport.hasErrors);
     }
 
     @Test
     public void whenErrorsCountEqualToMaximumThenHasErrorsRaised() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, ReadsService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, UpdateErrorRegistrationService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT);
 
         assertTrue(feedReadReport.hasErrors);
     }
 
     @Test
     public void whenErrorsCountLesserThanMaximumThenHasErrorsRaised() {
-        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, ReadsService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT - 1);
+        final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(this.header, this.items, this.readFeedItems, UpdateErrorRegistrationService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT - 1);
 
         assertFalse(feedReadReport.hasErrors);
     }

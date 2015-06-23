@@ -19,12 +19,15 @@ public class UpdateErrors implements Serializable {
     public final UUID feedId;
     public final List<ServiceError> errors;
 
-    public UpdateErrors(final UUID feedId) {
-        this(feedId, new ArrayList<ServiceError>());
+    private final int maxStoredErrorsCount;
+
+    public UpdateErrors(final UUID feedId, final int maxStoredErrorsCount) {
+        this(feedId, maxStoredErrorsCount, new ArrayList<ServiceError>());
     }
 
-    public UpdateErrors(final UUID feedId, final List<ServiceError> errors) {
+    private UpdateErrors(final UUID feedId, final int maxStoredErrorsCount, final List<ServiceError> errors) {
         guard(isValidFeedHeaderId(this.feedId = feedId));
+        guard(isValidMaxStoredErrorsCount(this.maxStoredErrorsCount = maxStoredErrorsCount));
         guard(notNull(this.errors = errors));
     }
 
@@ -34,7 +37,7 @@ public class UpdateErrors implements Serializable {
         final List<ServiceError> updatedErrors = new ArrayList<>(this.errors);
         updatedErrors.add(error);
 
-        return new UpdateErrors(this.feedId, updatedErrors);
+        return new UpdateErrors(this.feedId, this.maxStoredErrorsCount, updatedErrors);
     }
 
     @Override
@@ -54,6 +57,10 @@ public class UpdateErrors implements Serializable {
         int result = feedId.hashCode();
         result = 31 * result + errors.hashCode();
         return result;
+    }
+
+    public static boolean isValidMaxStoredErrorsCount(final int value) {
+        return value >= 2;
     }
 
 }
