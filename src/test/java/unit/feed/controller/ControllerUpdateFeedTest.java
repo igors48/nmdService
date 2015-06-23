@@ -1,5 +1,6 @@
 package unit.feed.controller;
 
+import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.services.report.FeedUpdateReport;
 import org.junit.Test;
@@ -57,6 +58,7 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
     @Test
     public void whenFeedIsUpdatedNotSuccessfullyThenRegistrationServiceIsNotified() {
         final UUID randomFeedId = UUID.randomUUID();
+        final ServiceError error = ServiceError.wrongFeedTaskId(randomFeedId);
 
         try {
             this.updatesService.updateFeed(randomFeedId);
@@ -65,7 +67,7 @@ public class ControllerUpdateFeedTest extends AbstractControllerTestBase {
         } catch (ServiceException ignored) {
         }
 
-        Mockito.verify(this.updateErrorRegistrationServiceSpy).updateError(randomFeedId);
+        Mockito.verify(this.updateErrorRegistrationServiceSpy).updateError(randomFeedId, error);
         Mockito.verifyNoMoreInteractions(this.updateErrorRegistrationServiceSpy);
     }
 

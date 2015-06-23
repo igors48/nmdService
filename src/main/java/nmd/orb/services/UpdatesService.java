@@ -74,7 +74,8 @@ public class UpdatesService extends AbstractService {
 
             return feedUpdateReport;
         } catch (ServiceException exception) {
-            this.updateErrorRegistrationService.updateError(feedId);
+            final ServiceError error = exception.getError();
+            this.updateErrorRegistrationService.updateError(feedId, error);
 
             throw exception;
         }

@@ -1,5 +1,6 @@
 package nmd.orb.services;
 
+import nmd.orb.error.ServiceError;
 import nmd.orb.repositories.UpdateErrorsRepository;
 import nmd.orb.services.update.UpdateErrors;
 
@@ -21,8 +22,9 @@ public class UpdateErrorRegistrationService {
         this.updateErrorsRepository = updateErrorsRepository;
     }
 
-    public void updateError(final UUID feedId) {
+    public void updateError(final UUID feedId, final ServiceError error) {
         guard(isValidFeedHeaderId(feedId));
+        guard(notNull(error));
 
         final UpdateErrors updateErrors = load(feedId).incErrors();
 

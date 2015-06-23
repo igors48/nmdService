@@ -260,4 +260,25 @@ public class ServiceError {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        ServiceError error = (ServiceError) o;
+
+        if (code != error.code) return false;
+        if (!message.equals(error.message)) return false;
+        return hints.equals(error.hints);
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = code.hashCode();
+        result = 31 * result + message.hashCode();
+        result = 31 * result + hints.hashCode();
+        return result;
+    }
+
 }
