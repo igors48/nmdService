@@ -52,9 +52,6 @@ public class FeedItemsReportResponse extends SuccessResponse {
             errors.add(errorPayload);
         }
 
-        errors.add(ErrorPayload.create(ServiceError.urlFetcherError("http:\\domain.com")));
-        errors.add(ErrorPayload.create(ServiceError.urlFetcherError("http:\\domain2.com")));
-
         final FeedItemsReportResponse response = new FeedItemsReportResponse();
 
         response.id = feedItemsReport.id.toString();
