@@ -34,8 +34,10 @@ public class UpdateErrors implements Serializable {
     public UpdateErrors appendError(final ServiceError error) {
         guard(notNull(error));
 
-        final List<ServiceError> updatedErrors = new ArrayList<>(this.errors);
+        List<ServiceError> updatedErrors = new ArrayList<>(this.errors);
         updatedErrors.add(error);
+
+        updatedErrors = tail(updatedErrors, this.maxStoredErrorsCount);
 
         return new UpdateErrors(this.feedId, this.maxStoredErrorsCount, updatedErrors);
     }
@@ -61,6 +63,21 @@ public class UpdateErrors implements Serializable {
 
     public static boolean isValidMaxStoredErrorsCount(final int value) {
         return value >= 2;
+    }
+
+    public static List<ServiceError> tail(final List<ServiceError> list, final int size) {
+        guard(notNull(list));
+        guard(size > 1);
+
+        final int listSize = list.size();
+
+        if (listSize > size) {
+            final int fromIndex = listSize - size;
+
+            return list.subList(fromIndex, listSize);
+        }
+
+        return list;
     }
 
 }
