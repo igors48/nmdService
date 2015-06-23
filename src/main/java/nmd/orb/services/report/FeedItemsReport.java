@@ -1,5 +1,7 @@
 package nmd.orb.services.report;
 
+import nmd.orb.error.ServiceError;
+
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -23,37 +25,20 @@ public class FeedItemsReport {
     public final List<FeedItemReport> reports;
     public final Date lastUpdate;
     public final Date topItemDate;
+    public final List<ServiceError> errors;
 
-    public FeedItemsReport(final UUID id, final String title, final String link, final int read, final int notRead, final int readLater, final int addedSinceLastView, final List<FeedItemReport> reports, final Date lastUpdate, final Date topItemDate) {
-        guard(notNull(id));
-        this.id = id;
-
-        guard(isValidString(title));
-        this.title = title;
-
-        guard(isValidUrl(link));
-        this.link = link;
-
-        guard(isPositive(read));
-        this.read = read;
-
-        guard(isPositive(notRead));
-        this.notRead = notRead;
-
-        guard(isPositive(readLater));
-        this.readLater = readLater;
-
-        guard(isPositive(addedSinceLastView));
-        this.addedSinceLastView = addedSinceLastView;
-
-        guard(notNull(reports));
-        this.reports = reports;
-
-        guard(notNull(lastUpdate));
-        this.lastUpdate = lastUpdate;
-
-        guard(notNull(topItemDate));
-        this.topItemDate = topItemDate;
+    public FeedItemsReport(final UUID id, final String title, final String link, final int read, final int notRead, final int readLater, final int addedSinceLastView, final List<FeedItemReport> reports, final Date lastUpdate, final Date topItemDate, final List<ServiceError> errors) {
+        guard(notNull(this.id = id));
+        guard(isValidString(this.title = title));
+        guard(isValidUrl(this.link = link));
+        guard(isPositive(this.read = read));
+        guard(isPositive(this.notRead = notRead));
+        guard(isPositive(this.readLater = readLater));
+        guard(isPositive(this.addedSinceLastView = addedSinceLastView));
+        guard(notNull(this.reports = reports));
+        guard(notNull(this.lastUpdate = lastUpdate));
+        guard(notNull(this.topItemDate = topItemDate));
+        guard(notNull(this.errors = errors));
     }
 
 }

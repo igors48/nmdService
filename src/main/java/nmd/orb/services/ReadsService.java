@@ -2,6 +2,7 @@ package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.collector.fetcher.UrlFetcher;
+import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
@@ -139,7 +140,7 @@ public class ReadsService extends AbstractService {
 
             transaction.commit();
 
-            return new FeedItemsReport(header.id, header.title, header.feedLink, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate, topItemDate);
+            return new FeedItemsReport(header.id, header.title, header.feedLink, read, notRead, readLater, addedSinceLastView, feedItemReports, readFeedItems.lastUpdate, topItemDate, new ArrayList<ServiceError>());
         } finally {
             rollbackIfActive(transaction);
         }
