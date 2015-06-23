@@ -1,5 +1,6 @@
 package nmd.orb.error;
 
+import java.io.Serializable;
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,7 +10,7 @@ import static java.lang.String.format;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date : 18.06.13
  */
-public class ServiceError {
+public class ServiceError implements Serializable {
 
     public final ErrorCode code;
     public final String message;

@@ -1,12 +1,15 @@
 package nmd.orb.services.update;
 
-import nmd.orb.util.Parameter;
+import nmd.orb.error.ServiceError;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.UUID;
 
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.notNull;
 
 /**
  * @author : igu
@@ -14,42 +17,24 @@ import static nmd.orb.util.Assert.guard;
 public class UpdateErrors implements Serializable {
 
     public final UUID feedId;
-    public final int errorsCount;
+    public final List<ServiceError> errors;
 
     public UpdateErrors(final UUID feedId) {
-        this(feedId, 0);
+        this(feedId, new ArrayList<ServiceError>());
     }
 
-    public UpdateErrors(final UUID feedId, final int errorsCount) {
+    public UpdateErrors(final UUID feedId, final List<ServiceError> errors) {
         guard(isValidFeedHeaderId(this.feedId = feedId));
-        guard(isValidErrorsCount(this.errorsCount = errorsCount));
+        guard(notNull(this.errors = errors));
     }
 
-    public UpdateErrors incErrors() {
-        return new UpdateErrors(this.feedId, this.errorsCount + 1);
-    }
+    public UpdateErrors appendError(final ServiceError error) {
+        guard(notNull(error));
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+        final List<ServiceError> updatedErrors = new ArrayList<>(this.errors);
+        updatedErrors.add(error);
 
-        UpdateErrors that = (UpdateErrors) o;
-
-        if (errorsCount != that.errorsCount) return false;
-        return feedId.equals(that.feedId);
-
-    }
-
-    @Override
-    public int hashCode() {
-        int result = feedId.hashCode();
-        result = 31 * result + errorsCount;
-        return result;
-    }
-
-    public static boolean isValidErrorsCount(final int count) {
-        return Parameter.isPositive(count);
+        return new UpdateErrors(this.feedId, updatedErrors);
     }
 
 }

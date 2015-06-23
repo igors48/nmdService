@@ -1,5 +1,6 @@
 package unit.feed.cache;
 
+import nmd.orb.error.ServiceError;
 import nmd.orb.repositories.cached.CachedUpdateErrorsRepository;
 import nmd.orb.services.update.UpdateErrors;
 import org.junit.Before;
@@ -14,8 +15,8 @@ import static org.junit.Assert.*;
  */
 public class CachedUpdateErrorsRepositoryTest {
 
-    private static final UpdateErrors FIRST_UPDATE_ERRORS = new UpdateErrors(UUID.randomUUID(), 48);
-    private static final UpdateErrors SECOND_UPDATE_ERRORS = new UpdateErrors(UUID.randomUUID(), 50);
+    private static final UpdateErrors FIRST_UPDATE_ERRORS = new UpdateErrors(UUID.randomUUID()).appendError(ServiceError.feedParseError("http:\\domain.com"));
+    private static final UpdateErrors SECOND_UPDATE_ERRORS = new UpdateErrors(UUID.randomUUID()).appendError(ServiceError.feedParseError("http:\\domain.com"));
 
     private CacheStub cacheStub;
     private CachedUpdateErrorsRepository cachedUpdateErrorsRepository;
