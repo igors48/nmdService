@@ -74,10 +74,10 @@ public class UpdateErrors implements Serializable {
         if (listSize > size) {
             final int fromIndex = listSize - size;
 
-            return list.subList(fromIndex, listSize);
+            return new ArrayList<>(list.subList(fromIndex, listSize));
         }
 
-        return list;
+        return new ArrayList<>(list);
     }
 
 }
