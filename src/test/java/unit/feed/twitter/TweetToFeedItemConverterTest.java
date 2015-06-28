@@ -1,5 +1,6 @@
 package unit.feed.twitter;
 
+import nmd.orb.error.ErrorCode;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.sources.twitter.entities.Urls;
@@ -43,14 +44,14 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
     public void whenTweetTextIsNullThenNullReturns() throws ServiceException {
         this.tweet.setText(null);
 
-        assertNull(convertToItem(this.tweet, this.someDate));
+        assertConversionError(ErrorCode.TWITTER_NO_TWEET_TEXT);
     }
 
     @Test
     public void whenTweetTextIsEmptyThenNullReturns() throws ServiceException {
         this.tweet.setText("");
 
-        assertNull(convertToItem(this.tweet, this.someDate));
+        assertConversionError(ErrorCode.TWITTER_NO_TWEET_TEXT);
     }
 
     @Test
@@ -158,5 +159,17 @@ public class TweetToFeedItemConverterTest extends AbstractTweetConverterTestBase
         assertEquals(this.someDate, converted.date);
         assertFalse(converted.dateReal);
     }
+
+    private void assertConversionError(final ErrorCode errorCode) {
+
+        try {
+            convertToItem(this.tweet, this.someDate);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(errorCode, exception.getError().code);
+        }
+    }
+
 
 }

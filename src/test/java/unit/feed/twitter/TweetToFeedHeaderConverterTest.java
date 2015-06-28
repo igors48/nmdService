@@ -174,5 +174,4 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
         }
     }
 
-
 }

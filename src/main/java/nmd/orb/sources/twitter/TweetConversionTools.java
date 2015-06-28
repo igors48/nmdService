@@ -1,5 +1,6 @@
 package nmd.orb.sources.twitter;
 
+import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.feed.FeedHeader;
@@ -75,10 +76,12 @@ public final class TweetConversionTools {
         guard(notNull(tweet));
         guard(notNull(current));
 
+        final String link = createTweetUrl(tweet.getUser().getScreen_name(), tweet.getId_str());
+
         final String text = tweet.getText();
 
         if (isBlank(text)) {
-            return null;
+            throw new ServiceException(ServiceError.twitterNoTweetText(link));
         }
 
         final String title = text.trim();
@@ -86,7 +89,6 @@ public final class TweetConversionTools {
         final TweetEntities entities = tweet.getEntities();
         final String expandedUrl = getLinkFromTweetEntities(entities);
 
-        final String link = createTweetUrl(tweet.getUser().getScreen_name(), tweet.getId_str());
         final String gotoLink = isBlank(expandedUrl) ? link : expandedUrl;
 
         final String dateAsString = tweet.getCreated_at();
