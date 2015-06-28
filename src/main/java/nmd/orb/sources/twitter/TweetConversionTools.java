@@ -12,8 +12,7 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.lang.String.format;
-import static nmd.orb.error.ServiceError.twitterEmptyUserNameAndDescription;
-import static nmd.orb.error.ServiceError.twitterNoUser;
+import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static nmd.orb.feed.FeedHeader.create;
 import static nmd.orb.util.Assert.guard;
@@ -113,26 +112,16 @@ public final class TweetConversionTools {
         guard(notNull(current));
 
         if (tweets == null || tweets.isEmpty()) {
-            return null;
+            throw new ServiceException(twitterNoTweets(twitterLink));
         }
 
-        FeedHeader feedHeader = null;
+        FeedHeader feedHeader = convertToHeader(twitterLink, tweets.get(0));
         final List<FeedItem> feedItems = new ArrayList<>();
 
         for (final Tweet tweet : tweets) {
+            final FeedItem feedItem = convertToItem(tweet, current);
 
-            if (tweet != null) {
-                feedHeader = convertToHeader(twitterLink, tweets.get(0));
-                final FeedItem feedItem = convertToItem(tweet, current);
-
-                if (feedItem != null) {
-                    feedItems.add(feedItem);
-                }
-            }
-        }
-
-        if (feedHeader == null) {
-            return null;
+            feedItems.add(feedItem);
         }
 
         return new Feed(feedHeader, feedItems);

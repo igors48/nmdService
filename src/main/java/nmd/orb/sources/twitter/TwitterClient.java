@@ -9,11 +9,9 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
-import static nmd.orb.error.ServiceError.feedParseError;
 import static nmd.orb.error.ServiceError.urlFetcherError;
 import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;
-import static nmd.orb.sources.twitter.TwitterClientTools.getTwitterUserName;
-import static nmd.orb.sources.twitter.TwitterClientTools.isItTwitterUrl;
+import static nmd.orb.sources.twitter.TwitterClientTools.*;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isPositive;
 import static nmd.orb.util.Parameter.isValidString;
@@ -37,13 +35,8 @@ public class TwitterClient {
 
             final String userName = getTwitterUserName(twitterUrl);
             final List<Tweet> tweets = fetchTweets(apiKey, apiSecret, userName, TWEETS_PER_FETCH);
-            final Feed feed = convertToFeed(twitterUrl, tweets, new Date());
 
-            if (feed == null) {
-                throw new ServiceException(feedParseError(twitterUrl));
-            }
-
-            return feed;
+            return convertToFeed(twitterUrl, tweets, new Date());
         } catch (IOException exception) {
             throw new ServiceException(urlFetcherError(twitterUrl), exception);
         }
@@ -56,7 +49,7 @@ public class TwitterClient {
         guard(isValidString(screenName));
         guard(isPositive(count));
 
-        final AccessToken accessToken = TwitterClientTools.getAccessToken(apiKey, apiSecret);
+        final AccessToken accessToken = getAccessToken(apiKey, apiSecret);
 
         return TwitterClientTools.fetchTweets(accessToken, screenName, count);
     }

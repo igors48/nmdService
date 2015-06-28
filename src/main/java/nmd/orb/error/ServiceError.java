@@ -274,6 +274,12 @@ public class ServiceError implements Serializable {
                 "Something unexpected was happened");
     }
 
+    public static ServiceError twitterNoTweets(final String twitterLink) {
+        return new ServiceError(ErrorCode.TWITTER_NO_TWEETS,
+                format("No tweets found in response from url [ %s ]", twitterLink),
+                "Something unexpected was happened");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

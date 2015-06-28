@@ -1,5 +1,6 @@
 package unit.feed.twitter;
 
+import nmd.orb.error.ErrorCode;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.Feed;
 import nmd.orb.sources.twitter.entities.Tweet;
@@ -10,7 +11,7 @@ import java.util.Date;
 
 import static nmd.orb.sources.twitter.TweetConversionTools.convertToFeed;
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
+import static org.junit.Assert.fail;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -23,16 +24,26 @@ public class TweetsToFeedConverterTest extends AbstractTweetConverterTestBase {
 
     @Test
     public void whenTweetsListIsEmptyThenNullReturns() throws ServiceException {
-        final Feed feed = convertToFeed(TWITTER_URL, new ArrayList<Tweet>(), SOME_DATE);
 
-        assertNull(feed);
+        try {
+            convertToFeed(TWITTER_URL, new ArrayList<Tweet>(), SOME_DATE);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(ErrorCode.TWITTER_NO_TWEETS, exception.getError().code);
+        }
     }
 
     @Test
     public void whenTweetsListIsNullThenNullReturns() throws ServiceException {
-        final Feed feed = convertToFeed(TWITTER_URL, null, SOME_DATE);
 
-        assertNull(feed);
+        try {
+            convertToFeed(TWITTER_URL, null, SOME_DATE);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(ErrorCode.TWITTER_NO_TWEETS, exception.getError().code);
+        }
     }
 
     @Test
