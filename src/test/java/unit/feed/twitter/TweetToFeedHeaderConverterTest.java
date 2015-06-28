@@ -1,5 +1,6 @@
 package unit.feed.twitter;
 
+import nmd.orb.error.ErrorCode;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.sources.twitter.entities.Urls;
@@ -32,42 +33,42 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
     }
 
     @Test
-    public void whenUserIsNullThenNullReturns() throws ServiceException {
+    public void whenUserIsNullThenErrorReturns() throws ServiceException {
         this.tweet.setUser(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertConversionError(ErrorCode.TWITTER_NO_USER);
     }
 
     @Test
-    public void whenUserNameNullDescriptionNullThenNullReturns() throws ServiceException {
+    public void whenUserNameNullDescriptionNullThenErrorReturns() throws ServiceException {
         this.tweet.getUser().setName(null);
         this.tweet.getUser().setDescription(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertConversionError(ErrorCode.TWITTER_EMPTY_USER_NAME_AND_DESCRIPTION);
     }
 
     @Test
-    public void whenUserNameEmptyDescriptionNullThenNullReturns() throws ServiceException {
+    public void whenUserNameEmptyDescriptionNullThenErrorReturns() throws ServiceException {
         this.tweet.getUser().setName("");
         this.tweet.getUser().setDescription(null);
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertConversionError(ErrorCode.TWITTER_EMPTY_USER_NAME_AND_DESCRIPTION);
     }
 
     @Test
-    public void whenUserNameEmptyDescriptionEmptyThenNullReturns() throws ServiceException {
+    public void whenUserNameEmptyDescriptionEmptyThenErrorReturns() throws ServiceException {
         this.tweet.getUser().setName("");
         this.tweet.getUser().setDescription("");
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertConversionError(ErrorCode.TWITTER_EMPTY_USER_NAME_AND_DESCRIPTION);
     }
 
     @Test
-    public void whenUserNameNullDescriptionEmptyThenNullReturns() throws ServiceException {
+    public void whenUserNameNullDescriptionEmptyThenErrorReturns() throws ServiceException {
         this.tweet.getUser().setName(null);
         this.tweet.getUser().setDescription("");
 
-        assertNull(convertToHeader(TWITTER_URL, this.tweet));
+        assertConversionError(ErrorCode.TWITTER_EMPTY_USER_NAME_AND_DESCRIPTION);
     }
 
     @Test
@@ -161,5 +162,17 @@ public class TweetToFeedHeaderConverterTest extends AbstractTweetConverterTestBa
         assertTrue(header.description.length() == MAX_DESCRIPTION_AND_TITLE_LENGTH);
         assertTrue(header.title.length() == MAX_DESCRIPTION_AND_TITLE_LENGTH);
     }
+
+    private void assertConversionError(final ErrorCode errorCode) {
+
+        try {
+            convertToHeader(TWITTER_URL, this.tweet);
+
+            fail();
+        } catch (ServiceException exception) {
+            assertEquals(errorCode, exception.getError().code);
+        }
+    }
+
 
 }

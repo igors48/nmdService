@@ -256,6 +256,18 @@ public class ServiceError implements Serializable {
                 "Something unexpected was happened");
     }
 
+    public static ServiceError twitterNoUser(final String twitterLink) {
+        return new ServiceError(ErrorCode.TWITTER_NO_USER,
+                format("No user found in response from url [ %s ]", twitterLink),
+                "Something unexpected was happened");
+    }
+
+    public static ServiceError twitterEmptyUserNameAndDescription(final String twitterLink) {
+        return new ServiceError(ErrorCode.TWITTER_EMPTY_USER_NAME_AND_DESCRIPTION,
+                format("Empty user name and description found in response from url [ %s ]", twitterLink),
+                "Something unexpected was happened");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

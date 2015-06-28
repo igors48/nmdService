@@ -11,6 +11,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static java.lang.String.format;
+import static nmd.orb.error.ServiceError.twitterEmptyUserNameAndDescription;
+import static nmd.orb.error.ServiceError.twitterNoUser;
 import static nmd.orb.feed.FeedHeader.MAX_DESCRIPTION_AND_TITLE_LENGTH;
 import static nmd.orb.feed.FeedHeader.create;
 import static nmd.orb.util.Assert.guard;
@@ -43,14 +45,14 @@ public final class TweetConversionTools {
         final User user = tweet.getUser();
 
         if (user == null) {
-            return null;
+            throw new ServiceException(twitterNoUser(twitterLink));
         }
 
         final String userName = user.getName();
         final String userDescription = user.getDescription();
 
         if (isBlank(userName) && isBlank(userDescription)) {
-            return null;
+            throw new ServiceException(twitterEmptyUserNameAndDescription(twitterLink));
         }
 
         final String title = (isBlank(userName) ? userDescription : userName).trim();
