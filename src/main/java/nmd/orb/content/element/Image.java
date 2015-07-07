@@ -1,6 +1,10 @@
 package nmd.orb.content.element;
 
 import nmd.orb.content.ContentElement;
+import nmd.orb.http.servlets.ReadsServlet;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isValidUrl;
@@ -10,10 +14,18 @@ import static nmd.orb.util.Parameter.isValidUrl;
  */
 public class Image implements ContentElement {
 
+    private static final Logger LOGGER = Logger.getLogger(Image.class.getName());
+
     public final String src;
 
     public Image(final String src) {
-        guard(isValidUrl(this.src = src));
+        this.src = src;
+
+        //guard(isValidUrl(this.src = src));
+
+        if (!isValidUrl(src)) {
+            LOGGER.log(Level.SEVERE, String.format("Invalid image src [ %s ]", src));
+        }
     }
 
     @Override
