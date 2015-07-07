@@ -26,7 +26,7 @@ import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.isValidUrl;
 import static nmd.orb.util.Parameter.notNull;
 import static nmd.orb.util.TransactionTools.rollbackIfActive;
-import static nmd.orb.util.UrlTools.normalizeUrl;
+import static nmd.orb.util.UrlTools.deleteLastSlash;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -82,7 +82,7 @@ public class FeedsService extends AbstractService implements FeedsServiceAdapter
         Transaction transaction = null;
 
         try {
-            final String feedUrlInLowerCase = normalizeUrl(feedUrl);
+            final String feedUrlInLowerCase = deleteLastSlash(feedUrl);
             final Feed feed = fetchFeed(feedUrlInLowerCase);
 
             transaction = this.transactions.beginOne();

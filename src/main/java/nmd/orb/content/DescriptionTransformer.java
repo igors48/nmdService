@@ -2,12 +2,12 @@ package nmd.orb.content;
 
 import nmd.orb.content.element.Image;
 import nmd.orb.content.element.PlainText;
+import nmd.orb.util.UrlTools;
 import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlNode;
 import org.htmlcleaner.TagNode;
 import org.htmlcleaner.TagNodeVisitor;
 
-import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,10 +21,10 @@ public class DescriptionTransformer implements TagNodeVisitor {
 
     public final List<ContentElement> result;
 
-    private final String domain;
+    private final String base;
 
-    public DescriptionTransformer(final String domain) {
-        guard(isValidUrl(this.domain = domain));
+    public DescriptionTransformer(final String base) {
+        guard(isValidUrl(this.base = base));
 
         this.result = new ArrayList<>();
     }
@@ -49,7 +49,7 @@ public class DescriptionTransformer implements TagNodeVisitor {
                 final boolean srcIsNotEmpty = src != null && !src.isEmpty();
 
                 if (srcIsNotEmpty) {
-                    final String normalizedSrc = this.normalize(src);
+                    final String normalizedSrc = UrlTools.normalize(this.base, src);
                     final Image image = new Image(normalizedSrc);
 
                     this.result.add(image);
@@ -58,17 +58,6 @@ public class DescriptionTransformer implements TagNodeVisitor {
         }
 
         return true;
-    }
-
-    private String normalize(final String url) {
-
-        try {
-            final URI uri = new URI(url);
-
-            return uri.isAbsolute() ? url : this.domain + (url.startsWith("/") ? url : "/" + url);
-        } catch (Exception e) {
-            return url;
-        }
     }
 
 }
