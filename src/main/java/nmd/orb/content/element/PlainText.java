@@ -1,4 +1,6 @@
-package nmd.orb.content;
+package nmd.orb.content.element;
+
+import nmd.orb.content.ContentElement;
 
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;

@@ -1,5 +1,7 @@
 package nmd.orb.content;
 
+import nmd.orb.content.element.Image;
+import nmd.orb.content.element.PlainText;
 import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlNode;
 import org.htmlcleaner.TagNode;

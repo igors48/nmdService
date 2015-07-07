@@ -2,8 +2,8 @@ package unit.content;
 
 import nmd.orb.content.ContentElement;
 import nmd.orb.content.ContentTransformer;
-import nmd.orb.content.Image;
-import nmd.orb.content.PlainText;
+import nmd.orb.content.element.Image;
+import nmd.orb.content.element.PlainText;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
