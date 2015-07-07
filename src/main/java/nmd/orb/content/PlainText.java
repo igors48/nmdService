@@ -14,4 +14,20 @@ public class PlainText implements ContentElement {
         guard(notNull(this.text = text));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        PlainText plainText = (PlainText) o;
+
+        return text.equals(plainText.text);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return text.hashCode();
+    }
+
 }

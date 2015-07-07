@@ -14,4 +14,20 @@ public class Image implements ContentElement {
         guard(isValidUrl(this.src = src));
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Image image = (Image) o;
+
+        return src.equals(image.src);
+
+    }
+
+    @Override
+    public int hashCode() {
+        return src.hashCode();
+    }
+
 }
