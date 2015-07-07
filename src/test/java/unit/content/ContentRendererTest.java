@@ -36,7 +36,7 @@ public class ContentRendererTest {
                         {new ArrayList<>(), ""},
                         {Arrays.asList(new PlainText("a")), "<p>a</p>"},
                         {Arrays.asList(new PlainText("a"), new PlainText("b")), "<p>a</p><p>b</p>"},
-                        {Arrays.asList(new PlainText("a"), new Image("http://domain.com/abc")), "<p>a</p><img src=\"http://domain.com/abc\"></img>"}
+                        {Arrays.asList(new PlainText("a"), new Image("http://domain.com/abc")), "<p>a</p><img src=\"http://domain.com/abc\" align=\"left\" width=\"150\" style=\"float: left;padding: 0 10px 10px 0;\"></img>"}
                 }
         );
     }
