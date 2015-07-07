@@ -37,4 +37,11 @@ public class UrlToolsTest {
         assertTrue(Parameter.isValidUrl("http://dnr.today"));
     }
 
+    @Test
+    public void getBaseLinkTest() {
+        assertEquals("http://domain.com", UrlTools.getBaseLink("http://domain.com"));
+        assertEquals("http://domain.com", UrlTools.getBaseLink("http://domain.com//ad"));
+        assertEquals("http://domain.com:80", UrlTools.getBaseLink("http://domain.com:80//ad"));
+    }
+
 }

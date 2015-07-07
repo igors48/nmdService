@@ -1,5 +1,7 @@
 package nmd.orb.util;
 
+import java.net.URL;
+
 import static nmd.orb.util.Assert.assertStringIsValid;
 
 /**
@@ -22,6 +24,17 @@ public final class UrlTools {
         }
 
         return lowered;
+    }
+
+    public static String getBaseLink(final String url) {
+
+        try {
+            final URL uri = new URL(url);
+
+            return uri.getProtocol() + "://" + uri.getAuthority();
+        } catch (Exception e) {
+            return url;
+        }
     }
 
     private UrlTools() {

@@ -2,6 +2,7 @@ package nmd.orb.services;
 
 import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.collector.fetcher.UrlFetcher;
+import nmd.orb.content.ContentElement;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
@@ -25,15 +26,17 @@ import java.util.*;
 
 import static nmd.orb.collector.merger.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
 import static nmd.orb.collector.merger.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
+import static nmd.orb.content.ContentRenderer.render;
+import static nmd.orb.content.ContentTransformer.transform;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
 import static nmd.orb.feed.FeedItem.isValidFeedItemGuid;
 import static nmd.orb.feed.FeedItem.isValidLastUsedFeedItemGuid;
 import static nmd.orb.reader.FeedItemsComparator.compare;
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Page.isValidKeyItemGuid;
-import static nmd.orb.util.Parameter.isPositive;
-import static nmd.orb.util.Parameter.notNull;
+import static nmd.orb.util.Parameter.*;
 import static nmd.orb.util.TransactionTools.rollbackIfActive;
+import static nmd.orb.util.UrlTools.getBaseLink;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -111,7 +114,7 @@ public class ReadsService extends AbstractService {
 
             for (final FeedItem feedItem : feedItems) {
                 final int index = feedItems.indexOf(feedItem);
-                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem, index, total);
+                final FeedItemReport feedItemReport = getFeedItemReport(feedId, header.link, readFeedItems, feedItem, index, total);
 
                 final boolean acceptableById = feedItemReport.itemId.equals(lastUsedFeedItemId);
                 final boolean acceptableByFilter = filter.acceptable(feedItemReport);
@@ -171,7 +174,7 @@ public class ReadsService extends AbstractService {
 
             for (final FeedItem feedItem : page.items) {
                 final int index = feedItems.indexOf(feedItem);
-                final FeedItemReport feedItemReport = getFeedItemReport(feedId, readFeedItems, feedItem, index, total);
+                final FeedItemReport feedItemReport = getFeedItemReport(feedId, header.link, readFeedItems, feedItem, index, total);
 
                 feedItemReports.add(feedItemReport);
             }
@@ -396,12 +399,23 @@ public class ReadsService extends AbstractService {
         return notReads.isEmpty() ? null : notReads.get(notReads.size() - 1);
     }
 
-    public static FeedItemReport getFeedItemReport(final UUID feedId, final ReadFeedItems readFeedItems, final FeedItem feedItem, final int index, final int total) {
+    public static FeedItemReport getFeedItemReport(final UUID feedId, final String link, final ReadFeedItems readFeedItems, final FeedItem feedItem, final int index, final int total) {
+        guard(isValidFeedHeaderId(feedId));
+        guard(notNull(readFeedItems));
+        guard(notNull(feedItem));
+        guard(isPositive(index));
+        guard(isPositive(total));
+        guard(isValidUrl(link));
+
         final boolean readItem = readFeedItems.readItemIds.contains(feedItem.guid);
         final boolean readLaterItem = readFeedItems.readLaterItemIds.contains(feedItem.guid);
         final boolean addedSinceLastView = readFeedItems.lastUpdate.compareTo(feedItem.date) < 0;
 
-        return new FeedItemReport(feedId, feedItem.title, feedItem.description, feedItem.gotoLink, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView, index, total);
+        final String originalDescription = feedItem.description;
+        final List<ContentElement> elements = transform(getBaseLink(link), originalDescription);
+        final String preparedDescription = render(elements);
+
+        return new FeedItemReport(feedId, feedItem.title, preparedDescription, feedItem.gotoLink, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView, index, total);
     }
 
     private static List<FeedItem> findNotReadItems(List<FeedItem> items, Set<String> readGuids) {

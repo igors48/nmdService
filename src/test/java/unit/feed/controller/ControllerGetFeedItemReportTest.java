@@ -1,5 +1,7 @@
 package unit.feed.controller;
 
+import nmd.orb.content.ContentRenderer;
+import nmd.orb.content.ContentTransformer;
 import nmd.orb.feed.FeedItem;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
@@ -22,15 +24,17 @@ public class ControllerGetFeedItemReportTest {
 
     private static final FeedItem FEED_ITEM = new FeedItem("title", "description", "http://domain.com", "http://domain-goto.com", new Date(4), true, "guid");
     private static final UUID FEED_ID = UUID.randomUUID();
+    private static final String FEED_LINK = "http://domain.com";
 
     @Test
     public void whenFeedItemReportCreatedThenBasicParametersSetCorrectly() {
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, ReadFeedItems.empty(UUID.randomUUID()), FEED_ITEM, 0, 0);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, ReadFeedItems.empty(UUID.randomUUID()), FEED_ITEM, 0, 0);
+        final String preparedDescription = ContentRenderer.render(ContentTransformer.transform(FEED_LINK, FEED_ITEM.description));
 
         assertEquals(FEED_ID, report.feedId);
 
         assertEquals(FEED_ITEM.title, report.title);
-        assertEquals(FEED_ITEM.description, report.description);
+        assertEquals(preparedDescription, report.description);
         assertEquals(FEED_ITEM.gotoLink, report.link);
         assertEquals(FEED_ITEM.date, report.date);
         assertEquals(FEED_ITEM.guid, report.itemId);
@@ -45,7 +49,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, readFeedItems, FEED_ITEM, 0, 0);
 
         assertTrue(report.read);
     }
@@ -58,7 +62,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, readFeedItems, FEED_ITEM, 0, 0);
 
         assertFalse(report.read);
     }
@@ -72,7 +76,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, readFeedItems, FEED_ITEM, 0, 0);
 
         assertTrue(report.readLater);
     }
@@ -85,7 +89,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, readFeedItems, FEED_ITEM, 0, 0);
 
         assertFalse(report.readLater);
     }
@@ -97,7 +101,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(6), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, readFeedItems, FEED_ITEM, 0, 0);
 
         assertFalse(report.addedSinceLastView);
     }
@@ -109,7 +113,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, FEED_ITEM.date, readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, readFeedItems, FEED_ITEM, 0, 0);
 
         assertFalse(report.addedSinceLastView);
     }
@@ -121,7 +125,7 @@ public class ControllerGetFeedItemReportTest {
 
         final ReadFeedItems readFeedItems = new ReadFeedItems(FEED_ID, new Date(3), readFeedItemsIds, readLaterFeedItemsIds, Category.MAIN_CATEGORY_ID);
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, 0, 0);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, readFeedItems, FEED_ITEM, 0, 0);
 
         assertTrue(report.addedSinceLastView);
     }
@@ -136,7 +140,7 @@ public class ControllerGetFeedItemReportTest {
         final int index = 48;
         final int total = 49;
 
-        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, readFeedItems, FEED_ITEM, index, total);
+        final FeedItemReport report = ReadsService.getFeedItemReport(FEED_ID, FEED_LINK, readFeedItems, FEED_ITEM, index, total);
 
         assertEquals(index, report.index);
         assertEquals(total, report.total);

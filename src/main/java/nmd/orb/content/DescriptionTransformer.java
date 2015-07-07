@@ -65,7 +65,7 @@ public class DescriptionTransformer implements TagNodeVisitor {
         try {
             final URI uri = new URI(url);
 
-            return uri.isAbsolute() ? url : this.domain + url;
+            return uri.isAbsolute() ? url : this.domain + (url.startsWith("/") ? url : "/" + url);
         } catch (Exception e) {
             return url;
         }
