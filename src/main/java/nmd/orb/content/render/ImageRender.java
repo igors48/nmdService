@@ -18,7 +18,7 @@ public class ImageRender implements ElementRenderer<Image> {
     public String render(final Image element) {
         guard(notNull(element));
 
-        return format("<img src=\"%s\" align=\"left\" width=\"150\" style=\"float: left;padding: 0 10px 10px 0;\"></img>", element.src);
+        return format("<img src=\"%s\" align=\"left\" width=\"100\" style=\"float: left;\" class=\"padding-right\"></img>", element.src);
     }
 
 }
