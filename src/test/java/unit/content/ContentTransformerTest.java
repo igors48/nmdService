@@ -44,7 +44,11 @@ public class ContentTransformerTest {
                         {"c<img src=\"\">", Arrays.asList(new PlainText("c"))},
                         {"c<img src=\"http://domain.com/abc\">", Arrays.asList(new PlainText("c"), new Image("http://domain.com/abc"))},
                         {"c<img src=\"http://domain.com/abc\">d", Arrays.asList(new PlainText("c"), new Image("http://domain.com/abc"), new PlainText("d"))},
-                        {"c<img src=\"/abc\">", Arrays.asList(new PlainText("c"), new Image("http://domain2.com/abc"))}
+                        {"c<img src=\"/abc\">", Arrays.asList(new PlainText("c"), new Image("http://domain2.com/abc"))},
+                        {"<a href=\"#\">a</a>", Arrays.asList(new PlainText("a"))},
+                        {"a<a href=\"#\">b</a>", Arrays.asList(new PlainText("ab"))},
+                        {"a<a href=\"#\">b</a><a href=\"#\">c</a>", Arrays.asList(new PlainText("abc"))},
+                        {"c<img src=\"/abc\"><a href=\"#\">b</a>", Arrays.asList(new PlainText("c"), new Image("http://domain2.com/abc"), new PlainText("b"))}
                 }
         );
     }

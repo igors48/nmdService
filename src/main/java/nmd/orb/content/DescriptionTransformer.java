@@ -36,7 +36,22 @@ public class DescriptionTransformer implements TagNodeVisitor {
             final ContentNode contentNode = (ContentNode) htmlNode;
             final String content = contentNode.getContent();
 
-            final PlainText plainText = new PlainText(content);
+            final PlainText plainText;
+
+            if (tagNode.getName().equalsIgnoreCase("a")) {
+                final ContentElement last = this.result.isEmpty() ? null : this.result.get(this.result.size() - 1);
+                final boolean newPlainTextNeeded = !(last instanceof PlainText);
+
+                if (newPlainTextNeeded) {
+                    plainText = new PlainText(content);
+                } else {
+                    final PlainText oldPlainText = (PlainText) this.result.remove(this.result.size() - 1);
+                    plainText = new PlainText(oldPlainText.text + content);
+                }
+            } else {
+                plainText = new PlainText(content);
+            }
+
             this.result.add(plainText);
         }
 
