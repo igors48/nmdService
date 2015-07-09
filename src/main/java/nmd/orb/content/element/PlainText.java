@@ -32,4 +32,11 @@ public class PlainText implements ContentElement {
         return text.hashCode();
     }
 
+    @Override
+    public String toString() {
+        return "PlainText{" +
+                "text='" + text + '\'' +
+                '}';
+    }
+
 }

@@ -49,7 +49,7 @@ public class DescriptionTransformer implements TagNodeVisitor {
                     plainText = new PlainTextFromATag(content);
                 } else {
                     final PlainText oldPlainText = (PlainText) this.result.remove(this.result.size() - 1);
-                    plainText = new PlainText(oldPlainText.text + content);
+                    plainText = new PlainTextFromATag(oldPlainText.text + content);
                 }
             } else {
 

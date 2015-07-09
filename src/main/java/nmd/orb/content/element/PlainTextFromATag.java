@@ -9,4 +9,11 @@ public class PlainTextFromATag extends PlainText {
         super(text);
     }
 
+    @Override
+    public String toString() {
+        return "PlainTextFromATag{" +
+                "text='" + text + '\'' +
+                '}';
+    }
+
 }
