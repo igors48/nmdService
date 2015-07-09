@@ -35,6 +35,7 @@ public class UrlToolsTest {
     public void urlValidationSpecialCases() {
         assertTrue(Parameter.isValidUrl("http://rgg.zone"));
         assertTrue(Parameter.isValidUrl("http://dnr.today"));
+        assertTrue(Parameter.isValidUrl("http://zona.media/news/prigovor_plukhiny/"));
     }
 
     @Test
