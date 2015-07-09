@@ -2,6 +2,7 @@ package nmd.orb.content;
 
 import nmd.orb.content.element.Image;
 import nmd.orb.content.element.PlainText;
+import nmd.orb.content.element.PlainTextFromATag;
 import nmd.orb.util.UrlTools;
 import org.htmlcleaner.ContentNode;
 import org.htmlcleaner.HtmlNode;
@@ -38,18 +39,26 @@ public class DescriptionTransformer implements TagNodeVisitor {
 
             final PlainText plainText;
 
+            final ContentElement last = this.result.isEmpty() ? null : this.result.get(this.result.size() - 1);
+            final boolean newPlainTextNeeded = !(last instanceof PlainText);
+            final boolean newPlainTextFromATagMustBeReplaced = last instanceof PlainTextFromATag;
+
             if (tagNode.getName().equalsIgnoreCase("a")) {
-                final ContentElement last = this.result.isEmpty() ? null : this.result.get(this.result.size() - 1);
-                final boolean newPlainTextNeeded = !(last instanceof PlainText);
 
                 if (newPlainTextNeeded) {
-                    plainText = new PlainText(content);
+                    plainText = new PlainTextFromATag(content);
                 } else {
                     final PlainText oldPlainText = (PlainText) this.result.remove(this.result.size() - 1);
                     plainText = new PlainText(oldPlainText.text + content);
                 }
             } else {
-                plainText = new PlainText(content);
+
+                if (newPlainTextFromATagMustBeReplaced) {
+                    final PlainText oldPlainText = (PlainText) this.result.remove(this.result.size() - 1);
+                    plainText = new PlainText(oldPlainText.text + content);
+                } else {
+                    plainText = new PlainText(content);
+                }
             }
 
             this.result.add(plainText);
@@ -60,19 +69,23 @@ public class DescriptionTransformer implements TagNodeVisitor {
             final String tagName = tag.getName();
 
             if ("img".equalsIgnoreCase(tagName)) {
-                final String src = tag.getAttributeByName("src");
-                final boolean srcIsNotEmpty = src != null && !src.isEmpty();
-
-                if (srcIsNotEmpty) {
-                    final String normalizedSrc = UrlTools.normalize(this.base, src);
-                    final Image image = new Image(normalizedSrc);
-
-                    this.result.add(image);
-                }
+                handleImgTag(tag);
             }
         }
 
         return true;
+    }
+
+    public void handleImgTag(TagNode tag) {
+        final String src = tag.getAttributeByName("src");
+        final boolean srcIsNotEmpty = src != null && !src.isEmpty();
+
+        if (srcIsNotEmpty) {
+            final String normalizedSrc = UrlTools.normalize(this.base, src);
+            final Image image = new Image(normalizedSrc);
+
+            this.result.add(image);
+        }
     }
 
 }

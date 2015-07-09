@@ -2,6 +2,7 @@ package nmd.orb.content;
 
 import nmd.orb.content.element.Image;
 import nmd.orb.content.element.PlainText;
+import nmd.orb.content.element.PlainTextFromATag;
 
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ public class ContentRenderer {
 
         RENDERERS.put(Image.class, IMAGE_RENDER);
         RENDERERS.put(PlainText.class, PLAIN_TEXT_RENDER);
+        RENDERERS.put(PlainTextFromATag.class, PLAIN_TEXT_RENDER);
     }
 
     public static String render(final List<ContentElement> elements) {
