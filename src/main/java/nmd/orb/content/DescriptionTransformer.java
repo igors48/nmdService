@@ -34,49 +34,70 @@ public class DescriptionTransformer implements TagNodeVisitor {
     public boolean visit(final TagNode tagNode, final HtmlNode htmlNode) {
 
         if (htmlNode instanceof ContentNode) {
-            final ContentNode contentNode = (ContentNode) htmlNode;
-            final String content = contentNode.getContent();
-
-            final PlainText plainText;
-
-            final ContentElement last = this.result.isEmpty() ? null : this.result.get(this.result.size() - 1);
-            final boolean newPlainTextNeeded = !(last instanceof PlainText);
-            final boolean newPlainTextFromATagMustBeReplaced = last instanceof PlainTextFromATag;
-
-            if (tagNode.getName().equalsIgnoreCase("a")) {
-
-                if (newPlainTextNeeded) {
-                    plainText = new PlainTextFromATag(content);
-                } else {
-                    final PlainText oldPlainText = (PlainText) this.result.remove(this.result.size() - 1);
-                    plainText = new PlainTextFromATag(oldPlainText.text + content);
-                }
-            } else {
-
-                if (newPlainTextFromATagMustBeReplaced) {
-                    final PlainText oldPlainText = (PlainText) this.result.remove(this.result.size() - 1);
-                    plainText = new PlainText(oldPlainText.text + content);
-                } else {
-                    plainText = new PlainText(content);
-                }
-            }
-
-            this.result.add(plainText);
+            visitContentNode(tagNode, (ContentNode) htmlNode);
         }
 
         if (htmlNode instanceof TagNode) {
-            final TagNode tag = (TagNode) htmlNode;
-            final String tagName = tag.getName();
-
-            if ("img".equalsIgnoreCase(tagName)) {
-                handleImgTag(tag);
-            }
+            visitTagNode((TagNode) htmlNode);
         }
 
         return true;
     }
 
-    public void handleImgTag(TagNode tag) {
+    private void visitTagNode(final TagNode tagNode) {
+        final String tagName = tagNode.getName();
+
+        if ("img".equalsIgnoreCase(tagName)) {
+            handleImgTag(tagNode);
+        }
+    }
+
+    private void visitContentNode(final TagNode tagNode, final ContentNode contentNode) {
+
+        if (tagNode.getName().equalsIgnoreCase("a")) {
+            handleATagContent(contentNode);
+        } else {
+            handleOtherTagsContent(contentNode);
+        }
+    }
+
+    private void handleOtherTagsContent(final ContentNode contentNode) {
+        final String content = contentNode.getContent();
+        final ContentElement last = getLastElement();
+        final boolean newPlainTextFromATagMustBeReplaced = last instanceof PlainTextFromATag;
+
+        final PlainText plainText;
+
+        if (newPlainTextFromATagMustBeReplaced) {
+            this.result.remove(last);
+            final PlainText oldPlainText = (PlainText) last;
+            plainText = new PlainText(oldPlainText.text + content);
+        } else {
+            plainText = new PlainText(content);
+        }
+
+        this.result.add(plainText);
+    }
+
+    private void handleATagContent(final ContentNode contentNode) {
+        final String content = contentNode.getContent();
+        final ContentElement last = getLastElement();
+        final boolean newPlainTextNeeded = !(last instanceof PlainText);
+
+        final PlainText plainText;
+
+        if (newPlainTextNeeded) {
+            plainText = new PlainTextFromATag(content);
+        } else {
+            this.result.remove(last);
+            final PlainText oldPlainText = (PlainText) last;
+            plainText = new PlainTextFromATag(oldPlainText.text + content);
+        }
+
+        this.result.add(plainText);
+    }
+
+    private void handleImgTag(final TagNode tag) {
         final String src = tag.getAttributeByName("src");
         final boolean srcIsNotEmpty = src != null && !src.isEmpty();
 
@@ -86,6 +107,10 @@ public class DescriptionTransformer implements TagNodeVisitor {
 
             this.result.add(image);
         }
+    }
+
+    private ContentElement getLastElement() {
+        return this.result.isEmpty() ? null : this.result.get(this.result.size() - 1);
     }
 
 }
