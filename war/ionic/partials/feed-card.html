@@ -15,11 +15,18 @@
     <div class="card" ng-show="showUi">
         <a class="block-link" href="{{card.link}}" target="_blank" ng-click="onMarkAndNext()">
             <div class="item item-divider">
-                <h3>{{card.index}}/{{card.total}}&nbsp;&nbsp;<span class="icon ion-eye-disabled" ng-show="card.notRead"></span></h3>
+                <h3>
+                    <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'EEE d MMM HH:mm'}}&nbsp;{{card.timeDifference}}&nbsp;&nbsp;
+                    <span class="icon ion-eye-disabled" ng-show="card.notRead"></span>&nbsp;&nbsp;
+                    {{card.index}}/{{card.total}}
+                </h3>
             </div>
             <div style="text-align: justify;" class="item item-text-wrap">
                 <h2 class="padding-bottom">{{card.title}}</h2>
                 <h3 ng-bind-html="card.description"></h3> 
+                <h4 class="orange-front">
+                    <span class="icon ion-link"></span>&nbsp;{{card.link}}
+                </h4>
             </div>
         </a>
 
@@ -34,16 +41,6 @@
             </a>
         </div>
 
-        <div style="text-align: justify;" class="item item-divider">
-            <h4 class="blue-front">
-                <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'EEE d MMM HH:mm'}}&nbsp;{{card.timeDifference}}
-            </h4>
-
-            <h4 class="orange-front">
-                <span class="icon ion-link"></span>&nbsp;{{card.link}}
-            </h4>
-        </div>
-
     </div>   
 
     <div class="card" ng-show="showContent">
@@ -55,6 +52,7 @@
 <ion-footer-bar align-title="left" class="bar-dark">
     <div class="button-bar" ng-cloak ng-show="showUi">
         <a class="button" ng-click="onPrev()">Prev</a>
+        <a class="button" >Mark all read</a>
         <a class="button" ng-click="onNext()">Next</a>
     </div>
 </ion-footer-bar>
