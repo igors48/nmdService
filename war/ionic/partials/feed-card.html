@@ -21,23 +21,30 @@
                 <h2 class="padding-bottom">{{card.title}}</h2>
                 <h3 ng-bind-html="card.description"></h3> 
             </div>
-            <div style="text-align: justify;" class="item item-divider">
-                <h4 class="blue-front">
-                    <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'EEE d MMM HH:mm'}}&nbsp;{{card.timeDifference}}
-                </h4>
+        </a>
 
-                <h4 class="orange-front">
-                    <span class="icon ion-link"></span>&nbsp;{{card.link}}
-                </h4>
-            </div>
-        </a> 
-    </div>   
-
-    <div class="list list-inset">
-        <div class="button-bar">
-            <button class="button button-block button-positive" ng-click="onViewFiltered()">View</button>
+        <div class="item tabs tabs-secondary tabs-icon-left">
+            <a class="tab-item" ng-click="onViewFiltered()">
+                <i class="icon ion-eye"></i>
+                Read more
+            </a>
+            <a class="tab-item">
+                <i class="icon ion-share"></i>
+                Mark &amp; Next
+            </a>
         </div>
-    </div>
+
+        <div style="text-align: justify;" class="item item-divider">
+            <h4 class="blue-front">
+                <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'EEE d MMM HH:mm'}}&nbsp;{{card.timeDifference}}
+            </h4>
+
+            <h4 class="orange-front">
+                <span class="icon ion-link"></span>&nbsp;{{card.link}}
+            </h4>
+        </div>
+
+    </div>   
 
     <div class="card" ng-show="showContent">
         <div class="item item-text-wrap" ng-bind-html="card.content"></div>
