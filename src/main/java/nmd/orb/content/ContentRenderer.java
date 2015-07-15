@@ -31,15 +31,27 @@ public class ContentRenderer {
     public static String render(final List<ContentElement> elements) {
         guard(notNull(elements));
 
-        StringBuffer result = new StringBuffer();
+        final StringBuilder result = new StringBuilder();
+
+        boolean oneImageRendered = false;
 
         for (final ContentElement element : elements) {
+            boolean isItImage = element instanceof Image;
+
+            if (isItImage && oneImageRendered) {
+                continue;
+            }
+
             final ElementRenderer renderer = RENDERERS.get(element.getClass());
 
             if (renderer != null) {
                 final String content = renderer.render(element);
 
                 result.append(content);
+            }
+
+            if (isItImage) {
+                oneImageRendered = true;
             }
         }
 
