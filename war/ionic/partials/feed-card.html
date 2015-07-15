@@ -15,11 +15,11 @@
     <div class="card" ng-show="showUi">
         <a class="block-link" href="{{card.link}}" target="_blank" ng-click="onMarkAndNext()">
             <div class="item item-divider">
-                <h4>
+                <h5>
                     <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'EEE d MMM HH:mm'}}&nbsp;{{card.timeDifference}}&nbsp;&nbsp;
                     <span class="icon ion-eye-disabled" ng-show="card.notRead"></span>&nbsp;&nbsp;
                     {{card.index}}/{{card.total}}
-                </h4>
+                </h5>
             </div>
             <div style="text-align: justify;" class="item item-text-wrap">
                 <h2 class="padding-bottom">{{card.title}}</h2>
