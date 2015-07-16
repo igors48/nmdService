@@ -168,6 +168,10 @@ public class ReadsService extends AbstractService {
             final int total = feedItems.size();
 
             Collections.sort(feedItems, TIMESTAMP_DESCENDING_COMPARATOR);
+
+            final FeedItem topItem = feedItems.isEmpty() ? null : feedItems.get(0);
+            final Date topItemDate = topItem == null ? new Date() : topItem.date;
+
             final Page<FeedItem> page = Page.create(feedItems, itemId, size, direction);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
@@ -181,7 +185,7 @@ public class ReadsService extends AbstractService {
 
             transaction.commit();
 
-            return new FeedItemsCardsReport(header.id, header.title, page.first, page.last, feedItemReports);
+            return new FeedItemsCardsReport(header.id, header.title, page.first, page.last, feedItemReports, topItemDate);
         } finally {
             rollbackIfActive(transaction);
         }

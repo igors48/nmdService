@@ -59,4 +59,16 @@ public class ControllerGetFeedItemsCardsReportTest extends AbstractControllerTes
         assertEquals(feedHeader.id, feedItemsCardsReport.feedId);
     }
 
+    @Test
+    public void whenFeedItemsCardsReportReturnsThenTopItemDateSetCorrectly() throws ServiceException {
+        final FeedItem first = create(1);
+        final FeedItem second = create(2);
+        final FeedItem third = create(3);
+        final FeedHeader feedHeader = createSampleFeed(first, second, third);
+
+        final FeedItemsCardsReport feedItemsCardsReport = this.readsService.getFeedItemsCardsReport(feedHeader.id, second.guid, 2, Direction.NEXT);
+
+        assertEquals(third.date, feedItemsCardsReport.topItemDate);
+    }
+
 }

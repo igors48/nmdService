@@ -1,5 +1,6 @@
 package nmd.orb.services.report;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,19 +20,15 @@ public class FeedItemsCardsReport {
     public final boolean first;
     public final boolean last;
     public final List<FeedItemReport> reports;
+    public final Date topItemDate;
 
-    public FeedItemsCardsReport(final UUID feedId, final String title, final boolean first, final boolean last, final List<FeedItemReport> reports) {
-        guard(isValidFeedHeaderId(feedId));
-        this.feedId = feedId;
-
-        guard(isValidFeedHeaderTitle(title));
-        this.title = title;
-
+    public FeedItemsCardsReport(final UUID feedId, final String title, final boolean first, final boolean last, final List<FeedItemReport> reports, final Date topItemDate) {
+        guard(isValidFeedHeaderId(this.feedId = feedId));
+        guard(isValidFeedHeaderTitle(this.title = title));
         this.first = first;
         this.last = last;
-
-        guard(notNull(reports));
-        this.reports = reports;
+        guard(notNull(this.reports = reports));
+        guard(notNull(this.topItemDate = topItemDate));
     }
 
 }
