@@ -22,6 +22,10 @@ controllers.controller('feedCardController',
             });
         };
 
+        $scope.onMarkAllAsRead = function () {
+            alert('asd');
+        }
+
         $scope.onPrev = function () {
             var currentItemIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
             var firstItemOnPage = currentItemIndex === 0;

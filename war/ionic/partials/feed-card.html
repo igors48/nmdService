@@ -35,10 +35,6 @@
                 <i class="icon ion-eye"></i>
                 Read more
             </a>
-            <a class="tab-item">
-                <i class="icon ion-share"></i>
-                Mark &amp; Next
-            </a>
         </div>
 
     </div>   
@@ -52,7 +48,7 @@
 <ion-footer-bar align-title="left" class="bar-dark">
     <div class="button-bar" ng-cloak ng-show="showUi">
         <a class="button" ng-click="onPrev()">Prev</a>
-        <a class="button" >Mark all read</a>
+        <a class="button" ng-click="onMarkAllAsRead()">Mark all read</a>
         <a class="button" ng-click="onNext()">Next</a>
     </div>
 </ion-footer-bar>
