@@ -20,6 +20,7 @@ public class FeedItemsCardsReportResponse extends SuccessResponse {
     public boolean first;
     public boolean last;
     public List<FeedItemCardReportPayload> reports;
+    public long topItemTimestamp;
 
     private FeedItemsCardsReportResponse() {
         // empty
@@ -34,6 +35,7 @@ public class FeedItemsCardsReportResponse extends SuccessResponse {
         response.title = report.title;
         response.first = report.first;
         response.last = report.last;
+        response.topItemTimestamp = report.topItemDate.getTime();
 
         response.reports = new ArrayList<>();
 

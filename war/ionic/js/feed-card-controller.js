@@ -5,6 +5,8 @@ controllers.controller('feedCardController',
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, reads, content) {
         var pageSize = 5;
 
+        var topItemTimestamp = 0;
+
         $scope.showUi = false;
         $scope.showContent = false;
 
@@ -23,8 +25,21 @@ controllers.controller('feedCardController',
         };
 
         $scope.onMarkAllAsRead = function () {
-            alert('asd');
-        }
+            $ionicLoading.show({
+                template: $scope.utilities.loadingMessage('Marking items...')
+            });
+
+            var feedId = $stateParams.feedId;
+
+            $rootScope.lastFeed = feedId;
+
+            reads.mark({
+                feedId: feedId,
+                topItemTimestamp: topItemTimestamp
+            },
+            onMarkAllItemsReadCompleted,
+            onServerFault);
+        };
 
         $scope.onPrev = function () {
             var currentItemIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
@@ -98,6 +113,14 @@ controllers.controller('feedCardController',
             );
         };
 
+        var onMarkAllItemsReadCompleted = function (response) {
+            $ionicLoading.hide();
+
+            $state.go('category', {
+                id: $stateParams.categoryId
+            });
+        };
+
         var onContentFilterCompleted = function (response) {
             $ionicLoading.hide();
 
@@ -119,6 +142,8 @@ controllers.controller('feedCardController',
 
                 return;
             }
+
+            topItemTimestamp = response.topItemTimestamp;
 
             $scope.utilities.addTimeDifference(response.reports);
             $rootScope.currentPage = response;

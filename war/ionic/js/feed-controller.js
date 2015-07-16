@@ -176,8 +176,6 @@ controllers.controller('feedController',
         };
         
         var onMarkAllItemsReadCompleted = function (response) {
-            var me = this;
-
             $ionicLoading.hide();
 
             $state.go('category', {
