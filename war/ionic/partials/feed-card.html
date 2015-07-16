@@ -13,7 +13,7 @@
 <ion-content ng-cloak>
     
     <div class="card" ng-show="showUi">
-        <a class="block-link" href="{{card.link}}" target="_blank" ng-click="onMarkAndNext()">
+        <a class="block-link" href="{{card.link}}" target="_blank" ng-click="markAsRead()">
             <div class="item item-divider">
                 <h5>
                     <span class="icon ion-calendar"></span>&nbsp;{{card.date | date:'EEE d MMM HH:mm'}}&nbsp;{{card.timeDifference}}&nbsp;&nbsp;

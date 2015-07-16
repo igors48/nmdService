@@ -24,6 +24,24 @@ controllers.controller('feedCardController',
             });
         };
 
+        $scope.markAsRead = function () {
+            $rootScope.lastItemId = $stateParams.itemId;
+
+            $ionicLoading.show({
+                template: $scope.utilities.loadingMessage('Marking item...')
+            });
+
+            reads.mark(
+                {
+                    feedId: $stateParams.feedId,
+                    itemId: $stateParams.itemId,
+                    markAs: 'read'
+                },
+                onMarkAsReadCompleted,
+                onServerFault
+            );
+        };
+
         $scope.onMarkAllAsRead = function () {
             $ionicLoading.show({
                 template: $scope.utilities.loadingMessage('Marking items...')
@@ -111,6 +129,16 @@ controllers.controller('feedCardController',
                 onLoadCardsCompleted,
                 onServerFault
             );
+        };
+
+        var onMarkAsReadCompleted = function (response) {
+            $ionicLoading.hide();
+
+            var currentIndex = findByItemId($rootScope.currentPage.reports, $stateParams.itemId);
+            var current = $rootScope.currentPage.reports[currentIndex];
+            current.read = true;
+            
+            $scope.card.notRead = false;
         };
 
         var onMarkAllItemsReadCompleted = function (response) {
