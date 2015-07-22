@@ -29,8 +29,7 @@
     <ion-list ng-show="showUi">
         <ion-item ng-repeat="item in items">
                 <a class="block-link" href="{{item.link}}" target="_blank" ng-click="markAsRead(item.feedId, item.itemId)">
-                    <h4 class="blue-front">
-                        <span class="icon ion-play" ng-show="($root.lastItemId==item.itemId)"></span>
+                    <h4 class="blue-front" ng-class="($root.lastItemId==item.itemId)  ? 'last-used-font' : ''">
                         <span class="icon ion-calendar"></span>
                         &nbsp;{{item.date | date:'EEE d MMM HH:mm'}}
                         &nbsp;{{item.timeDifference}}
@@ -39,7 +38,7 @@
                     </h4>
                 
                     <div class="item-text-wrap">
-                        <h3 ng-class="item.read ? '' : 'orange-front'" ng-bind-html="item.title"></h3>
+                        <h3 ng-class="($root.lastItemId==item.itemId)  ? 'last-used-font' : (item.read ? '' : 'orange-front')"  ng-class="($root.lastItemId==item.itemId) ? 'last-used' : ''" ng-bind-html="item.title"></h3>
                     </div>
                 </a>
 

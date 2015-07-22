@@ -23,5 +23,10 @@ input, button, select, textarea {
 }
 
 .last-used {
+	font-style: italic;
     background-color: rgb(224, 240, 255);
+}
+
+.last-used-font {
+	font-style: italic;
 }
