@@ -23,6 +23,7 @@ import nmd.orb.util.Direction;
 import nmd.orb.util.Page;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import static nmd.orb.collector.merger.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
 import static nmd.orb.collector.merger.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
@@ -43,6 +44,8 @@ import static nmd.orb.util.UrlTools.getBaseLink;
  * Date : 02.02.14
  */
 public class ReadsService extends AbstractService {
+
+    private static final Logger LOGGER = Logger.getLogger(ReadsService.class.getName());
 
     private final Transactions transactions;
     private final ReadFeedItemsRepository readFeedItemsRepository;
@@ -361,23 +364,40 @@ public class ReadsService extends AbstractService {
         guard(notNull(items));
         guard(notNull(readFeedItems));
 
+        long current = System.currentTimeMillis();
+
         final Set<String> storedGuids = getStoredGuids(items);
+        current = logTime("getStoredGuids", current);
 
         final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
+        current = logTime("comparisonReport", current);
 
         final FeedItem topItem = findFirstNotReadFeedItem(items, readFeedItems.readItemIds, readFeedItems.lastUpdate);
         final String topItemId = topItem == null ? null : topItem.guid;
         final String topItemLink = topItem == null ? null : topItem.gotoLink;
+        current = logTime("topItem", current);
 
         final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
+        current = logTime("countYoungerItems", current);
 
         final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
+        current = logTime("countReadLaterItems", current);
 
         final Source feedType = Source.detect(header.feedLink);
 
         final boolean hasErrors = sequentialErrorsCount >= UpdateErrorRegistrationService.MAX_SEQUENTIAL_UPDATE_ERRORS_COUNT;
 
         return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate, hasErrors);
+    }
+
+    private static long logTime(String message, long lastTime) {
+        final long current = System.currentTimeMillis();
+
+        final long delta = current - lastTime;
+
+        LOGGER.info(message + " : " + delta);
+
+        return current;
     }
 
     public static FeedItem findFirstNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids, final Date lastViewedItemTime) {
