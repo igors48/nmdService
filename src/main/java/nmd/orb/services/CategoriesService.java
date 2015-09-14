@@ -13,6 +13,7 @@ import nmd.orb.services.report.ExportReport;
 import nmd.orb.services.report.FeedReadReport;
 
 import java.util.*;
+import java.util.logging.Logger;
 
 import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
@@ -26,6 +27,8 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
  * @author : igu
  */
 public class CategoriesService implements CategoriesServiceAdapter {
+
+    private static final Logger LOGGER = Logger.getLogger(CategoriesService.class.getName());
 
     private static final CategoryNameComparator CATEGORY_NAME_COMPARATOR = new CategoryNameComparator();
     private static final FeedTitleComparator FEED_TITLE_COMPARATOR = new FeedTitleComparator();
@@ -268,11 +271,17 @@ public class CategoriesService implements CategoriesServiceAdapter {
         for (final ReadFeedItems readFeedItems : readFeedItemsList) {
 
             if (readFeedItems.categoryId.equals(category.uuid)) {
+                long current = System.currentTimeMillis();
+
                 final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
+                current = logTime("loadHeader", current);
                 final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(readFeedItems.feedId);
+                current = logTime("loadItems", current);
                 final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
+                current = logTime("loadErrors", current);
 
                 final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems, sequentialErrorsCount);
+                current = logTime("createReport", current);
 
                 read += feedReadReport.read;
                 notRead += feedReadReport.notRead;
@@ -421,6 +430,17 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
         return list;
     }
+
+    private static long logTime(String message, long lastTime) {
+        final long current = System.currentTimeMillis();
+
+        final long delta = current - lastTime;
+
+        LOGGER.info(message + " : " + delta);
+
+        return current;
+    }
+
 
     private static class CategoryNameComparator implements Comparator<CategoryReport> {
 
