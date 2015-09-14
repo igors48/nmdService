@@ -361,17 +361,17 @@ public class ReadsService extends AbstractService {
         guard(notNull(items));
         guard(notNull(readFeedItems));
 
-        final Set<String> storedGuids = getStoredGuids(items);
+        final Set<String> storedGuids = getStoredGuids(items); // guid
 
         final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
 
-        final FeedItem topItem = findFirstNotReadFeedItem(items, readFeedItems.readItemIds, readFeedItems.lastUpdate);
+        final FeedItem topItem = findFirstNotReadFeedItem(items, readFeedItems.readItemIds, readFeedItems.lastUpdate);  // guid date gotoLink   findFirstNotReadFeedItem only from this
         final String topItemId = topItem == null ? null : topItem.guid;
         final String topItemLink = topItem == null ? null : topItem.gotoLink;
 
-        final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
+        final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate); // date  countYoungerItems only from this
 
-        final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
+        final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds); // guid  countReadLaterItems only from this
 
         final Source feedType = Source.detect(header.feedLink);
 
