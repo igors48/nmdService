@@ -276,7 +276,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
                 final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
                 current = logTime("loadHeader " + readFeedItems.feedId, current);
                 final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(readFeedItems.feedId);
-                current = logTime("loadItems " + readFeedItems.feedId, current);
+                current = logTime("loadShortcuts " + readFeedItems.feedId, current);
                 final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
                 current = logTime("loadErrors " + readFeedItems.feedId, current);
 
