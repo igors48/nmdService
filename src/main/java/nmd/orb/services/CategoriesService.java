@@ -3,7 +3,7 @@ package nmd.orb.services;
 import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
-import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemShortcut;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.*;
@@ -275,12 +275,12 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
                 final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
                 current = logTime("loadHeader " + readFeedItems.feedId, current);
-                final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(readFeedItems.feedId);
+                final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(readFeedItems.feedId);
                 current = logTime("loadItems " + readFeedItems.feedId, current);
                 final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
                 current = logTime("loadErrors " + readFeedItems.feedId, current);
 
-                final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems, sequentialErrorsCount);
+                final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, shortcuts, readFeedItems, sequentialErrorsCount);
 
                 read += feedReadReport.read;
                 notRead += feedReadReport.notRead;

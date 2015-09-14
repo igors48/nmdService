@@ -2,6 +2,7 @@ package unit.feed.read;
 
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemShortcut;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.services.ReadsService;
@@ -23,11 +24,11 @@ public class CreateFeedReportTest {
 
     private static final UUID FEED_HEADER_ID = UUID.randomUUID();
 
-    private static final FeedItem ITEM_01 = AbstractControllerTestBase.create(10);
-    private static final FeedItem ITEM_02 = AbstractControllerTestBase.create(20);
-    private static final FeedItem ITEM_03 = AbstractControllerTestBase.create(30);
-    private static final FeedItem ITEM_04 = AbstractControllerTestBase.create(40);
-    private static final FeedItem ITEM_05 = AbstractControllerTestBase.create(50);
+    private static final FeedItemShortcut ITEM_01 = FeedItem.createShortcut(AbstractControllerTestBase.create(10));
+    private static final FeedItemShortcut ITEM_02 = FeedItem.createShortcut(AbstractControllerTestBase.create(20));
+    private static final FeedItemShortcut ITEM_03 = FeedItem.createShortcut(AbstractControllerTestBase.create(30));
+    private static final FeedItemShortcut ITEM_04 = FeedItem.createShortcut(AbstractControllerTestBase.create(40));
+    private static final FeedItemShortcut ITEM_05 = FeedItem.createShortcut(AbstractControllerTestBase.create(50));
     private static final String RSS_FEED_LINK = "http://domain.com/feedLink";
     private static final String TWITTER_FEED_LINK = "https://twitter.com/adme_ru";
     private static final String INSTAGRAM_FEED_LINK = "http://instagram.com/skif48";
@@ -35,7 +36,7 @@ public class CreateFeedReportTest {
     private static final String FEED_DESCRIPTION = "feedDescription";
 
     private FeedHeader header;
-    private List<FeedItem> items;
+    private List<FeedItemShortcut> items;
     private ReadFeedItems readFeedItems;
 
     @Before

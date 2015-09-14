@@ -2,6 +2,7 @@ package nmd.orb.feed;
 
 import nmd.orb.error.ServiceError;
 
+import java.io.Serializable;
 import java.util.Date;
 
 import static nmd.orb.error.ServiceError.invalidItemDate;
@@ -12,7 +13,7 @@ import static nmd.orb.util.Assert.guard;
 /**
  * @author : igu
  */
-public class FeedItemShortcut {
+public class FeedItemShortcut implements Serializable {
 
     public final String guid;
     public final Date date;
