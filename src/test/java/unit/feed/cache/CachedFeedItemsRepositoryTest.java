@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 import static java.util.UUID.randomUUID;
-import static nmd.orb.repositories.cached.CachedFeedItemsRepository.keyFor;
+import static nmd.orb.repositories.cached.CachedFeedItemsRepository.keyForItems;
 import static org.junit.Assert.*;
 
 /**
@@ -43,7 +43,7 @@ public class CachedFeedItemsRepositoryTest {
     @Before
     public void setUp() {
         this.cacheStub = new CacheStub();
-        this.cacheStub.put(keyFor(FEED_ID), CACHED_ITEMS);
+        this.cacheStub.put(keyForItems(FEED_ID), CACHED_ITEMS);
 
         this.feedItemsRepositoryStub = new FeedItemsRepositoryStub();
         this.feedItemsRepositoryStub.storeItems(FEED_ID, STORED_ITEMS);
@@ -55,7 +55,7 @@ public class CachedFeedItemsRepositoryTest {
     public void whenItemIsStoredThenCacheIsUpdated() {
         this.repository.storeItems(FEED_ID, STORED_ITEMS);
 
-        assertEquals(STORED_ITEMS, this.cacheStub.get(keyFor(FEED_ID)));
+        assertEquals(STORED_ITEMS, this.cacheStub.get(keyForItems(FEED_ID)));
     }
 
     @Test
@@ -80,7 +80,7 @@ public class CachedFeedItemsRepositoryTest {
 
         this.repository.loadItems(FEED_ID);
 
-        assertEquals(STORED_ITEMS, this.cacheStub.get(keyFor(FEED_ID)));
+        assertEquals(STORED_ITEMS, this.cacheStub.get(keyForItems(FEED_ID)));
     }
 
     @Test

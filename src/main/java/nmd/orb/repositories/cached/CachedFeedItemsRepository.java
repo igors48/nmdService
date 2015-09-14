@@ -1,6 +1,7 @@
 package nmd.orb.repositories.cached;
 
 import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemShortcut;
 import nmd.orb.repositories.Cache;
 import nmd.orb.repositories.FeedItemsRepository;
 
@@ -8,6 +9,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import static nmd.orb.feed.FeedItem.createShortcuts;
 import static nmd.orb.util.Assert.assertNotNull;
 
 /**
@@ -36,41 +38,74 @@ public class CachedFeedItemsRepository implements FeedItemsRepository {
 
         this.feedItemsRepository.storeItems(feedId, items);
 
-        this.cache.put(keyFor(feedId), items);
+        putToCacheAndGetShortcuts(feedId, items);
     }
 
     @Override
     public synchronized List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        final List<FeedItem> cached = (List<FeedItem>) this.cache.get(keyFor(feedId));
+        final List<FeedItem> cached = (List<FeedItem>) this.cache.get(keyForItems(feedId));
 
-        if (cached == null) {
-            final List<FeedItem> loaded = this.feedItemsRepository.loadItems(feedId);
+        return cached == null ? cacheItems(feedId) : cached;
+    }
 
-            this.cache.put(keyFor(feedId), loaded);
+    @Override
+    public List<FeedItemShortcut> loadItemsShortcuts(UUID feedId) {
+        assertNotNull(feedId);
 
-            LOGGER.info(String.format("Items for feed [ %s ] were loaded from datastore", feedId));
+        final List<FeedItemShortcut> cached = (List<FeedItemShortcut>) this.cache.get(keyForShortcuts(feedId));
 
-            return loaded;
-        } else {
-            return cached;
-        }
+        return cached == null ? cacheShortcuts(feedId) : cached;
     }
 
     @Override
     public synchronized void deleteItems(final UUID feedId) {
         assertNotNull(feedId);
 
-        this.cache.delete(keyFor(feedId));
+        this.cache.delete(keyForItems(feedId));
+        this.cache.delete(keyForShortcuts(feedId));
 
         this.feedItemsRepository.deleteItems(feedId);
     }
 
-    public static String keyFor(final UUID uuid) {
+    private List<FeedItem> cacheItems(UUID feedId) {
+        final List<FeedItem> loaded = this.feedItemsRepository.loadItems(feedId);
+
+        putToCacheAndGetShortcuts(feedId, loaded);
+
+        LOGGER.info(String.format("Items for feed [ %s ] were loaded from datastore", feedId));
+
+        return loaded;
+    }
+
+    private List<FeedItemShortcut> cacheShortcuts(UUID feedId) {
+        final List<FeedItem> loaded = this.feedItemsRepository.loadItems(feedId);
+
+        LOGGER.info(String.format("Items for feed [ %s ] were loaded from datastore", feedId));
+
+        return putToCacheAndGetShortcuts(feedId, loaded);
+    }
+
+    private List<FeedItemShortcut> putToCacheAndGetShortcuts(final UUID feedId, final List<FeedItem> items) {
+        final List<FeedItemShortcut> shortcuts = createShortcuts(items);
+
+        this.cache.put(keyForItems(feedId), items);
+        this.cache.put(keyForShortcuts(feedId), shortcuts);
+
+        return shortcuts;
+    }
+
+    public static String keyForItems(final UUID uuid) {
         assertNotNull(uuid);
 
         return "FEED-" + uuid;
+    }
+
+    public static String keyForShortcuts(final UUID uuid) {
+        assertNotNull(uuid);
+
+        return "SHORTCUT-" + uuid;
     }
 
 }

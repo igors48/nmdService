@@ -3,6 +3,7 @@ package nmd.orb.gae.repositories;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
 import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemShortcut;
 import nmd.orb.gae.repositories.datastore.Datastore;
 import nmd.orb.repositories.FeedItemsRepository;
 
@@ -10,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static nmd.orb.feed.FeedItem.createShortcuts;
 import static nmd.orb.gae.repositories.converters.FeedItemListEntityConverter.convert;
 import static nmd.orb.gae.repositories.datastore.GaeDatastoreTools.*;
 import static nmd.orb.gae.repositories.datastore.Kind.FEED_ITEM;
@@ -44,6 +46,15 @@ public enum GaeFeedItemsRepository implements FeedItemsRepository {
         final Entity entity = loadEntity(feedId.toString(), FEED, FEED_ITEM, false);
 
         return entity == null ? new ArrayList<FeedItem>() : convert(entity);
+    }
+
+    @Override
+    public List<FeedItemShortcut> loadItemsShortcuts(final UUID feedId) {
+        assertNotNull(feedId);
+
+        final List<FeedItem> items = this.loadItems(feedId);
+
+        return createShortcuts(items);
     }
 
     @Override
