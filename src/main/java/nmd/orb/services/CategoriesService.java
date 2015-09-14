@@ -274,14 +274,13 @@ public class CategoriesService implements CategoriesServiceAdapter {
                 long current = System.currentTimeMillis();
 
                 final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
-                current = logTime("loadHeader", current);
+                current = logTime("loadHeader " + readFeedItems.feedId, current);
                 final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(readFeedItems.feedId);
-                current = logTime("loadItems", current);
+                current = logTime("loadItems " + readFeedItems.feedId, current);
                 final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
-                current = logTime("loadErrors", current);
+                current = logTime("loadErrors " + readFeedItems.feedId, current);
 
                 final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems, sequentialErrorsCount);
-                current = logTime("createReport", current);
 
                 read += feedReadReport.read;
                 notRead += feedReadReport.notRead;
