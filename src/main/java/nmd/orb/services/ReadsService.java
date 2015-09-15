@@ -6,6 +6,7 @@ import nmd.orb.content.ContentElement;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
 import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemShortcut;
 import nmd.orb.reader.FeedItemsComparisonReport;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.FeedHeadersRepository;
@@ -24,7 +25,7 @@ import nmd.orb.util.Page;
 
 import java.util.*;
 
-import static nmd.orb.collector.merger.TimestampAscendingComparator.TIMESTAMP_ASCENDING_COMPARATOR;
+import static nmd.orb.collector.merger.TimestampAscendingComparatorForShortcut.TIMESTAMP_ASCENDING_COMPARATOR_FOR_SHORTCUT;
 import static nmd.orb.collector.merger.TimestampDescendingComparator.TIMESTAMP_DESCENDING_COMPARATOR;
 import static nmd.orb.content.ContentRenderer.render;
 import static nmd.orb.content.ContentTransformer.transform;
@@ -67,11 +68,11 @@ public class ReadsService extends AbstractService {
             final List<FeedReadReport> report = new ArrayList<>();
 
             for (final FeedHeader header : headers) {
-                final List<FeedItem> items = this.feedItemsRepository.loadItems(header.id);
+                final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(header.id);
                 final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(header.id);
                 final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(header.id);
 
-                final FeedReadReport feedReadReport = createFeedReadReport(header, items, readFeedItems, sequentialErrorsCount);
+                final FeedReadReport feedReadReport = createFeedReadReport(header, shortcuts, readFeedItems, sequentialErrorsCount);
 
                 report.add(feedReadReport);
             }
@@ -238,15 +239,15 @@ public class ReadsService extends AbstractService {
 
             loadFeedHeader(feedId);
 
-            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(feedId);
 
-            final FeedItem feedItem = find(itemId, items);
+            final FeedItemShortcut shortcut = find(itemId, shortcuts);
 
-            if (feedItem == null) {
+            if (shortcut == null) {
                 return;
             }
 
-            final Set<String> storedGuids = getStoredGuids(items);
+            final Set<String> storedGuids = getStoredGuids(shortcuts);
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
             final Set<String> readGuids = new HashSet<>();
@@ -259,7 +260,7 @@ public class ReadsService extends AbstractService {
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final Date lastUpdate = readFeedItems.lastUpdate.compareTo(feedItem.date) > 0 ? readFeedItems.lastUpdate : feedItem.date;
+            final Date lastUpdate = readFeedItems.lastUpdate.compareTo(shortcut.date) > 0 ? readFeedItems.lastUpdate : shortcut.date;
             final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
 
             this.readFeedItemsRepository.store(updatedReadFeedItems);
@@ -281,15 +282,15 @@ public class ReadsService extends AbstractService {
 
             loadFeedHeader(feedId);
 
-            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+            final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(feedId);
 
-            final FeedItem feedItem = find(itemId, items);
+            final FeedItemShortcut feedItem = find(itemId, shortcuts);
 
             if (feedItem == null) {
                 return;
             }
 
-            final Set<String> storedGuids = getStoredGuids(items);
+            final Set<String> storedGuids = getStoredGuids(shortcuts);
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
 
             final Set<String> readGuids = new HashSet<>();
@@ -301,8 +302,8 @@ public class ReadsService extends AbstractService {
 
             final FeedItemsComparisonReport comparisonReport = compare(readGuids, storedGuids);
 
-            final List<FeedItem> readItems = find(readGuids, items);
-            final FeedItem youngest = findYoungest(readItems);
+            final List<FeedItemShortcut> readItemsShortcuts = find(readGuids, shortcuts);
+            final FeedItemShortcut youngest = findYoungest(readItemsShortcuts);
             final Date lastUpdate = youngest == null ? new Date(0) : youngest.date;
 
             final ReadFeedItems updatedReadFeedItems = new ReadFeedItems(feedId, lastUpdate, comparisonReport.readItems, readLaterGuids, readFeedItems.categoryId);
@@ -329,9 +330,9 @@ public class ReadsService extends AbstractService {
             final Set<String> readGuids = new HashSet<>();
             final Set<String> readLaterGuids = new HashSet<>();
 
-            final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
-            final FeedItem youngest = findYoungest(items);
-            final Set<String> storedGuids = getStoredGuids(items, topItemTimestamp);
+            final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(feedId);
+            final FeedItemShortcut youngest = findYoungest(shortcuts);
+            final Set<String> storedGuids = getStoredGuids(shortcuts, topItemTimestamp);
             readGuids.addAll(storedGuids);
 
             final ReadFeedItems readFeedItems = this.readFeedItemsRepository.load(feedId);
@@ -351,27 +352,27 @@ public class ReadsService extends AbstractService {
     }
 
     private Set<String> getStoredGuids(final UUID feedId) {
-        final List<FeedItem> items = this.feedItemsRepository.loadItems(feedId);
+        final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(feedId);
 
-        return getStoredGuids(items);
+        return getStoredGuids(shortcuts);
     }
 
-    public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItem> items, final ReadFeedItems readFeedItems, final int sequentialErrorsCount) {
+    public static FeedReadReport createFeedReadReport(final FeedHeader header, final List<FeedItemShortcut> shortcuts, final ReadFeedItems readFeedItems, final int sequentialErrorsCount) {
         guard(notNull(header));
-        guard(notNull(items));
+        guard(notNull(shortcuts));
         guard(notNull(readFeedItems));
 
-        final Set<String> storedGuids = getStoredGuids(items);
+        final Set<String> storedGuids = getStoredGuids(shortcuts);
 
         final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
 
-        final FeedItem topItem = findFirstNotReadFeedItem(items, readFeedItems.readItemIds, readFeedItems.lastUpdate);
+        final FeedItemShortcut topItem = findFirstNotReadFeedItem(shortcuts, readFeedItems.readItemIds, readFeedItems.lastUpdate);
         final String topItemId = topItem == null ? null : topItem.guid;
         final String topItemLink = topItem == null ? null : topItem.gotoLink;
 
-        final int addedFromLastVisit = countYoungerItems(items, readFeedItems.lastUpdate);
+        final int addedFromLastVisit = countYoungerItems(shortcuts, readFeedItems.lastUpdate);
 
-        final int readLaterItemsCount = countReadLaterItems(items, readFeedItems.readLaterItemIds);
+        final int readLaterItemsCount = countReadLaterItems(shortcuts, readFeedItems.readLaterItemIds);
 
         final Source feedType = Source.detect(header.feedLink);
 
@@ -380,18 +381,18 @@ public class ReadsService extends AbstractService {
         return new FeedReadReport(header.id, feedType, header.title, comparisonReport.readItems.size(), comparisonReport.newItems.size(), readLaterItemsCount, addedFromLastVisit, topItemId, topItemLink, readFeedItems.lastUpdate, hasErrors);
     }
 
-    public static FeedItem findFirstNotReadFeedItem(final List<FeedItem> items, final Set<String> readGuids, final Date lastViewedItemTime) {
-        guard(notNull(items));
+    public static FeedItemShortcut findFirstNotReadFeedItem(final List<FeedItemShortcut> shortcuts, final Set<String> readGuids, final Date lastViewedItemTime) {
+        guard(notNull(shortcuts));
         guard(notNull(readGuids));
         guard(notNull(lastViewedItemTime));
 
-        final List<FeedItem> notReads = findNotReadItems(items, readGuids);
+        final List<FeedItemShortcut> notReads = findNotReadItems(shortcuts, readGuids);
 
-        Collections.sort(notReads, TIMESTAMP_ASCENDING_COMPARATOR);
+        Collections.sort(notReads, TIMESTAMP_ASCENDING_COMPARATOR_FOR_SHORTCUT);
 
         if (!readGuids.isEmpty()) {
 
-            for (final FeedItem candidate : notReads) {
+            for (final FeedItemShortcut candidate : notReads) {
                 final boolean youngerThanLastViewedItem = candidate.date.compareTo(lastViewedItemTime) > 0;
 
                 if (youngerThanLastViewedItem) {
@@ -422,10 +423,10 @@ public class ReadsService extends AbstractService {
         return new FeedItemReport(feedId, feedItem.title, preparedDescription, feedItem.gotoLink, feedItem.date, feedItem.guid, readItem, readLaterItem, addedSinceLastView, index, total);
     }
 
-    private static List<FeedItem> findNotReadItems(List<FeedItem> items, Set<String> readGuids) {
-        final List<FeedItem> notReads = new ArrayList<>();
+    private static List<FeedItemShortcut> findNotReadItems(List<FeedItemShortcut> shortcuts, Set<String> readGuids) {
+        final List<FeedItemShortcut> notReads = new ArrayList<>();
 
-        for (final FeedItem candidate : items) {
+        for (final FeedItemShortcut candidate : shortcuts) {
             final boolean notRead = !readGuids.contains(candidate.guid);
 
             if (notRead) {
@@ -435,12 +436,12 @@ public class ReadsService extends AbstractService {
         return notReads;
     }
 
-    private static int countYoungerItems(final List<FeedItem> items, final Date lastUpdate) {
+    private static int countYoungerItems(final List<FeedItemShortcut> shortcuts, final Date lastUpdate) {
         int count = 0;
 
-        for (final FeedItem item : items) {
+        for (final FeedItemShortcut shortcut : shortcuts) {
 
-            if (item.date.compareTo(lastUpdate) > 0) {
+            if (shortcut.date.compareTo(lastUpdate) > 0) {
                 ++count;
             }
         }
@@ -448,12 +449,12 @@ public class ReadsService extends AbstractService {
         return count;
     }
 
-    private static int countReadLaterItems(final List<FeedItem> items, final Set<String> readLaterItemIds) {
+    private static int countReadLaterItems(final List<FeedItemShortcut> shortcuts, final Set<String> readLaterItemIds) {
         int count = 0;
 
-        for (final FeedItem item : items) {
+        for (final FeedItemShortcut shortcut : shortcuts) {
 
-            if (readLaterItemIds.contains(item.guid)) {
+            if (readLaterItemIds.contains(shortcut.guid)) {
                 ++count;
             }
         }
@@ -461,57 +462,64 @@ public class ReadsService extends AbstractService {
         return count;
     }
 
-    private static Set<String> getStoredGuids(final List<FeedItem> items) {
-        return getStoredGuids(items, 0);
+    private static Set<String> getStoredGuids(final List<FeedItemShortcut> shortcuts) {
+        final Set<String> storedGuids = new HashSet<>();
+
+        for (final FeedItemShortcut shortcut : shortcuts) {
+            storedGuids.add(shortcut.guid);
+        }
+
+        return storedGuids;
     }
 
-    private static Set<String> getStoredGuids(final List<FeedItem> items, final long beforeTimestamp) {
+
+    private static Set<String> getStoredGuids(final List<FeedItemShortcut> shortcuts, final long beforeTimestamp) {
         final boolean filtered = beforeTimestamp != 0;
         final Date beforeDate = new Date(beforeTimestamp);
 
         final Set<String> storedGuids = new HashSet<>();
 
-        for (final FeedItem item : items) {
-            final boolean canBeAdded = !filtered || (item.date.compareTo(beforeDate) <= 0);
+        for (final FeedItemShortcut shortcut : shortcuts) {
+            final boolean canBeAdded = !filtered || (shortcut.date.compareTo(beforeDate) <= 0);
 
             if (canBeAdded) {
-                storedGuids.add(item.guid);
+                storedGuids.add(shortcut.guid);
             }
         }
 
         return storedGuids;
     }
 
-    private static FeedItem findYoungest(final List<FeedItem> items) {
+    private static FeedItemShortcut findYoungest(final List<FeedItemShortcut> shortcuts) {
 
-        if (items.isEmpty()) {
+        if (shortcuts.isEmpty()) {
             return null;
         }
 
-        FeedItem youngest = items.get(0);
+        FeedItemShortcut youngest = shortcuts.get(0);
 
-        for (final FeedItem item : items) {
+        for (final FeedItemShortcut shortcut : shortcuts) {
 
-            if (item.date.getTime() > youngest.date.getTime()) {
-                youngest = item;
+            if (shortcut.date.getTime() > youngest.date.getTime()) {
+                youngest = shortcut;
             }
         }
 
         return youngest;
     }
 
-    private static FeedItem find(final String itemId, final List<FeedItem> items) {
-        final List<FeedItem> found = find(new HashSet<String>() {{
+    private static FeedItemShortcut find(final String itemId, final List<FeedItemShortcut> shortcuts) {
+        final List<FeedItemShortcut> found = find(new HashSet<String>() {{
             add(itemId);
-        }}, items);
+        }}, shortcuts);
 
         return found.isEmpty() ? null : found.get(0);
     }
 
-    private static List<FeedItem> find(final Set<String> itemIds, final List<FeedItem> items) {
-        final List<FeedItem> result = new ArrayList<>();
+    private static List<FeedItemShortcut> find(final Set<String> itemIds, final List<FeedItemShortcut> shortcuts) {
+        final List<FeedItemShortcut> result = new ArrayList<>();
 
-        for (final FeedItem candidate : items) {
+        for (final FeedItemShortcut candidate : shortcuts) {
 
             if (itemIds.contains(candidate.guid)) {
                 result.add(candidate);

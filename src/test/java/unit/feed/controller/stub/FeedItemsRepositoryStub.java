@@ -1,9 +1,12 @@
 package unit.feed.controller.stub;
 
 import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemShortcut;
 import nmd.orb.repositories.FeedItemsRepository;
 
 import java.util.*;
+
+import static nmd.orb.feed.FeedItem.createShortcuts;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -31,6 +34,11 @@ public class FeedItemsRepositoryStub implements FeedItemsRepository {
         final List<FeedItem> feedItems = this.items.get(feedId);
 
         return feedItems == null ? null : new ArrayList<>(feedItems);
+    }
+
+    @Override
+    public List<FeedItemShortcut> loadItemsShortcuts(UUID feedId) {
+        return createShortcuts(loadItems(feedId));
     }
 
     @Override

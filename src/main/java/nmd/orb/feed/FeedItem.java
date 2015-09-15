@@ -5,7 +5,9 @@ import nmd.orb.error.ServiceException;
 import nmd.orb.util.IllegalParameterException;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.util.Assert.guard;
@@ -141,6 +143,29 @@ public class FeedItem implements Serializable {
         } catch (IllegalParameterException exception) {
             throw new ServiceException(exception.serviceError);
         }
+    }
+
+    public static FeedItemShortcut createShortcut(final FeedItem item) {
+        guard(notNull(item));
+
+        return new FeedItemShortcut(item.guid, item.date, item.gotoLink);
+    }
+
+    public static List<FeedItemShortcut> createShortcuts(final List<FeedItem> items) {
+
+        if (items == null) {
+            return null;
+        }
+
+        final List<FeedItemShortcut> shortcuts = new ArrayList<>(items.size());
+
+        for (final FeedItem item : items) {
+            final FeedItemShortcut shortcut = createShortcut(item);
+
+            shortcuts.add(shortcut);
+        }
+
+        return shortcuts;
     }
 
 }

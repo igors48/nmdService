@@ -3,7 +3,7 @@ package nmd.orb.services;
 import com.google.appengine.api.datastore.Transaction;
 import nmd.orb.error.ServiceException;
 import nmd.orb.feed.FeedHeader;
-import nmd.orb.feed.FeedItem;
+import nmd.orb.feed.FeedItemShortcut;
 import nmd.orb.reader.Category;
 import nmd.orb.reader.ReadFeedItems;
 import nmd.orb.repositories.*;
@@ -85,7 +85,8 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             final Category category = loadCategory(categoryId);
             final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
-            final CategoryReport categoryReport = createCategoryReport(readFeedItemsList, category);
+            final Map<UUID, FeedHeader> headersIndex = this.buildHeadersIndex();
+            final CategoryReport categoryReport = createCategoryReport(headersIndex, readFeedItemsList, category);
 
             transaction.commit();
 
@@ -105,9 +106,10 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             final Set<Category> categories = getAllCategoriesWithMain();
             final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
+            final Map<UUID, FeedHeader> headersIndex = this.buildHeadersIndex();
 
             for (final Category category : categories) {
-                final CategoryReport categoryReport = createCategoryReport(readFeedItemsList, category);
+                final CategoryReport categoryReport = createCategoryReport(headersIndex, readFeedItemsList, category);
 
                 reports.add(categoryReport);
             }
@@ -258,7 +260,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
         return result;
     }
 
-    private CategoryReport createCategoryReport(final List<ReadFeedItems> readFeedItemsList, final Category category) {
+    private CategoryReport createCategoryReport(final Map<UUID, FeedHeader> headersIndex, final List<ReadFeedItems> readFeedItemsList, final Category category) {
         int read = 0;
         int notRead = 0;
         int readLater = 0;
@@ -268,11 +270,11 @@ public class CategoriesService implements CategoriesServiceAdapter {
         for (final ReadFeedItems readFeedItems : readFeedItemsList) {
 
             if (readFeedItems.categoryId.equals(category.uuid)) {
-                final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
-                final List<FeedItem> feedItems = this.feedItemsRepository.loadItems(readFeedItems.feedId);
+                final FeedHeader feedHeader = headersIndex.get(readFeedItems.feedId);
+                final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(readFeedItems.feedId);
                 final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
 
-                final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, feedItems, readFeedItems, sequentialErrorsCount);
+                final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, shortcuts, readFeedItems, sequentialErrorsCount);
 
                 read += feedReadReport.read;
                 notRead += feedReadReport.notRead;
@@ -285,6 +287,16 @@ public class CategoriesService implements CategoriesServiceAdapter {
         Collections.sort(feedReadReports, FEED_TITLE_COMPARATOR);
 
         return new CategoryReport(category.uuid, category.name, feedReadReports, read, notRead, readLater);
+    }
+
+    private Map<UUID, FeedHeader> buildHeadersIndex() {
+        final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+        final Map<UUID, FeedHeader> headersIndex = new HashMap<>();
+
+        for (final FeedHeader header : headers) {
+            headersIndex.put(header.id, header);
+        }
+        return headersIndex;
     }
 
     private void assertCategoryNameUnique(String name, String id) throws ServiceException {

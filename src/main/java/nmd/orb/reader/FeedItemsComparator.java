@@ -15,22 +15,11 @@ public class FeedItemsComparator {
         assertNotNull(readItems);
         assertNotNull(storedItems);
 
-        final Set<String> reads = new HashSet<>();
-        final Set<String> notReads = new HashSet<>();
+        final Set<String> reads = new HashSet<>(readItems);
+        reads.retainAll(storedItems);
 
-        for (final String readItem : readItems) {
-
-            if (storedItems.contains(readItem)) {
-                reads.add(readItem);
-            }
-        }
-
-        for (final String storedItem : storedItems) {
-
-            if (!readItems.contains(storedItem)) {
-                notReads.add(storedItem);
-            }
-        }
+        final Set<String> notReads = new HashSet<>(storedItems);
+        notReads.removeAll(reads);
 
         return new FeedItemsComparisonReport(reads, notReads);
     }
