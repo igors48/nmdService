@@ -268,12 +268,21 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
         final List<FeedReadReport> feedReadReports = new ArrayList<>();
 
+        long current = System.currentTimeMillis();
+        final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+        final Map<UUID, FeedHeader> headersIndex = new HashMap<>();
+
+        for (final FeedHeader header : headers) {
+            headersIndex.put(header.id, header);
+        }
+        current = logTime("build index ", current);
+
         for (final ReadFeedItems readFeedItems : readFeedItemsList) {
 
             if (readFeedItems.categoryId.equals(category.uuid)) {
-                long current = System.currentTimeMillis();
 
-                final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
+                //final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
+                final FeedHeader feedHeader = headersIndex.get(readFeedItems.feedId);
                 current = logTime("loadHeader " + readFeedItems.feedId, current);
                 final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(readFeedItems.feedId);
                 current = logTime("loadShortcuts " + readFeedItems.feedId, current);
