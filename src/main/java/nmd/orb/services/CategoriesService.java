@@ -13,7 +13,6 @@ import nmd.orb.services.report.ExportReport;
 import nmd.orb.services.report.FeedReadReport;
 
 import java.util.*;
-import java.util.logging.Logger;
 
 import static nmd.orb.error.ServiceError.*;
 import static nmd.orb.feed.FeedHeader.isValidFeedHeaderId;
@@ -27,8 +26,6 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
  * @author : igu
  */
 public class CategoriesService implements CategoriesServiceAdapter {
-
-    private static final Logger LOGGER = Logger.getLogger(CategoriesService.class.getName());
 
     private static final CategoryNameComparator CATEGORY_NAME_COMPARATOR = new CategoryNameComparator();
     private static final FeedTitleComparator FEED_TITLE_COMPARATOR = new FeedTitleComparator();
@@ -436,17 +433,6 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
         return list;
     }
-
-    private static long logTime(String message, long lastTime) {
-        final long current = System.currentTimeMillis();
-
-        final long delta = current - lastTime;
-
-        LOGGER.info(message + " : " + delta);
-
-        return current;
-    }
-
 
     private static class CategoryNameComparator implements Comparator<CategoryReport> {
 
