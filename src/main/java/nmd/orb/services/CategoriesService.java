@@ -88,7 +88,8 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             final Category category = loadCategory(categoryId);
             final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
-            final CategoryReport categoryReport = createCategoryReport(readFeedItemsList, category);
+            final Map<UUID, FeedHeader> headersIndex = this.buildHeadersIndex();
+            final CategoryReport categoryReport = createCategoryReport(headersIndex, readFeedItemsList, category);
 
             transaction.commit();
 
@@ -108,9 +109,10 @@ public class CategoriesService implements CategoriesServiceAdapter {
 
             final Set<Category> categories = getAllCategoriesWithMain();
             final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
+            final Map<UUID, FeedHeader> headersIndex = this.buildHeadersIndex();
 
             for (final Category category : categories) {
-                final CategoryReport categoryReport = createCategoryReport(readFeedItemsList, category);
+                final CategoryReport categoryReport = createCategoryReport(headersIndex, readFeedItemsList, category);
 
                 reports.add(categoryReport);
             }
@@ -261,33 +263,19 @@ public class CategoriesService implements CategoriesServiceAdapter {
         return result;
     }
 
-    private CategoryReport createCategoryReport(final List<ReadFeedItems> readFeedItemsList, final Category category) {
+    private CategoryReport createCategoryReport(final Map<UUID, FeedHeader> headersIndex, final List<ReadFeedItems> readFeedItemsList, final Category category) {
         int read = 0;
         int notRead = 0;
         int readLater = 0;
 
         final List<FeedReadReport> feedReadReports = new ArrayList<>();
 
-        long current = System.currentTimeMillis();
-        final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
-        final Map<UUID, FeedHeader> headersIndex = new HashMap<>();
-
-        for (final FeedHeader header : headers) {
-            headersIndex.put(header.id, header);
-        }
-        current = logTime("build index ", current);
-
         for (final ReadFeedItems readFeedItems : readFeedItemsList) {
 
             if (readFeedItems.categoryId.equals(category.uuid)) {
-
-                //final FeedHeader feedHeader = this.feedHeadersRepository.loadHeader(readFeedItems.feedId);
                 final FeedHeader feedHeader = headersIndex.get(readFeedItems.feedId);
-                current = logTime("loadHeader " + readFeedItems.feedId, current);
                 final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(readFeedItems.feedId);
-                current = logTime("loadShortcuts " + readFeedItems.feedId, current);
                 final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
-                current = logTime("loadErrors " + readFeedItems.feedId, current);
 
                 final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, shortcuts, readFeedItems, sequentialErrorsCount);
 
@@ -302,6 +290,16 @@ public class CategoriesService implements CategoriesServiceAdapter {
         Collections.sort(feedReadReports, FEED_TITLE_COMPARATOR);
 
         return new CategoryReport(category.uuid, category.name, feedReadReports, read, notRead, readLater);
+    }
+
+    private Map<UUID, FeedHeader> buildHeadersIndex() {
+        final List<FeedHeader> headers = this.feedHeadersRepository.loadHeaders();
+        final Map<UUID, FeedHeader> headersIndex = new HashMap<>();
+
+        for (final FeedHeader header : headers) {
+            headersIndex.put(header.id, header);
+        }
+        return headersIndex;
     }
 
     private void assertCategoryNameUnique(String name, String id) throws ServiceException {
