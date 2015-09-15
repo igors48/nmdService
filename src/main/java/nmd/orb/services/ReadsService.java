@@ -362,17 +362,17 @@ public class ReadsService extends AbstractService {
         guard(notNull(shortcuts));
         guard(notNull(readFeedItems));
 
-        final Set<String> storedGuids = getStoredGuidsFromShortcuts(shortcuts); // guid
+        final Set<String> storedGuids = getStoredGuidsFromShortcuts(shortcuts);
 
         final FeedItemsComparisonReport comparisonReport = compare(readFeedItems.readItemIds, storedGuids);
 
-        final FeedItemShortcut topItem = findFirstNotReadFeedItem(shortcuts, readFeedItems.readItemIds, readFeedItems.lastUpdate);  // guid date gotoLink   findFirstNotReadFeedItem only from this
+        final FeedItemShortcut topItem = findFirstNotReadFeedItem(shortcuts, readFeedItems.readItemIds, readFeedItems.lastUpdate);
         final String topItemId = topItem == null ? null : topItem.guid;
         final String topItemLink = topItem == null ? null : topItem.gotoLink;
 
-        final int addedFromLastVisit = countYoungerItems(shortcuts, readFeedItems.lastUpdate); // date  countYoungerItems only from this
+        final int addedFromLastVisit = countYoungerItems(shortcuts, readFeedItems.lastUpdate);
 
-        final int readLaterItemsCount = countReadLaterItems(shortcuts, readFeedItems.readLaterItemIds); // guid  countReadLaterItems only from this
+        final int readLaterItemsCount = countReadLaterItems(shortcuts, readFeedItems.readLaterItemIds);
 
         final Source feedType = Source.detect(header.feedLink);
 

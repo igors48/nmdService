@@ -34,8 +34,8 @@ public class FeedItemShortcut implements Serializable {
 
         if (!guid.equals(shortcut.guid)) return false;
         if (!date.equals(shortcut.date)) return false;
-        return gotoLink.equals(shortcut.gotoLink);
 
+        return gotoLink.equals(shortcut.gotoLink);
     }
 
     @Override
