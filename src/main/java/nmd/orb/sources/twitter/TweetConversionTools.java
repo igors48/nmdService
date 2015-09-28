@@ -83,7 +83,7 @@ public final class TweetConversionTools {
             throw new ServiceException(ServiceError.twitterNoTweetText(link));
         }
 
-        final String title = text.trim();
+        final String title = cutTo(text.trim(), FeedItem.MAX_TITLE_LENGTH);
 
         final TweetEntities entities = tweet.getEntities();
         final String expandedUrl = getLinkFromTweetEntities(entities);
