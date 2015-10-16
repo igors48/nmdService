@@ -45,5 +45,7 @@
 </ion-content>
 
 <ion-footer-bar align-title="left" class="bar-dark">
-    <h1 class="title"></h1>
+    <div class="button-bar" ng-cloak ng-show="showUi">
+        <a class="button" ng-click="toggleSort()">{{nextSortMode}}</a>
+    </div>
 </ion-footer-bar>
