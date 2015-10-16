@@ -78,10 +78,10 @@ controllers.controller('categoryController',
             }
 
             applySort();
-            updateSortButtonTitle();
+            updateSortButton();
         };
 
-        var updateSortButtonTitle = function () {
+        var updateSortButton = function () {
             
             if (sort === 'name') {
                 $scope.nextSortMode = 'by rating';
@@ -137,7 +137,7 @@ controllers.controller('categoryController',
             $scope.feeds = response.report.feedReports;
 
             applySort();
-            updateSortButtonTitle();
+            updateSortButton();
 
             $scope.utilities.restoreScrollPosition($stateParams.id, $rootScope, $ionicScrollDelegate);
         };
