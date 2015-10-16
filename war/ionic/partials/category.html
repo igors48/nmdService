@@ -12,7 +12,7 @@
 
 <ion-content ng-cloak>
     <div class="list" ng-show="showUi">
-        <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds | orderBy:'lastUpdate':false"
+        <div class="item item-icon-left item-button-right" ng-repeat="feed in feeds | orderBy:sortPredicate:sortReverse"
              ng-class="($root.lastFeedId==feed.feedId) ? 'last-used' : ''">
 
             <div ng-switch="feed.feedType" ng-click="openFeed(feed.feedId, 'show-not-read')">

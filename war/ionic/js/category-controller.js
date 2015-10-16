@@ -4,7 +4,6 @@ controllers.controller('categoryController',
 
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicScrollDelegate, categories, reads) {
         var sort = 'rating';
-        var feeds = [];
 
         $scope.showUi = false;
 
@@ -78,6 +77,7 @@ controllers.controller('categoryController',
                 sort = 'name';
             }
 
+            applySort();
             updateSortButtonTitle();
         };
 
@@ -110,7 +110,15 @@ controllers.controller('categoryController',
         };
 
         var applySort = function () {
-            $scope.feeds = feeds;
+
+            if (sort === 'name') {
+                $scope.sortPredicate = 'feedTitle';
+                $scope.sortReverse = false;
+            } else {
+                $scope.sortPredicate = 'lastUpdate';
+                $scope.sortReverse = true;
+            }    
+   
         };
 
         var onLoadCategoryReportCompleted = function (response) {
@@ -126,7 +134,7 @@ controllers.controller('categoryController',
 
             $scope.category = { title: response.report.name };
 
-            feeds = response.report.feedReports;
+            $scope.feeds = response.report.feedReports;
 
             applySort();
             updateSortButtonTitle();
