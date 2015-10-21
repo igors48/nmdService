@@ -64,13 +64,7 @@ public class TwitterClientTools {
 
         final String content = readStringFromConnection(connection);
 
-        try {
-            return GSON.fromJson(content, TWEET_LIST_TYPE);
-        } catch (Exception exception) {
-            LOGGER.log(Level.SEVERE, String.format("Bad JSON received for screenName: [ %s ] json: [ %s ]", screenName, content));
-
-            return new ArrayList<>();
-        }
+        return parseTweets(screenName, content);
     }
 
     public static AccessToken getAccessToken(final String apiKey, String apiSecret) throws IOException {
@@ -127,6 +121,17 @@ public class TwitterClientTools {
         final Matcher matcher = TWITTER_USER_NAME_PATTERN.matcher(url);
 
         return matcher.find() ? matcher.group(3) : null;
+    }
+
+    private static List<Tweet> parseTweets(final String screenName, final String content) {
+
+        try {
+            return GSON.fromJson(content, TWEET_LIST_TYPE);
+        } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, String.format("Bad JSON received for screenName: [ %s ] json: [ %s ]", screenName, content));
+
+            return new ArrayList<>();
+        }
     }
 
     private TwitterClientTools() {
