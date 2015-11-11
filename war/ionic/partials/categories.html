@@ -8,7 +8,7 @@
 
 <ion-content ng-cloak>
     <div class="list" ng-show="showUi">
-        <div class="item item-icon-left item-button-right" ng-repeat="category in categories"  ng-class="($root.lastCategoryId==category.id) ? 'last-used' : ''"  ng-click="openCategory('{{category.id}}')">
+        <div class="item item-icon-left item-button-right" ng-repeat="category in categories"  ng-class="($root.lastCategoryId===category.id) ? 'last-used' : ''"  ng-click="openCategory('{{category.id}}')">
             <i class="icon ion-android-folder orange-front"></i>
 
             <div>

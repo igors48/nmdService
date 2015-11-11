@@ -22,11 +22,10 @@ input, button, select, textarea {
     color: rgb(61, 128, 177);
 }
 
-.last-used {
-	font-style: italic;
+.last-used {	
     background-color: rgb(224, 240, 255);
 }
 
-.last-used-font {
-	font-style: italic;
+ion-item[lastUsed='true'] > div.item-content{
+    background-color: rgb(224, 240, 255) !important;
 }
