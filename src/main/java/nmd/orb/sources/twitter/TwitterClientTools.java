@@ -16,6 +16,8 @@ import java.net.URISyntaxException;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -30,6 +32,8 @@ import static nmd.orb.util.Parameter.*;
  * Date : 28.02.14
  */
 public class TwitterClientTools {
+
+    private static final Logger LOGGER = Logger.getLogger(TwitterClientTools.class.getName());
 
     private static final String AUTHENTICATION_URL = "https://api.twitter.com/oauth2/token";
     private static final String TIMELINE_API_URL_TEMPLATE = "https://api.twitter.com/1.1/statuses/user_timeline.json?screen_name=%s&count=%d";
@@ -60,7 +64,7 @@ public class TwitterClientTools {
 
         final String content = readStringFromConnection(connection);
 
-        return GSON.fromJson(content, TWEET_LIST_TYPE);
+        return parseTweets(screenName, content);
     }
 
     public static AccessToken getAccessToken(final String apiKey, String apiSecret) throws IOException {
@@ -117,6 +121,17 @@ public class TwitterClientTools {
         final Matcher matcher = TWITTER_USER_NAME_PATTERN.matcher(url);
 
         return matcher.find() ? matcher.group(3) : null;
+    }
+
+    private static List<Tweet> parseTweets(final String screenName, final String content) {
+
+        try {
+            return GSON.fromJson(content, TWEET_LIST_TYPE);
+        } catch (Exception exception) {
+            LOGGER.log(Level.SEVERE, String.format("Bad JSON received for screenName: [ %s ] json: [ %s ]", screenName, content));
+
+            return new ArrayList<>();
+        }
     }
 
     private TwitterClientTools() {
