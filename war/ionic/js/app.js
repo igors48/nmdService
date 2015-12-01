@@ -7,7 +7,12 @@ var controllers = angular.module('orb.controllers', []);
 orb.filter('feedOrder', function ($filter) {
 
    return function (array, sort) {
-        return $filter('orderBy')(array, 'feedTitle', sort === 'title');
+
+      if (sort === 'title') {
+        return $filter('orderBy')(array, 'feedTitle', false);  
+      } else {
+        return $filter('orderBy')(array, 'lastUpdate', true);
+      }  
     };
 
 });
