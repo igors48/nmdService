@@ -3,7 +3,7 @@
 controllers.controller('categoryController',
 
     function ($scope, $rootScope, $state, $stateParams, $ionicLoading, $ionicPopup, $ionicScrollDelegate, categories, reads) {
-        var sort = 'rating';
+        $scope.sort = '';
 
         $scope.showUi = false;
 
@@ -71,22 +71,10 @@ controllers.controller('categoryController',
 
         $scope.toggleSort = function () {
 
-            if (sort === 'name') {
-                sort = 'rating';
+            if ($scope.sort === 'title') {
+                $scope.sort = 'rating';
             } else {
-                sort = 'name';
-            }
-
-            applySort();
-            updateSortButton();
-        };
-
-        var updateSortButton = function () {
-            
-            if (sort === 'name') {
-                $scope.nextSortMode = 'by rating';
-            } else {
-                $scope.nextSortMode = 'by name';
+                $scope.sort = 'title';
             }
         };
 
@@ -109,16 +97,6 @@ controllers.controller('categoryController',
                 onServerFault);
         };
 
-        var applySort = function () {
-
-            if (sort === 'name') {
-                $scope.sortPredicate = 'feedOrderByTitle';
-            } else {
-                $scope.sortPredicate = 'feedOrderByRating';
-            }    
-   
-        };
-
         var onLoadCategoryReportCompleted = function (response) {
             $ionicLoading.hide();
 
@@ -133,9 +111,7 @@ controllers.controller('categoryController',
             $scope.category = { title: response.report.name };
 
             $scope.feeds = response.report.feedReports;
-
-            applySort();
-            updateSortButton();
+            $scope.sort = 'rating';
 
             $scope.utilities.restoreScrollPosition($stateParams.id, $rootScope, $ionicScrollDelegate);
         };

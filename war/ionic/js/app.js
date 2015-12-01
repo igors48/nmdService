@@ -6,8 +6,8 @@ var controllers = angular.module('orb.controllers', []);
 
 orb.filter('feedOrder', function ($filter) {
 
-   return function (array, type) {
-        return $filter('orderBy')(array, 'feedTitle', type === 'feedOrderByTitle');
+   return function (array, sort) {
+        return $filter('orderBy')(array, 'feedTitle', sort === 'title');
     };
 
 });
