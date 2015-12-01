@@ -4,6 +4,14 @@ var orb = angular.module('orb', ['ionic', 'orb.services', 'orb.controllers']);
 
 var controllers = angular.module('orb.controllers', []);
 
+orb.filter('feedOrder', function ($filter) {
+
+   return function (array, type) {
+        return $filter('orderBy')(array, 'feedTitle', type === 'feedOrderByTitle');
+    };
+
+});
+
 orb.run(
   function ($rootScope) {
     $rootScope.scrollPositions = [];

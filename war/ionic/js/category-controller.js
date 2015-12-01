@@ -112,11 +112,9 @@ controllers.controller('categoryController',
         var applySort = function () {
 
             if (sort === 'name') {
-                $scope.sortPredicate = 'feedTitle';
-                $scope.sortReverse = false;
+                $scope.sortPredicate = 'feedOrderByTitle';
             } else {
-                $scope.sortPredicate = 'lastUpdate';
-                $scope.sortReverse = true;
+                $scope.sortPredicate = 'feedOrderByRating';
             }    
    
         };
