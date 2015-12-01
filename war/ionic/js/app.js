@@ -6,12 +6,33 @@ var controllers = angular.module('orb.controllers', []);
 
 orb.filter('feedOrder', function ($filter) {
 
-   return function (array, sort) {
+   return function (feeds, sort) {
 
       if (sort === 'title') {
-        return $filter('orderBy')(array, 'feedTitle', false);  
+        return $filter('orderBy')(feeds, 'feedTitle', false);  
       } else {
-        return $filter('orderBy')(array, 'lastUpdate', true);
+        var notEmpties = [];
+        var empties = [];
+
+        angular.forEach(feeds, 
+          function (value, key) {
+            if (value.notRead === 0) {
+              empties.push(value);
+            } else {
+              notEmpties.push(value);
+            }
+          }
+        );
+
+        $filter('orderBy')(notEmpties, 'lastUpdate', false);
+        $filter('orderBy')(empties, 'feedTitle', false);
+ 
+        var result = notEmpties.concat(empties);
+
+        return result;
+
+        //return notEmpties;  
+        //return $filter('orderBy')(feeds, 'lastUpdate', true);
       }  
     };
 
