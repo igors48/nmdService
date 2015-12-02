@@ -24,15 +24,12 @@ orb.filter('feedOrder', function ($filter) {
           }
         );
 
-        $filter('orderBy')(notEmpties, 'lastUpdate', false);
-        $filter('orderBy')(empties, 'feedTitle', false);
+        notEmpties = $filter('orderBy')(notEmpties, 'lastUpdate', true);
+        empties = $filter('orderBy')(empties, 'feedTitle', false);
  
         var result = notEmpties.concat(empties);
 
         return result;
-
-        //return notEmpties;  
-        //return $filter('orderBy')(feeds, 'lastUpdate', true);
       }  
     };
 
