@@ -4,6 +4,37 @@ var orb = angular.module('orb', ['ionic', 'orb.services', 'orb.controllers']);
 
 var controllers = angular.module('orb.controllers', []);
 
+orb.filter('feedOrder', function ($filter) {
+
+   return function (feeds, sort) {
+
+      if (sort === 'title') {
+        return $filter('orderBy')(feeds, 'feedTitle', false);  
+      } else {
+        var notEmpties = [];
+        var empties = [];
+
+        angular.forEach(feeds, 
+          function (value, key) {
+            if (value.notRead === 0) {
+              empties.push(value);
+            } else {
+              notEmpties.push(value);
+            }
+          }
+        );
+
+        notEmpties = $filter('orderBy')(notEmpties, 'lastUpdate', true);
+        empties = $filter('orderBy')(empties, 'feedTitle', false);
+ 
+        var result = notEmpties.concat(empties);
+
+        return result;
+      }  
+    };
+
+});
+
 orb.run(
   function ($rootScope) {
     $rootScope.scrollPositions = [];
