@@ -16,7 +16,7 @@ public enum GaeRepositories {
     private final FeedItemsRepository feedItemsRepository = new CachedFeedItemsRepository(GaeFeedItemsRepository.INSTANCE, MemCache.INSTANCE);
     private final FeedUpdateTaskRepository feedUpdateTaskRepository = new CachedFeedUpdateTaskRepository(GaeFeedUpdateTaskRepository.INSTANCE, MemCache.INSTANCE);
     private final FeedHeadersRepository feedHeadersRepository = new CachedFeedHeadersRepository(GaeFeedHeadersRepository.INSTANCE, MemCache.INSTANCE);
-    private final ReadFeedItemsRepository readFeedItemsRepository = new CachedReadFeedItemsRepository(GaeReadFeedItemsRepository.INSTANCE, MemCache.INSTANCE);
+    private final ReadFeedItemsRepository readFeedItemsRepository = GaeReadFeedItemsRepository.INSTANCE;
     private final CategoriesRepository categoriesRepository = new CachedCategoriesRepository(GaeCategoriesRepository.INSTANCE, MemCache.INSTANCE);
     private final UpdateErrorsRepository updateErrorsRepository = new CachedUpdateErrorsRepository(MemCache.INSTANCE);
 
