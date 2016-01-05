@@ -8,8 +8,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.logging.Logger;
 
+import static nmd.orb.reader.Category.isValidCategoryId;
 import static nmd.orb.reader.ReadFeedItems.empty;
 import static nmd.orb.util.Assert.assertNotNull;
+import static nmd.orb.util.Assert.guard;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -36,6 +38,13 @@ public class CachedReadFeedItemsRepository implements ReadFeedItemsRepository {
         final List<ReadFeedItems> cached = (List<ReadFeedItems>) this.cache.get(KEY);
 
         return cached == null ? loadCache() : cached;
+    }
+
+    @Override
+    public List<ReadFeedItems> load(final String categoryId) {
+        guard(isValidCategoryId(categoryId));
+
+        return this.repository.load(categoryId);
     }
 
     @Override

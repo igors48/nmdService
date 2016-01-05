@@ -25,6 +25,20 @@ public class ReadFeedItemsRepositoryStub implements ReadFeedItemsRepository {
     }
 
     @Override
+    public List<ReadFeedItems> load(final String categoryId) {
+        final List<ReadFeedItems> result = new ArrayList<>();
+
+        for (final ReadFeedItems candidate : this.readFeeds.values()) {
+
+            if (candidate.categoryId.equals(categoryId)) {
+                result.add(candidate);
+            }
+        }
+
+        return result;
+    }
+
+    @Override
     public ReadFeedItems load(final UUID feedId) {
         final ReadFeedItems result = this.readFeeds.get(feedId);
 
