@@ -84,7 +84,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
             transaction = this.transactions.beginOne();
 
             final Category category = loadCategory(categoryId);
-            final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
+            final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.load(categoryId);
             final Map<UUID, FeedHeader> headersIndex = this.buildHeadersIndex();
             final CategoryReport categoryReport = createCategoryReport(headersIndex, readFeedItemsList, category);
 
@@ -105,10 +105,10 @@ public class CategoriesService implements CategoriesServiceAdapter {
             transaction = this.transactions.beginOne();
 
             final Set<Category> categories = getAllCategoriesWithMain();
-            final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
             final Map<UUID, FeedHeader> headersIndex = this.buildHeadersIndex();
 
             for (final Category category : categories) {
+                final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.load(category.uuid);
                 final CategoryReport categoryReport = createCategoryReport(headersIndex, readFeedItemsList, category);
 
                 reports.add(categoryReport);
@@ -268,20 +268,17 @@ public class CategoriesService implements CategoriesServiceAdapter {
         final List<FeedReadReport> feedReadReports = new ArrayList<>();
 
         for (final ReadFeedItems readFeedItems : readFeedItemsList) {
+            final FeedHeader feedHeader = headersIndex.get(readFeedItems.feedId);
+            final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(readFeedItems.feedId);
+            final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
 
-            if (readFeedItems.categoryId.equals(category.uuid)) {
-                final FeedHeader feedHeader = headersIndex.get(readFeedItems.feedId);
-                final List<FeedItemShortcut> shortcuts = this.feedItemsRepository.loadItemsShortcuts(readFeedItems.feedId);
-                final int sequentialErrorsCount = this.updateErrorRegistrationService.getErrorCount(readFeedItems.feedId);
+            final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, shortcuts, readFeedItems, sequentialErrorsCount);
 
-                final FeedReadReport feedReadReport = ReadsService.createFeedReadReport(feedHeader, shortcuts, readFeedItems, sequentialErrorsCount);
+            read += feedReadReport.read;
+            notRead += feedReadReport.notRead;
+            readLater += feedReadReport.readLater;
 
-                read += feedReadReport.read;
-                notRead += feedReadReport.notRead;
-                readLater += feedReadReport.readLater;
-
-                feedReadReports.add(feedReadReport);
-            }
+            feedReadReports.add(feedReadReport);
         }
 
         Collections.sort(feedReadReports, FEED_TITLE_COMPARATOR);
