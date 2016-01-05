@@ -164,10 +164,9 @@ public class CategoriesService implements CategoriesServiceAdapter {
             final Category category = this.categoriesRepository.load(categoryId);
 
             if (category != null) {
-                final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.loadAll();
-                final List<ReadFeedItems> readFeedItemsListForCategory = findReadFeedItemsForCategory(category.uuid, readFeedItemsList);
+                final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.load(category.uuid);
 
-                for (final ReadFeedItems items : readFeedItemsListForCategory) {
+                for (final ReadFeedItems items : readFeedItemsList) {
                     final ReadFeedItems updated = items.changeCategory(Category.MAIN_CATEGORY_ID);
 
                     this.readFeedItemsRepository.store(updated);
@@ -416,19 +415,6 @@ public class CategoriesService implements CategoriesServiceAdapter {
         }
 
         return null;
-    }
-
-    private static List<ReadFeedItems> findReadFeedItemsForCategory(final String categoryId, final List<ReadFeedItems> readFeedItemsList) {
-        final List<ReadFeedItems> list = new ArrayList<>();
-
-        for (final ReadFeedItems readFeedItems : readFeedItemsList) {
-
-            if (readFeedItems.categoryId.equals(categoryId)) {
-                list.add(readFeedItems);
-            }
-        }
-
-        return list;
     }
 
     private static class CategoryNameComparator implements Comparator<CategoryReport> {
