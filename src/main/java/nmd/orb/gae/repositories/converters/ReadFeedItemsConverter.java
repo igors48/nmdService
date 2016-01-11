@@ -22,6 +22,8 @@ import static nmd.orb.util.Assert.assertNotNull;
  */
 public class ReadFeedItemsConverter {
 
+    public static final String CATEGORY_ID = "categoryId";
+
     private static final Gson GSON = new Gson();
 
     private static final String FEED_ID = "feedId";
@@ -29,7 +31,6 @@ public class ReadFeedItemsConverter {
     private static final String READ_ITEMS = "readItems";
     private static final String READ_LATER_ITEMS = "readLaterItems";
     private static final String LAST_UPDATE = "lastUpdate";
-    private static final String CATEGORY_ID = "categoryId";
 
     private static final Type SET_HELPER_TYPE = new TypeToken<Set<String>>() {
     }.getType();

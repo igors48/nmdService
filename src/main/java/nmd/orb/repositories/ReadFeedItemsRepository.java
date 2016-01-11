@@ -13,6 +13,8 @@ public interface ReadFeedItemsRepository {
 
     List<ReadFeedItems> loadAll();
 
+    List<ReadFeedItems> load(String categoryId);
+
     ReadFeedItems load(UUID feedId);
 
     void store(ReadFeedItems readFeedItems);
