@@ -32,6 +32,7 @@ public class CacheStub implements Cache {
         return this.objects.remove(key) != null;
     }
 
+    @Override
     public void clear() {
         this.objects.clear();
     }
