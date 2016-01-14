@@ -1,7 +1,7 @@
 package nmd.orb.http.wrappers;
 
 import nmd.orb.http.tools.ResponseBody;
-import nmd.orb.services.ResetService;
+import nmd.orb.services.AdministrationService;
 
 import java.util.logging.Logger;
 
@@ -17,16 +17,16 @@ public class ResetServiceWrapperImpl implements ResetServiceWrapper {
 
     private static final Logger LOGGER = Logger.getLogger(ResetServiceWrapperImpl.class.getName());
 
-    private final ResetService resetService;
+    private final AdministrationService administrationService;
 
-    public ResetServiceWrapperImpl(final ResetService resetService) {
-        guard(notNull(resetService));
-        this.resetService = resetService;
+    public ResetServiceWrapperImpl(final AdministrationService administrationService) {
+        guard(notNull(administrationService));
+        this.administrationService = administrationService;
     }
 
     @Override
     public ResponseBody clear() {
-        this.resetService.reset();
+        this.administrationService.reset();
 
         final String message = "Service cleared";
 

@@ -80,7 +80,7 @@ public class CachedFeedItemsRepositoryTest {
 
     @Test
     public void whenItemIsNotCachedThenItIsReturnedFromDatastore() {
-        this.cacheStub.clear();
+        this.cacheStub.flush();
 
         final List<FeedItem> items = this.repository.loadItems(FEED_ID);
 
@@ -89,7 +89,7 @@ public class CachedFeedItemsRepositoryTest {
 
     @Test
     public void whenItemIsNotCachedThenCacheIsUpdated() {
-        this.cacheStub.clear();
+        this.cacheStub.flush();
 
         this.repository.loadItems(FEED_ID);
 
@@ -124,7 +124,7 @@ public class CachedFeedItemsRepositoryTest {
 
     @Test
     public void whenShortcutIsNotCachedThenItIsReturnedFromDatastore() {
-        this.cacheStub.clear();
+        this.cacheStub.flush();
 
         final List<FeedItemShortcut> shortcuts = this.repository.loadItemsShortcuts(FEED_ID);
 
@@ -133,7 +133,7 @@ public class CachedFeedItemsRepositoryTest {
 
     @Test
     public void whenShortcutIsNotCachedThenCacheIsUpdated() {
-        this.cacheStub.clear();
+        this.cacheStub.flush();
 
         this.repository.loadItemsShortcuts(FEED_ID);
 

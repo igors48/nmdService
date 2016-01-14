@@ -40,7 +40,7 @@ public enum MemCache implements Cache {
     }
 
     @Override
-    public void clear() {
+    public void flush() {
         cache.clearAll();
     }
 

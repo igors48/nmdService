@@ -38,7 +38,7 @@ public class ControllerResetTest extends AbstractControllerTestBase {
         this.updateErrorsRepositoryStub.store(new UpdateErrors(firstFeedId, UpdateErrorRegistrationService.MAX_STORED_ERRORS_COUNT).appendError(ServiceError.feedParseError("http:\\domain.com")));
         this.updateErrorsRepositoryStub.store(new UpdateErrors(secondFeedId, UpdateErrorRegistrationService.MAX_STORED_ERRORS_COUNT).appendError(ServiceError.feedParseError("http:\\domain.com")));
 
-        this.resetService.reset();
+        this.administrationService.reset();
     }
 
     @Test

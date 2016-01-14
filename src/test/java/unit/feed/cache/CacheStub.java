@@ -33,7 +33,7 @@ public class CacheStub implements Cache {
     }
 
     @Override
-    public void clear() {
+    public void flush() {
         this.objects.clear();
     }
 
