@@ -67,6 +67,9 @@ public class AdministrationService {
             this.changeRepository.clear();
 
             transaction.commit();
+
+            this.flushCache();
+
         } finally {
             rollbackIfActive(transaction);
         }

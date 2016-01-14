@@ -123,7 +123,7 @@ public abstract class AbstractControllerTestBase {
 
     protected MailService mailServiceMock;
 
-    private CacheStub cacheStub;
+    protected CacheStub cacheStub;
 
     private TransactionsStub transactionsStub;
 
