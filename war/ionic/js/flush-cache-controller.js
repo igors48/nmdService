@@ -1,6 +1,6 @@
 'use strict';
 
-controllers.controller('resetServiceController',
+controllers.controller('flushCacheController',
 
     function ($scope, $state, $ionicLoading, $ionicPopup, reset) {
 
@@ -10,14 +10,14 @@ controllers.controller('resetServiceController',
             $state.go('admin-console');
         };
 
-        $scope.onResetConfirmed = function () {
+        $scope.onFlushConfirmed = function () {
             $ionicLoading.show({
-                template: $scope.utilities.loadingMessage('Resetting server...')
+                template: $scope.utilities.loadingMessage('Flushing server cache...')
             });
 
             reset.reset(
                 {
-                    action: 'full'
+                    action: 'cache'
                 },
                 onResetSuccess, 
                 onServerFault);        
@@ -29,7 +29,7 @@ controllers.controller('resetServiceController',
             if (response.status === 'SUCCESS') {
                 $ionicPopup.alert({
                     title: 'Information',
-                    template: 'Server reset complete.'
+                    template: 'Server cache flushed.'
                 }).then(function (response) {
                     $state.go('admin-console');    
                 });

@@ -15,6 +15,10 @@ controllers.controller('adminConsoleController',
             $state.go('reset-service');
         };
 
+        $scope.onFlushCache = function () {
+            $state.go('flush-cache');
+        };
+
         $scope.onImport = function () {
             $state.go('import-feeds');
         };    
