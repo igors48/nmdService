@@ -1,7 +1,7 @@
 package unit.handler.reset;
 
 import nmd.orb.http.servlets.reset.ResetServletPostRequestHandler;
-import nmd.orb.http.wrappers.ResetServiceWrapper;
+import nmd.orb.http.wrappers.AdministrationServiceWrapper;
 import org.junit.Test;
 import org.mockito.Mockito;
 
@@ -12,12 +12,12 @@ import static unit.handler.Tools.call;
  */
 public class PostHandlerTest {
 
-    private ResetServiceWrapper resetServiceWrapper;
+    private AdministrationServiceWrapper administrationServiceWrapper;
     private ResetServletPostRequestHandler handler;
 
     private void setUp() {
-        this.resetServiceWrapper = Mockito.mock(ResetServiceWrapper.class);
-        this.handler = new ResetServletPostRequestHandler(this.resetServiceWrapper);
+        this.administrationServiceWrapper = Mockito.mock(AdministrationServiceWrapper.class);
+        this.handler = new ResetServletPostRequestHandler(this.administrationServiceWrapper);
     }
 
     @Test
@@ -25,8 +25,8 @@ public class PostHandlerTest {
 
         setUp();
         call(this.handler, "");
-        Mockito.verify(this.resetServiceWrapper).clear();
-        Mockito.verifyNoMoreInteractions(this.resetServiceWrapper);
+        Mockito.verify(this.administrationServiceWrapper).clear();
+        Mockito.verifyNoMoreInteractions(this.administrationServiceWrapper);
 
     }
 }

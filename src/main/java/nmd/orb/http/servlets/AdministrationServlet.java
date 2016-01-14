@@ -8,12 +8,12 @@ import nmd.orb.http.servlets.reset.ResetServletPostRequestHandler;
  * Author : Igor Usenko ( igors48@gmail.com )
  * Date: 29.11.13
  */
-public class ResetServlet extends BaseServlet {
+public class AdministrationServlet extends BaseServlet {
 
-    public ResetServlet() {
+    public AdministrationServlet() {
         super();
 
-        this.handlers.put(POST, new ResetServletPostRequestHandler(GaeWrappers.INSTANCE.getResetServiceWrapper()));
+        this.handlers.put(POST, new ResetServletPostRequestHandler(GaeWrappers.INSTANCE.getAdministrationServiceWrapper()));
     }
 
 }

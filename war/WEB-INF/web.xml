@@ -57,7 +57,7 @@
 
     <servlet>
         <servlet-name>reset</servlet-name>
-        <servlet-class>nmd.orb.http.servlets.ResetServlet</servlet-class>
+        <servlet-class>nmd.orb.http.servlets.AdministrationServlet</servlet-class>
     </servlet>
 
     <servlet-mapping>

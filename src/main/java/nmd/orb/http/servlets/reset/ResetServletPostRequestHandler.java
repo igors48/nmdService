@@ -2,7 +2,7 @@ package nmd.orb.http.servlets.reset;
 
 import nmd.orb.http.Handler;
 import nmd.orb.http.tools.ResponseBody;
-import nmd.orb.http.wrappers.ResetServiceWrapper;
+import nmd.orb.http.wrappers.AdministrationServiceWrapper;
 
 import java.util.List;
 import java.util.Map;
@@ -16,9 +16,9 @@ import static nmd.orb.util.Parameter.notNull;
  */
 public class ResetServletPostRequestHandler implements Handler {
 
-    private final ResetServiceWrapper clearService;
+    private final AdministrationServiceWrapper clearService;
 
-    public ResetServletPostRequestHandler(final ResetServiceWrapper clearService) {
+    public ResetServletPostRequestHandler(final AdministrationServiceWrapper clearService) {
         guard(notNull(clearService));
         this.clearService = clearService;
     }

@@ -13,13 +13,13 @@ import static nmd.orb.util.Parameter.notNull;
 /**
  * @author : igu
  */
-public class ResetServiceWrapperImpl implements ResetServiceWrapper {
+public class AdministrationServiceWrapperImpl implements AdministrationServiceWrapper {
 
-    private static final Logger LOGGER = Logger.getLogger(ResetServiceWrapperImpl.class.getName());
+    private static final Logger LOGGER = Logger.getLogger(AdministrationServiceWrapperImpl.class.getName());
 
     private final AdministrationService administrationService;
 
-    public ResetServiceWrapperImpl(final AdministrationService administrationService) {
+    public AdministrationServiceWrapperImpl(final AdministrationService administrationService) {
         guard(notNull(administrationService));
         this.administrationService = administrationService;
     }

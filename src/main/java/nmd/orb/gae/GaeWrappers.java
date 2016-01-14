@@ -14,7 +14,7 @@ public enum GaeWrappers {
     private final FeedsServiceWrapper feedsServiceWrapper = new FeedsServiceWrapperImpl(GaeServices.INSTANCE.getFeedsService());
     private final ImportServiceWrapper importServiceWrapper = new ImportServiceWrapperImpl(GaeServices.INSTANCE.getImportService());
     private final ReadsServiceWrapper readsServiceWrapper = new ReadsServiceWrapperImpl(GaeServices.INSTANCE.getReadsService());
-    private final ResetServiceWrapper resetServiceWrapper = new ResetServiceWrapperImpl(GaeServices.INSTANCE.getAdministrationService());
+    private final AdministrationServiceWrapper administrationServiceWrapper = new AdministrationServiceWrapperImpl(GaeServices.INSTANCE.getAdministrationService());
     private final UpdatesServiceWrapper updatesServiceWrapper = new UpdatesServiceWrapperImpl(GaeServices.INSTANCE.getUpdatesService());
     private final ContentFilterServiceWrapper contentFilterServiceWrapper = new ContentFilterServiceWrapperImpl(GaeServices.INSTANCE.getContentFilterService());
 
@@ -38,8 +38,8 @@ public enum GaeWrappers {
         return this.readsServiceWrapper;
     }
 
-    public ResetServiceWrapper getResetServiceWrapper() {
-        return this.resetServiceWrapper;
+    public AdministrationServiceWrapper getAdministrationServiceWrapper() {
+        return this.administrationServiceWrapper;
     }
 
     public UpdatesServiceWrapper getUpdatesServiceWrapper() {
