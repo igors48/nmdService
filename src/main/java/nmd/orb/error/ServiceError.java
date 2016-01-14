@@ -280,6 +280,12 @@ public class ServiceError implements Serializable {
                 "Something unexpected was happened");
     }
 
+    public static ServiceError invalidResetAction(final String action) {
+        return new ServiceError(ErrorCode.INVALID_RESET_ACTION,
+                format("Invalid reset action [ %s ]", action),
+                "Only 'full' and 'cache' types are supported");
+    }
+
     @Override
     public String toString() {
         return format("ServiceError. Code [ %s ], message [ %s ]", this.code, this.message);

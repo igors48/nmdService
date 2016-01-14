@@ -9,4 +9,6 @@ public interface AdministrationServiceWrapper {
 
     ResponseBody clear();
 
+    ResponseBody flushCache();
+
 }

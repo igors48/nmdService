@@ -62,7 +62,7 @@
 
     <servlet-mapping>
         <servlet-name>reset</servlet-name>
-        <url-pattern>/@security.key@/v01/reset</url-pattern>
+        <url-pattern>/@security.key@/v01/reset/*</url-pattern>
     </servlet-mapping>
 
     <servlet>

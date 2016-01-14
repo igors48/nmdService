@@ -35,4 +35,15 @@ public class AdministrationServiceWrapperImpl implements AdministrationServiceWr
         return createJsonResponse(create(message));
     }
 
+    @Override
+    public ResponseBody flushCache() {
+        this.administrationService.flushCache();
+
+        final String message = "Cache flushed";
+
+        LOGGER.info(message);
+
+        return createJsonResponse(create(message));
+    }
+
 }
