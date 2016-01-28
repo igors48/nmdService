@@ -53,7 +53,7 @@ public class CachedFeedUpdateTaskRepositoryTest {
 
     @Test
     public void whenListIsNotCachedThenItemsAreTakenFromRepository() {
-        this.cacheStub.clear();
+        this.cacheStub.flush();
 
         final List<FeedUpdateTask> tasks = this.repository.loadAllTasks();
 

@@ -113,6 +113,12 @@ orb.config(function($stateProvider, $urlRouterProvider) {
         controller: 'resetServiceController'
       })
 
+      .state('flush-cache', {
+        url: '/flush-cache',
+        templateUrl: 'partials/flush-cache.html',
+        controller: 'flushCacheController'
+      })
+
       .state('import-feeds', {
         url: '/import-feeds',
         templateUrl: 'partials/import-feeds.html',
@@ -120,3 +126,4 @@ orb.config(function($stateProvider, $urlRouterProvider) {
       })
 
 });
+

@@ -5,6 +5,7 @@ import com.jayway.restassured.response.Response;
 import nmd.orb.error.ErrorCode;
 import nmd.orb.http.requests.AddFeedRequest;
 import nmd.orb.http.responses.*;
+import nmd.orb.http.servlets.administration.AdministrationServletPostRequestHandler;
 import nmd.orb.http.tools.ServletTools;
 import org.junit.After;
 
@@ -46,7 +47,12 @@ public abstract class AbstractHttpTest {
     }
 
     protected static void resetServer() {
-        final Response response = given().body("").post(RESET_SERVLET_URL);
+        final Response response = given().body("").post(RESET_SERVLET_URL + AdministrationServletPostRequestHandler.FULL_RESET);
+        assertSuccessResponse(assertServerProcessingTimeHeaderValid(response).asString());
+    }
+
+    protected static void resetCache() {
+        final Response response = given().body("").post(RESET_SERVLET_URL + AdministrationServletPostRequestHandler.CACHE_RESET);
         assertSuccessResponse(assertServerProcessingTimeHeaderValid(response).asString());
     }
 

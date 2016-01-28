@@ -53,7 +53,7 @@ public class CachedFeedHeadersRepositoryTest {
 
     @Test
     public void whenListIsNotCachedThenItemsAreTakenFromRepository() {
-        this.cacheStub.clear();
+        this.cacheStub.flush();
 
         final List<FeedHeader> headers = this.repository.loadHeaders();
 

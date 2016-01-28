@@ -39,4 +39,9 @@ public enum MemCache implements Cache {
         return cache.delete(key);
     }
 
+    @Override
+    public void flush() {
+        cache.clearAll();
+    }
+
 }

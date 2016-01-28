@@ -64,7 +64,7 @@ public class CachedCategoriesRepositoryTest {
 
     @Test
     public void whenCategoriesListWasNotCachedThenItsWillBeReturnedFromDatastore() {
-        this.cache.clear();
+        this.cache.flush();
 
         final Set<Category> categories = this.cachedCategoriesRepository.loadAll();
 
@@ -74,7 +74,7 @@ public class CachedCategoriesRepositoryTest {
 
     @Test
     public void whenCategoriesListWasNotCachedThenCacheIsUpdatedWhileLoading() {
-        this.cache.clear();
+        this.cache.flush();
 
         this.cachedCategoriesRepository.loadAll();
 
@@ -98,7 +98,7 @@ public class CachedCategoriesRepositoryTest {
 
     @Test
     public void whenCategoryListWasNotCachedThenCategoryWillBeTookFromCacheAndCacheUpdated() {
-        this.cache.clear();
+        this.cache.flush();
 
         final Category category = this.cachedCategoriesRepository.load(CATEGORY_ID);
 

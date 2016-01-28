@@ -64,8 +64,10 @@ angular.module('orb.services', ['ngResource'])
     })
 
     .factory('reset', function ($resource) {
-        return $resource('/@security.key@/v01/reset',
-            {},
+        return $resource('/@security.key@/v01/reset/:action',
+            {
+                action: '@action'
+            },
             {
                 'reset': {method: 'POST'}
             }

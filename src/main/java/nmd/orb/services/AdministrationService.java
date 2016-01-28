@@ -14,7 +14,7 @@ import static nmd.orb.util.TransactionTools.rollbackIfActive;
 /**
  * @author : igu
  */
-public class ResetService {
+public class AdministrationService {
 
     private final FeedHeadersRepository feedHeadersRepository;
     private final FeedItemsRepository feedItemsRepository;
@@ -26,41 +26,22 @@ public class ResetService {
     private final ChangeRegistrationService changeRegistrationService;
     private final UpdateErrorRegistrationService updateErrorRegistrationService;
     private final ChangeRepository changeRepository;
+    private final Cache cache;
     private final Transactions transactions;
 
-    public ResetService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final ImportJobContextRepository importJobContextRepository, final ChangeRepository changeRepository, final ChangeRegistrationService changeRegistrationService, final UpdateErrorRegistrationService updateErrorRegistrationService, final Transactions transactions) {
-        guard(notNull(feedHeadersRepository));
-        this.feedHeadersRepository = feedHeadersRepository;
-
-        guard(notNull(feedItemsRepository));
-        this.feedItemsRepository = feedItemsRepository;
-
-        guard(notNull(feedUpdateTaskSchedulerContextRepository));
-        this.feedUpdateTaskSchedulerContextRepository = feedUpdateTaskSchedulerContextRepository;
-
-        guard(notNull(feedUpdateTaskRepository));
-        this.feedUpdateTaskRepository = feedUpdateTaskRepository;
-
-        guard(notNull(readFeedItemsRepository));
-        this.readFeedItemsRepository = readFeedItemsRepository;
-
-        guard(notNull(categoriesRepository));
-        this.categoriesRepository = categoriesRepository;
-
-        guard(notNull(importJobContextRepository));
-        this.importJobContextRepository = importJobContextRepository;
-
-        guard(notNull(changeRegistrationService));
-        this.changeRegistrationService = changeRegistrationService;
-
-        guard(notNull(updateErrorRegistrationService));
-        this.updateErrorRegistrationService = updateErrorRegistrationService;
-
-        guard(notNull(changeRepository));
-        this.changeRepository = changeRepository;
-
-        guard(notNull(transactions));
-        this.transactions = transactions;
+    public AdministrationService(final FeedHeadersRepository feedHeadersRepository, final FeedItemsRepository feedItemsRepository, final FeedUpdateTaskSchedulerContextRepository feedUpdateTaskSchedulerContextRepository, final FeedUpdateTaskRepository feedUpdateTaskRepository, final ReadFeedItemsRepository readFeedItemsRepository, final CategoriesRepository categoriesRepository, final ImportJobContextRepository importJobContextRepository, final ChangeRepository changeRepository, final ChangeRegistrationService changeRegistrationService, final UpdateErrorRegistrationService updateErrorRegistrationService, final Cache cache, final Transactions transactions) {
+        guard(notNull(this.feedHeadersRepository = feedHeadersRepository));
+        guard(notNull(this.feedItemsRepository = feedItemsRepository));
+        guard(notNull(this.feedUpdateTaskSchedulerContextRepository = feedUpdateTaskSchedulerContextRepository));
+        guard(notNull(this.feedUpdateTaskRepository = feedUpdateTaskRepository));
+        guard(notNull(this.readFeedItemsRepository = readFeedItemsRepository));
+        guard(notNull(this.categoriesRepository = categoriesRepository));
+        guard(notNull(this.importJobContextRepository = importJobContextRepository));
+        guard(notNull(this.changeRegistrationService = changeRegistrationService));
+        guard(notNull(this.updateErrorRegistrationService = updateErrorRegistrationService));
+        guard(notNull(this.changeRepository = changeRepository));
+        guard(notNull(this.cache = cache));
+        guard(notNull(this.transactions = transactions));
     }
 
     public void reset() {
@@ -86,10 +67,16 @@ public class ResetService {
             this.changeRepository.clear();
 
             transaction.commit();
+
+            this.flushCache();
+
         } finally {
             rollbackIfActive(transaction);
         }
     }
 
+    public void flushCache() {
+        this.cache.flush();
+    }
 
 }

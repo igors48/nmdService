@@ -2,6 +2,7 @@ package nmd.orb.gae;
 
 import nmd.orb.collector.scheduler.CycleFeedUpdateTaskScheduler;
 import nmd.orb.collector.scheduler.FeedUpdateTaskScheduler;
+import nmd.orb.gae.cache.MemCache;
 import nmd.orb.gae.repositories.GaeChangeRepository;
 import nmd.orb.gae.repositories.GaeImportJobContextRepository;
 import nmd.orb.services.*;
@@ -78,8 +79,8 @@ public enum GaeServices {
                     feedsService,
                     GaeTransactions.INSTANCE);
 
-    private final ResetService resetService =
-            new ResetService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
+    private final AdministrationService administrationService =
+            new AdministrationService(GaeRepositories.INSTANCE.getFeedHeadersRepository(),
                     GaeRepositories.INSTANCE.getFeedItemsRepository(),
                     GaeRepositories.INSTANCE.getFeedUpdateTaskSchedulerContextRepository(),
                     GaeRepositories.INSTANCE.getFeedUpdateTaskRepository(),
@@ -89,6 +90,7 @@ public enum GaeServices {
                     GaeChangeRepository.INSTANCE,
                     changeRegistrationService,
                     updateErrorRegistrationService,
+                    MemCache.INSTANCE,
                     GaeTransactions.INSTANCE
             );
 
@@ -124,8 +126,8 @@ public enum GaeServices {
         return this.importService;
     }
 
-    public ResetService getResetService() {
-        return this.resetService;
+    public AdministrationService getAdministrationService() {
+        return this.administrationService;
     }
 
     public CronService getCronService() {

@@ -9,8 +9,13 @@ import org.junit.Test;
 public class ResetTest extends AbstractHttpTest {
 
     @Test
-    public void whenResetThenSuccessResponseReturns() {
+    public void whenResetServerThenSuccessResponseReturns() {
         resetServer();
+    }
+
+    @Test
+    public void whenResetCacheThenSuccessResponseReturns() {
+        resetCache();
     }
 
 }

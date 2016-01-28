@@ -12,4 +12,6 @@ public interface Cache {
 
     boolean delete(Object key);
 
+    void flush();
+
 }

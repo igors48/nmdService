@@ -5,8 +5,10 @@ import nmd.orb.http.tools.ResponseBody;
 /**
  * @author : igu
  */
-public interface ResetServiceWrapper {
+public interface AdministrationServiceWrapper {
 
     ResponseBody clear();
+
+    ResponseBody flushCache();
 
 }
