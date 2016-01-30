@@ -65,6 +65,21 @@ AppUtilities.utilities = {
     })  
   },
 
+  addBackColorCode: function (items, lastUsedItemId) {
+    var me = this;
+
+    angular.forEach(items, function (value, key) {
+
+        if (value.itemId === lastUsedItemId) {
+            value.backColorCode = 'last';
+        } else {
+            var difference = me.countDifference(value.date);
+            value.backColorCode = difference.days <= -1 ? 'old' : '';
+        }
+
+    })
+  },
+
   loadingMessage: function (text) {
     return '<ion-spinner icon="ripple" class="spinner-energized"></ion-spinner><p>{0}</p>'.format(text);
   },
