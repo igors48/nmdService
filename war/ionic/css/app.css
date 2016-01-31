@@ -34,3 +34,7 @@ ion-item[back='old'] > div.item-content{
     background-color: rgb(245, 245, 245) !important;
 }
 
+ion-item[back='very-old'] > div.item-content{
+    background-color: rgb(235, 235, 235) !important;
+}
+

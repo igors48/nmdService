@@ -75,6 +75,7 @@ AppUtilities.utilities = {
         } else {
             var difference = me.countDifference(value.date);
             value.backColorCode = difference.days <= -1 ? 'old' : '';
+            value.backColorCode = difference.days <= -2 ? 'very-old' : value.backColorCode;
         }
 
     })
