@@ -33,17 +33,28 @@ AppUtilities.utilities = {
         });
 	},
 
-  daysDifference: function (date) {
-    var now = new Date().getTime();
-    var inMinutes = parseInt((date - now) / (60 * 1000));
-    var inHours = parseInt((date - now) / (3600 * 1000));
-    var inDays = parseInt((date - now) / (24 * 3600 * 1000));
+    countDifference: function (date) {
+        var now = new Date().getTime();
 
-    if (inHours === 0) {
-      return inMinutes + 'm';
+        var inMinutes = parseInt((date - now) / (60 * 1000));
+        var inHours = parseInt((date - now) / (3600 * 1000));
+        var inDays = parseInt((date - now) / (24 * 3600 * 1000));
+
+        return {
+            minutes: inMinutes,
+            hours: inHours,
+            days: inDays
+        }
+    },
+
+  daysDifference: function (date) {
+    var difference = this.countDifference(date);
+
+    if (difference.hours === 0) {
+      return difference.minutes + 'm';
     }
 
-    return inHours < -24 ? inDays + 'd' : inHours + 'h';
+    return difference.hours < -24 ? difference.days + 'd' : difference.hours + 'h';
   },
 
   addTimeDifference: function (items) {
@@ -52,6 +63,22 @@ AppUtilities.utilities = {
     angular.forEach(items, function (value, key) {
       value.timeDifference = '( {0} ) '.format(me.daysDifference(value.date));
     })  
+  },
+
+  addBackColorCode: function (items, lastUsedItemId) {
+    var me = this;
+
+    angular.forEach(items, function (value, key) {
+
+        if (value.itemId === lastUsedItemId) {
+            value.backColorCode = 'last';
+        } else {
+            var difference = me.countDifference(value.date);
+            value.backColorCode = difference.days <= -1 ? 'old' : '';
+            value.backColorCode = difference.days <= -2 ? 'very-old' : value.backColorCode;
+        }
+
+    })
   },
 
   loadingMessage: function (text) {

@@ -26,6 +26,15 @@ input, button, select, textarea {
     background-color: rgb(224, 240, 255);
 }
 
-ion-item[lastUsed='true'] > div.item-content{
+ion-item[back='last'] > div.item-content{
     background-color: rgb(224, 240, 255) !important;
 }
+
+ion-item[back='old'] > div.item-content{
+    background-color: rgb(245, 245, 245) !important;
+}
+
+ion-item[back='very-old'] > div.item-content{
+    background-color: rgb(235, 235, 235) !important;
+}
+

@@ -27,7 +27,7 @@
 
 <ion-content ng-cloak>
     <ion-list ng-show="showUi">
-        <ion-item ng-repeat="item in items" lastUsed="{{$root.lastItemId===item.itemId}}">
+        <ion-item ng-repeat="item in items" back="{{item.backColorCode}}">
                 <a class="block-link" href="{{item.link}}" target="_blank" ng-click="markAsRead(item.feedId, item.itemId)">
                     <h4 class="blue-front">
                         <span class="icon ion-calendar"></span>

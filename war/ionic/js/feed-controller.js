@@ -223,6 +223,7 @@ controllers.controller('feedController',
             };
 
             $scope.utilities.addTimeDifference(response.reports);
+            $scope.utilities.addBackColorCode(response.reports, $rootScope.lastItemId);
 
             $scope.items = response.reports;
 
