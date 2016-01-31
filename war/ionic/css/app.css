@@ -31,10 +31,10 @@ ion-item[back='last'] > div.item-content{
 }
 
 ion-item[back='old'] > div.item-content{
-    background-color: rgb(245, 245, 245) !important;
+    background-color: rgb(240, 240, 240) !important;
 }
 
 ion-item[back='very-old'] > div.item-content{
-    background-color: rgb(235, 235, 235) !important;
+    background-color: rgb(225, 225, 225) !important;
 }
 
