@@ -12,7 +12,7 @@ angular.module('orb.services', ['ngResource'])
                 'query': {method: 'GET'},
                 'save': {method: 'POST'},
                 'update': {method: 'PUT'},
-                'delete': {method: 'DELETE'}
+                'delet': {method: 'DELETE'}
             }
         );
     })
@@ -26,7 +26,7 @@ angular.module('orb.services', ['ngResource'])
                 'query': {method: 'GET'},
                 'save': {method: 'POST'},
                 'update': {method: 'PUT'},
-                'delete': {method: 'DELETE'}
+                'delet': {method: 'DELETE'}
             }
         );
     })

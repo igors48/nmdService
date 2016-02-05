@@ -53,7 +53,7 @@ controllers.controller('editFeedController',
                 template: $scope.utilities.loadingMessage('Deleting feed...')
             });
 
-            feeds.delete(
+            feeds.delet(
                 {
                     feedId: $stateParams.feedId
                 },

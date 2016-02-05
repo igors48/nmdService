@@ -43,7 +43,7 @@ controllers.controller('editCategoryController',
                 template: $scope.utilities.loadingMessage('Deleting category...')
             });
 
-            categories.delete(
+            categories.delet(
                 { 
                     categoryId: $stateParams.id
                 },

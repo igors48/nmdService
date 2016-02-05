@@ -346,17 +346,33 @@
 
             <filterset refid="properties.and.security"/>
         </copy>
-
+<!--
         <apply executable="java" parallel="false" verbose="true" dest="${war.directory}/js/">
-            <fileset dir="${war.directory}/js/"/>
+            <fileset dir="${war.directory}/js/" includes="*.js"/>
             <arg line="-jar"/>
-            <arg path="./lib/build/yuicompressor-2.4.8.jar"/>
+            <arg path="./lib/ant/yuicompressor-2.4.7.jar"/>
             <srcfile/>
+            <arg line="--nomunge"/>
             <arg line="-o"/>
-            <mergemapper to="archive.tar"/>
+            <mapper type="glob" from="*.js" to="*.jsm"/>
             <targetfile/>
         </apply>
 
+        <delete>
+            <fileset dir="${war.directory}/js/" includes="*.js"/>
+        </delete>
+
+        <copy todir="${war.directory}/js/">
+            <fileset dir="${war.directory}/js/">
+                <include name="*.jsm"/>
+            </fileset>
+            <globmapper from="*.jsm" to="*.js"/>
+        </copy>
+
+        <delete>
+            <fileset dir="${war.directory}/js/" includes="*.jsm"/>
+        </delete>
+-->
         <copy todir="${war.directory}/css/">
             <fileset dir="${src.ionic.app.directory}/css/"/>
 
