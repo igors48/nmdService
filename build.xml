@@ -32,6 +32,7 @@
     <property name="dir.dependencies.provided" value="${dir.dependencies}/provided/"/>
     <property name="dir.dependencies.runtime" value="${dir.dependencies}/runtime/"/>
     <property name="dir.dependencies.test" value="${dir.dependencies}/test/"/>
+    <property name="dir.dependencies.build" value="${dir.dependencies}/build/"/>
 
     <property name="version.property.file.path" value="swin/version.properties"/>
 
@@ -111,6 +112,10 @@
     </path>
 
     <path id="test.dependencies" path="${dir.dependencies.test}">
+        <fileset refid="jar.files"/>
+    </path>
+
+    <path id="build.dependencies" path="${dir.dependencies.build}">
         <fileset refid="jar.files"/>
     </path>
 
@@ -341,6 +346,16 @@
 
             <filterset refid="properties.and.security"/>
         </copy>
+
+        <apply executable="java" parallel="false" verbose="true" dest="${war.directory}/js/">
+            <fileset dir="${war.directory}/js/"/>
+            <arg line="-jar"/>
+            <arg path="./lib/build/yuicompressor-2.4.8.jar"/>
+            <srcfile/>
+            <arg line="-o"/>
+            <mergemapper to="archive.tar"/>
+            <targetfile/>
+        </apply>
 
         <copy todir="${war.directory}/css/">
             <fileset dir="${src.ionic.app.directory}/css/"/>
