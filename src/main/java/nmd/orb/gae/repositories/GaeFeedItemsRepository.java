@@ -10,7 +10,9 @@ import nmd.orb.repositories.FeedItemsRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import java.util.logging.Logger;
 
+import static java.lang.String.format;
 import static nmd.orb.feed.FeedItem.createShortcuts;
 import static nmd.orb.gae.repositories.converters.FeedItemListEntityConverter.convert;
 import static nmd.orb.gae.repositories.datastore.GaeDatastoreTools.*;
@@ -25,6 +27,8 @@ import static nmd.orb.util.Assert.assertNotNull;
 public enum GaeFeedItemsRepository implements FeedItemsRepository {
 
     INSTANCE;
+
+    private static final Logger LOGGER = Logger.getLogger(GaeFeedItemsRepository.class.getName());
 
     @Override
     public void storeItems(final UUID feedId, final List<FeedItem> items) {
@@ -43,7 +47,11 @@ public enum GaeFeedItemsRepository implements FeedItemsRepository {
     public List<FeedItem> loadItems(final UUID feedId) {
         assertNotNull(feedId);
 
+        final long start = System.currentTimeMillis();
         final Entity entity = loadEntity(feedId.toString(), FEED, FEED_ITEM, false);
+        final long stop = System.currentTimeMillis();
+
+        LOGGER.info(format("Feed [ %s ] items load time [ %d ]", feedId, stop - start));
 
         return entity == null ? new ArrayList<FeedItem>() : convert(entity);
     }
