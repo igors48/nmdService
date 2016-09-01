@@ -24,8 +24,10 @@
                 </p>
             </div>
 
-            <button class="button button-clear ion-android-options" ng-show="category.id !== 'main'"
-                    ng-click="editCategory('{{category.id}}')"></button>
+            <div class="buttons">
+                    <button class="button button-icon icon ion-android-options" ng-show="category.id !== 'main'" ng-click="editCategory('{{category.id}}')" style="margin: '0px 0px 0px 5px';">
+                    </button>
+            </div>        
         </div>
     </div>
 </ion-content>
