@@ -36,9 +36,11 @@
             </div>
 
             <div class="buttons">
-                <button class="button button-clear ion-android-options" ng-click="editFeed(feed.feedId)"></button>
-                <a href="{{feed.topItemLink}}" target="_blank" class="block-link button button-clear ion-flash"
-                   ng-click="openTopItem(feed.feedId, feed.topItemId)" ng-show="feed.topItemLink!=''"></a>
+                <button class="button button-icon" ng-click="editFeed(feed.feedId)" style="padding-right: 80px;">
+                    <i class="icon ion-android-options"></i>
+                </button>
+                <a style="padding-left: 55px;" class="block-link icon ion-flash" href="{{feed.topItemLink}}" target="_blank" ng-click="openTopItem(feed.feedId, feed.topItemId)" ng-show="feed.topItemLink!=''">
+                </a>
             </div>
         </div>
     </div>
