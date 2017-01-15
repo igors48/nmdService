@@ -44,15 +44,14 @@ public class CategoryReportTest extends AbstractControllerTestBase {
 
         this.readsService.markItemAsRead(feedId, feedItemId);
 
-        final List<CategoryReport> reports = this.categoriesService.getCategoriesReport();
-        final CategoryReport first = reports.get(0);
+        final CategoryReport report = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
 
-        assertEquals(Category.MAIN_CATEGORY_ID, first.id);
-        assertEquals(Category.MAIN_CATEGORY_ID, first.name);
-        assertNotNull(findForFeed(feedId, first.feedReadReports));
-        assertEquals(1, first.read);
-        assertEquals(1, first.notRead);
-        assertEquals(0, first.readLater);
+        assertEquals(Category.MAIN_CATEGORY_ID, report.id);
+        assertEquals(Category.MAIN_CATEGORY_ID, report.name);
+        assertNotNull(findForFeed(feedId, report.feedReadReports));
+        assertEquals(1, report.read);
+        assertEquals(1, report.notRead);
+        assertEquals(0, report.readLater);
     }
 
     @Test

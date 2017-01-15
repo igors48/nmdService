@@ -24,7 +24,7 @@ public class CategoriesReportTest extends AbstractHttpTest {
     private static final String CATEGORY_NAME = "first";
 
     @Test
-    public void whenCategoryIdIsNotGivenThenAllCategoriesAreReturnedInReport() {
+    public void whenCategoryIdIsNotGivenThenAllCategoriesAreReturnedInLightReport() {
         final CategoryResponse categoryResponse = addCategoryWithResponse(CATEGORY_NAME);
         addFeedWithResponse(FIRST_FEED_URL, MAIN_CATEGORY_ID);
         addFeedWithResponse(SECOND_FEED_URL, categoryResponse.category.id);
@@ -38,15 +38,15 @@ public class CategoriesReportTest extends AbstractHttpTest {
 
         assertEquals(categoryResponse.category.id, secondCategoryReport.id);
         assertEquals(CATEGORY_NAME, secondCategoryReport.name);
-        assertEquals(1, secondCategoryReport.feedCount);
-        assertEquals(100, secondCategoryReport.notRead);
+        assertEquals(0, secondCategoryReport.feedCount);
+        assertEquals(0, secondCategoryReport.notRead);
         assertEquals(0, secondCategoryReport.read);
         assertEquals(0, secondCategoryReport.readLater);
 
         assertEquals(Category.MAIN_CATEGORY_ID, mainCategoryReport.id);
         assertEquals(Category.MAIN_CATEGORY_ID, mainCategoryReport.name);
-        assertEquals(1, mainCategoryReport.feedCount);
-        assertEquals(100, mainCategoryReport.notRead);
+        assertEquals(0, mainCategoryReport.feedCount);
+        assertEquals(0, mainCategoryReport.notRead);
         assertEquals(0, mainCategoryReport.read);
         assertEquals(0, mainCategoryReport.readLater);
     }

@@ -74,7 +74,7 @@ public class DeleteCategoryTest extends AbstractControllerTestBase {
 
         assertEquals(1, reports.size());
 
-        final CategoryReport report = findForCategory(MAIN_CATEGORY_ID, reports);
+        final CategoryReport report = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
 
         assertNotNull(findForFeed(firstFeedId, report.feedReadReports));
         assertNotNull(findForFeed(secondFeedId, report.feedReadReports));

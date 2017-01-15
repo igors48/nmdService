@@ -1,8 +1,10 @@
 package nmd.orb.services.report;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import static nmd.orb.util.Assert.*;
+import static nmd.orb.util.Assert.guard;
+import static nmd.orb.util.Parameter.*;
 
 /**
  * Author : Igor Usenko ( igors48@gmail.com )
@@ -18,23 +20,16 @@ public class CategoryReport {
     public final int readLater;
 
     public CategoryReport(final String id, final String name, final List<FeedReadReport> feedReadReports, final int read, final int notRead, final int readLater) {
-        assertStringIsValid(id);
-        this.id = id;
+        guard(isValidString(this.id = id));
+        guard(isValidString(this.name = name));
+        guard(notNull(this.feedReadReports = feedReadReports));
+        guard(isPositive(this.read = read));
+        guard(isPositive(this.notRead = notRead));
+        guard(isPositive(this.readLater = readLater));
+    }
 
-        assertStringIsValid(name);
-        this.name = name;
-
-        assertNotNull(feedReadReports);
-        this.feedReadReports = feedReadReports;
-
-        assertPositive(read);
-        this.read = read;
-
-        assertPositive(notRead);
-        this.notRead = notRead;
-
-        assertPositive(readLater);
-        this.readLater = readLater;
+    public static CategoryReport create(final String id, final String name) {
+        return new CategoryReport(id, name, new ArrayList<FeedReadReport>(), 0, 0, 0);
     }
 
 }

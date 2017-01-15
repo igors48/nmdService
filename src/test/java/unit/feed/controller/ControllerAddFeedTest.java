@@ -8,7 +8,6 @@ import nmd.orb.services.report.FeedReadReport;
 import org.junit.Test;
 import org.mockito.Mockito;
 
-import java.util.List;
 import java.util.UUID;
 
 import static nmd.orb.reader.Category.MAIN_CATEGORY_ID;
@@ -106,8 +105,7 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
 
         final UUID feedId = addValidFirstRssFeed(category.uuid);
 
-        final List<CategoryReport> categoryReports = this.categoriesService.getCategoriesReport();
-        final CategoryReport report = findForCategory(category.uuid, categoryReports);
+        final CategoryReport report = this.categoriesService.getCategoryReport(category.uuid);
 
         assertNotNull(findForFeed(feedId, report.feedReadReports));
     }
@@ -122,8 +120,7 @@ public class ControllerAddFeedTest extends AbstractControllerTestBase {
         final Category category = this.categoriesService.addCategory("new");
         addValidFirstRssFeed(FEED_TITLE, category.uuid);
 
-        final List<CategoryReport> categoryReports = this.categoriesService.getCategoriesReport();
-        final CategoryReport categoryReport = findForCategory(category.uuid, categoryReports);
+        final CategoryReport categoryReport = this.categoriesService.getCategoryReport(category.uuid);
         final FeedReadReport feedReadReport = categoryReport.feedReadReports.get(0);
 
         assertEquals(FEED_TITLE, feedReadReport.feedTitle);

@@ -8,7 +8,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import unit.feed.controller.AbstractControllerTestBase;
 
-import java.util.List;
 import java.util.UUID;
 
 import static org.junit.Assert.assertNotNull;
@@ -29,9 +28,8 @@ public class AssignFeedToCategoryTest extends AbstractControllerTestBase {
 
         this.categoriesService.assignFeedToCategory(feedId, secondCategory.uuid);
 
-        final List<CategoryReport> categoryReports = this.categoriesService.getCategoriesReport();
-        final CategoryReport main = findForCategory(firstCategory.uuid, categoryReports);
-        final CategoryReport second = findForCategory(secondCategory.uuid, categoryReports);
+        final CategoryReport main = this.categoriesService.getCategoryReport(Category.MAIN_CATEGORY_ID);
+        final CategoryReport second = this.categoriesService.getCategoryReport(secondCategory.uuid);
 
         assertNull(findForFeed(feedId, main.feedReadReports));
         assertNotNull(findForFeed(feedId, second.feedReadReports));
