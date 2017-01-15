@@ -108,8 +108,7 @@ public class CategoriesService implements CategoriesServiceAdapter {
             final Map<UUID, FeedHeader> headersIndex = this.buildHeadersIndex();
 
             for (final Category category : categories) {
-                final List<ReadFeedItems> readFeedItemsList = this.readFeedItemsRepository.load(category.uuid);
-                final CategoryReport categoryReport = createCategoryReport(headersIndex, readFeedItemsList, category);
+                final CategoryReport categoryReport = CategoryReport.create(category.uuid, category.name);
 
                 reports.add(categoryReport);
             }

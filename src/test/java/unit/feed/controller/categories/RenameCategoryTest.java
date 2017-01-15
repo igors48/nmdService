@@ -67,8 +67,7 @@ public class RenameCategoryTest extends AbstractControllerTestBase {
 
         this.categoriesService.renameCategory(category.uuid, SECOND_NAME);
 
-        final List<CategoryReport> report = this.categoriesService.getCategoriesReport();
-        final CategoryReport renamed = findForCategory(category.uuid, report);
+        final CategoryReport renamed = this.categoriesService.getCategoryReport(category.uuid);
 
         assertNotNull(findForFeed(firstFeedId, renamed.feedReadReports));
         assertNotNull(findForFeed(secondFeedId, renamed.feedReadReports));
