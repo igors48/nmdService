@@ -440,7 +440,7 @@
     <target name="update" depends="-fail_if_not_clean, build">
 
         <input message="Enter password : " addproperty="gae.password">
-            <handler type="secure"/>
+            <!--<handler type="secure"/>-->
         </input>
 
         <java classname="com.google.appengine.tools.admin.AppCfg" inputstring="${gae.password}"
