@@ -5,6 +5,8 @@ import nmd.orb.error.ServiceError;
 import nmd.orb.error.ServiceException;
 import nmd.orb.http.responses.ErrorResponse;
 
+import java.util.logging.Logger;
+
 import static nmd.orb.util.Assert.guard;
 import static nmd.orb.util.Parameter.notNull;
 
@@ -13,6 +15,8 @@ import static nmd.orb.util.Parameter.notNull;
  * Date : 24.06.13
  */
 public class ResponseBody {
+
+    private static final Logger LOGGER = Logger.getLogger(ResponseBody.class.getName());
 
     private static final Gson GSON = new Gson();
 
@@ -37,6 +41,8 @@ public class ResponseBody {
 
     public static ResponseBody createJsonResponse(final Object object) {
         final String content = GSON.toJson(object);
+
+        LOGGER.info("JSON Response : " + content);
 
         return new ResponseBody(ContentType.JSON, content);
     }
