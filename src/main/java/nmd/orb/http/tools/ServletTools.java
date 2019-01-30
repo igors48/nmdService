@@ -136,8 +136,8 @@ public final class ServletTools {
         guard(notNull(response));
 
         response.setContentType(responseBody.contentType.mime);
-        response.setContentLength(responseBody.content.length());
-        response.setCharacterEncoding(UTF_8);
+        //response.setContentLength(responseBody.content.length());
+        //response.setCharacterEncoding(UTF_8);
 
         if (!responseBody.fileName.isEmpty()) {
             response.setHeader("Content-Transfer-Encoding", "Binary");
