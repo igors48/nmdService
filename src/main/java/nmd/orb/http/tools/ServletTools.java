@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -146,7 +147,9 @@ public final class ServletTools {
         final long processingTime = System.currentTimeMillis() - startTime;
         response.setHeader(SERVER_PROCESSING_TIME_HEADER, valueOf(processingTime));
 
-        response.getWriter().print(responseBody.content);
+        final PrintWriter writer = response.getWriter();
+        writer.print(responseBody.content);
+        writer.flush();
     }
 
     public static void writeException(final long startTime, final Exception exception, final HttpServletResponse response) {
